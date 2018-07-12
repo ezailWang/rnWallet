@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, TextInput } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import GeneralButton from '../../components/generalButton';
+import GeneralButton from '../../components/GeneralButton';
 
 const styles = StyleSheet.create({
     container: {
