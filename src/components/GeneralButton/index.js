@@ -25,7 +25,7 @@ export default class GeneralButton extends Component {
     }
     render() {
         return (
-            <TouchableOpacity style={styles.container} activeOpacity={0,8
+            <TouchableOpacity style={styles.container} activeOpacity={0.8
     } onPress = { this.props.onPress } >
         <LinearGradient
             colors={['#00CED1', '#AFEEEE']}
