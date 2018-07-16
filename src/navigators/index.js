@@ -9,6 +9,7 @@ import {
     MarkedContainer,
     walletTest,
     rpcTest,
+    keystoreTest,
 } from '../containers';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -75,10 +76,11 @@ const TestNavigator = StackNavigator(
     {
         WalletTest: { screen: walletTest },
         RpcTest: { screen: rpcTest },
+        KeystoreTest: { screen: keystoreTest },
     },
     {
-        initialRouteName: 'WalletTest',
-        headerMode:'none',
+        initialRouteName: 'KeystoreTest',
+        headerMode: 'none',
     }
 );
 

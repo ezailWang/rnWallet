@@ -6,6 +6,7 @@ import LoginScreen from './login'
 import PassWordScreen from './passWord'
 import walletTest from './test/walletTest'
 import rpcTest from './test/rpcTest'
+import keystoreTest from './test/keystoreTest'
 
 export {
     AssetsContainer,
@@ -16,4 +17,5 @@ export {
     PassWordScreen,
     walletTest,
     rpcTest,
+    keystoreTest,
 }
