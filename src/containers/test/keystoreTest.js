@@ -33,6 +33,32 @@ export default class keystoreTest extends Component {
         const checksumAddress = hdwallet.getChecksumAddressString()
         console.log('prikey:', hdwallet.getPrivateKeyString())
         console.log('address:', checksumAddress)
+        storage.save({
+            key:'user',
+            data:{
+                name:'wsd',
+                address:checksumAddress,
+                extra:''
+            },
+        });
+
+        storage.load({
+            key:'user',
+            autoSync:false,
+        })
+        .then(ret => {
+            console.log('ret',ret)
+        })
+        .catch(err => {
+            console.warn(err.message)
+            switch(err.name){
+                case 'NotFoundError':
+                break;
+                case 'ExpiredError':
+                break;
+            }
+        })
+
         var password = this.state.password || 'testpassword'
         console.log('password:', password)
         var params = { keyBytes: 32, ivBytes: 16 }
