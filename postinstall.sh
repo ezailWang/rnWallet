@@ -9,4 +9,4 @@
 
 echo "Hacking NodeJS dependencies"
 
-./node_modules/.bin/rn-nodeify --hack --install "assert, crypto, stream, events, vm, fs, path"
+./node_modules/.bin/rn-nodeify --hack --install "assert, crypto, stream, events, vm, fs, path, url"

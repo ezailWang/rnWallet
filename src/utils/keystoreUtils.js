@@ -4,30 +4,38 @@ import path from 'path-browserify'
 const rootPath = RFNS.DocumentDirectoryPath;
 export default class keystoreUtils {
     static async exportToFile(keyObject, dirName) {
-        var outfile, outpath, json, dirPath
-        dirName = dirName || "keystore";
-        outfile = this.generateKeystoreFilename(keyObject.address);
-        json = JSON.stringify(keyObject);
-        dirPath = path.join(rootPath, dirName);
-        outpath = path.join(rootPath, dirName, outfile);
-        const exists = await RFNS.exists(dirPath)
-        if (!exists) {
-            await RFNS.mkdir(dirPath)
+        try {
+            var outfile, outpath, json, dirPath
+            dirName = dirName || "keystore";
+            outfile = this.generateKeystoreFilename(keyObject.address);
+            json = JSON.stringify(keyObject);
+            dirPath = path.join(rootPath, dirName);
+            outpath = path.join(rootPath, dirName, outfile);
+            const exists = await RFNS.exists(dirPath)
+            if (!exists) {
+                await RFNS.mkdir(dirPath)
+            }
+            console.log('outpath:', outpath)
+            return RFNS.writeFile(outpath, json, "utf8")
+        } catch (err) {
+            console.log('exportToFileErr:', err)
         }
-        console.log('outpath:', outpath)
-        return RFNS.writeFile(outpath, json, "utf8")
     }
 
     static async importFromFile(address, dirName) {
-        var dirPath, dirItems, filepath
-        address = address.replace("0x", "");
-        address = address.toLowerCase();
-        dirName = dirName || "keystore"
-        dirPath = path.join(rootPath, dirName);
-        dirItems = await RFNS.readDir(dirPath)
-        filepath = this.findKeyfile(dirPath, address, dirItems)
-        console.log('filepath', filepath)
-        return RFNS.readFile(filepath, "utf8")
+        try {
+            var dirPath, dirItems, filepath
+            address = address.replace("0x", "");
+            address = address.toLowerCase();
+            dirName = dirName || "keystore"
+            dirPath = path.join(rootPath, dirName);
+            dirItems = await RFNS.readDir(dirPath)
+            filepath = this.findKeyfile(dirPath, address, dirItems)
+            console.log('filepath', filepath)
+            return RFNS.readFile(filepath, "utf8")
+        } catch (err) {
+            console.log('importFromFileErr:', err)
+        }
     }
 
     static findKeyfile(dirPath, address, files) {

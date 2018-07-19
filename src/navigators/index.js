@@ -4,6 +4,7 @@ import {
     walletTest,
     rpcTest,
     keystoreTest,
+    networkTest,
     FirstLaunchContainers,
 } from '../containers';
 
@@ -11,10 +12,11 @@ const TestNavigator = StackNavigator(
     {
         WalletTest: { screen: walletTest },
         RpcTest: { screen: rpcTest },
-        KeystoreTest: { screen: keystoreTest }
+        KeystoreTest: { screen: keystoreTest },
+        NetworkTest: { screen: networkTest }
     },
     {
-        initialRouteName: 'WalletTest',
+        initialRouteName: 'NetworkTest',
         headerMode: 'none',
     }
 );
