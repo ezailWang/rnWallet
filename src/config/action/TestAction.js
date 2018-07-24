@@ -10,11 +10,18 @@ function walletTest(mnemonic, address, path, seed) {
     }
 }
 
-function selectApi(api){
-    return{
-        type:types.TEST_SELECT_API,
-        api:api,
+function selectApi(api) {
+    return {
+        type: types.TEST_SELECT_API,
+        api: api,
     }
 }
 
-export { walletTest,selectApi }
+function setWalletAddress(address) {
+    return {
+        type: types.SET_WALLET_ADDRESS,
+        walletAddress: address,
+    }
+}
+
+export { walletTest, selectApi, setWalletAddress }

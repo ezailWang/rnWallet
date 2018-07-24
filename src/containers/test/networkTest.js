@@ -1,4 +1,4 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
 import {
     Platform,
     View,
@@ -7,58 +7,118 @@ import {
     TouchableOpacity,
     StyleSheet
 } from 'react-native'
+import { store } from '../../config//store/ConfigureStore'
 
 import networkManage from '../../utils/networkManage'
-import {defaultTokens} from '../../utils/constants'
+import { defaultTokens } from '../../utils/constants'
+import { setWalletAddress } from '../../config/action/TestAction'
+const toAddress = '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23'
+const fromAddress= '0xb8CE9ab6943e0eCED004cDe8e3bBed6568B2Fa01'
+
 
 export default class networkTest extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            address:"",
-            balance:0
+            fromETHBalance: 0,
+            toETHBalance: 0,
+            fromERCBalance: 0,
+            toERCBalance: 0
         }
     }
-s
-    getBalance = async ()=>{
-        const params = defaultTokens[0]
-        const balance = await networkManage.getBalance(params)
-        console.log('balance:',balance)
+
+    getBalance = async () => {
+        var params = defaultTokens[1]
+        var ethBalance = await networkManage.getBalance(params)
+        console.log('ethBalance:',ethBalance)
+        params = defaultTokens[0]
+        var ercBalance = await networkManage.getBalance(params)
+        console.log('ercBalance:',ercBalance)
         this.setState({
-            balance:balance
+            fromETHBalance: ethBalance,
+            fromERCBalance: ercBalance
         })
+        store.dispatch(setWalletAddress(toAddress))
+        params = defaultTokens[1]
+        ethBalance = await networkManage.getBalance(params)
+        console.log('ethBalance:',ethBalance)
+        params = defaultTokens[0]
+        ercBalance = await networkManage.getBalance(params)
+        console.log('ercBalance:',ercBalance)
+        this.setState({
+            toETHBalance: ethBalance,
+            toERCBalance: ercBalance
+        })
+        store.dispatch(setWalletAddress(fromAddress))
     }
 
-    render(){
-        return(
+    sendETH = async () => {
+        var params = defaultTokens[1]
+        const cb = await networkManage.sendTransaction(params,toAddress,'0.1')
+        this.getBalance()
+    }
+
+    sendERC20 = async () => {
+        var params = defaultTokens[0]
+        const cb = await networkManage.sendTransaction(params,toAddress,'100')
+        this.getBalance()
+    }
+
+    render() {
+        return (
             <View style={styles.container}>
-            <View style={styles.textView}>
-                <Text style={styles.label}> address </Text>
-                <View style={styles.inputRow}>
-                    <TextInput
-                        style={styles.input}
-                        autoCorrect={false}
-                        editable={true}
-                        placeholder="address"
-                        placeholderTextColor="#E5E5E5"
-                        multiline={true}
-                        onChange={(event) => {
-                            this.setState({
-                                address: event.nativeEvent.text
-                            })
-                        }}
-                    />
+                <View style={styles.textView}>
+                    <Text style={styles.label}> address </Text>
+                    <View style={styles.inputRow}>
+                        <TextInput
+                            style={styles.input}
+                            autoCorrect={false}
+                            editable={false}
+                            placeholder="address"
+                            placeholderTextColor="#E5E5E5"
+                            multiline={true}
+                            value={fromAddress}
+                        />
+                    </View>
+                    <Text> eth余额: {this.state.fromETHBalance},wds余额：{this.state.fromERCBalance} </Text>
+                </View>
+                <View style={styles.textView}>
+                    <Text style={styles.label}> address </Text>
+                    <View style={styles.inputRow}>
+                        <TextInput
+                            style={styles.input}
+                            autoCorrect={false}
+                            editable={false}
+                            placeholder="address"
+                            placeholderTextColor="#E5E5E5"
+                            multiline={true}
+                            value={toAddress}
+                        />
+                    </View>
+                    <Text> eth余额: {this.state.toETHBalance},wds余额：{this.state.toERCBalance} </Text>
+                </View>
+                <View style={styles.buttonView}>
+                    <TouchableOpacity style={styles.button}
+                        onPress={this.getBalance}
+                    >
+                        <Text> getBalance </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonView}>
+                    <TouchableOpacity style={styles.button}
+                        onPress={this.sendETH}
+                    >
+                        <Text> sendEth </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonView}>
+                    <TouchableOpacity style={styles.button}
+                        onPress={this.sendERC20}
+                    >
+                        <Text> sendERC20 </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.buttonView}>
-                <TouchableOpacity style={styles.button}
-                    onPress={this.getBalance}
-                >
-                    <Text> balance </Text>
-                </TouchableOpacity>
-                <Text> {this.state.balance} </Text>
-            </View>
-        </View> 
         );
     }
 }
@@ -108,8 +168,8 @@ const styles = StyleSheet.create({
         color: '#E5E5E5',
         fontWeight: 'bold',
     }
-}); 
+});
 
 // const mapStatToProps = state => ({
-    
+
 // });

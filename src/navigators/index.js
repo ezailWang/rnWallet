@@ -27,6 +27,6 @@ export default SwitchNavigator(
         Test: TestNavigator,
     },
     {
-        initialRouteName: 'FirstLaunch',
+        initialRouteName: 'Test',
     }
 );
