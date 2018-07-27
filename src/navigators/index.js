@@ -6,6 +6,7 @@ import {
     keystoreTest,
     networkTest,
     FirstLaunchContainers,
+    mainContainers,
 } from '../containers';
 
 const TestNavigator = StackNavigator(
@@ -16,7 +17,7 @@ const TestNavigator = StackNavigator(
         NetworkTest: { screen: networkTest }
     },
     {
-        initialRouteName: 'NetworkTest',
+        initialRouteName: 'KeystoreTest',
         headerMode: 'none',
     }
 );
@@ -25,8 +26,9 @@ export default SwitchNavigator(
     {
         FirstLaunch: FirstLaunchContainers,
         Test: TestNavigator,
+        main: mainContainers
     },
     {
-        initialRouteName: 'Test',
+        initialRouteName: 'main',
     }
 );

@@ -4,6 +4,7 @@ import rpcTest from './test/rpcTest'
 import keystoreTest from './test/keystoreTest'
 import networkTest from './test/networkTest'
 import FirstLaunchContainers from './firstLaunch'
+import mainContainers   from './app'
 
 export {
     walletTest,
@@ -11,4 +12,5 @@ export {
     keystoreTest,
     networkTest,
     FirstLaunchContainers,
+    mainContainers,
 }
