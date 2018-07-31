@@ -86,10 +86,10 @@ export default class PasswordPrompInfoScreen extends Component {
                            underlineColorAndroid='transparent' 
                            selectionColor='#00bfff'
                            secureTextEntry={!this.state.isShowPassword} 
-                           selection={
+                           /**selection={
                                 //start:{this.state.passwordPrompInfo.length},
                                 //end:{this.state.passwordPrompInfo.length},
-                           }
+                           }**/
                            onChange={(event) => {
                                 this.setState({
                                     passwordPrompInfo: event.nativeEvent.text
