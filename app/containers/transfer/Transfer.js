@@ -198,7 +198,7 @@ export default class MyProfileScreen extends Component{
             payType:this.params.transferType+"转账",
             gasPriceInfo:"0.007 ether\n=Gas(60.000)*Gas Price(11.000)gwei"
         };
-        this.dialog._showStepView(params);
+        this.dialog.showStepView(params);
     };
 
     static callbackSelected(index){
@@ -307,8 +307,11 @@ export default class MyProfileScreen extends Component{
                             onValueChange={(value)=>{
                                 this.sliderValueChanged(value);
                             }}
-                            minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
-                            maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}>
+                            minimumTrackTintColor={GlobalConfig.colors.themeColor}
+                            maximumTrackTintColor={GlobalConfig.colors.fontGrayColor}
+                            // minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
+                            // maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}
+                            >
                         </Slider>
                     </View>
                     <View style={styles.sliderAlertView}>

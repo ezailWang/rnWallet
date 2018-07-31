@@ -12,6 +12,11 @@ import CreateWalletScreen from './launch/CreateWalletScreen';
 import ImportWalletScreen from './launch/ImportWalletScreen';
 import UserRegulationScreen from './launch/UserRegulationScreen';
 import VerifyMnemonicScreen from './launch/VerifyMnemonicScreen';
+import Wallet from './transfer/Wallet'
+import SetScreen from './settings/SetScreen';
+import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
+import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
+
 
 export {
     HomeScreen,
@@ -20,11 +25,15 @@ export {
     keystoreTest,
     networkTest,
     Transfer,
+    Wallet,
     FirstLaunchScreen,
     BackupMnemonicScreen,
     BackupWalletScreen,
     CreateWalletScreen,
     ImportWalletScreen,
     UserRegulationScreen,
-    VerifyMnemonicScreen
+    VerifyMnemonicScreen,
+    SetScreen,
+    ModifyPasswordScreen,
+    PasswordPrompInfoScreen
 }

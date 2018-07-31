@@ -47,6 +47,7 @@ import {
     networkTest,
     FirstLaunchContainers,
     mainContainers,
+    Wallet,
     Transfer,
     FirstLaunchScreen,
     BackupMnemonicScreen,
@@ -55,7 +56,11 @@ import {
     ImportWalletScreen,
     UserRegulationScreen,
     VerifyMnemonicScreen,
-    HomeScreen
+    HomeScreen,
+    SetContainers,
+    SetScreen,
+    ModifyPasswordScreen,
+    PasswordPrompInfoScreen
 } from '../containers/containers';
 
 const RouteConfig = {
@@ -89,13 +94,40 @@ const RouteConfig = {
     HomeScreen:{
         screen: HomeScreen
     },
-    // Transfer: {
-    //     screen: Transfer,
-    //     navigationOptions: ({navigation}) => ({
-    //         headerTitle: `${this.props.transferType}转账`,
-    //         gesturesEnable: false
-    //     })
-    // },
+    Wallet: {
+        screen:Wallet,
+        navigationOptions: ({navigation}) => ({
+            title: '主页信息',
+        })
+    },
+    Transfer: {
+        screen: Transfer,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: `${this.props.transferType}转账`,
+            gesturesEnable: false
+        })
+    },
+    WalletTest: {
+        screen:walletTest
+    },
+    RpcTest: {
+        screen:rpcTest
+    },
+    KeystoreTest: {
+        screen:keystoreTest
+    },
+    NetworkTest: {
+        screen:networkTest
+    },
+    Set:{
+        screen: SetScreen
+    },
+    ModifyPassword:{
+        screen:ModifyPasswordScreen
+    },
+    PasswordPrompInfo:{
+        screen:PasswordPrompInfoScreen
+    },
 };
 
 export default RouteConfig;

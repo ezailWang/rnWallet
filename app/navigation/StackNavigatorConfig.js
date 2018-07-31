@@ -21,7 +21,9 @@
 */
 
 const StackNavigationConfig = {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'Set',
+    //initialRouteName: 'Home',
+    //initialRouteName: 'Wallet',
     //initialRouteName: 'FirstLaunch',
     headerMode: 'float',
     navigationOptions: ({navigation}) => ({

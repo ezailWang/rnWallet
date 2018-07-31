@@ -217,9 +217,9 @@ export default class TransferStep extends Component{
             payType:"",
             gasPriceInfo:""
         };
-        this._showStepView=this._showStepView.bind(this);
-        this._changeStepPage=this._changeStepPage.bind(this);
-        this._didTapSurePasswordBtn=this._didTapSurePasswordBtn.bind(this);
+        this.showStepView=this.showStepView.bind(this);
+        this.changeStepPage=this.changeStepPage.bind(this);
+        this.didTapSurePasswordBtn=this.didTapSurePasswordBtn.bind(this);
     }
     // 加载完成
     componentDidMount(){
@@ -230,7 +230,7 @@ export default class TransferStep extends Component{
         //
     }
 
-    _showStepView(params){
+    showStepView(params){
 
         let isShow = this.state.show;
 
@@ -244,7 +244,7 @@ export default class TransferStep extends Component{
         })
     }
 
-    _changeStepPage(){
+    changeStepPage(){
 
         let currentPage = !this.state.step;
 
@@ -262,9 +262,9 @@ export default class TransferStep extends Component{
         }
     }
 
-    _didTapSurePasswordBtn(){
+    didTapSurePasswordBtn(){
 
-        this._showStepView();
+        this.showStepView();
     }
 
     render(){
@@ -293,7 +293,7 @@ export default class TransferStep extends Component{
                         {/*步骤一 确认交易信息*/}
                         <View style={styles.leftContainer}>
                             <View style={styles.firstStepTitleView}>
-                                <TouchableOpacity style={styles.cancelBtn} onPress={this._showStepView}>
+                                <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
 
                                         <Image resizeMode={'center'}
                                                source={require('../../assets/transfer/transfer_cancel.png')}
@@ -317,7 +317,7 @@ export default class TransferStep extends Component{
                                 gasPrice={this.state.gasPriceInfo}>
                             </InfoTextView>
 
-                            <TouchableOpacity style={styles.nextBtn} onPress={this._changeStepPage}>
+                            <TouchableOpacity style={styles.nextBtn} onPress={this.changeStepPage}>
                                 <Text style={styles.buttonTitle}>下一步</Text>
                             </TouchableOpacity>
                         </View>
@@ -325,7 +325,7 @@ export default class TransferStep extends Component{
                         {/*步骤二 ，输入密码*/}
                         <View style={styles.rightContainer}>
                             <View style={[styles.firstStepTitleView,{borderBottomWidth:0}]}>
-                                <TouchableOpacity style={styles.cancelBtn} onPress={this._changeStepPage}>
+                                <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
 
                                     <Image resizeMode={'center'}
                                            source={require('../../assets/common/common_back.png')}
@@ -347,7 +347,7 @@ export default class TransferStep extends Component{
                                 </TextInput>
                             </View>
 
-                            <TouchableOpacity style={styles.nextBtn} onPress={this._didTapSurePasswordBtn}>
+                            <TouchableOpacity style={styles.nextBtn} onPress={this.didTapSurePasswordBtn}>
                                 <Text style={styles.buttonTitle}>确定</Text>
                             </TouchableOpacity>
                         </View>
