@@ -32,7 +32,6 @@ export default SwitchNavigator(
        
     },
     {
-        //initialRouteName: 'main',
-        initialRouteName: 'Set',
+        initialRouteName: 'main',
     }
 );
