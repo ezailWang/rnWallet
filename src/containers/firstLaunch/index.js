@@ -16,6 +16,7 @@ export default FirstLaunchContainers = StackNavigator({
     BackupMnemonic: { screen: BackupMnemonicScreen },
     UserRegulation: { screen: UserRegulationScreen },
     VerifyMnemonic: { screen: VerifyMnemonicScreen },
+    ImportWallet: { screen: ImportWalletScreen },
 },
     {
         navigationOptions: {

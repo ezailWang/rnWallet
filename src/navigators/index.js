@@ -29,6 +29,7 @@ export default SwitchNavigator(
         main: mainContainers
     },
     {
-        initialRouteName: 'main',
+        //initialRouteName: 'main',
+        initialRouteName: 'FirstLaunch',
     }
 );
