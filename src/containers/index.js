@@ -5,6 +5,7 @@ import keystoreTest from './test/keystoreTest'
 import networkTest from './test/networkTest'
 import FirstLaunchContainers from './firstLaunch'
 import mainContainers   from './app'
+import SetContainers from './app/Settings'
 
 export {
     walletTest,
@@ -13,4 +14,5 @@ export {
     networkTest,
     FirstLaunchContainers,
     mainContainers,
+    SetContainers,
 }

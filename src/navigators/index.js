@@ -7,6 +7,7 @@ import {
     networkTest,
     FirstLaunchContainers,
     mainContainers,
+    SetContainers
 } from '../containers';
 
 const TestNavigator = StackNavigator(
@@ -26,10 +27,12 @@ export default SwitchNavigator(
     {
         FirstLaunch: FirstLaunchContainers,
         Test: TestNavigator,
-        main: mainContainers
+        main: mainContainers,
+        Set:SetContainers,
+       
     },
     {
         //initialRouteName: 'main',
-        initialRouteName: 'FirstLaunch',
+        initialRouteName: 'Set',
     }
 );
