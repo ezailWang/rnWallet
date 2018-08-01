@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,ScrollView} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import HeaderButton from '../../components/HeaderButton';
 import BlueButton from '../../components/BlueButton';
 
 const styles = StyleSheet.create({
@@ -34,15 +34,15 @@ const styles = StyleSheet.create({
 export default class UserRegulationScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='rgba(255,255,255,0)'
-                onPress={() => navigation.goBack()}
+            <HeaderButton
+                onPress = {()=> navigation.goBack()}
+                img = {require('../../assets/common/common_back.png')}/>
+        ),
+        headerRight:(
+            <HeaderButton
             />
         ),
-        tabBarVisible: false,
+        headerTitle:'用户条例',
     })
 
     render() {
@@ -72,16 +72,12 @@ export default class UserRegulationScreen extends Component {
                     没有妥善备份就无法保障资产安全。删除程序或钱包后，你需要备份文件来恢复钱包。
                     </Text>
                 </ScrollView>     
-                
-                
                 <View style={styles.buttonBox}>
                     <BlueButton
                         onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
                         text = '我已阅读并同意以上条款'
                     />
-                </View>    
-                 
-                         
+                </View>            
             </View>
         );
     }
