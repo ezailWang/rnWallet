@@ -18,7 +18,13 @@ const transferType={
     ITC:"ITC"
 };
 
+const transferGasLimit={
+    ethGasLimit:25200,
+    tokenGasLimit:60000
+};
+
 module.exports={
     colors,
-    transferType
+    transferType,
+    transferGasLimit
 };
