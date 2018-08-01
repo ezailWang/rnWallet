@@ -1,11 +1,11 @@
 import Web3 from 'web3'
 import { store } from '../config/store/ConfigureStore'
-import Config from 'react-native-config'
 import { erc20Abi } from './constants'
 import BigNumber from 'bignumber.js'
 import etherscan from 'etherscan-api'
+import layoutConstants from '../config/layoutConstants'
 const Ether = new BigNumber(10e+17)
-var api = etherscan.init(Config.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
+var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
 export default class networkManage {
 
     static getWeb3Instance() {
@@ -20,19 +20,19 @@ export default class networkManage {
         switch (store.getState().Core.network) {
             case 'ropsten':
                 return new Web3.providers.HttpProvider(
-                    `https://ropsten.infura.io/${Config.INFURA_API_KEY}`,
+                    `https://ropsten.infura.io/${layoutConstants.INFURA_API_KEY}`,
                 );
             case 'kovan':
                 return new Web3.providers.HttpProvider(
-                    `https://kovan.infura.io/${Config.INFURA_API_KEY}`,
+                    `https://kovan.infura.io/${layoutConstants.INFURA_API_KEY}`,
                 );
             case 'rinkeby':
                 return new Web3.providers.HttpProvider(
-                    `https://rinkeby.infura.io/${Config.INFURA_API_KEY}`,
+                    `https://rinkeby.infura.io/${layoutConstants.INFURA_API_KEY}`,
                 );
             default:
                 return new Web3.providers.HttpProvider(
-                    `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
+                    `https://mainnet.infura.io/${layoutConstants.INFURA_API_KEY}`,
                 );
         }
     }
