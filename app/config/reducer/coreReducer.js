@@ -1,6 +1,7 @@
 import {
-    SET_NETWORK, SET_WALLET_ADDRESS,GENERATE_MNEMONIC
+    SET_NETWORK, SET_WALLET_ADDRESS, GENERATE_MNEMONIC, WALLET_TRANSFER,
 } from '../action/ActionType'
+import * as types from "../action/ActionType";
 
 const defaultState = {
     network: 'ropsten',
@@ -32,7 +33,13 @@ function coreReducer(state = defaultState, action) {
                 ...state,
                 mnemonic:action.mnemonic,
             }
-            break;      
+            break;
+        case WALLET_TRANSFER:
+            return {
+                ...state,
+                walletTransfer:action.walletTransfer
+            }
+            break;
         default: return state;
     }
 }

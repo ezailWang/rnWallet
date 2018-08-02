@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         width:15,
         height:15,
         marginLeft:25,
-        // backgroundColor:'red',
+        //backgroundColor:'red',
         justifyContent:"center",
         alignItems:"center"
     },
@@ -294,12 +294,10 @@ export default class TransferStep extends Component{
                         <View style={styles.leftContainer}>
                             <View style={styles.firstStepTitleView}>
                                 <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
-
                                         <Image resizeMode={'center'}
                                                source={require('../../assets/transfer/transfer_cancel.png')}
-                                               style={{width:styles.cancelBtn.width,height:styles.cancelBtn.height}}>
+                                               style={{width:15,height:15}}>
                                         </Image>
-
                                 </TouchableOpacity>
                                 <Text style={styles.titleView}>
                                     支付详情
@@ -329,7 +327,7 @@ export default class TransferStep extends Component{
 
                                     <Image resizeMode={'center'}
                                            source={require('../../assets/common/common_back.png')}
-                                           style={{width:styles.cancelBtn.width,height:styles.cancelBtn.height}}>
+                                           style={{width:20,height:20}}>
                                     </Image>
 
                                 </TouchableOpacity>

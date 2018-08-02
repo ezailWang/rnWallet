@@ -24,11 +24,4 @@ function setWalletAddress(address) {
     }
 }
 
-function generateMnemonic(mnemonic){
-    return {
-        type: types.GENERATE_MNEMONIC,
-        mnemonic: mnemonic,
-    }
-}
-
-export { walletTest, selectApi, setWalletAddress,generateMnemonic }
+export { walletTest, selectApi, setWalletAddress}

@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
     }
 });
 
+import {store} from '../../config/store/ConfigureStore'
+import {setWalletTransferParams} from "../../config/action/Actions";
+
 export default class Wallet extends PureComponent{
 
     constructor(props){
@@ -37,12 +40,9 @@ export default class Wallet extends PureComponent{
     }
 
     transferProps = {
-        transferType:'ETH',
+        transferType:"ETH",
         balance:77.77,
-        suggestGasPrice:10.0,
-        gasPrice:60.0,
-        minGas:1.0,
-        maxGas:100.0,
+        suggestGasPrice:5,
         ethPrice:3000.12,
         fromAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774"
     };
@@ -54,7 +54,10 @@ export default class Wallet extends PureComponent{
             <View style={styles.container}>
                 <TouchableOpacity
                     style={styles.ViewForTextStyle}
-                    onPress={() => this.props.navigation.navigate('Transfer',props=this.transferProps)}>
+                    onPress={() =>{
+                       store.dispatch(setWalletTransferParams(this.transferProps));
+                       this.props.navigation.navigate('Transfer',props={transferType:"ETH"});
+                    }}>
                     <Text style={styles.newTextStyle}>进入转账页面</Text>
                 </TouchableOpacity>
             </View>

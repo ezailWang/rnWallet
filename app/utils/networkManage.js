@@ -137,5 +137,12 @@ export default class networkManage {
         var cb = await web3.eth.sendTransaction(tx)
         return cb
     }
+
+    static isValidAddress(address){
+        console.warn(address,address.length);
+        const web3 = this.getWeb3Instance();
+
+        return web3.utils.isAddress(address);
+    }
 }
 

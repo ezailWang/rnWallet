@@ -13,8 +13,9 @@ import {
 
 import PropTypes from 'prop-types';
 import TransferStep from './TransferStep'
-
-//引入视图
+import NetworkManager from '../../utils/networkManage';
+import {store} from '../../config/store/ConfigureStore'
+import {WALLET_TRANSFER} from "../../config/action/ActionType";
 const GlobalConfig = require('../../config/GlobalConfig');
 
 let ScreenWidth = Dimensions.get('window').width;
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: 20,
         width: ScreenWidth / 3,
-        color:GlobalConfig.colors.fontBlackColor
+        color:GlobalConfig.colors.fontBlackColor,
     },
     blueText:{
         textAlign:"right",
@@ -148,38 +149,53 @@ const SectionView = ({titleText,placeHolder,detailTitle,returnKeyType,targetInpu
     </View>
 );
 
-export default class MyProfileScreen extends Component{
+
+export default class Transfer extends Component{
 
     constructor(props) {
         super(props);
 
-        MyProfileScreen.callbackSelected = MyProfileScreen.callbackSelected.bind(this);
+        //参数
+        let params = store.getState().Core.walletTransfer;
+
+        this.callbackSelected = this.callbackSelected.bind(this);
         this.didTapNextBtn = this.didTapNextBtn.bind(this);
         this.getPriceTitle = this.getPriceTitle.bind(this);
         this.sliderValueChanged = this.sliderValueChanged.bind(this);
 
-        //参数
-        const params = props.navigation.state.params;
-
         this.state = {
+            transferType:params.transferType,
+            minGasPrice:1,
+            maxGasPrice:100,
             currentGas:params.suggestGasPrice,
-            gasStr:this.getPriceTitle(params.suggestGasPrice,params.gasPrice,params.ethPrice),
+            gasStr:this.getPriceTitle(params.suggestGasPrice,params.ethPrice),
             transferValue:0,
             toAddress:"0x",
             fromAddress:params.fromAddress,
-            detailData:""
+            detailData:"",
         };
-
-        //console.warn(params);
     };
 
-    params = this.props.navigation.state.params;
+    //----- 生命周期方法 ----
+    componentDidMount(){
+        // 通过在componentDidMount里面设置setParams将title的值动态修改
+        this.props.navigation.setParams({
 
-    getPriceTitle =function(gas,gasPrice,ethPrice){
+            headerTitle: "转账",
+            // headerTitle: `${this.state.transferType}转账`,
+        });
 
-        //console.warn(gas+gasPrice+ethPrice);
+        console.warn(this.state.transferType)
+    }
 
-        let totalGas = gas *gasPrice * 0.001 * 0.001 * 0.001;
+
+    params = store.getState().Core.walletTransfer;
+
+    getPriceTitle = (gasPrice,ethPrice)=>{
+
+        let gasLimit = this.params.transferType === GlobalConfig.transferType.ETH ? GlobalConfig.transferGasLimit.ethGasLimit:GlobalConfig.transferGasLimit.tokenGasLimit;
+
+        let totalGas = gasPrice * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = totalGas.toFixed(8);
         let totalGasPrice = totalGas * ethPrice;
         totalGasPrice = totalGasPrice.toFixed(8);
@@ -187,9 +203,20 @@ export default class MyProfileScreen extends Component{
         return totalGas+"ether≈"+totalGasPrice+"￥";
     };
 
-    didTapNextBtn = function(){
-
+    didTapNextBtn = ()=>{
         //console.warn(this.state.fromAddress,this.state.transferValue,this.state.detailData);
+
+        if (NetworkManager.isValidAddress(this.state.toAddress) === false){
+
+            alert("请输入有效的转账地址");
+            return;
+        }
+
+        if (this.state.transferValue === 0){
+
+            alert("请输入有效的转账金额");
+            return;
+        }
 
         let params={
             fromAddress:this.state.fromAddress,
@@ -201,16 +228,16 @@ export default class MyProfileScreen extends Component{
         this.dialog.showStepView(params);
     };
 
-    static callbackSelected(index){
+    callbackSelected=(index)=>{
 
     };
 
     //----视图的事件方法
-    sliderValueChanged (value){
+    sliderValueChanged =(value)=>{
 
         //console.warn(value,this.props.gasPrice);
 
-        let price = this.getPriceTitle(value,this.params.gasPrice,this.params.ethPrice);
+        let price = this.getPriceTitle(value,this.params.ethPrice);
         this.setState({
             currentGas: value,
             gasStr:price
@@ -219,7 +246,6 @@ export default class MyProfileScreen extends Component{
 
     valueTextInputChangeText=(text)=>{
 
-        console.warn(text);
         this.setState({
             transferValue: parseFloat(text).toFixed(8)
         });
@@ -227,7 +253,6 @@ export default class MyProfileScreen extends Component{
 
     toAddressTextInputChangeText=(text)=>{
 
-        console.warn(text);
         this.setState({
             toAddress: text
         });
@@ -235,7 +260,6 @@ export default class MyProfileScreen extends Component{
 
     detailTextInputChangeText=(text)=>{
 
-        console.warn(text);
         this.setState({
             detailData: text
         });
@@ -260,6 +284,7 @@ export default class MyProfileScreen extends Component{
                         <TextInput style={styles.sectionViewTextInput}
                                    placeholder={"输入"+this.params.transferType+"金额"}
                                    returnKeyType={"next"}
+                                   KeyboardType={"numeric"}
                                    onChangeText={this.valueTextInputChangeText}>
                         </TextInput>
                     </View>
@@ -300,8 +325,8 @@ export default class MyProfileScreen extends Component{
                     </View>
                     <View style={styles.sliderContainerView}>
                         <Slider
-                            minimumValue={this.params.minGas}
-                            maximumValue={this.params.maxGas}
+                            minimumValue={this.state.minGasPrice}
+                            maximumValue={this.state.maxGasPrice}
                             value={this.params.suggestGasPrice}
                             step={1}
                             onValueChange={(value)=>{
@@ -316,7 +341,7 @@ export default class MyProfileScreen extends Component{
                     </View>
                     <View style={styles.sliderAlertView}>
                         <Text>慢</Text>
-                        <Text style={alignSelf='right'}>快</Text>
+                        <Text style={{alignSelf:'flex-end'}}>快</Text>
                     </View>
                 </View>
                 {/*下一步按钮*/}
