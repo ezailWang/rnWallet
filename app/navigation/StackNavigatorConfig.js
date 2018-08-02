@@ -28,7 +28,15 @@ const StackNavigationConfig = {
     headerMode: 'float',
     navigationOptions: ({navigation}) => ({
         headerStyle: {
-            backgroundColor: "white"
+            backgroundColor: "white",
+        },
+        headerTitleStyle:{ 
+            flex:1,
+            alignSelf:'center',
+            textAlign:'center',
+            color:'rgb(57,57,57)',
+            fontSize:16,
+            
         },
         headerBackTitle:null
     })

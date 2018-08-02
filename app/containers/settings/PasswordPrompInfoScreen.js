@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
 import { connect } from 'react-redux';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import HeaderButton from '../../components/HeaderButton';
 import BlueButton from '../../components/BlueButton';
 
 
@@ -48,17 +48,15 @@ const styles = StyleSheet.create({
 export default class PasswordPrompInfoScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='transparent'
-                onPress={() => navigation.goBack()}
+            <HeaderButton
+                onPress = {()=> navigation.goBack()}
+                img = {require('../../assets/common/common_back.png')}/>
+        ),
+        headerRight:(
+            <HeaderButton
             />
         ),
-        tabBarVisible: true,
-        title:'密码提示信息'
-    
+        headerTitle:'密码提示信息',
     })
 
     constructor(props){

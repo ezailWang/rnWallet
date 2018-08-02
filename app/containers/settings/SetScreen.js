@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NextButton from '../../components/NextButton';
 import ModifyNameDialog from '../../components/ModifyNameDialog';
+import HeaderButton from '../../components/HeaderButton';
 
 
 const styles = StyleSheet.create({
@@ -55,17 +56,16 @@ const styles = StyleSheet.create({
 export default class SetScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='transparent'
-                onPress={() => navigation.goBack()}
+            <HeaderButton
+                onPress = {()=> navigation.goBack()}
+                img = {require('../../assets/common/common_back.png')}/>
+        ),
+        headerRight:(
+            <HeaderButton
             />
         ),
-        tabBarVisible: true,
-        title:'设置'
-    
+        headerTitle:'设置',
+        tabBarVisible: false,
     })
 
     constructor(props){
@@ -120,13 +120,13 @@ export default class SetScreen extends Component {
 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
+                        onPress = {()=> this.props.navigation.navigate('ReceiptCode')}
                         text = '导出助记词'
                     />
                 </View> 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
+                        onPress = {()=> this.props.navigation.navigate('TransactionDetail')}
                         text = '导出Keystore'
                     />
                 </View> 

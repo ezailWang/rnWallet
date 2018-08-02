@@ -16,7 +16,8 @@ import Wallet from './transfer/Wallet'
 import SetScreen from './settings/SetScreen';
 import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
 import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
-
+import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
+import TransactionDetailScreen from './settings/TransactionDetailScreen';
 
 export {
     HomeScreen,
@@ -35,5 +36,7 @@ export {
     VerifyMnemonicScreen,
     SetScreen,
     ModifyPasswordScreen,
-    PasswordPrompInfoScreen
+    PasswordPrompInfoScreen,
+    ReceiptCodeScreen,
+    TransactionDetailScreen,
 }

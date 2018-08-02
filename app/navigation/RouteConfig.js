@@ -60,14 +60,18 @@ import {
     SetContainers,
     SetScreen,
     ModifyPasswordScreen,
-    PasswordPrompInfoScreen
+    PasswordPrompInfoScreen,
+    ReceiptCodeScreen,
+    TransactionDetailScreen,
 } from '../containers/containers';
 
 const RouteConfig = {
     FirstLaunch: {
         screen:FirstLaunchScreen,
+        
         navigationOptions: ({navigation}) => ({
-            header:null
+            headerTitle: null,
+            gesturesEnable: false
         })
     },
     BackupMnemonic: {
@@ -120,14 +124,23 @@ const RouteConfig = {
         screen:networkTest
     },
     Set:{
+        headerMode:'float',
         screen: SetScreen
     },
     ModifyPassword:{
         screen:ModifyPasswordScreen
+        
     },
     PasswordPrompInfo:{
         screen:PasswordPrompInfoScreen
+        
     },
+    ReceiptCode:{
+        screen:ReceiptCodeScreen
+    },
+    TransactionDetail:{
+        screen:TransactionDetailScreen
+    }
 };
 
 export default RouteConfig;

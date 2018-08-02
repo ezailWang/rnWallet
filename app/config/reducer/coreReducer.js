@@ -11,8 +11,6 @@ const defaultState = {
 
     mnemonic:'',
     walletName:'',
-    password:'',
-    passwordHint:'',
 }
 
 function coreReducer(state = defaultState, action) {

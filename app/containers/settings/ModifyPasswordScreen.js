@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
 import { connect } from 'react-redux';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import HeaderButton from '../../components/HeaderButton';
 import BlueButton from '../../components/BlueButton';
 
 
@@ -60,17 +60,15 @@ const styles = StyleSheet.create({
 export default class ModifyPasswordScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='transparent'
-                onPress={() => navigation.goBack()}
+            <HeaderButton
+                onPress = {()=> navigation.goBack()}
+                img = {require('../../assets/common/common_back.png')}/>
+        ),
+        headerRight:(
+            <HeaderButton
             />
         ),
-        tabBarVisible: true,
-        title:'修改密码'
-    
+        headerTitle:'修改密码',
     })
 
     constructor(props){
