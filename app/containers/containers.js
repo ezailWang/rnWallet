@@ -18,6 +18,7 @@ import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
 import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
 import TransactionDetailScreen from './settings/TransactionDetailScreen';
+import ScanQRCodeScreen from'./settings/ScanQRCodeScreen';
 
 export {
     HomeScreen,
@@ -39,4 +40,5 @@ export {
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     TransactionDetailScreen,
+    ScanQRCodeScreen
 }

@@ -63,6 +63,7 @@ import {
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     TransactionDetailScreen,
+    ScanQRCodeScreen,
 } from '../containers/containers';
 
 const RouteConfig = {
@@ -140,6 +141,9 @@ const RouteConfig = {
     },
     TransactionDetail:{
         screen:TransactionDetailScreen
+    },
+    ScanQRCode:{
+        screen:ScanQRCodeScreen
     }
 };
 
