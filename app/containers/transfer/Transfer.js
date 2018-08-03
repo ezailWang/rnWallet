@@ -185,7 +185,7 @@ export default class Transfer extends Component{
             // headerTitle: `${this.state.transferType}转账`,
         });
 
-        console.warn(this.state.transferType)
+        //console.warn(this.state.transferType)
     }
 
 

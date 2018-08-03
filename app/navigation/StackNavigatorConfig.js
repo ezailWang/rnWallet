@@ -36,9 +36,7 @@ const StackNavigationConfig = {
             textAlign:'center',
             color:'rgb(57,57,57)',
             fontSize:16,
-            
-        },
-        headerBackTitle:null
+        }
     })
 };
 

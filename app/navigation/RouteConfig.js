@@ -65,6 +65,9 @@ import {
     TransactionDetailScreen,
 } from '../containers/containers';
 
+import BackButton from '../components/BackBtn'
+import React from 'react';
+
 const RouteConfig = {
     FirstLaunch: {
         screen:FirstLaunchScreen,
@@ -108,7 +111,8 @@ const RouteConfig = {
         screen: Transfer,
         navigationOptions: ({navigation}) => ({
             headerTitle: `${this.props.transferType}转账`,
-            gesturesEnable: false
+            gesturesEnable: false,
+            headerLeft:<BackButton onPress={()=>{navigation.goBack()}}/>,
         })
     },
     WalletTest: {
