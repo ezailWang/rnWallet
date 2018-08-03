@@ -1,7 +1,7 @@
-import RFNS from 'react-native-fs'
+import RNFS from 'react-native-fs'
 import path from 'path-browserify'
 
-const rootPath = RFNS.DocumentDirectoryPath;
+const rootPath = RNFS.DocumentDirectoryPath;
 export default class keystoreUtils {
     static async exportToFile(keyObject, dirName) {
         try {
@@ -11,12 +11,12 @@ export default class keystoreUtils {
             json = JSON.stringify(keyObject);
             dirPath = path.join(rootPath, dirName);
             outpath = path.join(rootPath, dirName, outfile);
-            const exists = await RFNS.exists(dirPath)
+            const exists = await RNFS.exists(dirPath)
             if (!exists) {
-                await RFNS.mkdir(dirPath)
+                await RNFS.mkdir(dirPath)
             }
             console.log('outpath:', outpath)
-            return RFNS.writeFile(outpath, json, "utf8")
+            return RNFS.writeFile(outpath, json, "utf8")
         } catch (err) {
             console.log('exportToFileErr:', err)
         }
@@ -29,10 +29,10 @@ export default class keystoreUtils {
             address = address.toLowerCase();
             dirName = dirName || "keystore"
             dirPath = path.join(rootPath, dirName);
-            dirItems = await RFNS.readDir(dirPath)
+            dirItems = await RNFS.readDir(dirPath)
             filepath = this.findKeyfile(dirPath, address, dirItems)
             console.log('filepath', filepath)
-            return RFNS.readFile(filepath, "utf8")
+            return RNFS.readFile(filepath, "utf8")
         } catch (err) {
             console.log('importFromFileErr:', err)
         }

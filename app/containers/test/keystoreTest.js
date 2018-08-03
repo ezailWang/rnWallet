@@ -12,7 +12,7 @@ import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import keystoreUtils from '../../utils/keystoreUtils'
-import storageManage from '../../utils/storegeManege'
+import StorageManage from '../../utils/StorageManage'
 
 export default class keystoreTest extends Component {
     constructor(props) {
@@ -39,10 +39,10 @@ export default class keystoreTest extends Component {
             extra: ''
         }
         var key = 'uesr'
-        storageManage.save(key, object)
-        var loadRet = await storageManage.load(key)
+        StorageManage.save(key, object)
+        var loadRet = await StorageManage.load(key)
         console.log('load ret:', loadRet)
-        storageManage.remove(key)
+        StorageManage.remove(key)
         
         var password = this.state.password || 'testpassword'
         console.log('password:', password)
