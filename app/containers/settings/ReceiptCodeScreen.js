@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Clipboard,Alert} from 'react-native';
+import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BlueButton from '../../components/BlueButton';
 import HeaderButton from '../../components/HeaderButton';
+import { requestAndroidPermission ,androidPermission}  from '../../utils/permissionsAndroid';
+
 
 
 const styles = StyleSheet.create({
@@ -67,10 +69,17 @@ export default class ReceiptCodeScreen extends Component {
     scanClick = () =>{
         //const {navigate} = this.props.navigation;//页面跳转
         //navigation('页面');
+        var isAgree = true;
+        if(Platform.OS === 'android'){
+            isAgree =  androidPermission(PermissionsAndroid.PERMISSIONS.CAMERA,'相机','需要使用相机扫描二维码'); 
+        }
         Alert.alert(
             'warn',
-            'warnMessage',
+            'isAgree：'+isAgree,
         )
+        if(isAgree){
+            //this.props.navigation.navigate('ScanQRCode')
+        }
     }
     
     copyAddress(){
@@ -94,9 +103,7 @@ export default class ReceiptCodeScreen extends Component {
                         onPress = {()=> this.copyAddress()}
                         text = '复制收款地址'
                     />
-                </View>    
-                 
-                         
+                </View>       
             </View>
         );
     }
