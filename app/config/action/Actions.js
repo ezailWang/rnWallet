@@ -14,7 +14,16 @@ function setWalletTransferParams(walletTransfer) {
     }
 }
 
+function setTransactionDetailParams(transactionDetail) {
+    return {
+        type:types.TRANSACTION_DETAIL,
+        transactionDetail:transactionDetail
+    }
+}
+
+
 export {
     generateMnemonic,
-    setWalletTransferParams
+    setWalletTransferParams,
+    setTransactionDetailParams
 }

@@ -8,15 +8,16 @@ import {
     TextInput,
     View,
     Slider,
-    TouchableOpacity
+    TouchableOpacity,
+    InteractionManager
 } from 'react-native';
 
-import PropTypes from 'prop-types';
-import TransferStep from './TransferStep'
+import {Colors,TransferGasLimit,TransferType} from "../../config/GlobalConfig";
+import TransactionStep from './TransactionStep'
 import NetworkManager from '../../utils/networkManage';
 import {store} from '../../config/store/ConfigureStore'
-import {WALLET_TRANSFER} from "../../config/action/ActionType";
-const GlobalConfig = require('../../config/GlobalConfig');
+
+import PropTypes from 'prop-types';
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -24,7 +25,7 @@ let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:GlobalConfig.colors.backgroundColor
+        backgroundColor:Colors.backgroundColor
     },
     sectionView: {
         marginTop: 0,
@@ -57,11 +58,11 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: 20,
         width: ScreenWidth / 3,
-        color:GlobalConfig.colors.fontBlackColor,
+        color:Colors.fontBlackColor,
     },
     blueText:{
         textAlign:"right",
-        color:GlobalConfig.colors.fontBlueColor,
+        color:Colors.fontBlueColor,
         marginTop: 20,
         marginLeft: 0,
         marginRight:20,
@@ -90,18 +91,18 @@ const styles = StyleSheet.create({
     },
     sliderTitle:{
         marginLeft:20,
-        color:GlobalConfig.colors.fontBlackColor
+        color:Colors.fontBlackColor
     },
     transferPrice:{
         textAlign:"right",
-        color:GlobalConfig.colors.themeColor,
+        color:Colors.themeColor,
         marginRight:20
     },
     slider:{
 
     },
     button:{
-        backgroundColor:GlobalConfig.colors.themeColor,
+        backgroundColor:Colors.themeColor,
         height:44,
         width:ScreenWidth-60,
         marginTop:80,
@@ -150,7 +151,80 @@ const SectionView = ({titleText,placeHolder,detailTitle,returnKeyType,targetInpu
 );
 
 
-export default class Transfer extends Component{
+class InfoView extends Component{
+
+    static propTypes = {
+        title:PropTypes.string.isRequired,
+        detailTitle:PropTypes.string,
+        placeholder:PropTypes.string.isRequired,
+        returnKeyType:PropTypes.string.isRequired,
+        onChangeText:PropTypes.func.isRequired,
+        KeyboardType:PropTypes.string
+    };
+
+    render(){
+        return (
+            <View  style={styles.sectionView}>
+                <View style={styles.sectionViewTopView}>
+                    <Text style={styles.sectionViewTitleText}>{this.props.title}</Text>
+                    <Text style={styles.blueText}>{this.props.detailTitle}</Text>
+                </View>
+                <View style={styles.sectionViewBottomView}>
+                    <TextInput style={styles.sectionViewTextInput}
+                               placeholder={this.props.placeholder}
+                               returnKeyType={this.props.returnKeyType}
+                               KeyboardType={this.props.KeyboardType}
+                               onChangeText={this.props.onChangeText}>
+                    </TextInput>
+                </View>
+            </View>
+        )
+    }
+}
+
+
+class SliderView extends Component{
+
+    static propTypes = {
+        gasStr:PropTypes.string.isRequired,
+        minGasPrice:PropTypes.number.isRequired,
+        maxGasPrice:PropTypes.number.isRequired,
+        initValue:PropTypes.number.isRequired,
+        onValueChange:PropTypes.func.isRequired
+    };
+
+    render(){
+
+        return(
+            <View style={styles.sliderBottomView}>
+                <View style={styles.sliderTitleContainerView}>
+                    <Text style={styles.sliderTitle}>矿工费</Text>
+                    <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
+                </View>
+                <View style={styles.sliderContainerView}>
+                    <Slider
+                        minimumValue={this.props.minGasPrice}
+                        maximumValue={this.props.maxGasPrice}
+                        value={this.props.initValue}
+                        step={1}
+                        onValueChange={this.props.onValueChange}
+                        minimumTrackTintColor={Colors.themeColor}
+                        maximumTrackTintColor={Colors.fontGrayColor}
+                        // minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
+                        // maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}
+                    >
+                    </Slider>
+                </View>
+                <View style={styles.sliderAlertView}>
+                    <Text>慢</Text>
+                    <Text style={{alignSelf:'flex-end'}}>快</Text>
+                </View>
+            </View>
+        )
+    }
+}
+
+export default class Transaction extends Component{
 
     constructor(props) {
         super(props);
@@ -158,10 +232,12 @@ export default class Transfer extends Component{
         //参数
         let params = store.getState().Core.walletTransfer;
 
-        this.callbackSelected = this.callbackSelected.bind(this);
+        this.didTapSurePasswordBtn = this.didTapSurePasswordBtn.bind(this);
         this.didTapNextBtn = this.didTapNextBtn.bind(this);
         this.getPriceTitle = this.getPriceTitle.bind(this);
         this.sliderValueChanged = this.sliderValueChanged.bind(this);
+        this.getDetailPriceTitle = this.getDetailPriceTitle.bind(this);
+        this.params = params;
 
         this.state = {
             transferType:params.transferType,
@@ -176,24 +252,30 @@ export default class Transfer extends Component{
         };
     };
 
+    static navigationOptions = ({navigation})=>({
+
+        headerTitle: `${this.props.transferType}转账`,
+    });
+
     //----- 生命周期方法 ----
     componentDidMount(){
         // 通过在componentDidMount里面设置setParams将title的值动态修改
-        this.props.navigation.setParams({
 
-            headerTitle: "转账",
-            // headerTitle: `${this.state.transferType}转账`,
-        });
+        //let title = `${this.params.transferType}转账`;
 
-        //console.warn(this.state.transferType)
+        //console.warn(title);
+
+        // InteractionManager.runAfterInteractions(() => {
+        //     this.props.navigation.setParams({
+        //         headerTitle:title,
+        //     });
+        // });
     }
 
 
-    params = store.getState().Core.walletTransfer;
-
     getPriceTitle = (gasPrice,ethPrice)=>{
 
-        let gasLimit = this.params.transferType === GlobalConfig.transferType.ETH ? GlobalConfig.transferGasLimit.ethGasLimit:GlobalConfig.transferGasLimit.tokenGasLimit;
+        let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit:TransferGasLimit.tokenGasLimit;
 
         let totalGas = gasPrice * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = totalGas.toFixed(8);
@@ -202,6 +284,20 @@ export default class Transfer extends Component{
 
         return totalGas+"ether≈"+totalGasPrice+"￥";
     };
+
+    getDetailPriceTitle = ()=>{
+        let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit:TransferGasLimit.tokenGasLimit;
+        let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
+        totalGas = totalGas.toFixed(8);
+
+        return `${totalGas} ether\n=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
+    };
+
+    didTapSurePasswordBtn=(password)=>{
+
+        console.warn("输入密码--",password);
+    };
+
 
     didTapNextBtn = ()=>{
         //console.warn(this.state.fromAddress,this.state.transferValue,this.state.detailData);
@@ -223,15 +319,10 @@ export default class Transfer extends Component{
             toAddress:this.state.toAddress,
             totalAmount:this.state.transferValue+" "+this.params.transferType,
             payType:this.params.transferType+"转账",
-            gasPriceInfo:"0.007 ether\n=Gas(60.000)*Gas Price(11.000)gwei"
+            gasPriceInfo:this.getDetailPriceTitle()
         };
         this.dialog.showStepView(params);
     };
-
-    callbackSelected=(index)=>{
-
-    };
-
     //----视图的事件方法
     sliderValueChanged =(value)=>{
 
@@ -247,7 +338,7 @@ export default class Transfer extends Component{
     valueTextInputChangeText=(text)=>{
 
         this.setState({
-            transferValue: parseFloat(text).toFixed(8)
+            transferValue: parseFloat(text)
         });
     };
 
@@ -265,85 +356,36 @@ export default class Transfer extends Component{
         });
     };
 
-
     render(){
 
         return (
             <ScrollView style={styles.container}
                         bounces={false}>
-                <TransferStep ref={(dialog)=>{
-                    this.dialog = dialog;
-                }}/>
+                <TransactionStep  didTapSurePasswordBtn={this.didTapSurePasswordBtn}
+                                  ref={(dialog)=>{this.dialog = dialog;}}/>
                 {/*转账数量栏*/}
-                <View  style={styles.sectionView}>
-                    <View style={styles.sectionViewTopView}>
-                        <Text style={styles.sectionViewTitleText}>金额</Text>
-                        <Text style={styles.blueText}>{"余额："+this.params.balance+"eth"}</Text>
-                    </View>
-                    <View style={styles.sectionViewBottomView}>
-                        <TextInput style={styles.sectionViewTextInput}
-                                   placeholder={"输入"+this.params.transferType+"金额"}
-                                   returnKeyType={"next"}
-                                   KeyboardType={"numeric"}
-                                   onChangeText={this.valueTextInputChangeText}>
-                        </TextInput>
-                    </View>
-                </View>
+                <InfoView title={"金额"}
+                          detailTitle={"余额："+this.params.balance+"eth"}
+                          placeholder={"输入"+this.params.transferType+"金额"}
+                          returnKeyType={"next"}
+                          KeyboardType={"numeric"}
+                          onChangeText={this.valueTextInputChangeText}/>
                 {/*转账地址栏*/}
-                <View  style={styles.sectionView}>
-                    <View style={styles.sectionViewTopView}>
-                        <Text style={styles.sectionViewTitleText}>地址</Text>
-
-                    </View>
-                    <View style={styles.sectionViewBottomView}>
-                        <TextInput style={styles.sectionViewTextInput}
-                                   placeholder={"输入转账地址"}
-                                   returnKeyType={"next"}
-                                   onChangeText={this.toAddressTextInputChangeText}>
-                        </TextInput>
-                    </View>
-                </View>
+                <InfoView title={"地址"}
+                          placeholder={"输入转账地址"}
+                          returnKeyType={"next"}
+                          onChangeText={this.toAddressTextInputChangeText}/>
                 {/*备注栏*/}
-                <View  style={styles.sectionView}>
-                    <View style={styles.sectionViewTopView}>
-                        <Text style={styles.sectionViewTitleText}>备注</Text>
-
-                    </View>
-                    <View style={styles.sectionViewBottomView}>
-                        <TextInput style={styles.sectionViewTextInput}
-                                   placeholder={"输入备注"}
-                                   returnKeyType={"done"}
-                                   onChangeText={this.detailTextInputChangeText}>
-                        </TextInput>
-                    </View>
-                </View>
+                <InfoView title={"备注"}
+                          placeholder={"输入备注"}
+                          returnKeyType={"done"}
+                          onChangeText={this.detailTextInputChangeText}/>
                 {/*滑竿视图*/}
-                <View style={styles.sliderBottomView}>
-                    <View style={styles.sliderTitleContainerView}>
-                        <Text style={styles.sliderTitle}>矿工费</Text>
-                        <Text style={styles.transferPrice}>{this.state.gasStr}</Text>
-                    </View>
-                    <View style={styles.sliderContainerView}>
-                        <Slider
-                            minimumValue={this.state.minGasPrice}
-                            maximumValue={this.state.maxGasPrice}
-                            value={this.params.suggestGasPrice}
-                            step={1}
-                            onValueChange={(value)=>{
-                                this.sliderValueChanged(value);
-                            }}
-                            minimumTrackTintColor={GlobalConfig.colors.themeColor}
-                            maximumTrackTintColor={GlobalConfig.colors.fontGrayColor}
-                            // minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
-                            // maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}
-                            >
-                        </Slider>
-                    </View>
-                    <View style={styles.sliderAlertView}>
-                        <Text>慢</Text>
-                        <Text style={{alignSelf:'flex-end'}}>快</Text>
-                    </View>
-                </View>
+                <SliderView gasStr={this.state.gasStr}
+                            minGasPrice={this.state.minGasPrice}
+                            maxGasPrice={this.state.maxGasPrice}
+                            initValue={this.params.suggestGasPrice}
+                            onValueChange={this.sliderValueChanged}/>
                 {/*下一步按钮*/}
                 <TouchableOpacity style={styles.button}
                                   onPress={this.didTapNextBtn}>

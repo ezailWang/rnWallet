@@ -28,6 +28,10 @@ const styles = StyleSheet.create({
     
 });
 
+class Class {
+
+}
+
 export default class HeaderButton extends Component {
     /**static propTypes = {
         onPress: {},

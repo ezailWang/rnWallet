@@ -48,7 +48,7 @@ import {
     FirstLaunchContainers,
     mainContainers,
     Wallet,
-    Transfer,
+    Transaction,
     FirstLaunchScreen,
     BackupMnemonicScreen,
     BackupWalletScreen,
@@ -62,7 +62,7 @@ import {
     ModifyPasswordScreen,
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
-    TransactionDetailScreen,
+    TransactionRecoder,
 } from '../containers/containers';
 
 import BackButton from '../components/BackBtn'
@@ -107,10 +107,10 @@ const RouteConfig = {
             title: '主页信息',
         })
     },
-    Transfer: {
-        screen: Transfer,
+    Transaction: {
+        screen: Transaction,
         navigationOptions: ({navigation}) => ({
-            headerTitle: `${this.props.transferType}转账`,
+            //headerTitle: `${this.props.transferType}转账`,
             gesturesEnable: false,
             headerLeft:<BackButton onPress={()=>{navigation.goBack()}}/>,
         })
@@ -143,7 +143,11 @@ const RouteConfig = {
         screen:ReceiptCodeScreen
     },
     TransactionDetail:{
-        screen:TransactionDetailScreen
+        screen:TransactionRecoder,
+        navigationOptions: ({navigation}) => ({
+            headerTitle:"交易记录",
+            headerLeft:<BackButton onPress={()=>{navigation.goBack()}}/>,
+        })
     }
 };
 

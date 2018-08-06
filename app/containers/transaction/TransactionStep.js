@@ -12,7 +12,7 @@ import {
     TextInput
 } from 'react-native'
 
-const GlobalConfig = require('../../config/GlobalConfig');
+import {Colors} from '../../config/GlobalConfig'
 import PropTypes from 'prop-types';
 
 const ScreenWidth = Dimensions.get('window').width;
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
     container:{
         flex:1,
-        backgroundColor:GlobalConfig.colors.blackOpacityColor,
+        backgroundColor:Colors.blackOpacityColor,
         justifyContent:"flex-end"
     },
     scrollView:{
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         height:44,
         width:ScreenWidth,
         marginRight:0,
-        borderBottomColor:GlobalConfig.colors.fontGrayColor,
+        borderBottomColor:Colors.fontGrayColor,
         borderBottomWidth:0.5,
         flexDirection:'row',
         alignItems:"center",
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     titleView:{
-        color:GlobalConfig.colors.fontBlackColor,
+        color:Colors.fontBlackColor,
         //marginLeft:0,
         width:ScreenWidth- (15+25)*2,
         fontSize:17,
@@ -94,11 +94,11 @@ const styles = StyleSheet.create({
     },
     infoTitle:{
         fontSize:13,
-        color:GlobalConfig.colors.fontDarkGrayColor
+        color:Colors.fontDarkGrayColor
     },
     infoDetailTitle:{
         fontSize:13,
-        color:GlobalConfig.colors.fontBlackColor,
+        color:Colors.fontBlackColor,
         marginLeft:20,
         // marginRight:60
     },
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     },
     lineView:{
         height:0.5,
-        backgroundColor:GlobalConfig.colors.fontGrayColor
+        backgroundColor:Colors.fontGrayColor
     },
     infoContentTitle:{
         marginTop:10,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     infoContentDetailTitle:{
         fontSize:13,
-        color:GlobalConfig.colors.fontBlackColor
+        color:Colors.fontBlackColor
     },
     infoContentDetailView:{
         marginTop:10,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         height:44,
         borderRadius:25,
         width:ScreenWidth - 100,
-        backgroundColor:GlobalConfig.colors.themeColor,
+        backgroundColor:Colors.themeColor,
         justifyContent:"center",
     },
     buttonTitle:{
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     },
     passwordFrameView:{
         borderWidth:1,
-        borderColor:GlobalConfig.colors.fontGrayColor,
+        borderColor:Colors.fontGrayColor,
         borderRadius:5,
         width:ScreenWidth - 50,
         marginTop:20,
@@ -203,7 +203,11 @@ let InfoContentView = ({title,deatilContent})=>(
     </View>
 );
 
-export default class TransferStep extends Component{
+export default class TransactionStep extends Component{
+
+    static propsType = {
+        didTapSurePasswordBtn:PropTypes.func.isRequired
+    };
 
     // 构造函数
     constructor(props) {
@@ -215,11 +219,12 @@ export default class TransferStep extends Component{
             toAddress:'0x',
             totalAmount:"0",
             payType:"",
-            gasPriceInfo:""
+            gasPriceInfo:"",
+            password:""
         };
         this.showStepView=this.showStepView.bind(this);
         this.changeStepPage=this.changeStepPage.bind(this);
-        this.didTapSurePasswordBtn=this.didTapSurePasswordBtn.bind(this);
+        this.passWordTextInputChanged=this.passWordTextInputChanged.bind(this)
     }
     // 加载完成
     componentDidMount(){
@@ -234,14 +239,22 @@ export default class TransferStep extends Component{
 
         let isShow = this.state.show;
 
-        this.setState({
-            show:!isShow,
-            fromAddress:params.fromAddress,
-            toAddress:params.toAddress,
-            totalAmount:params.totalAmount,
-            payType:params.payType,
-            gasPriceInfo:params.gasPriceInfo
-        })
+        if (params){
+
+            this.setState({
+                show:!isShow,
+                fromAddress:params.fromAddress,
+                toAddress:params.toAddress,
+                totalAmount:params.totalAmount,
+                payType:params.payType,
+                gasPriceInfo:params.gasPriceInfo
+            })
+        }
+        else {
+            this.setState({
+                show:!isShow
+            })
+        }
     }
 
     changeStepPage(){
@@ -262,9 +275,11 @@ export default class TransferStep extends Component{
         }
     }
 
-    didTapSurePasswordBtn(){
+    passWordTextInputChanged(text){
 
-        this.showStepView();
+        this.setState({
+            password:text
+        })
     }
 
     render(){
@@ -339,13 +354,19 @@ export default class TransferStep extends Component{
                                 <TextInput style={styles.passwordView}
                                            placeholder={"请输入密码"}
                                            returnKeyType={"done"}
+                                           onChangeText={this.passWordTextInputChanged}
                                            ref={(textinput)=>{
                                                this.INPUT=textinput;
                                             }}>
                                 </TextInput>
                             </View>
 
-                            <TouchableOpacity style={styles.nextBtn} onPress={this.didTapSurePasswordBtn}>
+                            <TouchableOpacity style={styles.nextBtn} onPress={()=>{
+                                let password = this.state.password;
+                                // console.warn(password);
+                                this.showStepView();
+                                this.props.didTapSurePasswordBtn(password);
+                            }}>
                                 <Text style={styles.buttonTitle}>确定</Text>
                             </TouchableOpacity>
                         </View>

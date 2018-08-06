@@ -20,6 +20,8 @@
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
 
+import {Colors} from '../config/GlobalConfig'
+
 const StackNavigationConfig = {
     // initialRouteName: 'Set',
     //initialRouteName: 'Home',
@@ -34,9 +36,11 @@ const StackNavigationConfig = {
             flex:1,
             alignSelf:'center',
             textAlign:'center',
-            color:'rgb(57,57,57)',
+            color:Colors.fontDarkColor,
             fontSize:16,
+            fontWeight:"400"
         }
+
     })
 };
 

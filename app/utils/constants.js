@@ -203,7 +203,7 @@ const erc20Abi = [
               "type":"uint256"
           }
       ],
-      "name":"transfer",
+      "name":"transaction",
       "outputs":[
 
       ],
@@ -299,7 +299,7 @@ const erc20Abi = [
               "type":"uint256"
           }
       ],
-      "name":"Transfer",
+      "name":"Transaction",
       "type":"event"
   },
   {

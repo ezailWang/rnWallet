@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 });
 
 import {store} from '../../config/store/ConfigureStore'
-import {setWalletTransferParams} from "../../config/action/Actions";
+import {setTransactionDetailParams, setWalletTransferParams} from "../../config/action/Actions";
 
 export default class Wallet extends PureComponent{
 
@@ -47,6 +47,18 @@ export default class Wallet extends PureComponent{
         fromAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774"
     };
 
+    transactionDetail={
+        amount:"101.22",
+        transactionType:"ETH",
+        fromAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774",
+        toAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774",
+        gasPrice:"0.0021",
+        remark:"无",
+        transactionHash:"0x5c570db1b576046b96bd95b3b0214f459657bc91577278d48072342c35fa5380",
+        blockNumber:"6097412",
+        transactionTime:"07/05/2018 12:08:16 +0800"
+    };
+
     render(){
 
         return(
@@ -56,9 +68,18 @@ export default class Wallet extends PureComponent{
                     style={styles.ViewForTextStyle}
                     onPress={() =>{
                        store.dispatch(setWalletTransferParams(this.transferProps));
-                       this.props.navigation.navigate('Transfer',props={transferType:"ETH"});
+                       this.props.navigation.navigate('Transaction',props={transferType:"ETH"});
                     }}>
-                    <Text style={styles.newTextStyle}>进入转账页面</Text>
+                    <Text style={styles.newTextStyle}>转账页面</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.ViewForTextStyle}
+                    onPress={() =>{
+                        store.dispatch(setTransactionDetailParams(this.transactionDetail));
+                        this.props.navigation.navigate('TransactionDetail');
+                    }}>
+                    <Text style={styles.newTextStyle}>转账记录页面</Text>
                 </TouchableOpacity>
             </View>
         )
