@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class TransationDetailScreen extends Component {
+export default class TransactionRecoder extends Component {
 
     constructor(props){
         super(props);

@@ -63,17 +63,74 @@ import {
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     TransactionRecoder,
+    Loading
 } from '../containers/containers';
 
 import BackButton from '../components/BackBtn'
 import React from 'react';
 
 const RouteConfig = {
-    FirstLaunch: {
-        screen:FirstLaunchScreen,
-        
+    Wallet: {
+        screen: Wallet,
         navigationOptions: ({navigation}) => ({
-            headerTitle: null,
+            title: '主页信息',
+        })
+    },
+    Transaction: {
+        screen: Transaction,
+        navigationOptions: ({navigation}) => ({
+            //headerTitle: `${this.props.transferType}转账`,
+            gesturesEnable: false,
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
+    WalletTest: {
+        screen: walletTest
+    },
+    RpcTest: {
+        screen: rpcTest
+    },
+    KeystoreTest: {
+        screen: keystoreTest
+    },
+    NetworkTest: {
+        screen: networkTest
+    },
+    Set: {
+        headerMode: 'float',
+        screen: SetScreen
+    },
+    ModifyPassword: {
+        screen: ModifyPasswordScreen
+
+    },
+    PasswordPrompInfo: {
+        screen: PasswordPrompInfoScreen
+
+    },
+    ReceiptCode: {
+        screen: ReceiptCodeScreen
+    },
+    TransactionDetail: {
+        screen: TransactionRecoder,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "交易记录",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    }
+}
+//首次启动导航栈
+const FirstLaunchRouteConfig =
+{
+    FirstLaunch: {
+        screen: FirstLaunchScreen,
+
+        navigationOptions: ({ navigation }) => ({
+            header: null,
             gesturesEnable: false
         })
     },
@@ -98,57 +155,18 @@ const RouteConfig = {
     ImportWallet: {
         screen: ImportWalletScreen
     },
-    HomeScreen:{
-        screen: HomeScreen
-    },
-    Wallet: {
-        screen:Wallet,
-        navigationOptions: ({navigation}) => ({
-            title: '主页信息',
-        })
-    },
-    Transaction: {
-        screen: Transaction,
-        navigationOptions: ({navigation}) => ({
-            //headerTitle: `${this.props.transferType}转账`,
-            gesturesEnable: false,
-            headerLeft:<BackButton onPress={()=>{navigation.goBack()}}/>,
-        })
-    },
-    WalletTest: {
-        screen:walletTest
-    },
-    RpcTest: {
-        screen:rpcTest
-    },
-    KeystoreTest: {
-        screen:keystoreTest
-    },
-    NetworkTest: {
-        screen:networkTest
-    },
-    Set:{
-        headerMode:'float',
-        screen: SetScreen
-    },
-    ModifyPassword:{
-        screen:ModifyPasswordScreen
-        
-    },
-    PasswordPrompInfo:{
-        screen:PasswordPrompInfoScreen
-        
-    },
-    ReceiptCode:{
-        screen:ReceiptCodeScreen
-    },
-    TransactionDetail:{
-        screen:TransactionRecoder,
-        navigationOptions: ({navigation}) => ({
-            headerTitle:"交易记录",
-            headerLeft:<BackButton onPress={()=>{navigation.goBack()}}/>,
-        })
-    }
-};
+}
 
-export default RouteConfig;
+//主页导航栈
+const HomeRouteConfig =
+{
+    HomeScreen: {
+        screen: HomeScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
+    },
+}
+
+
+export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading };

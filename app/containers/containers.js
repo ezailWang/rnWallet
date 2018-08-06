@@ -18,6 +18,7 @@ import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
 import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
 import TransactionRecoder from './transaction/TransactionRecoder';
+import Loading from './appLoading/Loading'
 
 export {
     HomeScreen,
@@ -39,4 +40,5 @@ export {
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     TransactionRecoder,
+    Loading
 }

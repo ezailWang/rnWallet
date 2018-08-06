@@ -21,9 +21,16 @@ function setTransactionDetailParams(transactionDetail) {
     }
 }
 
+function setWalletAddress(address) {
+    return {
+        type: types.SET_WALLET_ADDRESS,
+        walletAddress: address,
+    }
+}
 
 export {
     generateMnemonic,
     setWalletTransferParams,
-    setTransactionDetailParams
+    setTransactionDetailParams,
+    setWalletAddress
 }
