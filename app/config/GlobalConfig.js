@@ -19,7 +19,9 @@ const Colors={
     //控制器视图背景色
     backgroundColor:'#F7F8F9',
     //黑色半透明色
-    blackOpacityColor:'rgba(38,38,38,0.6)'
+    blackOpacityColor:'rgba(38,38,38,0.6)',
+    //透明色
+    clearColor:'rgba(255,255,255,0.0)'
 };
 
 const TransferType={

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,ScrollView} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import BlueButton from '../../components/BlueButton';
 
 import keythereum from 'keythereum'
@@ -8,11 +7,13 @@ import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import keystoreUtils from '../../utils/keystoreUtils'
 
+import {Colors} from '../../config/GlobalConfig'
+import {BlueButtonBig} from '../../components/Button'
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        backgroundColor:'#fff',
+        backgroundColor:Colors.backgroundColor,
         paddingTop:40,
         paddingLeft:20,
         paddingRight:20,
@@ -52,24 +53,12 @@ const styles = StyleSheet.create({
     },
     buttonBox:{
         flex:1,
-        justifyContent:'flex-end',
-        alignSelf:'stretch',
+        //justifyContent:'center',
+        alignSelf:'center',
     }
 })
 
 export default class CreateWalletScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='rgba(85,146,246,1)'
-                onPress={() => navigation.goBack()}
-            />
-        ),
-        tabBarVisible: false,
-    })
 
     constructor(props){
         super(props);
@@ -155,7 +144,8 @@ export default class CreateWalletScreen extends Component {
                             this.setState({
                                 password: event.nativeEvent.text
                             })
-                           }}></TextInput>
+                           }}>
+                </TextInput>
                
                 <TextInput style={[styles.inputTextBox,styles.inputText]} 
                          //  returnKeyType='next' 
@@ -167,7 +157,8 @@ export default class CreateWalletScreen extends Component {
                             this.setState({
                                 password: event.nativeEvent.text
                             })
-                           }}></TextInput>
+                           }}>
+                </TextInput>
                 <TextInput style={[styles.inputTextBox,styles.inputText]} 
                           // returnKeyType='next' 
                            placeholder="重复密码"
@@ -178,7 +169,8 @@ export default class CreateWalletScreen extends Component {
                             this.setState({
                                 password: event.nativeEvent.text
                             })
-                           }}></TextInput>
+                           }}>
+                </TextInput>
                 <TextInput style={[styles.inputTextBox,styles.inputText,{marginBottom:40}]} 
                           // returnKeyType='next' 
                            placeholder="密码提示(选填)"
@@ -188,9 +180,10 @@ export default class CreateWalletScreen extends Component {
                             this.setState({
                                 password: event.nativeEvent.text
                             })
-                           }}></TextInput>       
+                           }}>
+                </TextInput>
                 <View style={styles.buttonBox}>
-                          <BlueButton
+                          <BlueButtonBig
                                 onPress = {()=> this.vertifyInputData()}
                                 text = '导入'
                           />

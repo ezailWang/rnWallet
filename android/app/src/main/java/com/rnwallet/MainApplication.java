@@ -3,6 +3,7 @@ package com.rnwallet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecomponent.barcode.RCTCapturePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RCTCapturePackage(),
             new VectorIconsPackage(),
             new RandomBytesPackage(),
             new LinearGradientPackage(),

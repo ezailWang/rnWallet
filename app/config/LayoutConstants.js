@@ -1,12 +1,38 @@
 
-import { Dimensions } from 'react-native'
+import {Dimensions,Platform} from 'react-native'
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
+// iPhoneX
+const X_WIDTH = 375;
+const X_HEIGHT = 812;
+
+// screen
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
+function isIphoneX() {
+    return (
+        Platform.OS === 'ios' &&
+        ((SCREEN_HEIGHT === X_HEIGHT && SCREEN_WIDTH === X_WIDTH) ||
+            (SCREEN_HEIGHT === X_WIDTH && SCREEN_WIDTH === X_HEIGHT))
+    )
+}
+
+function getNavigationHeight() {
+
+    if (isIphoneX()){
+        return 88;
+    }
+
+    return 64;
+}
 
 const layoutConstants = {
 
     WINDOW_WIDTH: width,
     WINDOW_HEIGHT: height,
+    DEVICE_IS_IPHONE_X:isIphoneX,
+    NAVIGATION_HEIGHT:getNavigationHeight,
 
     BASE_COLOR: 'rgb(30,174,245)',
 

@@ -1,31 +1,40 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import WhiteButton from '../../components/WahitButton';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import { connect } from 'react-redux';
 import * as TestAction from '../../config/action/TestAction'
+import LinearGradient from 'react-native-linear-gradient'
+
+import {WhiteButtonBig,ClarityWhiteButtonBig,BlueButtonBig,BlueButtonMiddle,WhiteButtonMiddle,WhiteButtonSmall,BlueButtonSmall} from '../../components/Button'
+import {Colors} from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'rgba(85,146,246,1)',
-        paddingTop: 100,
-        paddingLeft: 20,
-        paddingRight: 20,
+        backgroundColor: Colors.backgroundColor,
+        paddingTop: 150,
     },
     logoImg: {
-        marginBottom: 40,
+        marginBottom: 50,
         width: 100,
         height: 100,
     },
     marginTop10: {
         marginTop: 30,
+    },
+    rightIcon:{
+        width:15,
+        height:15,
+        marginTop:10,
+        marginRight:10,
+        backgroundColor:"red"
     }
 });
 
 class FirstLaunchScreen extends Component {
+
     createClickFun() {
         walletUtils.generateMnemonic().then((data) => {
             this.props.generateMnemonic(data)
@@ -50,18 +59,33 @@ class FirstLaunchScreen extends Component {
     }
     render() {
         return (
-            <View style={styles.contentContainer}>
+            <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
+                            style={styles.contentContainer}>
                 <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')} />
-                <WhiteButton
-                    //onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
-                    onPress={() => this.createClickFun()}
-                    text='创建钱包'
-                />
-                <WhiteButton
-                    onPress={() => this.props.navigation.navigate('ImportWallet')}
-                    text='导入钱包'
-                />
-            </View>
+                <WhiteButtonBig  style={{marginBottom:20}}
+                              onPress={() => this.createClickFun}
+                              text='创建钱包'>
+                    <Image style={styles.rightIcon}>
+                    </Image>
+                </WhiteButtonBig>
+                <ClarityWhiteButtonBig style={{marginTop:20}}
+                               onPress={() => this.props.navigation.navigate('ImportWallet')}
+                               text='导入钱包'/>
+                <BlueButtonBig text={"蓝色中号"}
+                               onPress={()=>{}}/>
+                <BlueButtonMiddle text={"蓝色中号"}
+                                  onPress={()=>{}}>
+                </BlueButtonMiddle>
+                <WhiteButtonMiddle text={"白色中号"}
+                                   onPress={()=>{}}>
+                </WhiteButtonMiddle>
+                <WhiteButtonSmall text={"白色小号"}
+                                   onPress={()=>{}}>
+                </WhiteButtonSmall>
+                <BlueButtonSmall text={"蓝色小号"}
+                                  onPress={()=>{}}>
+                </BlueButtonSmall>
+            </LinearGradient>
         )
     }
 }

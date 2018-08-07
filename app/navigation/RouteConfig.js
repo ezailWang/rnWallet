@@ -66,7 +66,8 @@ import {
     Loading
 } from '../containers/containers';
 
-import BackButton from '../components/BackBtn'
+import {BlueHeader} from '../components/NavigaionHeader'
+import {BackButton} from '../components/Button'
 import React from 'react';
 
 const RouteConfig = {
@@ -153,7 +154,10 @@ const FirstLaunchRouteConfig =
         screen: VerifyMnemonicScreen
     },
     ImportWallet: {
-        screen: ImportWalletScreen
+        screen: ImportWalletScreen,
+        navigationOptions: ({navigation}) => ({
+            header:<BlueHeader navigation={navigation}/>
+        })
     },
 }
 
