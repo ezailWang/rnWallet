@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
         height:44,
         borderRadius:22,
         borderWidth:2,
-        justifyContent:"center"
+        justifyContent:"center",
+        marginTop:20
     },
     normalBtnTitle:{
         fontSize:17,

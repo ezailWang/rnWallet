@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as TestAction from '../../config/action/TestAction'
 import LinearGradient from 'react-native-linear-gradient'
 
-import {WhiteButtonBig,ClarityWhiteButtonBig,BlueButtonBig,BlueButtonMiddle,WhiteButtonMiddle,WhiteButtonSmall,BlueButtonSmall} from '../../components/Button'
+import {WhiteButtonBig,ClarityWhiteButtonBig} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         width:15,
         height:15,
         marginTop:10,
-        marginRight:10,
+        marginLeft:10,
         backgroundColor:"red"
     }
 });
@@ -94,26 +94,12 @@ class FirstLaunchScreen extends Component {
                 <WhiteButtonBig  style={{marginBottom:20}}
                               onPress={() => this.createClickFun}
                               text='创建钱包'>
-                    <Image style={styles.rightIcon}>
-                    </Image>
+                    <View style={styles.rightIcon}>
+                    </View>
                 </WhiteButtonBig>
                 <ClarityWhiteButtonBig style={{marginTop:20}}
                                onPress={() => this.props.navigation.navigate('ImportWallet')}
                                text='导入钱包'/>
-                <BlueButtonBig text={"蓝色中号"}
-                               onPress={()=>{}}/>
-                <BlueButtonMiddle text={"蓝色中号"}
-                                  onPress={()=>{}}>
-                </BlueButtonMiddle>
-                <WhiteButtonMiddle text={"白色中号"}
-                                   onPress={()=>{}}>
-                </WhiteButtonMiddle>
-                <WhiteButtonSmall text={"白色小号"}
-                                   onPress={()=>{}}>
-                </WhiteButtonSmall>
-                <BlueButtonSmall text={"蓝色小号"}
-                                  onPress={()=>{}}>
-                </BlueButtonSmall>
             </LinearGradient>
         )
     }

@@ -5644,6 +5644,10 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
+react-native-smart-barcode@^1.0.6:
+  version "1.0.6"
+  resolved "http://registry.npm.taobao.org/react-native-smart-barcode/download/react-native-smart-barcode-1.0.6.tgz#7411586c687ed25b6adf456f949b39699c63db5e"
+
 react-native-storage@^0.2.2:
   version "0.2.2"
   resolved "http://registry.npm.taobao.org/react-native-storage/download/react-native-storage-0.2.2.tgz#4449197f122b2da0650e3704e1f050260ed58d9f"
