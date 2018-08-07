@@ -75,18 +75,6 @@ const styles = StyleSheet.create({
 })
 
 class VerifyMnemonicScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='rgba(255,255,255,0)'
-                onPress={() => navigation.goBack()}
-            />
-        ),
-        tabBarVisible: false,
-    })
    
     constructor(props){
         super(props);

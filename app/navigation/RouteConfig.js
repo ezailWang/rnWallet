@@ -130,33 +130,59 @@ const FirstLaunchRouteConfig =
 {
     FirstLaunch: {
         screen: FirstLaunchScreen,
-
         navigationOptions: ({ navigation }) => ({
             header: null,
             gesturesEnable: false
         })
     },
     BackupMnemonic: {
-        screen: BackupMnemonicScreen
+        screen: BackupMnemonicScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "备份助记词",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
+    VerifyMnemonic: {
+        screen: VerifyMnemonicScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "确认助记词",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     BackupWallet: {
-        screen: BackupWalletScreen
+        screen: BackupWalletScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "确认助记词",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+        
     },
     CreateWallet: {
-        screen: CreateWalletScreen
+        screen: CreateWalletScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "创建钱包",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+        
+
     },
-    BackupMnemonic: {
-        screen: BackupMnemonicScreen
-    },
+   
     UserRegulation: {
         screen: UserRegulationScreen
     },
-    VerifyMnemonic: {
-        screen: VerifyMnemonicScreen
-    },
+    
     ImportWallet: {
         screen: ImportWalletScreen,
         navigationOptions: ({navigation}) => ({
+            headerTitle: "导入钱包",
             header:<BlueHeader navigation={navigation}/>
         })
     },
@@ -170,18 +196,6 @@ const HomeRouteConfig =
         navigationOptions: ({ navigation }) => ({
             header: null
         })
-    },
-    WalletTest: {
-        screen:walletTest
-    },
-    RpcTest: {
-        screen:rpcTest
-    },
-    KeystoreTest: {
-        screen:keystoreTest
-    },
-    NetworkTest: {
-        screen:networkTest
     },
     Set:{
         headerMode:'float',
@@ -212,4 +226,19 @@ const HomeRouteConfig =
     }
 };
 
-export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading };
+const TestRouteConfig = {
+    WalletTest: {
+        screen:walletTest
+    },
+    RpcTest: {
+        screen:rpcTest
+    },
+    KeystoreTest: {
+        screen:keystoreTest
+    },
+    NetworkTest: {
+        screen:networkTest
+    },
+}
+
+export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading, TestRouteConfig };

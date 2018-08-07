@@ -64,20 +64,6 @@ const styles = StyleSheet.create({
 
 class BackupMnemonicScreen extends Component {
 
-    
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='rgba(255,255,255,0)'
-                onPress={() => navigation.goBack()}
-            />
-        ),
-        tabBarVisible: true,
-    })
-
     constructor(props){
         super(props);
         this.state = {

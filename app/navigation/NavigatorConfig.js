@@ -19,8 +19,9 @@
         headerPressColorAndroid：安卓独有的设置颜色纹理，需要安卓版本大于5.0
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
-
+import {StyleSheet} from 'react-native';
 import {Colors} from '../config/GlobalConfig'
+
 
 const StackNavigationConfig = {
     initialRouteName: 'Set',
@@ -30,14 +31,14 @@ const StackNavigationConfig = {
     //initialRouteName: 'Transfer',
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
-        headerStyle: {
-            backgroundColor: "white",
-        },
+        headerStyle:{
+            backgroundColor: Colors.fontBlueColor
+        }, 
         headerTitleStyle:{ 
             flex:1,
             alignSelf:'center',
             textAlign:'center',
-            color:Colors.fontDarkColor,
+            color:Colors.fontWhiteColor,
             fontSize:16,
             fontWeight:"400"
         }
@@ -46,11 +47,45 @@ const StackNavigationConfig = {
 };
 
 const HomeStackNavigationConfig = {
-    initialRouteName: 'HomeScreen'
+    initialRouteName: 'HomeScreen',
+    headerMode: 'float',
+    navigationOptions: ({ navigation }) => ({
+        headerStyle:{
+            backgroundColor: Colors.fontBlueColor
+        }, 
+        headerTitleStyle:{ 
+            flex:1,
+            alignSelf:'center',
+            textAlign:'center',
+            color:Colors.fontWhiteColor,
+            fontSize:16,
+            fontWeight:"400"
+        }
+
+    })
 }
 
 const FirstLaunchStackNavigationConfig = {
-    initialRouteName: 'FirstLaunch'
+    initialRouteName: 'FirstLaunch',
+    headerMode: 'float',
+    navigationOptions: ({ navigation }) => ({
+        headerStyle:{
+            backgroundColor: Colors.fontBlueColor
+        }, 
+        headerTitleStyle:{ 
+            flex:1,
+            alignSelf:'center',
+            textAlign:'center',
+            color:Colors.fontWhiteColor,
+            fontSize:16,
+            fontWeight:"400"
+        }
+
+    })
 }
 
-export { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig, StackNavigationConfig };
+const TestStackNavigationConfig = {
+    initialRouteName:'KeystoreTest'
+}
+
+export { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig, StackNavigationConfig, TestStackNavigationConfig };

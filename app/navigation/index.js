@@ -1,6 +1,20 @@
-import { StackNavigator, SwitchNavigator } from 'react-navigation'
-import { FirstLaunchRouteConfig, HomeRouteConfig, Loading, RouteConfig } from './RouteConfig'
-import { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig, StackNavigationConfig } from './NavigatorConfig'
+import {
+    StackNavigator,
+    SwitchNavigator
+} from 'react-navigation'
+import {
+    FirstLaunchRouteConfig,
+    HomeRouteConfig,
+    Loading,
+    RouteConfig,
+    TestRouteConfig
+} from './RouteConfig'
+import {
+    HomeStackNavigationConfig,
+    FirstLaunchStackNavigationConfig,
+    StackNavigationConfig,
+    TestStackNavigationConfig
+} from './NavigatorConfig'
 
 
 /**
@@ -16,17 +30,18 @@ const FirstLaunchNavigation = StackNavigator(FirstLaunchRouteConfig, FirstLaunch
 //主页导航栈
 const HomeNavigation = StackNavigator(HomeRouteConfig, HomeStackNavigationConfig)
 
+//测试导航栈
+const TestNavigation = StackNavigator(TestRouteConfig,TestStackNavigationConfig)
+
 //导航栈选择
-const SwicthNavigation = SwitchNavigator(
-    {
-        Apploading: Loading,
-        FirstLaunch: FirstLaunchNavigation,
-        Home: HomeNavigation,
-        Stack: OldStackNavigator,
-    },
-    {
-        initialRouteName: 'Apploading'
-    },
-)
+const SwicthNavigation = SwitchNavigator({
+    Apploading: Loading,
+    FirstLaunch: FirstLaunchNavigation,
+    Home: HomeNavigation,
+    Stack: OldStackNavigator,
+    Test:TestNavigation,
+}, {
+    initialRouteName: 'FirstLaunch'
+}, )
 
 export default SwicthNavigation

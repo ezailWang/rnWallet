@@ -4,7 +4,7 @@ import QRCode from 'react-native-qrcode';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CommonButton from '../../components/CommonButton';
 import HeaderButton from '../../components/HeaderButton';
-import { requestAndroidPermission ,androidPermission}  from '../../utils/permissionsAndroid';
+import {androidPermission}  from '../../utils/permissionsAndroid';
 
 
 
