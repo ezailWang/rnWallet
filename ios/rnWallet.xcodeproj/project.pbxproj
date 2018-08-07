@@ -394,62 +394,6 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
-		C99476A1211936780003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5EA8CE4E3E43453882ADC725 /* RCTBarCode.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9FCCD7581DAC8DA800025BFD;
-			remoteInfo = RCTBarcode;
-		};
-		C99476C7211936780003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04DC49DDB95346F7B053E2BC /* RNFS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
-			remoteInfo = RNFS;
-		};
-		C99476C9211936780003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04DC49DDB95346F7B053E2BC /* RNFS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6456441F1EB8DA9100672408;
-			remoteInfo = "RNFS-tvOS";
-		};
-		C99476CF211936790003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7773ED5DA74E4B7DA2336A0D /* RNRandomBytes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 73EEC9391BFE4B1D00D468EB;
-			remoteInfo = RNRandomBytes;
-		};
-		C99476D1211936790003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7773ED5DA74E4B7DA2336A0D /* RNRandomBytes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 163CDE4E2087CAD3001065FB;
-			remoteInfo = "RNRandomBytes-tvOS";
-		};
-		C99476D9211936790003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4AC1534334D14DC49F46C9B2 /* BVLinearGradient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = BVLinearGradient;
-		};
-		C99476DB211936790003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4AC1534334D14DC49F46C9B2 /* BVLinearGradient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 64AA15081EF7F30100718508;
-			remoteInfo = "BVLinearGradient-tvOS";
-		};
-		C99476DE211936790003F40F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5E9621B1650A43668D664F0C /* RNVectorIcons.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
-			remoteInfo = RNVectorIcons;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -859,63 +803,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-
-		C9947698211936760003F40F /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				1D9EC6C3B4DF407A81123D51 /* libRNFS.a */,
-				0E89EB009AAE4E8298A31DEE /* libBVLinearGradient.a */,
-				F149B424AB5648F3B01FEEF9 /* libRNRandomBytes.a */,
-				7D2F89A91D8742239EFB9FD3 /* libRNVectorIcons.a */,
-				4C06C52365A24D978B9D4D1C /* libRCTBarcode.a */,
-				945FBC16CEF44463895C787F /* libRNRandomBytes-tvOS.a */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		C9947699211936780003F40F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C99476C8211936780003F40F /* libRNFS.a */,
-				C99476CA211936780003F40F /* libRNFS.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C994769B211936780003F40F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C99476A2211936780003F40F /* libRCTBarcode.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C99476CB211936790003F40F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C99476D0211936790003F40F /* libRNRandomBytes.a */,
-				C99476D2211936790003F40F /* libRNRandomBytes-tvOS.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C99476D3211936790003F40F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C99476DF211936790003F40F /* libRNVectorIcons.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C99476D5211936790003F40F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C99476DA211936790003F40F /* libBVLinearGradient.a */,
-				C99476DC211936790003F40F /* libBVLinearGradient.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1005,7 +892,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = R942JVZFAG;
+						DevelopmentTeam = 85SPX49374;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -1033,7 +920,6 @@
 			projectReferences = (
 				{
 					ProductGroup = 3608C75B21184AA600ABBC58 /* Products */;
-
 					ProjectRef = 4AC1534334D14DC49F46C9B2 /* BVLinearGradient.xcodeproj */;
 				},
 				{
@@ -1043,10 +929,6 @@
 				{
 					ProductGroup = 5E91572E1DD0AC6500FF2AA8 /* Products */;
 					ProjectRef = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
-				},
-				{
-					ProductGroup = C994769B211936780003F40F /* Products */;
-					ProjectRef = 5EA8CE4E3E43453882ADC725 /* RCTBarCode.xcodeproj */;
 				},
 				{
 					ProductGroup = ADBDB9201DFEBF0600ED6528 /* Products */;
@@ -1106,7 +988,6 @@
 				},
 				{
 					ProductGroup = 3608C75F21184AA600ABBC58 /* Products */;
-
 					ProjectRef = 5E9621B1650A43668D664F0C /* RNVectorIcons.xcodeproj */;
 				},
 			);
@@ -1443,62 +1324,6 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C99476A2211936780003F40F /* libRCTBarcode.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTBarcode.a;
-			remoteRef = C99476A1211936780003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C99476C8211936780003F40F /* libRNFS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFS.a;
-			remoteRef = C99476C7211936780003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C99476CA211936780003F40F /* libRNFS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFS.a;
-			remoteRef = C99476C9211936780003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C99476D0211936790003F40F /* libRNRandomBytes.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNRandomBytes.a;
-			remoteRef = C99476CF211936790003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C99476D2211936790003F40F /* libRNRandomBytes-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRNRandomBytes-tvOS.a";
-			remoteRef = C99476D1211936790003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C99476DA211936790003F40F /* libBVLinearGradient.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBVLinearGradient.a;
-			remoteRef = C99476D9211936790003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C99476DC211936790003F40F /* libBVLinearGradient.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBVLinearGradient.a;
-			remoteRef = C99476DB211936790003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C99476DF211936790003F40F /* libRNVectorIcons.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNVectorIcons.a;
-			remoteRef = C99476DE211936790003F40F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1655,7 +1480,6 @@
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
-
 				);
 				INFOPLIST_FILE = rnWalletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1690,7 +1514,6 @@
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
-
 				);
 				INFOPLIST_FILE = rnWalletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1722,7 +1545,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 85SPX49374;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
@@ -1740,7 +1563,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.rnWallet.lll;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.rnWallet.zyy;
 				PRODUCT_NAME = rnWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1755,7 +1578,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 85SPX49374;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
@@ -1773,7 +1596,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.rnWallet.lll;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.rnWallet.zyy;
 				PRODUCT_NAME = rnWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
