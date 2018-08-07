@@ -13,9 +13,10 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         marginTop:30,
         marginBottom:20,
+        alignItems:'flex-end',
     },
     countTxt:{
-        fontSize:22,
+        fontSize:26,
         color:'#000',
         fontWeight:'800',
     },
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
         fontSize:18,
         marginLeft:6,
         color:'rgb(101,101,101)',
-        alignSelf:'flex-end',
     },
     infoBox:{
         alignSelf:'stretch',
@@ -144,7 +144,7 @@ export default class TransationDetailScreen extends Component {
                                bgColor='#000'
                                fgColor='#fff'
                             />
-                            <TouchableOpacity style={[styles.copyBtn]} activeOpacity={0.6} onPress = { this.copyUrl() }>
+                            <TouchableOpacity style={[styles.copyBtn]} activeOpacity={0.6} onPress = {this.copyUrl}>
                                  <Text style={styles.copyBtnTxt}>复制URL</Text>
                             </TouchableOpacity>
                      </View>

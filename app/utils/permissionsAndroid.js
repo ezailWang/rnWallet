@@ -10,20 +10,12 @@ import { PermissionsAndroid,Alert } from 'react-native';
 //PermissionsAndroid.requestMultiple(permissions) //permissions为String型数组
 
 
-function androidPermission(permission,title,message){
+async function androidPermission(permission){
     if(checkAndroidPermission(permission)){
-        Alert.alert(
-            'warn',
-            '已获得了权限',
-        )
         return true;//已获得了权限
     }else{
-        Alert.alert(
-            'warn',
-            '未获得权限',
-        )
         //未获得权限，申请权限
-        var isAgree = requestAndroidPermission(permission,title,message);
+        var isAgree = await requestAndroidPermission(permission);
         if(isAgree){
             return true;//同意
         }else{
@@ -38,15 +30,11 @@ function androidPermission(permission,title,message){
 function checkAndroidPermission(permission){
     try{
         //返回Promise类型
-        const granted = PermissionsAndroid.check(
+        const granted =  PermissionsAndroid.check(
             permission
         )
         granted.then((data)=>{
             //是否获取权限 data
-            Alert.alert(
-                'warn',
-                ''+data,
-            )
             return data;
         }).catch((err)=>{
             console.warn(exception)
@@ -57,24 +45,20 @@ function checkAndroidPermission(permission){
 }
 
 //请求权限
-async function requestAndroidPermission(permission,title,message){
+async function requestAndroidPermission(permission){
     try{
         const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA,
-            {
-                'title': '申请' + {title} + '权限',
-                'message': {message}
-            }
+            permission,
+            /**{
+                'title': '申请' + title + '权限',
+                'message': message
+            }**/
         )
-        Alert.alert(
-            'warn',
-            ''+granted,
-        )
-        if(granted === PermissionsAndroid.RESULTS.GRANTED){
-            console.log("获得"+title+"权限")
+        if(granted === 'granted'){
+            console.log("获得权限")
             return true;
         }else{
-            console.log("获得"+title+"权限失败")
+            console.log("禁止权限")
             return false;
         }
     }catch(exception){

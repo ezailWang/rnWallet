@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import BlueButton from './BlueButton';
+import CommonButton from './CommonButton';
 
 const styles = StyleSheet.create({
     modeBox:{
@@ -119,7 +119,7 @@ export default class ModifyNameDialog extends Component{
                         </TouchableOpacity>
                         
                         <View style={styles.rightBtnBox}>
-                            <BlueButton
+                            <CommonButton
                                 onPress = { this.props.rightPress}
                                 text = {this.props.rightTxt}
                             /> 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,ScrollView} from 'react-native';
 import HeaderButton from '../../components/HeaderButton';
-import BlueButton from '../../components/BlueButton';
+import CommonButton from '../../components/CommonButton';
 
 const styles = StyleSheet.create({
     container:{
@@ -73,7 +73,7 @@ export default class UserRegulationScreen extends Component {
                     </Text>
                 </ScrollView>     
                 <View style={styles.buttonBox}>
-                    <BlueButton
+                    <CommonButton
                         onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
                         text = '我已阅读并同意以上条款'
                     />

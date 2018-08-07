@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet, SafeAreaView,Image,Alert} from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import WhiteButton from '../../components/WahitButton';
+import CommonButton from '../../components/CommonButton';
 //import { connect } from 'tls';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import { connect } from 'react-redux';
@@ -30,6 +30,11 @@ const styles = StyleSheet.create({
 });
 
 class FirstLaunchScreen extends Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        header:null,
+    })
+
     createClickFun() {
         walletUtils.generateMnemonic().then((data) => {
             this.props.generateMnemonic(data)
@@ -57,14 +62,21 @@ class FirstLaunchScreen extends Component {
             <SafeAreaView style={styles.container} >
             <View style = {styles.contentContainer}>
                 <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')}/>
-                <WhiteButton
-                    //onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
-                    onPress = {()=> this.createClickFun()}
+                <CommonButton
+                    //onPress = {this.createClickFun}
+                    onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
                     text = '创建钱包'
+                    bgColor = '#fff'
+                    fontColor = 'rgb(85,146,246)'
+                    borderColor = '#fff'
                 />
-                <WhiteButton
+                <View style={{height:20}}></View>
+                <CommonButton
                     onPress = {()=> this.props.navigation.navigate('ImportWallet')}
                     text = '导入钱包'
+                    bgColor = 'transparent'
+                    fontColor =  '#fff'
+                    borderColor = '#fff'
                 />
             </View>
             </SafeAreaView>

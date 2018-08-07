@@ -5512,6 +5512,13 @@ react-lifecycles-compat@^3.0.2:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.2.tgz#7279047275bd727a912e25f734c0559527e84eff"
 
+"react-native-camera@git+https://git@github.com/react-native-community/react-native-camera":
+  version "1.1.5"
+  resolved "git+https://git@github.com/react-native-community/react-native-camera#ae35e4f2169a01f481ada98a00ceeccc94aa6e56"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+
 react-native-crypto@^2.1.2:
   version "2.1.2"
   resolved "http://registry.npm.taobao.org/react-native-crypto/download/react-native-crypto-2.1.2.tgz#cfe68cad51cd1f73a4202b7ac164f96c1144cb2a"
@@ -5636,10 +5643,6 @@ react-native-safe-area-view@^0.7.0:
   resolved "http://registry.npm.taobao.org/react-native-safe-area-view/download/react-native-safe-area-view-0.7.0.tgz#38f5ab9368d6ef9e5d18ab64212938af3ec39421"
   dependencies:
     hoist-non-react-statics "^2.3.1"
-
-react-native-smart-barcode@^1.0.6:
-  version "1.0.6"
-  resolved "http://registry.npm.taobao.org/react-native-smart-barcode/download/react-native-smart-barcode-1.0.6.tgz#7411586c687ed25b6adf456f949b39699c63db5e"
 
 react-native-storage@^0.2.2:
   version "0.2.2"

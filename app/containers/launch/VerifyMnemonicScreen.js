@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import BlueButton from '../../components/BlueButton';
+import CommonButton from '../../components/CommonButton';
 import { connect } from 'react-redux';
 import CommonFun from './Common';
 
@@ -177,7 +177,7 @@ class VerifyMnemonicScreen extends Component {
                  </View>
         
                  <View style={styles.buttonBox}>
-                      <BlueButton
+                      <CommonButton
                          onPress = {()=> this.completeClickFun()}
                          text = '完成'
                       />
