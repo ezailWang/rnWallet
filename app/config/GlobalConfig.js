@@ -8,16 +8,18 @@ RandomColor= ()=>{
 const Colors={
     RandomColor:RandomColor,
     //字体颜色
-    fontBlackColor:'#2C2C2C',
+    fontBlackColor:'#424242',
     fontDarkColor:'#000',
-    fontGrayColor:'#E6E6E6',
+    fontGrayColor:'#aaaaaa',
     fontDarkGrayColor:'#959595',
     fontWhiteColor:'#FFFFFF',
-    fontBlueColor:'#1BA2E8',
+    fontBlueColor:'#00a0e9',
+    //警告框颜色
+    RedColor:'#ff3636',
     //主题颜色
-    themeColor:'#1BA2E8',
+    themeColor:'#00a0e9',
     //控制器视图背景色
-    backgroundColor:'#F7F8F9',
+    backgroundColor:'#f8f8f8',
     //黑色半透明色
     blackOpacityColor:'rgba(38,38,38,0.6)',
     //透明色
