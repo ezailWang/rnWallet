@@ -198,8 +198,14 @@ const HomeRouteConfig =
     ReceiptCode:{
         screen:ReceiptCodeScreen
     },
-    TransactionDetail:{
-        screen:TransactionDetailScreen
+    TransactionDetail: {
+        screen: TransactionRecoder,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "交易记录",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     ScanQRCode:{
         screen:ScanQRCodeScreen

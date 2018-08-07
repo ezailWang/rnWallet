@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,ScrollView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CommonButton from '../../components/CommonButton';
-import BlueButton from '../../components/BlueButton';
+
+
 
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class CreateWalletScreen extends Component {
+export default class ImportWalletScreen extends Component {
 
     constructor(props){
         super(props);

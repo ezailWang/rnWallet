@@ -27,7 +27,7 @@ const StackNavigationConfig = {
     //initialRouteName: 'Home',
     //initialRouteName: 'Wallet',
     //initialRouteName: 'FirstLaunch',
-    initialRouteName: 'Transfer',
+    //initialRouteName: 'Transfer',
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
         headerStyle: {
