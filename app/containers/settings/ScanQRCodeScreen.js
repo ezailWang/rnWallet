@@ -10,7 +10,6 @@ import {StyleSheet,
     Image,
     Alert} from 'react-native'
 import Camera from 'react-native-camera';
-import HeaderButton from '../../components/HeaderButton';
 var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');
  
@@ -73,19 +72,6 @@ const styles = StyleSheet.create({
 
 
 export default class ScanQRCodeScreen extends Component{
-
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <HeaderButton
-                onPress = {()=> navigation.goBack()}
-                img = {require('../../assets/common/common_back.png')}/>
-        ),
-        headerRight:(
-            <HeaderButton
-            />
-        ),
-        headerTitle:'扫描二维码',
-    })
 
     constructor(props){
         super(props);

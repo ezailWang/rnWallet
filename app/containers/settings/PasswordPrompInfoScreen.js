@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
 import { connect } from 'react-redux';
-import HeaderButton from '../../components/HeaderButton';
-import CommonButton from '../../components/CommonButton';
-
+import {BlueButtonBig} from '../../components/Button'
 
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
         backgroundColor:'rgb(248,248,248)',
-        paddingTop:20,
+        paddingTop:10,
     },
     inputBox:{
         alignSelf:'stretch',
@@ -46,18 +44,6 @@ const styles = StyleSheet.create({
 })
 
 export default class PasswordPrompInfoScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <HeaderButton
-                onPress = {()=> navigation.goBack()}
-                img = {require('../../assets/common/common_back.png')}/>
-        ),
-        headerRight:(
-            <HeaderButton
-            />
-        ),
-        headerTitle:'密码提示信息',
-    })
 
     constructor(props){
         super(props);
@@ -99,12 +85,11 @@ export default class PasswordPrompInfoScreen extends Component {
                     </TouchableOpacity>
                     
                 </View>
-                <View style={styles.buttonBox}>
-                        <CommonButton
+                <View style={{marginTop:10}}>
+                    <BlueButtonBig
                             onPress = {()=> this.save()}
-                            text = '保存'
-                        />
-                </View> 
+                            text = '保存'/>
+                </View>
                 
             </View>
         );

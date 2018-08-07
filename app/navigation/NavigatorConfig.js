@@ -29,22 +29,8 @@ const StackNavigationConfig = {
     //initialRouteName: 'Wallet',
     //initialRouteName: 'FirstLaunch',
     //initialRouteName: 'Transfer',
-    headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
-        headerStyle:{
-            backgroundColor: Colors.fontBlueColor
-        }, 
-        headerTitleStyle:{ 
-            flex:1,
-            alignSelf:'center',
-            textAlign:'center',
-            color:Colors.fontWhiteColor,
-            fontSize:16,
-            fontWeight:"400"
-        }
 
-    })
-};
+
 
 const HomeStackNavigationConfig = {
     initialRouteName: 'HomeScreen',
@@ -88,4 +74,6 @@ const TestStackNavigationConfig = {
     initialRouteName:'KeystoreTest'
 }
 
+
 export { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig, StackNavigationConfig, TestStackNavigationConfig };
+

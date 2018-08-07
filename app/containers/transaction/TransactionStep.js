@@ -357,7 +357,7 @@ export default class TransactionStep extends Component{
                                            onChangeText={this.passWordTextInputChanged}
                                            ref={(textinput)=>{
                                                this.INPUT=textinput;
-                                            }}>
+                                           }}>
                                 </TextInput>
                             </View>
 

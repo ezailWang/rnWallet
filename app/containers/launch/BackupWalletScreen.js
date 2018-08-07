@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CommonButton from '../../components/CommonButton';
+import {BlueButtonBig} from '../../components/Button';
 
 const styles = StyleSheet.create({
     container:{
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     buttonBox:{
         flex:1,
         justifyContent:'flex-end',
-        alignSelf:'stretch',
         marginBottom:30,
 
     }
@@ -46,7 +45,7 @@ export default class BackupWalletScreen extends Component {
                 <Text style={styles.contentTxt}>没有妥善备份就无法保障资产安全。删除程序或钱包后，你需要备份文件来恢复钱包。</Text>
                 
                 <View style={styles.buttonBox}>
-                    <CommonButton
+                    <BlueButtonBig
                         onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
                         text = '备份助记词'
                     />

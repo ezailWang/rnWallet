@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
     StackNavigator,
     SwitchNavigator
@@ -15,15 +16,16 @@ import {
     StackNavigationConfig,
     TestStackNavigationConfig
 } from './NavigatorConfig'
+=======
+import { StackNavigator, SwitchNavigator } from 'react-navigation'
+import { FirstLaunchRouteConfig, HomeRouteConfig, Loading, RouteConfig } from './RouteConfig'
+import { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig } from './NavigatorConfig'
+>>>>>>> c82aeba2588a9c06229652440b5fdf419c89fe33
 
 
 /**
  * 导航结构不同模块功能分开放入不同的导航栈内，全部放入一个导航栈，容易内存泄露
  */
-
-//之前的导航栈
-const OldStackNavigator = StackNavigator(RouteConfig, StackNavigationConfig)
-
 //首次启动导航栈
 const FirstLaunchNavigation = StackNavigator(FirstLaunchRouteConfig, FirstLaunchStackNavigationConfig)
 
@@ -34,6 +36,7 @@ const HomeNavigation = StackNavigator(HomeRouteConfig, HomeStackNavigationConfig
 const TestNavigation = StackNavigator(TestRouteConfig,TestStackNavigationConfig)
 
 //导航栈选择
+<<<<<<< HEAD
 const SwicthNavigation = SwitchNavigator({
     Apploading: Loading,
     FirstLaunch: FirstLaunchNavigation,
@@ -43,5 +46,17 @@ const SwicthNavigation = SwitchNavigator({
 }, {
     initialRouteName: 'FirstLaunch'
 }, )
+=======
+const SwicthNavigation = SwitchNavigator(
+    {
+        Apploading: Loading,
+        FirstLaunch: FirstLaunchNavigation,
+        Home: HomeNavigation,
+    },
+    {
+        initialRouteName: 'Apploading'
+    },
+)
+>>>>>>> c82aeba2588a9c06229652440b5fdf419c89fe33
 
 export default SwicthNavigation

@@ -3,16 +3,15 @@ import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity}
 
 import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import NextButton from '../../components/NextButton';
+import {NextButton} from '../../components/Button';
 import ModifyNameDialog from '../../components/ModifyNameDialog';
-import HeaderButton from '../../components/HeaderButton';
-
+import {Colors,FontSize}from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        backgroundColor:'rgb(248,248,248)',
+        backgroundColor:Colors.backgroundColor,
         paddingTop:20,
     },
     btnOpacity:{
@@ -28,8 +27,8 @@ const styles = StyleSheet.create({
     btnTxt:{
         flex:1,
         backgroundColor: 'transparent',
-        color:'rgb(87,87,87)',
-        fontSize:16,
+        color:Colors.fontBlackColor,
+        fontSize:FontSize.TitleSize,
         height:56,
         lineHeight:56,
         textAlign:'left',
@@ -39,8 +38,8 @@ const styles = StyleSheet.create({
         width:36,
     },
     walletName:{
-        fontSize:16,
-        color:'rgb(153,153,153)'
+        fontSize:FontSize.DetailTitleSize,
+        color:Colors.fontDarkGrayColor
     },
     buttonBox:{
         marginTop:1,
@@ -54,20 +53,7 @@ const styles = StyleSheet.create({
 })
 
 export default class SetScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <HeaderButton
-                onPress = {()=> navigation.goBack()}
-                img = {require('../../assets/common/common_back.png')}/>
-        ),
-        headerRight:(
-            <HeaderButton
-            />
-        ),
-        headerTitle:'设置',
-        tabBarVisible: false,
-    })
-
+  
     constructor(props){
         super(props);
         this.state = {
@@ -97,11 +83,15 @@ export default class SetScreen extends Component {
                     modalVisible = {this.state.modalVisible}
                 />
 
-                <TouchableOpacity style={[styles.btnOpacity]} activeOpacity={0.6} onPress = {()=> this.isOpenModifyModal(true)}>
+                <TouchableOpacity style={[styles.btnOpacity]} 
+                                  activeOpacity={0.6} 
+                                  onPress={()=> this.isOpenModifyModal(true)}>
                     <Text style={styles.btnTxt}>更换图标</Text>
                     <Image style={styles.headIcon} source={require('../../assets/launch/headIcon.jpg')}/>
                 </TouchableOpacity> 
-                <TouchableOpacity style={[styles.btnOpacity]} activeOpacity={0.6} onPress = { ()=> this.isOpenModifyModal(true)}>
+                <TouchableOpacity style={[styles.btnOpacity]} 
+                                  activeOpacity={0.6} 
+                                  onPress={()=> this.isOpenModifyModal(true)}>
                     <Text style={styles.btnTxt}>修改钱包名称</Text>
                     <Text style={styles.walletName}>Wallet Name</Text>
                 </TouchableOpacity> 

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,ScrollView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'

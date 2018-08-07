@@ -6,6 +6,8 @@ import CommonButton from '../../components/CommonButton';
 import HeaderButton from '../../components/HeaderButton';
 import {androidPermission}  from '../../utils/permissionsAndroid';
 
+import {HeaderButton,BlueButtonBig} from '../../components/Button';
+import { requestAndroidPermission ,androidPermission}  from '../../utils/permissionsAndroid';
 
 
 const styles = StyleSheet.create({
@@ -37,28 +39,18 @@ const styles = StyleSheet.create({
     buttonBox:{
         flex:1,
         justifyContent:'flex-end',
-        alignSelf:'stretch',
         marginBottom:30,
-
     }
 })
 
 export default class ReceiptCodeScreen extends Component {
    
     static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <HeaderButton
-                onPress = {()=> navigation.goBack()}
-                img = {require('../../assets/common/common_back.png')}/>
-        ),
         headerRight:(
             <HeaderButton
                 onPress = {()=>navigation.state.params.headRightPress()}
-                img = {require('../../assets/launch/scanIcon.jpg')}/>
+                img = {require('../../assets/common/common_scan_qrcode.png')}/>
         ),
-        headerTitle:'收款码',
-        tabBarVisible: false,
-    
     })
 
     componentDidMount(){
@@ -101,7 +93,7 @@ export default class ReceiptCodeScreen extends Component {
                 />
                 <Text style={styles.adderssTxt}>0x1234567890x1234567890x1234567890x1234567890x1234567890x1234567890x123456789</Text>
                 <View style={styles.buttonBox}>
-                    <CommonButton
+                    <BlueButtonBig
                         onPress = {()=> this.copyAddress()}
                         text = '复制收款地址'
                     />

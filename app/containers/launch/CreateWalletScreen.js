@@ -8,8 +8,12 @@ import StorageManage from '../../utils/StorageManage'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import * as TestAction from '../../config/action/TestAction'
-import CommonButton from '../../components/CommonButton';
+
 import {androidPermission}  from '../../utils/permissionsAndroid';
+
+import {BlueButtonBig} from '../../components/Button';
+import {Colors,FontSize} from '../../config/GlobalConfig'
+
 
 const styles = StyleSheet.create({
     container:{
@@ -25,9 +29,9 @@ const styles = StyleSheet.create({
         height:46,
     },
     titleTxt:{
-        fontSize:18,
+        fontSize:FontSize.HeaderSize,
         fontWeight:'500',
-        color:'rgb(85,146,246)',
+        color:Colors.fontBlueColor,
         marginTop:15,
         marginBottom:30,
     },
@@ -42,13 +46,13 @@ const styles = StyleSheet.create({
         borderRadius:5,
         borderColor:'rgb(241,241,241)',
         borderWidth:1,
-        color:'rgb(146,146,146)',
+        color:Colors.fontBlackColor,
         marginBottom:10,
     },
     buttonBox:{
         flex:1,
         justifyContent:'flex-end',
-        alignSelf:'stretch',
+        //alignSelf:'stretch',
         marginBottom:30,
     }
 })
@@ -165,7 +169,7 @@ class CreateWalletScreen extends Component {
             <View style={styles.container}>
                 <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.jpg')}/>
                 <Text style={styles.titleTxt}>创建钱包</Text>
-                <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
+                
                 <TextInput style={styles.inputText} 
                            //returnKeyType='next' 
                            placeholder="钱包名称"
@@ -211,12 +215,13 @@ class CreateWalletScreen extends Component {
                             }}/>
                             
                 <View style={styles.buttonBox}>
-                        <CommonButton
-                            onPress = {()=> this.vertifyPermissions()}
+
+                        <BlueButtonBig
+                            onPress = {()=> this.vertifyInputData()}
                             text = '创建'
                         />
                 </View> 
-                </ScrollView>         
+                
             </View>
         );
     }

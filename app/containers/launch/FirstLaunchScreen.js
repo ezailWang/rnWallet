@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 
 class FirstLaunchScreen extends Component {
     createClickFun() {
+
         walletUtils.generateMnemonic().then((data) => {
             this.props.generateMnemonic(data)
             this.props.navigation.navigate('BackupMnemonic');
@@ -53,14 +54,14 @@ class FirstLaunchScreen extends Component {
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                             style={styles.contentContainer}>
                 <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')} />
-                <WhiteButtonBig  style={{marginBottom:20}}
-                              onPress={()=> this.createClickFun()}
-                              text='创建钱包'>
+
+                <WhiteButtonBig style={{marginBottom:20}}
+                                onPress={() => this.createClickFun()}
+                                text='创建钱包'>
                     <View style={styles.rightIcon}>
                     </View>
                 </WhiteButtonBig>
-                <ClarityWhiteButtonBig style={{marginTop:20}}
-                               onPress={() => this.props.navigation.navigate('ImportWallet')}
+                <ClarityWhiteButtonBig onPress={() => this.props.navigation.navigate('ImportWallet')}
                                text='导入钱包'/>
             </LinearGradient>
         )

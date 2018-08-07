@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../config/LayoutConstants'
-import {Colors} from '../config/GlobalConfig'
+import {Colors,FontSize} from '../config/GlobalConfig'
 import {
     View,
     TouchableOpacity,
@@ -19,6 +19,11 @@ const styles = StyleSheet.create({
     },
     backBtn:{
         marginLeft:12,
+        width:20,
+        height:20
+    },
+    headerRight:{
+        marginRight:15,
         width:20,
         height:20
     },
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
     },
     middleWhiteBtn:{
-        borderWidth:2,
+        borderWidth:1.5,
         borderColor:Colors.fontBlueColor,
         backgroundColor:Colors.fontWhiteColor
     },
@@ -90,6 +95,27 @@ const styles = StyleSheet.create({
         height:40,
         borderRadius:20,
         justifyContent:"center"
+    },
+    btnOpacity:{
+        flexDirection:'row',
+        height:56,
+        alignSelf:'stretch',
+        alignItems:'center',
+        backgroundColor:'#fff',
+        paddingLeft:20,
+        paddingRight:20,
+    },
+    txt:{
+        flex:1,
+        backgroundColor: 'transparent',
+        color:Colors.fontBlackColor,
+        fontSize:FontSize.TitleSize,
+        height:56,
+        lineHeight:56,
+        textAlign:'left',
+    },
+    icon:{
+        width:10,
     }
 });
 
@@ -102,10 +128,10 @@ class BackButton extends Component {
 
     render() {
 
-        let backItemStyle = {marginTop:30};
+        let backItemStyle = {marginTop:0};
 
         if (Layout.DEVICE_IS_IPHONE_X()){
-            backItemStyle= {marginTop:40};
+            backItemStyle= {marginTop:0};
         }
 
         return (
@@ -191,7 +217,7 @@ class WhiteButtonBig extends Component {
     render() {
         return (
             <TouchableOpacity style={[styles.normalBtn,styles.whiteBtn]}
-                              onPress = { this.props.onPress }>
+                              onPress = {this.props.onPress}>
                 <Text style={[styles.whiteBtnTitle,styles.normalBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
         )
@@ -269,6 +295,38 @@ class BlueButtonSmall extends Component {
     }
 }
 
+class NextButton extends Component {
+    static propTypes = {
+        onPress: PropTypes.func.isRequired,
+        text: PropTypes.string.isRequired,
+    }
+    render() {
+        return (
+            <TouchableOpacity style={[styles.btnOpacity]} activeOpacity={0.6} onPress = { this.props.onPress }>
+                <Text style={styles.txt}>{this.props.text}</Text>
+                <Image style={styles.icon} source={require('../assets/launch/nextIcon.jpg')}/>
+            </TouchableOpacity>
+        )
+    }
+}
+
+class HeaderButton extends Component {
+    
+    render() {
+        return (
+            <View style={styles.container}>
+                <TouchableOpacity style={[styles.headerRight]}
+                                  onPress = {this.props.onPress}>
+                    <Image style={styles.backItem}
+                           resizeMode={'center'}
+                           source={this.props.img}>
+                    </Image>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+}
+
 export {
     BackButton,             //蓝色返回按钮
     BackWhiteButton,        //白色返回按钮
@@ -279,4 +337,6 @@ export {
     BlueButtonMiddle,       //中号蓝色按钮
     WhiteButtonSmall,       //小号白色按钮
     BlueButtonSmall,        //小号蓝色按钮
+    NextButton,             //设置页面功能按钮
+    HeaderButton,           //导航栏按钮
 }
