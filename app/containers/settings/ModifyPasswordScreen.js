@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
 import { connect } from 'react-redux';
-import HeaderButton from '../../components/HeaderButton';
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 
@@ -69,7 +68,6 @@ export default class ModifyPasswordScreen extends Component {
             newRePassword : '',
         }
     }
-
 
     render() {
         return (

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NextButton} from '../../components/Button';
 import ModifyNameDialog from '../../components/ModifyNameDialog';
-import HeaderButton from '../../components/HeaderButton';
 import {Colors,FontSize}from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({

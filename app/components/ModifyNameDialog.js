@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import CommonButton from './CommonButton';
 import {Colors} from '../config/GlobalConfig'
 import {BlueButtonSmall,WhiteButtonSmall} from '../components/Button'
 import Layout from '../config/LayoutConstants'

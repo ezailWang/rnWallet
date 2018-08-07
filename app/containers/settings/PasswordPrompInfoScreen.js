@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
 import { connect } from 'react-redux';
-import HeaderButton from '../../components/HeaderButton';
 import {BlueButtonBig} from '../../components/Button'
 
 const styles = StyleSheet.create({

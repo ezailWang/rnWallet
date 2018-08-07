@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TouchableOpacity,Clipboard} from 'react-native';
-import HeaderButton from '../../components/HeaderButton';
 import QRCode from 'react-native-qrcode';
 
 import {Colors} from '../../config/GlobalConfig';

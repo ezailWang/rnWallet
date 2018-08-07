@@ -186,7 +186,16 @@ const FirstLaunchRouteConfig =
         })
     },
     UserRegulation: {
-        screen: UserRegulationScreen
+        screen: UserRegulationScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle:"用户条例",
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     VerifyMnemonic: {
         screen: VerifyMnemonicScreen,

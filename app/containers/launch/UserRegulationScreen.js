@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,ScrollView} from 'react-native';
-import HeaderButton from '../../components/HeaderButton';
-import CommonButton from '../../components/CommonButton';
+import {BlueButtonBig,HeaderButton} from '../../components/Button';
 
 const styles = StyleSheet.create({
     container:{
@@ -24,26 +23,13 @@ const styles = StyleSheet.create({
     },
     buttonBox:{
         justifyContent:'flex-end',
-        alignSelf:'stretch',
         marginTop:20,
         marginBottom:10,
-
     }
 })
 
 export default class UserRegulationScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <HeaderButton
-                onPress = {()=> navigation.goBack()}
-                img = {require('../../assets/common/common_back.png')}/>
-        ),
-        headerRight:(
-            <HeaderButton
-            />
-        ),
-        headerTitle:'用户条例',
-    })
+
 
     render() {
         return (
@@ -73,7 +59,7 @@ export default class UserRegulationScreen extends Component {
                     </Text>
                 </ScrollView>     
                 <View style={styles.buttonBox}>
-                    <CommonButton
+                    <BlueButtonBig
                         onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
                         text = '我已阅读并同意以上条款'
                     />

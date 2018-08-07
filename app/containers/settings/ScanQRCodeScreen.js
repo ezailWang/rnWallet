@@ -10,7 +10,6 @@ import {StyleSheet,
     Image,
     Alert} from 'react-native'
 import Camera from 'react-native-camera';
-import HeaderButton from '../../components/HeaderButton';
 var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');
  

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import CommonButton from '../../components/CommonButton';
 //import { connect } from 'tls';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import { connect } from 'react-redux';
@@ -66,29 +65,6 @@ class FirstLaunchScreen extends Component {
     }
     render() {
         return (
-/** 
-            <SafeAreaView style={styles.container} >
-            <View style = {styles.contentContainer}>
-                <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')}/>
-                <CommonButton
-                    //onPress = {this.createClickFun}
-                    onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
-                    text = '创建钱包'
-                    bgColor = '#fff'
-                    fontColor = 'rgb(85,146,246)'
-                    borderColor = '#fff'
-                />
-                <View style={{height:20}}></View>
-                <CommonButton
-                    onPress = {()=> this.props.navigation.navigate('ImportWallet')}
-                    text = '导入钱包'
-                    bgColor = 'transparent'
-                    fontColor =  '#fff'
-                    borderColor = '#fff'
-                />
-            </View>
-            </SafeAreaView>**/
-
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                             style={styles.contentContainer}>
                 <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')} />

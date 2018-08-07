@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     mnemonicSortBorder:{
         alignSelf:'stretch',
         backgroundColor:'rgb(237,237,237)',
-        borderRadius:20,
+        borderRadius:8,
         marginTop:30,
         marginBottom:10,
         paddingLeft:12,
