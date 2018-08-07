@@ -3,7 +3,7 @@ import { View,StyleSheet,Image,Text,Modal,TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
-import BlueButton from '../../components/BlueButton';
+import CommonButton from '../../components/CommonButton';
 
 const styles = StyleSheet.create({
     container:{
@@ -104,7 +104,7 @@ class BackupMnemonicScreen extends Component {
                     <Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text>    
 
                     <View style={styles.buttonBox}>
-                         <BlueButton
+                         <CommonButton
                              onPress = {()=> this.props.navigation.navigate('VerifyMnemonic')}
                              text = '下一步'
                          />

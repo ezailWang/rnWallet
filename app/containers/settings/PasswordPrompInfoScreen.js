@@ -3,7 +3,7 @@ import { View,StyleSheet,Image,TextInput,Alert,ScrollView,TouchableOpacity} from
 
 import { connect } from 'react-redux';
 import HeaderButton from '../../components/HeaderButton';
-import BlueButton from '../../components/BlueButton';
+import CommonButton from '../../components/CommonButton';
 
 
 const styles = StyleSheet.create({
@@ -100,7 +100,7 @@ export default class PasswordPrompInfoScreen extends Component {
                     
                 </View>
                 <View style={styles.buttonBox}>
-                        <BlueButton
+                        <CommonButton
                             onPress = {()=> this.save()}
                             text = '保存'
                         />

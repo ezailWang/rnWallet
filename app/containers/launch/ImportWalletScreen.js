@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,ScrollView} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import CommonButton from '../../components/CommonButton';
 import BlueButton from '../../components/BlueButton';
 
 import keythereum from 'keythereum'

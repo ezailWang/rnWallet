@@ -7,7 +7,7 @@ import keystoreUtils from '../../utils/keystoreUtils'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import * as TestAction from '../../config/action/TestAction'
-import BlueButton from '../../components/BlueButton';
+import CommonButton from '../../components/CommonButton';
 
 
 const styles = StyleSheet.create({
@@ -191,7 +191,7 @@ class CreateWalletScreen extends Component {
                             }}/>
                             
                 <View style={styles.buttonBox}>
-                        <BlueButton
+                        <CommonButton
                             onPress = {()=> this.vertifyInputData()}
                             text = '创建'
                         />

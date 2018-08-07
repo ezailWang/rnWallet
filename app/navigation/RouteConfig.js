@@ -62,6 +62,7 @@ import {
     ModifyPasswordScreen,
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
+    ScanQRCodeScreen,
     TransactionRecoder,
     Loading
 } from '../containers/containers';
@@ -170,7 +171,39 @@ const HomeRouteConfig =
             header: null
         })
     },
-}
-
+    WalletTest: {
+        screen:walletTest
+    },
+    RpcTest: {
+        screen:rpcTest
+    },
+    KeystoreTest: {
+        screen:keystoreTest
+    },
+    NetworkTest: {
+        screen:networkTest
+    },
+    Set:{
+        headerMode:'float',
+        screen: SetScreen
+    },
+    ModifyPassword:{
+        screen:ModifyPasswordScreen
+        
+    },
+    PasswordPrompInfo:{
+        screen:PasswordPrompInfoScreen
+        
+    },
+    ReceiptCode:{
+        screen:ReceiptCodeScreen
+    },
+    TransactionDetail:{
+        screen:TransactionDetailScreen
+    },
+    ScanQRCode:{
+        screen:ScanQRCodeScreen
+    }
+};
 
 export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading };

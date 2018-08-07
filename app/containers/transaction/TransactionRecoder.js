@@ -17,15 +17,14 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         marginTop:30,
         marginBottom:20,
+        alignItems:'flex-end',
     },
     countTxt:{
-        // backgroundColor:Colors.RandomColor(),
         fontSize:22,
         color:'#000',
         fontWeight:'500',
     },
     coinTypeTxt:{
-        // backgroundColor:Colors.RandomColor(),
         fontSize:15,
         marginLeft:6,
         marginBottom:2,

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Clipboard,Alert} from 'react-native';
+import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import BlueButton from '../../components/BlueButton';
+import CommonButton from '../../components/CommonButton';
 import HeaderButton from '../../components/HeaderButton';
+import { requestAndroidPermission ,androidPermission}  from '../../utils/permissionsAndroid';
+
 
 
 const styles = StyleSheet.create({
@@ -51,7 +53,7 @@ export default class ReceiptCodeScreen extends Component {
         ),
         headerRight:(
             <HeaderButton
-                onPress = {()=> navigation.state.params.headRightPress()}
+                onPress = {()=>navigation.state.params.headRightPress()}
                 img = {require('../../assets/launch/scanIcon.jpg')}/>
         ),
         headerTitle:'收款码',
@@ -64,13 +66,22 @@ export default class ReceiptCodeScreen extends Component {
         this.props.navigation.setParams({headRightPress:this.scanClick})
     }
 
-    scanClick = () =>{
+    scanClick = async() =>{
         //const {navigate} = this.props.navigation;//页面跳转
         //navigation('页面');
-        Alert.alert(
-            'warn',
-            'warnMessage',
-        )
+        var isAgree = true;
+        if(Platform.OS === 'android'){
+             isAgree = await androidPermission(PermissionsAndroid.PERMISSIONS.CAMERA); 
+        }
+        
+        if(isAgree){
+           this.props.navigation.navigate('ScanQRCode')  
+        }else{
+            Alert.alert(
+                'warn',
+                '请先打开使用摄像头权限',
+            )
+        }
     }
     
     copyAddress(){
@@ -90,13 +101,11 @@ export default class ReceiptCodeScreen extends Component {
                 />
                 <Text style={styles.adderssTxt}>0x1234567890x1234567890x1234567890x1234567890x1234567890x1234567890x123456789</Text>
                 <View style={styles.buttonBox}>
-                    <BlueButton
+                    <CommonButton
                         onPress = {()=> this.copyAddress()}
                         text = '复制收款地址'
                     />
-                </View>    
-                 
-                         
+                </View>       
             </View>
         );
     }

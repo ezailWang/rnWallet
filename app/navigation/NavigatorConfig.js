@@ -23,7 +23,7 @@
 import {Colors} from '../config/GlobalConfig'
 
 const StackNavigationConfig = {
-    // initialRouteName: 'Set',
+    initialRouteName: 'Set',
     //initialRouteName: 'Home',
     //initialRouteName: 'Wallet',
     //initialRouteName: 'FirstLaunch',

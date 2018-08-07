@@ -17,6 +17,7 @@ import SetScreen from './settings/SetScreen';
 import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
 import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
+import ScanQRCodeScreen from './settings/ScanQRCodeScreen';
 import TransactionRecoder from './transaction/TransactionRecoder';
 import Loading from './appLoading/Loading'
 
@@ -39,6 +40,7 @@ export {
     ModifyPasswordScreen,
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
+    ScanQRCodeScreen,
     TransactionRecoder,
     Loading
 }
