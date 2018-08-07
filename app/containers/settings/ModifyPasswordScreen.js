@@ -3,8 +3,8 @@ import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity}
 
 import { connect } from 'react-redux';
 import HeaderButton from '../../components/HeaderButton';
-import CommonButton from '../../components/CommonButton';
-
+import {BlueButtonBig} from '../../components/Button'
+import {Colors,FontSize} from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({
     container:{
@@ -25,16 +25,16 @@ const styles = StyleSheet.create({
     },
     inputTxt:{
         width:80,
-        fontSize:15,
-        color:'rgb(182,182,182)'
+        fontSize:FontSize.ContentSize,
+        color:Colors.fontDarkGrayColor,
     },
     inputText:{
         flex:1,
         height:40,
-        color:'rgb(146,146,146)',
+        color:Colors.fontDarkColor,
     },
     buttonBox:{
-        alignSelf:'stretch',
+        //alignSelf:'stretch',
         marginTop:40,
         marginBottom:30,
         marginLeft:20,
@@ -46,31 +46,21 @@ const styles = StyleSheet.create({
         marginRight:20,
     },
     forgetPwdTxt:{
-        fontSize:13,
-        color:'rgb(182,182,182)'
+        marginLeft:10,
+        marginRight:10,
+        fontSize:FontSize.DetailTitleSize,
+        color:Colors.fontBlackColor
     },
     importTxt:{
-        fontSize:14,
-        color:'rgb(85,146,246)',
+        fontSize:FontSize.DetailTitleSize,
+        color:Colors.fontBlueColor,
         textDecorationLine:'underline',
     },
     
 })
 
 export default class ModifyPasswordScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <HeaderButton
-                onPress = {()=> navigation.goBack()}
-                img = {require('../../assets/common/common_back.png')}/>
-        ),
-        headerRight:(
-            <HeaderButton
-            />
-        ),
-        headerTitle:'修改密码',
-    })
-
+   
     constructor(props){
         super(props);
         this.state = {
@@ -126,7 +116,7 @@ export default class ModifyPasswordScreen extends Component {
                 </View>
 
                 <View style={styles.buttonBox}>
-                        <CommonButton
+                        <BlueButtonBig
                             onPress = {()=> this.vertifyInputData()}
                             text = '完成'
                         />

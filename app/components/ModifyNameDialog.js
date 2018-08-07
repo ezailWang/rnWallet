@@ -10,13 +10,16 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import CommonButton from './CommonButton';
+import {Colors} from '../config/GlobalConfig'
+import {BlueButtonSmall,WhiteButtonSmall} from '../components/Button'
+import Layout from '../config/LayoutConstants'
 
 const styles = StyleSheet.create({
     modeBox:{
         flex:1,
-        justifyContent:'center',
+        // justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'rgba(179,179,179,0.8)',
+        backgroundColor:Colors.blackOpacityColor,
     },
     contentBox:{
         flexDirection:'column',
@@ -25,34 +28,34 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         paddingLeft:25,
         paddingRight:25,
-        paddingTop:40,
-        paddingBottom:40,
+        paddingTop:30,
+        paddingBottom:30,
+        marginTop:Layout.WINDOW_HEIGHT*0.23,
         marginLeft:20,
         marginRight:20,
-        borderRadius:5,
+        //borderRadius:5,
     },
     inputText:{
         height:40,
         alignSelf:'stretch',
         paddingLeft:10,
         borderRadius:5,
-        borderColor:'rgb(236,236,236)',
+        borderColor:Colors.fontGrayColor,
         borderWidth:1,
-        color:'rgb(146,146,146)',
+        color:Colors.fontBlackColor
     },
     buttonBox:{
         flexDirection:'row',
-        marginTop:40,
+        marginTop:20,
     },
     leftBtnOpacity:{
         flex:1,
         height:40,
         alignSelf:'stretch',
-        borderRadius:20,
-        backgroundColor: 'transparent',
-        borderColor:'rgb(85,146,246)',
-        borderWidth:1,
-        
+        //borderRadius:20,
+        //backgroundColor: 'transparent',
+        //borderColor:'rgb(85,146,246)',
+        //borderWidth:1,
     },
     leftBtnTxt:{
         color:'rgb(85,146,246)',
@@ -88,7 +91,6 @@ export default class ModifyNameDialog extends Component{
             name: event.nativeEvent.text
         })
     }
-
    render(){
         var renderThis = this;
         return(
@@ -109,20 +111,24 @@ export default class ModifyNameDialog extends Component{
                         placeholder= {this.props.placeholder}
                         underlineColorAndroid='transparent' 
                         selectionColor='#00bfff' 
+                        ref={(input)=>{
+                            this.inputText=input;
+                        }}
                         onChange={(event) => {
                             renderThis.inputText(event);
                         }}
                     />
                     <View style={styles.buttonBox}>
-                        <TouchableOpacity style={[styles.leftBtnOpacity]} activeOpacity={0.6} onPress = { this.props.leftPress }>
-                            <Text style={styles.leftBtnTxt}>{this.props.leftTxt}</Text>
-                        </TouchableOpacity>
-                        
+                     
+                        <View style={[styles.leftBtnOpacity]}>
+                            <WhiteButtonSmall onPress={this.props.leftPress}
+                                              text={this.props.leftTxt}>
+                            </WhiteButtonSmall>
+                        </View>
                         <View style={styles.rightBtnBox}>
-                            <CommonButton
-                                onPress = { this.props.rightPress}
-                                text = {this.props.rightTxt}
-                            /> 
+                            <BlueButtonSmall onPress = { this.props.rightPress}
+                                             text = {this.props.rightTxt}>
+                            </BlueButtonSmall>
                         </View> 
                     </View>
                 </View>    

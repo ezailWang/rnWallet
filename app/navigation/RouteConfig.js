@@ -101,19 +101,44 @@ const RouteConfig = {
         screen: networkTest
     },
     Set: {
-        headerMode: 'float',
-        screen: SetScreen
+        headerMode:'float',
+        screen: SetScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "设置",
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     ModifyPassword: {
-        screen: ModifyPasswordScreen
-
+        screen: ModifyPasswordScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "修改密码",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
-    PasswordPrompInfo: {
-        screen: PasswordPrompInfoScreen
-
+    PasswordPrompInfo: {        
+        screen: PasswordPrompInfoScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle:'密码提示信息',
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     ReceiptCode: {
-        screen: ReceiptCodeScreen
+        screen: ReceiptCodeScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle:'收款码',
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     TransactionDetail: {
         screen: TransactionRecoder,
@@ -130,29 +155,49 @@ const FirstLaunchRouteConfig =
 {
     FirstLaunch: {
         screen: FirstLaunchScreen,
-
         navigationOptions: ({ navigation }) => ({
             header: null,
             gesturesEnable: false
         })
     },
     BackupMnemonic: {
-        screen: BackupMnemonicScreen
+        screen: BackupMnemonicScreen,
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     BackupWallet: {
         screen: BackupWalletScreen
     },
     CreateWallet: {
-        screen: CreateWalletScreen
-    },
-    BackupMnemonic: {
-        screen: BackupMnemonicScreen
+        screen: CreateWalletScreen,
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     UserRegulation: {
         screen: UserRegulationScreen
     },
     VerifyMnemonic: {
-        screen: VerifyMnemonicScreen
+        screen: VerifyMnemonicScreen,
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     ImportWallet: {
         screen: ImportWalletScreen,
@@ -185,18 +230,40 @@ const HomeRouteConfig =
     },
     Set:{
         headerMode:'float',
-        screen: SetScreen
+        screen: SetScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "设置",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
-    ModifyPassword:{
-        screen:ModifyPasswordScreen
-        
+    ModifyPassword: {
+        screen: ModifyPasswordScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "修改密码",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
-    PasswordPrompInfo:{
-        screen:PasswordPrompInfoScreen
-        
+    PasswordPrompInfo: {        
+        screen: PasswordPrompInfoScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle:'密码提示信息',
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
-    ReceiptCode:{
-        screen:ReceiptCodeScreen
+    ReceiptCode: {
+        screen: ReceiptCodeScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle:'收款码',
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     },
     TransactionDetail: {
         screen: TransactionRecoder,
@@ -208,8 +275,14 @@ const HomeRouteConfig =
         })
     },
     ScanQRCode:{
-        screen:ScanQRCodeScreen
+        screen:ScanQRCodeScreen,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "扫描二维码",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
     }
 };
 
-export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading };
+export {HomeRouteConfig, FirstLaunchRouteConfig, Loading };

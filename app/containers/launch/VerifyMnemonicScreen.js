@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CommonButton from '../../components/CommonButton';
+import {BlueButtonBig} from '../../components/Button';
 import { connect } from 'react-redux';
 import CommonFun from './Common';
+import {Colors,FontSize} from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({
     container:{
@@ -20,22 +21,20 @@ const styles = StyleSheet.create({
         height:46,
     },
     titleTxt:{
-        fontSize:18,
+        fontSize:FontSize.HeaderSize,
         fontWeight:'500',
-        color:'rgb(85,146,246)',
+        color:Colors.fontBlueColor,
         marginTop:15,
         marginBottom:30,
     },
     contentTxt:{
         fontSize:16,
-        color:'rgb(175,175,175)',
+        color:Colors.fontDarkGrayColor
     },
     buttonBox:{
         flex:1,
         justifyContent:'flex-end',
-        alignSelf:'stretch',
         marginBottom:30,
-
     },
     mnemonicItem:{
         height:28,
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
         paddingLeft:6,
         paddingRight:6,
         borderWidth:1,
-        borderColor:'rgb(230,230,230)',
+        borderColor:Colors.fontGrayColor,
         backgroundColor:'white',
         marginLeft:8,
         marginRight:8,
@@ -75,18 +74,6 @@ const styles = StyleSheet.create({
 })
 
 class VerifyMnemonicScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='rgba(255,255,255,0)'
-                onPress={() => navigation.goBack()}
-            />
-        ),
-        tabBarVisible: false,
-    })
    
     constructor(props){
         super(props);
@@ -177,7 +164,7 @@ class VerifyMnemonicScreen extends Component {
                  </View>
         
                  <View style={styles.buttonBox}>
-                      <CommonButton
+                      <BlueButtonBig
                          onPress = {()=> this.completeClickFun()}
                          text = '完成'
                       />

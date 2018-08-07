@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Modal,TouchableOpacity } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
-import CommonButton from '../../components/CommonButton';
+import {BlueButtonBig} from '../../components/Button';
+import {Colors,FontSize} from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({
     container:{
@@ -11,8 +11,6 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems:'center',
     },
-
-    
     contentBox:{
         flex:1,
         alignItems:'center',
@@ -20,7 +18,6 @@ const styles = StyleSheet.create({
         paddingTop:100,
         paddingLeft:20,
         paddingRight:20,
-        //alignItems:'stretch',
     },
     icon:{
         width:46,
@@ -30,13 +27,13 @@ const styles = StyleSheet.create({
     titleTxt:{
         fontSize:18,
         fontWeight:'500',
-        color:'rgb(85,146,246)',
+        color:Colors.fontBlueColor,
         marginTop:15,
         marginBottom:30,
     },
     contentTxt:{
-        fontSize:16,
-        color:'rgb(175,175,175)',
+        fontSize:FontSize.ContentSize,
+        color:Colors.fontDarkGrayColor,
     },
     mnemonicTxt:{
         alignSelf:'stretch',
@@ -51,32 +48,15 @@ const styles = StyleSheet.create({
         paddingBottom:20,
         textAlign:'left',
         lineHeight:25,
-
     },
     buttonBox:{
         flex:1,
         justifyContent:'flex-end',
-        alignSelf:'stretch',
         marginBottom:30,
-
     }
 })
 
 class BackupMnemonicScreen extends Component {
-
-    
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='rgba(255,255,255,0)'
-                onPress={() => navigation.goBack()}
-            />
-        ),
-        tabBarVisible: true,
-    })
 
     constructor(props){
         super(props);
@@ -104,7 +84,7 @@ class BackupMnemonicScreen extends Component {
                     <Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text>    
 
                     <View style={styles.buttonBox}>
-                         <CommonButton
+                         <BlueButtonBig
                              onPress = {()=> this.props.navigation.navigate('VerifyMnemonic')}
                              text = '下一步'
                          />

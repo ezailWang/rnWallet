@@ -22,12 +22,8 @@
 
 import {Colors} from '../config/GlobalConfig'
 
-const StackNavigationConfig = {
-    initialRouteName: 'Set',
-    //initialRouteName: 'Home',
-    //initialRouteName: 'Wallet',
-    //initialRouteName: 'FirstLaunch',
-    //initialRouteName: 'Transfer',
+const HomeStackNavigationConfig = {
+    initialRouteName: 'HomeScreen',
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
         headerStyle: {
@@ -41,16 +37,11 @@ const StackNavigationConfig = {
             fontSize:16,
             fontWeight:"400"
         }
-
     })
-};
-
-const HomeStackNavigationConfig = {
-    initialRouteName: 'HomeScreen'
 }
 
 const FirstLaunchStackNavigationConfig = {
     initialRouteName: 'FirstLaunch'
 }
 
-export { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig, StackNavigationConfig };
+export { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig};

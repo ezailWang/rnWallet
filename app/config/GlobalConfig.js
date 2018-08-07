@@ -10,7 +10,7 @@ const Colors={
     //字体颜色
     fontBlackColor:'#424242',
     fontDarkColor:'#000',
-    fontGrayColor:'#aaaaaa',
+    fontGrayColor:'#ECECEC',
     fontDarkGrayColor:'#959595',
     fontWhiteColor:'#FFFFFF',
     fontBlueColor:'#00a0e9',
@@ -21,7 +21,7 @@ const Colors={
     //控制器视图背景色
     backgroundColor:'#f8f8f8',
     //黑色半透明色
-    blackOpacityColor:'rgba(38,38,38,0.6)',
+    blackOpacityColor:'rgba(149,149,149,0.7)',
     //透明色
     clearColor:'rgba(255,255,255,0.0)'
 };
@@ -36,8 +36,17 @@ const TransferGasLimit={
     tokenGasLimit:60000
 };
 
+const FontSize={
+    HeaderSize:18,
+    ContentSize:14,
+    TitleSize:16,
+    DetailTitleSize:14,
+    alertTitleSize:13,
+}
+
 module.exports={
     Colors,
+    FontSize,
     TransferType,
-    TransferGasLimit
+    TransferGasLimit,
 };

@@ -45,7 +45,6 @@ export default class HeaderButton extends Component {
                 this.props.img ? 
                 <Image style={styles.img} source={this.props.img}/> :
                 <Text style={styles.txt}>{this.props.text}</Text>
-
             }   
             </TouchableOpacity>
         )
