@@ -48,7 +48,7 @@ import {
     FirstLaunchContainers,
     mainContainers,
     Wallet,
-    Transfer,
+    Transaction,
     FirstLaunchScreen,
     BackupMnemonicScreen,
     BackupWalletScreen,
@@ -62,16 +62,77 @@ import {
     ModifyPasswordScreen,
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
-    TransactionDetailScreen,
-    ScanQRCodeScreen
+    ScanQRCodeScreen,
+    TransactionRecoder,
+    Loading
 } from '../containers/containers';
 
+import {BlueHeader} from '../components/NavigaionHeader'
+import {BackButton} from '../components/Button'
+import React from 'react';
+
 const RouteConfig = {
-    FirstLaunch: {
-        screen:FirstLaunchScreen,
-        
+    Wallet: {
+        screen: Wallet,
         navigationOptions: ({navigation}) => ({
-            headerTitle: null,
+            title: '主页信息',
+        })
+    },
+    Transaction: {
+        screen: Transaction,
+        navigationOptions: ({navigation}) => ({
+            //headerTitle: `${this.props.transferType}转账`,
+            gesturesEnable: false,
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
+    WalletTest: {
+        screen: walletTest
+    },
+    RpcTest: {
+        screen: rpcTest
+    },
+    KeystoreTest: {
+        screen: keystoreTest
+    },
+    NetworkTest: {
+        screen: networkTest
+    },
+    Set: {
+        headerMode: 'float',
+        screen: SetScreen
+    },
+    ModifyPassword: {
+        screen: ModifyPasswordScreen
+
+    },
+    PasswordPrompInfo: {
+        screen: PasswordPrompInfoScreen
+
+    },
+    ReceiptCode: {
+        screen: ReceiptCodeScreen
+    },
+    TransactionDetail: {
+        screen: TransactionRecoder,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "交易记录",
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    }
+}
+//首次启动导航栈
+const FirstLaunchRouteConfig =
+{
+    FirstLaunch: {
+        screen: FirstLaunchScreen,
+
+        navigationOptions: ({ navigation }) => ({
+            header: null,
             gesturesEnable: false
         })
     },
@@ -94,22 +155,20 @@ const RouteConfig = {
         screen: VerifyMnemonicScreen
     },
     ImportWallet: {
-        screen: ImportWalletScreen
-    },
-    HomeScreen:{
-        screen: HomeScreen
-    },
-    Wallet: {
-        screen:Wallet,
+        screen: ImportWalletScreen,
         navigationOptions: ({navigation}) => ({
-            title: '主页信息',
+            header:<BlueHeader navigation={navigation}/>
         })
     },
-    Transfer: {
-        screen: Transfer,
-        navigationOptions: ({navigation}) => ({
-            headerTitle: `${this.props.transferType}转账`,
-            gesturesEnable: false
+}
+
+//主页导航栈
+const HomeRouteConfig =
+{
+    HomeScreen: {
+        screen: HomeScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
         })
     },
     WalletTest: {
@@ -147,4 +206,4 @@ const RouteConfig = {
     }
 };
 
-export default RouteConfig;
+export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading };
