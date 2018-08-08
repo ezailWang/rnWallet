@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {Colors} from '../config/GlobalConfig'
-import {BlueButtonSmall,WhiteButtonSmall} from '../components/Button'
+import {BlueButtonSmall,WhiteButtonSmall} from './Button'
 import Layout from '../config/LayoutConstants'
 
 const styles = StyleSheet.create({

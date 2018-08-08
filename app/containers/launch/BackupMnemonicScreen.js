@@ -7,7 +7,6 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 
 const styles = StyleSheet.create({
     container:{
-        flexDirection:'column',
         flex:1,
         alignItems:'center',
     },
@@ -76,8 +75,7 @@ class BackupMnemonicScreen extends Component {
                     modalVisible = {this.state.modalVisible}
                     onPress = {()=> this.onCloseModal()}
                 />
-
-                <View style={styles.contentBox}>
+                <View style={styles.contentBox}>    
                     <Image style={styles.icon} source={require('../../assets/launch/mnemonicIcon.jpg')}/>
                     <Text style={styles.titleTxt}>备份助记词</Text>
                     <Text style={styles.contentTxt}>请仔细抄写下方助记词，我们将在下一步验证。</Text>

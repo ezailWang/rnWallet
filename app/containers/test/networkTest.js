@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     StyleSheet
 } from 'react-native'
-import { store } from '../../config//store/ConfigureStore'
+import { store } from '../../config/store/ConfigureStore'
 
 import networkManage from '../../utils/networkManage'
 import { defaultTokens } from '../../utils/constants'

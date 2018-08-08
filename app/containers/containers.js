@@ -18,9 +18,9 @@ import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
 import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
 import ScanQRCodeScreen from './settings/ScanQRCodeScreen';
-import TransactionRecoder from './transaction/TransactionRecoder';
+import TransactionDetail from './transaction/TransactionDetail';
 import Loading from './appLoading/Loading'
-
+import TransactionRecoder from './transaction/TransactionRecoder'
 export {
     HomeScreen,
     walletTest,
@@ -41,6 +41,7 @@ export {
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     ScanQRCodeScreen,
-    TransactionRecoder,
-    Loading
+    TransactionDetail,
+    Loading,
+    TransactionRecoder
 }

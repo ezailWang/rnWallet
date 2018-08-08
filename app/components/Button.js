@@ -70,10 +70,12 @@ const styles = StyleSheet.create({
         borderColor:Colors.fontWhiteColor
     },
     normalMiddleBtn:{
-        width:Layout.WINDOW_WIDTH*0.45,
+        width:Layout.WINDOW_WIDTH*0.4,
         height:40,
         borderRadius:20,
-        justifyContent:"center"
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center"
     },
     normalMiddleBtnTitle:{
         fontSize:15,
@@ -213,6 +215,7 @@ class WhiteButtonBig extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
+        image:PropTypes.object
     };
     render() {
         return (
@@ -228,11 +231,13 @@ class WhiteButtonMiddle extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
+        image:PropTypes.any
     };
     render() {
         return (
             <TouchableOpacity style={[styles.normalMiddleBtn,styles.middleWhiteBtn]}
                               onPress = { this.props.onPress }>
+                <Image style={{marginRight:10}} source={this.props.image}/>
                 <Text style={[styles.normalMiddleBtnTitle,styles.middleWhiteBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
         )

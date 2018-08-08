@@ -121,17 +121,17 @@ class EmptyComponent extends Component{
 
 class Cell extends Component{
 
-    static propTypes={
-        // item:PropTypes.any.isRequested,
-        // onPress:PropTypes.any.isRequested
-    }
-
     render(){
-        const {address,time,income,amount} = this.props.item.item || {}
+        const {address,time,income,amount,type} = this.props.item.item || {}
+
         let image = require('../../assets/transfer/recoder/direction_left.png');
+        let showText = "-"+amount.toFixed(8)+" "+type;
+        let colorStyle = {color:Colors.fontRedColor};
 
         if(income){
             image = require('../../assets/transfer/recoder/direction_right.png');
+            showText = "+"+amount.toFixed(8)+" "+type;
+            colorStyle = {color:Colors.fontGreenColor};
         }
         return (
             <TouchableOpacity   style={[styles.cell,styles.shadow]}
@@ -148,6 +148,9 @@ class Cell extends Component{
                         {time}
                     </Text>
                 </View>
+                <Text style={[colorStyle,{fontSize:FontSize.DetailTitleSize,marginLeft:10,marginRight:20}]}>
+                    {showText}
+                </Text>
             </TouchableOpacity>
         )
     }
@@ -185,14 +188,14 @@ export default class TransactionRecoder extends Component{
     render (){
 
         let testData=[
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},,
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"}
         ];
 
 

@@ -29,6 +29,7 @@ export default class HomeScreen extends Component {
     )
 
     onClickCell=(item)=>{
+        this.props.navigation.navigate('TransactionRecoder',props={transferType:"ETH"});
         console.log('---cell被点击:',item.id)
     }
 

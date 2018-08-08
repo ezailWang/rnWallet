@@ -122,7 +122,7 @@ export default class SetScreen extends Component {
                 </View> 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
+                        onPress = {()=> {this.props.navigation.navigate('BackupMnemonic')}}
                         text = '导出私钥'
                     />
                 </View> 
