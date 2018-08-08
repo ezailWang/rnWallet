@@ -5,7 +5,7 @@ import {BlueButtonBig} from '../../components/Button';
 import { connect } from 'react-redux';
 import CommonFun from './Common';
 import {Colors,FontSize} from '../../config/GlobalConfig'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -151,6 +151,7 @@ class VerifyMnemonicScreen extends Component {
 
         return (
             <View style={styles.container}>
+                 <StatusBarComponent/>
                  <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.jpg')}/>
                  <Text style={styles.titleTxt}>确认助记词</Text>
                  <Text style={styles.contentTxt}>请按顺序点击助记词，以确认您正确备份。</Text>

@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-//import { connect } from 'tls';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import { connect } from 'react-redux';
-import * as TestAction from '../../config/action/TestAction'
+import * as Actions from '../../config/action/Actions'
 import LinearGradient from 'react-native-linear-gradient'
 
 import {WhiteButtonBig,ClarityWhiteButtonBig} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
@@ -35,23 +33,11 @@ const styles = StyleSheet.create({
 });
 
 class FirstLaunchScreen extends Component {
-
-    static navigationOptions = ({ navigation }) => ({
-        header:null,
-    })
-
     createClickFun() {
 
         walletUtils.generateMnemonic().then((data) => {
             this.props.generateMnemonic(data)
-            Alert.alert(
-                'success',
-                'Produce mnemonic success',
-                [
-                    { text: 'OK', onPress: () => { this.props.navigation.navigate('BackupMnemonic') } },
-                ],
-                { cancelable: false }
-            )
+            this.props.navigation.navigate('BackupMnemonic');
         }, (error) => {
             Alert.alert(
                 'error',
@@ -67,7 +53,9 @@ class FirstLaunchScreen extends Component {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                             style={styles.contentContainer}>
+                <StatusBarComponent/>            
                 <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')} />
+
                 <WhiteButtonBig style={{marginBottom:20}}
                                 onPress={() => this.createClickFun()}
                                 text='创建钱包'>
@@ -85,6 +73,6 @@ const mapStateToProps = state => ({
     mnemonic: state.Core.mnemonic,
 });
 const mapDispatchToProps = dispatch => ({
-    generateMnemonic: (mnemonic) => dispatch(TestAction.generateMnemonic(mnemonic)),
+    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FirstLaunchScreen)

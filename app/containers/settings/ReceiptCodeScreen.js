@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid} from 'react-native';
 import QRCode from 'react-native-qrcode';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {HeaderButton,BlueButtonBig} from '../../components/Button';
-import { requestAndroidPermission ,androidPermission}  from '../../utils/permissionsAndroid';
+import {androidPermission}  from '../../utils/permissionsAndroid';
+
 
 const styles = StyleSheet.create({
     container:{

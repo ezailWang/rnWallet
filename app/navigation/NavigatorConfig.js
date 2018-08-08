@@ -19,29 +19,31 @@
         headerPressColorAndroid：安卓独有的设置颜色纹理，需要安卓版本大于5.0
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
+import {StyleSheet} from 'react-native';
+import {Colors} from '../config/GlobalConfig';
 
-import {Colors} from '../config/GlobalConfig'
+
+
+const StackNavigationConfig = {
+    initialRouteName: 'Set'
+    //initialRouteName: 'Home',
+    //initialRouteName: 'Wallet',
+    //initialRouteName: 'FirstLaunch',
+    //initialRouteName: 'Transfer',
+}
 
 const HomeStackNavigationConfig = {
-    initialRouteName: 'HomeScreen',
-    headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
-        headerStyle: {
-            backgroundColor: "white",
-        },
-        headerTitleStyle:{ 
-            flex:1,
-            alignSelf:'center',
-            textAlign:'center',
-            color:Colors.fontDarkColor,
-            fontSize:16,
-            fontWeight:"400"
-        }
-    })
+    initialRouteName: 'HomeScreen'
 }
 
 const FirstLaunchStackNavigationConfig = {
     initialRouteName: 'FirstLaunch'
 }
 
-export { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig};
+const TestStackNavigationConfig = {
+    initialRouteName:'KeystoreTest'
+}
+
+export {HomeStackNavigationConfig,FirstLaunchStackNavigationConfig,StackNavigationConfig,TestStackNavigationConfig}
+
+

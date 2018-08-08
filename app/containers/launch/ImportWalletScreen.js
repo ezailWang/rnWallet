@@ -9,6 +9,7 @@ import keystoreUtils from '../../utils/keystoreUtils'
 
 import {Colors} from '../../config/GlobalConfig'
 import {BlueButtonBig} from '../../components/Button'
+import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -132,6 +133,7 @@ export default class ImportWalletScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
                 <Image style={styles.icon} source={require('../../assets/launch/importIcon.jpg')}/>
                 <Text style={styles.titleTxt}>导入钱包</Text>
                 <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>

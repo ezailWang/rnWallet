@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView} from 'react-native';
+import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,Platform,PermissionsAndroid} from 'react-native';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import keystoreUtils from '../../utils/keystoreUtils'
+import StorageManage from '../../utils/StorageManage'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import * as TestAction from '../../config/action/TestAction'
+
+import {androidPermission}  from '../../utils/permissionsAndroid';
+
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
+import StatusBarComponent from '../../components/StatusBarComponent';
 
 const styles = StyleSheet.create({
     container:{
@@ -63,9 +68,42 @@ class CreateWalletScreen extends Component {
             passwordHint:'',
         }
     }
+    //验证android读写权限
+    async vertifyPermissions(){
+        if(Platform.OS === 'android'){
+            console.log('L', 'Android')
+            var  readPermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE); 
+            if(readPermission){
+                var  writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE); 
+                console.log('L', '获得读权限')
+                if(writePermission){
+                    console.log('L', '获得写权限')
+                    this.vertifyInputData()
+                }else{
+                    Alert.alert(
+                        'warn',
+                        '请允许写入内存卡权限',
+                    )
+                }
+            }else{
+                Alert.alert(
+                    'warn',
+                    '请允许读取内存卡权限',
+                )
+            }
+            
+        }else{
+            console.log('L', 'IOS')
+            this.vertifyInputData()
+        }
+
+    }
 
     vertifyInputData(){
-        console.log('vertifyInputData', 'vertifyInputData')
+
+      
+        
+        
         var warnMessage = "";
         if(this.state.walletName == '' || this.state.walletName == null || this.state.walletName == undefined){
             warnMessage = "请输入钱包名称"
@@ -90,47 +128,46 @@ class CreateWalletScreen extends Component {
             this.startCreateWallet();
         }
     }
+
     async startCreateWallet(){ 
         console.log('L1', '进入')
-        var m =  this.props.mnemonic;
+        var m =  this.props.mnemonic;//助记词
         console.log('L2', m)
-        const seed = walletUtils.mnemonicToSeed(this.props.mnemonic)
-        console.log('L3', seed)
+        const seed = walletUtils.mnemonicToSeed(m)
         const seedHex = seed.toString('hex')
         var hdwallet = HDWallet.fromMasterSeed(seed)
-        console.log('L4', hdwallet)
         const derivePath = "m/44'/60'/0'/0/0"
         hdwallet.setDerivePath(derivePath)
         const privateKey = hdwallet.getPrivateKey()
         const checksumAddress = hdwallet.getChecksumAddressString()
-        console.log('L5', privateKey)
-        console.log('L6', checksumAddress)
-        storage.save({
-            key:'user',
-            data:{
-                name:this.state.walletName,
-                address:checksumAddress,
-                extra:this.state.passwordHint,
-            },
-        });
-
-        var password = this.state.password || 'testpassword'
+        console.log('L3_address:', checksumAddress)
+        var object = {
+            name: this.state.walletName,
+            address: checksumAddress,
+            extra: this.state.passwordHint,
+        }
+        var key = 'uesr'
+        StorageManage.save(key, object)
+        var loadRet = await StorageManage.load(key)
+        console.log('L4_loadRet:', loadRet)
+        //StorageManage.remove(key)
+        
+        var password = this.state.passwordHint;
+        console.log('L5_password:',password )
         var params = { keyBytes: 32, ivBytes: 16 }
         var dk = keythereum.create(params);
-        console.log('L7', dk)
         var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
-        console.log('L8:', keyObject)
+        console.log('L6_keyObject:', keyObject)
         await keystoreUtils.exportToFile(keyObject, "keystore")
-        console.log('L9', 'exportToFile '+ 'complete')
         var str = await keystoreUtils.importFromFile(keyObject.address)
-        console.log('L10', str)
         var newKeyObject = JSON.parse(str)
-        console.log('L11', newKeyObject)
+        console.log('L7_keyObject', newKeyObject)
     }
     
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
                 <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.jpg')}/>
                 <Text style={styles.titleTxt}>创建钱包</Text>
                 
@@ -152,10 +189,10 @@ class CreateWalletScreen extends Component {
                            selectionColor='#00bfff' 
                            secureTextEntry={true}
                            onChange={(event) => {
-                                this.setState({
-                                    password: event.nativeEvent.text
-                                })
-                            }}/>
+                            this.setState({
+                                password: event.nativeEvent.text
+                            })
+                        }}/>
                 <TextInput style={styles.inputText} 
                            //returnKeyType='next' 
                            placeholder="重复密码"
@@ -179,6 +216,7 @@ class CreateWalletScreen extends Component {
                             }}/>
                             
                 <View style={styles.buttonBox}>
+
                         <BlueButtonBig
                             onPress = {()=> this.vertifyInputData()}
                             text = '创建'

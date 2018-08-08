@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BlueButtonBig} from '../../components/Button';
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -37,22 +37,10 @@ const styles = StyleSheet.create({
 })
 
 export default class BackupWalletScreen extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        headerLeft: (
-            <Ionicons.Button
-                name="ios-arrow-back"
-                size={25}
-                color='skyblue'
-                backgroundColor='rgba(255,255,255,0)'
-                onPress={() => navigation.goBack()}
-            />
-        ),
-        tabBarVisible: false,
-    })
-
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
                 <Image style={styles.icon} source={require('../../assets/launch/backupWalletIcon.jpg')}/>
                 <Text style={styles.titleTxt}>备份钱包</Text>
                 <Text style={styles.contentTxt}>没有妥善备份就无法保障资产安全。删除程序或钱包后，你需要备份文件来恢复钱包。</Text>
