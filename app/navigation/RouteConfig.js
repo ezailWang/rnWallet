@@ -267,5 +267,5 @@ const TestRouteConfig = {
     },
 }
 
-export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading, TestRouteConfig };
+export { HomeRouteConfig, FirstLaunchRouteConfig, Loading, TestRouteConfig };
 
