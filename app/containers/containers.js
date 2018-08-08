@@ -12,7 +12,6 @@ import CreateWalletScreen from './launch/CreateWalletScreen';
 import ImportWalletScreen from './launch/ImportWalletScreen';
 import UserRegulationScreen from './launch/UserRegulationScreen';
 import VerifyMnemonicScreen from './launch/VerifyMnemonicScreen';
-import Wallet from './transaction/Wallet'
 import SetScreen from './settings/SetScreen';
 import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
 import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
@@ -28,7 +27,6 @@ export {
     keystoreTest,
     networkTest,
     Transaction,
-    Wallet,
     FirstLaunchScreen,
     BackupMnemonicScreen,
     BackupWalletScreen,

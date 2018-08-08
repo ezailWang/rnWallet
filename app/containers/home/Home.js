@@ -50,9 +50,11 @@ export default class HomeScreen extends Component {
                         }}
                         onSet={() => {
                             console.log('---设置按钮被点击')
+                            this.props.navigation.navigate("Set");
                         }}
                         onQRCode={() => {
                             console.log('---二维码按钮被点击')
+                            this.props.navigation.navigate('ReceiptCode');
                         }}
                         onAddAssets={() => {
                             console.log('---添加资产按钮被点击')

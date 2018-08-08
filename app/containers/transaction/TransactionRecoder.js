@@ -84,6 +84,14 @@ const styles = StyleSheet.create({
         //backgroundColor:"red",
         marginLeft:10,
         justifyContent:"center"
+    },
+    transactionValue:{
+        flex:1,
+        fontSize:FontSize.DetailTitleSize,
+        marginLeft:10,
+        marginRight:10,
+        alignSelf:"center",
+        textAlign:"right"
     }
 });
 
@@ -127,11 +135,15 @@ class Cell extends Component{
     }
 
     render(){
-        const {address,time,income,amount} = this.props.item.item || {}
+        const {address,time,income,amount,type} = this.props.item.item || {}
         let image = require('../../assets/transfer/recoder/direction_left.png');
+        let showText = "-"+amount.toFixed(4)+" "+type;
+        let colorStyle = {color:Colors.fontRedColor};
 
         if(income){
             image = require('../../assets/transfer/recoder/direction_right.png');
+            showText = "+"+amount.toFixed(4)+" "+type;
+            colorStyle = {color:Colors.fontGreenColor};
         }
         return (
             <TouchableOpacity   style={[styles.cell,styles.shadow]}
@@ -148,6 +160,9 @@ class Cell extends Component{
                         {time}
                     </Text>
                 </View>
+                <Text style={[colorStyle,styles.transactionValue]}>
+                    {showText}
+                </Text>
             </TouchableOpacity>
         )
     }
@@ -170,29 +185,46 @@ export default class TransactionRecoder extends Component{
 
     didTapShowQrCodeButton=()=>{
         console.warn("展示二维码");
+        this.props.navigation.navigate('ReceiptCode');
     };
 
     didTapTransactionCell=(index)=>{
 
         console.warn("查看第"+index+"条记录的信息");
+
+
+        transactionDetail={
+            amount:"101.22",
+            transactionType:"ETH",
+            fromAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774",
+            toAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774",
+            gasPrice:"0.0021",
+            remark:"无",
+            transactionHash:"0x5c570db1b576046b96bd95b3b0214f459657bc91577278d48072342c35fa5380",
+            blockNumber:"6097412",
+            transactionTime:"07/05/2018 12:08:16 +0800"
+        };
+
+        store.dispatch(setTransactionDetailParams(transactionDetail));
+        this.props.navigation.navigate('TransactionDetail');
     };
 
     renderItem = (item) => {
         return <Cell item={item}
-                     onPress={()=>{this.didTapTransactionCell()}}/>
+                     onPress={this.didTapTransactionCell}/>
     }
 
     render (){
 
         let testData=[
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
         ];
 
 
