@@ -163,42 +163,36 @@ const FirstLaunchRouteConfig =
     BackupMnemonic: {
         screen: BackupMnemonicScreen,
         navigationOptions: ({navigation}) => ({
-            headerTitle: "备份助记词",
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
+            header:<BlueHeader navigation={navigation}/>
         })
     },
     VerifyMnemonic: {
         screen: VerifyMnemonicScreen,
         navigationOptions: ({navigation}) => ({
-            headerTitle: "确认助记词",
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
+            header:<BlueHeader navigation={navigation}/>
         })
     },
     BackupWallet: {
         screen: BackupWalletScreen,
         navigationOptions: ({navigation}) => ({
-            headerTitle: "确认助记词",
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
+            header:<BlueHeader navigation={navigation}/>
         })
         
     },
     CreateWallet: {
         screen: CreateWalletScreen,
         navigationOptions: ({navigation}) => ({
-
-            headerTitle: "创建钱包",
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
+            header:<BlueHeader navigation={navigation}/>
         })
     },
    
+    ImportWallet: {
+        screen: ImportWalletScreen,
+        navigationOptions: ({navigation}) => ({
+            header:<BlueHeader navigation={navigation}/>
+        })
+    },
+
     UserRegulation: {
         screen: UserRegulationScreen,
         navigationOptions: ({navigation}) => ({
@@ -209,26 +203,6 @@ const FirstLaunchRouteConfig =
             headerLeft: <BackButton onPress={() => {
                 navigation.goBack()
             }}/>,
-        })
-    },
-
-    VerifyMnemonic: {
-        screen: VerifyMnemonicScreen,
-        navigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: "white",
-            },
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
-    },
-
-    ImportWallet: {
-        screen: ImportWalletScreen,
-        navigationOptions: ({navigation}) => ({
-            headerTitle: "导入钱包",
-            header:<BlueHeader navigation={navigation}/>
         })
     },
 }

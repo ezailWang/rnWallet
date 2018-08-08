@@ -20,60 +20,30 @@
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
 import {StyleSheet} from 'react-native';
-import {Colors} from '../config/GlobalConfig'
+import {Colors} from '../config/GlobalConfig';
+
 
 
 const StackNavigationConfig = {
-    initialRouteName: 'Set',
+    initialRouteName: 'Set'
     //initialRouteName: 'Home',
     //initialRouteName: 'Wallet',
     //initialRouteName: 'FirstLaunch',
     //initialRouteName: 'Transfer',
-
-
+}
 
 const HomeStackNavigationConfig = {
-    initialRouteName: 'HomeScreen',
-    headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
-        headerStyle:{
-            backgroundColor: Colors.fontBlueColor
-        }, 
-        headerTitleStyle:{ 
-            flex:1,
-            alignSelf:'center',
-            textAlign:'center',
-            color:Colors.fontWhiteColor,
-            fontSize:16,
-            fontWeight:"400"
-        }
-
-    })
+    initialRouteName: 'HomeScreen'
 }
 
 const FirstLaunchStackNavigationConfig = {
-    initialRouteName: 'FirstLaunch',
-    headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
-        headerStyle:{
-            backgroundColor: Colors.fontBlueColor
-        }, 
-        headerTitleStyle:{ 
-            flex:1,
-            alignSelf:'center',
-            textAlign:'center',
-            color:Colors.fontWhiteColor,
-            fontSize:16,
-            fontWeight:"400"
-        }
-
-    })
+    initialRouteName: 'FirstLaunch'
 }
 
 const TestStackNavigationConfig = {
     initialRouteName:'KeystoreTest'
 }
 
+export {HomeStackNavigationConfig,FirstLaunchStackNavigationConfig,StackNavigationConfig,TestStackNavigationConfig}
 
-export { HomeStackNavigationConfig, FirstLaunchStackNavigationConfig, StackNavigationConfig, TestStackNavigationConfig };
 

@@ -13,7 +13,7 @@ import {androidPermission}  from '../../utils/permissionsAndroid';
 
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 
 const styles = StyleSheet.create({
     container:{
@@ -167,6 +167,7 @@ class CreateWalletScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
                 <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.jpg')}/>
                 <Text style={styles.titleTxt}>创建钱包</Text>
                 

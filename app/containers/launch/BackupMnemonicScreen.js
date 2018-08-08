@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
         flexDirection:'column',
@@ -71,6 +71,7 @@ class BackupMnemonicScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
                 <ScreenshotWarn
                     text = '知道了'
                     modalVisible = {this.state.modalVisible}

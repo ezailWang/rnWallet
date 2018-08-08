@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import {WhiteButtonBig,ClarityWhiteButtonBig} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
@@ -53,6 +53,7 @@ class FirstLaunchScreen extends Component {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                             style={styles.contentContainer}>
+                <StatusBarComponent/>            
                 <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')} />
 
                 <WhiteButtonBig style={{marginBottom:20}}
