@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
     headerBgContainer:{
         flexDirection:'row',
-        backgroundColor:Colors.backgroundWhiteColor,  
+        backgroundColor:Colors.whiteBackgroundColor,  
     },
     icon:{
         height:20,
