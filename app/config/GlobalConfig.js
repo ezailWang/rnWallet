@@ -16,6 +16,10 @@ const Colors={
     fontBlueColor:'#00a0e9',
     fontGreenColor:'#1bc94b',
     fontRedColor:'#e62624',
+    fontGrayColor_a0:'#a0a0a0',
+    fontGrayColor_a1:'#a1a1a1',
+    fontBlackColor_31:'#313131',
+    fontBlackColor_43:'#434343',
     //警告框颜色
     RedColor:'#ff3636',
     //主题颜色
@@ -30,6 +34,8 @@ const Colors={
     bgGrayColor:'#F8F8F8',
     //白底
     whiteBackgroundColor:"#FFFFFF",
+    bgColor_e:'#eee',
+    borderColor_e:'#eee',
 
 };
 

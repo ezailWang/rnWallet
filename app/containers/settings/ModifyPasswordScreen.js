@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     inputTxt:{
         width:80,
         fontSize:FontSize.ContentSize,
-        color:Colors.fontDarkGrayColor,
+        color:Colors.fontGrayColor_a0,
     },
     inputText:{
         flex:1,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         marginLeft:10,
         marginRight:10,
         fontSize:FontSize.DetailTitleSize,
-        color:Colors.fontBlackColor
+        color:Colors.fontBlackColor_43
     },
     importTxt:{
         fontSize:FontSize.DetailTitleSize,

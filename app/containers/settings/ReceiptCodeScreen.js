@@ -23,14 +23,14 @@ const styles = StyleSheet.create({
     titleTxt:{
         fontSize:18,
         fontWeight:'500',
-        color:'#000',
+        color:Colors.fontBlackColor,
         marginTop:15,
         marginBottom:40,
     },
     adderssTxt:{
         marginTop:20,
         fontSize:16,
-        color:'rgb(57,57,57)',
+        color:Colors.fontBlackColor,
     },
     buttonBox:{
         flex:1,
@@ -44,7 +44,7 @@ export default class ReceiptCodeScreen extends Component {
         header:(<WhiteBgHeader navigation={navigation} 
                               text='收款码'
                               rightPress = {()=>navigation.state.params.headRightPress()}
-                              rightIcon= {require('../../assets/common/common_scan_qrcode.png')}/>
+                              rightIcon= {require('../../assets/common/scanIcon.png')}/>
                 )
     })
     /**static navigationOptions = ({ navigation }) => ({
@@ -87,7 +87,7 @@ export default class ReceiptCodeScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <Image style={styles.icon} source={require('../../assets/launch/headIcon.jpg')}/>
+                <Image style={styles.icon} source={require('../../assets/common/photoIcon.png')}/>
                 <Text style={styles.titleTxt}>Wallet Name</Text>
                 <QRCode
                     value = {0x123456789}

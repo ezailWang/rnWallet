@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     btnTxt:{
         flex:1,
         backgroundColor: 'transparent',
-        color:Colors.fontBlackColor,
+        color:Colors.fontBlackColor_43,
         fontSize:FontSize.TitleSize,
         height:56,
         lineHeight:56,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     },
     walletName:{
         fontSize:FontSize.DetailTitleSize,
-        color:Colors.fontDarkGrayColor
+        color:Colors.fontGrayColor_a1
     },
     buttonBox:{
         marginTop:1,
@@ -87,7 +87,7 @@ export default class SetScreen extends Component {
                                   activeOpacity={0.6} 
                                   onPress={()=> this.isOpenModifyModal(true)}>
                     <Text style={styles.btnTxt}>更换图标</Text>
-                    <Image style={styles.headIcon} source={require('../../assets/launch/headIcon.jpg')}/>
+                    <Image style={styles.headIcon} source={require('../../assets/common/photoIcon.png')}/>
                 </TouchableOpacity> 
                 <TouchableOpacity style={[styles.btnOpacity]} 
                                   activeOpacity={0.6} 

@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
     btnBox:{
         flexDirection:'row',
-        height:52,
+        height:48,
         width:Layout.WINDOW_WIDTH*0.85,
         alignItems:'center',
         backgroundColor:'#fff',
@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
         fontSize:FontSize.BtnFontSize,
         textAlign:'center',
         marginLeft:15,
+        fontWeight:"bold",
     },
     rightBlueNextTxt:{
         color:Colors.fontBlueColor,
@@ -152,8 +153,8 @@ const styles = StyleSheet.create({
         color:Colors.fontWhiteColor,
     },
     nextIcon:{
-        height:15,
-        width:15,
+        height:12,
+        width:12,
     },
 });
 
@@ -347,7 +348,7 @@ class NextButton extends Component {
         return (
             <TouchableOpacity style={[styles.btnOpacity]} activeOpacity={0.6} onPress = { this.props.onPress }>
                 <Text style={styles.txt}>{this.props.text}</Text>
-                <Image style={styles.icon} source={require('../assets/launch/nextIcon.jpg')}/>
+                <Image style={styles.icon} source={require('../assets/set/next.png')} resizeMode={'center'}/>
             </TouchableOpacity>
         )
     }
@@ -387,7 +388,7 @@ class RightBlueNextButton extends Component{
         return (
             <TouchableOpacity style={[styles.btnBox,styles.rightBlueNextBtn]} activeOpacity={0.6} onPress = { this.props.onPress }>
                 <Text style={[styles.btnText,styles.rightBlueNextTxt]}>{this.props.text}</Text>
-                <Image style={styles.nextIcon} source={require('../assets/common/common_back.png')}/>
+                <Image style={styles.nextIcon} source={require('../assets/common/backblue_icon.png')} resizeMode={'center'}/>
             </TouchableOpacity>
         )
     }
@@ -403,7 +404,7 @@ class RightWhiteNextButton extends Component{
         return (
             <TouchableOpacity style={[styles.btnBox,styles.rightWhiteNextBtn]} activeOpacity={0.6} onPress = {this.props.onPress }>
                 <Text style={[styles.btnText,styles.rightWhiteNextTxt]}>{this.props.text}</Text>
-                <Image style={styles.nextIcon} source={require('../assets/common/common_back_white.png')}/>
+                <Image style={styles.nextIcon} source={require('../assets/common/backwhite_icon.png')} resizeMode={'center'}/>
             </TouchableOpacity>
         )
     }

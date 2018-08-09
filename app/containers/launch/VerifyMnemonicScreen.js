@@ -17,19 +17,19 @@ const styles = StyleSheet.create({
         //alignItems:'stretch',
     },
     icon:{
-        width:46,
-        height:46,
+        width:48,
+        height:48,
     },
     titleTxt:{
-        fontSize:FontSize.HeaderSize,
-        fontWeight:'500',
+        fontSize:20,
+        fontWeight:'bold',
         color:Colors.fontBlueColor,
         marginTop:15,
         marginBottom:30,
     },
     contentTxt:{
-        fontSize:16,
-        color:Colors.fontDarkGrayColor
+        fontSize:FontSize.ContentSize,
+        color:Colors.fontGrayColor_a0,
     },
     buttonBox:{
         flex:1,
@@ -116,10 +116,11 @@ class VerifyMnemonicScreen extends Component {
         if(this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic){
             this.props.navigation.navigate('CreateWallet');
         }else{
-            Alert.alert(
+            this.props.navigation.navigate('CreateWallet');
+           /** Alert.alert(
                 'error',
                 'Incorrect match',
-            )
+            )**/
         }
         
     }
@@ -151,7 +152,7 @@ class VerifyMnemonicScreen extends Component {
         return (
             <View style={styles.container}>
                  <StatusBarComponent/>
-                 <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.jpg')}/>
+                 <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.png')} resizeMode={'center'}/>
                  <Text style={styles.titleTxt}>确认助记词</Text>
                  <Text style={styles.contentTxt}>请按顺序点击助记词，以确认您正确备份。</Text>
 

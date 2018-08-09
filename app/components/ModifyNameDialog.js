@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
         alignSelf:'stretch',
         paddingLeft:10,
         borderRadius:5,
-        borderColor:Colors.fontGrayColor,
+        borderColor:Colors.borderColor_e,
         borderWidth:1,
-        color:Colors.fontBlackColor
+        color:Colors.fontGrayColor_a0
     },
     buttonBox:{
         flexDirection:'row',

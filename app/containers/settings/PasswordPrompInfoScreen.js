@@ -61,7 +61,7 @@ export default class PasswordPrompInfoScreen extends Component {
     }
 
     render() {
-        let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.jpg') : require('../../assets/launch/pwdIcon.jpg');
+        let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
             
             <View style={styles.container}>
@@ -82,8 +82,8 @@ export default class PasswordPrompInfoScreen extends Component {
                                 })
                            }}
                     />
-                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenPwd() }>
-                         <Image style={styles.pwdIcon} source={pwdIcon}/>
+                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenPwd()}>
+                         <Image style={styles.pwdIcon} source={pwdIcon}  resizeMode={'center'}/>
                     </TouchableOpacity>
                     
                 </View>
