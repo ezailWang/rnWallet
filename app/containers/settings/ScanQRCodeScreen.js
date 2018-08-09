@@ -12,8 +12,8 @@ import {StyleSheet,
 import Camera from 'react-native-camera';
 var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');
- 
-
+import StatusBarComponent from '../../components/StatusBarComponent';
+import {Colors,FontSize} from '../../config/GlobalConfig'
 const styles = StyleSheet.create({
     container:{
        flex:1,
@@ -103,6 +103,7 @@ export default class ScanQRCodeScreen extends Component{
         };
         return(
             <View style={styles.scanView}>
+                <StatusBarComponent/>
                 <View style={[styles.scanBorder,styles.topLeft]}></View>
                 <View style={[styles.scanBorder,styles.topRight]}></View>
                 <View style={[styles.scanBorder,styles.bottomLeft]}></View>
@@ -125,6 +126,10 @@ export default class ScanQRCodeScreen extends Component{
             easing: Easing.linear
         }).start(()=>this._scannerLineMove());
     }
+
+    componentWillUnmount(){
+        
+    }
     
 
     render(){
@@ -142,5 +147,5 @@ export default class ScanQRCodeScreen extends Component{
             </View>
         )
     }
-    /***/
+    
 }

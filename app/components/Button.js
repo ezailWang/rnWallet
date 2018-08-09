@@ -10,7 +10,7 @@ import {
     Image,
     Text
 }from 'react-native'
-
+import PropType from 'prop-types'
 import LinearGradient from 'react-native-linear-gradient'
 
 const styles = StyleSheet.create({
@@ -70,12 +70,10 @@ const styles = StyleSheet.create({
         borderColor:Colors.fontWhiteColor
     },
     normalMiddleBtn:{
-        width:Layout.WINDOW_WIDTH*0.4,
+        width:Layout.WINDOW_WIDTH*0.45,
         height:40,
         borderRadius:20,
-        flexDirection:"row",
-        justifyContent:"center",
-        alignItems:"center"
+        justifyContent:"center"
     },
     normalMiddleBtnTitle:{
         fontSize:15,
@@ -118,7 +116,45 @@ const styles = StyleSheet.create({
     },
     icon:{
         width:10,
-    }
+    },
+    
+
+    btnBox:{
+        flexDirection:'row',
+        height:52,
+        width:Layout.WINDOW_WIDTH*0.85,
+        alignItems:'center',
+        backgroundColor:'#fff',
+        paddingLeft:20,
+        paddingRight:16,
+        borderRadius:26,  
+    },
+    rightBlueNextBtn:{
+        backgroundColor:Colors.whiteBackgroundColor,
+        borderWidth:2,
+        borderColor:'#fff',
+    },
+    rightWhiteNextBtn:{
+        backgroundColor:'transparent',
+        borderWidth:2,
+        borderColor:'#fff',
+    },
+    btnText:{
+        flex:1,
+        fontSize:FontSize.BtnFontSize,
+        textAlign:'center',
+        marginLeft:15,
+    },
+    rightBlueNextTxt:{
+        color:Colors.fontBlueColor,
+    },
+    rightWhiteNextTxt:{
+        color:Colors.fontWhiteColor,
+    },
+    nextIcon:{
+        height:15,
+        width:15,
+    },
 });
 
 
@@ -215,7 +251,6 @@ class WhiteButtonBig extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
-        image:PropTypes.object
     };
     render() {
         return (
@@ -231,13 +266,11 @@ class WhiteButtonMiddle extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
-        image:PropTypes.any
     };
     render() {
         return (
             <TouchableOpacity style={[styles.normalMiddleBtn,styles.middleWhiteBtn]}
                               onPress = { this.props.onPress }>
-                <Image style={{marginRight:10}} source={this.props.image}/>
                 <Text style={[styles.normalMiddleBtnTitle,styles.middleWhiteBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
         )
@@ -286,6 +319,11 @@ class BlueButtonSmall extends Component {
         text: PropTypes.string.isRequired,
     };
     render() {
+        let backItemStyle = {marginTop:30};
+
+        if (Layout.DEVICE_IS_IPHONE_X()){
+            backItemStyle= {marginTop:50};
+        }
         return (
             <TouchableOpacity style={styles.normalSmallBtn}
                               onPress = { this.props.onPress }>
@@ -316,11 +354,18 @@ class NextButton extends Component {
 }
 
 class HeaderButton extends Component {
-    
+    static propTypes = {
+        onPress: PropTypes.func,
+        img: PropTypes.string,
+    }
     render() {
+        let backItemStyle = {marginTop:30};
+        if (Layout.DEVICE_IS_IPHONE_X()){
+            backItemStyle= {marginTop:50};
+        }
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={[styles.headerRight]}
+                <TouchableOpacity style={[styles.headerRight,backItemStyle]}
                                   onPress = {this.props.onPress}>
                     <Image style={styles.backItem}
                            resizeMode={'center'}
@@ -328,6 +373,38 @@ class HeaderButton extends Component {
                     </Image>
                 </TouchableOpacity>
             </View>
+        )
+    }
+}
+
+//右边带有蓝色>的按钮，firstLaunch首页使用案例
+class RightBlueNextButton extends Component{
+    static propTypes = {
+        onPress: PropTypes.func.isRequired,
+        text: PropTypes.string.isRequired,
+    }
+    render() {
+        return (
+            <TouchableOpacity style={[styles.btnBox,styles.rightBlueNextBtn]} activeOpacity={0.6} onPress = { this.props.onPress }>
+                <Text style={[styles.btnText,styles.rightBlueNextTxt]}>{this.props.text}</Text>
+                <Image style={styles.nextIcon} source={require('../assets/common/common_back.png')}/>
+            </TouchableOpacity>
+        )
+    }
+}
+
+//右边带有白色>的按钮，firstLaunch首页使用案例
+class RightWhiteNextButton extends Component{
+    static propTypes = {
+        onPress: PropTypes.func.isRequired,
+        text: PropTypes.string.isRequired,
+    }
+    render() {
+        return (
+            <TouchableOpacity style={[styles.btnBox,styles.rightWhiteNextBtn]} activeOpacity={0.6} onPress = {this.props.onPress }>
+                <Text style={[styles.btnText,styles.rightWhiteNextTxt]}>{this.props.text}</Text>
+                <Image style={styles.nextIcon} source={require('../assets/common/common_back_white.png')}/>
+            </TouchableOpacity>
         )
     }
 }
@@ -344,4 +421,6 @@ export {
     BlueButtonSmall,        //小号蓝色按钮
     NextButton,             //设置页面功能按钮
     HeaderButton,           //导航栏按钮
+    RightBlueNextButton,    //右边带有蓝色>的按钮
+    RightWhiteNextButton,   //右边带有白色>的按钮
 }

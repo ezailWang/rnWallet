@@ -4,12 +4,12 @@ import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity}
 import { connect } from 'react-redux';
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        backgroundColor:'rgb(248,248,248)',
+        backgroundColor:Colors.bgGrayColor,
         paddingTop:20,
     },
     inputBox:{
@@ -72,7 +72,7 @@ export default class ModifyPasswordScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-
+                <StatusBarComponent/>
                 <View style={styles.inputBox}> 
                     <Text style={styles.inputTxt}>当前密码</Text>
                     <TextInput style={styles.inputText} 

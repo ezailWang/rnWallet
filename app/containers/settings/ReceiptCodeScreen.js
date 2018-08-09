@@ -3,13 +3,14 @@ import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid}
 import QRCode from 'react-native-qrcode';
 import {HeaderButton,BlueButtonBig} from '../../components/Button';
 import {androidPermission}  from '../../utils/permissionsAndroid';
-
-
+import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import {Colors,FontSize} from '../../config/GlobalConfig'
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        backgroundColor:'#fff',
+        backgroundColor:Colors.bgGrayColor,
         paddingTop:60,
         paddingLeft:20,
         paddingRight:20,
@@ -39,14 +40,21 @@ const styles = StyleSheet.create({
 })
 
 export default class ReceiptCodeScreen extends Component {
-   
-    static navigationOptions = ({ navigation }) => ({
-        headerRight:(
+    static navigationOptions=({navigation}) => ({
+        header:(<WhiteBgHeader navigation={navigation} 
+                              text='收款码'
+                              rightPress = {()=>navigation.state.params.headRightPress()}
+                              rightIcon= {require('../../assets/common/common_scan_qrcode.png')}/>
+                )
+    })
+    /**static navigationOptions = ({ navigation }) => ({
+        
+        /**headerRight:(
             <HeaderButton
                 onPress = {()=>navigation.state.params.headRightPress()}
                 img = {require('../../assets/common/common_scan_qrcode.png')}/>
-        ),
-    })
+        ),**/
+    //})**/
 
     componentDidMount(){
         //在初始化render之后只执行一次，在这个方法内，可以访问任何组件，componentDidMount()方法中的子组件在父组件之前执行
@@ -78,6 +86,7 @@ export default class ReceiptCodeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
                 <Image style={styles.icon} source={require('../../assets/launch/headIcon.jpg')}/>
                 <Text style={styles.titleTxt}>Wallet Name</Text>
                 <QRCode

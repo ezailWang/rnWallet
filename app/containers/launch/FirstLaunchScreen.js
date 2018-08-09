@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import LinearGradient from 'react-native-linear-gradient'
 
-import {WhiteButtonBig,ClarityWhiteButtonBig} from '../../components/Button'
+import {WhiteButtonBig,ClarityWhiteButtonBig,RightBlueNextButton,RightWhiteNextButton} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
@@ -23,12 +23,15 @@ const styles = StyleSheet.create({
     marginTop10: {
         marginTop: 30,
     },
-    rightIcon:{
+    nextIcon:{
         width:15,
         height:15,
         marginTop:10,
         marginLeft:10,
-        backgroundColor:"red"
+        zIndex:20,
+    },
+    btnMargin:{
+       height:20,
     }
 });
 
@@ -56,14 +59,16 @@ class FirstLaunchScreen extends Component {
                 <StatusBarComponent/>            
                 <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')} />
 
-                <WhiteButtonBig style={{marginBottom:20}}
-                                onPress={() => this.createClickFun()}
-                                text='创建钱包'>
-                    <View style={styles.rightIcon}>
-                    </View>
-                </WhiteButtonBig>
-                <ClarityWhiteButtonBig onPress={() => this.props.navigation.navigate('ImportWallet')}
-                               text='导入钱包'/>
+                <RightBlueNextButton
+                        onPress={() => this.createClickFun()}
+                        text='创建钱包'/>
+                <View style={styles.btnMargin}>
+                </View>
+                <RightWhiteNextButton
+                        onPress={()=> this.props.navigation.navigate('ImportWallet')}
+                        text='导入钱包'/> 
+               
+               
             </LinearGradient>
         )
     }
