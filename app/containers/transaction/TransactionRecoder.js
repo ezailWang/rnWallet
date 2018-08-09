@@ -135,7 +135,7 @@ class Cell extends Component{
     }
 
     render(){
-        const {address,time,income,amount,type} = this.props.item.item || {}
+        const {key,address,time,income,amount,type} = this.props.item.item || {}
         let image = require('../../assets/transfer/recoder/direction_left.png');
         let showText = "-"+amount.toFixed(4)+" "+type;
         let colorStyle = {color:Colors.fontRedColor};
@@ -184,14 +184,13 @@ export default class TransactionRecoder extends Component{
     };
 
     didTapShowQrCodeButton=()=>{
-        console.warn("展示二维码");
+        //console.warn("展示二维码");
         this.props.navigation.navigate('ReceiptCode');
     };
 
     didTapTransactionCell=(index)=>{
 
-        console.warn("查看第"+index+"条记录的信息");
-
+        //console.warn("查看第"+index+"条记录的信息");
 
         transactionDetail={
             amount:"101.22",
@@ -211,20 +210,27 @@ export default class TransactionRecoder extends Component{
 
     renderItem = (item) => {
         return <Cell item={item}
-                     onPress={this.didTapTransactionCell}/>
+                     onPress={this.didTapTransactionCell}
+                     key={item.item.key}/>
+    }
+
+    renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
+        return (
+          <View style={styles.separator} key={`${sectionID}-${rowID}`}/>
+        )
     }
 
     render (){
 
         let testData=[
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {key:"0",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {key:"1",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {key:"2",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {key:"3",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {key:"4",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {key:"5",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
+            {key:"6",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
+            {key:"7",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
         ];
 
 
@@ -239,7 +245,9 @@ export default class TransactionRecoder extends Component{
                                                          value={1439.125}/>}
                             ListEmptyComponent ={<EmptyComponent/>}
                             data={testData}
-                            renderItem={this.renderItem}>
+                            renderItem={this.renderItem}
+                            // keyExtractor={(item)=>{item.key}}
+                            >
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView]}>
                     <WhiteButtonMiddle  onPress={this.didTapTransactionButton}
