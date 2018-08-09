@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     sliderContainerView:{
         width:ScreenWidth - 80,
         marginTop:10,
-        marginLeft:40
+        marginLeft:40,
     },
     sliderAlertView:{
         width:ScreenWidth - 80,
@@ -127,7 +127,8 @@ const styles = StyleSheet.create({
         marginLeft:40,
         flexDirection:"row",
         justifyContent:'space-between'
-    }
+    },
+    
 
 });
 
@@ -203,15 +204,16 @@ class SliderView extends Component{
                 </View>
                 <View style={styles.sliderContainerView}>
                     <Slider
-                        minimumValue={this.props.minGasPrice}
-                        maximumValue={this.props.maxGasPrice}
-                        value={this.props.initValue}
-                        step={1}
-                        onValueChange={this.props.onValueChange}
-                        minimumTrackTintColor={Colors.themeColor}
-                        maximumTrackTintColor={Colors.fontGrayColor}
-                        // minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
-                        // maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}
+                        //minimumValue={this.props.minGasPrice}
+                        //maximumValue={this.props.maxGasPrice}
+                        //value={this.props.initValue}
+                       // step={1}
+                       // onValueChange={this.props.onValueChange}
+                       // thumbImage = {require('../../assets/transfer/transfer_slider_tap.png')}
+                        maximumTrackImage = {require('../../assets/transfer/transfer_slider_left.png')}
+                        minimumTrackImage = {require('../../assets/transfer/transfer_slider_right.png')}
+                        //minimumTrackTintColor={Colors.fontGrayColor}
+                        //maximumTrackTintColor={Colors.fontGrayColor}  
                     >
                     </Slider>
                 </View>
