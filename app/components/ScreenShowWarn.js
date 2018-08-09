@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-
+import {Colors,FontSize} from '../config/GlobalConfig'
 const styles = StyleSheet.create({
     modeBox:{
         flex:1,
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         justifyContent:'center',
         alignItems:'center',
-       // zIndex:10,
         backgroundColor:'#fff',
         paddingLeft:25,
         paddingRight:25,
@@ -36,13 +35,13 @@ const styles = StyleSheet.create({
         
     },
     icon:{
-        width:50,
-        height:50,
+        width:80,
+        height:80,
     },
     titleTxt:{
         fontSize:18,
-        fontWeight:'500',
-        color:'rgb(66,66,66)',
+        fontWeight:'bold',
+        color:Colors.fontBlackColor_31,
         marginTop:15,
         marginBottom:20,
     },
@@ -50,12 +49,13 @@ const styles = StyleSheet.create({
         fontSize:16,
         alignSelf:'stretch',
         marginBottom:30,
+        color:Colors.fontBlackColor_31,
     },
     btnOpacity:{
         height:40,
         alignSelf:'stretch',
         borderRadius:20,
-        backgroundColor: 'red',
+        backgroundColor: '#ff3635',
     },
     txt:{
         backgroundColor: 'transparent',
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         height:40,
         lineHeight:40,
         textAlign:'center',
+        fontWeight:'bold',
     }
 });
 export default class ScreenshotWarn extends Component{
@@ -91,7 +92,7 @@ export default class ScreenshotWarn extends Component{
             >
                 <View style={styles.modeBox}>
                   <View style={styles.contentBox}>
-                     <Image style={styles.icon} source={require('../assets/launch/warnIcon.jpg')}/>
+                     <Image style={styles.icon} source={require('../assets/launch/warnIcon.png')}/>
                      <Text style={styles.titleTxt}>请勿截图</Text>
                      <Text style={styles.contentTxt}>如果有人获取你的助记词将直接获取你的资产！请抄写下助记词冰村放在安全的地方。</Text>
                      <TouchableOpacity style={styles.btnOpacity} activeOpacity={0.6} onPress = {this.props.onPress}>

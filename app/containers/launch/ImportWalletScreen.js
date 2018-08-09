@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,ScrollView} from 'react-native';
+import { View,StyleSheet,Image,Text,TextInput,ScrollView,TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import keythereum from 'keythereum'
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
         //alignItems:'stretch',
     },
     icon:{
-        width:46,
-        height:46,
+        width:48,
+        height:48,
     },
     scrollView:{
         flex:1,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         textAlignVertical:'top',
     },
     inputText:{
-        height:40,
+        height:42,
     },
     inputTextBox:{
         alignSelf:'stretch',
@@ -56,7 +56,32 @@ const styles = StyleSheet.create({
         flex:1,
         //justifyContent:'center',
         alignSelf:'center',
-    }
+    },
+    inputBox:{
+        alignSelf:'stretch',
+        flexDirection:'row',
+        alignItems:'center',
+        height:42,
+        borderRadius:5,
+        borderColor:Colors.borderColor_e,
+        borderWidth:1,
+        paddingLeft:10,
+        marginBottom:10,
+    },
+    input:{
+        flex:1,
+        height:42,
+        color:Colors.fontGrayColor_a0,
+    },
+    pwdBtnOpacity:{
+        height:42,
+        width:42,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    pwdIcon:{
+        height:20,
+    },
 })
 
 export default class ImportWalletScreen extends Component {
@@ -66,7 +91,7 @@ export default class ImportWalletScreen extends Component {
         this.state = {
             mnemonic:'',
             password:'',
-            prePassword : '',
+            rePassword : '',
             passwordHint:'',
         }
     }
@@ -127,14 +152,22 @@ export default class ImportWalletScreen extends Component {
         console.log('newKeyObject', newKeyObject)
     }
 
-    
+    isOpenPwd() {
+        this.setState({isShowPassword: !this.state.isShowPassword});
+    }
+
+    isOpenRePwd() {
+        this.setState({isShowRePassword: !this.state.isShowRePassword});
+    }
 
 
     render() {
+        let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
+        let rePwdIcon= this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <Image style={styles.icon} source={require('../../assets/launch/importIcon.jpg')}/>
+                <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'}/>
                 <Text style={styles.titleTxt}>导入钱包</Text>
                 <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
                 <TextInput style={[styles.inputTextBox,styles.inputArea]} 
@@ -149,30 +182,43 @@ export default class ImportWalletScreen extends Component {
                            }}>
                 </TextInput>
                
-                <TextInput style={[styles.inputTextBox,styles.inputText]} 
-                         //  returnKeyType='next' 
-                           placeholder="设置密码"
+                
+
+                 <View style={styles.inputBox}> 
+                    <TextInput style={styles.input} 
+                           placeholder='设置密码'
                            underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff' 
-                           selectTextOnFocus={true}
+                           selectionColor='#00bfff'
+                           secureTextEntry={!this.state.isShowPassword} 
                            onChange={(event) => {
-                            this.setState({
-                                password: event.nativeEvent.text
-                            })
-                           }}>
-                </TextInput>
-                <TextInput style={[styles.inputTextBox,styles.inputText]} 
-                          // returnKeyType='next' 
-                           placeholder="重复密码"
+                                this.setState({
+                                    password: event.nativeEvent.text
+                                })
+                           }}
+                    />
+                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenPwd() }>
+                         <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'}/>
+                    </TouchableOpacity>
+                    
+                </View>   
+
+                <View style={styles.inputBox}> 
+                    <TextInput style={styles.input} 
+                           placeholder='重复密码'
                            underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff' 
-                           secureTextEntry={true}
+                           selectionColor='#00bfff'
+                           secureTextEntry={!this.state.isShowRePassword} 
                            onChange={(event) => {
-                            this.setState({
-                                password: event.nativeEvent.text
-                            })
-                           }}>
-                </TextInput>
+                                this.setState({
+                                    rePassword: event.nativeEvent.text
+                                })
+                           }}
+                    />
+                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenRePwd() }>
+                         <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'}/>
+                    </TouchableOpacity>
+                    
+                </View> 
                 <TextInput style={[styles.inputTextBox,styles.inputText,{marginBottom:40}]} 
                           // returnKeyType='next' 
                            placeholder="密码提示(选填)"

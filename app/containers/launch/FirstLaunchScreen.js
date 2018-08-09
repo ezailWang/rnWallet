@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     },
     logoImg: {
         marginBottom: 50,
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
     },
     marginTop10: {
         marginTop: 30,
@@ -40,7 +40,7 @@ class FirstLaunchScreen extends Component {
 
         walletUtils.generateMnemonic().then((data) => {
             this.props.generateMnemonic(data)
-            this.props.navigation.navigate('BackupMnemonic');
+            this.props.navigation.navigate('BackupWallet');
         }, (error) => {
             Alert.alert(
                 'error',
@@ -57,7 +57,7 @@ class FirstLaunchScreen extends Component {
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                             style={styles.contentContainer}>
                 <StatusBarComponent/>            
-                <Image style={styles.logoImg} source={require('../../assets/launch/logo.png')} />
+                <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'}/>
 
                 <RightBlueNextButton
                         onPress={() => this.createClickFun()}

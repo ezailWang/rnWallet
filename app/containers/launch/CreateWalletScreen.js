@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,Platform,PermissionsAndroid} from 'react-native';
+import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,Platform,PermissionsAndroid,TouchableOpacity} from 'react-native';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
         paddingRight:20,
     },
     icon:{
-        width:46,
-        height:46,
+        width:48,
+        height:48,
     },
     titleTxt:{
-        fontSize:FontSize.HeaderSize,
-        fontWeight:'500',
+        fontSize:20,
+        fontWeight:'bold',
         color:Colors.fontBlueColor,
         marginTop:15,
         marginBottom:30,
@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
     },
     inputText:{
         alignSelf:'stretch',
-        height:40,
+        height:42,
         paddingLeft:10,
         borderRadius:5,
-        borderColor:'rgb(241,241,241)',
+        borderColor:Colors.borderColor_e,
         borderWidth:1,
-        color:Colors.fontBlackColor,
+        color:Colors.fontGrayColor_a0,
         marginBottom:10,
     },
     buttonBox:{
@@ -54,7 +54,32 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end',
         //alignSelf:'stretch',
         marginBottom:30,
-    }
+    },
+    inputBox:{
+        alignSelf:'stretch',
+        flexDirection:'row',
+        alignItems:'center',
+        height:42,
+        borderRadius:5,
+        borderColor:Colors.borderColor_e,
+        borderWidth:1,
+        paddingLeft:10,
+        marginBottom:10,
+    },
+    input:{
+        flex:1,
+        height:42,
+        color:Colors.fontGrayColor_a0,
+    },
+    pwdBtnOpacity:{
+        height:42,
+        width:42,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    pwdIcon:{
+        height:20,
+    },
 })
 
 class CreateWalletScreen extends Component {
@@ -66,8 +91,19 @@ class CreateWalletScreen extends Component {
             password:'',
             prePassword : '',
             passwordHint:'',
+            isShowPassword:false,
+            isShowRePassword:false,
         }
     }
+
+    isOpenPwd() {
+        this.setState({isShowPassword: !this.state.isShowPassword});
+    }
+
+    isOpenRePwd() {
+        this.setState({isShowRePassword: !this.state.isShowRePassword});
+    }
+
     //验证android读写权限
     async vertifyPermissions(){
         if(Platform.OS === 'android'){
@@ -101,9 +137,6 @@ class CreateWalletScreen extends Component {
 
     vertifyInputData(){
 
-      
-        
-        
         var warnMessage = "";
         if(this.state.walletName == '' || this.state.walletName == null || this.state.walletName == undefined){
             warnMessage = "请输入钱包名称"
@@ -165,12 +198,14 @@ class CreateWalletScreen extends Component {
     }
     
     render() {
+        let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
+        let rePwdIcon= this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.jpg')}/>
+                <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'}/>
                 <Text style={styles.titleTxt}>创建钱包</Text>
-                
+                <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
                 <TextInput style={styles.inputText} 
                            //returnKeyType='next' 
                            placeholder="钱包名称"
@@ -182,28 +217,41 @@ class CreateWalletScreen extends Component {
                                 })
                             }}/>
         
-                <TextInput style={styles.inputText} 
-                           //returnKeyType='next' 
-                           placeholder="密码"
+                <View style={styles.inputBox}> 
+                    <TextInput style={styles.input} 
+                           placeholder='密码'
                            underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff' 
-                           secureTextEntry={true}
+                           selectionColor='#00bfff'
+                           secureTextEntry={!this.state.isShowPassword} 
                            onChange={(event) => {
-                            this.setState({
-                                password: event.nativeEvent.text
-                            })
-                        }}/>
-                <TextInput style={styles.inputText} 
-                           //returnKeyType='next' 
-                           placeholder="重复密码"
+                                this.setState({
+                                    password: event.nativeEvent.text
+                                })
+                           }}
+                    />
+                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenPwd() }>
+                         <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'}/>
+                    </TouchableOpacity>
+                    
+                </View>   
+
+                <View style={styles.inputBox}> 
+                    <TextInput style={styles.input} 
+                           placeholder='重复密码'
                            underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff' 
-                           secureTextEntry={true}
+                           selectionColor='#00bfff'
+                           secureTextEntry={!this.state.isShowRePassword} 
                            onChange={(event) => {
                                 this.setState({
                                     rePassword: event.nativeEvent.text
                                 })
-                            }}/>
+                           }}
+                    />
+                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenRePwd() }>
+                         <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'}/>
+                    </TouchableOpacity>
+                    
+                </View>          
                 <TextInput style={[styles.inputText,{marginBottom:40}]} 
                            //returnKeyType='next' 
                            placeholder="密码提示(选填)"
@@ -222,7 +270,7 @@ class CreateWalletScreen extends Component {
                             text = '创建'
                         />
                 </View> 
-                
+                </ScrollView>  
             </View>
         );
     }

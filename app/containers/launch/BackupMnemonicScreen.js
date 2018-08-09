@@ -19,24 +19,24 @@ const styles = StyleSheet.create({
         paddingRight:20,
     },
     icon:{
-        width:46,
-        height:46,
+        width:48,
+        height:48,
     },
 
     titleTxt:{
-        fontSize:18,
-        fontWeight:'500',
+        fontSize:20,
+        fontWeight:'bold',
         color:Colors.fontBlueColor,
         marginTop:15,
         marginBottom:30,
     },
     contentTxt:{
         fontSize:FontSize.ContentSize,
-        color:Colors.fontDarkGrayColor,
+        color:Colors.fontGrayColor_a0,
     },
     mnemonicTxt:{
         alignSelf:'stretch',
-        backgroundColor:'rgb(237,237,237)',
+        backgroundColor:Colors.bgColor_e,
         fontSize:16,
         color:'black',
         borderRadius:5,
@@ -77,7 +77,7 @@ class BackupMnemonicScreen extends Component {
                     onPress = {()=> this.onCloseModal()}
                 />
                 <View style={styles.contentBox}>    
-                    <Image style={styles.icon} source={require('../../assets/launch/mnemonicIcon.jpg')}/>
+                    <Image style={styles.icon} source={require('../../assets/launch/mnemonicIcon.png')} resizeMode={'center'}/>
                     <Text style={styles.titleTxt}>备份助记词</Text>
                     <Text style={styles.contentTxt}>请仔细抄写下方助记词，我们将在下一步验证。</Text>
                     <Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text>    
