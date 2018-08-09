@@ -54,7 +54,7 @@ export default class keystoreUtils {
 
     static generateKeystoreFilename(address) {
         var filename = "UTC--" + new Date().toISOString() + "--" + address;
-        if (process.platform === "win32") filename = filename.split(":").join("-");
+        filename = filename.split(":").join("-");
         return filename;
     }
 

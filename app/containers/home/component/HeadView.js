@@ -10,26 +10,27 @@ import PropTypes from 'prop-types'
 import OvalButton from './OvalButton'
 import ImageButton from '../../../components/ImageButton'
 import layoutConstants from '../../../config/LayoutConstants'
+import { Colors } from '../../../config/GlobalConfig'
 
 export default class HeadView extends Component {
-   
+
     static propTypes = {
         onSwitchWallet: PropTypes.func.isRequired,
-        onSet:PropTypes.func.isRequired,
-        onQRCode:PropTypes.func.isRequired,
-        onAddAssets:PropTypes.func.isRequired,
-        walletName:PropTypes.string,
-        address:PropTypes.string,
-        totalAssets:PropTypes.string,
+        onSet: PropTypes.func.isRequired,
+        onQRCode: PropTypes.func.isRequired,
+        onAddAssets: PropTypes.func.isRequired,
+        walletName: PropTypes.string,
+        address: PropTypes.string,
+        totalAssets: PropTypes.string,
 
     }
 
     static defaultProps = {
-        switchWalletIcon:layoutConstants.DEFAULT_IAMGE,
-        headIcon:layoutConstants.DEFAULT_IAMGE,
-        setBtnIcon:layoutConstants.DEFAULT_IAMGE,
-        QRbtnIcon:layoutConstants.DEFAULT_IAMGE,
-        addAssetsIcon:layoutConstants.DEFAULT_IAMGE
+        switchWalletIcon: layoutConstants.DEFAULT_IAMGE,
+        headIcon: layoutConstants.DEFAULT_IAMGE,
+        setBtnIcon: layoutConstants.DEFAULT_IAMGE,
+        QRbtnIcon: layoutConstants.DEFAULT_IAMGE,
+        addAssetsIcon: layoutConstants.DEFAULT_IAMGE
     }
 
     render() {
@@ -88,7 +89,7 @@ export default class HeadView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: layoutConstants.BASE_COLOR,
+        backgroundColor: Colors.themeColor,
         height: layoutConstants.HOME_HEADER_HEIGHT,
     },
     topViewContainer: {
