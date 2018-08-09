@@ -19,11 +19,9 @@ function isIphoneX() {
 }
 
 function getNavigationHeight() {
-
     if (isIphoneX()){
         return 88;
     }
-
     return 64;
 }
 

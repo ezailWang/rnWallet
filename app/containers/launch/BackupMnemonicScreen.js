@@ -7,9 +7,8 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
-        flexDirection:'column',
         flex:1,
-        alignItems:'center',
+        backgroundColor:Colors.bgGrayColor,
     },
     contentBox:{
         flex:1,
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
         backgroundColor:'rgb(237,237,237)',
         fontSize:16,
         color:'black',
-        borderRadius:20,
+        borderRadius:5,
         marginTop:30,
         paddingLeft:20,
         paddingRight:20,

@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
 import { connect } from 'react-redux';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NextButton} from '../../components/Button';
 import ModifyNameDialog from '../../components/ModifyNameDialog';
 import {Colors,FontSize}from '../../config/GlobalConfig'
+import StatusBarComponent from '../../components/StatusBarComponent';
 
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        backgroundColor:Colors.backgroundColor,
+        backgroundColor:Colors.bgGrayColor,
         paddingTop:20,
     },
     btnOpacity:{
@@ -72,7 +72,7 @@ export default class SetScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-
+                <StatusBarComponent/>
                 <ModifyNameDialog
                     ref = "modifyNameDialog"
                     placeholder = "钱包名称"

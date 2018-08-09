@@ -23,7 +23,11 @@ const Colors={
     //黑色半透明色
     blackOpacityColor:'rgba(149,149,149,0.7)',
     //透明色
-    clearColor:'rgba(255,255,255,0.0)'
+    clearColor:'rgba(255,255,255,0.0)',
+    //白色背景
+    backgroundWhiteColor:'#fff',
+    //灰色背景
+    bgGrayColor:'#F8F8F8',
 };
 
 const TransferType={
@@ -42,6 +46,7 @@ const FontSize={
     TitleSize:16,
     DetailTitleSize:14,
     alertTitleSize:13,
+    BtnFontSize:18,
 }
 
 module.exports={

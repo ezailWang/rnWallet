@@ -21,6 +21,7 @@
 */
 import {StyleSheet} from 'react-native';
 import {Colors} from '../config/GlobalConfig';
+import PropType from 'prop-types'
 
 
 
@@ -33,7 +34,25 @@ const StackNavigationConfig = {
 }
 
 const HomeStackNavigationConfig = {
-    initialRouteName: 'HomeScreen'
+    
+    initialRouteName: 'HomeScreen',
+    headerMode: 'float',
+    navigationOptions: ({ navigation }) => ({
+        headerStyle:{
+            //height:{height},
+            backgroundColor: Colors.backgroundWhiteColor
+        }, 
+        headerTitleStyle:{ 
+            flex:1,
+            alignSelf:'center',
+            textAlign:'center',
+            color:Colors.fontBlackColor,
+            fontSize:16,
+            fontWeight:"400"
+        }
+
+    })
+
 }
 
 const FirstLaunchStackNavigationConfig = {

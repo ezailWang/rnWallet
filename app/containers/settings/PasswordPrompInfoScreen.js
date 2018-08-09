@@ -3,12 +3,13 @@ import { View,StyleSheet,Image,TextInput,Alert,ScrollView,TouchableOpacity} from
 
 import { connect } from 'react-redux';
 import {BlueButtonBig} from '../../components/Button'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
+import {Colors,FontSize} from '../../config/GlobalConfig'
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        backgroundColor:'rgb(248,248,248)',
+        backgroundColor:Colors.bgGrayColor,
         paddingTop:10,
     },
     inputBox:{
@@ -60,10 +61,11 @@ export default class PasswordPrompInfoScreen extends Component {
     }
 
     render() {
-       
+        let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.jpg') : require('../../assets/launch/pwdIcon.jpg');
         return (
+            
             <View style={styles.container}>
-
+                <StatusBarComponent/>
                 <View style={styles.inputBox}> 
                     <TextInput style={styles.inputText} 
                            placeholder='请输入密码提示信息'
@@ -81,7 +83,7 @@ export default class PasswordPrompInfoScreen extends Component {
                            }}
                     />
                     <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenPwd() }>
-                         <Image style={styles.pwdIcon} source={this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.jpg') : require('../../assets/launch/pwdIcon.jpg')}/>
+                         <Image style={styles.pwdIcon} source={pwdIcon}/>
                     </TouchableOpacity>
                     
                 </View>

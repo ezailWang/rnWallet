@@ -8,7 +8,7 @@ import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
 import ImageButton from '../../components/ImageButton'
 import layoutConstants from '../../config/LayoutConstants';
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props)
@@ -35,6 +35,7 @@ export default class HomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
                 <FlatList
                     ItemSeparatorComponent={ItemDivideComponent}
                     ListEmptyComponent={EmptyComponent}
@@ -43,11 +44,12 @@ export default class HomeScreen extends Component {
                     keyExtractor={item => item.id}
                     data={this.state.data}
                     ListHeaderComponent={<HeadView
-                        on
+                        
                         onSwitchWallet={() => {
                             console.log('---切换钱包按钮被点击')
                         }}
                         onSet={() => {
+                            this.props.navigation.navigate('Set')
                             console.log('---设置按钮被点击')
                         }}
                         onQRCode={() => {
