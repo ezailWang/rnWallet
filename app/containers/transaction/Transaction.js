@@ -18,6 +18,7 @@ import NetworkManager from '../../utils/networkManage';
 import {store} from '../../config/store/ConfigureStore'
 
 import PropTypes from 'prop-types';
+import {BlueButtonBig} from '../../components/Button'
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -97,18 +98,6 @@ const styles = StyleSheet.create({
         textAlign:"right",
         color:Colors.themeColor,
         marginRight:20
-    },
-    slider:{
-
-    },
-    button:{
-        backgroundColor:Colors.themeColor,
-        height:44,
-        width:ScreenWidth-60,
-        marginTop:80,
-        marginLeft:30,
-        borderRadius:22,
-        justifyContent:"center",
     },
     buttonTitle:{
         fontSize:20,
@@ -204,16 +193,19 @@ class SliderView extends Component{
                 </View>
                 <View style={styles.sliderContainerView}>
                     <Slider
-                        //minimumValue={this.props.minGasPrice}
-                        //maximumValue={this.props.maxGasPrice}
-                        //value={this.props.initValue}
-                       // step={1}
-                       // onValueChange={this.props.onValueChange}
-                       // thumbImage = {require('../../assets/transfer/transfer_slider_tap.png')}
-                        maximumTrackImage = {require('../../assets/transfer/transfer_slider_left.png')}
-                        minimumTrackImage = {require('../../assets/transfer/transfer_slider_right.png')}
-                        //minimumTrackTintColor={Colors.fontGrayColor}
-                        //maximumTrackTintColor={Colors.fontGrayColor}  
+                        minimumValue={this.props.minGasPrice}
+                        maximumValue={this.props.maxGasPrice}
+                        value={this.props.initValue}
+                        step={1}
+                        onValueChange={this.props.onValueChange}
+                        minimumTrackTintColor={Colors.themeColor}
+                        maximumTrackTintColor={Colors.fontGrayColor}
+                        // minimumTrackImage={require('../../assets/transfer/slider_0.png')}
+                        // maximumTrackImage={require('../../assets/transfer/slider_1.png')}
+                        // minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
+                        // maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}
+                        //thumbImage={require('../../assets/transfer/transfer_slider_right.png')}
+
                     >
                     </Slider>
                 </View>
@@ -389,10 +381,10 @@ export default class Transaction extends Component{
                             initValue={this.params.suggestGasPrice}
                             onValueChange={this.sliderValueChanged}/>
                 {/*下一步按钮*/}
-                <TouchableOpacity style={styles.button}
-                                  onPress={this.didTapNextBtn}>
-                    <Text style={styles.buttonTitle}>下一步</Text>
-                </TouchableOpacity>
+                
+                <View style={{alignItems:"center",marginTop:80}}>
+                    <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"}/>
+                </View>
             </ScrollView>
         )
     }
