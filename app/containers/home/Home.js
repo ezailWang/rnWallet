@@ -29,6 +29,7 @@ export default class HomeScreen extends Component {
     )
 
     onClickCell=(item)=>{
+        this.props.navigation.navigate('TransactionRecoder',props={transferType:"ETH"});
         console.log('---cell被点击:',item.id)
     }
 
@@ -51,9 +52,11 @@ export default class HomeScreen extends Component {
                         onSet={() => {
                             this.props.navigation.navigate('Set')
                             console.log('---设置按钮被点击')
+                            this.props.navigation.navigate("Set");
                         }}
                         onQRCode={() => {
                             console.log('---二维码按钮被点击')
+                            this.props.navigation.navigate('ReceiptCode');
                         }}
                         onAddAssets={() => {
                             console.log('---添加资产按钮被点击')

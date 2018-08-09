@@ -14,6 +14,8 @@ const Colors={
     fontDarkGrayColor:'#959595',
     fontWhiteColor:'#FFFFFF',
     fontBlueColor:'#00a0e9',
+    fontGreenColor:'#1bc94b',
+    fontRedColor:'#e62624',
     //警告框颜色
     RedColor:'#ff3636',
     //主题颜色
@@ -24,10 +26,11 @@ const Colors={
     blackOpacityColor:'rgba(149,149,149,0.7)',
     //透明色
     clearColor:'rgba(255,255,255,0.0)',
-    //白色背景
-    backgroundWhiteColor:'#fff',
     //灰色背景
     bgGrayColor:'#F8F8F8',
+    //白底
+    whiteBackgroundColor:"#FFFFFF",
+
 };
 
 const TransferType={

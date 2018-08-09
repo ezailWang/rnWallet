@@ -63,93 +63,15 @@ import {
     PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     ScanQRCodeScreen,
-    TransactionRecoder,
-    Loading
+    TransactionDetail,
+    Loading,
+    TransactionRecoder
 } from '../containers/containers';
 
 import {BlueHeader,WhiteBgHeader,WhiteBgNoTitleHeader} from '../components/NavigaionHeader'
 import {BackButton,HeaderButton} from '../components/Button'
 import React from 'react';
 
-const RouteConfig = {
-    Wallet: {
-        screen: Wallet,
-        navigationOptions: ({navigation}) => ({
-            title: '主页信息',
-        })
-    },
-    Transaction: {
-        screen: Transaction,
-        navigationOptions: ({navigation}) => ({
-            //headerTitle: `${this.props.transferType}转账`,
-            gesturesEnable: false,
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
-    },
-    WalletTest: {
-        screen: walletTest
-    },
-    RpcTest: {
-        screen: rpcTest
-    },
-    KeystoreTest: {
-        screen: keystoreTest
-    },
-    NetworkTest: {
-        screen: networkTest
-    },
-    Set: {
-        headerMode:'float',
-        screen: SetScreen,
-        navigationOptions: ({navigation}) => ({
-            headerTitle: "设置",
-            headerStyle: {
-                backgroundColor: "white",
-            },
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
-    },
-    ModifyPassword: {
-        screen: ModifyPasswordScreen,
-        navigationOptions: ({navigation}) => ({
-            headerTitle: "修改密码",
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
-    },
-    PasswordPrompInfo: {        
-        screen: PasswordPrompInfoScreen,
-        navigationOptions: ({navigation}) => ({
-            headerTitle:'密码提示信息',
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
-    },
-    ReceiptCode: {
-        screen: ReceiptCodeScreen,
-        navigationOptions: ({navigation}) => ({
-            headerTitle:'收款码',
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
-    },
-    TransactionDetail: {
-        screen: TransactionRecoder,
-        navigationOptions: ({navigation}) => ({
-            headerTitle: "交易记录",
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
-    }
-}
 //首次启动导航栈
 const FirstLaunchRouteConfig =
 {
@@ -241,7 +163,7 @@ const HomeRouteConfig =
         screen: ReceiptCodeScreen,
     },
     TransactionDetail: {
-        screen: TransactionRecoder,
+        screen: TransactionDetail,
         navigationOptions: ({navigation}) => ({
             header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
         })
@@ -251,7 +173,64 @@ const HomeRouteConfig =
         navigationOptions: ({navigation}) => ({
             header:<WhiteBgHeader navigation={navigation} text='扫描二维码'/>
         })
-    }
+    },
+    BackupMnemonic: {
+        screen: BackupMnemonicScreen,
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
+    VerifyMnemonic: {
+        screen: VerifyMnemonicScreen,
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
+    CreateWallet: {
+        screen: CreateWalletScreen,
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
+    TransactionRecoder:{
+        screen: TransactionRecoder,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: "交易记录",
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
+    Transaction:{
+        screen: Transaction,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: `${this.props.transferType}`,
+            headerStyle: {
+                backgroundColor: "white",
+            },
+            headerLeft: <BackButton onPress={() => {
+                navigation.goBack()
+            }}/>,
+        })
+    },
 };
 
 const TestRouteConfig = {
@@ -269,5 +248,5 @@ const TestRouteConfig = {
     },
 }
 
-export { RouteConfig, HomeRouteConfig, FirstLaunchRouteConfig, Loading, TestRouteConfig };
+export { HomeRouteConfig, FirstLaunchRouteConfig, Loading, TestRouteConfig };
 
