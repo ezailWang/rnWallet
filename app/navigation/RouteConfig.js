@@ -210,25 +210,13 @@ const HomeRouteConfig =
     TransactionRecoder:{
         screen: TransactionRecoder,
         navigationOptions: ({navigation}) => ({
-            headerTitle: "交易记录",
-            headerStyle: {
-                backgroundColor: "white",
-            },
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
+            header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
         })
     },
     Transaction:{
         screen: Transaction,
         navigationOptions: ({navigation}) => ({
-            headerTitle: `${this.props.transferType}`,
-            headerStyle: {
-                backgroundColor: "white",
-            },
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
+            header:<WhiteBgHeader navigation={navigation} text={`${this.props.transferType}`}/>
         })
     },
 };

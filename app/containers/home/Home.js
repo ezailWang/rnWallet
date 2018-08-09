@@ -50,7 +50,6 @@ export default class HomeScreen extends Component {
                             console.log('---切换钱包按钮被点击')
                         }}
                         onSet={() => {
-                            this.props.navigation.navigate('Set')
                             console.log('---设置按钮被点击')
                             this.props.navigation.navigate("Set");
                         }}

@@ -197,10 +197,10 @@ class SliderView extends Component{
                         value={this.props.initValue}
                         step={1}
                         onValueChange={this.props.onValueChange}
-                        //minimumTrackTintColor={Colors.themeColor}
-                        // maximumTrackTintColor={Colors.fontGrayColor}
-                        minimumTrackImage={require('../../assets/transfer/slider_0.png')}
-                        maximumTrackImage={require('../../assets/transfer/slider_1.png')}
+                        minimumTrackTintColor={Colors.themeColor}
+                        maximumTrackTintColor={Colors.fontGrayColor}
+                        // minimumTrackImage={require('../../assets/transfer/slider_0.png')}
+                        // maximumTrackImage={require('../../assets/transfer/slider_1.png')}
                         // minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
                         // maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}
                         //thumbImage={require('../../assets/transfer/transfer_slider_right.png')}
