@@ -10,6 +10,7 @@ import ImageButton from '../../components/ImageButton'
 import layoutConstants from '../../config/LayoutConstants';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import AddToken from './AddToken'
+import {HeaderButton} from '../../components/Button'
 
 export default class HomeScreen extends Component {
     constructor(props) {
@@ -90,7 +91,7 @@ export default class HomeScreen extends Component {
                 />
                 <ImageButton
                     btnStyle={{ width: 30, height: 30, right: 20, top: 30, position: 'absolute' }}
-                    imageStyle={{ width: 30, height: 30 }}
+                    // imageStyle={{ }}
                     onClick={() => {
                         console.log('---目录按钮被点击')
                     }}

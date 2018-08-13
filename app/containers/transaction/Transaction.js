@@ -7,7 +7,6 @@ import {
     Text,
     TextInput,
     View,
-    Slider,
     TouchableOpacity,
     InteractionManager
 } from 'react-native';
@@ -19,6 +18,8 @@ import {store} from '../../config/store/ConfigureStore'
 
 import PropTypes from 'prop-types';
 import {BlueButtonBig} from '../../components/Button'
+
+import Slider from '../../components/Slider'
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -48,7 +49,14 @@ const styles = StyleSheet.create({
         height: 46,
         backgroundColor: "white",
         justifyContent:"center",
-        shadowColor: '#000',
+        shadowColor: Colors.fontDarkGrayColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
+        elevation: 10
+    },
+    shadowStyle:{
+        shadowColor: Colors.fontDarkGrayColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 1,
@@ -101,14 +109,16 @@ const styles = StyleSheet.create({
     },
     buttonTitle:{
         fontSize:20,
-        color:"white",
+        color:Colors.fontWhiteColor,
         textAlign:"center",
         fontWeight:"bold"
     },
     sliderContainerView:{
-        width:ScreenWidth - 80,
-        marginTop:10,
-        marginLeft:40,
+        width:ScreenWidth - 50*2,
+        height:40,
+        marginTop:20,
+        marginLeft:50,
+        // backgroundColor:Colors.RedColor
     },
     sliderAlertView:{
         width:ScreenWidth - 80,
@@ -121,6 +131,22 @@ const styles = StyleSheet.create({
 
 });
 
+const sliderStyle = StyleSheet.create({
+    track: {
+      height: 14,
+      borderRadius: 7,
+    },
+    thumb: {
+      width: 22,
+      height: 22,
+      borderRadius: 22 / 2,
+      backgroundColor: 'white',
+      shadowColor: 'black',
+      shadowOffset: {width: 0, height: 2},
+      shadowRadius: 2,
+      shadowOpacity: 0.35,
+}});
+
 //section封装视图
 const SectionView = ({titleText,placeHolder,detailTitle,returnKeyType,targetInput})=>(
     <View  style={styles.sectionView}>
@@ -128,7 +154,7 @@ const SectionView = ({titleText,placeHolder,detailTitle,returnKeyType,targetInpu
             <Text style={styles.sectionViewTitleText}>{titleText}</Text>
             <Text style={styles.blueText}>{detailTitle}</Text>
         </View>
-        <View style={styles.sectionViewBottomView}>
+        <View style={[styles.sectionViewBottomView,styles.shadowStyle]}>
             <TextInput style={styles.sectionViewTextInput}
                        placeholder={placeHolder}
                        returnKeyType={returnKeyType}
@@ -186,28 +212,25 @@ class SliderView extends Component{
     render(){
 
         return(
-            <View style={styles.sliderBottomView}>
+            <View style={[styles.sliderBottomView,styles.shadowStyle]}>
                 <View style={styles.sliderTitleContainerView}>
                     <Text style={styles.sliderTitle}>矿工费</Text>
                     <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
                 </View>
                 <View style={styles.sliderContainerView}>
-                    <Slider
-                        minimumValue={this.props.minGasPrice}
-                        maximumValue={this.props.maxGasPrice}
-                        value={this.props.initValue}
-                        step={1}
-                        onValueChange={this.props.onValueChange}
-                        minimumTrackTintColor={Colors.themeColor}
-                        maximumTrackTintColor={Colors.fontGrayColor}
-                        // minimumTrackImage={require('../../assets/transfer/slider_0.png')}
-                        // maximumTrackImage={require('../../assets/transfer/slider_1.png')}
-                        // minimumTrackImage={require('../../assets/transfer/transfer_slider_left.png')}
-                        // maximumTrackImage={require('../../assets/transfer/transfer_slider_right.png')}
-                        //thumbImage={require('../../assets/transfer/transfer_slider_right.png')}
 
-                    >
-                    </Slider>
+                    <Slider style={sliderStyle.container}
+                            trackStyle={sliderStyle.track}
+                            thumbStyle={sliderStyle.thumb}
+                            minimumTrackTintColor={Colors.themeColor}
+                            maximumTrackTintColor={Colors.fontGrayColor}
+                            thumbTouchSize={{width: 30, height: 24}}
+                            onValueChange={this.props.onValueChange}
+                            value={this.props.initValue}
+                            minimumValue={this.props.minGasPrice}
+                            maximumValue={this.props.maxGasPrice}
+                            step={1}
+                    />
                 </View>
                 <View style={styles.sliderAlertView}>
                     <Text>慢</Text>
