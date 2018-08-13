@@ -11,6 +11,7 @@ import OvalButton from './OvalButton'
 import ImageButton from '../../../components/ImageButton'
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
+import LinearGradient from'react-native-linear-gradient'
 
 export default class HeadView extends Component {
 
@@ -35,7 +36,10 @@ export default class HeadView extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <LinearGradient  colors={['#32beff', '#0095eb', '#2093ff']}
+                             start={{x:0,y:1}}
+                             end={{x:1,y:1}}
+                             style={styles.container}>
                 <View style={styles.topViewContainer}>
                 </View>
                 <View style={styles.headContainer}>
@@ -82,7 +86,7 @@ export default class HeadView extends Component {
                         backgroundImageSource={this.props.addAssetsIcon}
                     />
                 </View>
-            </View>
+            </LinearGradient>
         )
     }
 }

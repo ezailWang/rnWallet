@@ -10,7 +10,6 @@ import {
     Image,
     Text
 }from 'react-native'
-import PropType from 'prop-types'
 import LinearGradient from 'react-native-linear-gradient'
 
 const styles = StyleSheet.create({

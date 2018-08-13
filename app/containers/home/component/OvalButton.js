@@ -7,7 +7,7 @@ import {
     Image
 } from 'react-native'
 import PropTypes from 'prop-types'
-
+import Layout from '../../../config/LayoutConstants'
 
 export default class OvalButton extends Component {
 
@@ -29,11 +29,11 @@ export default class OvalButton extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: 100,
-        height: 36,
+        width: Layout.WINDOW_WIDTH * 0.28,
+        height: 30,
         backgroundColor: 'transparent',
         borderRadius: 18,
-        borderColor: 'white',
+        borderColor: '#7FCEF2',
         borderWidth: 1.5,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -41,13 +41,13 @@ const styles = StyleSheet.create({
         margin:10
     },
     image: {
-        width: 20,
-        height: 20,
+       // width: 20,
+       // height: 20,
         marginRight:5
     },
     text: {
         color: 'white',
-        fontSize: 12
+        //fontSize: 12
     }
 
 })
