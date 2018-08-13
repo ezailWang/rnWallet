@@ -12,4 +12,11 @@ function upsetArrayOrder(array) {
     return array;
 };
 
-module.exports = {upsetArrayOrder}
+//将字符串中的多个空格缩减为一个空格
+function resetStringBlank(str){
+    var regEx = /\s+/g;
+    var newStr = str.replace(regEx,' ');
+    return newStr;
+}
+
+module.exports = {upsetArrayOrder,resetStringBlank}

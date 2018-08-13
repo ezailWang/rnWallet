@@ -40,9 +40,9 @@ export default class keystoreTest extends Component {
         }
         var key = 'uesr'
         StorageManage.save(key, object)
-        var loadRet = await StorageManage.load(key)
-        console.log('load ret:', loadRet)
-        StorageManage.remove(key)
+        //var loadRet = await StorageManage.load(key)
+        //console.log('load ret:', loadRet)
+        //StorageManage.remove(key)
         
         var password = this.state.password || 'testpassword'
         console.log('password:', password)
@@ -55,7 +55,7 @@ export default class keystoreTest extends Component {
         var newKeyObject = JSON.parse(str)
         console.log('newKeyObject', newKeyObject)
     }
-
+    
     render() {
         return (
             <View style={styles.container}>

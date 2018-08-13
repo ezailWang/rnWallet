@@ -35,7 +35,14 @@ const Colors={
     //白底
     whiteBackgroundColor:"#FFFFFF",
     bgColor_e:'#eee',
+    bgBlue_9a:'#9ACEF2',
+
+
+
+
+
     borderColor_e:'#eee',
+
 
 };
 

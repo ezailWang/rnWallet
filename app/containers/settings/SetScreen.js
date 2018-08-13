@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
 import { connect } from 'react-redux';
+import StorageManage from '../../utils/StorageManage'
+import keystoreUtils from '../../utils/keystoreUtils'
 import {NextButton} from '../../components/Button';
-import ModifyNameDialog from '../../components/ModifyNameDialog';
+import InputTextDialog from '../../components/InputTextDialog';
 import {Colors,FontSize}from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import * as Actions from '../../config/action/Actions';
 
 const styles = StyleSheet.create({
     container:{
@@ -52,84 +55,152 @@ const styles = StyleSheet.create({
     
 })
 
-export default class SetScreen extends Component {
+class SetScreen extends Component {
   
     constructor(props){
         super(props);
         this.state = {
+            inputDialogPlaceholder:'',
             modalVisible : false,
         }
     }
 
-    isOpenModifyModal(modalVisible) {
-        this.setState({modalVisible: modalVisible});
+    openInputNameModal() {
+        this.setState({
+            inputDialogPlaceholder:'钱包名称',
+            modalVisible: true,
+        });
     }
-    modifyWalletName(){
-        var name = this.refs.modifyNameDialog.state.name;
-        isOpenModifyModal(false);
+    openInputPwdModal() {
+        this.setState({
+             inputDialogPlaceholder:'请输入密码',
+             modalVisible: true,
+        });
+    }
+    closeInputModal(){
+        this.setState({modalVisible: false});
+    }
+    inputDialogConfirmClick(){
+        if(this.state.inputDialogPlaceholder == "钱包名称"){
+            this.modifyWalletName();
+        }else{
+            this.exportKeyPrivate();
+        }
+    }
+    async  modifyWalletName(){
+        var name = this.refs.inputTextDialog.state.text;
+        var key = 'uesr' 
+        
+        var loadUser = await StorageManage.load(key);
+        if(loadUser == null){
+            loadUser = {
+                name: name,
+            }
+        }else{
+            loadUser.name = name;//修改name值
+        }
+        StorageManage.save(key, loadUser)
+        this.props.modifyWalletName(name);
+        this.closeInputModal();//隐藏弹框
+    }
+
+    exportKeyPrivate(){
+        var password = this.refs.inputTextDialog.state.text;
+        this.closeInputModal();//隐藏弹框
+        console.log('password',password);
+        if(password == '' || password == null || password == undefined){
+            Alert.alert(
+                'warn',
+                '请输入密码'
+            )
+        }else{
+            this.props.navigation.navigate('ExportPrivateKey',{password: password})
+        }
+    }
+
+    async exportWallet(){
+         var key = 'uesr'
+         var user = await StorageManage.load(key);
+         console.log('user', user)
+         var str = await keystoreUtils.importFromFile(user.address)
+         var newKeyObject = JSON.parse(str)
+         console.log('L8_newKeyObject', newKeyObject)
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <ModifyNameDialog
-                    ref = "modifyNameDialog"
-                    placeholder = "钱包名称"
+                <InputTextDialog
+                    ref = "inputTextDialog"
+                    placeholder = {this.state.inputDialogPlaceholder}
                     leftTxt = "取消"
                     rightTxt = '确定'
-                    leftPress = {()=> this.isOpenModifyModal(false)}
-                    rightPress = {()=> this.modifyWalletName()}
+                    leftPress = {()=> this.closeInputModal()}
+                    rightPress = {()=> this.inputDialogConfirmClick()}
                     modalVisible = {this.state.modalVisible}
                 />
-
                 <TouchableOpacity style={[styles.btnOpacity]} 
                                   activeOpacity={0.6} 
-                                  onPress={()=> this.isOpenModifyModal(true)}>
-                    <Text style={styles.btnTxt}>更换图标</Text>
-                    <Image style={styles.headIcon} source={require('../../assets/common/photoIcon.png')}/>
-                </TouchableOpacity> 
-                <TouchableOpacity style={[styles.btnOpacity]} 
-                                  activeOpacity={0.6} 
-                                  onPress={()=> this.isOpenModifyModal(true)}>
+                                  onPress={()=> this.openInputNameModal()}>
                     <Text style={styles.btnTxt}>修改钱包名称</Text>
-                    <Text style={styles.walletName}>Wallet Name</Text>
+                    <Text style={styles.walletName}>{this.props.walletName}</Text>
                 </TouchableOpacity> 
-                <View style={styles.buttonBox}>
-                    <NextButton
-                        onPress = {()=> this.props.navigation.navigate('ModifyPassword')}
-                        text = '修改密码'
-                    />
-                </View>   
+                
                 <View style={[styles.buttonBox,styles.marginBottom20]}>
                     <NextButton
                         onPress = {()=> this.props.navigation.navigate('PasswordPrompInfo')}
                         text = '密码提示信息'
                     />
                 </View> 
-
+                
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.props.navigation.navigate('ReceiptCode')}
-                        text = '导出助记词'
-                    />
-                </View> 
-                <View style={styles.buttonBox}>
-                    <NextButton
-                        onPress = {()=> this.props.navigation.navigate('TransactionDetail')}
+                        onPress = {()=> this.props.navigation.navigate('ExportKeystore')}
                         text = '导出Keystore'
                     />
                 </View> 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> {this.props.navigation.navigate('BackupMnemonic')}}
+                        onPress = {()=> this.openInputPwdModal()}
                         text = '导出私钥'
                     />
                 </View> 
+                
             </View>
         );
     }
 }
+const mapStateToProps = state => ({
+    walletName:state.Core.walletName,
+});
+const mapDispatchToProps = dispatch => ({
+    modifyWalletName: (walletName) => dispatch(Actions.setWalletName(walletName)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SetScreen)
 
 
+/*
+//第一版  先隐藏 【更换图标  导出助记词  修改密码】
+<TouchableOpacity style={[styles.btnOpacity]} 
+                                  activeOpacity={0.6} 
+                                  onPress={()=> this.isOpenModifyModal(true)}>
+                    <Text style={styles.btnTxt}>更换图标</Text>
+                    <Image style={styles.headIcon} source={require('../../assets/common/photoIcon.png')}/>
+                </TouchableOpacity> 
+<View style={styles.buttonBox}>
+                    <NextButton
+                        //onPress = {()=> this.props.navigation.navigate('ReceiptCode')}
+                        onPress = {()=> this.exportWallet()}
+                        text = '导出助记词'
+                    />
+                </View>                 
 
+<View style={styles.buttonBox}>
+                    <NextButton
+                        onPress = {()=> this.props.navigation.navigate('ModifyPassword')}
+                        text = '修改密码'
+                    />
+                </View>   
+ 
+ */

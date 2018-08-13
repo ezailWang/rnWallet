@@ -28,9 +28,17 @@ function setWalletAddress(address) {
     }
 }
 
+function setWalletName(name){
+    return {
+        type: types.SET_WALLET_NAME,
+        walletName: name,
+    }
+}
+
 export {
     generateMnemonic,
     setWalletTransferParams,
     setTransactionDetailParams,
-    setWalletAddress
+    setWalletAddress,
+    setWalletName
 }

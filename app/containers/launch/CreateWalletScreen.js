@@ -7,7 +7,7 @@ import keystoreUtils from '../../utils/keystoreUtils'
 import StorageManage from '../../utils/StorageManage'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
-import * as TestAction from '../../config/action/TestAction'
+import * as Actions from '../../config/action/Actions'
 
 import {androidPermission}  from '../../utils/permissionsAndroid';
 
@@ -88,12 +88,14 @@ class CreateWalletScreen extends Component {
         super(props);
         this.state = {
             walletName:'',
-            password:'',
-            prePassword : '',
-            passwordHint:'',
+            pwd:'',
+            rePwd: '',
+            pwdHint:'',
             isShowPassword:false,
             isShowRePassword:false,
         }
+
+        //this.startCreateWallet=this.startCreateWallet.bind(this);
     }
 
     isOpenPwd() {
@@ -136,16 +138,21 @@ class CreateWalletScreen extends Component {
     }
 
     vertifyInputData(){
-
+        var walletName = this.state.walletName;
+        var pwd = this.state.pwd;
+        var rePwd = this.state.rePwd;
+        
         var warnMessage = "";
-        if(this.state.walletName == '' || this.state.walletName == null || this.state.walletName == undefined){
+        if(walletName == '' || walletName == null || walletName == undefined){
             warnMessage = "请输入钱包名称"
-        }else if(this.state.password = ''  || this.state.password == null || this.state.password == undefined){
+        }else if(pwd == ''  || pwd == null || pwd == undefined){
             warnMessage = "请输入密码"
-        }else if(this.state.rePassword = '' || this.state.rePassword == null || this.state.rePassword == undefined){
+        }else if(rePwd == '' || rePwd == null || rePwd == undefined){
             warnMessage = "请输入重复密码"
-        }else if(this.state.password != this.state.rePassword){
+        }else if(pwd != rePwd){
             warnMessage = "请输入一致的密码"
+        }else if(this.props.mnemonic == ''  || this.props.mnemonic == null || this.props.mnemonic == undefined){
+            warnMessage = "助记词生成失败"
         }
         if(warnMessage!=""){
             Alert.alert(
@@ -163,9 +170,10 @@ class CreateWalletScreen extends Component {
     }
 
     async startCreateWallet(){ 
-        console.log('L1', '进入')
+        console.log('L1', '进入');
         var m =  this.props.mnemonic;//助记词
-        console.log('L2', m)
+        console.log('L2_mnemonic', m)
+
         const seed = walletUtils.mnemonicToSeed(m)
         const seedHex = seed.toString('hex')
         var hdwallet = HDWallet.fromMasterSeed(seed)
@@ -173,28 +181,30 @@ class CreateWalletScreen extends Component {
         hdwallet.setDerivePath(derivePath)
         const privateKey = hdwallet.getPrivateKey()
         const checksumAddress = hdwallet.getChecksumAddressString()
-        console.log('L3_address:', checksumAddress)
+        console.log('L3_prikey:', hdwallet.getPrivateKeyString())
+        console.log('L4_address:', checksumAddress)
         var object = {
             name: this.state.walletName,
             address: checksumAddress,
-            extra: this.state.passwordHint,
+            extra: this.state.pwdHint,
         }
         var key = 'uesr'
         StorageManage.save(key, object)
-        var loadRet = await StorageManage.load(key)
-        console.log('L4_loadRet:', loadRet)
-        //StorageManage.remove(key)
+        //var loadRet = await StorageManage.load(key)
+        //console.log('L5_user:', loadRet)
         
-        var password = this.state.passwordHint;
-        console.log('L5_password:',password )
+        var password = this.state.pwd;
+        console.log('L6_pwd:', this.state.pwd)
+        console.log('L6_password:', password)
         var params = { keyBytes: 32, ivBytes: 16 }
         var dk = keythereum.create(params);
         var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
-        console.log('L6_keyObject:', keyObject)
+        console.log('L7_keyObject:', keyObject)
         await keystoreUtils.exportToFile(keyObject, "keystore")
-        var str = await keystoreUtils.importFromFile(keyObject.address)
-        var newKeyObject = JSON.parse(str)
-        console.log('L7_keyObject', newKeyObject)
+        //var str = await keystoreUtils.importFromFile(keyObject.address)
+        //var newKeyObject = JSON.parse(str)
+        //console.log('L8_newKeyObject', newKeyObject)
+        console.log('L9', '完成')
     }
     
     render() {
@@ -216,7 +226,6 @@ class CreateWalletScreen extends Component {
                                     walletName: event.nativeEvent.text
                                 })
                             }}/>
-        
                 <View style={styles.inputBox}> 
                     <TextInput style={styles.input} 
                            placeholder='密码'
@@ -225,7 +234,7 @@ class CreateWalletScreen extends Component {
                            secureTextEntry={!this.state.isShowPassword} 
                            onChange={(event) => {
                                 this.setState({
-                                    password: event.nativeEvent.text
+                                    pwd: event.nativeEvent.text
                                 })
                            }}
                     />
@@ -233,7 +242,7 @@ class CreateWalletScreen extends Component {
                          <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'}/>
                     </TouchableOpacity>
                     
-                </View>   
+                </View> 
 
                 <View style={styles.inputBox}> 
                     <TextInput style={styles.input} 
@@ -243,7 +252,7 @@ class CreateWalletScreen extends Component {
                            secureTextEntry={!this.state.isShowRePassword} 
                            onChange={(event) => {
                                 this.setState({
-                                    rePassword: event.nativeEvent.text
+                                    rePwd: event.nativeEvent.text
                                 })
                            }}
                     />
@@ -259,12 +268,11 @@ class CreateWalletScreen extends Component {
                            selectionColor='#00bfff' 
                            onChange={(event) => {
                                 this.setState({
-                                    passwordHint: event.nativeEvent.text
+                                    pwdHint: event.nativeEvent.text
                                 })
                             }}/>
                             
                 <View style={styles.buttonBox}>
-
                         <BlueButtonBig
                             onPress = {()=> this.vertifyInputData()}
                             text = '创建'
@@ -275,6 +283,8 @@ class CreateWalletScreen extends Component {
         );
     }
 }
+
+
 
 
 const mapStateToProps = state => ({

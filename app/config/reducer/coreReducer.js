@@ -1,5 +1,5 @@
 import {
-    SET_NETWORK, SET_WALLET_ADDRESS, GENERATE_MNEMONIC, WALLET_TRANSFER, TRANSACTION_DETAIL,
+    SET_NETWORK, SET_WALLET_ADDRESS, GENERATE_MNEMONIC, WALLET_TRANSFER, TRANSACTION_DETAIL,SET_WALLET_NAME
 } from '../action/ActionType'
 import * as types from "../action/ActionType";
 
@@ -46,6 +46,12 @@ function coreReducer(state = defaultState, action) {
                 transactionDetail:action.transactionDetail
             }
             break;
+        case SET_WALLET_NAME:
+            return {
+                ...state,
+                walletName:action.walletName
+            }
+            break; 
         default: return state;
     }
 }
