@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import LinearGradient from 'react-native-linear-gradient'
 
-import {WhiteButtonBig,ClarityWhiteButtonBig,RightBlueNextButton,RightWhiteNextButton} from '../../components/Button'
+import {RightBlueNextButton,RightWhiteNextButton} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
