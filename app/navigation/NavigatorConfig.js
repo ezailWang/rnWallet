@@ -60,7 +60,7 @@ const FirstLaunchStackNavigationConfig = {
 }
 
 const TestStackNavigationConfig = {
-    initialRouteName:'KeystoreTest'
+    initialRouteName:'NetworkTest'
 }
 
 export {HomeStackNavigationConfig,FirstLaunchStackNavigationConfig,StackNavigationConfig,TestStackNavigationConfig}

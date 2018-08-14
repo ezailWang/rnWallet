@@ -10,21 +10,22 @@ import ImageButton from '../../components/ImageButton'
 import layoutConstants from '../../config/LayoutConstants';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import AddToken from './AddToken'
-import {HeaderButton} from '../../components/Button'
+import { HeaderButton } from '../../components/Button'
+import { connect } from 'react-redux'
+import networkManage from '../../utils/networkManage'
+import { addToken } from '../../config/action/Actions'
+import StorageManage from '../../utils/StorageManage'
+import { StorageKey } from '../../config/GlobalConfig'
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: [{ id: '1', name: 'ETH', value: '100' },
-            { id: '2', name: 'ITC', value: '888' },
-            { id: '3', name: 'ITC', value: '888' },
-            { id: '4', name: 'ITC', value: '888' }],
-            datak: [],
             addTokenShow: false,
         }
 
     }
+
     renderItem = (item) => (
         <HomeCell
             item={item}
@@ -34,7 +35,7 @@ export default class HomeScreen extends Component {
 
     onClickCell = (item) => {
         this.props.navigation.navigate('TransactionRecoder', props = { transferType: "ETH" });
-        console.log('---cell被点击:', item.id)
+        console.log('---cell被点击:', item)
     }
 
     showAddtoken = () => {
@@ -43,27 +44,50 @@ export default class HomeScreen extends Component {
         })
     }
 
-    onClickAdd = (data) => {
-        console.log('data:', data)
-        //添加token请求，刷新资产列表，风火轮
+    onClickAdd = async (token) => {
+        await this.saveTokenToStorage(token)
         this.setState({
             addTokenShow: false
         })
+        await networkManage.loadTokenList()
     }
+
+    formatAddress(address) {
+        return address.substr(0, 5) + '...' + address.slice(-5)
+    }
+
+    async componentDidMount() {
+        await networkManage.loadTokenList()
+    }
+
+    async saveTokenToStorage(token) {
+        var localTokens = await StorageManage.load(StorageKey.Tokens)
+        if (!localTokens) {
+            localTokens = []
+        }
+        localTokens.push({
+            contractAddress: token.tokenAddress,
+            symbol: token.tokenSymbol,
+            decimals: token.tokenDecimals,
+        })
+        StorageManage.save(StorageKey.Tokens, localTokens)
+    }
+
+
 
     render() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
+                <StatusBarComponent />
                 <FlatList
                     ItemSeparatorComponent={ItemDivideComponent}
                     ListEmptyComponent={EmptyComponent}
                     getItemLayout={(data, index) => ({ length: 50, offset: 60 * index, index: index })}
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id}
-                    data={this.state.data}
+                    data={this.props.tokens}
                     ListHeaderComponent={<HeadView
-                        
+
                         onSwitchWallet={() => {
                             console.log('---切换钱包按钮被点击')
                         }}
@@ -79,9 +103,9 @@ export default class HomeScreen extends Component {
                             console.log('---添加资产按钮被点击')
                             this.showAddtoken()
                         }}
-                        walletName='testWallet'
-                        address='0Xfnew232...24n1id'
-                        totalAssets='0.88'
+                        walletName={this.props.walletName}
+                        address={this.formatAddress(this.props.walletAddress)}
+                        totalAssets={this.props.totalAssets + ''}
                         switchWalletIcon={require('../../assets/home/switch.png')}
                         headIcon={require('../../assets/home/user.png')}
                         QRbtnIcon={require('../../assets/home/QR_icon.png')}
@@ -116,3 +140,16 @@ const styles = StyleSheet.create({
         flex: 1,
     }
 })
+
+const mapStateToProps = state => ({
+    tokens: state.Core.tokens,
+    walletAddress: state.Core.walletAddress,
+    totalAssets: state.Core.totalAssets,
+    walletName: state.Core.walletName,
+})
+
+const mapDispatchToProps = dispatch => ({
+    addToken: (token) => dispatch(addToken(token))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

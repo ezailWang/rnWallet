@@ -29,7 +29,7 @@ class EmptyComponent extends Component {
 
 class HomeCell extends Component {
     render() {
-        const { name, value } = this.props.item.item || {}
+        const { symbol, balance } = this.props.item.item || {}
         return (
             <TouchableOpacity 
             style={styles.container}
@@ -37,11 +37,10 @@ class HomeCell extends Component {
             >
                 <View style={styles.leftView}>
                     <Image style={styles.icon}></Image>
-                    <Text>{name}</Text>
+                    <Text>{symbol}</Text>
                 </View>
                 <View style={styles.rightView}>
-                    <Text>{value}</Text>
-                    <Text>≈888</Text>
+                    <Text>{balance}</Text>
                 </View>
             </TouchableOpacity>
         )

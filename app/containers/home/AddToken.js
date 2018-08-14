@@ -10,18 +10,40 @@ import {
 import { Colors } from '../../config/GlobalConfig'
 import layoutConstants from '../../config/LayoutConstants'
 import ImageButton from '../../components/ImageButton'
-import { black } from '../../../node_modules/ansi-colors';
+import networkManage from '../../utils/networkManage'
+import { store } from '../../config/store/ConfigureStore'
 
 export default class AddToken extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tokenAddress:'',
-            tokenSymbol:'',
-            tokenDecimals:0,
+            tokenAddress: '',
+            tokenSymbol: '',
+            tokenDecimals: 0,
+            isValidAddress: false,
         }
     }
+
+    checkInput() {
+        const { tokens } = store.getState().Core
+        const tokensAddresses = tokens
+            .filter(token => token.symbol !== 'ETH')
+            .map(token => token.contractAddress)
+        if (this.state.tokenAddress !== '' && !this.state.isValidAddress) {
+            return '合约地址无效'
+        } else if (this.state.isValidAddress && tokensAddresses.includes(this.state.tokenAddress)) {
+            return '该合约资产已经添加'
+        }
+        else if (this.state.isValidAddress && (this.state.tokenSymbol.length <= 0 || this.state.tokenSymbol > 10)) {
+            return '请输入资产标识0~10个字符'
+        } else if (this.state.tokenDecimals > 36 || this.state.tokenDecimals < 0) {
+            return '精度范围在0~36'
+        }
+        return ''
+    }
+
     render() {
+        let checkStr = this.checkInput()
         return (
             <Modal
                 visible={this.props.open}
@@ -42,34 +64,40 @@ export default class AddToken extends Component {
                         </View>
                         <View style={styles.MiddleContainer}>
                             <TextInput style={styles.TextInput}
-                                placeholder='资产名称'
-                                onChange={(event)=>{
+                                placeholder='合约地址'
+                                onChange={(event) => {
                                     this.setState({
-                                        tokenSymbol:event.nativeEvent.text
+                                        isValidAddress: networkManage.isValidAddress(event.nativeEvent.text) ? true : false,
+                                        tokenAddress: event.nativeEvent.text
                                     })
                                 }}
                             />
                             <TextInput style={styles.TextInput}
-                                placeholder='合约地址'
-                                onChange={(event)=>{
+                                placeholder='资产标识'
+                                onChange={(event) => {
                                     this.setState({
-                                        tokenAddress:event.nativeEvent.text
+                                        tokenSymbol: event.nativeEvent.text
                                     })
                                 }}
                             />
                             <TextInput style={styles.TextInput}
                                 placeholder='小数精度'
-                                onChange={(event)=>{
+                                keyboardType='numeric'
+                                onChange={(event) => {
                                     this.setState({
-                                        tokenDecimals:event.nativeEvent.text
+                                        tokenDecimals: event.nativeEvent.text
                                     })
                                 }}
                             />
                         </View>
                         <View style={styles.BottomContainer}>
+                            <Text
+                                style={styles.ValitText}
+                            >{checkStr}</Text>
                             <TouchableOpacity
                                 style={styles.BottomBtn}
-                                onPress={()=>{
+                                disabled={!this.state.isValidAddress}
+                                onPress={() => {
                                     this.props.onClickAdd(this.state)
                                 }}
                             >
@@ -120,20 +148,26 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingHorizontal: 10
     },
+    ValitText: {
+        alignSelf: 'center',
+        fontSize: 10,
+        color: 'red',
+        height: 15,
+        marginTop: 10,
+    },
     BottomBtn: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         marginHorizontal: 40,
-        marginVertical: 20,
-        borderRadius: (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 40) / 2,
+        marginBottom: 25,
+        borderRadius: (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2,
         backgroundColor: Colors.themeColor,
     },
     BackBtn: {
         marginRight: 10,
         position: 'absolute',
         right: 10,
-
     },
     TopText: {
         alignSelf: 'center',
