@@ -32,6 +32,7 @@ const Colors={
     clearColor:'rgba(255,255,255,0.0)',
     //灰色背景
     bgGrayColor:'#F8F8F8',
+    bgGrayColor_ed:'#ededed',
     //白底
     whiteBackgroundColor:"#FFFFFF",
     bgColor_e:'#eee',

@@ -10,7 +10,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:Colors.whiteBackgroundColor,
+        backgroundColor:Colors.bgGrayColor,
         paddingTop:20,
         paddingLeft:20,
         paddingRight:20,
@@ -37,23 +37,24 @@ const styles = StyleSheet.create({
     warnTxt:{
         flex:1,
         color:Colors.fontWhiteColor,
-        fontSize:15,
-        lineHeight:20,
+        fontSize:14,
+        lineHeight:16,
     },
-    
     privateKeyBox:{
-        //overflow:'auto',
         height:150,
-        backgroundColor:Colors.bgGrayColor,
+        backgroundColor:Colors.bgGrayColor_ed,
         borderRadius:5,
-        justifyContent:'center',
-        paddingTop:15,
-        paddingLeft:15,
-        paddingRight:15,
-        paddingBottom:15,
         marginTop:40,
         marginBottom:40,
-        
+        paddingTop:15,
+        paddingBottom:15,
+    },
+    privateKeyScroll:{
+        //overflow:'auto',
+        flex:1,
+        //justifyContent:'center',  
+        paddingLeft:15,
+        paddingRight:15,  
     },
     privateKeyText:{
         color:Colors.fontBlackColor_31,
@@ -73,6 +74,11 @@ export default class ExportKeystoreScreen extends Component {
             modalVisible : true,
         }
     }
+
+    shouldComponentUpdate(nextProps,nextState){
+        return true;
+    }
+
     componentDidMount() {
        this.exportKeystore()
     }
@@ -88,7 +94,9 @@ export default class ExportKeystoreScreen extends Component {
         })
     }
     onCloseModal() {
-        this.setState({modalVisible: false});
+        requestAnimationFrame(() => {//下一帧就立即执行回调,可以异步来提高组件的响应速度
+            this.setState({modalVisible: false});
+        });
     }
     copy(){
         Clipboard.setString(this.state.keystore);
@@ -110,10 +118,13 @@ export default class ExportKeystoreScreen extends Component {
                     </View> 
             
                     <View style={styles.privateKeyBox}>
-                         <Text style={styles.privateKeyText}>
+                        <ScrollView style={styles.privateKeyScroll}>
+                            <Text style={styles.privateKeyText}>
                               {this.state.keystore}        
-                         </Text> 
-                    </View>
+                            </Text> 
+                        </ScrollView>
+                    </View>    
+                    
                    
                     <BlueButtonBig
                         onPress = {()=> this.copy()}

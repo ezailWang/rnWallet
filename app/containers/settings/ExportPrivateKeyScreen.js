@@ -11,7 +11,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:Colors.whiteBackgroundColor,
+        backgroundColor:Colors.bgGrayColor,
         paddingTop:20,
         paddingLeft:20,
         paddingRight:20,
@@ -38,12 +38,12 @@ const styles = StyleSheet.create({
     warnTxt:{
         flex:1,
         color:Colors.fontWhiteColor,
-        fontSize:15,
-        lineHeight:20,
+        fontSize:14,
+        lineHeight:16,
     },
     privateKeyBox:{
-        height:160,
-        backgroundColor:Colors.bgGrayColor,
+        height:150,
+        backgroundColor:Colors.bgGrayColor_ed,
         borderRadius:5,
         justifyContent:'center',
         textAlignVertical:'center',
@@ -57,16 +57,14 @@ const styles = StyleSheet.create({
         marginTop:40,
         marginBottom:40,
     }
-    
 })
 
 export default class ExportPrivateKeyScreen extends Component {
 
     /**static navigationOptions = ({ navigation }) => ({
-        navigation.state.params.passoword
+       
     })**/
    
-
 
     constructor(props){
         super(props);
@@ -79,23 +77,28 @@ export default class ExportPrivateKeyScreen extends Component {
         this.exportPrivateKey()
     }
     async exportPrivateKey(){
-       var password = this.props.navigation.state.params.password;
-       console.log('password_', password)
+        var password = this.props.navigation.state.params.password;
+        //console.log('password_', password)
         var key = 'uesr'
         var user = await StorageManage.load(key);//获取地址
-        console.log('user', user)
+        //console.log('user', user)
         var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
-        console.log("keyStoreStr",keyStoreStr); 
+        //console.log("keyStoreStr",keyStoreStr); 
         var keyStoreObject = JSON.parse(keyStoreStr)
         var privateKey = await keythereum.recover(password, keyStoreObject);//导出privateKey
-        console.log("privateKey",privateKey); 
+        //console.log("privateKey",privateKey); 
         var privateKeyHex = privateKey.toString('hex');
-        console.log("privateKey",privateKeyHex); 
+        //console.log("privateKey",privateKeyHex); 
         this.setState({privateKey: privateKeyHex});
     }
 
+
     onCloseModal() {
-        this.setState({modalVisible: false});
+        console.log('L',"关闭弹框1")
+        requestAnimationFrame(() => {//下一帧就立即执行回调,可以异步来提高组件的响应速度
+            console.log('L',"关闭弹框2")
+            this.setState({modalVisible: false});
+        });
     }
     copy(){
         Clipboard.setString(this.state.privateKey);
