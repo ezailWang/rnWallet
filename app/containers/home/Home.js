@@ -3,6 +3,7 @@ import {
     FlatList,
     View,
     StyleSheet,
+    RefreshControl,
 } from 'react-native'
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
@@ -23,6 +24,7 @@ class HomeScreen extends Component {
         super(props)
         this.state = {
             addTokenShow: false,
+            isRefreshing: false,
         }
 
     }
@@ -71,6 +73,16 @@ class HomeScreen extends Component {
         await networkManage.loadTokenList()
     }
 
+    onRefresh = async () => {
+        this.setState({
+            isRefreshing: true
+        })
+        await networkManage.loadTokenList()
+        this.setState({
+            isRefreshing:false
+        })
+    }
+
     formatAddress(address) {
         return address.substr(0, 5) + '...' + address.slice(-5)
     }
@@ -92,8 +104,6 @@ class HomeScreen extends Component {
         StorageManage.save(StorageKey.Tokens, localTokens)
     }
 
-
-
     render() {
         return (
             <View style={styles.container}>
@@ -105,6 +115,11 @@ class HomeScreen extends Component {
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id}
                     data={this.props.tokens}
+                    refreshControl={<RefreshControl
+                        onRefresh={this.onRefresh}
+                        refreshing={this.state.isRefreshing}
+                        title="Loading..."
+                    />}
                     ListHeaderComponent={<HeadView
 
                         onSwitchWallet={() => {
