@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         borderColor:Colors.fontWhiteColor
     },
     normalMiddleBtn:{
-        width:Layout.WINDOW_WIDTH*0.45,
+        width:Layout.WINDOW_WIDTH*0.4,
         height:40,
         borderRadius:20,
         justifyContent:"center"
@@ -266,11 +266,13 @@ class WhiteButtonMiddle extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
+        image: PropTypes.any.isRequired
     };
     render() {
         return (
-            <TouchableOpacity style={[styles.normalMiddleBtn,styles.middleWhiteBtn]}
+            <TouchableOpacity style={[styles.normalMiddleBtn,styles.middleWhiteBtn,{flexDirection:"row",alignItems:"center"}]}
                               onPress = { this.props.onPress }>
+                <Image source={this.props.image} style={{marginRight:5}}/>
                 <Text style={[styles.normalMiddleBtnTitle,styles.middleWhiteBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
         )
@@ -408,6 +410,8 @@ class RightWhiteNextButton extends Component{
         )
     }
 }
+
+
 
 export {
     BackButton,             //蓝色返回按钮

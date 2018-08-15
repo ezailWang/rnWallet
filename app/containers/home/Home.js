@@ -16,6 +16,7 @@ import networkManage from '../../utils/networkManage'
 import { addToken } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
+import {store} from '../../config/store/ConfigureStore'
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -33,8 +34,16 @@ class HomeScreen extends Component {
         />
     )
 
-    onClickCell = (item) => {
-        this.props.navigation.navigate('TransactionRecoder', props = { transferType: "ETH" });
+    onClickCell = async (item) => {
+
+        const { walletAddress } = store.getState().Core
+        let arr = await  networkManage.getTransations(walletAddress,'ETH',18);
+        let firstRecoder = arr[0];
+
+        console.warn('获取到的数据:'+firstRecoder.hash,firstRecoder.from,firstRecoder.to,firstRecoder.value,firstRecoder.content);
+        
+        // this.props.navigation.navigate('TransactionRecoder', props = { transferType: "ETH" });
+        
         console.log('---cell被点击:', item)
     }
 
