@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         height:20
     },
     normalBtn:{
-        width:Layout.WINDOW_WIDTH*0.85,
+        width:Layout.WINDOW_WIDTH*0.75,
         height:44,
         borderRadius:22,
         borderWidth:2,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     btnBox:{
         flexDirection:'row',
         height:48,
-        width:Layout.WINDOW_WIDTH*0.85,
+        width:Layout.WINDOW_WIDTH*0.75,
         alignItems:'center',
         backgroundColor:'#fff',
         paddingLeft:20,
