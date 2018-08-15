@@ -60,6 +60,20 @@ function setTotalAssets(value) {
     }
 }
 
+function setTransactionRecoders(value) {
+    return {
+        type: types.SET_TRANSACTION_RECODER,
+        recoders: value
+    }
+}
+
+function setCoinBalance(value) {
+    return {
+        type: types.SET_COIN_BALANCE,
+        balance: value
+    }
+}
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -69,4 +83,6 @@ export {
     addToken,
     loadTokenBalance,
     setTotalAssets,
+    setTransactionRecoders,
+    setCoinBalance
 }

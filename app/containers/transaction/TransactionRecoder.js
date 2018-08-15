@@ -168,6 +168,18 @@ class Cell extends Component{
     }
 }
 
+//时间戳换时间格式
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    Y = date.getFullYear() + '-';
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    D = date.getDate() + ' ';
+    h = date.getHours() + ':';
+    m = date.getMinutes() + ':';
+    s = date.getSeconds();
+    return Y+M+D+h+m+s;
+}
+
 export default class TransactionRecoder extends Component{
 
     didTapTransactionButton=()=>{
@@ -222,17 +234,27 @@ export default class TransactionRecoder extends Component{
 
     render (){
 
-        let testData=[
-            {key:"0",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {key:"1",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
-            {key:"2",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {key:"3",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
-            {key:"4",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {key:"5",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
-            {key:"6",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:true,amount:10.1,type:"ether"},
-            {key:"7",address:"0x6043a81ae4A052381b21aac944DE408C809f0774",time:"3/16/2018",income:false,amount:10.1,type:"ether"},
-        ];
+        let recoders = store.getState().Core.recoders;
 
+        const { walletAddress } = store.getState().Core
+        console.warn(walletAddress);
+
+        var itemList = []
+        recoders.map((item,i)=>{
+            
+            let data = {
+                key:i.toString(),
+                address:item.to,
+                time:timestampToTime(item.timeStamp),
+                income:item.to.toLowerCase()==walletAddress.toLowerCase(),
+                amount:10.20,
+                type:"ether"
+            }
+            itemList.push(data)
+        });
+
+
+        let {amount,value} = store.getState().Core.balance;
 
         let bottomView = {height:60}
         if(Layout.DEVICE_IS_IPHONE_X()){
@@ -241,10 +263,10 @@ export default class TransactionRecoder extends Component{
         return(
             <View style={styles.container}>
                 <FlatList   style={styles.flatList}
-                            ListHeaderComponent={<Header balance={0.2368}
-                                                         value={1439.125}/>}
+                            ListHeaderComponent={<Header balance={amount}
+                                                         value={value}/>}
                             ListEmptyComponent ={<EmptyComponent/>}
-                            data={testData}
+                            data={itemList}
                             renderItem={this.renderItem}
                             // keyExtractor={(item)=>{item.key}}
                             >

@@ -13,7 +13,7 @@ import AddToken from './AddToken'
 import { HeaderButton } from '../../components/Button'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken } from '../../config/action/Actions'
+import { addToken, setTransactionRecoders, setCoinBalance } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
 import {store} from '../../config/store/ConfigureStore'
@@ -36,15 +36,25 @@ class HomeScreen extends Component {
 
     onClickCell = async (item) => {
 
+        //获取记录
         const { walletAddress } = store.getState().Core
         let arr = await  networkManage.getTransations(walletAddress,'ETH',18);
         let firstRecoder = arr[0];
+        console.warn('获取到的数据:'+firstRecoder.hash,firstRecoder.from,firstRecoder.to,firstRecoder.value);
+        store.dispatch(setTransactionRecoders(arr));
 
-        console.warn('获取到的数据:'+firstRecoder.hash,firstRecoder.from,firstRecoder.to,firstRecoder.value,firstRecoder.content);
+        //获取余额信息
+        let balanceAmount = await networkManage.getEthBalance();
+        let price = await networkManage.getEthPrice();
+        let value = parseFloat(balanceAmount)*parseFloat(price);
         
-        // this.props.navigation.navigate('TransactionRecoder', props = { transferType: "ETH" });
-        
-        console.log('---cell被点击:', item)
+        let balanceInfo = {
+            amount:balanceAmount,
+            value:value.toFixed(2)
+        }
+
+        store.dispatch(setCoinBalance(balanceInfo));
+        this.props.navigation.navigate('TransactionRecoder');
     }
 
     showAddtoken = () => {

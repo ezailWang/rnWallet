@@ -8,6 +8,8 @@ import {
     LOAD_TOKEN_BALANCE,
     SET_TOTAL_ASSETS,
     SET_WALLET_NAME,
+    SET_TRANSACTION_RECODER,
+    SET_COIN_BALANCE
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -85,6 +87,16 @@ function coreReducer(state = defaultState, action) {
                 ...state,
                 totalAssets: action.value
             }
+        case SET_TRANSACTION_RECODER:
+            return {
+                ...state,
+                recoders: action.recoders
+            }  
+        case SET_COIN_BALANCE:
+             return {
+                ...state,
+                balance: action.balance
+            }      
         default: return state;
     }
 }

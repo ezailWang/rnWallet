@@ -68,7 +68,7 @@ export default class networkManage {
             web3 = this.getWeb3Instance()
             console.log('walletAddress:', walletAddress)
             var balance = await web3.eth.getBalance(walletAddress)
-            return parseFloat(balance / Math.pow(10, 18)).toFixed(4)
+            return parseFloat(balance / Math.pow(10, 18)).toFixed(8)
         } catch (err) {
             console.log('getEthBalanceErr:', err)
         }
