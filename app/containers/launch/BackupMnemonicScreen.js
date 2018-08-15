@@ -72,7 +72,8 @@ class BackupMnemonicScreen extends Component {
             <View style={styles.container}>
                 <StatusBarComponent/>
                 <ScreenshotWarn
-                    text = '知道了'
+                    content = '如果有人获取你的助记词将直接获取你的资产！请抄写下助记词冰村放在安全的地方。'
+                    btnText = '知道了'
                     modalVisible = {this.state.modalVisible}
                     onPress = {()=> this.onCloseModal()}
                 />

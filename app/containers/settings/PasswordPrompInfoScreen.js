@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
-import { connect } from 'react-redux';
+import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
@@ -56,8 +56,20 @@ export default class PasswordPrompInfoScreen extends Component {
     isOpenPwd() {
         this.setState({isShowPassword: !this.state.isShowPassword});
     }
-    save(){
-
+   
+    async save(){
+        var key = 'uesr'
+        var extra =  this.state.passwordPrompInfo;
+      
+        var loadUser = await StorageManage.load(key);
+        if(loadUser == null){
+            loadUser = {
+                extra: extra,
+            }
+        }else{
+            loadUser.extra = extra;//修改extra值
+        }
+        StorageManage.save(key, loadUser)
     }
 
     render() {
@@ -92,7 +104,6 @@ export default class PasswordPrompInfoScreen extends Component {
                             onPress = {()=> this.save()}
                             text = '保存'/>
                 </View>
-                
             </View>
         );
     }

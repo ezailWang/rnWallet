@@ -61,6 +61,8 @@ import {
     SetScreen,
     ModifyPasswordScreen,
     PasswordPrompInfoScreen,
+    ExportPrivateKeyScreen,
+    ExportKeystoreScreen,
     ReceiptCodeScreen,
     ScanQRCodeScreen,
     TransactionDetail,
@@ -219,6 +221,18 @@ const HomeRouteConfig =
             header:<WhiteBgHeader navigation={navigation} text={`${this.props.transferType}`}/>
         })
     },
+    ExportPrivateKey:{
+        screen:ExportPrivateKeyScreen,
+        navigationOptions: ({navigation}) => ({
+            header:<WhiteBgHeader navigation={navigation} text='导出私钥'/>
+        })
+    },
+    ExportKeystore:{
+        screen:ExportKeystoreScreen,
+        navigationOptions: ({navigation}) => ({
+            header:<WhiteBgHeader navigation={navigation} text='导出Keystore'/>
+        })
+    }
 };
 
 const TestRouteConfig = {

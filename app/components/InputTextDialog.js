@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     }
 
 });
-export default class ModifyNameDialog extends Component{
+export default class InputTextDialog extends Component{
     static propTypes = {
         placeholder:PropTypes.string.isRequired,
         leftPress: PropTypes.func.isRequired,
@@ -81,13 +81,13 @@ export default class ModifyNameDialog extends Component{
     constructor(props){
         super(props);
         this.state = {
-            name : '',
+            text : '',
         }
     }
 
     inputText(event){
         this.setState({
-            name: event.nativeEvent.text
+            text: event.nativeEvent.text
         })
     }
    render(){
@@ -114,8 +114,13 @@ export default class ModifyNameDialog extends Component{
                             this.inputText=input;
                         }}
                         onChange={(event) => {
-                            renderThis.inputText(event);
+                            this.setState({
+                                text: event.nativeEvent.text
+                            })
                         }}
+                        /**onChange={(event) => {
+                            renderThis.inputText(event);
+                        }}**/
                     />
                     <View style={styles.buttonBox}>
                      

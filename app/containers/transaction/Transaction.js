@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
         marginLeft:40,
         flexDirection:"row",
         justifyContent:'space-between'
-    }
+    },
+    
 
 });
 

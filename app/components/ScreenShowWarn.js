@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
 export default class ScreenshotWarn extends Component{
     static propTypes = {
         onPress: PropTypes.func.isRequired,
-        text: PropTypes.string.isRequired,
+        content:PropTypes.string.isRequired,
+        btnText: PropTypes.string.isRequired,
         modalVisible: PropTypes.bool.isRequired,
     }
 
@@ -94,9 +95,9 @@ export default class ScreenshotWarn extends Component{
                   <View style={styles.contentBox}>
                      <Image style={styles.icon} source={require('../assets/launch/warnIcon.png')}/>
                      <Text style={styles.titleTxt}>请勿截图</Text>
-                     <Text style={styles.contentTxt}>如果有人获取你的助记词将直接获取你的资产！请抄写下助记词冰村放在安全的地方。</Text>
+                     <Text style={styles.contentTxt}>{this.props.content}</Text>
                      <TouchableOpacity style={styles.btnOpacity} activeOpacity={0.6} onPress = {this.props.onPress}>
-                         <Text style={styles.txt}>{this.props.text}</Text>
+                         <Text style={styles.txt}>{this.props.btnText}</Text>
                      </TouchableOpacity>
                   </View> 
                 </View>     

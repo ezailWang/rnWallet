@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,ScrollView,TouchableOpacity} from 'react-native';
+import { View,StyleSheet,Image,Text,TextInput,ScrollView,TouchableOpacity,Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import keystoreUtils from '../../utils/keystoreUtils'
-
+import StorageManage from '../../utils/StorageManage'
+import * as Actions from '../../config/action/Actions'
+import { connect } from 'react-redux';
 import {Colors} from '../../config/GlobalConfig'
 import {BlueButtonBig} from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import {resetStringBlank}  from '../../containers/launch/Common';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -38,6 +41,8 @@ const styles = StyleSheet.create({
     inputArea:{
         height:120,
         //textAlign:'start',
+        fontSize:16,
+        lineHeight:30,
         textAlignVertical:'top',
     },
     inputText:{
@@ -45,7 +50,8 @@ const styles = StyleSheet.create({
     },
     inputTextBox:{
         alignSelf:'stretch',
-        paddingLeft:10,
+        paddingLeft:15,
+        paddingRight:15,
         borderRadius:5,
         borderColor:'rgb(241,241,241)',
         borderWidth:1,
@@ -84,25 +90,29 @@ const styles = StyleSheet.create({
     },
 })
 
-export default class ImportWalletScreen extends Component {
+class ImportWalletScreen extends Component {
 
     constructor(props){
         super(props);
         this.state = {
             mnemonic:'',
             password:'',
-            rePassword : '',
+            rePassword:'',
             passwordHint:'',
         }
     }
 
     vertifyInputData(){
-       var mnemonicIsOK =  walletUtils.validateMnemonic(this.state.mnemonic);//验证助记词
+       console.log('L',this.state.mnemonic)
+       const m =resetStringBlank(this.state.mnemonic);//将字符串中的多个空格缩减为一个空格
+      // const m = await walletUtils.generateMnemonic()
+       var mnemonicIsOK =  walletUtils.validateMnemonic(m);//验证助记词
        var warnMessage = '';
+       console.log('L_mnemonicIsOK',mnemonicIsOK+'')
        if(mnemonicIsOK){
-             if(this.state.password = ''  || this.state.password == null || this.state.password == undefined){
+             if(this.state.password == ''  || this.state.password == null || this.state.password == undefined){
                   warnMessage = "请输入密码"
-             }else if(this.state.rePassword = '' || this.state.rePassword == null || this.state.rePassword == undefined){
+             }else if(this.state.rePassword == '' || this.state.rePassword == null || this.state.rePassword == undefined){
                   warnMessage = "请输入重复密码"
              }else if(this.state.password != this.state.rePassword){
                   warnMessage = "请输入一致的密码"
@@ -110,7 +120,7 @@ export default class ImportWalletScreen extends Component {
        }else{
           warnMessage='请输入正确的助记词'
        }
-       if(warnMessage!=""){
+       if(warnMessage!=''){
             Alert.alert(
                 'warn',
                 warnMessage,
@@ -120,36 +130,44 @@ export default class ImportWalletScreen extends Component {
                 { cancelable: false }
             )
         }else{
-            this.importWallet;
+            this.importWallet();
         }
     }
 
     importWallet = async () => { 
+        console.log('L','开始导入')
         var m =  this.state.mnemonic;
-        const seed = walletUtils.mnemonicToSeed(this.state.mnemonic)
+        const seed = walletUtils.mnemonicToSeed(m)
         const seedHex = seed.toString('hex')
         var hdwallet = HDWallet.fromMasterSeed(seed)
         const derivePath = "m/44'/60'/0'/0/0"
         hdwallet.setDerivePath(derivePath)
         const privateKey = hdwallet.getPrivateKey()
         const checksumAddress = hdwallet.getChecksumAddressString()
-        storage.save({
-            key:'user',
-            data:{
-                name:'',
-                address:checksumAddress,
-                extra:this.state.passwordHint,
-            },
-        });
-        var password = this.state.password || 'testpassword'
+        console.log('L3_prikey:', hdwallet.getPrivateKeyString())
+        console.log('L4_address:', checksumAddress)
+        var object = {
+            name: 'wallet',//默认的钱包名称
+            address: checksumAddress,
+            extra: this.state.pwdHint,
+        }
+        var key = 'uesr'
+        StorageManage.save(key, object)
+        var loadRet = await StorageManage.load(key)
+        console.log('L5_user:', loadRet)
+        
+        var password = this.state.password;
+        console.log('L6_password:', password)
         var params = { keyBytes: 32, ivBytes: 16 }
         var dk = keythereum.create(params);
         var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
-        console.log('keyObject:', keyObject)
+        console.log('L7_keyObject:', keyObject)
         await keystoreUtils.exportToFile(keyObject, "keystore")
         var str = await keystoreUtils.importFromFile(keyObject.address)
-        var newKeyObject = JSON.parse(str)
-        console.log('newKeyObject', newKeyObject)
+        //var newKeyObject = JSON.parse(str)
+        //console.log('L8_newKeyObject', newKeyObject)
+        //this.props.generateMnemonic(this.state.mnemonic);
+        console.log('L9', '完成')
     }
 
     isOpenPwd() {
@@ -174,11 +192,12 @@ export default class ImportWalletScreen extends Component {
                           // returnKeyType='next' 
                            placeholder="输入助记词"
                            underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff' 
+                           selectionColor='#00bfff'
+                           multiline={true}
                            onChange={(event) => {
-                            this.setState({
-                                password: event.nativeEvent.text
-                            })
+                                 this.setState({
+                                     mnemonic: event.nativeEvent.text
+                                 })
                            }}>
                 </TextInput>
                
@@ -241,4 +260,13 @@ export default class ImportWalletScreen extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    mnemonic:state.Core.mnemonic,
+});
+const mapDispatchToProps = dispatch => ({
+    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)
+
 

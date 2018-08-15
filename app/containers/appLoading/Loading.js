@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {
     setWalletAddress,
 } from '../../config/action/Actions'
+import { StorageKey } from '../../config/GlobalConfig'
 
 class Loading extends Component {
 
@@ -35,7 +36,7 @@ class Loading extends Component {
     }
 
     loadFromStorege = async () => {
-        var data = await StorageManage.load('user')
+        var data = await StorageManage.load(StorageKey.User)
         console.log('data:', data)
         if (data) {
             if (data['walletAddress']) {

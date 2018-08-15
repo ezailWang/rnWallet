@@ -3,7 +3,7 @@ import { View,StyleSheet,Image,Text,Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BlueButtonBig} from '../../components/Button';
 import { connect } from 'react-redux';
-import CommonFun from './Common';
+import {upsetArrayOrder} from './Common';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 const styles = StyleSheet.create({
@@ -85,7 +85,7 @@ class VerifyMnemonicScreen extends Component {
 
     componentWillMount(){
         var m = this.props.mnemonic.split(' ');
-        var md = CommonFun.upsetArrayOrder(m);
+        var md = upsetArrayOrder(m);
         this.setState({
             mnemonicDatas:md,
        })
