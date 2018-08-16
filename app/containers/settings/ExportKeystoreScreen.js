@@ -7,6 +7,8 @@ import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import StatusBarComponent from '../../components/StatusBarComponent';
+import Loading from  '../../components/LoadingComponent';
+
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -71,7 +73,8 @@ export default class ExportKeystoreScreen extends Component {
         super(props);
         this.state = {
             keystore : '',
-            modalVisible : true,
+            screenshotWarnVisible : false,
+            loadingVisible:false,
         }
     }
 
@@ -84,18 +87,25 @@ export default class ExportKeystoreScreen extends Component {
     }
 
     async exportKeystore(){
-        var key = 'uesr'
-        var user = await StorageManage.load(key);
-        console.log('user', user)
-        var str = await keystoreUtils.importFromFile(user.address)
-       // var newKeyObject = JSON.parse(str)
+         //this.refs.loading.show();
+         this.setState({
+            loadingVisible:true
+        })
+         var key = 'uesr'
+         var user = await StorageManage.load(key);
+         console.log('user', user)
+         var str = await keystoreUtils.importFromFile(user.address)
+        //var newKeyObject = JSON.parse(str)
+        //this.refs.loading.close()
         this.setState({
-            keystore:str,
+             keystore:str,
+             loadingVisible:false,
+             screenshotWarnVisible:true
         })
     }
     onCloseModal() {
         requestAnimationFrame(() => {//下一帧就立即执行回调,可以异步来提高组件的响应速度
-            this.setState({modalVisible: false});
+            this.setState({screenshotWarnVisible: false});
         });
     }
     copy(){
@@ -108,7 +118,7 @@ export default class ExportKeystoreScreen extends Component {
                 <ScreenshotWarn
                     content = '如果有人获取你的Keystore将可能获取你的资产！请妥善保管Keystore。'
                     btnText = '知道了'
-                    modalVisible = {this.state.modalVisible}
+                    modalVisible = {this.state.screenshotWarnVisible}
                     onPress = {()=> this.onCloseModal()}
                 />
                 <View style={styles.contentBox}>    
@@ -131,7 +141,8 @@ export default class ExportKeystoreScreen extends Component {
                         text = '复制Keystore'
                     />         
                 </View>
-
+                <Loading visible={this.state.loadingVisible}>
+                </Loading>
             </View>    
         );
     }
