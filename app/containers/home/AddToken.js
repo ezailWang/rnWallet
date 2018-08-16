@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     TextInput,
+    KeyboardAvoidingView,
 } from 'react-native'
 import { Colors } from '../../config/GlobalConfig'
 import layoutConstants from '../../config/LayoutConstants'
@@ -53,7 +54,9 @@ export default class AddToken extends Component {
                 style={{ backgroundColor: Colors.blackOpacityColor }}
             >
                 <View style={styles.container}>
-                    <View style={styles.contentContainer}>
+                    <KeyboardAvoidingView 
+                    behavior="padding"
+                    style={styles.contentContainer}>
                         <View style={styles.TopContainer}>
                             <Text style={styles.TopText}> 添加资产 </Text>
                             <ImageButton
@@ -104,7 +107,7 @@ export default class AddToken extends Component {
                                 <Text style={{ color: Colors.whiteBackgroundColor, fontWeight: 'bold', fontSize: 15 }}>添加</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                 </View>
             </Modal>
         )

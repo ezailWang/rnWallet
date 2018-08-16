@@ -3,6 +3,7 @@ import {
     FlatList,
     View,
     StyleSheet,
+    RefreshControl,
 } from 'react-native'
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
@@ -13,15 +14,17 @@ import AddToken from './AddToken'
 import { HeaderButton } from '../../components/Button'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken } from '../../config/action/Actions'
+import { addToken, setTransactionRecoders, setCoinBalance } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
+import {store} from '../../config/store/ConfigureStore'
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
             addTokenShow: false,
+            isRefreshing: false,
         }
 
     }
@@ -33,9 +36,27 @@ class HomeScreen extends Component {
         />
     )
 
-    onClickCell = (item) => {
-        this.props.navigation.navigate('TransactionRecoder', props = { transferType: "ETH" });
-        console.log('---cell被点击:', item)
+    onClickCell = async (item) => {
+
+        //获取记录
+        const { walletAddress } = store.getState().Core
+        let arr = await  networkManage.getTransations(walletAddress,'ETH',18);
+        let firstRecoder = arr[0];
+        console.warn('获取到的数据:'+firstRecoder.hash,firstRecoder.from,firstRecoder.to,firstRecoder.value);
+        store.dispatch(setTransactionRecoders(arr));
+
+        //获取余额信息
+        let balanceAmount = await networkManage.getEthBalance();
+        let price = await networkManage.getEthPrice();
+        let value = parseFloat(balanceAmount)*parseFloat(price);
+        
+        let balanceInfo = {
+            amount:balanceAmount,
+            value:value.toFixed(2)
+        }
+
+        store.dispatch(setCoinBalance(balanceInfo));
+        this.props.navigation.navigate('TransactionRecoder');
     }
 
     showAddtoken = () => {
@@ -50,6 +71,16 @@ class HomeScreen extends Component {
             addTokenShow: false
         })
         await networkManage.loadTokenList()
+    }
+
+    onRefresh = async () => {
+        this.setState({
+            isRefreshing: true
+        })
+        await networkManage.loadTokenList()
+        this.setState({
+            isRefreshing:false
+        })
     }
 
     formatAddress(address) {
@@ -73,8 +104,6 @@ class HomeScreen extends Component {
         StorageManage.save(StorageKey.Tokens, localTokens)
     }
 
-
-
     render() {
         return (
             <View style={styles.container}>
@@ -86,6 +115,11 @@ class HomeScreen extends Component {
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id}
                     data={this.props.tokens}
+                    refreshControl={<RefreshControl
+                        onRefresh={this.onRefresh}
+                        refreshing={this.state.isRefreshing}
+                        title="Loading..."
+                    />}
                     ListHeaderComponent={<HeadView
 
                         onSwitchWallet={() => {

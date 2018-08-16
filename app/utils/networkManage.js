@@ -68,7 +68,7 @@ export default class networkManage {
             web3 = this.getWeb3Instance()
             console.log('walletAddress:', walletAddress)
             var balance = await web3.eth.getBalance(walletAddress)
-            return parseFloat(balance / Math.pow(10, 18)).toFixed(4)
+            return parseFloat(balance / Math.pow(10, 18)).toFixed(8)
         } catch (err) {
             console.log('getEthBalanceErr:', err)
         }
@@ -113,8 +113,14 @@ export default class networkManage {
         if (data.message !== 'OK') {
             return []
         }
+
+
+        console.warn(data.result);
+        console.log('ransactions'+data);
+
         return data.result.map(t => ({
             from: t.from,
+            to:t.to,
             timeStamp: t.timeStamp,
             hash: t.hash,
             value: (parseInt(t.value, 10) / 1e18).toFixed(2),
@@ -135,6 +141,7 @@ export default class networkManage {
         }
         return data.result.map(t => ({
             from: t.from,
+            to:t.to,
             timeStamp: t.timeStamp,
             hash: t.hash,
             value: (parseInt(t.value, 16) / Math.pow(10, decimals)).toFixed(2),
