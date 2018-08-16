@@ -217,9 +217,6 @@ const HomeRouteConfig =
     },
     Transaction:{
         screen: Transaction,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text={`${this.props.transferType}`}/>
-        })
     },
     ExportPrivateKey:{
         screen:ExportPrivateKeyScreen,

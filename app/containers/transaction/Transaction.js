@@ -18,8 +18,13 @@ import {store} from '../../config/store/ConfigureStore'
 
 import PropTypes from 'prop-types';
 import {BlueButtonBig} from '../../components/Button'
-
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import Slider from '../../components/Slider'
+
+import StorageManage from '../../utils/StorageManage'
+import keystoreUtils from '../../utils/keystoreUtils'
+import keythereum from 'keythereum'
+
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -241,11 +246,16 @@ class SliderView extends Component{
     }
 }
 
+ComponentTitle = ()=>{
+
+    let params = store.getState().Core.walletTransfer;
+    return params.transferType+"转账";
+}
+
 export default class Transaction extends Component{
 
     constructor(props) {
         super(props);
-
         //参数
         let params = store.getState().Core.walletTransfer;
 
@@ -263,32 +273,15 @@ export default class Transaction extends Component{
             currentGas:params.suggestGasPrice,
             gasStr:this.getPriceTitle(params.suggestGasPrice,params.ethPrice),
             transferValue:0,
-            toAddress:"0x",
+            toAddress:"0xf5D0318dbb21755B4866CF10bA7f8843F0BD11bf",
             fromAddress:params.fromAddress,
             detailData:"",
         };
     };
 
-    static navigationOptions = ({navigation})=>({
-
-        headerTitle: `${this.props.transferType}转账`,
-    });
-
-    //----- 生命周期方法 ----
-    componentDidMount(){
-        // 通过在componentDidMount里面设置setParams将title的值动态修改
-
-        //let title = `${this.params.transferType}转账`;
-
-        //console.warn(title);
-
-        // InteractionManager.runAfterInteractions(() => {
-        //     this.props.navigation.setParams({
-        //         headerTitle:title,
-        //     });
-        // });
-    }
-
+    static navigationOptions = ({navigation}) => ({
+        header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
+    })
 
     getPriceTitle = (gasPrice,ethPrice)=>{
 
@@ -310,9 +303,36 @@ export default class Transaction extends Component{
         return `${totalGas} ether\n=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
     };
 
-    didTapSurePasswordBtn=(password)=>{
+    didTapSurePasswordBtn= async (password)=>{
 
         console.warn("输入密码--",password);
+        
+        var key = 'uesr'
+        var user = await StorageManage.load(key);//获取地址
+        console.log('user', user)
+        var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
+        console.log("keyStoreStr",keyStoreStr); 
+        var keyStoreObject = JSON.parse(keyStoreStr)
+        //导出privateKey
+        var privateKey = await keythereum.recover(password, keyStoreObject);
+
+        if(privateKey.length == 0){
+
+            alert("钱包密码错误");
+        }
+        else{
+            var privateKeyHex = privateKey.toString('hex');
+            console.log(privateKeyHex);
+    
+            NetworkManage.sendTransaction(
+                {contractAddress:"",symbol:"ETH","decimals":18},
+                this.state.toAddress,
+                this.state.transferValue,
+                this.state.currentGas
+            ) 
+
+            alert("已发送交易");
+        }
     };
 
 

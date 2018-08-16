@@ -8,7 +8,7 @@ import StorageManage from './StorageManage'
 import { StorageKey } from '../config/GlobalConfig'
 import { addToken, loadTokenBalance, setTotalAssets } from '../config/action/Actions'
 import lodash from 'lodash'
-
+import {TransferGasLimit} from '../config/GlobalConfig'
 
 const Ether = new BigNumber(10e+17)
 var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
@@ -98,7 +98,7 @@ export default class networkManage {
      * @param {object} token 
      */
     static getTransations({ contractAddress, symbol, decimals }) {
-        if (symbol === 'ETH') {
+        if (symbol == 'ETH') {
             return this.getEthTransations()
         }
         return this.getERC20Transations(contractAddress, decimals)
@@ -113,17 +113,16 @@ export default class networkManage {
         if (data.message !== 'OK') {
             return []
         }
-
-
-        console.warn(data.result);
-        console.log('ransactions'+data);
+        const web3 = this.getWeb3Instance();
 
         return data.result.map(t => ({
             from: t.from,
             to:t.to,
             timeStamp: t.timeStamp,
             hash: t.hash,
-            value: (parseInt(t.value, 10) / 1e18).toFixed(2),
+            value: web3.utils.fromWei(t.value, 'ether'),
+            gasPrice: t.gasPrice,
+            blockNumber:t.blockNumber
         }))
     }
 
@@ -139,12 +138,16 @@ export default class networkManage {
         if (data.message !== 'OK') {
             return []
         }
+        const web3 = this.getWeb3Instance();
+
         return data.result.map(t => ({
             from: t.from,
             to:t.to,
             timeStamp: t.timeStamp,
             hash: t.hash,
-            value: (parseInt(t.value, 16) / Math.pow(10, decimals)).toFixed(2),
+            value: web3.utils.fromWei(t.value, 'ether'),
+            gasPrice: t.gasPrice,
+            blockNumber:t.blockNumber
         }))
     }
 
@@ -154,12 +157,13 @@ export default class networkManage {
      * @param {Object} token 
      * @param {String} toAddress 
      * @param {String} amout 
+     * @param {Number} gasPrice  
      */
-    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout) {
+    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout,gasPrice) {
         if (symbol === 'ETH') {
-            return this.sendETHTransaction(toAddress, amout)
+            return this.sendETHTransaction(toAddress, amout,gasPrice)
         }
-        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout)
+        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice)
     }
 
     /**
@@ -167,16 +171,18 @@ export default class networkManage {
      * 
      * @param {String} toAddress 
      * @param {String} amout 
-     * @param {Number} gas 
+     * @param {Number} gasPrice 
      */
-    static async sendETHTransaction(toAddress, amout, gas) {
+    static async sendETHTransaction(toAddress, amout, gasPrice) {
         const web3 = this.getWeb3Instance();
         const wallet = web3.eth.accounts.wallet.add(store.getState().Core.prikey)
+        const price = web3.toWei(gasPrice,'gwei');
         var cb = await web3.eth.sendTransaction({
             from: store.getState().Core.walletAddress,
             to: toAddress,
             value: web3.utils.toWei(amout),
-            gas: 21000
+            gasLimit:web3.utils.toHex(TransferGasLimit.ethGasLimit),
+            gasPrice:web3.utils.toHex(price),
         })
         return cb
     }
@@ -189,18 +195,21 @@ export default class networkManage {
      * @param {String} toAddress 
      * @param {String} amout 
      */
-    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout) {
+    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice) {
         const web3 = this.getWeb3Instance();
         const wallet = web3.eth.accounts.wallet.add(store.getState().Core.prikey)
+        const price = web3.toWei(gasPrice,'gwei');
         const contract = new web3.eth.Contract(erc20Abi, contractAddress)
         var data = contract.methods.transfer(toAddress, amout * Math.pow(10, decimals)).encodeABI()
         var tx = {
             from: store.getState().Core.walletAddress,
             to: contractAddress,
             value: "0x0",
-            data: data
+            data: data,
+            gasLimit:web3.utils.toHex(TransferGasLimit.tokenGasLimit),
+            gasPrice:web3.utils.toHex(price),
         }
-        tx['gas'] = await web3.eth.estimateGas(tx)
+        // tx['gas'] = await web3.eth.estimateGas(tx)
         var cb = await web3.eth.sendTransaction(tx)
         return cb
     }
@@ -265,6 +274,13 @@ export default class networkManage {
             }
         }))
         store.dispatch(loadTokenBalance(completeTokens))
+    }
+
+    static async getSuggestGasPrice(){
+
+        const web3 = this.getWeb3Instance();
+        let price = await web3.eth.getGasPrice();
+        return web3.utils.fromWei(price,'gwei')
     }
 }
 

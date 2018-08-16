@@ -134,7 +134,7 @@ export default class TransactionDetail extends Component {
                 </View>
                 <View style={styles.infoBox}>
                      <Text style={[styles.fontGray]}>矿工费用</Text>
-                     <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.gasPrice+" ether"}</Text>
+                     <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.gasPrice+" gwei"}</Text>
                 </View>
                 <View style={styles.infoBox}>
                      <Text style={[styles.fontGray]}>备注</Text>

@@ -38,19 +38,17 @@ class HomeScreen extends Component {
 
         //获取记录
         const { walletAddress } = store.getState().Core
-        let arr = await  networkManage.getTransations(walletAddress,'ETH',18);
-        let firstRecoder = arr[0];
-        console.warn('获取到的数据:'+firstRecoder.hash,firstRecoder.from,firstRecoder.to,firstRecoder.value);
+        let arr = await  networkManage.getTransations(item.item);
         store.dispatch(setTransactionRecoders(arr));
 
         //获取余额信息
         let balanceAmount = await networkManage.getEthBalance();
         let price = await networkManage.getEthPrice();
-        let value = parseFloat(balanceAmount)*parseFloat(price);
         
         let balanceInfo = {
             amount:balanceAmount,
-            value:value.toFixed(2)
+            price:price,
+            transferType:item.item.symbol
         }
 
         store.dispatch(setCoinBalance(balanceInfo));
