@@ -113,21 +113,20 @@ class CreateWalletScreen extends Component {
     //验证android读写权限
     async vertifyPermissions(){
         if(Platform.OS === 'android'){
-            console.log('L', 'Android')
             var  readPermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE); 
             if(readPermission){
                 var  writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE); 
-                console.log('L', '获得读权限')
                 if(writePermission){
-                    console.log('L', '获得写权限')
                     this.vertifyInputData()
                 }else{
+                    this.stopLoading()
                     Alert.alert(
                         'warn',
                         '请允许写入内存卡权限',
                     )
                 }
             }else{
+                this.stopLoading()
                 Alert.alert(
                     'warn',
                     '请允许读取内存卡权限',
@@ -135,7 +134,6 @@ class CreateWalletScreen extends Component {
             }
             
         }else{
-            console.log('L', 'IOS')
             
             this.vertifyInputData()
         }
@@ -160,19 +158,22 @@ class CreateWalletScreen extends Component {
             warnMessage = "助记词生成失败"
         }
         if(warnMessage!=""){
+            this.stopLoading()
             showToast(warnMessage);
         }else{
-            console.log('L', '开始创建钱包')
-            this.startCreateWallet();//创建钱包
-           
+            this.setState({
+                loadingVisible : true,
+            })
+            setTimeout(()=>{
+                console.log('L_','开始创建钱包')
+                this.startCreateWallet();//创建钱包
+            },2000);
         }
     }
 
     async startCreateWallet(){ 
         try{
-            this.setState({
-                loadingVisible:true//开启Loading
-             })
+            
              console.log('L1', '进入');
              var m =  this.props.mnemonic;//助记词
              console.log('L2_mnemonic', m)
@@ -214,10 +215,14 @@ class CreateWalletScreen extends Component {
             showToast(err);
             console.log('createWalletErr:', err)
         }finally{
-            this.setState({
-                loadingVisible : false,//关闭Loading
-            })  
+           this.stopLoading()
        }
+    }
+
+    stopLoading(){
+        this.setState({
+            loadingVisible : false,
+        })
     }
     
     render() {
@@ -292,8 +297,7 @@ class CreateWalletScreen extends Component {
                     />
                 </View>   
                 </ScrollView>  
-                <Loading visible={this.state.loadingVisible}>
-                </Loading>
+                <Loading visible={this.state.loadingVisible}></Loading>
             </View>
         );
     }

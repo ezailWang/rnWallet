@@ -67,10 +67,7 @@ export default class LoadingComponent extends PureComponent{
 
     componentWillReceiveProps(nextProps){
         const {visible} = nextProps;
-        console.log('componentWillReceiveProps',visible)
         this.setState({visible:nextProps.visible})
-
-        console.log('componentWillReceiveState',this.state.visible)
     }
 
     close(){
@@ -112,8 +109,6 @@ export default class LoadingComponent extends PureComponent{
 
     render(){
         const {visible} = this.state;
-        console.log('Loading是否可见','state '+visible);
-        console.log('Loading是否可见','props '+this.props.visible);
        /** if(!visible){
             return null;
         }**/
@@ -123,11 +118,11 @@ export default class LoadingComponent extends PureComponent{
                   transparent={true}
                   visible={visible}
                   onRequestClose={()=>{
-                      this.close()
+                      //this.close()
                       console.log('L','Loading onRequestClose')
                   }}
                   onShow={()=>{
-                    this.show()
+                    //this.show()
                     console.log('L','Loading onShow')
                   }}
                   

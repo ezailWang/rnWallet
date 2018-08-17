@@ -111,22 +111,24 @@ class ImportWalletScreen extends Component {
 
     //验证android读写权限
     async vertifyPermissions(){
+        this.setState({
+            loadingVisible : true,
+        })
         if(Platform.OS === 'android'){
-            //console.log('L', 'Android')
             var  readPermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE); 
             if(readPermission){
                 var  writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE); 
-                //console.log('L', '获得读权限')
                 if(writePermission){
-                    //console.log('L', '获得写权限')
                     this.vertifyInputData()
                 }else{
+                    this.stopLoading();
                     Alert.alert(
                         'warn',
                         '请允许写入内存卡权限',
                     )
                 }
             }else{
+                this.stopLoading()
                 Alert.alert(
                     'warn',
                     '请允许读取内存卡权限',
@@ -134,22 +136,20 @@ class ImportWalletScreen extends Component {
             }
             
         }else{
-           // console.log('L', 'IOS')
             this.vertifyInputData()
         }
 
     }
 
     vertifyInputData(){
-        
-       //console.log('L',this.state.mnemonic)
        const m =resetStringBlank(this.state.mnemonic);//将字符串中的多个空格缩减为一个空格
       // const m = await walletUtils.generateMnemonic()
        var mnemonicIsOK =  walletUtils.validateMnemonic(m);//验证助记词
        var warnMessage = '';
-       //console.log('L_mnemonicIsOK',mnemonicIsOK+'')
        if(mnemonicIsOK){
-             if(this.state.password == ''  || this.state.password == null || this.state.password == undefined){
+             if(this.state.mnemonic == ''  || this.state.mnemonic == null || this.state.mnemonic == undefined){
+                  warnMessage = "请输入助记词"
+             }else if(this.state.password == ''  || this.state.password == null || this.state.password == undefined){
                   warnMessage = "请输入密码"
              }else if(this.state.rePassword == '' || this.state.rePassword == null || this.state.rePassword == undefined){
                   warnMessage = "请输入重复密码"
@@ -159,20 +159,18 @@ class ImportWalletScreen extends Component {
        }else{
           warnMessage='请输入正确的助记词'
        }
-      // console.log('L_mnemonicIsOK',mnemonicIsOK+'')
        if(warnMessage!=''){
+            this.stopLoading()
             showToast(warnMessage)
         }else{
-            console.log('L_','开始导入数据')
             this.importWallet();
+            
         }
     }
     
     async importWallet(){ 
         try{
-            this.setState({
-                loadingVisible : true,
-            })
+           
             //console.log('L','开始导入')
             var m =  this.state.mnemonic;
             const seed = walletUtils.mnemonicToSeed(m)
@@ -182,8 +180,6 @@ class ImportWalletScreen extends Component {
             hdwallet.setDerivePath(derivePath)
             const privateKey = hdwallet.getPrivateKey()
             const checksumAddress = hdwallet.getChecksumAddressString()
-            //console.log('L3_prikey:', hdwallet.getPrivateKeyString())
-            // console.log('L4_address:', checksumAddress)
             var object = {
                 name: 'wallet',//默认的钱包名称
                 address: checksumAddress,
@@ -195,11 +191,9 @@ class ImportWalletScreen extends Component {
             //console.log('L5_user:', loadRet)
         
             var password = this.state.password;
-            //console.log('L6_password:', password)
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
             var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
-           // console.log('L7_keyObject:', keyObject)
             await keystoreUtils.exportToFile(keyObject, "keystore")
             //var str = await keystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)
@@ -212,10 +206,13 @@ class ImportWalletScreen extends Component {
             showToast(err);
             console.log('createWalletErr:', err)
        }finally{
-            this.setState({
-                loadingVisible : false,
-            })  
+          this.stopLoading()
        }
+    }
+    stopLoading(){
+        this.setState({
+            loadingVisible : false,
+        })
     }
 
     isOpenPwd() {
@@ -299,12 +296,13 @@ class ImportWalletScreen extends Component {
                           />
                 </View> 
                 </ScrollView>
-                <Loading visible={this.state.loadingVisible}></Loading> 
+                <Loading visible={this.state.loadingVisible}></Loading>
+                
             </View> 
         );
     }
 }
-
+// 
 const mapStateToProps = state => ({
     mnemonic:state.Core.mnemonic,
 });
