@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
     StyleSheet,
     Text,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 const ANIMATION = ['none','slide','fade']
 const SIZES = ['small','normal','large']
 
-export default class LoadingComponent extends Component{
+export default class LoadingComponent extends PureComponent{
     
     constructor(props){
         super(props);
@@ -67,7 +67,10 @@ export default class LoadingComponent extends Component{
 
     componentWillReceiveProps(nextProps){
         const {visible} = nextProps;
-        this.setState({visible})
+        console.log('componentWillReceiveProps',visible)
+        this.setState({visible:nextProps.visible})
+
+        console.log('componentWillReceiveState',this.state.visible)
     }
 
     close(){
@@ -90,12 +93,9 @@ export default class LoadingComponent extends Component{
     }
 
     renderContent(){
-        console.log('child',this.props.children)
         return (
             <View style={[styles.modeBox,{backgroundColor:this.props.overlayColor}]}>
-                {
-                    this.props.children ? this.props.children :
-                    <View style={styles.contentBox}>
+                <View style={styles.contentBox}>
                     <ActivityIndicator
                         animating={true}
                         color={this.props.loadingColor}
@@ -106,20 +106,17 @@ export default class LoadingComponent extends Component{
                         }}/>
                     <Text style={[styles.textBox,{color:this.props.fontColor,fontSize:this.props.fontSize}]}>{this.props.textContent}</Text>      
                     </View> 
-                }
-                
             </View>     
         )
     }
 
     render(){
         const {visible} = this.state;
-        if(!visible){
+        console.log('Loading是否可见','state '+visible);
+        console.log('Loading是否可见','props '+this.props.visible);
+       /** if(!visible){
             return null;
-        }
-
-    
-
+        }**/
         return(
             <Modal
                   animationType={this.props.animation}
@@ -141,3 +138,4 @@ export default class LoadingComponent extends Component{
         );
     }
 }
+
