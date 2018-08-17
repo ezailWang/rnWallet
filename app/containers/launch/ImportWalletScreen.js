@@ -13,7 +13,13 @@ import {Colors} from '../../config/GlobalConfig'
 import {BlueButtonBig} from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {resetStringBlank}  from '../../containers/launch/Common';
+import Loading from '../../components/LoadingComponent';
+
+import {showToast} from '../../utils/Toast';
 const styles = StyleSheet.create({
+    box:{
+        flex:1
+    },
     container:{
         flex:1,
         alignItems:'center',
@@ -99,10 +105,12 @@ class ImportWalletScreen extends Component {
             password:'',
             rePassword:'',
             passwordHint:'',
+            loadingVisible:false,
         }
     }
 
     vertifyInputData(){
+        
        console.log('L',this.state.mnemonic)
        const m =resetStringBlank(this.state.mnemonic);//将字符串中的多个空格缩减为一个空格
       // const m = await walletUtils.generateMnemonic()
@@ -121,53 +129,62 @@ class ImportWalletScreen extends Component {
           warnMessage='请输入正确的助记词'
        }
        if(warnMessage!=''){
-            Alert.alert(
-                'warn',
-                warnMessage,
-                [
-                    {text: 'OK', onPress: () => {}},
-                ],
-                { cancelable: false }
-            )
+            showToast(warnMessage)
         }else{
             this.importWallet();
         }
     }
-
-    importWallet = async () => { 
-        console.log('L','开始导入')
-        var m =  this.state.mnemonic;
-        const seed = walletUtils.mnemonicToSeed(m)
-        const seedHex = seed.toString('hex')
-        var hdwallet = HDWallet.fromMasterSeed(seed)
-        const derivePath = "m/44'/60'/0'/0/0"
-        hdwallet.setDerivePath(derivePath)
-        const privateKey = hdwallet.getPrivateKey()
-        const checksumAddress = hdwallet.getChecksumAddressString()
-        console.log('L3_prikey:', hdwallet.getPrivateKeyString())
-        console.log('L4_address:', checksumAddress)
-        var object = {
-            name: 'wallet',//默认的钱包名称
-            address: checksumAddress,
-            extra: this.state.pwdHint,
-        }
-        var key = 'uesr'
-        StorageManage.save(key, object)
-        var loadRet = await StorageManage.load(key)
-        console.log('L5_user:', loadRet)
+    
+    async importWallet(){ 
+       
+        try{
+            this.setState({
+                loadingVisible : true,
+            })
+             //console.log('L','开始导入')
+             var m =  this.state.mnemonic;
+             const seed = walletUtils.mnemonicToSeed(m)
+             const seedHex = seed.toString('hex')
+             var hdwallet = HDWallet.fromMasterSeed(seed)
+             const derivePath = "m/44'/60'/0'/0/0"
+             hdwallet.setDerivePath(derivePath)
+             const privateKey = hdwallet.getPrivateKey()
+             const checksumAddress = hdwallet.getChecksumAddressString()
+             //console.log('L3_prikey:', hdwallet.getPrivateKeyString())
+            // console.log('L4_address:', checksumAddress)
+             var object = {
+                name: 'wallet',//默认的钱包名称
+                address: checksumAddress,
+                extra: this.state.pwdHint,
+             }
+             var key = 'uesr'
+             StorageManage.save(key, object)
+            //var loadRet = await StorageManage.load(key)
+            //console.log('L5_user:', loadRet)
         
-        var password = this.state.password;
-        console.log('L6_password:', password)
-        var params = { keyBytes: 32, ivBytes: 16 }
-        var dk = keythereum.create(params);
-        var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
-        console.log('L7_keyObject:', keyObject)
-        await keystoreUtils.exportToFile(keyObject, "keystore")
-        var str = await keystoreUtils.importFromFile(keyObject.address)
-        //var newKeyObject = JSON.parse(str)
-        //console.log('L8_newKeyObject', newKeyObject)
-        //this.props.generateMnemonic(this.state.mnemonic);
-        console.log('L9', '完成')
+            var password = this.state.password;
+            //console.log('L6_password:', password)
+            var params = { keyBytes: 32, ivBytes: 16 }
+            var dk = keythereum.create(params);
+            var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
+            //console.log('L7_keyObject:', keyObject)
+            await keystoreUtils.exportToFile(keyObject, "keystore")
+            //var str = await keystoreUtils.importFromFile(keyObject.address)
+            //var newKeyObject = JSON.parse(str)
+            // console.log('L8_newKeyObject', newKeyObject)
+            this.props.generateMnemonic(this.state.mnemonic);
+            this.props.setWalletAddress(checksumAddress);
+            this.props.setWalletName('wallet');//保存默认的钱包名称
+            //console.log('L9', '完成')   
+            
+       }catch (err) {
+            showToast(err);
+            console.log('createWalletErr:', err)
+       }finally{
+            this.setState({
+                loadingVisible : false,
+            })  
+       }
     }
 
     isOpenPwd() {
@@ -178,12 +195,14 @@ class ImportWalletScreen extends Component {
         this.setState({isShowRePassword: !this.state.isShowRePassword});
     }
 
-
+    
     render() {
         let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon= this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
+           
             <View style={styles.container}>
+                
                 <StatusBarComponent/>
                 <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'}/>
                 <Text style={styles.titleTxt}>导入钱包</Text>
@@ -245,7 +264,7 @@ class ImportWalletScreen extends Component {
                            secureTextEntry={true}
                            onChange={(event) => {
                             this.setState({
-                                password: event.nativeEvent.text
+                                passwordHint: event.nativeEvent.text
                             })
                            }}>
                 </TextInput>
@@ -255,8 +274,11 @@ class ImportWalletScreen extends Component {
                                 text = '导入'
                           />
                 </View> 
-                </ScrollView>            
-            </View>
+                </ScrollView>
+                <Loading visible={this.state.loadingVisible}/> 
+            </View>  
+                    
+           
         );
     }
 }
@@ -266,6 +288,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
+    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
+    setWalletName:(name) => dispatch(Actions.setWalletName(name))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)
 

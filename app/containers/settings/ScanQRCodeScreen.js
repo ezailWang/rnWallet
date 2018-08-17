@@ -14,6 +14,7 @@ var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
+import {showToast} from '../../utils/Toast';
 const styles = StyleSheet.create({
     container:{
        flex:1,
@@ -88,10 +89,8 @@ export default class ScanQRCodeScreen extends Component{
          //将返回的结果转为对象
           var result = e.data;
           console.log(e.data);
-          Alert.alert(
-            'result',
-            result+'',
-        )
+          showToast('result');
+         
     }
 
     //扫描框

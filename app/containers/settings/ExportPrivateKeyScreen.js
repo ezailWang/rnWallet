@@ -9,6 +9,7 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from  '../../components/LoadingComponent';
+import {showToast} from '../../utils/Toast';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -59,6 +60,9 @@ const styles = StyleSheet.create({
         color:Colors.fontBlackColor_31,
         fontSize:16,
         lineHeight:22,
+    },
+    buttonBox:{
+        alignItems:'center'
     }
 })
 
@@ -82,30 +86,37 @@ export default class ExportPrivateKeyScreen extends Component {
         this.exportPrivateKey()
     }
     async exportPrivateKey(){
-        //this.refs.loading.show();
-        this.setState({
-            loadingVisible:true,
-        })
-        var password = this.props.navigation.state.params.password;
-        //console.log('password_', password)
-        var key = 'uesr'
-        var user = await StorageManage.load(key);//获取地址
-        //console.log('user', user)
-        var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
-        console.log("keyStoreStr",keyStoreStr); 
-        var keyStoreObject = JSON.parse(keyStoreStr)
-        var privateKey = await keythereum.recover(password, keyStoreObject);//导出privateKey
-        console.log("privateKey",privateKey); 
-        var privateKeyHex = privateKey.toString('hex');
-        console.log("privateKey",privateKeyHex);
-        //this.refs.loading.close();
-        this.setState(
-            {
+        try{
+             //this.refs.loading.show();
+             this.setState({
+                 loadingVisible:true,
+             })
+             var password = this.props.navigation.state.params.password;
+             //console.log('password_', password)
+             var key = 'uesr'
+             var user = await StorageManage.load(key);//获取地址
+             //console.log('user', user)
+             if(user == null){
+                throw "请先创建或导入钱包"
+             }
+             var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
+             console.log("keyStoreStr",keyStoreStr); 
+             var keyStoreObject = JSON.parse(keyStoreStr)
+             var privateKey = await keythereum.recover(password, keyStoreObject);//导出privateKey
+             console.log("privateKey",privateKey); 
+             var privateKeyHex = privateKey.toString('hex');
+             console.log("privateKey",privateKeyHex);
+             //this.refs.loading.close();
+             this.setState(
+             {
                 privateKey: privateKeyHex,
                 loadingVisible:false,
                 screenshotWarnVisible:true
-        });
-       
+             });
+        } catch (err) {
+            showToast(err);
+            console.log('exportPrivateKey:', err)
+        }
        
        
     }
@@ -139,10 +150,13 @@ export default class ExportPrivateKeyScreen extends Component {
                     <View style={styles.privateKeyBox}>
                          <Text style={styles.privateKeyText}>{this.state.privateKey}</Text>  
                     </View>   
-                    <BlueButtonBig
-                        onPress = {()=> this.copy()}
-                        text = '复制Private Key'
-                    />         
+                
+                     <View style={styles.buttonBox}>
+                        <BlueButtonBig
+                            onPress = {()=> this.copy()}
+                            text = '复制Private Key'
+                        />
+                    </View>        
                 </View>
                 <Loading ref = "loading"
                          visible={this.state.loadingVisible}>

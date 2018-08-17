@@ -9,6 +9,7 @@ import InputTextDialog from '../../components/InputTextDialog';
 import {Colors,FontSize}from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import * as Actions from '../../config/action/Actions';
+import {showToast} from '../../utils/Toast';
 
 const styles = StyleSheet.create({
     container:{
@@ -82,13 +83,28 @@ class SetScreen extends Component {
     }
     inputDialogConfirmClick(){
         if(this.state.inputDialogPlaceholder == "钱包名称"){
-            this.modifyWalletName();
+            var name = this.refs.inputTextDialog.state.text;
+            console.log('L_name',name)
+            if(name==null || name == '' || name == undefined){
+                showToast('请输入钱包名称')
+            }else{
+                this.modifyWalletName(name);
+            }
+           
         }else{
-            this.exportKeyPrivate();
+            var password = this.refs.inputTextDialog.state.text;
+            console.log('L_password',password)
+            if(password==null || password == '' || password == undefined){
+                showToast('请输入密码')
+            }else{
+                this.exportKeyPrivate(password);
+            }
+            
+            
         }
     }
-    async  modifyWalletName(){
-        var name = this.refs.inputTextDialog.state.text;
+    async  modifyWalletName(name){
+       // var name = this.refs.inputTextDialog.state.text;
         var key = 'uesr' 
         
         var loadUser = await StorageManage.load(key);
@@ -101,18 +117,21 @@ class SetScreen extends Component {
         }
         StorageManage.save(key, loadUser)
         this.props.modifyWalletName(name);
-        this.closeInputModal();//隐藏弹框
+
+        this.refs.inputTextDialog.state.text = '';
+        this.closeInputModal();//隐藏弹框 
     }
 
-    exportKeyPrivate(){
-        var password = this.refs.inputTextDialog.state.text;
+    exportKeyPrivate(password){
+        //var password = this.refs.inputTextDialog.state.text;
         this.closeInputModal();//隐藏弹框
         console.log('password',password);
         if(password == '' || password == null || password == undefined){
-            Alert.alert(
+            /*Alert.alert(
                 'warn',
                 '请输入密码'
-            )
+            )*/
+            showToast('请输入密码');
         }else{
             this.props.navigation.navigate('ExportPrivateKey',{password: password})
         }

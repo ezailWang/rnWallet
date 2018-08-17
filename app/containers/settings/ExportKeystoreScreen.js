@@ -8,6 +8,7 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from  '../../components/LoadingComponent';
+import {showToast} from '../../utils/Toast';
 
 const styles = StyleSheet.create({
     container:{
@@ -63,6 +64,9 @@ const styles = StyleSheet.create({
         fontSize:16,
         lineHeight:22,
         textAlignVertical:'center',
+    },
+    buttonBox:{
+        alignItems:'center',
     }
     
 })
@@ -87,21 +91,29 @@ export default class ExportKeystoreScreen extends Component {
     }
 
     async exportKeystore(){
-         //this.refs.loading.show();
-         this.setState({
-            loadingVisible:true
-        })
-         var key = 'uesr'
-         var user = await StorageManage.load(key);
-         console.log('user', user)
-         var str = await keystoreUtils.importFromFile(user.address)
-        //var newKeyObject = JSON.parse(str)
-        //this.refs.loading.close()
-        this.setState({
-             keystore:str,
-             loadingVisible:false,
-             screenshotWarnVisible:true
-        })
+        try{
+              //this.refs.loading.show();
+              this.setState({
+                 loadingVisible:true
+              })
+              var key = 'uesr'
+              var user = await StorageManage.load(key);
+              console.log('user', user)
+              if(user == null){
+                  throw "请先创建或导入钱包"
+              }
+              var str = await keystoreUtils.importFromFile(user.address)
+              //var newKeyObject = JSON.parse(str)
+              //this.refs.loading.close()
+             this.setState({
+                keystore:str,
+                loadingVisible:false,
+                screenshotWarnVisible:true
+             })
+        }catch (err) {
+            showToast(err);
+            console.log('exportKeystoreErr:', err)
+        }
     }
     onCloseModal() {
         requestAnimationFrame(() => {//下一帧就立即执行回调,可以异步来提高组件的响应速度
@@ -136,10 +148,13 @@ export default class ExportKeystoreScreen extends Component {
                     </View>    
                     
                    
-                    <BlueButtonBig
-                        onPress = {()=> this.copy()}
-                        text = '复制Keystore'
-                    />         
+                    
+                    <View style={styles.buttonBox}>
+                        <BlueButtonBig
+                            onPress = {()=> this.copy()}
+                            text = '复制Keystore'
+                        />
+                    </View>        
                 </View>
                 <Loading visible={this.state.loadingVisible}>
                 </Loading>

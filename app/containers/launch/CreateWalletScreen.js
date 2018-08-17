@@ -14,6 +14,8 @@ import {androidPermission}  from '../../utils/permissionsAndroid';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import Loading from '../../components/LoadingComponent';
+import {showToast} from '../../utils/Toast';
 
 const styles = StyleSheet.create({
     container:{
@@ -38,6 +40,7 @@ const styles = StyleSheet.create({
     scrollView:{
         flex:1,
         alignSelf:'stretch',
+        
     },
     inputText:{
         alignSelf:'stretch',
@@ -52,8 +55,8 @@ const styles = StyleSheet.create({
     buttonBox:{
         flex:1,
         justifyContent:'flex-end',
-        //alignSelf:'stretch',
         marginBottom:30,
+        alignSelf:'center'
     },
     inputBox:{
         alignSelf:'stretch',
@@ -93,6 +96,7 @@ class CreateWalletScreen extends Component {
             pwdHint:'',
             isShowPassword:false,
             isShowRePassword:false,
+            loadingVisible:false,
         }
 
         //this.startCreateWallet=this.startCreateWallet.bind(this);
@@ -132,6 +136,7 @@ class CreateWalletScreen extends Component {
             
         }else{
             console.log('L', 'IOS')
+            
             this.vertifyInputData()
         }
 
@@ -155,56 +160,64 @@ class CreateWalletScreen extends Component {
             warnMessage = "助记词生成失败"
         }
         if(warnMessage!=""){
-            Alert.alert(
-                'warn',
-                warnMessage,
-                [
-                  {text: 'OK', onPress: () => {}},
-                ],
-                { cancelable: false }
-            )
+            showToast(warnMessage);
         }else{
-            console.log('L', '开始')
-            this.startCreateWallet();
+            console.log('L', '开始创建钱包')
+            this.startCreateWallet();//创建钱包
+           
         }
     }
 
     async startCreateWallet(){ 
-        console.log('L1', '进入');
-        var m =  this.props.mnemonic;//助记词
-        console.log('L2_mnemonic', m)
+        try{
+            this.setState({
+                loadingVisible:true//开启Loading
+             })
+             console.log('L1', '进入');
+             var m =  this.props.mnemonic;//助记词
+             console.log('L2_mnemonic', m)
 
-        const seed = walletUtils.mnemonicToSeed(m)
-        const seedHex = seed.toString('hex')
-        var hdwallet = HDWallet.fromMasterSeed(seed)
-        const derivePath = "m/44'/60'/0'/0/0"
-        hdwallet.setDerivePath(derivePath)
-        const privateKey = hdwallet.getPrivateKey()
-        const checksumAddress = hdwallet.getChecksumAddressString()
-        console.log('L3_prikey:', hdwallet.getPrivateKeyString())
-        console.log('L4_address:', checksumAddress)
-        var object = {
-            name: this.state.walletName,
-            address: checksumAddress,
-            extra: this.state.pwdHint,
-        }
-        var key = 'uesr'
-        StorageManage.save(key, object)
-        //var loadRet = await StorageManage.load(key)
-        //console.log('L5_user:', loadRet)
+             const seed = walletUtils.mnemonicToSeed(m)
+             const seedHex = seed.toString('hex')
+             var hdwallet = HDWallet.fromMasterSeed(seed)
+             const derivePath = "m/44'/60'/0'/0/0"
+             hdwallet.setDerivePath(derivePath)
+             const privateKey = hdwallet.getPrivateKey()
+             const checksumAddress = hdwallet.getChecksumAddressString()
+             console.log('L3_prikey:', hdwallet.getPrivateKeyString())
+             console.log('L4_address:', checksumAddress)
+             var object = {
+                 name: this.state.walletName,
+                 address: checksumAddress,
+                 extra: this.state.pwdHint,
+             }
+             var key = 'uesr'
+             StorageManage.save(key, object)
+             //var loadRet = await StorageManage.load(key)
+             //console.log('L5_user:', loadRet)
         
-        var password = this.state.pwd;
-        console.log('L6_pwd:', this.state.pwd)
-        console.log('L6_password:', password)
-        var params = { keyBytes: 32, ivBytes: 16 }
-        var dk = keythereum.create(params);
-        var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
-        console.log('L7_keyObject:', keyObject)
-        await keystoreUtils.exportToFile(keyObject, "keystore")
-        //var str = await keystoreUtils.importFromFile(keyObject.address)
-        //var newKeyObject = JSON.parse(str)
-        //console.log('L8_newKeyObject', newKeyObject)
-        console.log('L9', '完成')
+             var password = this.state.pwd;
+             console.log('L6_pwd:', this.state.pwd)
+             console.log('L6_password:', password)
+             var params = { keyBytes: 32, ivBytes: 16 }
+             var dk = keythereum.create(params);
+             var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
+             console.log('L7_keyObject:', keyObject)
+             await keystoreUtils.exportToFile(keyObject, "keystore")
+             //var str = await keystoreUtils.importFromFile(keyObject.address)
+             //var newKeyObject = JSON.parse(str)
+             //console.log('L8_newKeyObject', newKeyObject)
+             this.props.setWalletAddress(checksumAddress);
+             this.props.setWalletName(this.state.walletName);
+             console.log('L9', '完成')
+        }catch (err) {
+            showToast(err);
+            console.log('createWalletErr:', err)
+        }finally{
+            this.setState({
+                loadingVisible : false,//关闭Loading
+            })  
+       }
     }
     
     render() {
@@ -213,6 +226,7 @@ class CreateWalletScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
+               
                 <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'}/>
                 <Text style={styles.titleTxt}>创建钱包</Text>
                 <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
@@ -271,14 +285,15 @@ class CreateWalletScreen extends Component {
                                     pwdHint: event.nativeEvent.text
                                 })
                             }}/>
-                            
                 <View style={styles.buttonBox}>
-                        <BlueButtonBig
-                            onPress = {()=> this.vertifyInputData()}
-                            text = '创建'
-                        />
-                </View> 
+                    <BlueButtonBig
+                        onPress = {()=> this.vertifyInputData()}
+                        text = '创建'
+                    />
+                </View>   
                 </ScrollView>  
+                <Loading visible={this.state.loadingVisible}>
+                </Loading>
             </View>
         );
     }
@@ -290,5 +305,9 @@ class CreateWalletScreen extends Component {
 const mapStateToProps = state => ({
     mnemonic:state.Core.mnemonic,
 });
-export default connect(mapStateToProps,{})(CreateWalletScreen)
+const mapDispatchToProps = dispatch => ({
+    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
+    setWalletName:(name) => dispatch(Actions.setWalletName(name))
+});
+export default connect(mapStateToProps,mapDispatchToProps)(CreateWalletScreen)
 

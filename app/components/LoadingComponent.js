@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:'rgba(255,255,155,0.8)',
-        //zIndex:10,
+        zIndex:1000,
     },
     contentBox:{
         height:100,
@@ -67,7 +67,7 @@ export default class LoadingComponent extends Component{
 
     componentWillReceiveProps(nextProps){
         const {visible} = nextProps;
-        this.setState({visible:visible})
+        this.setState({visible})
     }
 
     close(){
@@ -90,9 +90,12 @@ export default class LoadingComponent extends Component{
     }
 
     renderContent(){
+        console.log('child',this.props.children)
         return (
             <View style={[styles.modeBox,{backgroundColor:this.props.overlayColor}]}>
-                <View style={styles.contentBox}>
+                {
+                    this.props.children ? this.props.children :
+                    <View style={styles.contentBox}>
                     <ActivityIndicator
                         animating={true}
                         color={this.props.loadingColor}
@@ -102,7 +105,9 @@ export default class LoadingComponent extends Component{
                             height:80,
                         }}/>
                     <Text style={[styles.textBox,{color:this.props.fontColor,fontSize:this.props.fontSize}]}>{this.props.textContent}</Text>      
-                </View> 
+                    </View> 
+                }
+                
             </View>     
         )
     }
@@ -112,6 +117,9 @@ export default class LoadingComponent extends Component{
         if(!visible){
             return null;
         }
+
+    
+
         return(
             <Modal
                   animationType={this.props.animation}
