@@ -28,10 +28,10 @@ class Loading extends Component {
         if (this.props.walletAddress) {
             return this.props.navigation.navigate('HomeScreen')
         } else {
-            return this.props.navigation.navigate('HomeScreen')
-            // return this.props.navigation.navigate('FirstLaunch', {
-            //     migrationMode: true
-            // })
+           // return this.props.navigation.navigate('HomeScreen')
+            return this.props.navigation.navigate('FirstLaunch', {
+                migrationMode: true
+            })
         }
     }
 
