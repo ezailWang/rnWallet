@@ -15,6 +15,7 @@ import PropTypes from 'prop-types'
 
 import {store} from '../../config/store/ConfigureStore'
 import {setTransactionDetailParams, setWalletTransferParams} from "../../config/action/Actions";
+import networkManage from '../../utils/networkManage';
 
 
 const styles = StyleSheet.create({
@@ -98,8 +99,8 @@ const styles = StyleSheet.create({
 class Header extends Component{
 
     static propTypes={
-        balance:PropTypes.number,
-        value:PropTypes.number,
+        balance:PropTypes.any.isRequired,
+        value:PropTypes.any.isRequired,
     };
 
     render(){
@@ -137,12 +138,12 @@ class Cell extends Component{
     render(){
         const {key,address,time,income,amount,type} = this.props.item.item || {}
         let image = require('../../assets/transfer/recoder/direction_left.png');
-        let showText = "-"+amount.toFixed(4)+" "+type;
+        let showText = "-"+amount+" "+type;
         let colorStyle = {color:Colors.fontRedColor};
 
         if(income){
             image = require('../../assets/transfer/recoder/direction_right.png');
-            showText = "+"+amount.toFixed(4)+" "+type;
+            showText = "+"+amount+" "+type;
             colorStyle = {color:Colors.fontGreenColor};
         }
         return (
@@ -182,17 +183,29 @@ function timestampToTime(timestamp) {
 
 export default class TransactionRecoder extends Component{
 
-    didTapTransactionButton=()=>{
+    constructor(props){
+        super(props);
+        
+        this.state={
+            itemList:[]
+        }
+    }
+
+    didTapTransactionButton= async ()=>{
+
+        let {amount,price,transferType} = store.getState().Core.balance;
+        let { walletAddress } = store.getState().Core
+        let suggestGas = await networkManage.getSuggestGasPrice();
 
         transferProps = {
-            transferType:"ETH",
-            balance:77.77,
-            suggestGasPrice:5,
-            ethPrice:3000.12,
-            fromAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774"
+            transferType:transferType,
+            balance:amount,
+            suggestGasPrice:parseFloat(suggestGas),
+            ethPrice:price,
+            fromAddress:walletAddress
         };
         store.dispatch(setWalletTransferParams(transferProps));
-        this.props.navigation.navigate('Transaction',props={transferType:"ETH"});
+        this.props.navigation.navigate('Transaction',props={"transferType":transferType});
     };
 
     didTapShowQrCodeButton=()=>{
@@ -202,18 +215,18 @@ export default class TransactionRecoder extends Component{
 
     didTapTransactionCell=(index)=>{
 
-        //console.warn("查看第"+index+"条记录的信息");
-
-        transactionDetail={
-            amount:"101.22",
+        let recoders = store.getState().Core.recoders;
+        let recoder = recoders[index];
+        let transactionDetail={
+            amount:parseFloat(recoder.value),
             transactionType:"ETH",
-            fromAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774",
-            toAddress:"0x6043a81ae4A052381b21aac944DE408C809f0774",
-            gasPrice:"0.0021",
+            fromAddress:recoder.from,
+            toAddress:recoder.to,
+            gasPrice:recoder.gasPrice,
             remark:"无",
-            transactionHash:"0x5c570db1b576046b96bd95b3b0214f459657bc91577278d48072342c35fa5380",
-            blockNumber:"6097412",
-            transactionTime:"07/05/2018 12:08:16 +0800"
+            transactionHash:recoder.hash,
+            blockNumber:recoder.blockNumber,
+            transactionTime:timestampToTime(recoder.timeStamp)+" +0800"
         };
 
         store.dispatch(setTransactionDetailParams(transactionDetail));
@@ -223,7 +236,7 @@ export default class TransactionRecoder extends Component{
     renderItem = (item) => {
         return <Cell item={item}
                      onPress={this.didTapTransactionCell}
-                     key={item.item.key}/>
+                     key={item.item}/>
     }
 
     renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
@@ -232,29 +245,36 @@ export default class TransactionRecoder extends Component{
         )
     }
 
-    render (){
+    componentDidMount(){
 
         let recoders = store.getState().Core.recoders;
-
         const { walletAddress } = store.getState().Core
-        console.warn(walletAddress);
+        //console.warn(walletAddress);
 
         var itemList = []
-        recoders.map((item,i)=>{
+        recoders.map((item,i)=>{    
             
             let data = {
                 key:i.toString(),
-                address:item.to,
+                address:item.to.toLowerCase()==walletAddress.toLowerCase()?item.from:item.to,
                 time:timestampToTime(item.timeStamp),
                 income:item.to.toLowerCase()==walletAddress.toLowerCase(),
-                amount:10.20,
+                amount:item.value,
                 type:"ether"
             }
             itemList.push(data)
         });
 
+        this.setState({
+            "itemList":itemList
+        });
+    }
 
-        let {amount,value} = store.getState().Core.balance;
+    render (){
+
+        let {amount,price} = store.getState().Core.balance;
+        let value = parseFloat(amount)*parseFloat(price);
+        value = value.toFixed(2);
 
         let bottomView = {height:60}
         if(Layout.DEVICE_IS_IPHONE_X()){
@@ -263,10 +283,10 @@ export default class TransactionRecoder extends Component{
         return(
             <View style={styles.container}>
                 <FlatList   style={styles.flatList}
-                            ListHeaderComponent={<Header balance={amount}
+                            ListHeaderComponent={<Header balance={parseFloat(amount).toFixed(4)}
                                                          value={value}/>}
                             ListEmptyComponent ={<EmptyComponent/>}
-                            data={itemList}
+                            data={this.state.itemList}
                             renderItem={this.renderItem}
                             // keyExtractor={(item)=>{item.key}}
                             >
