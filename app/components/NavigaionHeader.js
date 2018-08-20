@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,PureComponent} from 'react';
 import {
     View,
     TouchableOpacity,
@@ -68,7 +68,7 @@ class BlueHeader extends Component {
 }
 
 //Header {白色背景 蓝色返回按钮 黑色title}
-class WhiteBgHeader extends Component {
+class WhiteBgHeader extends PureComponent {
     static propTypes = {
         navigation:PropTypes.object.isRequired,
         leftPress: PropTypes.func,

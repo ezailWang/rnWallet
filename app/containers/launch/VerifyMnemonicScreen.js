@@ -6,8 +6,12 @@ import { connect } from 'react-redux';
 import {upsetArrayOrder} from './Common';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
+        flex:1,
+    },
+    contentContainer:{
         flex:1,
         alignItems:'center',
         backgroundColor:'#fff',
@@ -151,24 +155,28 @@ class VerifyMnemonicScreen extends Component {
         return (
             <View style={styles.container}>
                  <StatusBarComponent/>
-                 <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.png')} resizeMode={'center'}/>
-                 <Text style={styles.titleTxt}>确认助记词</Text>
-                 <Text style={styles.contentTxt}>请按顺序点击助记词，以确认您正确备份。</Text>
+                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
+                 <View style={styles.contentContainer}>
+                     <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.png')} resizeMode={'center'}/>
+                     <Text style={styles.titleTxt}>确认助记词</Text>
+                     <Text style={styles.contentTxt}>请按顺序点击助记词，以确认您正确备份。</Text>
 
-                <View style={[styles.mnemonicList,styles.mnemonicSortBorder]}>
-                     {sortMnemonicView}
-                 </View>
+                     <View style={[styles.mnemonicList,styles.mnemonicSortBorder]}>
+                         {sortMnemonicView}
+                     </View>
 
-                 <View style={styles.mnemonicList}>
-                     {mnemonicView}
-                 </View>
+                     <View style={styles.mnemonicList}>
+                         {mnemonicView}
+                     </View>
         
-                 <View style={styles.buttonBox}>
-                      <BlueButtonBig
-                         onPress = {()=> this.completeClickFun()}
-                         text = '完成'
-                      />
-                 </View>            
+                     <View style={styles.buttonBox}>
+                         <BlueButtonBig
+                             onPress = {()=> this.completeClickFun()}
+                             text = '完成'
+                         />
+                     </View>      
+                 </View>
+                      
            </View>
         );
     }

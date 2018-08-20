@@ -9,12 +9,14 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 const styles = StyleSheet.create({
     container:{
         flex:1,
+    },
+    contentContainer:{
+        flex:1,
         alignItems:'center',
         backgroundColor:Colors.bgGrayColor,
         paddingTop:60,
         paddingLeft:20,
         paddingRight:20,
-        //alignItems:'stretch',
     },
     icon:{
         width:66,
@@ -40,26 +42,18 @@ const styles = StyleSheet.create({
 })
 
 export default class ReceiptCodeScreen extends Component {
-    static navigationOptions=({navigation}) => ({
+    /**static navigationOptions=({navigation}) => ({
         header:(<WhiteBgHeader navigation={navigation} 
                               text='收款码'
                               rightPress = {()=>navigation.state.params.headRightPress()}
                               rightIcon= {require('../../assets/common/scanIcon.png')}/>
                 )
     })
-    /**static navigationOptions = ({ navigation }) => ({
-        
-        /**headerRight:(
-            <HeaderButton
-                onPress = {()=>navigation.state.params.headRightPress()}
-                img = {require('../../assets/common/common_scan_qrcode.png')}/>
-        ),**/
-    //})**/
-
+   
     componentDidMount(){
         //在初始化render之后只执行一次，在这个方法内，可以访问任何组件，componentDidMount()方法中的子组件在父组件之前执行
         this.props.navigation.setParams({headRightPress:this.scanClick})
-    }
+    }**/
 
     scanClick = async() =>{
         //const {navigate} = this.props.navigation;//页面跳转
@@ -87,21 +81,28 @@ export default class ReceiptCodeScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <Image style={styles.icon} source={require('../../assets/common/photoIcon.png')}/>
-                <Text style={styles.titleTxt}>Wallet Name</Text>
-                <QRCode
-                    value = {0x123456789}
-                    size={160}
-                    bgColor='#000'
-                    fgColor='#fff'
-                />
-                <Text style={styles.adderssTxt}>0x1234567890x1234567890x1234567890x1234567890x1234567890x1234567890x123456789</Text>
-                <View style={styles.buttonBox}>
-                    <BlueButtonBig
-                        onPress = {()=> this.copyAddress()}
-                        text = '复制收款地址'
-                    />
-                </View>       
+                <WhiteBgHeader  navigation={this.props.navigation} 
+                                text='收款码'
+                                rightPress = {()=>this.scanClick()}
+                                rightIcon= {require('../../assets/common/scanIcon.png')}/>
+                <View style={styles.contentContainer}>
+                     <Image style={styles.icon} source={require('../../assets/common/photoIcon.png')}/>
+                     <Text style={styles.titleTxt}>Wallet Name</Text>
+                     <QRCode
+                         value = {0x123456789}
+                         size={160}
+                         bgColor='#000'
+                         fgColor='#fff'
+                     />
+                     <Text style={styles.adderssTxt}>0x1234567890x1234567890x1234567890x1234567890x1234567890x1234567890x123456789</Text>
+                     <View style={styles.buttonBox}>
+                         <BlueButtonBig
+                             onPress = {()=> this.copyAddress()}
+                             text = '复制收款地址'
+                          />
+                     </View>       
+                </View>                
+               
             </View>
         );
     }

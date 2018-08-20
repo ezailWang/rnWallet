@@ -7,16 +7,15 @@ import{
     TouchableOpacity,
     Image
 }from 'react-native'
-
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
 import {WhiteButtonMiddle} from '../../components/Button'
 import PropTypes from 'prop-types'
-
 import {store} from '../../config/store/ConfigureStore'
 import {setTransactionDetailParams, setWalletTransferParams} from "../../config/action/Actions";
 import networkManage from '../../utils/networkManage';
-
+import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 
 const styles = StyleSheet.create({
 
@@ -282,6 +281,8 @@ export default class TransactionRecoder extends Component{
         }
         return(
             <View style={styles.container}>
+                <StatusBarComponent/>
+                <WhiteBgHeader  navigation={this.props.navigation} text='交易记录'/>
                 <FlatList   style={styles.flatList}
                             ListHeaderComponent={<Header balance={parseFloat(amount).toFixed(4)}
                                                          value={value}/>}

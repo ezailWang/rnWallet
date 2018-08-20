@@ -4,8 +4,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
+        flex:1,
+    },
+    contentContainer:{
         flex:1,
         alignItems:'center',
         backgroundColor:'#fff',
@@ -42,6 +46,8 @@ export default class BackupWalletScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
+                <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
+                <View style={styles.contentContainer}>
                 <Image style={styles.icon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}/>
                 <Text style={styles.titleTxt}>备份钱包</Text>
                 <Text style={styles.contentTxt}>没有妥善备份就无法保障资产安全。删除程序或钱包后，你需要备份文件来恢复钱包。</Text>
@@ -52,7 +58,7 @@ export default class BackupWalletScreen extends Component {
                         text = '备份助记词'
                     />
                 </View>    
-                 
+                </View>
                          
             </View>
         );

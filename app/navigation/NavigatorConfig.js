@@ -36,8 +36,8 @@ const StackNavigationConfig = {
 const HomeStackNavigationConfig = {
     
     initialRouteName: 'HomeScreen',
-    headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
+    headerMode: 'none',
+    /**navigationOptions: ({ navigation }) => ({
         headerStyle:{
             //height:{height},
             backgroundColor: Colors.backgroundWhiteColor
@@ -51,12 +51,13 @@ const HomeStackNavigationConfig = {
             fontWeight:"400"
         }
 
-    })
+    })**/
 
 }
 
 const FirstLaunchStackNavigationConfig = {
-    initialRouteName: 'FirstLaunch'
+    initialRouteName: 'FirstLaunch',
+    headerMode: 'none',
 }
 
 const TestStackNavigationConfig = {

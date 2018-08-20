@@ -10,13 +10,13 @@ import {Colors,FontSize}from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import * as Actions from '../../config/action/Actions';
 import {showToast} from '../../utils/Toast';
-
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
         backgroundColor:Colors.bgGrayColor,
-        paddingTop:20,
+        paddingBottom:20,
     },
     btnOpacity:{
         flexDirection:'row',
@@ -150,6 +150,7 @@ class SetScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
+                <WhiteBgHeader  navigation={this.props.navigation} text='设置'/>
                 <InputTextDialog
                     ref = "inputTextDialog"
                     placeholder = {this.state.inputDialogPlaceholder}

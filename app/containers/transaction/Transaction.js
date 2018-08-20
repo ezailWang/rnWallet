@@ -18,19 +18,22 @@ import {store} from '../../config/store/ConfigureStore'
 
 import PropTypes from 'prop-types';
 import {BlueButtonBig} from '../../components/Button'
-import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import Slider from '../../components/Slider'
 
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
 import keythereum from 'keythereum'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+    },
+    contentContainer:{
         flex: 1,
         backgroundColor:Colors.backgroundColor
     },
@@ -279,9 +282,9 @@ export default class Transaction extends Component{
         };
     };
 
-    static navigationOptions = ({navigation}) => ({
+    /**static navigationOptions = ({navigation}) => ({
         header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
-    })
+    })**/
 
     getPriceTitle = (gasPrice,ethPrice)=>{
 
@@ -396,39 +399,45 @@ export default class Transaction extends Component{
     render(){
 
         return (
-            <ScrollView style={styles.container}
+            <View style={styles.container}>
+                 <StatusBarComponent/>
+                 <WhiteBgHeader  navigation={this.props.navigation} text={ComponentTitle()}/>
+                 <ScrollView style={styles.contentContainer}
                         bounces={false}>
-                <TransactionStep  didTapSurePasswordBtn={this.didTapSurePasswordBtn}
+
+                     <TransactionStep  didTapSurePasswordBtn={this.didTapSurePasswordBtn}
                                   ref={(dialog)=>{this.dialog = dialog;}}/>
-                {/*转账数量栏*/}
-                <InfoView title={"金额"}
+                     {/*转账数量栏*/}
+                     <InfoView title={"金额"}
                           detailTitle={"余额："+this.params.balance+"eth"}
                           placeholder={"输入"+this.params.transferType+"金额"}
                           returnKeyType={"next"}
                           KeyboardType={"numeric"}
                           onChangeText={this.valueTextInputChangeText}/>
-                {/*转账地址栏*/}
-                <InfoView title={"地址"}
+                     {/*转账地址栏*/}
+                     <InfoView title={"地址"}
                           placeholder={"输入转账地址"}
                           returnKeyType={"next"}
                           onChangeText={this.toAddressTextInputChangeText}/>
-                {/*备注栏*/}
-                <InfoView title={"备注"}
+                     {/*备注栏*/}
+                     <InfoView title={"备注"}
                           placeholder={"输入备注"}
                           returnKeyType={"done"}
                           onChangeText={this.detailTextInputChangeText}/>
-                {/*滑竿视图*/}
-                <SliderView gasStr={this.state.gasStr}
+                     {/*滑竿视图*/}
+                     <SliderView gasStr={this.state.gasStr}
                             minGasPrice={this.state.minGasPrice}
                             maxGasPrice={this.state.maxGasPrice}
                             initValue={this.params.suggestGasPrice}
                             onValueChange={this.sliderValueChanged}/>
-                {/*下一步按钮*/}
+                     {/*下一步按钮*/}
                 
-                <View style={{alignItems:"center",marginTop:80}}>
-                    <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"}/>
-                </View>
-            </ScrollView>
+                     <View style={{alignItems:"center",marginTop:80}}>
+                         <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"}/>
+                     </View>
+                </ScrollView>
+            </View>
+           
         )
     }
 };

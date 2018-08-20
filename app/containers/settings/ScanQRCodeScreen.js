@@ -15,12 +15,16 @@ var {width, height} = Dimensions.get('window');
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import {showToast} from '../../utils/Toast';
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
        flex:1,
-       backgroundColor:'#000',
-       justifyContent:'center',
-       alignItems:'center',
+    },
+    contentContainer:{
+        flex:1,
+        backgroundColor:'#000',
+        justifyContent:'center',
+        alignItems:'center',
     },
     scanView:{
         width:200,
@@ -102,7 +106,6 @@ export default class ScanQRCodeScreen extends Component{
         };
         return(
             <View style={styles.scanView}>
-                <StatusBarComponent/>
                 <View style={[styles.scanBorder,styles.topLeft]}></View>
                 <View style={[styles.scanBorder,styles.topRight]}></View>
                 <View style={[styles.scanBorder,styles.bottomLeft]}></View>
@@ -134,6 +137,9 @@ export default class ScanQRCodeScreen extends Component{
     render(){
         return(
             <View style={styles.container}>
+             <StatusBarComponent/>
+             <WhiteBgHeader  navigation={this.props.navigation} text='扫描二维码'/>
+             <View style={styles.contentContainer}>
                  <Camera
                       style={styles.scanView}
                       onBarCodeRead={e => this._onBarCodeRead(e)}      
@@ -142,7 +148,7 @@ export default class ScanQRCodeScreen extends Component{
                  {this._renderQRScanView()}
                  </Camera> 
                  <Text style={styles.text}>将二维码放入框内，即可自动扫描</Text>
-                
+             </View>  
             </View>
         )
     }

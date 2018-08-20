@@ -86,43 +86,30 @@ const FirstLaunchRouteConfig =
     },
     BackupMnemonic: {
         screen: BackupMnemonicScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgNoTitleHeader navigation={navigation}/>
-        })
-
     },
     VerifyMnemonic: {
         screen: VerifyMnemonicScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgNoTitleHeader navigation={navigation}/>
-        })
-
     },
     BackupWallet: {
         screen: BackupWalletScreen,
-        navigationOptions: ({navigation}) => ({
+        /**navigationOptions: ({navigation}) => ({
             header:<WhiteBgNoTitleHeader navigation={navigation}/>
-        })
-
-        
+        })**/   
     },
     CreateWallet: {
         screen: CreateWalletScreen,
-        navigationOptions: ({navigation}) => ({
+        /**navigationOptions: ({navigation}) => ({
             header:<BlueHeader navigation={navigation}/>
-        })
+        })**/
     },
    
     ImportWallet: {
         screen: ImportWalletScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<BlueHeader navigation={navigation}/>
-        })
     },
 
     UserRegulation: {
         screen: UserRegulationScreen,
-        navigationOptions: ({navigation}) => ({
+        /**navigationOptions: ({navigation}) => ({
             headerTitle:"用户条例",
             headerStyle: {
                 backgroundColor: "white",
@@ -130,7 +117,7 @@ const FirstLaunchRouteConfig =
             headerLeft: <BackButton onPress={() => {
                 navigation.goBack()
             }}/>,
-        })
+        })**/
     },
 }
 
@@ -140,14 +127,12 @@ const HomeRouteConfig =
     HomeScreen: {
         screen: HomeScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            gesturesEnable: false
         })
     },
     Set:{
         screen: SetScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text='设置'/>
-        })
     },
     ModifyPassword: {
         screen: ModifyPasswordScreen,
@@ -157,78 +142,45 @@ const HomeRouteConfig =
     },
     PasswordPrompInfo: {        
         screen: PasswordPrompInfoScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text='密码提示信息'/>
-        })
     },
     ReceiptCode: {
         screen: ReceiptCodeScreen,
     },
     TransactionDetail: {
         screen: TransactionDetail,
-        navigationOptions: ({navigation}) => ({
+        /**navigationOptions: ({navigation}) => ({
             header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
-        })
+        })**/
     },
     ScanQRCode:{
         screen:ScanQRCodeScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text='扫描二维码'/>
-        })
     },
     BackupMnemonic: {
         screen: BackupMnemonicScreen,
-        navigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: "white",
-            },
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
     },
     VerifyMnemonic: {
         screen: VerifyMnemonicScreen,
-        navigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: "white",
-            },
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
     },
     CreateWallet: {
         screen: CreateWalletScreen,
-        navigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: "white",
-            },
-            headerLeft: <BackButton onPress={() => {
-                navigation.goBack()
-            }}/>,
-        })
     },
     TransactionRecoder:{
         screen: TransactionRecoder,
-        navigationOptions: ({navigation}) => ({
+        /**navigationOptions: ({navigation}) => ({
             header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
-        })
+        })**/
     },
     Transaction:{
         screen: Transaction,
     },
     ExportPrivateKey:{
         screen:ExportPrivateKeyScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text='导出私钥'/>
-        })
     },
     ExportKeystore:{
         screen:ExportKeystoreScreen,
-        navigationOptions: ({navigation}) => ({
+        /**navigationOptions: ({navigation}) => ({
             header:<WhiteBgHeader navigation={navigation} text='导出Keystore'/>
-        })
+        })**/
     }
 };
 

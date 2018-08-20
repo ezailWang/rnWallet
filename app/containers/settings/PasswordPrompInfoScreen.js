@@ -5,12 +5,12 @@ import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
         backgroundColor:Colors.bgGrayColor,
-        paddingTop:10,
     },
     inputBox:{
         alignSelf:'stretch',
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         paddingLeft:20,
         paddingRight:20,
+        marginTop:20,
     },
     inputText:{
         flex:1,
@@ -78,6 +79,7 @@ export default class PasswordPrompInfoScreen extends Component {
             
             <View style={styles.container}>
                 <StatusBarComponent/>
+                <WhiteBgHeader  navigation={this.props.navigation} text='密码提示信息'/>
                 <View style={styles.inputBox}> 
                     <TextInput style={styles.inputText} 
                            placeholder='请输入密码提示信息'

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,Platform,PermissionsAndroid,TouchableOpacity} from 'react-native';
+import  {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
@@ -8,17 +9,18 @@ import StorageManage from '../../utils/StorageManage'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
-
 import {androidPermission}  from '../../utils/permissionsAndroid';
-
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
-
+import {BlueHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
+        flex:1,
+    },
+    contentContainer:{
         flex:1,
         alignItems:'center',
         backgroundColor:'#fff',
@@ -37,10 +39,13 @@ const styles = StyleSheet.create({
         marginTop:15,
         marginBottom:30,
     },
-    scrollView:{
+    keyboardAwareScrollView:{
         flex:1,
         alignSelf:'stretch',
-        
+    },
+    scrollView:{
+        flex:1,
+        alignSelf:'stretch', 
     },
     inputText:{
         alignSelf:'stretch',
@@ -98,7 +103,6 @@ class CreateWalletScreen extends Component {
             isShowRePassword:false,
             loadingVisible:false,
         }
-
         //this.startCreateWallet=this.startCreateWallet.bind(this);
     }
 
@@ -131,13 +135,10 @@ class CreateWalletScreen extends Component {
                     'warn',
                     '请允许读取内存卡权限',
                 )
-            }
-            
+            } 
         }else{
-            
             this.vertifyInputData()
         }
-
     }
 
     vertifyInputData(){
@@ -232,10 +233,13 @@ class CreateWalletScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-               
+                <BlueHeader navigation={this.props.navigation}/>
+                <View style={styles.contentContainer}>
                 <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'}/>
                 <Text style={styles.titleTxt}>创建钱包</Text>
-                <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
+                
+                
+                <KeyboardAwareScrollView  style={styles.keyboardAwareScrollView}>
                 <TextInput style={styles.inputText} 
                            //returnKeyType='next' 
                            placeholder="钱包名称"
@@ -297,13 +301,14 @@ class CreateWalletScreen extends Component {
                         text = '创建'
                     />
                 </View>   
-                </ScrollView>  
+                </KeyboardAwareScrollView>
                 <Loading visible={this.state.loadingVisible}></Loading>
+                </View>
             </View>
         );
     }
 }
-
+//<ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
 
 
 

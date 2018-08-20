@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Text,TouchableOpacity,Clipboard} from 'react-native';
 import QRCode from 'react-native-qrcode';
-
+import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import {Colors} from '../../config/GlobalConfig';
-
 import {store} from '../../config/store/ConfigureStore'
 
 const styles = StyleSheet.create({
@@ -120,6 +120,8 @@ export default class TransactionDetail extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBarComponent/>
+                <WhiteBgHeader  navigation={this.props.navigation} text='交易详情'/>
                 <View style={styles.countBox}>
                      <Text style={styles.countTxt}>{this.state.amount}</Text>
                      <Text style={styles.coinTypeTxt}>{this.state.transactionType}</Text>

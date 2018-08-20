@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,ScrollView,TouchableOpacity,Alert,Platform,PermissionsAndroid} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import  {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
@@ -16,11 +16,14 @@ import {resetStringBlank}  from '../../containers/launch/Common';
 import {androidPermission}  from '../../utils/permissionsAndroid';
 import Loading from '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
+import layoutConstants from '../../config/LayoutConstants'
+import {BlueHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
-    box:{
-        flex:1
-    },
+
     container:{
+        flex:1,
+    },
+    contentContainer:{
         flex:1,
         alignItems:'center',
         backgroundColor:Colors.backgroundColor,
@@ -33,9 +36,13 @@ const styles = StyleSheet.create({
         width:48,
         height:48,
     },
-    scrollView:{
+    keyboardAwareScrollView: {
         flex:1,
         alignSelf:'stretch',
+    },
+    scrollView:{
+        flex:1,
+       
     },
     titleTxt:{
         fontSize:18,
@@ -228,12 +235,13 @@ class ImportWalletScreen extends Component {
         let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon= this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
-           
             <View style={styles.container}>
                 <StatusBarComponent/>
+                <BlueHeader navigation={this.props.navigation}/>
+                <View style={styles.contentContainer}>
                 <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'}/>
                 <Text style={styles.titleTxt}>导入钱包</Text>
-                <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
+                <KeyboardAwareScrollView  style={styles.keyboardAwareScrollView}>
                 <TextInput style={[styles.inputTextBox,styles.inputArea]} 
                           // returnKeyType='next' 
                            placeholder="输入助记词"
@@ -298,14 +306,14 @@ class ImportWalletScreen extends Component {
                                 text = '导入'
                           />
                 </View> 
-                </ScrollView>
+                </KeyboardAwareScrollView> 
                 <Loading visible={this.state.loadingVisible}></Loading>
-                
+                </View>
             </View> 
         );
     }
 }
-// 
+//  <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}> </ScrollView>
 const mapStateToProps = state => ({
     mnemonic:state.Core.mnemonic,
 });

@@ -10,16 +10,17 @@ import ScreenshotWarn from '../../components/ScreenShowWarn';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from  '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:Colors.bgGrayColor,
+    },
+    contentBox:{
         paddingTop:20,
         paddingLeft:20,
         paddingRight:20,
         paddingBottom:20,
-    },
-    contentBox:{
         flex:1,
         alignItems:'stretch',
     },
@@ -150,6 +151,7 @@ export default class ExportPrivateKeyScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
+                <WhiteBgHeader  navigation={this.props.navigation} text='导出私钥'/>
                 <ScreenshotWarn
                     content = '如果有人获取你的私钥将可能获取你的资产！请抄写下私钥并存放在安全的地方。'
                     btnText = '知道了'

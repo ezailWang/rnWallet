@@ -5,6 +5,7 @@ import ScreenshotWarn from '../../components/ScreenShowWarn';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -71,8 +72,9 @@ class BackupMnemonicScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
+                <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <ScreenshotWarn
-                    content = '如果有人获取你的助记词将直接获取你的资产！请抄写下助记词冰村放在安全的地方。'
+                    content = '如果有人获取你的助记词将直接获取你的资产！请抄写下助记词并放在安全的地方。'
                     btnText = '知道了'
                     modalVisible = {this.state.modalVisible}
                     onPress = {()=> this.onCloseModal()}

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
 
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import {WhiteBgHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -73,6 +74,7 @@ export default class ModifyPasswordScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
+                <WhiteBgHeader  navigation={this.props.navigation} text='修改密码'/>
                 <View style={styles.inputBox}> 
                     <Text style={styles.inputTxt}>当前密码</Text>
                     <TextInput style={styles.inputText} 
