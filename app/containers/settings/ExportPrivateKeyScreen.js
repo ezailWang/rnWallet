@@ -82,15 +82,18 @@ export default class ExportPrivateKeyScreen extends Component {
         }
     }
     componentDidMount() {
-        
-        this.exportPrivateKey()
+        this.setState({
+            loadingVisible:true,
+        })
+        setTimeout(()=>{
+            this.exportPrivateKey()
+        },2000);
+       
     }
     async exportPrivateKey(){
         try{
              //this.refs.loading.show();
-             this.setState({
-                 loadingVisible:true,
-             })
+             
              var password = this.props.navigation.state.params.password;
              //console.log('password_', password)
              var key = 'uesr'
@@ -99,11 +102,19 @@ export default class ExportPrivateKeyScreen extends Component {
              if(user == null){
                 throw "请先创建或导入钱包"
              }
-             var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
-             console.log("keyStoreStr",keyStoreStr); 
-             var keyStoreObject = JSON.parse(keyStoreStr)
-             var privateKey = await keythereum.recover(password, keyStoreObject);//导出privateKey
-             console.log("privateKey",privateKey); 
+             try{
+                var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
+                console.log("keyStoreStr",keyStoreStr); 
+                var keyStoreObject = JSON.parse(keyStoreStr)
+             }catch(e){
+                throw "导出私钥出错"
+             }  
+             try{
+                 var privateKey = await keythereum.recover(password, keyStoreObject);//导出privateKey
+                 console.log("privateKey",privateKey); 
+             }catch(e){
+                throw "密码错误"
+             }
              var privateKeyHex = privateKey.toString('hex');
              console.log("privateKey",privateKeyHex);
              //this.refs.loading.close();
@@ -114,6 +125,9 @@ export default class ExportPrivateKeyScreen extends Component {
                 screenshotWarnVisible:true
              });
         } catch (err) {
+            this.setState({
+                   loadingVisible:false,
+            });
             showToast(err);
             console.log('exportPrivateKey:', err)
         }

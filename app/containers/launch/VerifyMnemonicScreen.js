@@ -116,11 +116,10 @@ class VerifyMnemonicScreen extends Component {
         if(this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic){
             this.props.navigation.navigate('CreateWallet');
         }else{
-            this.props.navigation.navigate('CreateWallet');
-           /** Alert.alert(
+            Alert.alert(
                 'error',
                 'Incorrect match',
-            )**/
+            )
         }
         
     }

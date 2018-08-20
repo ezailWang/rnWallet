@@ -292,7 +292,7 @@ class CreateWalletScreen extends Component {
                             }}/>
                 <View style={styles.buttonBox}>
                     <BlueButtonBig
-                        onPress = {()=> this.vertifyInputData()}
+                        onPress = {()=> this.vertifyPermissions()}
                         text = '创建'
                     />
                 </View>   

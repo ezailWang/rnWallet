@@ -8,6 +8,8 @@ import LinearGradient from 'react-native-linear-gradient'
 import {RightBlueNextButton,RightWhiteNextButton} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
+import SplashScreen from 'react-native-splash-screen'
+
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
@@ -36,6 +38,11 @@ const styles = StyleSheet.create({
 });
 
 class FirstLaunchScreen extends Component {
+
+    componentDidMount(){
+        SplashScreen.hide()
+    }
+    
     createClickFun() {
 
         walletUtils.generateMnemonic().then((data) => {

@@ -18,6 +18,7 @@ import { addToken, setTransactionRecoders, setCoinBalance } from '../../config/a
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
 import {store} from '../../config/store/ConfigureStore'
+import SplashScreen from 'react-native-splash-screen'
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -86,6 +87,7 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
+        SplashScreen.hide()
         await networkManage.loadTokenList()
     }
 

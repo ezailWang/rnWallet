@@ -3,7 +3,7 @@ import Toast from 'react-native-root-toast';
 function showToast(message){
     let toast = Toast.show(message, {
         visible:true,
-        duration: Toast.durations.SHORT,//显示时间
+        duration: Toast.durations.Long,//显示时间
         position: Toast.positions.BOTTOM,//吐司的位置显示在屏幕上（负数表示距离屏幕底部的距离。正数表示距屏幕顶部的距离.0将吐司定位到屏幕中间。）
         shadow: true,//Toast元素周围投下阴影
         animation: true,//动画

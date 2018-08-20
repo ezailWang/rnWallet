@@ -87,30 +87,41 @@ export default class ExportKeystoreScreen extends Component {
     }
 
     componentDidMount() {
-       this.exportKeystore()
+        this.setState({
+            loadingVisible:true
+        })
+        setTimeout(()=>{
+            this.exportKeystore();
+        },2000);
+       
     }
 
     async exportKeystore(){
         try{
               //this.refs.loading.show();
-              this.setState({
-                 loadingVisible:true
-              })
+              
               var key = 'uesr'
               var user = await StorageManage.load(key);
               console.log('user', user)
               if(user == null){
                   throw "请先创建或导入钱包"
               }
-              var str = await keystoreUtils.importFromFile(user.address)
+              try{
+                  var str = await keystoreUtils.importFromFile(user.address)
+              }catch(e){
+                throw "导出KeyStore出错"
+              }
               //var newKeyObject = JSON.parse(str)
               //this.refs.loading.close()
-             this.setState({
+              this.setState({
                 keystore:str,
                 loadingVisible:false,
                 screenshotWarnVisible:true
-             })
+              })
         }catch (err) {
+            this.setState({
+                loadingVisible:false,
+            });
             showToast(err);
             console.log('exportKeystoreErr:', err)
         }

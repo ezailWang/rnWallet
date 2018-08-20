@@ -163,8 +163,10 @@ class ImportWalletScreen extends Component {
             this.stopLoading()
             showToast(warnMessage)
         }else{
-            this.importWallet();
             
+            setTimeout(()=>{
+                this.importWallet();
+            },2000);
         }
     }
     
