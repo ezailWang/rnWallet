@@ -147,14 +147,14 @@ class HomeScreen extends Component {
                         addAssetsIcon={require('../../assets/home/plus_icon.png')}
                     />}
                 />
-                <ImageButton
+                {/* <ImageButton
                     btnStyle={{ width: 30, height: 30, right: 20, top: 30, position: 'absolute' }}
                     // imageStyle={{ }}
                     onClick={() => {
                         console.log('---目录按钮被点击')
                     }}
                     backgroundImageSource={require('../../assets/home/caidan.png')}
-                />
+                /> */}
                 <AddToken
                     open={this.state.addTokenShow}
                     close={() => {

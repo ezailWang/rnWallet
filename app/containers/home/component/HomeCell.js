@@ -9,6 +9,14 @@ import {
 } from 'react-native'
 import layoutConstants from '../../../config/LayoutConstants'
 
+tokeniCon = {
+    'ETH' : require('../../../assets/home/ETH.png'),
+    'ITC' : require('../../../assets/home/ITC.png'),
+    'MANA' : require('../../../assets/home/MANA.png'),
+    'DPY' : require('../../../assets/home/DPY.png'),
+}
+
+
 class ItemDivideComponent extends Component {
     render() {
         return (
@@ -30,17 +38,25 @@ class EmptyComponent extends Component {
 class HomeCell extends Component {
     render() {
         const { symbol, balance } = this.props.item.item || {}
+        var imageSource = require('../../../assets/home/null.png')
+        if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
+            imageSource = tokeniCon[symbol]
+        }
         return (
-            <TouchableOpacity 
-            style={styles.container}
-            onPress={this.props.onClick}
+            <TouchableOpacity
+                style={styles.container}
+                onPress={this.props.onClick}
             >
                 <View style={styles.leftView}>
-                    <Image style={styles.icon}></Image>
+                    <Image style={styles.icon}
+                        source={imageSource}
+                    ></Image>
                     <Text>{symbol}</Text>
                 </View>
                 <View style={styles.rightView}>
-                    <Text>{balance}</Text>
+                    <Text 
+                    style={{fontSize:20}}
+                    >{balance}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -52,7 +68,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: 50,
+        height: 60,
     },
     leftView: {
         flexDirection: 'row',
@@ -70,10 +86,9 @@ const styles = StyleSheet.create({
         height: 10,
     },
     icon: {
-        width: 20,
-        height: 20,
-        backgroundColor: 'black',
-        borderRadius: 10,
+        width: 24,
+        height: 24,
+        backgroundColor: 'transparent',
         marginRight: 10
     },
     emptyView: {

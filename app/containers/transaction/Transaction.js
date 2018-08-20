@@ -310,14 +310,7 @@ export default class Transaction extends Component{
 
         console.warn("输入密码--",password);
         
-        var key = 'uesr'
-        var user = await StorageManage.load(key);//获取地址
-        console.log('user', user)
-        var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
-        console.log("keyStoreStr",keyStoreStr); 
-        var keyStoreObject = JSON.parse(keyStoreStr)
-        //导出privateKey
-        var privateKey = await keythereum.recover(password, keyStoreObject);
+        var privateKey = await keystoreUtils.getPrivateKey(password)
 
         if(privateKey.length == 0){
 
@@ -327,7 +320,7 @@ export default class Transaction extends Component{
             var privateKeyHex = privateKey.toString('hex');
             console.log(privateKeyHex);
     
-            NetworkManage.sendTransaction(
+            NetworkManager.sendTransaction(
                 {contractAddress:"",symbol:"ETH","decimals":18},
                 this.state.toAddress,
                 this.state.transferValue,

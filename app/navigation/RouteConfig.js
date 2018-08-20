@@ -81,7 +81,9 @@ const FirstLaunchRouteConfig =
         screen: FirstLaunchScreen,
         navigationOptions: ({ navigation }) => ({
             header: null,
-            gesturesEnable: false
+            cardStack: {
+                gesturesEnabled: false
+            }
         })
     },
     BackupMnemonic: {
@@ -126,10 +128,10 @@ const HomeRouteConfig =
 {
     HomeScreen: {
         screen: HomeScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: null,
-            gesturesEnable: false
-        })
+        navigationOptions:{
+            header:null,
+            gesturesEnabled:false
+        }
     },
     Set:{
         screen: SetScreen,

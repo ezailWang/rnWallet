@@ -1,5 +1,8 @@
 import RNFS from 'react-native-fs'
 import path from 'path-browserify'
+import { StorageKey } from '../config/GlobalConfig'
+import { store } from '../config/store/ConfigureStore'
+import keythereum from 'keythereum'
 
 const rootPath = RNFS.DocumentDirectoryPath;
 export default class keystoreUtils {
@@ -58,4 +61,11 @@ export default class keystoreUtils {
         return filename;
     }
 
+    static async getPrivateKey(password) {
+        const { walletAddress } = store.getState().Core
+        var keyStoreStr = await keystoreUtils.importFromFile(walletAddress)
+        console.log("keyStoreStr", keyStoreStr);
+        var keyStoreObject = JSON.parse(keyStoreStr)
+        return await keythereum.recover(password, keyStoreObject);
+    }
 }

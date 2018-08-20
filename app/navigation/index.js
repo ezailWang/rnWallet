@@ -37,7 +37,7 @@ const SwicthNavigation = SwitchNavigator({
     Home: HomeNavigation,
     Test:TestNavigation,
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Apploading',
 }, )
 
 

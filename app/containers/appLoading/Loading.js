@@ -3,7 +3,7 @@ import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-    setWalletAddress,
+    setWalletAddress, setWalletName,
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 
@@ -28,7 +28,6 @@ class Loading extends Component {
         if (this.props.walletAddress) {
             return this.props.navigation.navigate('HomeScreen')
         } else {
-           // return this.props.navigation.navigate('HomeScreen')
             return this.props.navigation.navigate('FirstLaunch', {
                 migrationMode: true
             })
@@ -37,10 +36,13 @@ class Loading extends Component {
 
     loadFromStorege = async () => {
         var data = await StorageManage.load(StorageKey.User)
-        console.log('data:', data)
+        console.log('localUser:', data)
         if (data) {
-            if (data['walletAddress']) {
-                this.props.dispatch(setWalletAddress(data['walletAddress']))
+            if (data['address']) {
+                this.props.dispatch(setWalletAddress(data['address']))
+            }
+            if(data['name']){
+                this.props.dispatch(setWalletName(data['name']))
             }
         } else {
             console.log('data = null')
