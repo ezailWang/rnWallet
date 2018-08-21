@@ -8,7 +8,7 @@ import StorageManage from './StorageManage'
 import { StorageKey } from '../config/GlobalConfig'
 import { addToken, loadTokenBalance, setTotalAssets } from '../config/action/Actions'
 import lodash from 'lodash'
-import {TransferGasLimit} from '../config/GlobalConfig'
+import { TransferGasLimit } from '../config/GlobalConfig'
 
 const Ether = new BigNumber(10e+17)
 var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
@@ -108,22 +108,27 @@ export default class networkManage {
      * Get a list of ETH transactions for the user's wallet
      */
     static async getEthTransations() {
-        const { walletAddress } = store.getState().Core
-        var data = await api.account.txlist(walletAddress)
-        if (data.message !== 'OK') {
-            return []
-        }
-        const web3 = this.getWeb3Instance();
+        try {
+            const { walletAddress } = store.getState().Core
+            var data = await api.account.txlist(walletAddress)
+            if (data.message !== 'OK') {
+                return []
+            }
+            const web3 = this.getWeb3Instance();
 
-        return data.result.map(t => ({
-            from: t.from,
-            to:t.to,
-            timeStamp: t.timeStamp,
-            hash: t.hash,
-            value: web3.utils.fromWei(t.value, 'ether'),
-            gasPrice: t.gasPrice,
-            blockNumber:t.blockNumber
-        }))
+            return data.result.map(t => ({
+                from: t.from,
+                to: t.to,
+                timeStamp: t.timeStamp,
+                hash: t.hash,
+                value: web3.utils.fromWei(t.value, 'ether'),
+                gasPrice: t.gasPrice,
+                blockNumber: t.blockNumber
+            }))
+        } catch (err) {
+            console.log('getEthTransations err:', err)
+            return null
+        }
     }
 
     /**
@@ -133,22 +138,27 @@ export default class networkManage {
      * @param {Number} decimals 
      */
     static async getERC20Transations(contractAddress, decimals) {
-        const { walletAddress } = store.getState().Core
-        var data = await api.account.tokentx(walletAddress, contractAddress)
-        if (data.message !== 'OK') {
-            return []
-        }
-        const web3 = this.getWeb3Instance();
+        try {
+            const { walletAddress } = store.getState().Core
+            var data = await api.account.tokentx(walletAddress, contractAddress)
+            if (data.message !== 'OK') {
+                return []
+            }
+            const web3 = this.getWeb3Instance();
 
-        return data.result.map(t => ({
-            from: t.from,
-            to:t.to,
-            timeStamp: t.timeStamp,
-            hash: t.hash,
-            value: web3.utils.fromWei(t.value, 'ether'),
-            gasPrice: t.gasPrice,
-            blockNumber:t.blockNumber
-        }))
+            return data.result.map(t => ({
+                from: t.from,
+                to: t.to,
+                timeStamp: t.timeStamp,
+                hash: t.hash,
+                value: web3.utils.fromWei(t.value, 'ether'),
+                gasPrice: t.gasPrice,
+                blockNumber: t.blockNumber
+            }))
+        } catch (err) {
+            console.log('getERC20Transations err:', err)
+            return null
+        }
     }
 
     /**
@@ -159,11 +169,11 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice  
      */
-    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout,gasPrice,privateKey) {
+    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout, gasPrice, privateKey) {
         if (symbol === 'ETH') {
-            return this.sendETHTransaction(toAddress, amout,gasPrice,privateKey)
+            return this.sendETHTransaction(toAddress, amout, gasPrice, privateKey)
         }
-        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice,privateKey)
+        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey)
     }
 
     /**
@@ -173,23 +183,28 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice 
      */
-    static async sendETHTransaction(toAddress, amout, gasPrice,privateKey) {
-        const web3 = this.getWeb3Instance();
-        web3.eth.accounts.wallet.add(privateKey)
-        let price = web3.utils.toWei(gasPrice.toString(),'gwei');
-        let value = web3.utils.toWei(amout.toString(),'ether');
-        let gasLimit = web3.utils.toHex(TransferGasLimit.ethGasLimit);
-        let transactionGasPrice = web3.utils.toHex(price);
-        let transactionConfig ={
-            from: store.getState().Core.walletAddress,
-            to: toAddress,
-            value:value,
-            gas:gasLimit,
-            gasPrice:transactionGasPrice,
-        };
-        console.log(transactionConfig);
-        var cb = await web3.eth.sendTransaction(transactionConfig)
-        return cb
+    static async sendETHTransaction(toAddress, amout, gasPrice, privateKey) {
+        try {
+            const web3 = this.getWeb3Instance();
+            web3.eth.accounts.wallet.add(privateKey)
+            let price = web3.utils.toWei(gasPrice.toString(), 'gwei');
+            let value = web3.utils.toWei(amout.toString(), 'ether');
+            let gasLimit = web3.utils.toHex(TransferGasLimit.ethGasLimit);
+            let transactionGasPrice = web3.utils.toHex(price);
+            let transactionConfig = {
+                from: store.getState().Core.walletAddress,
+                to: toAddress,
+                value: value,
+                gas: gasLimit,
+                gasPrice: transactionGasPrice,
+            };
+            console.log(transactionConfig);
+            var cb = await web3.eth.sendTransaction(transactionConfig)
+            return cb
+        } catch (err) {
+            console.log('sendETHTransaction err:', err)
+            return null
+        }
     }
 
     /**
@@ -200,23 +215,28 @@ export default class networkManage {
      * @param {String} toAddress 
      * @param {String} amout 
      */
-    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice,privateKey) {
-        const web3 = this.getWeb3Instance();
-        web3.eth.accounts.wallet.add(privateKey)
-        const price = web3.utils.toWei(gasPrice.toString(),'gwei');
-        const contract = new web3.eth.Contract(erc20Abi, contractAddress)
-        var data = contract.methods.transfer(toAddress, amout * Math.pow(10, decimals)).encodeABI()
-        var tx = {
-            from: store.getState().Core.walletAddress,
-            to: contractAddress,
-            value: "0x0",
-            data: data,
-            gasLimit:web3.utils.toHex(TransferGasLimit.tokenGasLimit),
-            gasPrice:web3.utils.toHex(price),
+    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey) {
+        try {
+            const web3 = this.getWeb3Instance();
+            web3.eth.accounts.wallet.add(privateKey)
+            const price = web3.utils.toWei(gasPrice.toString(), 'gwei');
+            const contract = new web3.eth.Contract(erc20Abi, contractAddress)
+            var data = contract.methods.transfer(toAddress, amout * Math.pow(10, decimals)).encodeABI()
+            var tx = {
+                from: store.getState().Core.walletAddress,
+                to: contractAddress,
+                value: "0x0",
+                data: data,
+                gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
+                gasPrice: web3.utils.toHex(price),
+            }
+            // tx['gas'] = await web3.eth.estimateGas(tx)
+            var cb = await web3.eth.sendTransaction(tx)
+            return cb
+        } catch (err) {
+            console.log('sendERC20Transaction err:', err)
+            return null
         }
-        // tx['gas'] = await web3.eth.estimateGas(tx)
-        var cb = await web3.eth.sendTransaction(tx)
-        return cb
     }
 
     static isValidAddress(address) {
@@ -240,8 +260,12 @@ export default class networkManage {
      * Load the tokens the user owns
      */
     static async loadTokenList() {
-        await this.loadTokensFromStorage()
-        await this.getTokensBalance()
+        try {
+            await this.loadTokensFromStorage()
+            await this.getTokensBalance()
+        } catch (err) {
+            console.log('loadTokenList err:', err)
+        }
     }
 
     static async loadTokensFromStorage() {
@@ -273,7 +297,7 @@ export default class networkManage {
                 decimals: token.decimals
             })
             token["balance"] = balance
-            if (token.symbol === 'ETH') { 
+            if (token.symbol === 'ETH') {
                 const total = balance * await this.getEthPrice()
                 store.dispatch(setTotalAssets(total))
             }
@@ -281,11 +305,11 @@ export default class networkManage {
         store.dispatch(loadTokenBalance(completeTokens))
     }
 
-    static async getSuggestGasPrice(){
+    static async getSuggestGasPrice() {
 
         const web3 = this.getWeb3Instance();
         let price = await web3.eth.getGasPrice();
-        return web3.utils.fromWei(price,'gwei')
+        return web3.utils.fromWei(price, 'gwei')
     }
 }
 

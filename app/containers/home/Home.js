@@ -19,6 +19,7 @@ import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
 import {store} from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
+import Loading from '../../components/LoadingComponent'
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -26,6 +27,7 @@ class HomeScreen extends Component {
         this.state = {
             addTokenShow: false,
             isRefreshing: false,
+            loadingShow:false,
         }
 
     }
@@ -37,9 +39,22 @@ class HomeScreen extends Component {
         />
     )
 
+    showLoading(){
+        this.setState({
+            loadingShow:true
+        })
+    }
+
+    closeLoading(){
+        this.setState({
+            loadingShow:false
+        })
+    }
+
     onClickCell = async (item) => {
 
         //获取记录
+        this.showLoading()
         const { walletAddress } = store.getState().Core
         let arr = await  networkManage.getTransations(item.item);
         store.dispatch(setTransactionRecoders(arr));
@@ -53,7 +68,7 @@ class HomeScreen extends Component {
             price:price,
             transferType:item.item.symbol
         }
-
+        this.closeLoading()
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
     }
@@ -88,7 +103,9 @@ class HomeScreen extends Component {
 
     async componentDidMount() {
         SplashScreen.hide()
+        this.showLoading()
         await networkManage.loadTokenList()
+        this.closeLoading()
     }
 
     async saveTokenToStorage(token) {
@@ -164,6 +181,7 @@ class HomeScreen extends Component {
                     }}
                     onClickAdd={this.onClickAdd.bind(this)}
                 />
+                <Loading visible={this.state.loadingShow} />
             </View>
         )
     }
