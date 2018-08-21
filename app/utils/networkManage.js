@@ -159,11 +159,11 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice  
      */
-    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout,gasPrice) {
+    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout,gasPrice,privateKey) {
         if (symbol === 'ETH') {
-            return this.sendETHTransaction(toAddress, amout,gasPrice)
+            return this.sendETHTransaction(toAddress, amout,gasPrice,privateKey)
         }
-        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice)
+        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice,privateKey)
     }
 
     /**
@@ -173,17 +173,22 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice 
      */
-    static async sendETHTransaction(toAddress, amout, gasPrice) {
+    static async sendETHTransaction(toAddress, amout, gasPrice,privateKey) {
         const web3 = this.getWeb3Instance();
-        const wallet = web3.eth.accounts.wallet.add(store.getState().Core.prikey)
-        const price = web3.toWei(gasPrice,'gwei');
-        var cb = await web3.eth.sendTransaction({
+        web3.eth.accounts.wallet.add(privateKey)
+        let price = web3.utils.toWei(gasPrice.toString(),'gwei');
+        let value = web3.utils.toWei(amout.toString(),'ether');
+        let gasLimit = web3.utils.toHex(TransferGasLimit.ethGasLimit);
+        let transactionGasPrice = web3.utils.toHex(price);
+        let transactionConfig ={
             from: store.getState().Core.walletAddress,
             to: toAddress,
-            value: web3.utils.toWei(amout),
-            gasLimit:web3.utils.toHex(TransferGasLimit.ethGasLimit),
-            gasPrice:web3.utils.toHex(price),
-        })
+            value:value,
+            gas:transactionGasPrice,
+            gasPrice:transactionGasPrice,
+        };
+        console.log(transactionConfig);
+        var cb = await web3.eth.sendTransaction(transactionConfig)
         return cb
     }
 
@@ -195,10 +200,10 @@ export default class networkManage {
      * @param {String} toAddress 
      * @param {String} amout 
      */
-    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice) {
+    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout,gasPrice,privateKey) {
         const web3 = this.getWeb3Instance();
-        const wallet = web3.eth.accounts.wallet.add(store.getState().Core.prikey)
-        const price = web3.toWei(gasPrice,'gwei');
+        web3.eth.accounts.wallet.add(privateKey)
+        const price = web3.utils.toWei(gasPrice.toString(),'gwei');
         const contract = new web3.eth.Contract(erc20Abi, contractAddress)
         var data = contract.methods.transfer(toAddress, amout * Math.pow(10, decimals)).encodeABI()
         var tx = {

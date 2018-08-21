@@ -324,7 +324,8 @@ export default class Transaction extends Component{
                 {contractAddress:"",symbol:"ETH","decimals":18},
                 this.state.toAddress,
                 this.state.transferValue,
-                this.state.currentGas
+                this.state.currentGas,
+                privateKeyHex
             ) 
 
             alert("已发送交易");
