@@ -7,7 +7,6 @@ import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import StatusBarComponent from '../../components/StatusBarComponent';
-import Loading from  '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
@@ -78,7 +77,6 @@ export default class ExportKeystoreScreen extends Component {
         this.state = {
             keystore : '',
             screenshotWarnVisible : false,
-            loadingVisible:false,
         }
     }
 
@@ -87,16 +85,18 @@ export default class ExportKeystoreScreen extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            loadingVisible:true
-        })
-        setTimeout(()=>{
-            this.exportKeystore();
-        },2000);
-       
+        this.showKeystore();
     }
 
-    async exportKeystore(){
+    showKeystore(){
+        var keystore = this.props.navigation.state.params.keystore;
+        this.setState(
+            {
+                keystore: keystore,
+                screenshotWarnVisible:true
+            });
+    }
+    /**async exportKeystore(){
         try{
               //this.refs.loading.show();
               
@@ -125,7 +125,7 @@ export default class ExportKeystoreScreen extends Component {
             showToast(err);
             console.log('exportKeystoreErr:', err)
         }
-    }
+    }**/
     onCloseModal() {
         requestAnimationFrame(() => {//下一帧就立即执行回调,可以异步来提高组件的响应速度
             this.setState({screenshotWarnVisible: false});
@@ -168,8 +168,6 @@ export default class ExportKeystoreScreen extends Component {
                         />
                     </View>        
                 </View>
-                <Loading visible={this.state.loadingVisible}>
-                </Loading>
             </View>    
         );
     }

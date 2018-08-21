@@ -183,7 +183,8 @@ class InfoView extends Component{
         placeholder:PropTypes.string.isRequired,
         returnKeyType:PropTypes.string.isRequired,
         onChangeText:PropTypes.func.isRequired,
-        KeyboardType:PropTypes.string
+        KeyboardType:PropTypes.string,
+        value:PropTypes.string,
     };
 
     render(){
@@ -198,7 +199,7 @@ class InfoView extends Component{
                                placeholder={this.props.placeholder}
                                returnKeyType={this.props.returnKeyType}
                                KeyboardType={this.props.KeyboardType}
-                               onChangeText={this.props.onChangeText}>
+                               onChangeText={this.props.onChangeText}>{this.props.value}
                     </TextInput>
                 </View>
             </View>
@@ -276,16 +277,29 @@ export default class Transaction extends Component{
             currentGas:params.suggestGasPrice,
             gasStr:this.getPriceTitle(params.suggestGasPrice,params.ethPrice),
             transferValue:0,
-            toAddress:"0xf5D0318dbb21755B4866CF10bA7f8843F0BD11bf",
+            //toAddress:"0xf5D0318dbb21755B4866CF10bA7f8843F0BD11bf",
+            toAddress:'',
             fromAddress:params.fromAddress,
             detailData:"",
         };
     };
 
+    componentDidMount(){
+        //扫描页传参转账地址
+        var transferAddress = this.props.navigation.state.params.transferAddress;
+        if(transferAddress == 'undefined'){
+            transferAddress=''
+        }else{
+            this.setState({
+                toAddress: transferAddress
+            });
+        }
+    }
+
     /**static navigationOptions = ({navigation}) => ({
         header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
     })**/
-
+  
     getPriceTitle = (gasPrice,ethPrice)=>{
 
         let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit:TransferGasLimit.tokenGasLimit;
@@ -307,13 +321,11 @@ export default class Transaction extends Component{
     };
 
     didTapSurePasswordBtn= async (password)=>{
-
         console.warn("输入密码--",password);
         
         var privateKey = await keystoreUtils.getPrivateKey(password)
 
         if(privateKey.length == 0){
-
             alert("钱包密码错误");
         }
         else{
@@ -326,7 +338,6 @@ export default class Transaction extends Component{
                 this.state.transferValue,
                 this.state.currentGas
             ) 
-
             alert("已发送交易");
         }
     };
@@ -336,13 +347,11 @@ export default class Transaction extends Component{
         //console.warn(this.state.fromAddress,this.state.transferValue,this.state.detailData);
 
         if (NetworkManager.isValidAddress(this.state.toAddress) === false){
-
             alert("请输入有效的转账地址");
             return;
         }
 
         if (this.state.transferValue === 0){
-
             alert("请输入有效的转账金额");
             return;
         }
@@ -391,6 +400,7 @@ export default class Transaction extends Component{
 
     render(){
 
+       
         return (
             <View style={styles.container}>
                  <StatusBarComponent/>
@@ -411,7 +421,8 @@ export default class Transaction extends Component{
                      <InfoView title={"地址"}
                           placeholder={"输入转账地址"}
                           returnKeyType={"next"}
-                          onChangeText={this.toAddressTextInputChangeText}/>
+                          onChangeText={this.toAddressTextInputChangeText}
+                          value={this.state.toAddress}/>    
                      {/*备注栏*/}
                      <InfoView title={"备注"}
                           placeholder={"输入备注"}

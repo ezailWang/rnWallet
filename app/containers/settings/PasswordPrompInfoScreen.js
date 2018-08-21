@@ -6,6 +6,7 @@ import {BlueButtonBig} from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import Loading from '../../components/LoadingComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -41,8 +42,7 @@ const styles = StyleSheet.create({
         marginTop:40,
         marginLeft:20,
         marginRight:20,
-    }
-    
+    },
 })
 
 export default class PasswordPrompInfoScreen extends Component {
@@ -52,8 +52,10 @@ export default class PasswordPrompInfoScreen extends Component {
         this.state = {
             isShowPassword:false,
             passwordPrompInfo : '',
+           
         }
     }
+
     isOpenPwd() {
         this.setState({isShowPassword: !this.state.isShowPassword});
     }

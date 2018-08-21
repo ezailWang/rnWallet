@@ -18,6 +18,7 @@ import Loading from '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
 import layoutConstants from '../../config/LayoutConstants'
 import {BlueHeader} from '../../components/NavigaionHeader'
+import { StorageKey } from '../../config/GlobalConfig'
 const styles = StyleSheet.create({
 
     container:{
@@ -118,9 +119,7 @@ class ImportWalletScreen extends Component {
 
     //验证android读写权限
     async vertifyPermissions(){
-        this.setState({
-            loadingVisible : true,
-        })
+        
         if(Platform.OS === 'android'){
             var  readPermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE); 
             if(readPermission){
@@ -148,29 +147,31 @@ class ImportWalletScreen extends Component {
 
     }
 
-    vertifyInputData(){
-       const m =resetStringBlank(this.state.mnemonic);//将字符串中的多个空格缩减为一个空格
-      // const m = await walletUtils.generateMnemonic()
-       var mnemonicIsOK =  walletUtils.validateMnemonic(m);//验证助记词
+    async vertifyInputData(){
        var warnMessage = '';
-       if(mnemonicIsOK){
-             if(this.state.mnemonic == ''  || this.state.mnemonic == null || this.state.mnemonic == undefined){
-                  warnMessage = "请输入助记词"
-             }else if(this.state.password == ''  || this.state.password == null || this.state.password == undefined){
-                  warnMessage = "请输入密码"
-             }else if(this.state.rePassword == '' || this.state.rePassword == null || this.state.rePassword == undefined){
-                  warnMessage = "请输入重复密码"
-             }else if(this.state.password != this.state.rePassword){
-                  warnMessage = "请输入一致的密码"
-             }
-       }else{
-          warnMessage='请输入正确的助记词'
-       }
+       if(this.state.mnemonic == ''  || this.state.mnemonic == null || this.state.mnemonic == undefined){
+            warnMessage = "请输入助记词"
+        }else if(this.state.password == ''  || this.state.password == null || this.state.password == undefined){
+            warnMessage = "请输入密码"
+        }else if(this.state.rePassword == '' || this.state.rePassword == null || this.state.rePassword == undefined){
+            warnMessage = "请输入重复密码"
+        }else if(this.state.password != this.state.rePassword){
+            warnMessage = "请输入一致的密码"
+        }else{
+            const m =resetStringBlank(this.state.mnemonic);//将字符串中的多个空格缩减为一个空格
+            var mnemonicIsOk = await walletUtils.validateMnemonic(m);//验证助记词
+            if(!mnemonicIsOk){
+                warnMessage='请输入正确的助记词'
+            }
+        }
+
        if(warnMessage!=''){
             this.stopLoading()
             showToast(warnMessage)
-        }else{
-            
+        }else{  
+            this.setState({
+                loadingVisible : true,
+            })
             setTimeout(()=>{
                 this.importWallet();
             },2000);
@@ -194,7 +195,7 @@ class ImportWalletScreen extends Component {
                 address: checksumAddress,
                 extra: this.state.pwdHint,
             }
-            var key = 'uesr'
+            var key = StorageKey.User
             StorageManage.save(key, object)
             //var loadRet = await StorageManage.load(key)
             //console.log('L5_user:', loadRet)
@@ -215,7 +216,7 @@ class ImportWalletScreen extends Component {
             this.props.navigation.navigate('HomeScreen')  
        }catch (err) {
             this.stopLoading()
-            showToast(err);
+            showToast('导入助记词出错');
             console.log('createWalletErr:', err)
        }
     }

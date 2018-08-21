@@ -10,7 +10,8 @@ import {Colors,FontSize}from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import * as Actions from '../../config/action/Actions';
 import {showToast} from '../../utils/Toast';
-import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import {WhiteBgHeader} from '../../components/NavigaionHeader';
+import Loading from  '../../components/LoadingComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -63,6 +64,7 @@ class SetScreen extends Component {
         this.state = {
             inputDialogPlaceholder:'',
             modalVisible : false,
+            loadingVisible:false,
         }
     }
 
@@ -94,9 +96,13 @@ class SetScreen extends Component {
         }else{
             var password = this.refs.inputTextDialog.state.text;
             console.log('L_password',password)
-            if(password==null || password == '' || password == undefined){
+            
+            if(password == null || password == '' || password == undefined){
+                this.closeInputModal();//隐藏弹框
                 showToast('请输入密码')
             }else{
+                this.closeInputModal();//隐藏弹框
+                this.showLoading()
                 this.exportKeyPrivate(password);
             }
             
@@ -122,18 +128,33 @@ class SetScreen extends Component {
         this.closeInputModal();//隐藏弹框 
     }
 
-    exportKeyPrivate(password){
-        //var password = this.refs.inputTextDialog.state.text;
-        this.closeInputModal();//隐藏弹框
+
+    async exportKeyPrivate(password){
         console.log('password',password);
-        if(password == '' || password == null || password == undefined){
-            /*Alert.alert(
-                'warn',
-                '请输入密码'
-            )*/
-            showToast('请输入密码');
-        }else{
-            this.props.navigation.navigate('ExportPrivateKey',{password: password})
+        try{
+           var privateKey = await keystoreUtils.getPrivateKey(password)
+        
+           console.log('LprivateKey',privateKey)
+           this.closeLoading();//关闭Loading
+           this.props.navigation.navigate('ExportPrivateKey',{privateKey: privateKey})
+        }catch(err){
+           this.closeLoading();//关闭Loading
+           alert("导出私钥出错");
+           console.log('exportPrivateKeyErr:', err)
+        }
+    }
+
+    async exportKeystore(){
+        //this.showLoading();
+        try{ 
+            var address = this.props.walletAddress;
+            var keystore = await keystoreUtils.importFromFile(address)
+            //this.closeLoading();
+            this.props.navigation.navigate('ExportKeystore',{keystore: keystore});
+        }catch (err) {
+          //this.closeLoading();
+          alert("导出私钥出错");
+          console.log('exportKeystoreErr:', err)
         }
     }
 
@@ -144,6 +165,17 @@ class SetScreen extends Component {
          var str = await keystoreUtils.importFromFile(user.address)
          var newKeyObject = JSON.parse(str)
          console.log('L8_newKeyObject', newKeyObject)
+    }
+
+    showLoading(){
+        this.setState({
+            loadingVisible:true,
+        })
+    }
+    closeLoading(){
+        this.setState({
+            loadingVisible:false,
+        })
     }
 
     render() {
@@ -176,7 +208,7 @@ class SetScreen extends Component {
                 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.props.navigation.navigate('ExportKeystore')}
+                        onPress = {()=> this.exportKeystore()}
                         text = '导出Keystore'
                     />
                 </View> 
@@ -186,13 +218,15 @@ class SetScreen extends Component {
                         text = '导出私钥'
                     />
                 </View> 
-                
+                <Loading visible={this.state.loadingVisible}>
+                </Loading>
             </View>
         );
     }
 }
 const mapStateToProps = state => ({
     walletName:state.Core.walletName,
+    walletAddress:state.Core.walletAddress,
 });
 const mapDispatchToProps = dispatch => ({
     modifyWalletName: (walletName) => dispatch(Actions.setWalletName(walletName)),

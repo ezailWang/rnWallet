@@ -12,6 +12,9 @@ import {StyleSheet,
 import Camera from 'react-native-camera';
 var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');
+import { connect } from 'react-redux';
+import StorageManage from '../../utils/StorageManage'
+import * as Actions from '../../config/action/Actions'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import {showToast} from '../../utils/Toast';
@@ -76,25 +79,39 @@ const styles = StyleSheet.create({
 });
 
 
-export default class ScanQRCodeScreen extends Component{
+class ScanQRCodeScreen extends Component{
 
     constructor(props){
         super(props);
         this.state = {
+            isGetResult:false,//是否获得扫描结果
+            isAnimatin:true,//是否需要执行扫描动画
             animatedValue: new Animated.Value(0),
         }
+        this.scanLine = Animated.timing(this.state.animatedValue, {
+            toValue: 200,
+            duration: 2000,
+            easing: Easing.linear
+        });
     }
+
     componentDidMount() {
-        this._scannerLineMove();
+        this.scanLineMove();;
     }
     
-    //扫描二维码方法
+    //扫描二维码结果
     _onBarCodeRead(e){
-         //将返回的结果转为对象
-          var result = e.data;
-          console.log(e.data);
-          showToast('result');
-         
+          if(!this.state.isGetResult){//避免多次返回
+                this.setState({
+                    isGetResult:true,
+                    isAnimatin:false,
+                })
+                var result = e.data;
+                console.log('scanResult',result);
+                //var {transferType} = this.props.balance;
+                //console.log('scanResult_transferType', this.props.balance)
+                this.props.navigation.navigate('Transaction',{transferAddress: result})
+          }
     }
 
     //扫描框
@@ -118,21 +135,24 @@ export default class ScanQRCodeScreen extends Component{
     }
 
     //扫描条动画
-    _scannerLineMove(){
+    scanLineMove(){
+        if(this.state.isAnimatin){
+            this.state.animatedValue.setValue(0);
+            this.scanLine.start(()=>this.scanLineMove());//循环扫描
+        }
+    }
+
+    stopLineMove(){
         this.setState({
-            animatedValue: new Animated.Value(0),
+            isAnimatin:false
         })
-        Animated.timing(this.state.animatedValue, {
-            toValue: 200,
-            duration: 2000,
-            easing: Easing.linear
-        }).start(()=>this._scannerLineMove());
     }
 
     componentWillUnmount(){
-        
+        //this.state.animatedValue.stopAnimation()
+        this.stopLineMove();
     }
-    
+
 
     render(){
         return(
@@ -148,9 +168,16 @@ export default class ScanQRCodeScreen extends Component{
                  {this._renderQRScanView()}
                  </Camera> 
                  <Text style={styles.text}>将二维码放入框内，即可自动扫描</Text>
-             </View>  
+             </View> 
             </View>
         )
     }
     
 }
+
+
+const mapStateToProps = state => ({
+    balance:state.Core.balance,
+});
+
+export default connect(mapStateToProps, {})(ScanQRCodeScreen)

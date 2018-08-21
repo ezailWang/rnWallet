@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid} from 'react-native';
 import QRCode from 'react-native-qrcode';
+import { connect } from 'react-redux';
+import StorageManage from '../../utils/StorageManage'
+import * as Actions from '../../config/action/Actions'
 import {HeaderButton,BlueButtonBig} from '../../components/Button';
 import {androidPermission}  from '../../utils/permissionsAndroid';
 import StatusBarComponent from '../../components/StatusBarComponent';
@@ -15,8 +18,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         backgroundColor:Colors.bgGrayColor,
         paddingTop:60,
-        paddingLeft:20,
-        paddingRight:20,
+        paddingLeft:40,
+        paddingRight:40,
     },
     icon:{
         width:66,
@@ -27,10 +30,10 @@ const styles = StyleSheet.create({
         fontWeight:'500',
         color:Colors.fontBlackColor,
         marginTop:15,
-        marginBottom:40,
+        marginBottom:30,
     },
     adderssTxt:{
-        marginTop:20,
+        marginTop:28,
         fontSize:16,
         color:Colors.fontBlackColor,
     },
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class ReceiptCodeScreen extends Component {
+class ReceiptCodeScreen extends Component {
     /**static navigationOptions=({navigation}) => ({
         header:(<WhiteBgHeader navigation={navigation} 
                               text='收款码'
@@ -74,7 +77,8 @@ export default class ReceiptCodeScreen extends Component {
     }
     
     copyAddress(){
-        Clipboard.setString('0x123456789');
+        walletAddress = this.props.walletAddress
+        Clipboard.setString(walletAddress);
     }
 
     render() {
@@ -87,14 +91,14 @@ export default class ReceiptCodeScreen extends Component {
                                 rightIcon= {require('../../assets/common/scanIcon.png')}/>
                 <View style={styles.contentContainer}>
                      <Image style={styles.icon} source={require('../../assets/common/photoIcon.png')}/>
-                     <Text style={styles.titleTxt}>Wallet Name</Text>
+                     <Text style={styles.titleTxt}>{this.props.walletName}</Text>
                      <QRCode
-                         value = {0x123456789}
+                         value = {this.props.walletAddress}
                          size={160}
                          bgColor='#000'
                          fgColor='#fff'
                      />
-                     <Text style={styles.adderssTxt}>0x1234567890x1234567890x1234567890x1234567890x1234567890x1234567890x123456789</Text>
+                     <Text style={styles.adderssTxt}>{this.props.walletAddress}</Text>
                      <View style={styles.buttonBox}>
                          <BlueButtonBig
                              onPress = {()=> this.copyAddress()}
@@ -107,3 +111,11 @@ export default class ReceiptCodeScreen extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    walletAddress : state.Core.walletAddress,
+    walletName : state.Core.walletName,
+});
+
+export default connect(mapStateToProps, {})(ReceiptCodeScreen)

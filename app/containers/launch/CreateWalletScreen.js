@@ -214,11 +214,12 @@ class CreateWalletScreen extends Component {
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName(this.state.walletName);
             console.log('L9', '完成')
+            this.stopLoading()
+            this.props.navigation.navigate('HomeScreen')  
         } catch (err) {
+            this.stopLoading()
             showToast(err);
             console.log('createWalletErr:', err)
-        } finally {
-            this.stopLoading()
         }
     }
 

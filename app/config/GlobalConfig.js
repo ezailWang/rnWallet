@@ -37,14 +37,8 @@ const Colors = {
     whiteBackgroundColor:"#FFFFFF",
     bgColor_e:'#eee',
     bgBlue_9a:'#9ACEF2',
-
-
-
-
-
+    
     borderColor_e:'#eee',
-
-
 };
 
 const TransferType = {

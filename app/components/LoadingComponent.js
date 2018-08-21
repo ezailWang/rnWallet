@@ -18,17 +18,20 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'rgba(255,255,155,0.8)',
-        zIndex:1000,
+        //backgroundColor:'rgba(255,255,155,0.8)',
+        backgroundColor:'transparent',
     },
     contentBox:{
+        backgroundColor:'white',
+        borderRadius:5,
         height:100,
+        width:100,
         justifyContent:'center',
         alignItems:'center',
     },
     textBox:{
-        width:220,
-        textAlign:'center'
+        textAlign:'center',
+        marginTop:12,
     }
     
 });
@@ -49,6 +52,7 @@ export default class LoadingComponent extends PureComponent{
         animation:PropTypes.oneOf(ANIMATION),
         size:PropTypes.oneOf(SIZES),
         overlayColor:PropTypes.string,
+        contentStyle:PropTypes.object,
         loadingColor:PropTypes.string,
         textContent:PropTypes.string,
         fontSize:PropTypes.number,
@@ -56,13 +60,14 @@ export default class LoadingComponent extends PureComponent{
     }
 
     static defaultProps = {
-        animation:'none',
-        size:'large',
-        overlayColor: 'rgba(0, 0, 0, 0.8)',
-        loadingColor: 'white',
-        textContent:'Loading...',
-        fontSize:14,
-        fontColor:'white',
+        animation:'none', //Modal是否需要动画 {'none','slide','fade'}
+        overlayColor: 'transparent',//'rgba(0, 0, 0, 0.8)', //背景颜色
+        contentStyle:{},//圈圈背景样式
+        size:'large',//圈圈的大小，{'small','normal','large'}
+        loadingColor: Colors.themeColor,//圈圈的颜色
+        textContent:'Loading...',//显示的文字
+        fontSize:14,//字体大小
+        fontColor:Colors.themeColor,//字体颜色
     }
 
     componentWillReceiveProps(nextProps){
@@ -92,15 +97,16 @@ export default class LoadingComponent extends PureComponent{
     renderContent(){
         return (
             <View style={[styles.modeBox,{backgroundColor:this.props.overlayColor}]}>
-                <View style={styles.contentBox}>
+                <View style={[styles.contentBox,this.props.contentStyle]}>
                     <ActivityIndicator
                         animating={true}
                         color={this.props.loadingColor}
                         size={this.props.size}
-                        style={{
+                        /**style={{
                             width:80,
                             height:80,
-                        }}/>
+                        }}**/
+                    />
                     <Text style={[styles.textBox,{color:this.props.fontColor,fontSize:this.props.fontSize}]}>{this.props.textContent}</Text>      
                     </View> 
             </View>     
@@ -108,7 +114,7 @@ export default class LoadingComponent extends PureComponent{
     }
 
     render(){
-        const {visible} = this.state;
+        const {visible} = this.props;
        /** if(!visible){
             return null;
         }**/
@@ -124,8 +130,7 @@ export default class LoadingComponent extends PureComponent{
                   onShow={()=>{
                     //this.show()
                     console.log('L','Loading onShow')
-                  }}
-                  
+                  }}     
             >
                 {this.renderContent()}
             </Modal>      

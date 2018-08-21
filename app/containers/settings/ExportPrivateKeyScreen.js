@@ -79,19 +79,22 @@ export default class ExportPrivateKeyScreen extends Component {
         this.state = {
             privateKey : '',
             screenshotWarnVisible : false,
-            loadingVisible : false,
         }
     }
     componentDidMount() {
-        this.setState({
-            loadingVisible:true,
-        })
-        setTimeout(()=>{
-            this.exportPrivateKey()
-        },2000);
-       
+        this.showPrivateKey();
     }
-    async exportPrivateKey(){
+
+    showPrivateKey(){
+        var privateKey = this.props.navigation.state.params.privateKey;
+        var privateKeyHex = privateKey.toString('hex');
+        this.setState(
+            {
+               privateKey: privateKeyHex,
+               screenshotWarnVisible:true
+            });
+    }
+    /**async exportPrivateKey(){
         try{
              //this.refs.loading.show();
              
@@ -134,13 +137,11 @@ export default class ExportPrivateKeyScreen extends Component {
         }
        
        
-    }
+    }**/
 
 
     onCloseModal() {
-        console.log('L',"关闭弹框1")
         requestAnimationFrame(() => {//下一帧就立即执行回调,可以异步来提高组件的响应速度
-            console.log('L',"关闭弹框2")
             this.setState({screenshotWarnVisible: false});
         });
     }
@@ -174,9 +175,6 @@ export default class ExportPrivateKeyScreen extends Component {
                         />
                     </View>        
                 </View>
-                <Loading ref = "loading"
-                         visible={this.state.loadingVisible}>
-                </Loading>
             </View>    
         );
     }
