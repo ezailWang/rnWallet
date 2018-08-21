@@ -325,19 +325,19 @@ export default class Transaction extends Component{
         
         var privateKey = await keystoreUtils.getPrivateKey(password)
 
-        if(privateKey.length == 0){
-            alert("钱包密码错误");
+        if(privateKey === null){
+            alert("秘钥获取失败");
         }
         else{
-            var privateKeyHex = privateKey.toString('hex');
-            console.log(privateKeyHex);
+          //  var privateKeyHex = privateKey.toString('hex');
+            console.log(privateKey);
     
             NetworkManager.sendTransaction(
                 {contractAddress:"",symbol:"ETH","decimals":18},
                 this.state.toAddress,
                 this.state.transferValue,
                 this.state.currentGas,
-                privateKeyHex
+                privateKey
             ) 
             alert("已发送交易");
         }

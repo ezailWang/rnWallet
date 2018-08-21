@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,ScrollView,TouchableOpacity,Alert,Platform,PermissionsAndroid} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity, Alert, Platform, PermissionsAndroid } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import  {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
@@ -9,111 +9,110 @@ import keystoreUtils from '../../utils/keystoreUtils'
 import StorageManage from '../../utils/StorageManage'
 import * as Actions from '../../config/action/Actions'
 import { connect } from 'react-redux';
-import {Colors} from '../../config/GlobalConfig'
-import {BlueButtonBig} from '../../components/Button'
+import { Colors, StorageKey } from '../../config/GlobalConfig'
+import { BlueButtonBig } from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
-import {resetStringBlank}  from '../../containers/launch/Common';
-import {androidPermission}  from '../../utils/permissionsAndroid';
+import { resetStringBlank } from '../../containers/launch/Common';
+import { androidPermission } from '../../utils/permissionsAndroid';
 import Loading from '../../components/LoadingComponent';
-import {showToast} from '../../utils/Toast';
+import { showToast } from '../../utils/Toast';
 import layoutConstants from '../../config/LayoutConstants'
 import {BlueHeader} from '../../components/NavigaionHeader'
-import { StorageKey } from '../../config/GlobalConfig'
 const styles = StyleSheet.create({
 
-    container:{
-        flex:1,
+    container: {
+        flex: 1,
     },
-    contentContainer:{
-        flex:1,
-        alignItems:'center',
-        backgroundColor:Colors.backgroundColor,
-        paddingTop:40,
-        paddingLeft:20,
-        paddingRight:20,
+    contentContainer: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: Colors.backgroundColor,
+        paddingTop: 40,
+        paddingLeft: 20,
+        paddingRight: 20,
         //alignItems:'stretch',
     },
-    icon:{
-        width:48,
-        height:48,
+    icon: {
+        width: 48,
+        height: 48,
     },
     keyboardAwareScrollView: {
-        flex:1,
-        alignSelf:'stretch',
+        flex: 1,
+        alignSelf: 'stretch',
     },
-    scrollView:{
-        flex:1,
-       
+    scrollView: {
+        flex: 1,
+
     },
-    titleTxt:{
-        fontSize:18,
-        fontWeight:'500',
-        color:'rgb(85,146,246)',
-        marginTop:15,
-        marginBottom:30,
+    titleTxt: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: 'rgb(85,146,246)',
+        marginTop: 15,
+        marginBottom: 30,
     },
-    inputArea:{
-        height:120,
+    inputArea: {
+        height: 120,
         //textAlign:'start',
-        fontSize:16,
-        lineHeight:30,
-        textAlignVertical:'top',
+        fontSize: 16,
+        lineHeight: 30,
+        textAlignVertical: 'top',
     },
-    inputText:{
-        height:42,
+    inputText: {
+        height: 42,
     },
-    inputTextBox:{
-        alignSelf:'stretch',
-        paddingLeft:15,
-        paddingRight:15,
-        borderRadius:5,
-        borderColor:'rgb(241,241,241)',
-        borderWidth:1,
-        color:'rgb(146,146,146)',
-        marginBottom:10,
+    inputTextBox: {
+        alignSelf: 'stretch',
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5,
+        borderColor: 'rgb(241,241,241)',
+        borderWidth: 1,
+        color: 'rgb(146,146,146)',
+        marginBottom: 10,
     },
-    buttonBox:{
-        flex:1,
+    buttonBox: {
+        flex: 1,
         //justifyContent:'center',
-        alignSelf:'center',
+        alignSelf: 'center',
     },
-    inputBox:{
-        alignSelf:'stretch',
-        flexDirection:'row',
-        alignItems:'center',
-        height:42,
-        borderRadius:5,
-        borderColor:Colors.borderColor_e,
-        borderWidth:1,
-        paddingLeft:10,
-        marginBottom:10,
+    inputBox: {
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 42,
+        borderRadius: 5,
+        borderColor: Colors.borderColor_e,
+        borderWidth: 1,
+        paddingLeft: 10,
+        marginBottom: 10,
     },
-    input:{
-        flex:1,
-        height:42,
-        color:Colors.fontGrayColor_a0,
+    input: {
+        flex: 1,
+        height: 42,
+        color: Colors.fontGrayColor_a0,
     },
-    pwdBtnOpacity:{
-        height:42,
-        width:42,
-        justifyContent:'center',
-        alignItems:'center'
+    pwdBtnOpacity: {
+        height: 42,
+        width: 42,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    pwdIcon:{
-        height:20,
+    pwdIcon: {
+        height: 20,
     },
 })
 
 class ImportWalletScreen extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            mnemonic:'',
-            password:'',
-            rePassword:'',
-            passwordHint:'',
-            loadingVisible:false,
+            mnemonic: '',
+            password: '',
+            rePassword: '',
+            passwordHint: '',
+            loadingVisible: false,
         }
     }
 
@@ -126,22 +125,22 @@ class ImportWalletScreen extends Component {
                 var  writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE); 
                 if(writePermission){
                     this.vertifyInputData()
-                }else{
+                } else {
                     this.stopLoading();
                     Alert.alert(
                         'warn',
                         '请允许写入内存卡权限',
                     )
                 }
-            }else{
+            } else {
                 this.stopLoading()
                 Alert.alert(
                     'warn',
                     '请允许读取内存卡权限',
                 )
             }
-            
-        }else{
+
+        } else {
             this.vertifyInputData()
         }
 
@@ -174,15 +173,15 @@ class ImportWalletScreen extends Component {
             })
             setTimeout(()=>{
                 this.importWallet();
-            },2000);
+            }, 2000);
         }
     }
-    
-    async importWallet(){ 
-        try{
-           
+
+    async importWallet() {
+        try {
+
             //console.log('L','开始导入')
-            var m =  this.state.mnemonic;
+            var m = this.state.mnemonic;
             const seed = walletUtils.mnemonicToSeed(m)
             const seedHex = seed.toString('hex')
             var hdwallet = HDWallet.fromMasterSeed(seed)
@@ -199,7 +198,7 @@ class ImportWalletScreen extends Component {
             StorageManage.save(key, object)
             //var loadRet = await StorageManage.load(key)
             //console.log('L5_user:', loadRet)
-        
+
             var password = this.state.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
@@ -211,118 +210,118 @@ class ImportWalletScreen extends Component {
             this.props.generateMnemonic(this.state.mnemonic);
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName('wallet');//保存默认的钱包名称
-            console.log('L9', '完成')  
+            console.log('L9', '完成')
             this.stopLoading()
-            this.props.navigation.navigate('HomeScreen')  
-       }catch (err) {
+            this.props.navigation.navigate('HomeScreen')
+        } catch (err) {
             this.stopLoading()
             showToast('导入助记词出错');
             console.log('createWalletErr:', err)
-       }
+        }
     }
-    stopLoading(){
+    stopLoading() {
         this.setState({
-            loadingVisible : false,
+            loadingVisible: false,
         })
     }
 
     isOpenPwd() {
-        this.setState({isShowPassword: !this.state.isShowPassword});
+        this.setState({ isShowPassword: !this.state.isShowPassword });
     }
     isOpenRePwd() {
-        this.setState({isShowRePassword: !this.state.isShowRePassword});
+        this.setState({ isShowRePassword: !this.state.isShowRePassword });
     }
     render() {
-        let pwdIcon= this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
-        let rePwdIcon= this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
+        let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
+        let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
-                <BlueHeader navigation={this.props.navigation}/>
+                <StatusBarComponent />
+                <BlueHeader navigation={this.props.navigation} />
                 <View style={styles.contentContainer}>
-                <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'}/>
-                <Text style={styles.titleTxt}>导入钱包</Text>
-                <KeyboardAwareScrollView  style={styles.keyboardAwareScrollView}>
-                <TextInput style={[styles.inputTextBox,styles.inputArea]} 
-                          // returnKeyType='next' 
-                           placeholder="输入助记词"
-                           underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff'
-                           multiline={true}
-                           onChange={(event) => {
-                                 this.setState({
-                                     mnemonic: event.nativeEvent.text
-                                 })
-                           }}>
-                </TextInput>
-               
-                <View style={styles.inputBox}> 
-                    <TextInput style={styles.input} 
-                           placeholder='设置密码'
-                           underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff'
-                           secureTextEntry={!this.state.isShowPassword} 
-                           onChange={(event) => {
+                    <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
+                    <Text style={styles.titleTxt}>导入钱包</Text>
+                    <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}>
+                        <TextInput style={[styles.inputTextBox, styles.inputArea]}
+                            // returnKeyType='next' 
+                            placeholder="输入助记词"
+                            underlineColorAndroid='transparent'
+                            selectionColor='#00bfff'
+                            multiline={true}
+                            onChange={(event) => {
                                 this.setState({
-                                    password: event.nativeEvent.text
+                                    mnemonic: event.nativeEvent.text
                                 })
-                           }}
-                    />
-                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenPwd() }>
-                         <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'}/>
-                    </TouchableOpacity>
-                </View>   
+                            }}>
+                        </TextInput>
 
-                <View style={styles.inputBox}> 
-                    <TextInput style={styles.input} 
-                           placeholder='重复密码'
-                           underlineColorAndroid='transparent' 
-                           selectionColor='#00bfff'
-                           secureTextEntry={!this.state.isShowRePassword} 
-                           onChange={(event) => {
-                                this.setState({
-                                    rePassword: event.nativeEvent.text
-                                })
-                           }}
-                    />
-                    <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress = {()=>this.isOpenRePwd() }>
-                         <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'}/>
-                    </TouchableOpacity>
-                    
-                </View> 
-                <TextInput style={[styles.inputTextBox,styles.inputText,{marginBottom:40}]} 
-                          // returnKeyType='next' 
-                           placeholder="密码提示(选填)"
-                           underlineColorAndroid='transparent' 
-                           secureTextEntry={true}
-                           onChange={(event) => {
+                        <View style={styles.inputBox}>
+                            <TextInput style={styles.input}
+                                placeholder='设置密码'
+                                underlineColorAndroid='transparent'
+                                selectionColor='#00bfff'
+                                secureTextEntry={!this.state.isShowPassword}
+                                onChange={(event) => {
+                                    this.setState({
+                                        password: event.nativeEvent.text
+                                    })
+                                }}
+                            />
+                            <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
+                                <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.inputBox}>
+                            <TextInput style={styles.input}
+                                placeholder='重复密码'
+                                underlineColorAndroid='transparent'
+                                selectionColor='#00bfff'
+                                secureTextEntry={!this.state.isShowRePassword}
+                                onChange={(event) => {
+                                    this.setState({
+                                        rePassword: event.nativeEvent.text
+                                    })
+                                }}
+                            />
+                            <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenRePwd()}>
+                                <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'} />
+                            </TouchableOpacity>
+
+                        </View>
+                        <TextInput style={[styles.inputTextBox, styles.inputText, { marginBottom: 40 }]}
+                            // returnKeyType='next' 
+                            placeholder="密码提示(选填)"
+                            underlineColorAndroid='transparent'
+                            secureTextEntry={true}
+                            onChange={(event) => {
                                 this.setState({
                                     passwordHint: event.nativeEvent.text
                                 })
-                           }}>
-                </TextInput>
-                <View style={styles.buttonBox}>
-                          <BlueButtonBig
-                                onPress = {()=> this.vertifyPermissions()}
-                                text = '导入'
-                          />
-                </View> 
-                </KeyboardAwareScrollView> 
-                <Loading visible={this.state.loadingVisible}></Loading>
+                            }}>
+                        </TextInput>
+                        <View style={styles.buttonBox}>
+                            <BlueButtonBig
+                                onPress={() => this.vertifyPermissions()}
+                                text='导入'
+                            />
+                        </View>
+                    </KeyboardAwareScrollView>
+                    <Loading visible={this.state.loadingVisible}></Loading>
                 </View>
-            </View> 
+            </View>
         );
     }
 }
 //  <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}> </ScrollView>
 const mapStateToProps = state => ({
-    mnemonic:state.Core.mnemonic,
+    mnemonic: state.Core.mnemonic,
 });
 const mapDispatchToProps = dispatch => ({
     generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
     setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
-    setWalletName:(name) => dispatch(Actions.setWalletName(name)),
-    
+    setWalletName: (name) => dispatch(Actions.setWalletName(name)),
+
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)
 

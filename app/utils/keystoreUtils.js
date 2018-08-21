@@ -4,6 +4,7 @@ import { StorageKey } from '../config/GlobalConfig'
 import { store } from '../config/store/ConfigureStore'
 import keythereum from 'keythereum'
 
+
 const rootPath = RNFS.DocumentDirectoryPath;
 export default class keystoreUtils {
     static async exportToFile(keyObject, dirName) {
@@ -62,10 +63,17 @@ export default class keystoreUtils {
     }
 
     static async getPrivateKey(password) {
-        const { walletAddress } = store.getState().Core
-        var keyStoreStr = await keystoreUtils.importFromFile(walletAddress)
-        console.log("keyStoreStr", keyStoreStr);
-        var keyStoreObject = JSON.parse(keyStoreStr)
-        return await keythereum.recover(password, keyStoreObject);
+        try {
+            const { walletAddress } = store.getState().Core
+            var keyStoreStr = await keystoreUtils.importFromFile(walletAddress)
+            console.log("keyStoreStr", keyStoreStr);
+            var keyStoreObject = JSON.parse(keyStoreStr)
+            var privateKey =  await keythereum.recover(password, keyStoreObject);
+            return '0x' + privateKey.toString('hex')
+        }
+        catch (err) {
+            console.log('err:',err)
+            return null
+        }
     }
 }
