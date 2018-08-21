@@ -184,7 +184,7 @@ export default class networkManage {
             from: store.getState().Core.walletAddress,
             to: toAddress,
             value:value,
-            gas:transactionGasPrice,
+            gas:gasLimit,
             gasPrice:transactionGasPrice,
         };
         console.log(transactionConfig);
