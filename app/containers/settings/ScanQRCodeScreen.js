@@ -107,10 +107,7 @@ class ScanQRCodeScreen extends Component{
                     isAnimatin:false,
                 })
                 var result = e.data;
-                console.log('scanResult',result);
-                //this.props.navigation.navigate('Transaction',{transferAddress: result})
                 this.props.navigation.state.params.callback({toAddress: result});
-                //this.props.navigation.state.params.refresh();
                 this.props.navigation.goBack()
           }
     }

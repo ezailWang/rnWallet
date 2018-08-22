@@ -168,7 +168,6 @@ class CreateWalletScreen extends Component {
                 loadingVisible: true,
             })
             setTimeout(() => {
-                console.log('L_', '开始创建钱包')
                 this.startCreateWallet();//创建钱包
             }, 2000);
         }
@@ -176,10 +175,7 @@ class CreateWalletScreen extends Component {
 
     async startCreateWallet() {
         try {
-
-            console.log('L1', '进入');
             var m = this.props.mnemonic;//助记词
-            console.log('L2_mnemonic', m)
 
             const seed = walletUtils.mnemonicToSeed(m)
             const seedHex = seed.toString('hex')
@@ -188,8 +184,7 @@ class CreateWalletScreen extends Component {
             hdwallet.setDerivePath(derivePath)
             const privateKey = hdwallet.getPrivateKey()
             const checksumAddress = hdwallet.getChecksumAddressString()
-            console.log('L3_prikey:', hdwallet.getPrivateKeyString())
-            console.log('L4_address:', checksumAddress)
+            //console.log('L3_prikey:', hdwallet.getPrivateKeyString())
             var object = {
                 name: this.state.walletName,
                 address: checksumAddress,
@@ -198,22 +193,16 @@ class CreateWalletScreen extends Component {
 
             StorageManage.save(StorageKey.User, object)
             //var loadRet = await StorageManage.load(key)
-            //console.log('L5_user:', loadRet)
 
             var password = this.state.pwd;
-            console.log('L6_pwd:', this.state.pwd)
-            console.log('L6_password:', password)
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
             var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
-            console.log('L7_keyObject:', keyObject)
             await keystoreUtils.exportToFile(keyObject, "keystore")
             //var str = await keystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)
-            //console.log('L8_newKeyObject', newKeyObject)
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName(this.state.walletName);
-            console.log('L9', '完成')
             this.stopLoading()
             this.props.navigation.navigate('HomeScreen')  
         } catch (err) {

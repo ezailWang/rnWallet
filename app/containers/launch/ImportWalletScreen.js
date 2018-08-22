@@ -179,8 +179,6 @@ class ImportWalletScreen extends Component {
 
     async importWallet() {
         try {
-
-            //console.log('L','开始导入')
             var m = this.state.mnemonic;
             const seed = walletUtils.mnemonicToSeed(m)
             const seedHex = seed.toString('hex')
@@ -197,8 +195,6 @@ class ImportWalletScreen extends Component {
             var key = StorageKey.User
             StorageManage.save(key, object)
             //var loadRet = await StorageManage.load(key)
-            //console.log('L5_user:', loadRet)
-
             var password = this.state.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
@@ -206,11 +202,9 @@ class ImportWalletScreen extends Component {
             await keystoreUtils.exportToFile(keyObject, "keystore")
             //var str = await keystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)
-            // console.log('L8_newKeyObject', newKeyObject)
             this.props.generateMnemonic(this.state.mnemonic);
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName('wallet');//保存默认的钱包名称
-            console.log('L9', '完成')
             this.stopLoading()
             this.props.navigation.navigate('HomeScreen')
         } catch (err) {

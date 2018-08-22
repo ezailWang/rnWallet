@@ -86,7 +86,6 @@ class SetScreen extends Component {
     inputDialogConfirmClick(){
         if(this.state.inputDialogPlaceholder == "钱包名称"){
             var name = this.refs.inputTextDialog.state.text;
-            console.log('L_name',name)
             if(name==null || name == '' || name == undefined){
                 showToast('请输入钱包名称')
             }else{
@@ -95,8 +94,6 @@ class SetScreen extends Component {
            
         }else{
             var password = this.refs.inputTextDialog.state.text;
-            console.log('L_password',password)
-            
             if(password == null || password == '' || password == undefined){
                 this.closeInputModal();//隐藏弹框
                 showToast('请输入密码')
@@ -130,11 +127,8 @@ class SetScreen extends Component {
 
 
     async exportKeyPrivate(password){
-        console.log('password',password);
         try{
            var privateKey = await keystoreUtils.getPrivateKey(password)
-        
-           console.log('LprivateKey',privateKey)
            this.closeLoading();//关闭Loading
            this.props.navigation.navigate('ExportPrivateKey',{privateKey: privateKey})
         }catch(err){
@@ -161,10 +155,8 @@ class SetScreen extends Component {
     async exportWallet(){
          var key = 'uesr'
          var user = await StorageManage.load(key);
-         console.log('user', user)
          var str = await keystoreUtils.importFromFile(user.address)
          var newKeyObject = JSON.parse(str)
-         console.log('L8_newKeyObject', newKeyObject)
     }
 
     showLoading(){
