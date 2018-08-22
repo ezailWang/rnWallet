@@ -8,7 +8,9 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager,
+    Platform,
+    PermissionsAndroid
 } from 'react-native';
 
 import {Colors,TransferGasLimit,TransferType} from "../../config/GlobalConfig";
@@ -19,7 +21,7 @@ import {store} from '../../config/store/ConfigureStore'
 import PropTypes from 'prop-types';
 import {BlueButtonBig} from '../../components/Button'
 import Slider from '../../components/Slider'
-
+import {androidPermission}  from '../../utils/permissionsAndroid';
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
 import keythereum from 'keythereum'
@@ -57,18 +59,13 @@ const styles = StyleSheet.create({
         height: 46,
         backgroundColor: "white",
         justifyContent:"center",
-        shadowColor: Colors.fontDarkGrayColor,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 1,
-        elevation: 10
     },
     shadowStyle:{
-        shadowColor: Colors.fontDarkGrayColor,
+        shadowColor: '#A9A9A9',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 1,
-        elevation: 10
+        //elevation: 3
     },
     sectionViewTitleText: {
         marginLeft: 20,
@@ -88,12 +85,12 @@ const styles = StyleSheet.create({
     },
     sectionViewTextInput: {
         marginLeft: 20,
-        height: 34,
+        height: 38,
         marginRight: 20,
         fontSize:15
     },
     sliderBottomView:{
-        marginTop: 10,
+        marginTop: 12,
         marginLeft:0,
         marginRight:0,
         height:140,
@@ -149,11 +146,13 @@ const sliderStyle = StyleSheet.create({
       height: 22,
       borderRadius: 22 / 2,
       backgroundColor: 'white',
-      shadowColor: 'black',
-      shadowOffset: {width: 0, height: 2},
+      shadowColor: '#808080',
+      shadowOffset: {width: 2, height: 2},
       shadowRadius: 2,
-      shadowOpacity: 0.35,
-}});
+      shadowOpacity: 0.45,
+      elevation: 5
+    },
+});
 
 //section封装视图
 const SectionView = ({titleText,placeHolder,detailTitle,returnKeyType,targetInput})=>(
@@ -162,7 +161,8 @@ const SectionView = ({titleText,placeHolder,detailTitle,returnKeyType,targetInpu
             <Text style={styles.sectionViewTitleText}>{titleText}</Text>
             <Text style={styles.blueText}>{detailTitle}</Text>
         </View>
-        <View style={[styles.sectionViewBottomView,styles.shadowStyle]}>
+
+        <View style={[styles.sectionViewBottomView,(Platform.OS=='ios' ? styles.shadowStyle :{})]}>
             <TextInput style={styles.sectionViewTextInput}
                        placeholder={placeHolder}
                        returnKeyType={returnKeyType}
@@ -194,7 +194,7 @@ class InfoView extends Component{
                     <Text style={styles.sectionViewTitleText}>{this.props.title}</Text>
                     <Text style={styles.blueText}>{this.props.detailTitle}</Text>
                 </View>
-                <View style={styles.sectionViewBottomView}>
+                <View style={[styles.sectionViewBottomView,(Platform.OS=='ios' ? styles.shadowStyle :{})]}>
                     <TextInput style={styles.sectionViewTextInput}
                                placeholder={this.props.placeholder}
                                returnKeyType={this.props.returnKeyType}
@@ -283,18 +283,6 @@ export default class Transaction extends Component{
             detailData:"",
         };
     };
-
-    componentDidMount(){
-        //扫描页传参转账地址
-        var transferAddress = this.props.navigation.state.params.transferAddress;
-        if(transferAddress == 'undefined'){
-            transferAddress=''
-        }else{
-            this.setState({
-                toAddress: transferAddress
-            });
-        }
-    }
 
     /**static navigationOptions = ({navigation}) => ({
         header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
@@ -399,13 +387,40 @@ export default class Transaction extends Component{
         });
     };
 
-    render(){
+    scanClick = async() =>{
+        var _this = this;
+        //const {navigate} = this.props.navigation;//页面跳转
+        //navigation('页面');
+        var isAgree = true;
+        if(Platform.OS === 'android'){
+             isAgree = await androidPermission(PermissionsAndroid.PERMISSIONS.CAMERA); 
+        }
+        if(isAgree){
+           this.props.navigation.navigate('ScanQRCode',{
+               callback:function(data){
+                  var address = data.toAddress;
+                  _this.setState({
+                      toAddress: address
+                  })
+                  console.log("LLtoAddress",address);
+               }
+           })  
+        }else{
+            Alert.alert(
+                'warn',
+                '请先打开使用摄像头权限',
+            )
+        }
+    }
 
-       
+    render(){
         return (
             <View style={styles.container}>
                  <StatusBarComponent/>
-                 <WhiteBgHeader  navigation={this.props.navigation} text={ComponentTitle()}/>
+                 <WhiteBgHeader  navigation={this.props.navigation} 
+                                 text={ComponentTitle()}
+                                 rightPress = {()=>this.scanClick()}
+                                 rightIcon= {require('../../assets/common/scanIcon.png')}/>
                  <ScrollView style={styles.contentContainer}
                         bounces={false}>
 

@@ -20,6 +20,7 @@ import { StorageKey } from '../../config/GlobalConfig'
 import {store} from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
 import Loading from '../../components/LoadingComponent'
+var user = require('../../assets/home/user.png')
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -158,7 +159,7 @@ class HomeScreen extends Component {
                         address={this.formatAddress(this.props.walletAddress)}
                         totalAssets={this.props.totalAssets + ''}
                         switchWalletIcon={require('../../assets/home/switch.png')}
-                        headIcon={require('../../assets/home/user.png')}
+                        headIcon={user}
                         QRbtnIcon={require('../../assets/home/QR_icon.png')}
                         setBtnIcon={require('../../assets/home/setting.png')}
                         addAssetsIcon={require('../../assets/home/plus_icon.png')}

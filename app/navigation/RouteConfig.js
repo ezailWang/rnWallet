@@ -138,9 +138,6 @@ const HomeRouteConfig =
     },
     ModifyPassword: {
         screen: ModifyPasswordScreen,
-        navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text='修改密码'/>
-        })
     },
     PasswordPrompInfo: {        
         screen: PasswordPrompInfoScreen,
@@ -168,9 +165,6 @@ const HomeRouteConfig =
     },
     TransactionRecoder:{
         screen: TransactionRecoder,
-        /**navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
-        })**/
     },
     Transaction:{
         screen: Transaction,
@@ -180,9 +174,6 @@ const HomeRouteConfig =
     },
     ExportKeystore:{
         screen:ExportKeystoreScreen,
-        /**navigationOptions: ({navigation}) => ({
-            header:<WhiteBgHeader navigation={navigation} text='导出Keystore'/>
-        })**/
     }
 };
 

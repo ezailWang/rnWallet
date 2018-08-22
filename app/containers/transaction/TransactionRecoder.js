@@ -5,7 +5,8 @@ import{
     FlatList,
     Text,
     TouchableOpacity,
-    Image
+    Image,
+    Platform,
 }from 'react-native'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.05,
         shadowRadius: 4,
-        elevation: 10
+        //elevation: 10
     },
     balanceText:{
         fontSize:32,
@@ -104,7 +105,7 @@ class Header extends Component{
 
     render(){
         return (
-            <View style={[styles.header,styles.shadow]}>
+            <View style={[styles.header,(Platform.OS=='ios' ? styles.shadow :{})]}>
                 <Text style={styles.balanceText}>
                     {this.props.balance}
                 </Text>
@@ -146,7 +147,7 @@ class Cell extends Component{
             colorStyle = {color:Colors.fontGreenColor};
         }
         return (
-            <TouchableOpacity   style={[styles.cell,styles.shadow]}
+            <TouchableOpacity   style={[styles.cell,(Platform.OS=='ios' ? styles.shadow :{})]}
                                 onPress={()=>{this.props.onPress(this.props.item.index)}}
             >
                 <Image style={styles.icon} source={image}/>

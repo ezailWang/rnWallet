@@ -87,8 +87,8 @@ class ReceiptCodeScreen extends Component {
                 <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} 
                                 text='收款码'
-                                rightPress = {()=>this.scanClick()}
-                                rightIcon= {require('../../assets/common/scanIcon.png')}/>
+                                /**rightPress = {()=>this.scanClick()}
+                                rightIcon= {require('../../assets/common/scanIcon.png')}**//>
                 <View style={styles.contentContainer}>
                      <Image style={styles.icon} source={require('../../assets/common/photoIcon.png')}/>
                      <Text style={styles.titleTxt}>{this.props.walletName}</Text>
