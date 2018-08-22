@@ -21,6 +21,7 @@ import {store} from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
 import Loading from '../../components/LoadingComponent'
 var user = require('../../assets/home/user.png')
+var isDispatching = false
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -85,7 +86,9 @@ class HomeScreen extends Component {
         this.setState({
             addTokenShow: false
         })
+        this.showLoading()
         await networkManage.loadTokenList()
+        this.closeLoading()
     }
 
     onRefresh = async () => {
@@ -103,6 +106,11 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
+        //Why do execute twice
+        if(isDispatching){
+            return
+        }
+        isDispatching = true
         SplashScreen.hide()
         this.showLoading()
         await networkManage.loadTokenList()
@@ -140,19 +148,16 @@ class HomeScreen extends Component {
                     />}
                     ListHeaderComponent={<HeadView
 
-                        onSwitchWallet={() => {
-                            console.log('---切换钱包按钮被点击')
-                        }}
+                        // onSwitchWallet={() => {
+                        //     console.log('---切换钱包按钮被点击')
+                        // }}
                         onSet={() => {
-                            console.log('---设置按钮被点击')
                             this.props.navigation.navigate('Set');
                         }}
                         onQRCode={() => {
-                            console.log('---二维码按钮被点击')
                             this.props.navigation.navigate('ReceiptCode');
                         }}
                         onAddAssets={() => {
-                            console.log('---添加资产按钮被点击')
                             this.showAddtoken()
                         }}
                         walletName={this.props.walletName}
@@ -201,8 +206,5 @@ const mapStateToProps = state => ({
     walletName: state.Core.walletName,
 })
 
-const mapDispatchToProps = dispatch => ({
-    addToken: (token) => dispatch(addToken(token))
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(mapStateToProps)(HomeScreen)

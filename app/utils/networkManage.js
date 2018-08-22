@@ -66,11 +66,11 @@ export default class networkManage {
         try {
             const { walletAddress } = store.getState().Core
             web3 = this.getWeb3Instance()
-            console.log('walletAddress:', walletAddress)
             var balance = await web3.eth.getBalance(walletAddress)
             return parseFloat(balance / Math.pow(10, 18)).toFixed(8)
         } catch (err) {
             console.log('getEthBalanceErr:', err)
+            return 0.00
         }
     }
 
@@ -89,6 +89,7 @@ export default class networkManage {
             return parseFloat(bigBalance.dividedBy(Ether)).toFixed(2);
         } catch (err) {
             console.log('getERC20BalanceErr:', err)
+            return 0.00
         }
     }
 
@@ -269,6 +270,7 @@ export default class networkManage {
     }
 
     static async loadTokensFromStorage() {
+        //todo:如果两次快速加载，tokens还没变就被获取，想办法解决
         const { tokens, walletAddress } = store.getState().Core
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')

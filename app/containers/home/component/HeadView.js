@@ -16,7 +16,7 @@ import LinearGradient from'react-native-linear-gradient'
 export default class HeadView extends Component {
 
     static propTypes = {
-        onSwitchWallet: PropTypes.func.isRequired,
+       // onSwitchWallet: PropTypes.func.isRequired,
         onSet: PropTypes.func.isRequired,
         onQRCode: PropTypes.func.isRequired,
         onAddAssets: PropTypes.func.isRequired,
@@ -50,12 +50,12 @@ export default class HeadView extends Component {
                     <View style={{ margin: 5, backgroundColor: 'transparent' }}>
                         <View style={{ margin: 5, flexDirection: 'row', alignItems: 'flex-end' }}>
                             <Text style={{ color: 'white', fontSize: 16 }}> {this.props.walletName} </Text>
-                            <ImageButton
+                            {/* <ImageButton
                                 btnStyle={{ width: 15, height: 15 }}
                                 imageStyle={{ width: 15, height: 15 }}
                                 onClick={this.props.onSwitchWallet}
                                 backgroundImageSource={this.props.switchWalletIcon}
-                            />
+                            /> */}
                         </View>
                         <View style={{ alignItems: 'flex-start' }}>
                             <Text style={{ color: 'white', fontSize: 12 }}> {this.props.address} </Text>
