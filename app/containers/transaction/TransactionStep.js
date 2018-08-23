@@ -1,4 +1,4 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
 
 import {
     Modal,
@@ -9,157 +9,159 @@ import {
     Image,
     TouchableOpacity,
     Text,
-    TextInput
+    TextInput,
+    KeyboardAvoidingView
 } from 'react-native'
 
-import {Colors} from '../../config/GlobalConfig'
+import { Colors } from '../../config/GlobalConfig'
 import PropTypes from 'prop-types';
+import { store } from '../../config/store/ConfigureStore'
 
 const ScreenWidth = Dimensions.get('window').width;
 const ScreenHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 
-    container:{
-        flex:1,
-        backgroundColor:Colors.blackOpacityColor,
-        justifyContent:"flex-end"
+    container: {
+        flex: 1,
+        backgroundColor: Colors.blackOpacityColor,
+        justifyContent: "flex-end"
     },
-    scrollView:{
-        flexDirection:"row",
-        marginTop:ScreenHeight-400,
-        marginBottom:0,
-        marginRight:0,
-        marginLeft:0,
+    scrollView: {
+        flexDirection: "row",
+        marginTop: ScreenHeight - 400,
+        marginBottom: 0,
+        marginRight: 0,
+        marginLeft: 0,
         //backgroundColor:'white'
     },
-    leftContainer:{
-        marginLeft:0,
-        backgroundColor:'white',
-        height:400,
-        width:ScreenWidth,
-        alignItems:"center",
+    leftContainer: {
+        marginLeft: 0,
+        backgroundColor: 'white',
+        height: 400,
+        width: ScreenWidth,
+        alignItems: "center",
     },
-    rightContainer:{
-        marginRight:0,
-        marginTop:0,
-        backgroundColor:'white',
-        height:400,
-        width:ScreenWidth,
-        alignItems:"center"
+    rightContainer: {
+        marginRight: 0,
+        marginTop: 0,
+        backgroundColor: 'white',
+        height: 400,
+        width: ScreenWidth,
+        alignItems: "center",
     },
-    firstStepTitleView:{
-        height:44,
-        width:ScreenWidth,
-        marginRight:0,
-        borderBottomColor:Colors.fontGrayColor,
-        borderBottomWidth:0.5,
-        flexDirection:'row',
-        alignItems:"center",
+    firstStepTitleView: {
+        height: 44,
+        width: ScreenWidth,
+        marginRight: 0,
+        borderBottomColor: Colors.fontGrayColor,
+        borderBottomWidth: 0.5,
+        flexDirection: 'row',
+        alignItems: "center",
     },
-    cancelBtn:{
-        width:15,
-        height:15,
-        marginLeft:25,
+    cancelBtn: {
+        width: 15,
+        height: 15,
+        marginLeft: 25,
         //backgroundColor:'red',
-        justifyContent:"center",
-        alignItems:"center"
+        justifyContent: "center",
+        alignItems: "center"
     },
-    titleView:{
-        color:Colors.fontBlackColor,
+    titleView: {
+        color: Colors.fontBlackColor,
         //marginLeft:0,
-        width:ScreenWidth- (15+25)*2,
-        fontSize:17,
-        textAlign:"center"
+        width: ScreenWidth - (15 + 25) * 2,
+        fontSize: 17,
+        textAlign: "center"
     },
-    costTextContainer:{
-        height:50,
-        justifyContent:"center"
+    costTextContainer: {
+        height: 50,
+        justifyContent: "center"
     },
-    costText:{
-        fontSize:20,
-        textAlign:"center",
+    costText: {
+        fontSize: 20,
+        textAlign: "center",
     },
-    leftInfoView:{
-        height:210,
+    leftInfoView: {
+        height: 210,
         // backgroundColor:"red",
-        width:ScreenWidth - 50
+        width: ScreenWidth - 50
     },
-    infoTextViewFirst:{
-        height:30,
-        flexDirection:"row",
-        alignItems:"center",
+    infoTextViewFirst: {
+        height: 30,
+        flexDirection: "row",
+        alignItems: "center",
         // backgroundColor:"red",
-        width:ScreenWidth-60
+        width: ScreenWidth - 60
     },
-    infoTitle:{
-        fontSize:13,
-        color:Colors.fontDarkGrayColor
+    infoTitle: {
+        fontSize: 13,
+        color: Colors.fontDarkGrayColor
     },
-    infoDetailTitle:{
-        fontSize:13,
-        color:Colors.fontBlackColor,
-        marginLeft:20,
+    infoDetailTitle: {
+        fontSize: 13,
+        color: Colors.fontBlackColor,
+        marginLeft: 20,
         // marginRight:60
     },
-    infoContent:{
-        height:210.0/3,
+    infoContent: {
+        height: 210.0 / 3,
         // backgroundColor:"green",
-        flexDirection:"row",
+        flexDirection: "row",
     },
-    lineView:{
-        height:0.5,
-        backgroundColor:Colors.fontGrayColor
+    lineView: {
+        height: 0.5,
+        backgroundColor: Colors.fontGrayColor
     },
-    infoContentTitle:{
-        marginTop:10,
+    infoContentTitle: {
+        marginTop: 10,
         // backgroundColor:"red"
     },
-    infoContentDetailTitle:{
-        fontSize:13,
-        color:Colors.fontBlackColor
+    infoContentDetailTitle: {
+        fontSize: 13,
+        color: Colors.fontBlackColor
     },
-    infoContentDetailView:{
-        marginTop:10,
-        marginLeft:20,
-        marginRight:10,
-        flex:1,
+    infoContentDetailView: {
+        marginTop: 10,
+        marginLeft: 20,
+        marginRight: 10,
+        flex: 1,
         // backgroundColor:"blue"
     },
-    nextBtn:{
-        marginTop:25,
-        height:44,
-        borderRadius:25,
-        width:ScreenWidth - 100,
-        backgroundColor:Colors.themeColor,
-        justifyContent:"center",
+    nextBtn: {
+        marginTop: 25,
+        height: 44,
+        borderRadius: 25,
+        width: ScreenWidth - 100,
+        backgroundColor: Colors.themeColor,
+        justifyContent: "center",
     },
-    buttonTitle:{
+    buttonTitle: {
         //flex:1,
-        fontSize:18,
-        color:"white",
-        textAlign:"center",
-        fontWeight:"bold"
+        fontSize: 18,
+        color: "white",
+        textAlign: "center",
+        fontWeight: "bold"
     },
-    passwordFrameView:{
-        borderWidth:1,
-        borderColor:Colors.fontGrayColor,
-        borderRadius:5,
-        width:ScreenWidth - 50,
-        marginTop:20,
-        height:40
+    passwordFrameView: {
+        borderWidth: 1,
+        borderColor: Colors.fontGrayColor,
+        borderRadius: 5,
+        width: ScreenWidth - 50,
+        marginTop: 20,
+        height: 40
     },
-    passwordView:{
-        flex:1,
-        marginLeft:15,
-        marginRight:15,
+    passwordView: {
+        flex: 1,
+        marginLeft: 15,
+        marginRight: 15,
         // backgroundColor:"red",
-        height:40,
-        fontSize:15
+        height: 40,
+        fontSize: 15
     }
 });
 
-let InfoTextView = ({transferType,fromAddress,toAddress,gasPrice})=>(
+let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice }) => (
     <View style={styles.leftInfoView}>
         <View style={styles.infoTextViewFirst}>
             <Text style={styles.infoTitle}>
@@ -184,8 +186,8 @@ let InfoTextView = ({transferType,fromAddress,toAddress,gasPrice})=>(
     </View>
 );
 
-let InfoContentView = ({title,deatilContent})=>(
-    <View style={{flex:1}}>
+let InfoContentView = ({ title, deatilContent }) => (
+    <View style={{ flex: 1 }}>
         <View style={styles.lineView}>
         </View>
         <View style={styles.infoContent}>
@@ -203,116 +205,116 @@ let InfoContentView = ({title,deatilContent})=>(
     </View>
 );
 
-export default class TransactionStep extends Component{
+export default class TransactionStep extends Component {
 
     static propsType = {
-        didTapSurePasswordBtn:PropTypes.func.isRequired
+        didTapSurePasswordBtn: PropTypes.func.isRequired
     };
 
     // 构造函数
     constructor(props) {
         super(props);
         this.state = {
-            show:false,
-            step:false,
-            fromAddress:'0x',
-            toAddress:'0x',
-            totalAmount:"0",
-            payType:"",
-            gasPriceInfo:"",
-            password:""
+            show: false,
+            step: false,
+            fromAddress: '0x',
+            toAddress: '0x',
+            totalAmount: "0",
+            payType: "",
+            gasPriceInfo: "",
+            password: ""
         };
-        this.showStepView=this.showStepView.bind(this);
-        this.changeStepPage=this.changeStepPage.bind(this);
-        this.passWordTextInputChanged=this.passWordTextInputChanged.bind(this)
+        this.showStepView = this.showStepView.bind(this);
+        this.changeStepPage = this.changeStepPage.bind(this);
+        this.passWordTextInputChanged = this.passWordTextInputChanged.bind(this)
     }
     // 加载完成
-    componentDidMount(){
+    componentDidMount() {
         //
     }
     // view卸载
-    componentWillUnmount(){
+    componentWillUnmount() {
         //
     }
 
-    showStepView(params){
+    showStepView(params) {
 
         let isShow = this.state.show;
 
-        if (params){
+        if (params) {
 
             this.setState({
-                show:!isShow,
-                fromAddress:params.fromAddress,
-                toAddress:params.toAddress,
-                totalAmount:params.totalAmount,
-                payType:params.payType,
-                gasPriceInfo:params.gasPriceInfo
+                show: !isShow,
+                fromAddress: params.fromAddress,
+                toAddress: params.toAddress,
+                totalAmount: params.totalAmount,
+                payType: params.payType,
+                gasPriceInfo: params.gasPriceInfo
             })
         }
         else {
             this.setState({
-                show:!isShow
+                show: !isShow
             })
         }
     }
 
-    changeStepPage(){
+    changeStepPage() {
 
         let currentPage = !this.state.step;
 
         this.setState({
-           step:currentPage
+            step: currentPage
         });
 
-        if (currentPage === false){
-            this.scroll.scrollTo({x:0,y:0,animated:true});
+        if (currentPage === false) {
+            this.scroll.scrollTo({ x: 0, y: 0, animated: true });
             this.INPUT.blur();
         }
         else {
-            this.scroll.scrollTo({x:ScreenWidth,y:0,animated:true});
+            this.scroll.scrollTo({ x: ScreenWidth, y: 0, animated: true });
             this.INPUT.focus();
         }
     }
 
-    passWordTextInputChanged(text){
+    passWordTextInputChanged(text) {
 
         this.setState({
-            password:text
+            password: text
         })
     }
 
-    render(){
-        return(
-
+    render() {
+        const { walletPasswordPrompt } = store.getState().Core
+        return (
             <Modal animationType='fade'
-                   transparent={true}
-                   visible={this.state.show}
-                   onShow={() => {
-                       console.log('控件显示');
-                   }}
-                   onRequestClose={() => {
-                       console.log('安卓物理返回');
-                   }}>
+                transparent={true}
+                visible={this.state.show}
+                onShow={() => {
+                    console.log('控件显示');
+                }}
+                onRequestClose={() => {
+                    console.log('安卓物理返回');
+                }}>
                 <View style={styles.container}>
 
                     <ScrollView style={styles.scrollView}
-                                horizontal={true}   //水平方向
-                                showsHorizontalScrollIndicator={false}
-                                showsVerticalScrollIndicator={false}
-                                scrollEnabled={false}
-                                bounces={false}
-                                ref={(scroll)=>{
-                                     this.scroll=scroll;
-                                }}>
+                        horizontal={true}   //水平方向
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}
+                        scrollEnabled={false}
+                        bounces={false}
+                        ref={(scroll) => {
+                            this.scroll = scroll;
+                        }}>
                         {/*步骤一 确认交易信息*/}
                         <View style={styles.leftContainer}>
                             <View style={styles.firstStepTitleView}>
                                 <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
-                                        <Image resizeMode={'center'}
-                                               source={require('../../assets/transfer/transfer_cancel.png')}
-                                               style={{width:15,height:15}}>
-                                        </Image>
+                                    <Image resizeMode={'center'}
+                                        source={require('../../assets/transfer/transfer_cancel.png')}
+                                        style={{ width: 15, height: 15 }}>
+                                    </Image>
                                 </TouchableOpacity>
                                 <Text style={styles.titleView}>
                                     支付详情
@@ -336,13 +338,15 @@ export default class TransactionStep extends Component{
                         </View>
 
                         {/*步骤二 ，输入密码*/}
-                        <View style={styles.rightContainer}>
-                            <View style={[styles.firstStepTitleView,{borderBottomWidth:0}]}>
+                        <View
+                            behavior="padding"
+                            style={styles.rightContainer}>
+                            <View style={[styles.firstStepTitleView, { borderBottomWidth: 0 }]}>
                                 <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
 
                                     <Image resizeMode={'center'}
-                                           source={require('../../assets/common/common_back.png')}
-                                           style={{width:20,height:20}}>
+                                        source={require('../../assets/common/common_back.png')}
+                                        style={{ width: 20, height: 20 }}>
                                     </Image>
 
                                 </TouchableOpacity>
@@ -352,16 +356,24 @@ export default class TransactionStep extends Component{
                             </View>
                             <View style={styles.passwordFrameView}>
                                 <TextInput style={styles.passwordView}
-                                           placeholder={"请输入密码"}
-                                           returnKeyType={"done"}
-                                           onChangeText={this.passWordTextInputChanged}
-                                           ref={(textinput)=>{
-                                               this.INPUT=textinput;
-                                           }}>
+                                    placeholder={"请输入密码"}
+                                    returnKeyType={"done"}
+                                    secureTextEntry={true}
+                                    onChangeText={this.passWordTextInputChanged}
+                                    ref={(textinput) => {
+                                        this.INPUT = textinput;
+                                    }}>
                                 </TextInput>
                             </View>
-
-                            <TouchableOpacity style={styles.nextBtn} onPress={()=>{
+                            <Text
+                                style={{
+                                    fontSize: 13,
+                                    paddingLeft: 25,
+                                    paddingTop: 5,
+                                    alignSelf: 'stretch'
+                                }}
+                            >密码提示: {walletPasswordPrompt}</Text>
+                            <TouchableOpacity style={styles.nextBtn} onPress={() => {
                                 let password = this.state.password;
                                 // console.warn(password);
                                 this.showStepView();
@@ -370,7 +382,7 @@ export default class TransactionStep extends Component{
                                 <Text style={styles.buttonTitle}>确定</Text>
                             </TouchableOpacity>
                         </View>
-                </ScrollView>
+                    </ScrollView>
                 </View>
             </Modal>
         )

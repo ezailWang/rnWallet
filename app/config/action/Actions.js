@@ -74,6 +74,13 @@ function setCoinBalance(value) {
     }
 }
 
+function setWalletPasswordPrompt(value) {
+    return {
+        type: types.SET_WALLET_PASSWORD_PROMPT,
+        walletPasswordPrompt: value
+    }
+}
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -84,5 +91,6 @@ export {
     loadTokenBalance,
     setTotalAssets,
     setTransactionRecoders,
-    setCoinBalance
+    setCoinBalance,
+    setWalletPasswordPrompt
 }

@@ -6,7 +6,7 @@ import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
 import {NextButton} from '../../components/Button';
 import InputTextDialog from '../../components/InputTextDialog';
-import {Colors,FontSize}from '../../config/GlobalConfig'
+import {Colors,FontSize,StorageKey}from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import * as Actions from '../../config/action/Actions';
 import {showToast} from '../../utils/Toast';
@@ -108,7 +108,7 @@ class SetScreen extends Component {
     }
     async  modifyWalletName(name){
        // var name = this.refs.inputTextDialog.state.text;
-        var key = 'uesr' 
+        var key = StorageKey.User;
         
         var loadUser = await StorageManage.load(key);
         if(loadUser == null){
