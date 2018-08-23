@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
         marginTop:15,
         marginBottom:30,
     },
+    qrCode:{
+        height:160,
+    },
     adderssTxt:{
         marginTop:28,
         fontSize:16,
@@ -92,21 +95,23 @@ class ReceiptCodeScreen extends Component {
                 <View style={styles.contentContainer}>
                      <Image style={styles.icon} source={require('../../assets/common/photoIcon.png')}/>
                      <Text style={styles.titleTxt}>{this.props.walletName}</Text>
-                     <QRCode
-                         value = {this.props.walletAddress}
-                         size={160}
-                         bgColor='#000'
-                         fgColor='#fff'
-                     />
+                     <View style={styles.qrCode}>
+                        <QRCode
+                            value = {this.props.walletAddress}
+                            size={160}
+                            bgColor='#000'
+                            fgColor='#fff'
+                        />
+                     </View>
+                     
                      <Text style={styles.adderssTxt}>{this.props.walletAddress}</Text>
                      <View style={styles.buttonBox}>
-                         <BlueButtonBig
-                             onPress = {()=> this.copyAddress()}
-                             text = '复制收款地址'
-                          />
+                        <BlueButtonBig
+                            onPress = {()=> this.copyAddress()}
+                            text = '复制收款地址'
+                        />
                      </View>       
                 </View>                
-               
             </View>
         );
     }

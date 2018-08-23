@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         // backgroundColor:"green"
     },
     addressContainer:{
-        width:Layout.WINDOW_WIDTH*0.5,
+        width:Layout.WINDOW_WIDTH*0.6,
         //backgroundColor:"red",
         marginLeft:10,
         justifyContent:"center"
