@@ -62,14 +62,29 @@ class HomeScreen extends Component {
         store.dispatch(setTransactionRecoders(arr));
 
         //获取余额信息
-        let balanceAmount = await networkManage.getEthBalance();
-        let price = await networkManage.getEthPrice();
         
+        let {contractAddress,symbol,decimals} = item.item;
+
+        let balanceAmount = '';
+        let price = 0;
+        
+        if(symbol != 'ETH'){
+            balanceAmount = await networkManage.getERC20Balance(contractAddress,decimals)
+            price = 0;
+        }
+        else{
+            balanceAmount = await networkManage.getEthBalance();
+            price = await networkManage.getEthPrice();
+        }
+
         let balanceInfo = {
             amount:balanceAmount,
             price:price,
-            transferType:item.item.symbol
+            transferType:symbol,
+            contractAddress:contractAddress,
+            decimals:decimals
         }
+        
         this.closeLoading()
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');

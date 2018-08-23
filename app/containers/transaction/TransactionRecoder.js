@@ -7,16 +7,18 @@ import{
     TouchableOpacity,
     Image,
     Platform,
+    RefreshControl
 }from 'react-native'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
 import {WhiteButtonMiddle} from '../../components/Button'
 import PropTypes from 'prop-types'
 import {store} from '../../config/store/ConfigureStore'
-import {setTransactionDetailParams, setWalletTransferParams} from "../../config/action/Actions";
+import {setTransactionDetailParams, setWalletTransferParams,setTransactionRecoders,setCoinBalance} from "../../config/action/Actions";
 import networkManage from '../../utils/networkManage';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import Loading from '../../components/LoadingComponent'
 
 const styles = StyleSheet.create({
 
@@ -110,7 +112,7 @@ class Header extends Component{
                     {this.props.balance}
                 </Text>
                 <Text style={styles.balanceValueText}>
-                    {"≈￥"+this.props.value}
+                    {"≈$"+this.props.value}
                 </Text>
             </View>
         )
@@ -186,12 +188,53 @@ export default class TransactionRecoder extends Component{
     constructor(props){
         super(props);
         
+        this.onRefresh = this.onRefresh.bind(this);
+
         this.state={
-            itemList:[]
+            itemList:[],
+            isRefreshing:false,
+            loadingShow:false,
         }
     }
 
+    onRefresh = async ()=>{
+
+        this.setState({
+            isRefreshing:true
+        })
+        let {contractAddress,transferType,decimals} = store.getState().Core.balance;
+
+        const { walletAddress } = store.getState().Core
+        let arr = await  networkManage.getTransations({
+            contractAddress:contractAddress,
+            symbol:transferType,
+            decimals:decimals
+        });
+        store.dispatch(setTransactionRecoders(arr));
+
+        //获取余额信息
+        let balanceAmount = await networkManage.getEthBalance();
+        let price = await networkManage.getEthPrice();
+        
+        let balanceInfo = {
+            amount:balanceAmount,
+            price:price,
+            transferType:transferType,
+            contractAddress:contractAddress,
+            decimals:decimals
+        }
+        store.dispatch(setCoinBalance(balanceInfo));
+
+        this.setState({
+            isRefreshing:false
+        })
+    }
+
     didTapTransactionButton= async ()=>{
+
+        this.setState({
+            loadingShow:true
+        })
 
         let {amount,price,transferType} = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
@@ -204,8 +247,15 @@ export default class TransactionRecoder extends Component{
             ethPrice:price,
             fromAddress:walletAddress
         };
+
+        this.setState({
+            loadingShow:false
+        })
+
         store.dispatch(setWalletTransferParams(transferProps));
-        this.props.navigation.navigate('Transaction',props={"transferType":transferType});
+        this.props.navigation.navigate('Transaction', {
+            onGoBack: () => this.onRefresh(),
+          });
     };
 
     didTapShowQrCodeButton=()=>{
@@ -290,6 +340,11 @@ export default class TransactionRecoder extends Component{
                             ListEmptyComponent ={<EmptyComponent/>}
                             data={this.state.itemList}
                             renderItem={this.renderItem}
+                            refreshControl={<RefreshControl
+                                onRefresh={this.onRefresh}
+                                refreshing={this.state.isRefreshing}
+                                title="Loading..."
+                            />}
                             // keyExtractor={(item)=>{item.key}}
                             >
                 </FlatList>
@@ -301,6 +356,7 @@ export default class TransactionRecoder extends Component{
                                         text={"收款"}
                                         image={require('../../assets/transfer/recoder/shoukuan_icon.png')}/>
                 </View>
+                <Loading visible={this.state.loadingShow} />
             </View>
         )
     }

@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     InteractionManager,
     Platform,
-    PermissionsAndroid
+    PermissionsAndroid,
 } from 'react-native';
 
 import {Colors,TransferGasLimit,TransferType} from "../../config/GlobalConfig";
@@ -27,6 +27,7 @@ import keystoreUtils from '../../utils/keystoreUtils'
 import keythereum from 'keythereum'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import Loading from '../../components/LoadingComponent'
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -277,10 +278,11 @@ export default class Transaction extends Component{
             currentGas:params.suggestGasPrice,
             gasStr:this.getPriceTitle(params.suggestGasPrice,params.ethPrice),
             transferValue:0,
-            //toAddress:"0xf5D0318dbb21755B4866CF10bA7f8843F0BD11bf",
-            toAddress:'',
+            toAddress:"0xf5D0318dbb21755B4866CF10bA7f8843F0BD11bf",
+            // toAddress:'',
             fromAddress:params.fromAddress,
             detailData:"",
+            loadingShow:false
         };
     };
 
@@ -297,7 +299,7 @@ export default class Transaction extends Component{
         let totalGasPrice = totalGas * ethPrice;
         totalGasPrice = totalGasPrice.toFixed(8);
 
-        return totalGas+"ether≈"+totalGasPrice+"￥";
+        return totalGas+"ether≈"+totalGasPrice+"$";
     };
 
     getDetailPriceTitle = ()=>{
@@ -309,38 +311,68 @@ export default class Transaction extends Component{
     };
 
     didTapSurePasswordBtn= async (password)=>{
-        console.warn("输入密码--",password);
+        // console.warn("输入密码--",password);
+        
+        this.setState({
+            loadingShow:true
+        })
         
         var privateKey = await keystoreUtils.getPrivateKey(password)
 
+        this.setState({
+            loadingShow:false
+        })
+
         if(privateKey === null){
-            alert("秘钥获取失败");
+
+            setTimeout(()=>{
+                alert("秘钥获取失败");
+            },100);
         }
         else{
-          //  var privateKeyHex = privateKey.toString('hex');
+
             console.log(privateKey);
     
-            NetworkManager.sendTransaction(
-                {contractAddress:"",symbol:"ETH","decimals":18},
+            let {contractAddress,transferType,decimals} = store.getState().Core.balance;
+            let res = await NetworkManager.sendTransaction(
+                {
+                    "contractAddress":contractAddress,
+                    "symbol":transferType,
+                    "decimals":decimals
+                },
                 this.state.toAddress,
                 this.state.transferValue,
                 this.state.currentGas,
                 privateKey
             ) 
-            alert("已发送交易");
+            //alert("已发送交易");
+
+            console.log(res);
+
+            if(res){
+                //回调刷新
+                this.props.navigation.state.params.onGoBack();
+                this.props.navigation.goBack();
+            }
+            else{
+                setTimeout(()=>{
+                    alert("交易发送失败，请检查参数");
+                },100);
+            }
+            //console.log(this.props.navigation.state.params);
+
         }
     };
 
 
     didTapNextBtn = ()=>{
-        //console.warn(this.state.fromAddress,this.state.transferValue,this.state.detailData);
 
         if (NetworkManager.isValidAddress(this.state.toAddress) === false){
             alert("请输入有效的转账地址");
             return;
         }
 
-        if (this.state.transferValue === 0){
+        if (parseFloat(this.state.transferValue) == 0){
             alert("请输入有效的转账金额");
             return;
         }
@@ -356,8 +388,6 @@ export default class Transaction extends Component{
     };
     //----视图的事件方法
     sliderValueChanged =(value)=>{
-
-        //console.warn(value,this.props.gasPrice);
 
         let price = this.getPriceTitle(value,this.params.ethPrice);
         this.setState({
@@ -456,6 +486,7 @@ export default class Transaction extends Component{
                          <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"}/>
                      </View>
                 </ScrollView>
+                <Loading visible={this.state.loadingShow}/>
             </View>
            
         )
