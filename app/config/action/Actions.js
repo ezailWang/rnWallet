@@ -1,4 +1,6 @@
 import * as types from './ActionType'
+import StorageManage from '../../utils/StorageManage'
+import { StorageKey } from '../GlobalConfig'
 
 function generateMnemonic(mnemonic) {
     return {
@@ -81,6 +83,14 @@ function setWalletPasswordPrompt(value) {
     }
 }
 
+function setNetWork(value) {
+    StorageManage.save(StorageKey.Network,value)
+    return {
+        type: types.SET_NETWORK,
+        network: value
+    }
+}
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -92,5 +102,6 @@ export {
     setTotalAssets,
     setTransactionRecoders,
     setCoinBalance,
-    setWalletPasswordPrompt
+    setWalletPasswordPrompt,
+    setNetWork
 }

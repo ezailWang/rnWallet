@@ -299,8 +299,6 @@ export default class TransactionRecoder extends Component{
 
         let recoders = store.getState().Core.recoders;
         const { walletAddress } = store.getState().Core
-        //console.warn(walletAddress);
-
         var itemList = []
         recoders.map((item,i)=>{    
             

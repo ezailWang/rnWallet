@@ -18,6 +18,12 @@ function isIphoneX() {
     )
 }
 
+function isAndroid(){
+    return(
+        Platform.OS === 'android'
+    )
+}
+
 function getNavigationHeight() {
     if (isIphoneX()){
         return 88;
@@ -31,6 +37,7 @@ const layoutConstants = {
     WINDOW_HEIGHT: height,
     DEVICE_IS_IPHONE_X:isIphoneX,
     NAVIGATION_HEIGHT:getNavigationHeight,
+    DEVICE_IS_ANDROID:isAndroid,
 
     DEFAULT_IAMGE: require('../assets/home/null.png'),
     

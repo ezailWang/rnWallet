@@ -14,19 +14,21 @@ import {
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
+import { Network } from '../../config/GlobalConfig'
 
 const defaultState = {
     // testAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
     // testPrikey: '0x4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318',
     //walletAddress: '0xb8CE9ab6943e0eCED004cDe8e3bBed6568B2Fa01',
     // prikey: '0x348ce564d427a3311b6536bbcff9390d69395b06ed6c486954e971d960fe8709',
-    network: 'rinkeby',
+    network: Network.rinkeby,
     walletAddress: null,
     walletName: 'wallet',
-    walletPasswordPrompt: '未设置密码',
+    walletPasswordPrompt: '未设置密码提示',
     mnemonic: '',
     tokens: defaultTokens,
-    totalAssets: 0.00
+    totalAssets: '0.00',
+    recoders: []
 }
 
 function coreReducer(state = defaultState, action) {

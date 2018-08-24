@@ -54,9 +54,9 @@ export default class AddToken extends Component {
                 style={{ backgroundColor: Colors.blackOpacityColor }}
             >
                 <View style={styles.container}>
-                    <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.contentContainer}>
+                    <KeyboardAvoidingView
+                        behavior="padding"
+                        style={styles.contentContainer}>
                         <View style={styles.TopContainer}>
                             <Text style={styles.TopText}> 添加资产 </Text>
                             <ImageButton

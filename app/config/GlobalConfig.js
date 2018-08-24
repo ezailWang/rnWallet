@@ -62,7 +62,15 @@ const FontSize = {
 
 const StorageKey = {
     User:'user',
-    Tokens:'tokens'
+    Tokens:'tokens',
+    Network:'network',
+}
+
+const Network = {
+    ropsten:'ropsten',
+    kovan:'kovan',
+    rinkeby:'rinkeby',
+    main:'main',
 }
 
 module.exports = {
@@ -71,4 +79,5 @@ module.exports = {
     TransferType,
     TransferGasLimit,
     StorageKey,
+    Network,
 };

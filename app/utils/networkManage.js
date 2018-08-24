@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import etherscan from 'etherscan-api'
 import layoutConstants from '../config/LayoutConstants'
 import StorageManage from './StorageManage'
-import { StorageKey } from '../config/GlobalConfig'
+import { StorageKey, Network } from '../config/GlobalConfig'
 import { addToken, loadTokenBalance, setTotalAssets } from '../config/action/Actions'
 import lodash from 'lodash'
 import { TransferGasLimit } from '../config/GlobalConfig'
@@ -15,27 +15,20 @@ var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Cor
 export default class networkManage {
 
     static getWeb3Instance() {
-        if (typeof web3 !== 'undefined') {
-            return new Web3(web3.currentProvider)
-        } else {
             return new Web3(this.getWeb3HTTPProvider())
-        }
     }
-
-
-
 
     static getWeb3HTTPProvider() {
         switch (store.getState().Core.network) {
-            case 'ropsten':
+            case Network.ropsten:
                 return new Web3.providers.HttpProvider(
                     `https://ropsten.infura.io/${layoutConstants.INFURA_API_KEY}`,
                 );
-            case 'kovan':
+            case Network.kovan:
                 return new Web3.providers.HttpProvider(
                     `https://kovan.infura.io/${layoutConstants.INFURA_API_KEY}`,
                 );
-            case 'rinkeby':
+            case Network.rinkeby:
                 return new Web3.providers.HttpProvider(
                     `https://rinkeby.infura.io/${layoutConstants.INFURA_API_KEY}`,
                 );
@@ -66,6 +59,7 @@ export default class networkManage {
         try {
             const { walletAddress } = store.getState().Core
             web3 = this.getWeb3Instance()
+            console.log('web3--00-:',web3)
             var balance = await web3.eth.getBalance(walletAddress)
             return parseFloat(balance / Math.pow(10, 18)).toFixed(8)
         } catch (err) {
@@ -116,7 +110,6 @@ export default class networkManage {
                 return []
             }
             const web3 = this.getWeb3Instance();
-
             return data.result.map(t => ({
                 from: t.from,
                 to: t.to,
@@ -128,7 +121,7 @@ export default class networkManage {
             }))
         } catch (err) {
             console.log('getEthTransations err:', err)
-            return null
+            return []
         }
     }
 
@@ -158,7 +151,7 @@ export default class networkManage {
             }))
         } catch (err) {
             console.log('getERC20Transations err:', err)
-            return null
+            return []
         }
     }
 

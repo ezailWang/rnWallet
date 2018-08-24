@@ -6,6 +6,7 @@ import {
     setWalletAddress, 
     setWalletName,
     setWalletPasswordPrompt,
+    setNetWork
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 
@@ -38,7 +39,7 @@ class Loading extends Component {
 
     loadFromStorege = async () => {
         var data = await StorageManage.load(StorageKey.User)
-        console.log('localUser:', data)
+        var net = await StorageManage.load(StorageKey.Network)
         if (data) {
             if (data['address']) {
                 this.props.dispatch(setWalletAddress(data['address']))
@@ -49,6 +50,9 @@ class Loading extends Component {
             if(data['extra']){
                 this.props.dispatch(setWalletPasswordPrompt(data['extra']))
             }
+        if(net){
+            this.props.dispatch(setNetWork(net))
+        }    
         } else {
             console.log('data = null')
         }

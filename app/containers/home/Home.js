@@ -11,15 +11,18 @@ import ImageButton from '../../components/ImageButton'
 import layoutConstants from '../../config/LayoutConstants';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import AddToken from './AddToken'
+import ChangeNetwork from './component/ChangeNetwork'
 import { HeaderButton } from '../../components/Button'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
 import { addToken, setTransactionRecoders, setCoinBalance } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
-import {store} from '../../config/store/ConfigureStore'
+import { store } from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
 import Loading from '../../components/LoadingComponent'
+import { setNetWork } from '../../config/action/Actions'
+
 var user = require('../../assets/home/user.png')
 var isDispatching = false
 
@@ -28,8 +31,9 @@ class HomeScreen extends Component {
         super(props)
         this.state = {
             addTokenShow: false,
+            changeNetworkShow: false,
             isRefreshing: false,
-            loadingShow:false,
+            loadingShow: false,
         }
 
     }
@@ -41,15 +45,15 @@ class HomeScreen extends Component {
         />
     )
 
-    showLoading(){
+    showLoading() {
         this.setState({
-            loadingShow:true
+            loadingShow: true
         })
     }
 
-    closeLoading(){
+    closeLoading() {
         this.setState({
-            loadingShow:false
+            loadingShow: false
         })
     }
 
@@ -58,33 +62,33 @@ class HomeScreen extends Component {
         //获取记录
         this.showLoading()
         const { walletAddress } = store.getState().Core
-        let arr = await  networkManage.getTransations(item.item);
+        let arr = await networkManage.getTransations(item.item);
         store.dispatch(setTransactionRecoders(arr));
 
         //获取余额信息
-        
-        let {contractAddress,symbol,decimals} = item.item;
+
+        let { contractAddress, symbol, decimals } = item.item;
 
         let balanceAmount = '';
         let price = 0;
-        
-        if(symbol != 'ETH'){
-            balanceAmount = await networkManage.getERC20Balance(contractAddress,decimals)
+
+        if (symbol != 'ETH') {
+            balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals)
             price = 0;
         }
-        else{
+        else {
             balanceAmount = await networkManage.getEthBalance();
             price = await networkManage.getEthPrice();
         }
 
         let balanceInfo = {
-            amount:balanceAmount,
-            price:price,
-            transferType:symbol,
-            contractAddress:contractAddress,
-            decimals:decimals
+            amount: balanceAmount,
+            price: price,
+            transferType: symbol,
+            contractAddress: contractAddress,
+            decimals: decimals
         }
-        
+
         this.closeLoading()
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
@@ -106,13 +110,28 @@ class HomeScreen extends Component {
         this.closeLoading()
     }
 
+    showChangeNetwork = () => {
+        this.setState({
+            changeNetworkShow: true
+        })
+    }
+
+    changeNetworkDone = async () => {
+        this.setState({
+            changeNetworkShow: false
+        })
+        this.showLoading()
+        await networkManage.loadTokenList()
+        this.closeLoading()
+    }
+
     onRefresh = async () => {
         this.setState({
             isRefreshing: true
         })
         await networkManage.loadTokenList()
         this.setState({
-            isRefreshing:false
+            isRefreshing: false
         })
     }
 
@@ -122,7 +141,7 @@ class HomeScreen extends Component {
 
     async componentDidMount() {
         //Why do execute twice
-        if(isDispatching){
+        if (isDispatching) {
             return
         }
         isDispatching = true
@@ -185,14 +204,13 @@ class HomeScreen extends Component {
                         addAssetsIcon={require('../../assets/home/plus_icon.png')}
                     />}
                 />
-                {/* <ImageButton
+                <ImageButton
                     btnStyle={{ width: 30, height: 30, right: 20, top: 30, position: 'absolute' }}
-                    // imageStyle={{ }}
                     onClick={() => {
-                        console.log('---目录按钮被点击')
+                        this.showChangeNetwork()
                     }}
                     backgroundImageSource={require('../../assets/home/caidan.png')}
-                /> */}
+                />
                 <AddToken
                     open={this.state.addTokenShow}
                     close={() => {
@@ -201,6 +219,18 @@ class HomeScreen extends Component {
                         })
                     }}
                     onClickAdd={this.onClickAdd.bind(this)}
+                />
+                <ChangeNetwork
+                    open={this.state.changeNetworkShow}
+                    close={() => {
+                        this.setState({
+                            changeNetworkShow: false
+                        })
+                    }}
+                    onClick={(network) => {
+                        this.props.setNetWork(network)
+                        this.changeNetworkDone()
+                    }}
                 />
                 <Loading visible={this.state.loadingShow} />
             </View>
@@ -221,5 +251,8 @@ const mapStateToProps = state => ({
     walletName: state.Core.walletName,
 })
 
+const mapDispatchToProps = dispatch => ({
+    setNetWork: (network) => dispatch(setNetWork(network))
+})
 
-export default connect(mapStateToProps)(HomeScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
