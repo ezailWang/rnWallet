@@ -358,7 +358,6 @@ export default class Transaction extends Component {
 
 
     didTapNextBtn = () => {
-
         if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
             alert("请输入有效的转账地址");
             return;
@@ -376,6 +375,7 @@ export default class Transaction extends Component {
             payType: this.params.transferType + "转账",
             gasPriceInfo: this.getDetailPriceTitle()
         };
+       
         this.dialog.showStepView(params);
     };
     //----视图的事件方法
@@ -444,7 +444,8 @@ export default class Transaction extends Component {
                     rightPress={() => this.scanClick()}
                     rightIcon={require('../../assets/common/scanIcon.png')} />
                 <ScrollView style={styles.contentContainer}
-                    bounces={false}>
+                    bounces={false}
+                    keyboardShouldPersistTaps={'handled'}>
 
                     <TransactionStep didTapSurePasswordBtn={this.didTapSurePasswordBtn}
                         ref={(dialog) => { this.dialog = dialog; }} />

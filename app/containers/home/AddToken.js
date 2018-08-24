@@ -117,7 +117,8 @@ export default class AddToken extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.blackOpacityColor
+        backgroundColor: Colors.blackOpacityColor,
+       
     },
     contentContainer: {
         backgroundColor: Colors.whiteBackgroundColor,
@@ -149,7 +150,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.borderColor_e,
         borderRadius: 5,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        paddingVertical: 0
     },
     ValitText: {
         alignSelf: 'center',

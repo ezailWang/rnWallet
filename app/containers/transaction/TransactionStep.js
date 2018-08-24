@@ -12,7 +12,7 @@ import {
     TextInput,
     KeyboardAvoidingView
 } from 'react-native'
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Colors } from '../../config/GlobalConfig'
 import PropTypes from 'prop-types';
 import { store } from '../../config/store/ConfigureStore'
@@ -27,18 +27,25 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.blackOpacityColor,
         justifyContent: "flex-end"
     },
-    scrollView: {
-        flexDirection: "row",
-        marginTop: ScreenHeight - 400,
+    KeyboardContainer:{
+        marginTop: ScreenHeight - 410,
+        height:410,
         marginBottom: 0,
         marginRight: 0,
         marginLeft: 0,
-        //backgroundColor:'white'
+    },
+    scrollView: {
+        flexDirection: "row",
+        marginTop: ScreenHeight - 410,
+        height:410,
+        marginBottom: 0,
+        marginRight: 0,
+        marginLeft: 0,
     },
     leftContainer: {
         marginLeft: 0,
         backgroundColor: 'white',
-        height: 400,
+        height: 410,
         width: ScreenWidth,
         alignItems: "center",
     },
@@ -46,7 +53,7 @@ const styles = StyleSheet.create({
         marginRight: 0,
         marginTop: 0,
         backgroundColor: 'white',
-        height: 400,
+        height: 410,
         width: ScreenWidth,
         alignItems: "center",
     },
@@ -60,17 +67,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     cancelBtn: {
-        width: 15,
-        height: 15,
+        width: 30,
+        height: 30,
         marginLeft: 25,
-        //backgroundColor:'red',
         justifyContent: "center",
         alignItems: "center"
     },
     titleView: {
         color: Colors.fontBlackColor,
         //marginLeft:0,
-        width: ScreenWidth - (15 + 25) * 2,
+        width: ScreenWidth - (30 + 25) * 2,
         fontSize: 17,
         textAlign: "center"
     },
@@ -157,8 +163,10 @@ const styles = StyleSheet.create({
         marginRight: 15,
         // backgroundColor:"red",
         height: 40,
-        fontSize: 15
-    }
+        fontSize: 15,
+        paddingVertical: 0
+    },
+    
 });
 
 let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice }) => (
@@ -240,9 +248,9 @@ export default class TransactionStep extends Component {
     showStepView(params) {
 
         let isShow = this.state.show;
-
+        
         if (params) {
-
+            
             this.setState({
                 show: !isShow,
                 fromAddress: params.fromAddress,
@@ -297,8 +305,9 @@ export default class TransactionStep extends Component {
                     console.log('安卓物理返回');
                 }}>
                 <View style={styles.container}>
-
+                {/**<KeyboardAwareScrollView  style={styles.KeyboardContainer}>**/}
                     <ScrollView style={styles.scrollView}
+                        keyboardShouldPersistTaps={'handled'}
                         horizontal={true}   //水平方向
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
@@ -307,6 +316,7 @@ export default class TransactionStep extends Component {
                         ref={(scroll) => {
                             this.scroll = scroll;
                         }}>
+                        
                         {/*步骤一 确认交易信息*/}
                         <View style={styles.leftContainer}>
                             <View style={styles.firstStepTitleView}>
@@ -339,16 +349,13 @@ export default class TransactionStep extends Component {
 
                         {/*步骤二 ，输入密码*/}
                         <View
-                            behavior="padding"
                             style={styles.rightContainer}>
                             <View style={[styles.firstStepTitleView, { borderBottomWidth: 0 }]}>
                                 <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
-
                                     <Image resizeMode={'center'}
                                         source={require('../../assets/common/common_back.png')}
-                                        style={{ width: 20, height: 20 }}>
+                                        style={{height: 20,width:20, }}>
                                     </Image>
-
                                 </TouchableOpacity>
                                 <Text style={styles.titleView}>
                                     钱包密码
@@ -370,7 +377,8 @@ export default class TransactionStep extends Component {
                                     fontSize: 13,
                                     paddingLeft: 25,
                                     paddingTop: 5,
-                                    alignSelf: 'stretch'
+                                    alignSelf: 'stretch',
+                                    color:Colors.fontGrayColor_a0
                                 }}
                             >密码提示: {walletPasswordPrompt}</Text>
                             <TouchableOpacity style={styles.nextBtn} onPress={() => {
@@ -381,8 +389,10 @@ export default class TransactionStep extends Component {
                             }}>
                                 <Text style={styles.buttonTitle}>确定</Text>
                             </TouchableOpacity>
+                            
                         </View>
                     </ScrollView>
+                   
                 </View>
             </Modal>
         )
