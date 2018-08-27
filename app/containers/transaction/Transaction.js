@@ -133,7 +133,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between'
     },
-
+    buttonBox:{
+        marginTop:20,
+        alignSelf:'stretch',
+        alignItems:'center',
+    },
 
 });
 
@@ -474,11 +478,12 @@ export default class Transaction extends Component {
                         initValue={this.params.suggestGasPrice}
                         onValueChange={this.sliderValueChanged} />
                     {/*下一步按钮*/}
-
-                    <View style={{ alignItems: "center", marginTop: 80 }}>
+                    <View style={styles.buttonBox}>
                         <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"} />
                     </View>
+                    
                 </ScrollView>
+                
                 <Loading visible={this.state.loadingShow} />
             </View>
 

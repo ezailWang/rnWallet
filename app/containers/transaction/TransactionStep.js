@@ -10,7 +10,9 @@ import {
     TouchableOpacity,
     Text,
     TextInput,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    StatusBar,
+    Platform,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Colors } from '../../config/GlobalConfig'
@@ -19,6 +21,7 @@ import { store } from '../../config/store/ConfigureStore'
 
 const ScreenWidth = Dimensions.get('window').width;
 const ScreenHeight = Dimensions.get('window').height;
+const StatusBarHeight =  StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
 
@@ -28,24 +31,21 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end"
     },
     KeyboardContainer:{
-        marginTop: ScreenHeight - 410,
-        height:410,
+        marginTop:Platform.OS === 'android' ? ScreenHeight - 400 - StatusBarHeight : ScreenHeight - 400,
+        height:400,
         marginBottom: 0,
         marginRight: 0,
         marginLeft: 0,
     },
     scrollView: {
         flexDirection: "row",
-        marginTop: ScreenHeight - 410,
-        height:410,
-        marginBottom: 0,
-        marginRight: 0,
-        marginLeft: 0,
+        flex:1,
+        height:400,
     },
     leftContainer: {
         marginLeft: 0,
         backgroundColor: 'white',
-        height: 410,
+        height: 400,
         width: ScreenWidth,
         alignItems: "center",
     },
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         marginRight: 0,
         marginTop: 0,
         backgroundColor: 'white',
-        height: 410,
+        height: 400,
         width: ScreenWidth,
         alignItems: "center",
     },
@@ -268,7 +268,8 @@ export default class TransactionStep extends Component {
     }
 
     changeStepPage() {
-
+        console.log('LL_height',ScreenHeight);
+        console.log('LL_statusbar',StatusBarHeight);
         let currentPage = !this.state.step;
 
         this.setState({
@@ -305,8 +306,11 @@ export default class TransactionStep extends Component {
                     console.log('安卓物理返回');
                 }}>
                 <View style={styles.container}>
-                {/**<KeyboardAwareScrollView  style={styles.KeyboardContainer}>**/}
-                    <ScrollView style={styles.scrollView}
+                <KeyboardAwareScrollView  
+                    style={styles.KeyboardContainer}
+                    keyboardShouldPersistTaps={'handled'}>
+                    <ScrollView 
+                        style={styles.scrollView}
                         keyboardShouldPersistTaps={'handled'}
                         horizontal={true}   //水平方向
                         showsHorizontalScrollIndicator={false}
@@ -315,7 +319,8 @@ export default class TransactionStep extends Component {
                         bounces={false}
                         ref={(scroll) => {
                             this.scroll = scroll;
-                        }}>
+                        }}
+                        behavior="padding">
                         
                         {/*步骤一 确认交易信息*/}
                         <View style={styles.leftContainer}>
@@ -348,8 +353,7 @@ export default class TransactionStep extends Component {
                         </View>
 
                         {/*步骤二 ，输入密码*/}
-                        <View
-                            style={styles.rightContainer}>
+                        <View style={styles.rightContainer}>
                             <View style={[styles.firstStepTitleView, { borderBottomWidth: 0 }]}>
                                 <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
                                     <Image resizeMode={'center'}
@@ -389,10 +393,9 @@ export default class TransactionStep extends Component {
                             }}>
                                 <Text style={styles.buttonTitle}>确定</Text>
                             </TouchableOpacity>
-                            
-                        </View>
+                        </View>    
                     </ScrollView>
-                   
+                    </KeyboardAwareScrollView>
                 </View>
             </Modal>
         )
