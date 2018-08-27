@@ -11,7 +11,10 @@ function upsetArrayOrder(array) {
     }
     return array;
 };
-
+//将字符串前后所有的空格去掉
+function stringTrim(str){
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
 //将字符串中的多个空格缩减为一个空格
 function resetStringBlank(str){
     var regEx = /\s+/g;
@@ -19,4 +22,4 @@ function resetStringBlank(str){
     return newStr;
 }
 
-module.exports = {upsetArrayOrder,resetStringBlank}
+module.exports = {upsetArrayOrder,stringTrim,resetStringBlank}

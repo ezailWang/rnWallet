@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity, Alert, Platform, PermissionsAndroid } from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
@@ -12,12 +12,14 @@ import { connect } from 'react-redux';
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import { BlueButtonBig } from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
-import { resetStringBlank } from '../../containers/launch/Common';
+import { resetStringBlank ,stringTrim} from '../../containers/launch/Common';
 import { androidPermission } from '../../utils/permissionsAndroid';
 import Loading from '../../components/LoadingComponent';
 import { showToast } from '../../utils/Toast';
 import layoutConstants from '../../config/LayoutConstants'
 import {BlueHeader} from '../../components/NavigaionHeader'
+let ScreenWidth = Dimensions.get('window').width;
+let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
 
     container: {
@@ -27,9 +29,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: Colors.backgroundColor,
-        paddingTop: 40,
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingTop: ScreenHeight*0.05,
+        paddingLeft: ScreenWidth*0.08,
+        paddingRight: ScreenWidth*0.08,
         //alignItems:'stretch',
     },
     icon: {
@@ -42,13 +44,11 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-
     },
     titleTxt: {
         fontSize: 18,
         fontWeight: '500',
         color: 'rgb(85,146,246)',
-        marginTop: 15,
         marginBottom: 30,
     },
     inputArea: {
@@ -157,8 +157,9 @@ class ImportWalletScreen extends Component {
         }else if(this.state.password != this.state.rePassword){
             warnMessage = "请输入一致的密码"
         }else{
-            const m =resetStringBlank(this.state.mnemonic);//将字符串中的多个空格缩减为一个空格
-            var mnemonicIsOk = await walletUtils.validateMnemonic(m);//验证助记词
+            let str = stringTrim(this.state.mnemonic);
+            let m =resetStringBlank(str);//将字符串中的多个空格缩减为一个空格
+            let mnemonicIsOk = await walletUtils.validateMnemonic(m);//验证助记词
             if(!mnemonicIsOk){
                 warnMessage='请输入正确的助记词'
             }
@@ -235,7 +236,8 @@ class ImportWalletScreen extends Component {
                 <View style={styles.contentContainer}>
                     <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
                     <Text style={styles.titleTxt}>导入钱包</Text>
-                    <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}>
+                    <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
+                                             keyboardShouldPersistTaps='always'>
                         <TextInput style={[styles.inputTextBox, styles.inputArea]}
                             // returnKeyType='next' 
                             placeholder="输入助记词"

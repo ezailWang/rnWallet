@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Modal,TouchableOpacity } from 'react-native';
+import { View,StyleSheet,Image,Text,Modal,TouchableOpacity ,Dimensions,} from 'react-native';
 import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
+let ScreenWidth = Dimensions.get('window').width;
+let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -15,9 +17,9 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems:'center',
         backgroundColor:'#fff',
-        paddingTop:100,
-        paddingLeft:20,
-        paddingRight:20,
+        paddingTop:ScreenHeight*0.15,
+        paddingLeft: ScreenWidth*0.08,
+        paddingRight: ScreenWidth*0.08,
     },
     icon:{
         width:48,
@@ -28,7 +30,6 @@ const styles = StyleSheet.create({
         fontSize:20,
         fontWeight:'bold',
         color:Colors.fontBlueColor,
-        marginTop:15,
         marginBottom:30,
     },
     contentTxt:{

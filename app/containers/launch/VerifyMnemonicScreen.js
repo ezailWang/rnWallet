@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Alert} from 'react-native';
+import { View,StyleSheet,Image,Text,Alert,Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BlueButtonBig} from '../../components/Button';
 import { connect } from 'react-redux';
@@ -7,6 +7,8 @@ import {upsetArrayOrder} from './Common';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
+let ScreenWidth = Dimensions.get('window').width;
+let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -15,9 +17,9 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems:'center',
         backgroundColor:'#fff',
-        paddingTop:40,
-        paddingLeft:20,
-        paddingRight:20,
+        paddingTop:ScreenHeight*0.05,
+        paddingLeft: ScreenWidth*0.08,
+        paddingRight: ScreenWidth*0.08,
         //alignItems:'stretch',
     },
     icon:{
@@ -28,7 +30,6 @@ const styles = StyleSheet.create({
         fontSize:20,
         fontWeight:'bold',
         color:Colors.fontBlueColor,
-        marginTop:15,
         marginBottom:30,
     },
     contentTxt:{
@@ -59,20 +60,21 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         flexWrap:'wrap',
         justifyContent:'center',
+        alignItems:'center',
         marginTop:10,
     },
     mnemonicSortBorder:{
+        flex:1,
+        justifyContent:'center',
         alignSelf:'stretch',
         backgroundColor:'rgb(237,237,237)',
         borderRadius:8,
         marginTop:30,
         marginBottom:10,
-        paddingLeft:12,
-        paddingRight:12,
-        paddingTop:12,
-        paddingBottom:12,
-        height: 142,
-        alignItems:'center'
+        paddingLeft:10,
+        paddingRight:10,
+        paddingTop:10,
+        paddingBottom:10,
     },
 
 })
@@ -161,9 +163,12 @@ class VerifyMnemonicScreen extends Component {
                      <Text style={styles.titleTxt}>确认助记词</Text>
                      <Text style={styles.contentTxt}>请按顺序点击助记词，以确认您正确备份。</Text>
 
-                     <View style={[styles.mnemonicList,styles.mnemonicSortBorder]}>
-                         {sortMnemonicView}
+                     <View style={styles.mnemonicSortBorder}>
+                        <View style={[styles.mnemonicList,]}>
+                            {sortMnemonicView}
+                        </View>
                      </View>
+                     
 
                      <View style={styles.mnemonicList}>
                          {mnemonicView}

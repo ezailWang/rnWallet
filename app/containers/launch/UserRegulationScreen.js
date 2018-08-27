@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,ScrollView} from 'react-native';
+import { View,StyleSheet,Image,Text,ScrollView,Dimensions} from 'react-native';
 import {BlueButtonBig,HeaderButton} from '../../components/Button';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+let ScreenWidth = Dimensions.get('window').width;
+let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container:{
         flex:1,

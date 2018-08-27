@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Image, Alert ,Dimensions} from 'react-native';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
@@ -9,7 +9,8 @@ import {RightBlueNextButton,RightWhiteNextButton} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import SplashScreen from 'react-native-splash-screen'
-
+let ScreenWidth = Dimensions.get('window').width;
+let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,

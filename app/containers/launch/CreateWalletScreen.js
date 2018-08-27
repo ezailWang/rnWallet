@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, Alert, ScrollView, Platform, PermissionsAndroid, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, Alert, ScrollView, Platform, PermissionsAndroid, TouchableOpacity ,Dimensions} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
@@ -17,7 +17,8 @@ import Loading from '../../components/LoadingComponent';
 import { showToast } from '../../utils/Toast';
 import { BlueHeader } from '../../components/NavigaionHeader'
 import { StorageKey } from '../../config/GlobalConfig'
-
+let ScreenWidth = Dimensions.get('window').width;
+let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -26,9 +27,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#fff',
-        paddingTop: 40,
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingTop: ScreenHeight*0.05,
+        paddingLeft: ScreenWidth*0.08,
+        paddingRight: ScreenWidth*0.08,
     },
     icon: {
         width: 48,
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: Colors.fontBlueColor,
-        marginTop: 15,
+
         marginBottom: 30,
     },
     keyboardAwareScrollView: {
@@ -230,7 +231,8 @@ class CreateWalletScreen extends Component {
                     <Text style={styles.titleTxt}>创建钱包</Text>
 
 
-                    <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}>
+                    <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
+                                             keyboardShouldPersistTaps='always'>
                         <TextInput style={styles.inputText}
                             //returnKeyType='next' 
                             placeholder="钱包名称"
