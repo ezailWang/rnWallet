@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     icon:{
         marginLeft:20,
         alignSelf:"center",
-        // width:20,
-        // height:20,
+        width:22,
+        height:22,
         // marginTop:10,
         // backgroundColor:"green"
     },
@@ -152,7 +152,7 @@ class Cell extends Component{
             <TouchableOpacity   style={[styles.cell,(Platform.OS=='ios' ? styles.shadow :{})]}
                                 onPress={()=>{this.props.onPress(this.props.item.index)}}
             >
-                <Image style={styles.icon} source={image}/>
+                <Image style={styles.icon} source={image} resizeMode={'center'}/>
                 <View style={styles.addressContainer}>
                     <Text style={{fontSize:FontSize.TitleSize,color:Colors.fontBlackColor}}
                           numberOfLines={1}
