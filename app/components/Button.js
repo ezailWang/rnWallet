@@ -272,7 +272,7 @@ class WhiteButtonMiddle extends Component {
         return (
             <TouchableOpacity style={[styles.normalMiddleBtn,styles.middleWhiteBtn,{flexDirection:"row",alignItems:"center"}]}
                               onPress = { this.props.onPress }>
-                <Image source={this.props.image} style={{marginRight:5}}/>
+                <Image source={this.props.image} style={{marginRight:5,height:20,width:20}} resizeMode={'center'}/>
                 <Text style={[styles.normalMiddleBtnTitle,styles.middleWhiteBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
         )

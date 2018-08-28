@@ -126,6 +126,7 @@ class WhiteBgNoTitleHeader extends Component {
                 <TouchableOpacity style={[styles.headerButtonBox,contentMarginTop]} 
                                   onPress = {() => {this.props.navigation.goBack()}}>
                     <Image style={styles.icon}
+                           //resizeMode={'contain'}
                            resizeMode={'center'}
                            source={require('../assets/common/common_back.png')}>
                     </Image>

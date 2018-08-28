@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, ScrollView, KeyboardAvoidingView,TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
@@ -237,7 +237,9 @@ class ImportWalletScreen extends Component {
                     <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
                     <Text style={styles.titleTxt}>导入钱包</Text>
                     <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
-                                             keyboardShouldPersistTaps='always'>
+                                             keyboardShouldPersistTaps='always'
+                                             //behavior="padding"
+                                             >
                         <TextInput style={[styles.inputTextBox, styles.inputArea]}
                             // returnKeyType='next' 
                             placeholder="输入助记词"
