@@ -367,10 +367,11 @@ export default class Transaction extends Component {
             return;
         }
 
-        if (parseFloat(this.state.transferValue) == 0) {
+        if (parseFloat(this.state.transferValue) <= 0 || parseFloat(this.state.transferValue)> this.params.balance) {
             alert("请输入有效的转账金额");
             return;
         }
+
 
         let params = {
             fromAddress: this.state.fromAddress,
