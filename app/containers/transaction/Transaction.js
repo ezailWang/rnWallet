@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         height: 38,
         marginRight: 20,
-        fontSize: 15
+        fontSize: 12
     },
     sliderBottomView: {
         marginTop: 12,
@@ -255,11 +255,6 @@ class SliderView extends Component {
     }
 }
 
-ComponentTitle = () => {
-
-    let params = store.getState().Core.walletTransfer;
-    return params.transferType + "转账";
-}
 
 export default class Transaction extends Component {
 
@@ -299,10 +294,11 @@ export default class Transaction extends Component {
 
         let totalGas = gasPrice * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = totalGas.toFixed(8);
-        let totalGasPrice = totalGas * ethPrice;
-        totalGasPrice = totalGasPrice.toFixed(8);
+        // let totalGasPrice = totalGas * ethPrice;
+        // totalGasPrice = totalGasPrice.toFixed(8);
+        // return totalGas + "ether≈" + totalGasPrice + "$";
 
-        return totalGas + "ether≈" + totalGasPrice + "$";
+        return totalGas + "ether";
     };
 
     getDetailPriceTitle = () => {
@@ -310,7 +306,7 @@ export default class Transaction extends Component {
         let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = totalGas.toFixed(8);
 
-        return `${totalGas} ether\n=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
+        return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
     };
 
     didTapSurePasswordBtn = async (password) => {
@@ -367,17 +363,28 @@ export default class Transaction extends Component {
             return;
         }
 
-        if (parseFloat(this.state.transferValue) <= 0 || parseFloat(this.state.transferValue)> this.params.balance) {
+        if (parseFloat(this.state.transferValue) < 0 || parseFloat(this.state.transferValue)> this.params.balance) {
             alert("请输入有效的转账金额");
             return;
         }
 
+        //计算gas消耗
+        let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+        let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
+        totalGas = totalGas.toFixed(8);
+
+        if(this.params.ethBalance < totalGas){
+
+            alert("余额不足");
+            return;
+        }
 
         let params = {
             fromAddress: this.state.fromAddress,
             toAddress: this.state.toAddress,
             totalAmount: this.state.transferValue + " " + this.params.transferType,
             payType: this.params.transferType + "转账",
+            gasPrice:this.getPriceTitle(this.state.currentGas),
             gasPriceInfo: this.getDetailPriceTitle()
         };
        
@@ -441,11 +448,15 @@ export default class Transaction extends Component {
     }
 
     render() {
+
+        let params = store.getState().Core.walletTransfer;
+        let title = params.transferType + "转账";
+
         return (
             <View style={styles.container}>
                 <StatusBarComponent />
                 <WhiteBgHeader navigation={this.props.navigation}
-                    text={ComponentTitle()}
+                    text={title}
                     rightPress={() => this.scanClick()}
                     rightIcon={require('../../assets/common/scanIcon.png')} />
                 <ScrollView style={styles.contentContainer}
@@ -456,13 +467,13 @@ export default class Transaction extends Component {
                         ref={(dialog) => { this.dialog = dialog; }} />
                     {/*转账数量栏*/}
                     <InfoView title={"金额"}
-                        detailTitle={"余额：" + this.params.balance + "eth"}
+                        detailTitle={"余额：" + parseFloat(this.params.balance).toFixed(4) + "eth"}
                         placeholder={"输入" + this.params.transferType + "金额"}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
                         onChangeText={this.valueTextInputChangeText} />
                     {/*转账地址栏*/}
-                    <InfoView title={"地址"}
+                    <InfoView title={"收款地址"}
                         placeholder={"输入转账地址"}
                         returnKeyType={"next"}
                         onChangeText={this.toAddressTextInputChangeText}
