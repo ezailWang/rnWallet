@@ -42,15 +42,15 @@ const styles = StyleSheet.create({
         marginBottom:1,
     },
     fontBlue:{
-        fontSize:15,
+        fontSize:13,
         color:Colors.fontBlueColor
     },
     fontBlack:{
-        fontSize:15,
+        fontSize:13,
         color:Colors.fontBlackColor,
     },
     fontGray:{
-        fontSize:15,
+        fontSize:13,
         color:Colors.fontDarkGrayColor,
     },
     marginTop2:{
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     copyBtnTxt:{
         backgroundColor: 'transparent',
         color:Colors.themeColor,
-        fontSize:15,
+        fontSize:13,
         height:36,
         lineHeight:36,
         textAlign:'center',
@@ -167,7 +167,7 @@ export default class TransactionDetail extends Component {
                      <View style={styles.qrCodeBox}>
                            <QRCode
                                value = {'0x123456789'}
-                               size={100}
+                               size={80}
                                bgColor='#000'
                                fgColor='#fff'
                             />

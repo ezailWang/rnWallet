@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     
 });
 
-let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice }) => (
+let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice ,detailGas}) => (
     <View style={styles.leftInfoView}>
         <View style={styles.infoTextViewFirst}>
             <Text style={styles.infoTitle}>
@@ -187,10 +187,29 @@ let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice }) => (
             title={"付款地址"}
             deatilContent={fromAddress}>
         </InfoContentView>
-        <InfoContentView
+        {/* <InfoContentView
             title={"矿工费用"}
             deatilContent={gasPrice}>
-        </InfoContentView>
+        </InfoContentView> */}
+        <View style={{ flex: 1 }}>
+        <View style={styles.lineView}>
+        </View>
+        <View style={styles.infoContent}>
+            <View style={styles.infoContentTitle}>
+                <Text style={[styles.infoTitle]}>
+                    矿工费用
+                </Text>
+            </View>
+            <View style={styles.infoContentDetailView}>
+                <Text style={styles.infoContentDetailTitle}>
+                    {gasPrice}
+                </Text>
+                <Text style={[styles.infoContentDetailTitle,{color:Colors.fontDarkGrayColor}]}>
+                    {detailGas}
+                </Text>
+            </View>
+        </View>
+    </View>
     </View>
 );
 
@@ -229,6 +248,7 @@ export default class TransactionStep extends Component {
             toAddress: '0x',
             totalAmount: "0",
             payType: "",
+            gasPrice:'',
             gasPriceInfo: "",
             password: ""
         };
@@ -257,6 +277,7 @@ export default class TransactionStep extends Component {
                 toAddress: params.toAddress,
                 totalAmount: params.totalAmount,
                 payType: params.payType,
+                gasPrice:params.gasPrice,
                 gasPriceInfo: params.gasPriceInfo
             })
         }
@@ -344,7 +365,8 @@ export default class TransactionStep extends Component {
                                 transferType={this.state.payType}
                                 fromAddress={this.state.fromAddress}
                                 toAddress={this.state.toAddress}
-                                gasPrice={this.state.gasPriceInfo}>
+                                gasPrice={this.state.gasPrice}
+                                detailGas={this.state.gasPriceInfo}>
                             </InfoTextView>
 
                             <TouchableOpacity style={styles.nextBtn} onPress={this.changeStepPage}>

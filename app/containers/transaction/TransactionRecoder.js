@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
     },
     header:{
-        height:Layout.WINDOW_WIDTH * 0.4,
+        height:Layout.WINDOW_WIDTH * 0.5,
         backgroundColor:Colors.whiteBackgroundColor,
         alignItems:"center",
         justifyContent:"center",
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         // backgroundColor:"green"
     },
     addressContainer:{
-        width:Layout.WINDOW_WIDTH*0.6,
+        width:Layout.WINDOW_WIDTH*0.4,
         //backgroundColor:"red",
         marginLeft:10,
         justifyContent:"center"
@@ -245,7 +245,7 @@ export default class TransactionRecoder extends Component{
             loadingShow:true
         })
 
-        let {amount,price,transferType} = store.getState().Core.balance;
+        let {amount,price,transferType,ethBalance} = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
         let suggestGas = await networkManage.getSuggestGasPrice();
 
@@ -254,7 +254,8 @@ export default class TransactionRecoder extends Component{
             balance:amount,
             suggestGasPrice:parseFloat(suggestGas),
             ethPrice:price,
-            fromAddress:walletAddress
+            fromAddress:walletAddress,
+            ethBalance:ethBalance
         };
 
         this.setState({
@@ -274,11 +275,12 @@ export default class TransactionRecoder extends Component{
 
     didTapTransactionCell=(index)=>{
 
+        let {transferType} = store.getState().Core.balance;
         let recoders = store.getState().Core.recoders;
-        let recoder = recoders[index];
+        let recoder = recoders[recoders.length-index-1];
         let transactionDetail={
             amount:parseFloat(recoder.value),
-            transactionType:"ETH",
+            transactionType:transferType,
             fromAddress:recoder.from,
             toAddress:recoder.to,
             gasPrice:recoder.gasPrice,
@@ -309,6 +311,8 @@ export default class TransactionRecoder extends Component{
 
         let recoders = store.getState().Core.recoders;
         const { walletAddress } = store.getState().Core
+        let {transferType} = store.getState().Core.balance;
+
         var itemList = []
         recoders.map((item,i)=>{    
             
@@ -318,10 +322,13 @@ export default class TransactionRecoder extends Component{
                 time:timestampToTime(item.timeStamp),
                 income:item.to.toLowerCase()==walletAddress.toLowerCase(),
                 amount:item.value,
-                type:"ether"
+                type:transferType.toLocaleLowerCase()
             }
             itemList.push(data)
         });
+
+        //反序
+        itemList.reverse();
 
         this.setState({
             "itemList":itemList
@@ -330,7 +337,7 @@ export default class TransactionRecoder extends Component{
 
     render (){
 
-        let {amount,price} = store.getState().Core.balance;
+        let {amount,price,transferType} = store.getState().Core.balance;
         let value = parseFloat(amount)*parseFloat(price);
         value = value.toFixed(2);
 
@@ -338,10 +345,11 @@ export default class TransactionRecoder extends Component{
         if(Layout.DEVICE_IS_IPHONE_X()){
             bottomView =  {height:80}
         }
+
         return(
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <WhiteBgHeader  navigation={this.props.navigation} text='交易记录'/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={transferType}/>
                 <FlatList   style={styles.flatList}
                             ListHeaderComponent={<Header balance={parseFloat(amount).toFixed(4)}
                                                          value={value}/>}

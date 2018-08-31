@@ -176,6 +176,6 @@ const styles = StyleSheet.create({
     },
     TopText: {
         alignSelf: 'center',
-        fontSize: 20
+        fontSize: 18
     }
 })

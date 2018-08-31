@@ -71,14 +71,17 @@ class HomeScreen extends Component {
 
         let balanceAmount = '';
         let price = 0;
+        let ethBalance = '0';
 
         if (symbol != 'ETH') {
-            balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals)
+            balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals);
+            ethBalance = await networkManage.getEthBalance();
             price = 0;
         }
         else {
             balanceAmount = await networkManage.getEthBalance();
             price = await networkManage.getEthPrice();
+            ethBalance = balanceAmount;
         }
 
         let balanceInfo = {
@@ -86,7 +89,8 @@ class HomeScreen extends Component {
             price: price,
             transferType: symbol,
             contractAddress: contractAddress,
-            decimals: decimals
+            decimals: decimals,
+            ethBalance: ethBalance
         }
 
         this.closeLoading()
@@ -136,7 +140,7 @@ class HomeScreen extends Component {
     }
 
     formatAddress(address) {
-        return address.substr(0, 5) + '...' + address.slice(-5)
+        return address.substr(0, 10) + '...' + address.slice(-10)
     }
 
     async componentDidMount() {

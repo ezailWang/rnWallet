@@ -197,16 +197,10 @@ class CreateWalletScreen extends Component {
             showToast(warnMessage);
         } else {
             this.generateMnemonic();
-
-
-            /**this.setState({
-                loadingVisible: true,
-            })
-            setTimeout(() => {
-                this.startCreateWallet();//创建钱包
-            }, 2000);**/
         }
     }
+
+    
 
     render() {
         console.log("LCREATE","render")

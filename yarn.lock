@@ -535,6 +535,10 @@ acorn@^5.0.0, acorn@^5.3.0:
   version "5.5.3"
   resolved "http://registry.npm.taobao.org/acorn/download/acorn-5.5.3.tgz#f473dd47e0277a08e28e9bec5aeeb04751f0b8c9"
 
+aes-js@^3.1.1:
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/aes-js/download/aes-js-3.1.1.tgz#89fd1f94ae51b4c72d62466adc1a7323ff52f072"
+
 ajv@^5.1.0:
   version "5.5.2"
   resolved "http://registry.npm.taobao.org/ajv/download/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
@@ -1417,6 +1421,12 @@ base-64@^0.1.0:
   version "0.1.0"
   resolved "http://registry.npm.taobao.org/base-64/download/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
 
+base-x@^3.0.2:
+  version "3.0.4"
+  resolved "http://registry.npm.taobao.org/base-x/download/base-x-3.0.4.tgz#94c1788736da065edb1d68808869e357c977fa77"
+  dependencies:
+    safe-buffer "^5.0.1"
+
 base16@Dean177/base16-js:
   version "1.0.1"
   resolved "https://codeload.github.com/Dean177/base16-js/tar.gz/6c5e5f3b63990b580ffdc036bc672f8987d5b93d"
@@ -1516,7 +1526,7 @@ bn.js@4.11.6:
   version "4.11.6"
   resolved "http://registry.npm.taobao.org/bn.js/download/bn.js-4.11.6.tgz#53344adb14617a13f6e8dd2ce28905d1c0ba3215"
 
-bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.3, bn.js@^4.11.6, bn.js@^4.11.8, bn.js@^4.4.0:
+bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.0, bn.js@^4.11.3, bn.js@^4.11.6, bn.js@^4.11.8, bn.js@^4.4.0:
   version "4.11.8"
   resolved "http://registry.npm.taobao.org/bn.js/download/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
 
@@ -1675,6 +1685,20 @@ bs58@^2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/bs58/download/bs58-2.0.1.tgz#55908d58f1982aba2008fa1bed8f91998a29bf8d"
 
+bs58@^4.0.0:
+  version "4.0.1"
+  resolved "http://registry.npm.taobao.org/bs58/download/bs58-4.0.1.tgz#be161e76c354f6f788ae4071f63f34e8c4f0a42a"
+  dependencies:
+    base-x "^3.0.2"
+
+bs58check@^2.1.2:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/bs58check/download/bs58check-2.1.2.tgz#53b018291228d82a5aa08e7d796fdafda54aebfc"
+  dependencies:
+    bs58 "^4.0.0"
+    create-hash "^1.1.0"
+    safe-buffer "^5.1.2"
+
 bser@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/bser/download/bser-2.0.0.tgz#9ac78d3ed5d915804fd87acb158bc797147a1719"
@@ -1731,6 +1755,13 @@ buffer@^4.9.1:
 buffer@^5.0.5:
   version "5.1.0"
   resolved "http://registry.npm.taobao.org/buffer/download/buffer-5.1.0.tgz#c913e43678c7cb7c8bd16afbcddb6c5505e8f9fe"
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
+
+buffer@^5.0.8:
+  version "5.2.0"
+  resolved "http://registry.npm.taobao.org/buffer/download/buffer-5.2.0.tgz#53cf98241100099e9eeae20ee6d51d21b16e541e"
   dependencies:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
@@ -2469,6 +2500,31 @@ eth-lib@0.2.7:
     elliptic "^6.4.0"
     xhr-request-promise "^0.1.2"
 
+ethereumjs-util@^5.2.0:
+  version "5.2.0"
+  resolved "http://registry.npm.taobao.org/ethereumjs-util/download/ethereumjs-util-5.2.0.tgz#3e0c0d1741471acf1036052d048623dee54ad642"
+  dependencies:
+    bn.js "^4.11.0"
+    create-hash "^1.1.2"
+    ethjs-util "^0.1.3"
+    keccak "^1.0.2"
+    rlp "^2.0.0"
+    safe-buffer "^5.1.1"
+    secp256k1 "^3.0.1"
+
+ethereumjs-wallet@^0.6.2:
+  version "0.6.2"
+  resolved "http://registry.npm.taobao.org/ethereumjs-wallet/download/ethereumjs-wallet-0.6.2.tgz#67244b6af3e8113b53d709124b25477b64aeccda"
+  dependencies:
+    aes-js "^3.1.1"
+    bs58check "^2.1.2"
+    ethereumjs-util "^5.2.0"
+    hdkey "^1.0.0"
+    safe-buffer "^5.1.2"
+    scrypt.js "^0.2.0"
+    utf8 "^3.0.0"
+    uuid "^3.3.2"
+
 etherscan-api@^8.1.2:
   version "8.1.2"
   resolved "http://registry.npm.taobao.org/etherscan-api/download/etherscan-api-8.1.2.tgz#2eb4802efae876f6b9158c5b73d085849183e893"
@@ -2483,6 +2539,13 @@ ethjs-unit@0.1.6:
   dependencies:
     bn.js "4.11.6"
     number-to-bn "1.7.0"
+
+ethjs-util@^0.1.3:
+  version "0.1.6"
+  resolved "http://registry.npm.taobao.org/ethjs-util/download/ethjs-util-0.1.6.tgz#f308b62f185f9fe6237132fb2a9818866a5cd536"
+  dependencies:
+    is-hex-prefixed "1.0.0"
+    strip-hex-prefix "1.0.0"
 
 event-target-shim@^1.0.5:
   version "1.1.1"
@@ -4138,7 +4201,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-keccak@1.4.0, keccak@^1.4.0:
+keccak@1.4.0, keccak@^1.0.2, keccak@^1.4.0:
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/keccak/download/keccak-1.4.0.tgz#572f8a6dbee8e7b3aa421550f9e6408ca2186f80"
   dependencies:
@@ -5549,6 +5612,13 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
+react-native-fast-crypto@^1.5.6:
+  version "1.5.6"
+  resolved "http://registry.npm.taobao.org/react-native-fast-crypto/download/react-native-fast-crypto-1.5.6.tgz#17c6d1517d9732d18a63ba6238b54a00643ff605"
+  dependencies:
+    buffer "^5.0.8"
+    rfc4648 "^1.0.0"
+
 "react-native-fs@git://github.com/itinance/react-native-fs.git":
   version "2.10.14"
   resolved "git://github.com/itinance/react-native-fs.git#b011b77361a78fd962729cf9acc85fe39d32d860"
@@ -6094,6 +6164,10 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "http://registry.npm.taobao.org/ret/download/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
 
+rfc4648@^1.0.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/rfc4648/download/rfc4648-1.1.0.tgz#5e05a16b3c3fc76552f95853a10bd95b6bc0752f"
+
 right-align@^0.1.1:
   version "0.1.3"
   resolved "http://registry.npm.taobao.org/right-align/download/right-align-0.1.3.tgz#61339b722fe6a3515689210d24e14c96148613ef"
@@ -6116,6 +6190,12 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rlp@^2.0.0:
+  version "2.1.0"
+  resolved "http://registry.npm.taobao.org/rlp/download/rlp-2.1.0.tgz#e4f9886d5a982174f314543831e36e1a658460f9"
+  dependencies:
+    safe-buffer "^5.1.1"
 
 rn-nodeify@^10.0.0:
   version "10.0.0"
@@ -6191,7 +6271,7 @@ sax@~1.1.1:
   version "1.1.6"
   resolved "http://registry.npm.taobao.org/sax/download/sax-1.1.6.tgz#5d616be8a5e607d54e114afae55b7eaf2fcc3240"
 
-scrypt.js@0.2.0:
+scrypt.js@0.2.0, scrypt.js@^0.2.0:
   version "0.2.0"
   resolved "http://registry.npm.taobao.org/scrypt.js/download/scrypt.js-0.2.0.tgz#af8d1465b71e9990110bedfc593b9479e03a8ada"
   dependencies:
@@ -7028,6 +7108,10 @@ utf8@^2.1.1:
   version "2.1.2"
   resolved "http://registry.npm.taobao.org/utf8/download/utf8-2.1.2.tgz#1fa0d9270e9be850d9b05027f63519bf46457d96"
 
+utf8@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/utf8/download/utf8-3.0.0.tgz#f052eed1364d696e769ef058b183df88c87f69d1"
+
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/util-deprecate/download/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
@@ -7064,6 +7148,10 @@ uuid@3.0.1:
 uuid@^3.1.0:
   version "3.2.1"
   resolved "http://registry.npm.taobao.org/uuid/download/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
+
+uuid@^3.3.2:
+  version "3.3.2"
+  resolved "http://registry.npm.taobao.org/uuid/download/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.3"

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         //flex: 1,
         //justifyContent:'center',
         alignSelf: 'center',
-        marginTop:30,
+        marginTop:40,
     },
     inputBox: {
         alignSelf: 'stretch',
@@ -141,6 +141,35 @@ class ImportWalletScreen extends Component {
         this.props.navigation.goBack();
         return true;
     }
+
+    //验证android读写权限
+    async vertifyPermissions(){
+        
+        if(Platform.OS === 'android'){
+            var  readPermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE); 
+            if(readPermission){
+                var  writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE); 
+                if(writePermission){
+                    this.vertifyInputData()
+                } else {
+                    this.stopLoading();
+                    Alert.alert(
+                        'warn',
+                        '请允许写入内存卡权限',
+                    )
+                }
+            } else {
+                this.stopLoading()
+                Alert.alert(
+                    'warn',
+                    '请允许读取内存卡权限',
+                )
+            }
+        }else{
+            this.vertifyInputData()
+        }
+    }
+
 
    //所有信息都输入完成前，“创建”按钮显示为灰色
    btnIsEnableClick(){
@@ -223,23 +252,19 @@ class ImportWalletScreen extends Component {
             var password = this.state.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
-            var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv,{kdfparams:{c:100}})
+            var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv)
             await keystoreUtils.exportToFile(keyObject, "keystore")
-            //var str = await keystoreUtils.importFromFile(keyObject.address)
-            //var newKeyObject = JSON.parse(str)
-
-            var object = {
-                name: 'wallet',//默认的钱包名称
-                address: checksumAddress,
-                extra: '',
-            }
-            var key = StorageKey.User
-            StorageManage.save(key, object)
-            //var loadRet = await StorageManage.load(key)
 
             this.props.generateMnemonic(this.state.mnemonic);
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName('wallet');//保存默认的钱包名称
+            var object = {
+                name: 'wallet',//默认的钱包名称
+                address: checksumAddress,
+                extra: this.state.pwdHint,
+            }
+            var key = StorageKey.User
+            StorageManage.save(key, object)
             this.stopLoading()
             this.props.navigation.navigate('HomeScreen')
         } catch (err) {
@@ -354,5 +379,3 @@ const mapDispatchToProps = dispatch => ({
 
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)
-
-
