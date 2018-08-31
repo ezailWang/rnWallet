@@ -222,7 +222,7 @@ class VerifyMnemonicScreen extends Component {
             this.props.setWalletName(this.props.walletName);
             //console.log('LL_create',"完成");
             this.stopLoading()
-            this.props.navigation.navigate('HomeScreen')  
+            this.props.navigation.navigate('Home')  
         } catch (err) {
             this.stopLoading()
             showToast('创建钱包出错');

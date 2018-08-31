@@ -266,7 +266,7 @@ class ImportWalletScreen extends Component {
             var key = StorageKey.User
             StorageManage.save(key, object)
             this.stopLoading()
-            this.props.navigation.navigate('HomeScreen')
+            this.props.navigation.navigate('Home')
         } catch (err) {
             this.stopLoading()
             showToast('导入助记词出错');

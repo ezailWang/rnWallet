@@ -3,14 +3,12 @@ import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-    setWalletAddress, 
+    setWalletAddress,
     setWalletName,
     setWalletPasswordPrompt,
     setNetWork
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
-//import NavigationActions from 'react-navigation/src/NavigationActions';
-import {NavigationActions} from 'react-navigation';
 
 class Loading extends Component {
 
@@ -27,22 +25,16 @@ class Loading extends Component {
     }
 
     async componentDidMount() {
-        console.log('L_load',"开始")
         if (!this.props.walletAddress) {
             await this.loadFromStorege()
         }
         if (this.props.walletAddress) {
-            console.log('L_load_1',"进入Home")
-            return this.props.navigation.navigate('HomeScreen')
+            return this.props.navigation.navigate('Home')
         } else {
-            console.log('L_load_1',"进入FirstLaunch")
             return this.props.navigation.navigate('FirstLaunch', {
                 migrationMode: true
             })
         }
-    }
-    componentWillUnmount(){
-        console.log('L_load',"结束")
     }
 
     loadFromStorege = async () => {
@@ -52,19 +44,18 @@ class Loading extends Component {
             if (data['address']) {
                 this.props.dispatch(setWalletAddress(data['address']))
             }
-            if(data['name']){
+            if (data['name']) {
                 this.props.dispatch(setWalletName(data['name']))
             }
-            if(data['extra']){
+            if (data['extra']) {
                 this.props.dispatch(setWalletPasswordPrompt(data['extra']))
             }
-        if(net){
-            this.props.dispatch(setNetWork(net))
-        }    
+            if (net) {
+                this.props.dispatch(setNetWork(net))
+            }
         } else {
             console.log('data = null')
         }
-        console.log('L_data',data)
     }
 
     render() {

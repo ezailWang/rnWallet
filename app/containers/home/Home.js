@@ -16,17 +16,18 @@ import ChangeNetwork from './component/ChangeNetwork'
 import { HeaderButton } from '../../components/Button'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setTransactionRecoders, setCoinBalance } from '../../config/action/Actions'
+import { addToken, setTransactionRecoders, setCoinBalance, setNetWork } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
 import Loading from '../../components/LoadingComponent'
-import { setNetWork } from '../../config/action/Actions'
 import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast'
-var isDispatching = false
+
 let lastBackPressed = 0;
+var user = require('../../assets/home/user.png')
+
 class HomeScreen extends Component {
     constructor(props) {
         super(props)
@@ -144,12 +145,7 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
-        //Why do execute twice
-        if (isDispatching) {
-            return
-        }
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-        isDispatching = true
         SplashScreen.hide()
         this.showLoading()
         await networkManage.loadTokenList()

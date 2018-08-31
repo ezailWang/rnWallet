@@ -58,8 +58,8 @@ const TestNavigation = StackNavigator(TestRouteConfig,TestStackNavigationConfig)
 //导航栈选择
 const SwicthNavigation = SwitchNavigator({
     Apploading: Loading,
-    FirstLaunch: FirstLaunchNavigation,
     Home: HomeNavigation,
+    FirstLaunch: FirstLaunchNavigation,
     Test:TestNavigation,
 }, {
     initialRouteName: 'Apploading',
