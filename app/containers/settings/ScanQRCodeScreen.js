@@ -121,6 +121,7 @@ class ScanQRCodeScreen extends Component{
           }
     }
 
+
     //扫描框
     _renderQRScanView(){
         const animatedStyle = {

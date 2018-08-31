@@ -278,7 +278,8 @@ export default class Transaction extends Component {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: 0,
-            toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
+            //toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
+            toAddress:'',
             fromAddress: params.fromAddress,
             detailData: "",
             loadingShow: false

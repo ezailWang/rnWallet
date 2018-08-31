@@ -144,11 +144,14 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+        console.log('L_home_DidMount',"DidMount开始");
+       
         //Why do execute twice
         if (isDispatching) {
             return
         }
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+        console.log('L_home_DidMount',"DidMount开始1");
         isDispatching = true
         SplashScreen.hide()
         this.showLoading()
@@ -202,6 +205,7 @@ class HomeScreen extends Component {
     }
 
     render() {
+        console.log('L_home_render',"render");
         return (
             <View style={styles.container}>
                 <StatusBarComponent />

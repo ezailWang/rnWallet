@@ -121,6 +121,7 @@ class ReceiptCodeScreen extends Component {
     copyAddress(){
         walletAddress = this.props.walletAddress
         Clipboard.setString(walletAddress);
+        showToast('已复制');
     }
 
     render() {

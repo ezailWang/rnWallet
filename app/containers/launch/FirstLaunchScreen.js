@@ -13,7 +13,7 @@ import networkManage from '../../utils/networkManage'
 let bip39 = require('bip39')
 let hdkey = require('ethereumjs-wallet/hdkey')
 let util = require('ethereumjs-util')
-
+let lastBackPressed = 0;
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -52,9 +52,25 @@ export default  class FirstLaunchScreen extends Component {
         this.backHandler && this.backHandler.remove();
     }
     onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
+        
+        if(this.props.navigation.state.routeName == 'FirstLaunch'){
+            console.log('L_index','主页')
+            //在首页按了物理键返回
+            if((lastBackPressed + 2000)  >=  Date.now()){
+                 console.log('L_index','退出')
+                 BackHandler.exitApp;
+                 return false;
+            }else{
+                 console.log('L_index','再按一次')
+                 showToast('再按一次退出应用');
+                 lastBackPressed = Date.now();
+                 return true;
+        }
+        }else{
+            return true;
+        } 
     }
+    
 
     //验证android读写权限
     async vertifyAndroidPermissions(isCreateWallet) {
@@ -139,7 +155,7 @@ export default  class FirstLaunchScreen extends Component {
                         text='导入钱包'/> 
                  <View style={styles.btnMargin}>
                 </View>
-                <RightWhiteNextButton
+                {/**<RightWhiteNextButton
                         onPress={() => this.testFunc()}
                         text='助记词测试'/> 
                  <View style={styles.btnMargin}>
@@ -151,7 +167,7 @@ export default  class FirstLaunchScreen extends Component {
                 </View>
                <RightWhiteNextButton
                         onPress={() => this.importKeyStore()}
-                        text='测试导入钱包'/> 
+                text='测试导入钱包'/> **/}
             </LinearGradient>
         )
     }
