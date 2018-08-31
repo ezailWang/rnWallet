@@ -59,9 +59,8 @@ export default class networkManage {
         try {
             const { walletAddress } = store.getState().Core
             web3 = this.getWeb3Instance()
-            console.log('web3--00-:',web3)
             var balance = await web3.eth.getBalance(walletAddress)
-            return parseFloat(balance / Math.pow(10, 18)).toFixed(8)
+            return parseFloat(balance / Math.pow(10, 18)).toFixed(4)
         } catch (err) {
             console.log('getEthBalanceErr:', err)
             return 0.00

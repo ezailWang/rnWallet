@@ -140,7 +140,7 @@ class HomeScreen extends Component {
     }
 
     formatAddress(address) {
-        return address.substr(0, 5) + '...' + address.slice(-5)
+        return address.substr(0, 10) + '...' + address.slice(-10)
     }
 
     async componentDidMount() {

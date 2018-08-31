@@ -198,7 +198,7 @@ class CreateWalletScreen extends Component {
             var password = this.state.pwd;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
-            var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
+            var keyObject = keystoreUtils.dump(password, privateKey, dk.salt, dk.iv)
             await keystoreUtils.exportToFile(keyObject, "keystore")
             //var str = await keystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)

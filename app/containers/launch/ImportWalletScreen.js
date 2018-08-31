@@ -201,6 +201,15 @@ class ImportWalletScreen extends Component {
             hdwallet.setDerivePath(derivePath)
             const privateKey = hdwallet.getPrivateKey()
             const checksumAddress = hdwallet.getChecksumAddressString()
+            //var loadRet = await StorageManage.load(key)
+            var password = this.state.password;
+            var params = { keyBytes: 32, ivBytes: 16 }
+            var dk = keythereum.create(params);
+            var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv)
+            await keystoreUtils.exportToFile(keyObject, "keystore")
+            this.props.generateMnemonic(this.state.mnemonic);
+            this.props.setWalletAddress(checksumAddress);
+            this.props.setWalletName('wallet');//保存默认的钱包名称
             var object = {
                 name: 'wallet',//默认的钱包名称
                 address: checksumAddress,
@@ -208,17 +217,6 @@ class ImportWalletScreen extends Component {
             }
             var key = StorageKey.User
             StorageManage.save(key, object)
-            //var loadRet = await StorageManage.load(key)
-            var password = this.state.password;
-            var params = { keyBytes: 32, ivBytes: 16 }
-            var dk = keythereum.create(params);
-            var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv,{kdfparams:{c:100}})
-            await keystoreUtils.exportToFile(keyObject, "keystore")
-            //var str = await keystoreUtils.importFromFile(keyObject.address)
-            //var newKeyObject = JSON.parse(str)
-            this.props.generateMnemonic(this.state.mnemonic);
-            this.props.setWalletAddress(checksumAddress);
-            this.props.setWalletName('wallet');//保存默认的钱包名称
             this.stopLoading()
             this.props.navigation.navigate('HomeScreen')
         } catch (err) {

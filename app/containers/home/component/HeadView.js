@@ -47,8 +47,8 @@ export default class HeadView extends Component {
                         style={{ width: 50, height: 50, margin: 5, marginLeft: 25, borderRadius: 25 }}
                         source={this.props.headIcon}
                     />
-                    <View style={{ margin: 5, backgroundColor: 'transparent' }}>
-                        <View style={{ margin: 5, flexDirection: 'row', alignItems: 'flex-end' }}>
+                    <View style={{ margin: 10, backgroundColor: 'transparent' }}>
+                        <View style={{flexDirection: 'row', alignItems: 'flex-start' }}>
                             <Text style={{ color: 'white', fontSize: 16 }}> {this.props.walletName} </Text>
                             {/* <ImageButton
                                 btnStyle={{ width: 15, height: 15 }}
@@ -63,7 +63,7 @@ export default class HeadView extends Component {
                     </View>
                 </View>
                 <View style={styles.assetsContainer}>
-                    <Text style={{ fontSize: 18, color: 'white' }}> 总资产 </Text>
+                    <Text style={{ fontSize: 15, color: 'white' }}> 总资产 </Text>
                     <Text style={{ fontSize: 40, color: 'white' }}> ${this.props.totalAssets} </Text>
                 </View>
                 <View style={styles.buttonContainer}>
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop:5
     },
     buttonContainer: {
         backgroundColor: 'transparent',
