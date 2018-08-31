@@ -167,13 +167,13 @@ class VerifyMnemonicScreen extends Component {
     }
 
     completeClickFun(){
-        this.setState({
+        /**this.setState({
             loadingVisible: true,
         })
         setTimeout(() => {
             this.startCreateWallet();//创建钱包
-        }, 2000);
-        /**if(this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic){
+        }, 2000);**/
+        if(this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic){
             this.setState({
                 loadingVisible: true,
             })
@@ -185,7 +185,7 @@ class VerifyMnemonicScreen extends Component {
                 '备份失败',
                 '请检查助记词是否正确',
             )
-        }**/
+        }
         
     }
 

@@ -26,7 +26,7 @@ import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast'
 
 let lastBackPressed = 0;
-var user = require('../../assets/home/user.png')
+
 
 class HomeScreen extends Component {
     constructor(props) {
