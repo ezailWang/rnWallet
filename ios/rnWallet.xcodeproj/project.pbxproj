@@ -1588,7 +1588,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhuoapp.rnWallet.ex.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhuoapp.rnWallet.ex.5;
 				PRODUCT_NAME = rnWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1623,7 +1623,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhuoapp.rnWallet.ex.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhuoapp.rnWallet.ex.5;
 				PRODUCT_NAME = rnWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";

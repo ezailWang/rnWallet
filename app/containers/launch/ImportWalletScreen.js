@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, ScrollView, KeyboardAvoidingView,TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, ScrollView, KeyboardAvoidingView,TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions,BackHandler} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: Colors.backgroundColor,
+        
         paddingTop: ScreenHeight*0.05,
         paddingLeft: ScreenWidth*0.08,
         paddingRight: ScreenWidth*0.08,
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     },
     keyboardAwareScrollView: {
         flex: 1,
-        alignSelf: 'stretch',
+        backgroundColor: Colors.backgroundColor,
+        //alignSelf: 'stretch',
     },
     scrollView: {
         flex: 1,
@@ -72,9 +73,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     buttonBox: {
-        flex: 1,
+        //flex: 1,
         //justifyContent:'center',
         alignSelf: 'center',
+        marginTop:40,
     },
     inputBox: {
         alignSelf: 'stretch',
@@ -114,6 +116,17 @@ class ImportWalletScreen extends Component {
             passwordHint: '',
             loadingVisible: false,
         }
+    }
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
     }
 
     //验证android读写权限
@@ -199,7 +212,7 @@ class ImportWalletScreen extends Component {
             var password = this.state.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
-            var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv)
+            var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv,{kdfparams:{c:100}})
             await keystoreUtils.exportToFile(keyObject, "keystore")
             //var str = await keystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)
@@ -233,13 +246,14 @@ class ImportWalletScreen extends Component {
             <View style={styles.container}>
                 <StatusBarComponent />
                 <BlueHeader navigation={this.props.navigation} />
-                <View style={styles.contentContainer}>
-                    <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
-                    <Text style={styles.titleTxt}>导入钱包</Text>
-                    <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
+                <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
                                              keyboardShouldPersistTaps='always'
                                              //behavior="padding"
                                              >
+                <View style={styles.contentContainer}>
+                    <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
+                    <Text style={styles.titleTxt}>导入钱包</Text>
+                    
                         <TextInput style={[styles.inputTextBox, styles.inputArea]}
                             // returnKeyType='next' 
                             placeholder="输入助记词"
@@ -291,7 +305,7 @@ class ImportWalletScreen extends Component {
                             // returnKeyType='next' 
                             placeholder="密码提示(选填)"
                             underlineColorAndroid='transparent'
-                            secureTextEntry={true}
+                            //secureTextEntry={true}
                             onChange={(event) => {
                                 this.setState({
                                     passwordHint: event.nativeEvent.text
@@ -304,9 +318,10 @@ class ImportWalletScreen extends Component {
                                 text='导入'
                             />
                         </View>
-                    </KeyboardAwareScrollView>
-                    <Loading visible={this.state.loadingVisible}></Loading>
+                   
                 </View>
+                </KeyboardAwareScrollView>
+                <Loading visible={this.state.loadingVisible}></Loading>
             </View>
         );
     }
@@ -322,5 +337,3 @@ const mapDispatchToProps = dispatch => ({
 
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)
-
-
