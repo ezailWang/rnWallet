@@ -104,50 +104,6 @@ export default class ExportPrivateKeyScreen extends Component {
                screenshotWarnVisible:true
             });
     }
-    /**async exportPrivateKey(){
-        try{
-             //this.refs.loading.show();
-             
-             var password = this.props.navigation.state.params.password;
-             //console.log('password_', password)
-             var key = 'uesr'
-             var user = await StorageManage.load(key);//获取地址
-             //console.log('user', user)
-             if(user == null){
-                throw "请先创建或导入钱包"
-             }
-             try{
-                var keyStoreStr = await keystoreUtils.importFromFile(user.address)//导出KeyStore
-                console.log("keyStoreStr",keyStoreStr); 
-                var keyStoreObject = JSON.parse(keyStoreStr)
-             }catch(e){
-                throw "导出私钥出错"
-             }  
-             try{
-                 var privateKey = await keythereum.recover(password, keyStoreObject);//导出privateKey
-                 console.log("privateKey",privateKey); 
-             }catch(e){
-                throw "密码错误"
-             }
-             var privateKeyHex = privateKey.toString('hex');
-             console.log("privateKey",privateKeyHex);
-             //this.refs.loading.close();
-             this.setState(
-             {
-                privateKey: privateKeyHex,
-                loadingVisible:false,
-                screenshotWarnVisible:true
-             });
-        } catch (err) {
-            this.setState({
-                   loadingVisible:false,
-            });
-            showToast(err);
-            console.log('exportPrivateKey:', err)
-        }
-       
-       
-    }**/
 
 
     onCloseModal() {

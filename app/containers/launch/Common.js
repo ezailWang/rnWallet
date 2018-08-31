@@ -24,7 +24,6 @@ function resetStringBlank(str){
 
 //密码最少为8位，需包含大小写字母、数字、符号
 function  vertifyPassword(pwd){
-    console.log('vertifyPassword','进入')
     //var regex= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
     //var regex =  /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$/
     var regex = /^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9])).{8,20}$/

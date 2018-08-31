@@ -103,7 +103,6 @@ class ScanQRCodeScreen extends Component{
     }
     
     onBackPressed=()=>{ 
-        console.log("L_Set",this.props.navigation)
         this.props.navigation.goBack();
         return true;
     }

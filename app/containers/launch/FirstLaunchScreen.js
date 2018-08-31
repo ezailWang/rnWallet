@@ -54,14 +54,11 @@ export default  class FirstLaunchScreen extends Component {
     onBackPressed=()=>{ 
         
         if(this.props.navigation.state.routeName == 'FirstLaunch'){
-            console.log('L_index','主页')
             //在首页按了物理键返回
             if((lastBackPressed + 2000)  >=  Date.now()){
-                 console.log('L_index','退出')
                  BackHandler.exitApp;
                  return false;
             }else{
-                 console.log('L_index','再按一次')
                  showToast('再按一次退出应用');
                  lastBackPressed = Date.now();
                  return true;
@@ -99,9 +96,7 @@ export default  class FirstLaunchScreen extends Component {
     }
     
     createNew = async ()=>{
-
         let web3 = networkManage.getWeb3Instance();
-        // console.log(web3.eth.getBlockNumber())
         let number = await web3.eth.getBlockNumber();
         alert('current blockNumber'+number);
 

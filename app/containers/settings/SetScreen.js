@@ -63,6 +63,7 @@ class SetScreen extends Component {
         super(props);
         this.state = {
             inputDialogPlaceholder:'',
+            modalText:'',
             modalVisible : false,
             loadingVisible:false,
         }
@@ -70,13 +71,15 @@ class SetScreen extends Component {
 
     openInputNameModal() {
         this.setState({
-            inputDialogPlaceholder: this.props.walletName,
+            inputDialogPlaceholder: '请输入钱包名称',
+            modalText:this.props.walletName,
             modalVisible: true,
         });
     }
     openInputPwdModal() {
         this.setState({
              inputDialogPlaceholder:'请输入密码',
+             modalText:'',
              modalVisible: true,
         });
     }
@@ -84,7 +87,7 @@ class SetScreen extends Component {
         this.setState({modalVisible: false});
     }
     inputDialogConfirmClick(){
-        if(this.state.inputDialogPlaceholder == "钱包名称"){
+        if(this.state.inputDialogPlaceholder == "请输入钱包名称"){
             var name = this.refs.inputTextDialog.state.text;
             if(name==null || name == '' || name == undefined){
                 showToast('请输入钱包名称')
@@ -127,14 +130,12 @@ class SetScreen extends Component {
 
 
     async exportKeyPrivate(password){
-        try{
-           var privateKey = await keystoreUtils.getPrivateKey(password)
-           this.closeLoading();//关闭Loading
-           this.props.navigation.navigate('ExportPrivateKey',{privateKey: privateKey})
-        }catch(err){
-           this.closeLoading();//关闭Loading
-           alert("导出私钥出错");
-           console.log('exportPrivateKeyErr:', err)
+        var privateKey = await keystoreUtils.getPrivateKey(password)
+        this.closeLoading();//关闭Loading
+        if(privateKey == null){
+            alert("导出私钥出错");
+        }else{
+            this.props.navigation.navigate('ExportPrivateKey',{privateKey: privateKey})
         }
     }
 
@@ -193,6 +194,7 @@ class SetScreen extends Component {
                     leftPress = {()=> this.closeInputModal()}
                     rightPress = {()=> this.inputDialogConfirmClick()}
                     modalVisible = {this.state.modalVisible}
+                    initText = {this.state.modalText}
                 />
                 <TouchableOpacity style={[styles.btnOpacity]} 
                                   activeOpacity={0.6} 

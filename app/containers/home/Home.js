@@ -144,14 +144,11 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
-        console.log('L_home_DidMount',"DidMount开始");
-       
         //Why do execute twice
         if (isDispatching) {
             return
         }
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-        console.log('L_home_DidMount',"DidMount开始1");
         isDispatching = true
         SplashScreen.hide()
         this.showLoading()
@@ -160,7 +157,6 @@ class HomeScreen extends Component {
     }
 
     componentWillUnmount(){
-        console.log('L_Unmount','Unmount')
         //销毁返回键监听
         this.backHandler && this.backHandler.remove();
         //BackHandler.removeEventListener('hardwareBackPress',this.onBackPressed);
@@ -183,14 +179,11 @@ class HomeScreen extends Component {
     onBackPressed=()=>{ 
         
         if(this.props.navigation.state.routeName == 'HomeScreen'){
-            console.log('L_index','主页')
             //在首页按了物理键返回
             if((lastBackPressed + 2000)  >=  Date.now()){
-                 console.log('L_index','退出')
                  BackHandler.exitApp;
                  return false;
             }else{
-                 console.log('L_index','再按一次')
                  showToast('再按一次退出应用');
                  lastBackPressed = Date.now();
                  return true;
@@ -205,7 +198,6 @@ class HomeScreen extends Component {
     }
 
     render() {
-        console.log('L_home_render',"render");
         return (
             <View style={styles.container}>
                 <StatusBarComponent />

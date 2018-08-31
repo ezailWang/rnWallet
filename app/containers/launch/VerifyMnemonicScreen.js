@@ -113,7 +113,6 @@ class VerifyMnemonicScreen extends Component {
     }
 
     backPressed(){
-        console.log('LL_backPressed',this.props.navigation.state)
         this.props.navigation.state.params.callback();
         this.props.navigation.goBack()
     }
@@ -156,7 +155,6 @@ class VerifyMnemonicScreen extends Component {
         let isSortcomplete = false;
         let sortLength = this.state.sortMnemonicDatas.length + 1;
 
-        console.log('L_sort',sortLength)
         if(sortLength == 12){
             isSortcomplete = false;
         }else{
@@ -203,7 +201,6 @@ class VerifyMnemonicScreen extends Component {
             const checksumAddress = hdwallet.getChecksumAddressString()
             //console.log('L3_prikey:', hdwallet.getPrivateKeyString())
             
-            console.log('LL_password',this.props.navigation.state.params.password)
             var password = this.props.navigation.state.params.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
@@ -223,7 +220,7 @@ class VerifyMnemonicScreen extends Component {
 
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName(this.props.walletName);
-            console.log('LL_create',"完成");
+            //console.log('LL_create',"完成");
             this.stopLoading()
             this.props.navigation.navigate('HomeScreen')  
         } catch (err) {
