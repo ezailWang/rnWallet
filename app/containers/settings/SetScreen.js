@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
+import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity,BackHandler} from 'react-native';
 
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
@@ -70,7 +70,7 @@ class SetScreen extends Component {
 
     openInputNameModal() {
         this.setState({
-            inputDialogPlaceholder:'钱包名称',
+            inputDialogPlaceholder: this.props.walletName,
             modalVisible: true,
         });
     }
@@ -169,7 +169,17 @@ class SetScreen extends Component {
             loadingVisible:false,
         })
     }
-
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
+    
     render() {
         return (
             <View style={styles.container}>
@@ -191,12 +201,7 @@ class SetScreen extends Component {
                     <Text style={styles.walletName}>{this.props.walletName}</Text>
                 </TouchableOpacity> 
                 
-                <View style={[styles.buttonBox,styles.marginBottom20]}>
-                    <NextButton
-                        onPress = {()=> this.props.navigation.navigate('PasswordPrompInfo')}
-                        text = '密码提示信息'
-                    />
-                </View> 
+                
                 
                 <View style={styles.buttonBox}>
                     <NextButton
@@ -248,5 +253,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(SetScreen)
                         text = '修改密码'
                     />
                 </View>   
+
+ <View style={[styles.buttonBox,styles.marginBottom20]}>
+                    <NextButton
+                        onPress = {()=> this.props.navigation.navigate('PasswordPrompInfo')}
+                        text = '密码提示信息'
+                    />
+                </View>                
  
  */

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid} from 'react-native';
+import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid,BackHandler} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
@@ -9,6 +9,8 @@ import {androidPermission}  from '../../utils/permissionsAndroid';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import {Colors,FontSize} from '../../config/GlobalConfig'
+import Loading from  '../../components/LoadingComponent';
+import {showToast} from '../../utils/Toast';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -61,6 +63,43 @@ class ReceiptCodeScreen extends Component {
         this.props.navigation.setParams({headRightPress:this.scanClick})
     }**/
 
+    constructor(props){
+        super(props);
+        this.state = {
+            loadingVisible:false,
+        }
+    }
+
+    componentDidMount() {
+        this.showLoading();
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
+
+    showLoading(){
+        this.setState({
+            loadingVisible:true,
+        })
+        setTimeout(()=>{
+            this.closeLoading();
+        },3000);
+    }
+
+    closeLoading(){
+        if(this.state.loadingVisible){
+            this.setState({
+                loadingVisible : false,
+            })
+        }
+    }
+    
+
     scanClick = async() =>{
         //const {navigate} = this.props.navigation;//页面跳转
         //navigation('页面');
@@ -101,6 +140,8 @@ class ReceiptCodeScreen extends Component {
                             size={160}
                             bgColor='#000'
                             fgColor='#fff'
+                            onLoad = {()=> this.closeLoading()}
+                            onLoadEnd = {()=> this.closeLoading()}
                         />
                      </View>
                      
@@ -111,7 +152,9 @@ class ReceiptCodeScreen extends Component {
                             text = '复制收款地址'
                         />
                      </View>       
-                </View>                
+                </View> 
+                <Loading visible={this.state.loadingVisible}>
+                </Loading>               
             </View>
         );
     }

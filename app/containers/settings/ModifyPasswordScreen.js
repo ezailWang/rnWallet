@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity} from 'react-native';
+import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity,BackHandler} from 'react-native';
 
 import {connect} from 'react-redux';
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import {showToast} from '../../utils/Toast';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -70,6 +71,17 @@ export default class ModifyPasswordScreen extends Component {
         }
     }
 
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
+    
     render() {
         return (
             <View style={styles.container}>

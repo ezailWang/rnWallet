@@ -44,7 +44,7 @@ export default class HeadView extends Component {
                 </View>
                 <View style={styles.headContainer}>
                     <Image
-                        style={{ width: 50, height: 50, margin: 5, marginLeft: 25, borderRadius: 25 }}
+                        style={{ width: 50, height: 50, marginLeft: 25, borderRadius: 25 }}
                         source={this.props.headIcon}
                     />
                     <View style={{ margin: 5, backgroundColor: 'transparent' }}>

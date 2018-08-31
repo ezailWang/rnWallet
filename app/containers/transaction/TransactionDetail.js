@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Text,TouchableOpacity,Clipboard} from 'react-native';
+import { View,StyleSheet,Text,TouchableOpacity,Clipboard,BackHandler} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
@@ -110,6 +110,16 @@ export default class TransactionDetail extends Component {
             blockNumber:params.blockNumber,
             transactionTime:params.transactionTime
         };
+    }
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
     }
 
     copyUrl(){

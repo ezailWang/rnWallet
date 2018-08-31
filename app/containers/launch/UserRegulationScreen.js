@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,ScrollView,Dimensions} from 'react-native';
+import { View,StyleSheet,Image,Text,ScrollView,Dimensions,BackHandler} from 'react-native';
 import {BlueButtonBig,HeaderButton} from '../../components/Button';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import {showToast} from '../../utils/Toast';
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -36,6 +37,16 @@ const styles = StyleSheet.create({
 
 export default class UserRegulationScreen extends Component {
 
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
 
     render() {
         return (

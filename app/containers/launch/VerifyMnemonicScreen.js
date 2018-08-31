@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Alert,Dimensions} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { View,StyleSheet,Image,Text,Alert,Dimensions,BackHandler} from 'react-native';
+import keythereum from 'keythereum'
+import HDWallet from 'react-native-hdwallet'
+import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
+import keystoreUtils from '../../utils/keystoreUtils'
+import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button';
 import { connect } from 'react-redux';
+import * as Actions from '../../config/action/Actions'
 import {upsetArrayOrder} from './Common';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
+import {showToast} from '../../utils/Toast';
+import Loading from '../../components/LoadingComponent';
+import { StorageKey } from '../../config/GlobalConfig'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -29,7 +37,7 @@ const styles = StyleSheet.create({
     titleTxt:{
         fontSize:20,
         fontWeight:'bold',
-        color:Colors.fontBlueColor,
+        color: Colors.fontBlueColor,
         marginBottom:30,
     },
     contentTxt:{
@@ -51,30 +59,31 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:Colors.fontGrayColor,
         backgroundColor:'white',
-        marginLeft:8,
-        marginRight:8,
+        marginLeft:6,
+        marginRight:6,
         marginBottom:10,  
     },
     mnemonicList:{
         alignSelf:'stretch',
         flexDirection:'row',
         flexWrap:'wrap',
-        justifyContent:'center',
-        alignItems:'center',
+        justifyContent:'flex-start',
+        alignItems:'flex-start',
         marginTop:10,
     },
     mnemonicSortBorder:{
-        flex:1,
+        //flex:1.2,
+        //height:166,
         justifyContent:'center',
         alignSelf:'stretch',
-        backgroundColor:'rgb(237,237,237)',
+        backgroundColor:Colors.bgColor_e,
         borderRadius:8,
         marginTop:30,
         marginBottom:10,
-        paddingLeft:10,
-        paddingRight:10,
-        paddingTop:10,
-        paddingBottom:10,
+        paddingTop:38,
+        paddingBottom:38,
+        paddingLeft:8,
+        paddingRight:8,
     },
 
 })
@@ -85,8 +94,28 @@ class VerifyMnemonicScreen extends Component {
         super(props);
         this.state = {
             mnemonicDatas : [],
-            sortMnemonicDatas  : []
+            sortMnemonicDatas  : [],
+            loadingVisible: false,
+            isDisabled:true,//创建按钮是否可以点击
         }
+    }
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack()
+        return true;
+    }
+
+    backPressed(){
+        console.log('LL_backPressed',this.props.navigation.state)
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack()
     }
 
     componentWillMount(){
@@ -97,6 +126,9 @@ class VerifyMnemonicScreen extends Component {
        })
     }
 
+
+    
+
     addSortMnemonicFun(i,txt) {
         var smd = this.state.sortMnemonicDatas.slice(0);
         smd.push(txt);
@@ -106,6 +138,7 @@ class VerifyMnemonicScreen extends Component {
              mnemonicDatas: md,
              sortMnemonicDatas:smd,
         });
+        this.btnIsEnableClick();
     }
     removeSortMnemonicFun(i,txt){
         var md = this.state.mnemonicDatas.slice(0);
@@ -116,23 +149,98 @@ class VerifyMnemonicScreen extends Component {
              mnemonicDatas: md,
              sortMnemonicDatas:smd,
         });
+        this.btnIsEnableClick();
+    }
+
+    btnIsEnableClick(){
+        let isSortcomplete = false;
+        let sortLength = this.state.sortMnemonicDatas.length + 1;
+
+        console.log('L_sort',sortLength)
+        if(sortLength == 12){
+            isSortcomplete = false;
+        }else{
+            isSortcomplete = true;
+        }
+
+        this.setState({
+            isDisabled : isSortcomplete
+        })
     }
 
     completeClickFun(){
-        if(this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic){
-            this.props.navigation.navigate('CreateWallet');
+        this.setState({
+            loadingVisible: true,
+        })
+        setTimeout(() => {
+            this.startCreateWallet();//创建钱包
+        }, 2000);
+        /**if(this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic){
+            this.setState({
+                loadingVisible: true,
+            })
+            setTimeout(() => {
+                this.startCreateWallet();//创建钱包
+            }, 2000);
         }else{
             Alert.alert(
-                'error',
-                'Incorrect match',
+                '备份失败',
+                '请检查助记词是否正确',
             )
-        }
+        }**/
         
+    }
+
+    async startCreateWallet() {
+        try {
+            var m = this.props.mnemonic;//助记词
+            const seed = walletUtils.mnemonicToSeed(m)
+            const seedHex = seed.toString('hex')
+            var hdwallet = HDWallet.fromMasterSeed(seed)
+            const derivePath = "m/44'/60'/0'/0/0"
+            hdwallet.setDerivePath(derivePath)
+            const privateKey = hdwallet.getPrivateKey()
+            const checksumAddress = hdwallet.getChecksumAddressString()
+            //console.log('L3_prikey:', hdwallet.getPrivateKeyString())
+            
+            console.log('LL_password',this.props.navigation.state.params.password)
+            var password = this.props.navigation.state.params.password;
+            var params = { keyBytes: 32, ivBytes: 16 }
+            var dk = keythereum.create(params);
+            var keyObject = keythereum.dump(password, privateKey, dk.salt, dk.iv,{kdfparams:{c:100}})
+            await keystoreUtils.exportToFile(keyObject, "keystore")
+            console.log('LL_keyObject',"keyObject完成");
+            //var str = await keystoreUtils.importFromFile(keyObject.address)
+            //var newKeyObject = JSON.parse(str)
+
+            var object = {
+                name: this.state.walletName,
+                address: checksumAddress,
+                extra: '',
+            }
+            StorageManage.save(StorageKey.User, object)
+            //var loadRet = await StorageManage.load(key)
+
+            this.props.setWalletAddress(checksumAddress);
+            this.props.setWalletName(this.props.walletName);
+            console.log('LL_create',"完成");
+            this.stopLoading()
+            this.props.navigation.navigate('HomeScreen')  
+        } catch (err) {
+            this.stopLoading()
+            showToast('创建钱包出错');
+            console.log('createWalletErr:', err)
+        }
+    }
+
+    stopLoading(){
+        this.setState({
+            loadingVisible: false,
+        })
     }
 
     render() {
         var renderThis = this;
-
         var mnemonicView = [];
         this.state.mnemonicDatas.forEach(function(txt,index,b){
             mnemonicView.push(
@@ -157,7 +265,7 @@ class VerifyMnemonicScreen extends Component {
         return (
             <View style={styles.container}>
                  <StatusBarComponent/>
-                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
+                 <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={()=>this.backPressed()}/>
                  <View style={styles.contentContainer}>
                      <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.png')} resizeMode={'center'}/>
                      <Text style={styles.titleTxt}>确认助记词</Text>
@@ -176,12 +284,13 @@ class VerifyMnemonicScreen extends Component {
         
                      <View style={styles.buttonBox}>
                          <BlueButtonBig
+                             isDisabled = {this.state.isDisabled}
                              onPress = {()=> this.completeClickFun()}
                              text = '完成'
                          />
                      </View>      
-                 </View>
-                      
+                 </View> 
+                 <Loading visible={this.state.loadingVisible}></Loading> 
            </View>
         );
     }
@@ -189,8 +298,13 @@ class VerifyMnemonicScreen extends Component {
 
 const mapStateToProps = state => ({
     mnemonic:state.Core.mnemonic,
+    walletName:state.Core.walletName,
+});
+const mapDispatchToProps = dispatch => ({
+    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
+    setWalletName: (name) => dispatch(Actions.setWalletName(name))
 });
 
-export default connect(mapStateToProps,{})(VerifyMnemonicScreen)
+export default connect(mapStateToProps,mapDispatchToProps)(VerifyMnemonicScreen)
 
 

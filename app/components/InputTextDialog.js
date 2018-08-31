@@ -121,7 +121,7 @@ export default class InputTextDialog extends Component{
                         /**onChange={(event) => {
                             renderThis.inputText(event);
                         }}**/
-                    />
+                    ></TextInput>
                     <View style={styles.buttonBox}>
                      
                         <View style={[styles.leftBtnOpacity]}>

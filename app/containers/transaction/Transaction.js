@@ -11,6 +11,7 @@ import {
     InteractionManager,
     Platform,
     PermissionsAndroid,
+    BackHandler
 } from 'react-native';
 
 import { Colors, TransferGasLimit, TransferType } from "../../config/GlobalConfig";
@@ -292,6 +293,17 @@ export default class Transaction extends Component {
     /**static navigationOptions = ({navigation}) => ({
         header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
     })**/
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
 
     getPriceTitle = (gasPrice, ethPrice) => {
 

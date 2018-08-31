@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Clipboard} from 'react-native';
+import { View,StyleSheet,Image,Text,Clipboard,BackHandler} from 'react-native';
 import keythereum from 'keythereum'
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
@@ -81,9 +81,19 @@ export default class ExportPrivateKeyScreen extends Component {
             screenshotWarnVisible : false,
         }
     }
+
     componentDidMount() {
         this.showPrivateKey();
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
     }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
+
 
     showPrivateKey(){
         var privateKey = this.props.navigation.state.params.privateKey;

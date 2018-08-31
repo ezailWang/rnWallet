@@ -59,9 +59,7 @@ class BlueHeader extends Component {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                             style={[{height:height}]}>
-                <BackWhiteButton onPress={() => {
-                    this.props.navigation.goBack()
-                }}/>
+                <BackWhiteButton onPress={() => {this.props.navigation.goBack()}}/>
             </LinearGradient>
         )
     }
@@ -113,6 +111,7 @@ class WhiteBgHeader extends PureComponent {
 class WhiteBgNoTitleHeader extends Component {
     static propTypes = {
         navigation:PropTypes.object.isRequired,
+        onPress:PropTypes.func,
     }
 
     render() {
@@ -121,10 +120,11 @@ class WhiteBgNoTitleHeader extends Component {
         if (Layout.DEVICE_IS_IPHONE_X()){
             contentMarginTop= {marginTop:48};
         }
+        console.log('WhiteBgNoTitleHeader',this.props.onPress);
         return (
             <View style={[styles.headerBgContainer,{height:height}]}>
                 <TouchableOpacity style={[styles.headerButtonBox,contentMarginTop]} 
-                                  onPress = {() => {this.props.navigation.goBack()}}>
+                                  onPress = {this.props.onPress == undefined ? () => {this.props.navigation.goBack()} : this.props.onPress}>
                     <Image style={styles.icon}
                            //resizeMode={'contain'}
                            resizeMode={'center'}

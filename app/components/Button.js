@@ -33,8 +33,7 @@ const styles = StyleSheet.create({
     normalBtn:{
         width:Layout.WINDOW_WIDTH*0.75,
         height:44,
-        borderRadius:22,
-        borderWidth:2,
+        borderRadius:28,
         justifyContent:"center",
         marginTop:20
     },
@@ -43,9 +42,11 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         textAlign:'center',
     },
+    greyBtn:{
+        backgroundColor:Colors.fontGrayColor_a0,
+    },
     blueBtn:{
         backgroundColor:Colors.fontBlueColor,
-        borderColor:Colors.fontBlueColor
     },
     blueBtnTitle:{
         color:Colors.fontWhiteColor
@@ -130,7 +131,6 @@ const styles = StyleSheet.create({
     },
     rightBlueNextBtn:{
         backgroundColor:Colors.whiteBackgroundColor,
-        borderWidth:2,
         borderColor:'#fff',
     },
     rightWhiteNextBtn:{
@@ -200,7 +200,6 @@ class BackWhiteButton extends Component {
             backItemStyle= {marginTop:50};
         }
 
-
         return (
             <View style={styles.container}>
                 <TouchableOpacity style={[styles.backBtn,backItemStyle]}
@@ -236,11 +235,13 @@ class BlueButtonBig extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
+        isDisabled : PropTypes.bool,
     };
     render() {
         return (
-            <TouchableOpacity style={[styles.normalBtn,styles.blueBtn]}
-                              onPress = { this.props.onPress }>
+            <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn]}
+                              disabled={this.props.isDisabled}
+                              onPress = {this.props.onPress}>
                 <Text style={[styles.blueBtnTitle,styles.normalBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
         )
