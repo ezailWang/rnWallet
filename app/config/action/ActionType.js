@@ -11,4 +11,4 @@ export const LOAD_TOKEN_BALANCE = 'LOAD_TOKEN_BALANCE';     //加载token余额
 export const SET_TOTAL_ASSETS = 'SET_TOTAL_ASSETS';          //获取总资产 
 export const SET_TRANSACTION_RECODER = 'SET_TRANSACTION_RECODER';          //获取交易记录
 export const SET_COIN_BALANCE = 'SET_COIN_BALANCE';          //获取查看的token/eth余额
-export const SET_WALLET_PASSWORD_PROMPT = 'SET_WALLET_PASSWORD_PROMPT'; //设置钱包密码提示
+//export const SET_WALLET_PASSWORD_PROMPT = 'SET_WALLET_PASSWORD_PROMPT'; //设置钱包密码提示

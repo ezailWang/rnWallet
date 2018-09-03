@@ -315,7 +315,7 @@ export default class TransactionStep extends Component {
     }
 
     render() {
-        const { walletPasswordPrompt } = store.getState().Core
+        //const { walletPasswordPrompt } = store.getState().Core
         return (
             <Modal animationType='fade'
                 transparent={true}
@@ -398,7 +398,7 @@ export default class TransactionStep extends Component {
                                     }}>
                                 </TextInput>
                             </View>
-                            <Text
+                            {/* <Text
                                 style={{
                                     fontSize: 13,
                                     paddingLeft: 25,
@@ -406,7 +406,7 @@ export default class TransactionStep extends Component {
                                     alignSelf: 'stretch',
                                     color:Colors.fontGrayColor_a0
                                 }}
-                            >密码提示: {walletPasswordPrompt}</Text>
+                            >密码提示: {walletPasswordPrompt}</Text> */}
                             <TouchableOpacity style={styles.nextBtn} onPress={() => {
                                 let password = this.state.password;
                                 // console.warn(password);

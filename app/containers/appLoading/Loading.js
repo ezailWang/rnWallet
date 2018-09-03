@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import {
     setWalletAddress,
     setWalletName,
-    setWalletPasswordPrompt,
     setNetWork
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
@@ -46,9 +45,6 @@ class Loading extends Component {
             }
             if (data['name']) {
                 this.props.dispatch(setWalletName(data['name']))
-            }
-            if (data['extra']) {
-                this.props.dispatch(setWalletPasswordPrompt(data['extra']))
             }
             if (net) {
                 this.props.dispatch(setNetWork(net))

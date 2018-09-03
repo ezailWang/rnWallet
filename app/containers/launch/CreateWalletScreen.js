@@ -290,7 +290,7 @@ const mapDispatchToProps = dispatch => ({
     generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
     setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
     setWalletName: (name) => dispatch(Actions.setWalletName(name)),
-    setWalletPasswordPrompt: (passwordPrompt) => dispatch(Actions.setWalletPasswordPrompt(passwordPrompt)),
+    //setWalletPasswordPrompt: (passwordPrompt) => dispatch(Actions.setWalletPasswordPrompt(passwordPrompt)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CreateWalletScreen)
 

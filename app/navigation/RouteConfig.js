@@ -60,7 +60,7 @@ import {
     SetContainers,
     SetScreen,
     ModifyPasswordScreen,
-    PasswordPrompInfoScreen,
+  //  PasswordPrompInfoScreen,
     ExportPrivateKeyScreen,
     ExportKeystoreScreen,
     ReceiptCodeScreen,
@@ -139,9 +139,9 @@ const HomeRouteConfig =
     ModifyPassword: {
         screen: ModifyPasswordScreen,
     },
-    PasswordPrompInfo: {        
-        screen: PasswordPrompInfoScreen,
-    },
+    // PasswordPrompInfo: {        
+    //     screen: PasswordPrompInfoScreen,
+    // },
     ReceiptCode: {
         screen: ReceiptCodeScreen,
     },

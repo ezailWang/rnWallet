@@ -14,7 +14,7 @@ import UserRegulationScreen from './launch/UserRegulationScreen';
 import VerifyMnemonicScreen from './launch/VerifyMnemonicScreen';
 import SetScreen from './settings/SetScreen';
 import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
-import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
+//import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
 import ExportPrivateKeyScreen from './settings/ExportPrivateKeyScreen';
 import ExportKeystoreScreen from './settings/ExportKeystoreScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
@@ -40,7 +40,7 @@ export {
     ModifyPasswordScreen,
     ExportPrivateKeyScreen,
     ExportKeystoreScreen,
-    PasswordPrompInfoScreen,
+   // PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     ScanQRCodeScreen,
     TransactionDetail,

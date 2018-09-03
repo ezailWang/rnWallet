@@ -24,7 +24,7 @@ const defaultState = {
     network: Network.rinkeby,
     walletAddress: null,
     walletName: 'wallet',
-    walletPasswordPrompt: '未设置密码提示',
+    walletPasswordPrompt: '',
     mnemonic: '',
     tokens: defaultTokens,
     totalAssets: '0.00',
@@ -104,12 +104,12 @@ function coreReducer(state = defaultState, action) {
                 balance: action.balance
             }
             break;
-        case SET_WALLET_PASSWORD_PROMPT:
-            return {
-                ...state,
-                walletPasswordPrompt: action.walletPasswordPrompt
-            }
-            break;
+        // case SET_WALLET_PASSWORD_PROMPT:
+        //     return {
+        //         ...state,
+        //         walletPasswordPrompt: action.walletPasswordPrompt
+        //     }
+        //     break;
         default: return state;
     }
 }
