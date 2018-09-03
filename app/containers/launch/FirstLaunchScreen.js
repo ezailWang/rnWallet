@@ -12,9 +12,9 @@ import SplashScreen from 'react-native-splash-screen'
 
 import networkManage from '../../utils/networkManage'
 
-let bip39 = require('bip39')
-let hdkey = require('ethereumjs-wallet/hdkey')
-let util = require('ethereumjs-util')
+// let bip39 = require('bip39')
+// let hdkey = require('ethereumjs-wallet/hdkey')
+// let util = require('ethereumjs-util')
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -92,20 +92,20 @@ class FirstLaunchScreen extends Component {
     testFunc = async ()=>{
 
         //生成助记词
-        let mnemonic = bip39.generateMnemonic()
-        alert(mnemonic)
+        // let mnemonic = bip39.generateMnemonic()
+        // alert(mnemonic)
 
-        let seed = bip39.mnemonicToSeed(mnemonic)
-        let hdWallet = hdkey.fromMasterSeed(seed)
+        // let seed = bip39.mnemonicToSeed(mnemonic)
+        // let hdWallet = hdkey.fromMasterSeed(seed)
 
-        let key1 = hdWallet.derivePath("m/44'/60'/0'/0/0")
-        alert("私钥："+util.bufferToHex(key1._hdkey._privateKey))
+        // let key1 = hdWallet.derivePath("m/44'/60'/0'/0/0")
+        // alert("私钥："+util.bufferToHex(key1._hdkey._privateKey))
 
-        let address1 = util.pubToAddress(key1._hdkey._publicKey, true)
-        alert("地址："+util.bufferToHex(address1))
+        // let address1 = util.pubToAddress(key1._hdkey._publicKey, true)
+        // alert("地址："+util.bufferToHex(address1))
 
-        address1 = util.toChecksumAddress(address1.toString('hex'))
-        alert("Encoding Address 地址："+ address1)
+        // address1 = util.toChecksumAddress(address1.toString('hex'))
+        // alert("Encoding Address 地址："+ address1)
     }
 
 
@@ -118,28 +118,12 @@ class FirstLaunchScreen extends Component {
 
                 <RightBlueNextButton
                         onPress={() => this.createClickFun()}
-                        onPress={() => this.importKeyStore()}
                         text='创建钱包'/>
                 <View style={styles.btnMargin}>
                 </View>
                 <RightWhiteNextButton
                         onPress={()=> this.props.navigation.navigate('ImportWallet')}
                         text='导入钱包'/> 
-                 <View style={styles.btnMargin}>
-                </View>
-                <RightWhiteNextButton
-                        onPress={() => this.testFunc()}
-                        text='助记词测试'/> 
-                 <View style={styles.btnMargin}>
-                </View>
-                <RightWhiteNextButton
-                        onPress={() => this.createNew()}
-                        text='测试生成钱包和keystore'/> 
-                <View style={styles.btnMargin}>
-                </View>
-               <RightWhiteNextButton
-                        onPress={() => this.importKeyStore()}
-                        text='测试导入钱包'/> 
             </LinearGradient>
         )
     }

@@ -318,11 +318,14 @@ export default class Transaction extends Component {
 
         var privateKey = await keystoreUtils.getPrivateKey(password)
 
-        this.setState({
-            loadingShow: false
-        })
-
         if (privateKey === null) {
+
+            setTimeout(() => {
+
+                this.setState({
+                    loadingShow: false
+                })
+            }, 10);  
 
             setTimeout(() => {
                 alert("秘钥获取失败");
@@ -343,16 +346,26 @@ export default class Transaction extends Component {
                 privateKey
             )
 
-            if (res) {
-                //回调刷新
-                this.props.navigation.state.params.onGoBack();
-                this.props.navigation.goBack();
-            }
-            else {
-                setTimeout(() => {
-                    alert("交易发送失败，请检查参数");
-                }, 100);
-            }
+
+            console.warn('交易发送完毕'+res);
+
+            setTimeout(() => {
+
+                this.setState({
+                    loadingShow: false
+                })
+
+                if (res) {
+                    //回调刷新
+                    this.props.navigation.state.params.onGoBack();
+                    this.props.navigation.goBack();
+                }
+                else {
+                    setTimeout(() => {
+                        alert("交易发送失败，请检查参数");
+                    }, 100);
+                }
+            }, 10); 
         }
     };
 
