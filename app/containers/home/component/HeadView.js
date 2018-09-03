@@ -11,12 +11,12 @@ import OvalButton from './OvalButton'
 import ImageButton from '../../../components/ImageButton'
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
-import LinearGradient from'react-native-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient'
 
 export default class HeadView extends Component {
 
     static propTypes = {
-       // onSwitchWallet: PropTypes.func.isRequired,
+        // onSwitchWallet: PropTypes.func.isRequired,
         onSet: PropTypes.func.isRequired,
         onQRCode: PropTypes.func.isRequired,
         onAddAssets: PropTypes.func.isRequired,
@@ -36,10 +36,10 @@ export default class HeadView extends Component {
 
     render() {
         return (
-            <LinearGradient  colors={['#32beff', '#0095eb', '#2093ff']}
-                             start={{x:0,y:1}}
-                             end={{x:1,y:1}}
-                             style={styles.container}>
+            <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.container}>
                 <View style={styles.topViewContainer}>
                 </View>
                 <View style={styles.headContainer}>
@@ -48,7 +48,7 @@ export default class HeadView extends Component {
                         source={this.props.headIcon}
                     />
                     <View style={{ margin: 10, backgroundColor: 'transparent' }}>
-                        <View style={{flexDirection: 'row', alignItems: 'flex-start' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                             <Text style={{ color: 'white', fontSize: 16 }}> {this.props.walletName} </Text>
                             {/* <ImageButton
                                 btnStyle={{ width: 15, height: 15 }}
@@ -57,8 +57,14 @@ export default class HeadView extends Component {
                                 backgroundImageSource={this.props.switchWalletIcon}
                             /> */}
                         </View>
-                        <View style={{ alignItems: 'flex-start' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                             <Text style={{ color: 'white', fontSize: 12 }}> {this.props.address} </Text>
+                            <ImageButton
+                                btnStyle={{ width: 15, height: 15 }}
+                                imageStyle={{ width: 15, height: 15 }}
+                                onClick={this.props.onAddressCopy}
+                                backgroundImageSource={this.props.addressCopyIcon}
+                            />
                         </View>
                     </View>
                 </View>
@@ -115,7 +121,7 @@ const styles = StyleSheet.create({
         height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop:5
+        marginTop: 5
     },
     buttonContainer: {
         backgroundColor: 'transparent',

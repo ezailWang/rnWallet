@@ -15,7 +15,7 @@ var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Cor
 export default class networkManage {
 
     static getWeb3Instance() {
-            return new Web3(this.getWeb3HTTPProvider())
+        return new Web3(this.getWeb3HTTPProvider())
     }
 
     static getWeb3HTTPProvider() {
@@ -233,7 +233,6 @@ export default class networkManage {
     }
 
     static isValidAddress(address) {
-        //  console.warn(address, address.length);
         const web3 = this.getWeb3Instance();
         console.log(web3.utils.isAddress(address))
         return web3.utils.isAddress(address);
@@ -245,7 +244,6 @@ export default class networkManage {
     static async getEthPrice() {
         const data = await api.stats.ethprice()
         ethusd = data.result.ethusd
-        console.log('price:', data)
         return ethusd
     }
 
@@ -262,7 +260,6 @@ export default class networkManage {
     }
 
     static async loadTokensFromStorage() {
-        //todo:如果两次快速加载，tokens还没变就被获取，想办法解决
         const { tokens, walletAddress } = store.getState().Core
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
@@ -288,13 +285,17 @@ export default class networkManage {
             const balance = await this.getBalance({
                 contractAddress: token.contractAddress,
                 symbol: token.symbol,
-                decimals: token.decimals
+                decimals: token.decimals,
             })
             token["balance"] = balance
+            token["price"] = 0
             if (token.symbol === 'ETH') {
-                const total = balance * await this.getEthPrice()
+                const ethPrice = await this.getEthPrice()
+                const total = balance * ethPrice
+                token["price"] = ethPrice
                 store.dispatch(setTotalAssets(total))
             }
+            //token的价格暂时无法获取
         }))
         store.dispatch(loadTokenBalance(completeTokens))
     }

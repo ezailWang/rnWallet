@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     RefreshControl,
-    BackHandler
+    BackHandler,
+    Clipboard
 } from 'react-native'
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
@@ -38,7 +39,7 @@ class HomeScreen extends Component {
             loadingShow: false,
         }
     }
-    
+
     renderItem = (item) => (
         <HomeCell
             item={item}
@@ -68,20 +69,17 @@ class HomeScreen extends Component {
 
         //获取余额信息
 
-        let { contractAddress, symbol, decimals } = item.item;
+        let { contractAddress, symbol, decimals, price } = item.item;
 
         let balanceAmount = '';
-        let price = 0;
         let ethBalance = '0';
 
         if (symbol != 'ETH') {
             balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals);
             ethBalance = await networkManage.getEthBalance();
-            price = 0;
         }
         else {
             balanceAmount = await networkManage.getEthBalance();
-            price = await networkManage.getEthPrice();
             ethBalance = balanceAmount;
         }
 
@@ -145,14 +143,14 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
         SplashScreen.hide()
         this.showLoading()
         await networkManage.loadTokenList()
         this.closeLoading()
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         //销毁返回键监听
         this.backHandler && this.backHandler.remove();
         //BackHandler.removeEventListener('hardwareBackPress',this.onBackPressed);
@@ -172,24 +170,24 @@ class HomeScreen extends Component {
     }
 
 
-    onBackPressed=()=>{ 
-        
-        if(this.props.navigation.state.routeName == 'HomeScreen'){
+    onBackPressed = () => {
+
+        if (this.props.navigation.state.routeName == 'HomeScreen') {
             //在首页按了物理键返回
-            if((lastBackPressed + 2000)  >=  Date.now()){
-                 BackHandler.exitApp;
-                 return false;
-            }else{
-                 showToast('再按一次退出应用');
-                 lastBackPressed = Date.now();
-                 return true;
-        }
-        }else{
+            if ((lastBackPressed + 2000) >= Date.now()) {
+                BackHandler.exitApp;
+                return false;
+            } else {
+                showToast('再按一次退出应用');
+                lastBackPressed = Date.now();
+                return true;
+            }
+        } else {
             return true;
-        } 
+        }
     }
-    
-    removeHardwareBackPress(){
+
+    removeHardwareBackPress() {
         this.backHandler && this.backHandler.remove();
     }
 
@@ -223,6 +221,11 @@ class HomeScreen extends Component {
                         onAddAssets={() => {
                             this.showAddtoken()
                         }}
+                        onAddressCopy={() => {
+                            //复制钱包地址
+                            Clipboard.setString(this.props.walletAddress)
+                            showToast('钱包地址已复制')
+                        }}
                         walletName={this.props.walletName}
                         address={this.formatAddress(this.props.walletAddress)}
                         totalAssets={this.props.totalAssets + ''}
@@ -231,10 +234,11 @@ class HomeScreen extends Component {
                         QRbtnIcon={require('../../assets/home/QR_icon.png')}
                         setBtnIcon={require('../../assets/home/setting.png')}
                         addAssetsIcon={require('../../assets/home/plus_icon.png')}
+                        addressCopyIcon={require('../../assets/home/Fzicon.png')}
                     />}
                 />
                 <ImageButton
-                    btnStyle={{ width: 30, height: 30, right: 20, top:Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute' }}
+                    btnStyle={{ width: 30, height: 30, right: 20, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute' }}
                     onClick={() => {
                         this.showChangeNetwork()
                     }}

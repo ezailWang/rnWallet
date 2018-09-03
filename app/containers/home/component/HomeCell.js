@@ -8,12 +8,13 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import layoutConstants from '../../../config/LayoutConstants'
+import { Colors } from '../../../config/GlobalConfig'
 
 tokeniCon = {
-    'ETH' : require('../../../assets/home/ETH.png'),
-    'ITC' : require('../../../assets/home/ITC.png'),
-    'MANA' : require('../../../assets/home/MANA.png'),
-    'DPY' : require('../../../assets/home/DPY.png'),
+    'ETH': require('../../../assets/home/ETH.png'),
+    'ITC': require('../../../assets/home/ITC.png'),
+    'MANA': require('../../../assets/home/MANA.png'),
+    'DPY': require('../../../assets/home/DPY.png'),
 }
 
 
@@ -37,7 +38,7 @@ class EmptyComponent extends Component {
 
 class HomeCell extends Component {
     render() {
-        const { symbol, balance } = this.props.item.item || {}
+        const { symbol, balance, price } = this.props.item.item || {}
         var imageSource = require('../../../assets/home/null.png')
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
             imageSource = tokeniCon[symbol]
@@ -54,9 +55,12 @@ class HomeCell extends Component {
                     <Text>{symbol}</Text>
                 </View>
                 <View style={styles.rightView}>
-                    <Text 
-                    style={{fontSize:20}}
-                    >{balance}</Text>
+                    <Text
+                        style={{ fontSize: 20 }}
+                    >{isNaN(balance) ? '--' : balance}</Text>
+                    <Text
+                        style={{ fontSize: 15, color: Colors.fontGrayColor }}
+                    >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈$' + (balance * price).toFixed(2)}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     },
     rightView: {
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         marginRight: 10,
     },
     separator: {

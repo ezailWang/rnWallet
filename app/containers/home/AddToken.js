@@ -99,10 +99,16 @@ export default class AddToken extends Component {
                                 style={styles.ValitText}
                             >{checkStr}</Text>
                             <TouchableOpacity
-                                style={styles.BottomBtn}
-                                disabled={!this.state.isValidAddress}
+                                style={[styles.BottomBtn, { backgroundColor: this.state.isValidAddress && checkStr === '' ? Colors.themeColor : Colors.blackOpacityColor }]}
+                                disabled={this.state.isValidAddress && checkStr === '' ? false : true}
                                 onPress={() => {
                                     this.props.onClickAdd(this.state)
+                                    this.setState({
+                                        tokenAddress: '',
+                                        tokenSymbol: '',
+                                        tokenDecimals: 0,
+                                        isValidAddress: false,
+                                    })
                                 }}
                             >
                                 <Text style={{ color: Colors.whiteBackgroundColor, fontWeight: 'bold', fontSize: 15 }}>添加</Text>
@@ -167,8 +173,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginHorizontal: 40,
         marginBottom: 25,
-        borderRadius: (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2,
-        backgroundColor: Colors.themeColor,
+        borderRadius: ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2) > 25 ? 25 : ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2),
+        height:(layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? 50 : (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50)
     },
     BackBtn: {
         marginRight: 10,
