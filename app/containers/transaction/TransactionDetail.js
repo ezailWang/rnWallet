@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Text,TouchableOpacity,Clipboard,BackHandler} from 'react-native';
+import { View,StyleSheet,Text,TouchableOpacity,Clipboard,BackHandler,Linking} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
@@ -122,6 +122,23 @@ export default class TransactionDetail extends Component {
         return true;
     }
 
+    didTapTransactionNumber=()=>{ 
+
+        var baiduURL = 'https://rinkeby.etherscan.io/tx/'+ this.state.transactionHash;
+        // var baiduURL = 'https://etherscan.io/tx/'+ this.state.transactionHash;
+
+        Linking.canOpenURL(baiduURL).then(supported => { 
+
+            if (!supported) { 
+                console.warn('Can\'t handle url: ' + baiduURL); 
+            } 
+            else { 
+                return Linking.openURL(baiduURL); 
+            } 
+
+        }).catch(err => console.error('An error occurred',baiduURL)); 
+    }
+
     copyUrl(){
         Clipboard.setString(this.state.transactionHash);
         showToast('已复制');
@@ -156,7 +173,7 @@ export default class TransactionDetail extends Component {
                 <View style={styles.bottomBox}>
                      <View style={styles.infoLeftBox}>
                            <Text style={[styles.fontGray]}>交易号</Text>
-                           <TouchableOpacity style={[styles.marginTop2]} activeOpacity={0.6}>
+                           <TouchableOpacity style={[styles.marginTop2]} activeOpacity={0.6} onPress = {this.didTapTransactionNumber}>
                            <Text style={[styles.fontBlue]}
                                  numberOfLines={1}
                                  ellipsizeMode={"middle"}>{this.state.transactionHash}</Text>
