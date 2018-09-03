@@ -77,6 +77,7 @@ export default class InputTextDialog extends Component{
         rightTxt: PropTypes.string.isRequired,
         leftTxt:PropTypes.string.isRequired,
         modalVisible: PropTypes.bool.isRequired,
+        initText:PropTypes.string,
     }
     constructor(props){
         super(props);
@@ -121,9 +122,8 @@ export default class InputTextDialog extends Component{
                         /**onChange={(event) => {
                             renderThis.inputText(event);
                         }}**/
-                    />
+                    >{this.props.initText}</TextInput>
                     <View style={styles.buttonBox}>
-                     
                         <View style={[styles.leftBtnOpacity]}>
                             <WhiteButtonSmall onPress={this.props.leftPress}
                                               text={this.props.leftTxt}>

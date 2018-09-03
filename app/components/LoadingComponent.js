@@ -125,11 +125,11 @@ export default class LoadingComponent extends PureComponent{
                   visible={visible}
                   onRequestClose={()=>{
                       //this.close()
-                      console.log('L','Loading onRequestClose')
+                      //console.log('L','Loading onRequestClose')
                   }}
                   onShow={()=>{
                     //this.show()
-                    console.log('L','Loading onShow')
+                    //console.log('L','Loading onShow')
                   }}     
             >
                 {this.renderContent()}

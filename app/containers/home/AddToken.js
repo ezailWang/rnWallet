@@ -61,6 +61,7 @@ export default class AddToken extends Component {
                             <Text style={styles.TopText}> 添加资产 </Text>
                             <ImageButton
                                 btnStyle={styles.BackBtn}
+                                imageStyle={{ width: 15, height: 15 }}
                                 onClick={this.props.close}
                                 backgroundImageSource={require('../../assets/home/addTokenBack.png')}
                             />
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.blackOpacityColor,
-       
+
     },
     contentContainer: {
         backgroundColor: Colors.whiteBackgroundColor,

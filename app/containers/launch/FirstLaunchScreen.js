@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, Image, Alert ,Dimensions} from 'react-native';
-import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
-import { connect } from 'react-redux';
-import * as Actions from '../../config/action/Actions'
+import { View, StyleSheet, Image,Dimensions,BackHandler,PermissionsAndroid,Platform,Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
-
 import {RightBlueNextButton,RightWhiteNextButton} from '../../components/Button'
 import {Colors} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import SplashScreen from 'react-native-splash-screen'
 
+import { androidPermission } from '../../utils/permissionsAndroid';
+import {showToast} from '../../utils/Toast';
 import networkManage from '../../utils/networkManage'
 
-// let bip39 = require('bip39')
-// let hdkey = require('ethereumjs-wallet/hdkey')
-// let util = require('ethereumjs-util')
+let lastBackPressed = 0;
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -45,33 +41,60 @@ const styles = StyleSheet.create({
     }
 });
 
-class FirstLaunchScreen extends Component {
-
-    componentDidMount(){
+export default  class FirstLaunchScreen extends Component {
+    componentDidMount() {
         SplashScreen.hide()
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        
+        if(this.props.navigation.state.routeName == 'FirstLaunch'){
+            //在首页按了物理键返回
+            if((lastBackPressed + 2000)  >=  Date.now()){
+                 BackHandler.exitApp;
+                 return false;
+            }else{
+                 showToast('再按一次退出应用');
+                 lastBackPressed = Date.now();
+                 return true;
+        }
+        }else{
+            return true;
+        } 
     }
     
-    createClickFun() {
 
-        walletUtils.generateMnemonic().then((data) => {
-            this.props.generateMnemonic(data)
-            this.props.navigation.navigate('BackupWallet');
-        }, (error) => {
-            Alert.alert(
-                'error',
-                'mnemonic:' + error.toString(),
-                [
-                    { text: 'OK', onPress: () => { } },
-                ],
-                { cancelable: false }
-            )
-        })
+    //验证android读写权限
+    async vertifyAndroidPermissions(isCreateWallet) {
+        if (Platform.OS === 'android') {
+            var readWritePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+            //var writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+            if (readWritePermission) {  
+                this.nextRoute(isCreateWallet)
+            } else {
+                Alert.alert(
+                    'warn',
+                    '请允许读写内存卡权限',
+                )
+            }
+        } else {
+            this.nextRoute(isCreateWallet)
+        }
     }
 
+    nextRoute(isCreateWallet){
+        if(isCreateWallet){
+            this.props.navigation.navigate('CreateWallet')
+        }else{
+            this.props.navigation.navigate('ImportWallet')
+        }
+    }
+    
     createNew = async ()=>{
-
         let web3 = networkManage.getWeb3Instance();
-        // console.log(web3.eth.getBlockNumber())
         let number = await web3.eth.getBlockNumber();
         alert('current blockNumber'+number);
 
@@ -108,7 +131,6 @@ class FirstLaunchScreen extends Component {
         // alert("Encoding Address 地址："+ address1)
     }
 
-
     render() {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
@@ -117,22 +139,14 @@ class FirstLaunchScreen extends Component {
                 <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'}/>
 
                 <RightBlueNextButton
-                        onPress={() => this.createClickFun()}
+                        onPress={() => this.vertifyAndroidPermissions(true)}
                         text='创建钱包'/>
                 <View style={styles.btnMargin}>
                 </View>
                 <RightWhiteNextButton
-                        onPress={()=> this.props.navigation.navigate('ImportWallet')}
+                        onPress={()=> this.vertifyAndroidPermissions(false)}
                         text='导入钱包'/> 
             </LinearGradient>
         )
     }
 }
-
-const mapStateToProps = state => ({
-    mnemonic: state.Core.mnemonic,
-});
-const mapDispatchToProps = dispatch => ({
-    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(FirstLaunchScreen)

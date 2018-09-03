@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TextInput, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TextInput, Alert, ScrollView, TouchableOpacity,BackHandler } from 'react-native';
 
 import StorageManage from '../../utils/StorageManage'
 import { BlueButtonBig } from '../../components/Button'
@@ -60,6 +60,17 @@ export default class PasswordPrompInfoScreen extends Component {
         }
     }
 
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
+    
     isOpenPwd() {
         this.setState({ isShowPassword: !this.state.isShowPassword });
     }

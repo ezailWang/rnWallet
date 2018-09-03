@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Modal,TouchableOpacity ,Dimensions,} from 'react-native';
+import { View,StyleSheet,Image,Text,Modal,TouchableOpacity ,Dimensions,BackHandler} from 'react-native';
 import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
+import {showToast} from '../../utils/Toast';
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     titleTxt:{
         fontSize:20,
         fontWeight:'bold',
-        color:Colors.fontBlueColor,
+        color: Colors.fontBlueColor,
         marginBottom:30,
     },
     contentTxt:{
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor:Colors.bgColor_e,
         fontSize:16,
         color:'black',
-        borderRadius:5,
+        //borderRadius:5,
         marginTop:30,
         paddingLeft:20,
         paddingRight:20,
@@ -68,6 +69,28 @@ class BackupMnemonicScreen extends Component {
     onCloseModal() {
         this.setState({modalVisible: false});
     }
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
+    complete(){
+        let _this = this;
+        //this.props.navigation.navigate('VerifyMnemonic',{password: this.props.navigation.state.params.password})
+        this.props.navigation.navigate('VerifyMnemonic', {
+            password: this.props.navigation.state.params.password,
+            callback: function () {
+                _this.setState({
+                    modalVisible : true,
+                })
+            }
+        })
+    }
 
     render() {
         return (
@@ -88,8 +111,8 @@ class BackupMnemonicScreen extends Component {
 
                     <View style={styles.buttonBox}>
                          <BlueButtonBig
-                             onPress = {()=> this.props.navigation.navigate('VerifyMnemonic')}
-                             text = '下一步'
+                             onPress = {()=> this.complete()}
+                             text = '助记词已抄好'
                          />
                     </View>          
                 </View>

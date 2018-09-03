@@ -4,6 +4,7 @@ import {
     View,
     StyleSheet,
     RefreshControl,
+    BackHandler
 } from 'react-native'
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
@@ -15,16 +16,17 @@ import ChangeNetwork from './component/ChangeNetwork'
 import { HeaderButton } from '../../components/Button'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setTransactionRecoders, setCoinBalance } from '../../config/action/Actions'
+import { addToken, setTransactionRecoders, setCoinBalance, setNetWork } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
 import Loading from '../../components/LoadingComponent'
-import { setNetWork } from '../../config/action/Actions'
+import Layout from '../../config/LayoutConstants'
+import { showToast } from '../../utils/Toast'
 
-var user = require('../../assets/home/user.png')
-var isDispatching = false
+let lastBackPressed = 0;
+
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -35,9 +37,8 @@ class HomeScreen extends Component {
             isRefreshing: false,
             loadingShow: false,
         }
-
     }
-
+    
     renderItem = (item) => (
         <HomeCell
             item={item}
@@ -144,15 +145,17 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
-        //Why do execute twice
-        if (isDispatching) {
-            return
-        }
-        isDispatching = true
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
         SplashScreen.hide()
         this.showLoading()
         await networkManage.loadTokenList()
         this.closeLoading()
+    }
+
+    componentWillUnmount(){
+        //销毁返回键监听
+        this.backHandler && this.backHandler.remove();
+        //BackHandler.removeEventListener('hardwareBackPress',this.onBackPressed);
     }
 
     async saveTokenToStorage(token) {
@@ -166,6 +169,28 @@ class HomeScreen extends Component {
             decimals: token.tokenDecimals,
         })
         StorageManage.save(StorageKey.Tokens, localTokens)
+    }
+
+
+    onBackPressed=()=>{ 
+        
+        if(this.props.navigation.state.routeName == 'HomeScreen'){
+            //在首页按了物理键返回
+            if((lastBackPressed + 2000)  >=  Date.now()){
+                 BackHandler.exitApp;
+                 return false;
+            }else{
+                 showToast('再按一次退出应用');
+                 lastBackPressed = Date.now();
+                 return true;
+        }
+        }else{
+            return true;
+        } 
+    }
+    
+    removeHardwareBackPress(){
+        this.backHandler && this.backHandler.remove();
     }
 
     render() {
@@ -202,14 +227,14 @@ class HomeScreen extends Component {
                         address={this.formatAddress(this.props.walletAddress)}
                         totalAssets={this.props.totalAssets + ''}
                         switchWalletIcon={require('../../assets/home/switch.png')}
-                        headIcon={user}
+                        headIcon={require('../../assets/home/user.png')}
                         QRbtnIcon={require('../../assets/home/QR_icon.png')}
                         setBtnIcon={require('../../assets/home/setting.png')}
                         addAssetsIcon={require('../../assets/home/plus_icon.png')}
                     />}
                 />
                 <ImageButton
-                    btnStyle={{ width: 30, height: 30, right: 20, top: 30, position: 'absolute' }}
+                    btnStyle={{ width: 30, height: 30, right: 20, top:Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute' }}
                     onClick={() => {
                         this.showChangeNetwork()
                     }}

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Text,TouchableOpacity,Clipboard} from 'react-native';
+import { View,StyleSheet,Text,TouchableOpacity,Clipboard,BackHandler} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import {Colors} from '../../config/GlobalConfig';
 import {store} from '../../config/store/ConfigureStore'
-
+import {showToast} from '../../utils/Toast';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         marginTop:2
     },
     marginTop10:{
-        marginTop:10,
+        marginTop:6,
     },
     bottomBox:{
         flex:1,
@@ -74,18 +74,18 @@ const styles = StyleSheet.create({
         marginLeft:20,
     },
     copyBtn:{
-        height:36,
+        height:30,
         marginTop:10,
-        borderRadius:18,
-        borderWidth:1.5,
+        borderRadius:15,
+        borderWidth:1.2,
         borderColor: Colors.themeColor
     },
     copyBtnTxt:{
         backgroundColor: 'transparent',
         color:Colors.themeColor,
         fontSize:13,
-        height:36,
-        lineHeight:36,
+        height:30,
+        lineHeight:30,
         textAlign:'center',
     }
 })
@@ -111,10 +111,20 @@ export default class TransactionDetail extends Component {
             transactionTime:params.transactionTime
         };
     }
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
 
     copyUrl(){
         Clipboard.setString(this.state.transactionHash);
-        alert("\n"+this.state.transactionHash)
+        showToast('已复制');
     }
 
     render() {
@@ -146,9 +156,11 @@ export default class TransactionDetail extends Component {
                 <View style={styles.bottomBox}>
                      <View style={styles.infoLeftBox}>
                            <Text style={[styles.fontGray]}>交易号</Text>
-                           <Text style={[styles.fontBlue,styles.marginTop2]}
+                           <TouchableOpacity style={[styles.marginTop2]} activeOpacity={0.6}>
+                           <Text style={[styles.fontBlue]}
                                  numberOfLines={1}
                                  ellipsizeMode={"middle"}>{this.state.transactionHash}</Text>
+                           </TouchableOpacity>      
                            <Text style={[styles.fontGray,styles.marginTop10]}>区块</Text>
                            <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.blockNumber}</Text>
                            <Text style={[styles.fontGray,styles.marginTop10]}>交易时间</Text>
@@ -156,7 +168,7 @@ export default class TransactionDetail extends Component {
                      </View>
                      <View style={styles.qrCodeBox}>
                            <QRCode
-                               value = {'0x123456789'}
+                               value = {this.state.transactionHash}
                                size={80}
                                bgColor='#000'
                                fgColor='#fff'

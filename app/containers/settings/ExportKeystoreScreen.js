@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Clipboard,ScrollView,TextInput} from 'react-native';
+import { View,StyleSheet,Image,Text,Clipboard,ScrollView,TextInput,BackHandler} from 'react-native';
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
 import { connect } from 'react-redux';
@@ -80,12 +80,20 @@ export default class ExportKeystoreScreen extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps,nextState){
+    componentDidMount() {
+        this.showKeystore();
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
         return true;
     }
 
-    componentDidMount() {
-        this.showKeystore();
+    shouldComponentUpdate(nextProps,nextState){
+        return true;
     }
 
     showKeystore(){

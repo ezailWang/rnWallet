@@ -82,7 +82,7 @@ const FirstLaunchRouteConfig =
         navigationOptions: ({ navigation }) => ({
             header: null,
             cardStack: {
-                gesturesEnabled: false
+               // gesturesEnabled: false
             }
         })
     },
@@ -130,7 +130,7 @@ const HomeRouteConfig =
         screen: HomeScreen,
         navigationOptions:{
             header:null,
-            gesturesEnabled:false
+            //gesturesEnabled:false
         }
     },
     Set:{

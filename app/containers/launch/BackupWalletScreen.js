@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Dimensions} from 'react-native';
+import { View,StyleSheet,Image,Text,Dimensions,BackHandler} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
+import {showToast} from '../../utils/Toast';
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     titleTxt:{
         fontSize:20,
         fontWeight:'bold',
-        color:Colors.fontBlueColor,
+        color: Colors.fontBlueColor,
         marginBottom:40,
     },
     contentTxt:{
@@ -43,6 +44,16 @@ const styles = StyleSheet.create({
 })
 
 export default class BackupWalletScreen extends Component {
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    }
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -55,7 +66,7 @@ export default class BackupWalletScreen extends Component {
                 
                 <View style={styles.buttonBox}>
                     <BlueButtonBig
-                        onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
+                        onPress = {()=> this.props.navigation.navigate('BackupMnemonic',{password: this.props.navigation.state.params.password})}
                         text = '备份助记词'
                     />
                 </View>    

@@ -7,7 +7,8 @@ import{
     TouchableOpacity,
     Image,
     Platform,
-    RefreshControl
+    RefreshControl,
+    BackHandler
 }from 'react-native'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
@@ -197,6 +198,14 @@ export default class TransactionRecoder extends Component{
         }
     }
 
+    componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
+    }
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
+    }
+
     onRefresh = async ()=>{
 
         this.setState({
@@ -298,6 +307,7 @@ export default class TransactionRecoder extends Component{
     }
 
     componentDidMount(){
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
 
         let recoders = store.getState().Core.recoders;
         const { walletAddress } = store.getState().Core

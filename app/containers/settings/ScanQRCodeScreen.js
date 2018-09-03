@@ -8,7 +8,8 @@ import {StyleSheet,
     Easing,
     Platform,
     Image,
-    Alert} from 'react-native'
+    Alert,
+    BackHandler} from 'react-native'
 import Camera from 'react-native-camera';
 var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');
@@ -95,8 +96,15 @@ class ScanQRCodeScreen extends Component{
         });
     }
 
+
     componentDidMount() {
-        this.scanLineMove();;
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+        this.scanLineMove();
+    }
+    
+    onBackPressed=()=>{ 
+        this.props.navigation.goBack();
+        return true;
     }
     
     //扫描二维码结果
@@ -111,6 +119,7 @@ class ScanQRCodeScreen extends Component{
                 this.props.navigation.goBack()
           }
     }
+
 
     //扫描框
     _renderQRScanView(){
@@ -147,6 +156,7 @@ class ScanQRCodeScreen extends Component{
     }
 
     componentWillUnmount(){
+        this.backHandler && this.backHandler.remove();
         //this.state.animatedValue.stopAnimation()
         this.stopLineMove();
     }
