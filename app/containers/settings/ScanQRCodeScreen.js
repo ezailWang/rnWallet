@@ -19,27 +19,29 @@ import * as Actions from '../../config/action/Actions'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import {showToast} from '../../utils/Toast';
-import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import {BlackBgHeader} from '../../components/NavigaionHeader'
 const styles = StyleSheet.create({
     container:{
        flex:1,
     },
     contentContainer:{
         flex:1,
-        backgroundColor:'#000',
-        justifyContent:'center',
-        alignItems:'center',
+    },
+    scanBox:{
+        flex:1,
+        //backgroundColor:'black',
+        //justifyContent:'center',
+        //alignItems:'center',
     },
     scanView:{
-        width:200,
-        height:200,
-        backgroundColor:'transparent'
+        width:220,
+        height:220,        
     },
     scanBorder:{
         position: 'absolute',
         borderColor: 'rgb(85,146,246)',
-        width: 200,
-        height: 200,
+        width: 220,
+        height: 220,
        
     },
     topLeft:{
@@ -68,14 +70,20 @@ const styles = StyleSheet.create({
     },
     scanLine:{
         height:2,
-        width:200,
+        width:220,
         backgroundColor:'rgb(85,146,246)'
     },
     text:{
+        textAlign:'center',
         fontSize:15,
         color:'#fff',
-        marginTop:12,
-    }
+        paddingTop:12,
+        backgroundColor:'rgba(0,0,0,0.8)',
+    },
+    tranView:{
+        flex:1,
+        backgroundColor:'rgba(0,0,0,0.8)',
+    },
     
 });
 
@@ -130,16 +138,17 @@ class ScanQRCodeScreen extends Component{
         };
         return(
             <View style={styles.scanView}>
-                <View style={[styles.scanBorder,styles.topLeft]}></View>
-                <View style={[styles.scanBorder,styles.topRight]}></View>
-                <View style={[styles.scanBorder,styles.bottomLeft]}></View>
-                <View style={[styles.scanBorder,styles.bottomRight]}></View>
-                <Animated.View style={[animatedStyle,{alignItems:'center'}]}>
-                    <View style={styles.scanLine}/>
-                </Animated.View>
+                     <View style={[styles.scanBorder,styles.topLeft]}></View>
+                     <View style={[styles.scanBorder,styles.topRight]}></View>
+                     <View style={[styles.scanBorder,styles.bottomLeft]}></View>
+                     <View style={[styles.scanBorder,styles.bottomRight]}></View>
+                     <Animated.View style={[animatedStyle,{alignItems:'center'}]}>
+                        <View style={styles.scanLine}/>
+                     </Animated.View>
             </View>
         )
     }
+
 
     //扫描条动画
     scanLineMove(){
@@ -165,24 +174,35 @@ class ScanQRCodeScreen extends Component{
     render(){
         return(
             <View style={styles.container}>
-             <StatusBarComponent/>
-             <WhiteBgHeader  navigation={this.props.navigation} text='扫描二维码'/>
-             <View style={styles.contentContainer}>
+                 <StatusBarComponent/>
+                 <BlackBgHeader  navigation={this.props.navigation} text='扫描二维码'/>
+             
                  <Camera
-                      style={styles.scanView}
-                      onBarCodeRead={e => this._onBarCodeRead(e)}      
-                      aspect={Camera.constants.Aspect.fill}
+                     style={styles.contentContainer}
+                     onBarCodeRead={e => this._onBarCodeRead(e)}      
+                     aspect={Camera.constants.Aspect.fill}
+                     
                  > 
-                 {this._renderQRScanView()}
-                 </Camera> 
-                 <Text style={styles.text}>将二维码放入框内，即可自动扫描</Text>
-             </View> 
+                    <View style={styles.scanBox}>
+                            <View style={styles.tranView}></View>
+                            <View style={{flexDirection:'row'}}>
+                                <View style={styles.tranView}></View>
+                                {this._renderQRScanView()}
+                                <View style={styles.tranView}></View>
+                            </View>
+                            <Text style={styles.text}>将二维码放入框内，即可自动扫描</Text>
+                            <View style={styles.tranView}></View>
+                     </View>
+                
+                        
+                     
+                 </Camera>     
             </View>
         )
     }
     
 }
-
+// {this._renderQRScanView()}
 
 const mapStateToProps = state => ({
     balance:state.Core.balance,

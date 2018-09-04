@@ -69,6 +69,7 @@ export default class AddToken extends Component {
                         <View style={styles.MiddleContainer}>
                             <TextInput style={styles.TextInput}
                                 placeholder='合约地址'
+                                autoCorrect={false}
                                 onChange={(event) => {
                                     this.setState({
                                         isValidAddress: networkManage.isValidAddress(event.nativeEvent.text) ? true : false,
@@ -78,6 +79,7 @@ export default class AddToken extends Component {
                             />
                             <TextInput style={styles.TextInput}
                                 placeholder='资产标识'
+                                autoCorrect={false}
                                 onChange={(event) => {
                                     this.setState({
                                         tokenSymbol: event.nativeEvent.text
@@ -172,9 +174,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginHorizontal: 40,
-        marginBottom: 25,
+        marginBottom: 25 + ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) - 50)/2 : 0),
+        marginTop: (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) - 50)/2 : 0,
         borderRadius: ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2) > 25 ? 25 : ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2),
-        height:(layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? 50 : (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50)
     },
     BackBtn: {
         marginRight: 10,

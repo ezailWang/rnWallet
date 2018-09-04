@@ -22,15 +22,56 @@ function resetStringBlank(str){
     return newStr;
 }
 
-//密码最少为8位，需包含大小写字母、数字、符号
+//密码最少为8位，至少包含大小写字母、数字、符号中的2种
 function  vertifyPassword(pwd){
-    //var regex= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
-    //var regex =  /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$/
-    var regex = /^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9])).{8,20}$/
-    if(regex.test(pwd)){
-        return true;
+    //var regex = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-z]|[A-Z]|[0-9]){8,20}$/;//大、小写字母、数字、符号中的2种
+    //var regex = /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{8,20}$/;//大小写字母、数字、符号中的2种
+    //var regex = /^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9])).{8,20}$/; //密码最少为8位，需包含大、小写字母、数字、符号
+    
+    var regUpper = /[A-Z]/;
+    var regLower = /[a-z]/;
+    var regNum = /[0-9]/;
+    var regSymbol = /[^A-Za-z0-9]/;
+
+    var warnContent = "";
+    let iscontainUpper = regUpper.test(pwd) ? true : false;
+    let iscontainLower = regLower.test(pwd) ? true : false;
+    let iscontainNum = regNum.test(pwd) ? true : false;
+    let iscontainSymbol = regSymbol.test(pwd) ? true : false;
+   
+    if(pwd.length < 8){
+        warnContent = '密码最少为8位, ' + matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol)
+    }else{
+        warnContent = matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol);
     }
-    return false;
+
+    return warnContent;
+}
+
+function matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol){
+    if (iscontainUpper  &&  !iscontainLower  && !iscontainNum && !iscontainSymbol) {
+        return '还需包含小写字母、数字和符号中的2种'
+    }else if (!iscontainUpper  &&  iscontainLower  && !iscontainNum && !iscontainSymbol) {
+        return '还需包含大写字母、数字和符号中的2种'
+    }else if (!iscontainUpper  &&  !iscontainLower  && iscontainNum && !iscontainSymbol) {
+        return '还需包含大、小写字母和符号中的2种'
+    }else if (!iscontainUpper  &&  !iscontainLower  && !iscontainNum && iscontainSymbol) {
+        return '还需包含大、小写字母和数字中的2种'
+    }else if (iscontainUpper  &&  iscontainLower  &&  !iscontainNum && !iscontainSymbol) {
+        return '还需包含数字和符号中的1种'
+    }else if (iscontainUpper  &&  !iscontainLower  && iscontainNum && !iscontainSymbol) {
+        return '还需包含小写字母、符号中的1种'
+    }else if (iscontainUpper  &&  !iscontainLower  && !iscontainNum && iscontainSymbol) {
+        return '还需包含小写字母、数字中的1种'
+    }else if (!iscontainUpper  &&  iscontainLower  && iscontainNum && !iscontainSymbol) {
+        return '还需包含大写字母、符号中的1种'
+    }else if (!iscontainUpper  &&  iscontainLower  && !iscontainNum && iscontainSymbol) {
+        return '还需包含大写字母、数字中的1种'
+    }else if (!iscontainUpper  &&  !iscontainLower  && iscontainNum && iscontainSymbol) {
+        return '还需包含大、小写字母中的1种'
+    }else {
+        return ''
+    }
 }
 
 module.exports = {upsetArrayOrder,stringTrim,resetStringBlank,vertifyPassword}
