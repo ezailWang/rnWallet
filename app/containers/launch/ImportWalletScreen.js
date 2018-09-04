@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
         height: 20,
     },
     warnTxt:{
-        fontSize:12,
-        color:Colors.fontBlueColor,
+        fontSize:11,
+        color:'red',
         alignSelf:'flex-end',
         marginBottom: 10,
     },
@@ -125,6 +125,7 @@ class ImportWalletScreen extends Component {
             loadingVisible: false,
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
+            pwdWarn:'密码最少为8位，至少包含大、小写字母、数字、符号中的3种',
         }
         this.mnemonictxt = '';
         this.pwdtxt = '';
@@ -173,22 +174,7 @@ class ImportWalletScreen extends Component {
 
    //所有信息都输入完成前，“创建”按钮显示为灰色
    btnIsEnableClick(){
-        let _this = this
-        let isMathPwd = false;
-        if(this.pwdtxt != ''){
-            isMathPwd = vertifyPassword(this.pwdtxt)
-            if(!isMathPwd){
-                this.setState({
-                    isShowPwdWarn:true,
-                    isDisabled: true,
-                })
-                return;
-            }else{
-                this.setState({
-                    isShowPwdWarn:false,
-                })
-            }  
-        }
+        this._isShowPwdWarn(false);
         if (this.mnemonictxt == ''  || this.mnemonictxt == null || this.mnemonictxt == undefined
             || this.pwdtxt == '' || this.pwdtxt == null || this.pwdtxt == undefined
             || this.rePwdtxt == '' || this.rePwdtxt == null || this.rePwdtxt == undefined ) {
@@ -201,6 +187,34 @@ class ImportWalletScreen extends Component {
             })
         }
     }
+
+    _isShowPwdWarn(isFocus){
+        let isMathPwd = '';
+        if(this.pwdtxt != ''){
+            isMathPwd = vertifyPassword(this.pwdtxt)
+            if(isMathPwd != ''){
+                this.setState({
+                    isShowPwdWarn:true,
+                    isDisabled: true,
+                    pwdWarn:isMathPwd,
+                })
+            }else{
+                this.setState({
+                    isShowPwdWarn:false,
+                    pwdWarn:'',
+                })
+            }  
+        }else{
+            if(isFocus){
+                this.setState({
+                    isShowPwdWarn:true,
+                    isDisabled: true,
+                    pwdWarn:'密码最少为8位，至少包含大、小写字母、数字、符号中的3种'
+                }) 
+            }
+        }
+    }
+
 
     async vertifyInputData(){
         Keyboard.dismiss();
@@ -293,7 +307,7 @@ class ImportWalletScreen extends Component {
                 <StatusBarComponent />
                 <BlueHeader navigation={this.props.navigation} />
                 <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
-                                             keyboardShouldPersistTaps='always'
+                                             keyboardShouldPersistTaps='handled'
                                              //behavior="padding"
                                              >
                 <View style={styles.contentContainer}>
@@ -328,12 +342,13 @@ class ImportWalletScreen extends Component {
                                     })
                                     this.btnIsEnableClick()
                                 }}
+                                onFocus = {() => this._isShowPwdWarn(true)}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
                                 <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
                             </TouchableOpacity>
                         </View>
-                        <Text style={this.state.isShowPwdWarn ?styles.warnTxt : styles.warnTxtHidden}>密码最少为8位，需包含大小写字母、数字、符号</Text>
+                        <Text style={this.state.isShowPwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.pwdWarn}</Text>
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 placeholder='重复密码'
