@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Modal,TouchableOpacity ,Dimensions,BackHandler} from 'react-native';
+import { View,StyleSheet,Image,Text,SnapshotViewIOS,TouchableOpacity ,Dimensions,BackHandler} from 'react-native';
 import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import {BlueButtonBig} from '../../components/Button';
@@ -92,9 +92,18 @@ class BackupMnemonicScreen extends Component {
         })
     }
 
+    onSnapshot(){
+        console.log("L_onSnapshotReady","截屏")
+        this.setState({
+            modalVisible : true,
+        })
+    }
+
     render() {
         return (
-            <View style={styles.container}>
+            <SnapshotViewIOS style={styles.container}
+                             onSnapshotReady = {()=> this.onSnapshot()}>
+           
                 <StatusBarComponent/>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <ScreenshotWarn
@@ -117,8 +126,8 @@ class BackupMnemonicScreen extends Component {
                     </View>          
                 </View>
 
-            </View>    
-            
+              
+            </SnapshotViewIOS>
         );
     }
 }
