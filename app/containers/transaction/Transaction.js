@@ -493,7 +493,7 @@ export default class Transaction extends Component {
                         ref={(dialog) => { this.dialog = dialog; }} />
                     {/*转账数量栏*/}
                     <InfoView title={"金额"}
-                        detailTitle={"余额：" + parseFloat(this.params.balance).toFixed(4) + "eth"}
+                        detailTitle={"余额：" + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
                         placeholder={"输入" + this.params.transferType + "金额"}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
