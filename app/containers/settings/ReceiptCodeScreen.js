@@ -65,13 +65,13 @@ class ReceiptCodeScreen extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            loadingVisible:false,
-        }
+        // this.state = {
+        //     loadingVisible:false,
+        // }
     }
 
     componentDidMount() {
-        this.showLoading();
+      //  this.showLoading();
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
     }
     componentWillUnmount(){
@@ -82,22 +82,22 @@ class ReceiptCodeScreen extends Component {
         return true;
     }
 
-    showLoading(){
-        this.setState({
-            loadingVisible:true,
-        })
-        setTimeout(()=>{
-            this.closeLoading();
-        },3000);
-    }
+    // showLoading(){
+    //     this.setState({
+    //         loadingVisible:true,
+    //     })
+    //     setTimeout(()=>{
+    //         this.closeLoading();
+    //     },3000);
+    // }
 
-    closeLoading(){
-        if(this.state.loadingVisible){
-            this.setState({
-                loadingVisible : false,
-            })
-        }
-    }
+    // closeLoading(){
+    //     if(this.state.loadingVisible){
+    //         this.setState({
+    //             loadingVisible : false,
+    //         })
+    //     }
+    //}
     
 
     scanClick = async() =>{
@@ -141,8 +141,8 @@ class ReceiptCodeScreen extends Component {
                             size={160}
                             bgColor='#000'
                             fgColor='#fff'
-                            onLoad = {()=> this.closeLoading()}
-                            onLoadEnd = {()=> this.closeLoading()}
+                            onLoad = {()=>{console.log('onLoad---')}}
+                            onLoadEnd = {()=> {console.log('onLoadEnd---')}}
                         />
                      </View>
                      
@@ -154,8 +154,8 @@ class ReceiptCodeScreen extends Component {
                         />
                      </View>       
                 </View> 
-                <Loading visible={this.state.loadingVisible}>
-                </Loading>               
+                {/* <Loading visible={this.state.loadingVisible}>
+                </Loading>                */}
             </View>
         );
     }
