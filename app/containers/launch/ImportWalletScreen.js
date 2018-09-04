@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         alignItems: 'center',
-        
         paddingTop: ScreenHeight*0.05,
         paddingLeft: ScreenWidth*0.08,
         paddingRight: ScreenWidth*0.08,
@@ -306,11 +305,8 @@ class ImportWalletScreen extends Component {
             <View style={styles.container}>
                 <StatusBarComponent />
                 <BlueHeader navigation={this.props.navigation} />
-                <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
-                                             keyboardShouldPersistTaps='handled'
-                                             //behavior="padding"
-                                             >
-                <View style={styles.contentContainer}>
+                <KeyboardAvoidingView behavior='position"' style={styles.keyboardAwareScrollView}>
+                <View style={styles.contentContainer}> 
                     <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
                     <Text style={styles.titleTxt}>导入钱包</Text>
                     
@@ -377,13 +373,15 @@ class ImportWalletScreen extends Component {
                         </View>
                    
                 </View>
-                </KeyboardAwareScrollView>
+               
+                </KeyboardAvoidingView>
                 <Loading visible={this.state.loadingVisible}></Loading>
             </View>
         );
     }
 }
 //  <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}> </ScrollView>
+/****/
 const mapStateToProps = state => ({
     mnemonic: state.Core.mnemonic,
 });
