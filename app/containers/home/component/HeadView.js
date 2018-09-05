@@ -99,7 +99,7 @@ export default class HeadView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.themeColor,
+        backgroundColor: 'transparent',
         height: layoutConstants.HOME_HEADER_HEIGHT,
     },
     topViewContainer: {

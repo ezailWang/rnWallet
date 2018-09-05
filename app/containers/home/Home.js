@@ -19,7 +19,7 @@ import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
 import { addToken, setTransactionRecoders, setCoinBalance, setNetWork } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
-import { StorageKey } from '../../config/GlobalConfig'
+import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
 import Loading from '../../components/LoadingComponent'
@@ -195,6 +195,35 @@ class HomeScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent />
+                <HeadView
+
+                    // onSwitchWallet={() => {
+                    //     console.log('---切换钱包按钮被点击')
+                    // }}
+                    onSet={() => {
+                        this.props.navigation.navigate('Set');
+                    }}
+                    onQRCode={() => {
+                        this.props.navigation.navigate('ReceiptCode');
+                    }}
+                    onAddAssets={() => {
+                        this.showAddtoken()
+                    }}
+                    onAddressCopy={() => {
+                        //复制钱包地址
+                        Clipboard.setString(this.props.walletAddress)
+                        showToast('钱包地址已复制')
+                    }}
+                    walletName={this.props.walletName}
+                    address={this.formatAddress(this.props.walletAddress)}
+                    totalAssets={this.props.totalAssets + ''}
+                    switchWalletIcon={require('../../assets/home/switch.png')}
+                    headIcon={require('../../assets/home/user.png')}
+                    QRbtnIcon={require('../../assets/home/QR_icon.png')}
+                    setBtnIcon={require('../../assets/home/setting.png')}
+                    addAssetsIcon={require('../../assets/home/plus_icon.png')}
+                    addressCopyIcon={require('../../assets/home/Fzicon.png')}
+                />
                 <FlatList
                     ItemSeparatorComponent={ItemDivideComponent}
                     ListEmptyComponent={EmptyComponent}
@@ -205,36 +234,6 @@ class HomeScreen extends Component {
                     refreshControl={<RefreshControl
                         onRefresh={this.onRefresh}
                         refreshing={this.state.isRefreshing}
-                        title="Loading..."
-                    />}
-                    ListHeaderComponent={<HeadView
-
-                        // onSwitchWallet={() => {
-                        //     console.log('---切换钱包按钮被点击')
-                        // }}
-                        onSet={() => {
-                            this.props.navigation.navigate('Set');
-                        }}
-                        onQRCode={() => {
-                            this.props.navigation.navigate('ReceiptCode');
-                        }}
-                        onAddAssets={() => {
-                            this.showAddtoken()
-                        }}
-                        onAddressCopy={() => {
-                            //复制钱包地址
-                            Clipboard.setString(this.props.walletAddress)
-                            showToast('钱包地址已复制')
-                        }}
-                        walletName={this.props.walletName}
-                        address={this.formatAddress(this.props.walletAddress)}
-                        totalAssets={this.props.totalAssets + ''}
-                        switchWalletIcon={require('../../assets/home/switch.png')}
-                        headIcon={require('../../assets/home/user.png')}
-                        QRbtnIcon={require('../../assets/home/QR_icon.png')}
-                        setBtnIcon={require('../../assets/home/setting.png')}
-                        addAssetsIcon={require('../../assets/home/plus_icon.png')}
-                        addressCopyIcon={require('../../assets/home/Fzicon.png')}
                     />}
                 />
                 <ImageButton

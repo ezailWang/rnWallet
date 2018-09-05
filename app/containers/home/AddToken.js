@@ -62,7 +62,14 @@ export default class AddToken extends Component {
                             <ImageButton
                                 btnStyle={styles.BackBtn}
                                 imageStyle={{ width: 15, height: 15 }}
-                                onClick={this.props.close}
+                                onClick={()=>{
+                                    this.setState({
+                                        tokenAddress: '',
+                                        tokenSymbol: '',
+                                        tokenDecimals: 0,
+                                        isValidAddress: false,
+                                    })
+                                    this.props.close()}}
                                 backgroundImageSource={require('../../assets/home/addTokenBack.png')}
                             />
                         </View>

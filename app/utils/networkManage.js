@@ -234,7 +234,6 @@ export default class networkManage {
 
     static isValidAddress(address) {
         const web3 = this.getWeb3Instance();
-        console.log(web3.utils.isAddress(address))
         return web3.utils.isAddress(address);
     }
 
