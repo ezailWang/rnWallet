@@ -39,15 +39,15 @@ class Loading extends Component {
     loadFromStorege = async () => {
         var data = await StorageManage.load(StorageKey.User)
         var net = await StorageManage.load(StorageKey.Network)
+        if (net) {
+            this.props.dispatch(setNetWork(net))
+        }
         if (data) {
             if (data['address']) {
                 this.props.dispatch(setWalletAddress(data['address']))
             }
             if (data['name']) {
                 this.props.dispatch(setWalletName(data['name']))
-            }
-            if (net) {
-                this.props.dispatch(setNetWork(net))
             }
         } else {
             console.log('data = null')
