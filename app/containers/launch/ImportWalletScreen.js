@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, ScrollView, KeyboardAvoidingView,TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions,BackHandler,Keyboard} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, Animated,Keyboard, KeyboardAvoidingView,TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions,BackHandler} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
@@ -21,36 +21,34 @@ import {vertifyPassword,resetStringBlank ,stringTrim} from './Common'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
+        backgroundColor: Colors.backgroundColor,
+    },
+    
+    keyboardAwareScrollView: {
+        alignSelf: 'stretch',
+        justifyContent:'center',
+        alignItems: 'center',
+        marginTop:40,
     },
     contentContainer: {
-        flex: 1,
+        alignSelf:'stretch',
         alignItems: 'center',
-        paddingTop: ScreenHeight*0.05,
+        justifyContent:'center',
         paddingLeft: ScreenWidth*0.08,
         paddingRight: ScreenWidth*0.08,
-        //alignItems:'stretch',
     },
     icon: {
         width: 48,
         height: 48,
     },
-    keyboardAwareScrollView: {
-        flex: 1,
-        backgroundColor: Colors.backgroundColor,
-        //alignSelf: 'stretch',
-    },
-    scrollView: {
-        flex: 1,
-    },
     titleTxt: {
         fontSize: 18,
         fontWeight: '500',
         color: Colors.fontBlueColor,
-        marginBottom: 30,
-    },
+        marginBottom:30,
+    }, 
     inputArea: {
         height: 120,
         //textAlign:'start',
@@ -103,7 +101,7 @@ const styles = StyleSheet.create({
         height: 20,
     },
     warnTxt:{
-        fontSize:11,
+        fontSize:10,
         color:'red',
         alignSelf:'flex-end',
         marginBottom: 10,
@@ -129,19 +127,37 @@ class ImportWalletScreen extends Component {
         this.mnemonictxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
+        this.keyBoardIsShow = false;
+        
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
     }
     componentWillUnmount(){
         this.backHandler && this.backHandler.remove();
+        this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
     }
     onBackPressed=()=>{ 
+        console.log('L_back',"onBackPressed")
         this.props.navigation.goBack();
         return true;
     }
-
+    keyboardDidShowHandler=(event)=>{
+        this.keyBoardIsShow = true;
+    }
+    keyboardDidHideHandler=(event)=>{
+        this.keyBoardIsShow = false;
+    }
+    hideKeyboard = () => {
+        if(this.keyBoardIsShow){
+            Keyboard.dismiss();
+        }
+    }
+    
     //验证android读写权限
     async vertifyPermissions(){
         
@@ -305,13 +321,17 @@ class ImportWalletScreen extends Component {
             <View style={styles.container}>
                 <StatusBarComponent />
                 <BlueHeader navigation={this.props.navigation} />
-                <KeyboardAvoidingView behavior='position"' style={styles.keyboardAwareScrollView}>
+                <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
+                <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
+                                         keyboardShouldPersistTaps='handled'
+                                         behavior="padding">
                 <View style={styles.contentContainer}> 
-                    <Image style={styles.icon} source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
-                    <Text style={styles.titleTxt}>导入钱包</Text>
+                        <Image style={styles.icon}  source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
+                        <Text style={styles.titleTxt}>导入钱包</Text>
+                   
                     
                         <TextInput style={[styles.inputTextBox, styles.inputArea]}
-                            // returnKeyType='next' 
+                            returnKeyType='next'
                             placeholder="输入助记词"
                             underlineColorAndroid='transparent'
                             selectionColor='#00bfff'
@@ -327,6 +347,7 @@ class ImportWalletScreen extends Component {
 
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
+                                returnKeyType='next'
                                 placeholder='设置密码'
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
@@ -347,6 +368,7 @@ class ImportWalletScreen extends Component {
                         <Text style={this.state.isShowPwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.pwdWarn}</Text>
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
+                                returnKeyType='done'
                                 placeholder='重复密码'
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
@@ -371,10 +393,9 @@ class ImportWalletScreen extends Component {
                                 text='导入'
                             />
                         </View>
-                   
                 </View>
-               
                 </KeyboardAvoidingView>
+                </TouchableOpacity>
                 <Loading visible={this.state.loadingVisible}></Loading>
             </View>
         );

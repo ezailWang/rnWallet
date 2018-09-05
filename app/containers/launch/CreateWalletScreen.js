@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, Alert,BackHandler, Platform, TouchableOpacity ,Dimensions,Keyboard} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { View, StyleSheet, Image, Text, TextInput, Alert,BackHandler, Platform, TouchableOpacity ,Dimensions,Animated,Keyboard,KeyboardAvoidingView} from 'react-native';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
@@ -11,18 +10,27 @@ import Loading from '../../components/LoadingComponent';
 import { showToast } from '../../utils/Toast';
 import { BlueHeader } from '../../components/NavigaionHeader'
 import {vertifyPassword} from './Common' 
-
+import layoutConstants from '../../config/LayoutConstants'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.backgroundColor,
+    },
+    
+    
+    keyboardAwareScrollView: {
+        alignSelf: 'stretch',
+        justifyContent:'center',
+        alignItems: 'center',
+        marginTop:40,
     },
     contentContainer: {
-        flex: 1,
+        alignSelf:'stretch',
         alignItems: 'center',
-        backgroundColor: '#fff',
-        paddingTop: ScreenHeight*0.05,
+        justifyContent:'center',
         paddingLeft: ScreenWidth*0.08,
         paddingRight: ScreenWidth*0.08,
     },
@@ -31,20 +39,11 @@ const styles = StyleSheet.create({
         height: 48,
     },
     titleTxt: {
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 18,
+        fontWeight: '500',
         color: Colors.fontBlueColor,
-        marginBottom: 30,
-    },
-    keyboardAwareScrollView: {
-        flex: 1,
-        backgroundColor: '#fff',
-       // alignSelf: 'stretch',
-    },
-    scrollView: {
-        flex: 1,
-        alignSelf: 'stretch',
-    },
+        marginBottom:30,
+    }, 
     inputText: {
         alignSelf: 'stretch',
         height: 42,
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
         height: 20,
     },
     warnTxt:{
-        fontSize:11,
+        fontSize:10,
         color:'red',
         alignSelf:'flex-end',
         marginBottom: 10,
@@ -112,20 +111,35 @@ class CreateWalletScreen extends Component {
         this.nametxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
-        //this.startCreateWallet=this.startCreateWallet.bind(this);
+        this.keyBoardIsShow = false;
     }
 
-    componentDidMount() {
+
+    componentWillMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
     }
     componentWillUnmount(){
         this.backHandler && this.backHandler.remove();
+        this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
     }
     onBackPressed=()=>{ 
         this.props.navigation.goBack();
         return true;
     }
-
+    keyboardDidShowHandler=(event)=>{
+        this.keyBoardIsShow = true;
+    }
+    keyboardDidHideHandler=(event)=>{
+        this.keyBoardIsShow = false;
+    }
+    hideKeyboard = () => {
+        if(this.keyBoardIsShow){
+            Keyboard.dismiss();
+        }
+    }
     isOpenPwd() {
         this.setState({ isShowPassword: !this.state.isShowPassword });
     }
@@ -191,7 +205,7 @@ class CreateWalletScreen extends Component {
     
 
     vertifyInputData() {
-        Keyboard.dismiss();
+        this.hideKeyboard
         let walletName = this.state.walletName;
         let pwd = this.state.pwd;
         let rePwd = this.state.rePwd;
@@ -214,21 +228,27 @@ class CreateWalletScreen extends Component {
     }
 
     
+    
 
     render() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
+            
             <View style={styles.container}>
                 <StatusBarComponent />
                 <BlueHeader navigation={this.props.navigation} />
-                <KeyboardAwareScrollView style={styles.keyboardAwareScrollView}
-                                             keyboardShouldPersistTaps='handled'>
+                <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
+                <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
+                                         keyboardShouldPersistTaps='handled'
+                                         behavior="padding">
                 <View style={styles.contentContainer}>
-                    <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'} />
-                    <Text style={styles.titleTxt}>创建钱包</Text>
+                
+                        <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'} />
+                        <Text style={styles.titleTxt}>创建钱包</Text>
+                    
                         <TextInput style={styles.inputText}
-                            //returnKeyType='next' 
+                            returnKeyType='next' 
                             placeholder="钱包名称"
                             underlineColorAndroid='transparent'
                             selectionColor='#00bfff'
@@ -241,6 +261,7 @@ class CreateWalletScreen extends Component {
                             }} />
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
+                                returnKeyType='next' 
                                 placeholder='密码'
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
@@ -263,6 +284,7 @@ class CreateWalletScreen extends Component {
                         
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
+                                returnKeyType='done' 
                                 placeholder='重复密码'
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
@@ -278,8 +300,8 @@ class CreateWalletScreen extends Component {
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenRePwd()}>
                                 <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'} />
                             </TouchableOpacity>
-
                         </View>
+                
                         <View style={styles.buttonBox}>
                             <BlueButtonBig
                                 isDisabled = {this.state.isDisabled}
@@ -287,9 +309,12 @@ class CreateWalletScreen extends Component {
                                 text='创建'
                             />
                         </View>
+                       
                 </View>
-                </KeyboardAwareScrollView>
+                </KeyboardAvoidingView>
+                </TouchableOpacity>
             </View>
+            
         );
     }
 }
