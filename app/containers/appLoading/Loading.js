@@ -8,6 +8,7 @@ import {
     setNetWork
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
+import { I18n, getLanguages } from '../../config/language/i18n'
 
 class Loading extends Component {
 
@@ -39,8 +40,12 @@ class Loading extends Component {
     loadFromStorege = async () => {
         var data = await StorageManage.load(StorageKey.User)
         var net = await StorageManage.load(StorageKey.Network)
+        var language = await StorageManage.load(StorageKey.Language)
         if (net) {
             this.props.dispatch(setNetWork(net))
+        }
+        if (language) {
+            I18n.locale = language
         }
         if (data) {
             if (data['address']) {

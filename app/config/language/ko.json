@@ -1,0 +1,28 @@
+{
+    "launch":{
+        "creact_wallet":"지갑 만들기",
+        "import_wallet":"지갑 가져 오기"
+    },
+    "home":{
+        "total_assets":"총자산",
+        "assets":"자산",
+        "settings":"설정",
+        "QRCode":"QR 코드",
+        "no_assets":"애셋이 없습니다~",
+        "add":"더하다",
+        "add_token":"자산 추가",
+        "contract_address":"계약 주소",
+        "token_symbol":"토큰 심볼",
+        "token_decimals":"토큰 십진수"
+    },
+    "transaction":{
+
+    },
+    "settings":{
+
+    },
+    "toast":{
+        "exit_app":"다시 누르면 앱이 종료됩니다",
+        "copy_wallet":"복사 됨"
+    }
+}

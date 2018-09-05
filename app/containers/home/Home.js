@@ -25,6 +25,7 @@ import SplashScreen from 'react-native-splash-screen'
 import Loading from '../../components/LoadingComponent'
 import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast'
+import { I18n } from '../../config/language/i18n'
 
 let lastBackPressed = 0;
 
@@ -178,7 +179,7 @@ class HomeScreen extends Component {
                 BackHandler.exitApp;
                 return false;
             } else {
-                showToast('再按一次退出应用');
+                showToast(I18n.t('toast.exit_app'));
                 lastBackPressed = Date.now();
                 return true;
             }
@@ -212,7 +213,7 @@ class HomeScreen extends Component {
                     onAddressCopy={() => {
                         //复制钱包地址
                         Clipboard.setString(this.props.walletAddress)
-                        showToast('钱包地址已复制')
+                        showToast(I18n.t('toast.copy_wallet'))
                     }}
                     walletName={this.props.walletName}
                     address={this.formatAddress(this.props.walletAddress)}

@@ -3296,6 +3296,10 @@ humanize-url@^1.0.0:
     normalize-url "^1.0.0"
     strip-url-auth "^1.0.0"
 
+i18n-js@3.0.11:
+  version "3.0.11"
+  resolved "http://registry.npm.taobao.org/i18n-js/download/i18n-js-3.0.11.tgz#f9e96bdb641c5b9d6be12759d7c422089987ef02"
+
 iconv-lite@0.4.19:
   version "0.4.19"
   resolved "http://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -5578,6 +5582,12 @@ react-native-hdwallet@^1.0.2:
     strip-hex-prefix "^1.0.0"
     unorm "^1.4.1"
     vm-browserify "0.0.4"
+
+react-native-i18n@^2.0.15:
+  version "2.0.15"
+  resolved "http://registry.npm.taobao.org/react-native-i18n/download/react-native-i18n-2.0.15.tgz#09b5a9836116fa7dbd0054c46e2d1014c1ef3c65"
+  dependencies:
+    i18n-js "3.0.11"
 
 react-native-iphone-x-helper@^1.0.1:
   version "1.0.3"

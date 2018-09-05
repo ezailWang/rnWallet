@@ -1,0 +1,28 @@
+{
+    "launch":{
+        "creact_wallet":"创建钱包",
+        "import_wallet":"导入钱包"
+    },
+    "home":{
+        "total_assets":"总资产",
+        "assets":"资产",
+        "settings":"设置",
+        "QRCode":"二维码",
+        "no_assets":"还没有资产哦~",
+        "add":"添加",
+        "add_token":"添加资产",
+        "contract_address":"合约地址",
+        "token_symbol":"资产标识",
+        "token_decimals":"小数精度"
+    },
+    "transaction":{
+
+    },
+    "settings":{
+
+    },
+    "toast":{
+        "exit_app":"再按一次退出应用",
+        "copy_wallet":"已复制"
+    }
+}

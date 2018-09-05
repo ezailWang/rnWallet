@@ -64,6 +64,7 @@ const StorageKey = {
     User:'user',
     Tokens:'tokens',
     Network:'network',
+    Language:'language',
 }
 
 const Network = {
