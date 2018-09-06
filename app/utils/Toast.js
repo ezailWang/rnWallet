@@ -1,5 +1,5 @@
 import Toast from 'react-native-root-toast';
-
+import {StyleSheet} from 'react-native';
 function showToast(message){
     let toast = Toast.show(message, {
         visible:true,
@@ -11,6 +11,7 @@ function showToast(message){
         textColor:'white',//字体颜色
         hideOnPress: false,//通过按下吐司来隐藏出现的吐司。
         delay: 0,//吐司开始前的延迟时间出现在屏幕上
+        containerStyle : styles.containerStyle,
         onShow: () => {
             //Toast出现动画开始的回调
         },
@@ -29,5 +30,9 @@ function showToast(message){
     //Toast.hide(toast);
 }
 
-
+const styles = StyleSheet.create({
+    containerStyle :{
+        borderRadius:20,
+    }
+})
 module.exports = {showToast}
