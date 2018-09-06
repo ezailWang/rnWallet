@@ -12,8 +12,9 @@
         "add":"添加",
         "add_token":"添加资产",
         "contract_address":"合约地址",
-        "token_symbol":"资产标识",
-        "token_decimals":"小数精度"
+        "token_symbol":"资产符号",
+        "token_decimals":"小数精度",
+        "currency_symbok":"¥"
     },
     "transaction":{
 

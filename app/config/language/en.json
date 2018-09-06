@@ -13,7 +13,8 @@
         "add_token":"add token",
         "contract_address":"contract address",
         "token_symbol":"token symbol",
-        "token_decimals":"token decimals"
+        "token_decimals":"token decimals",
+        "currency_symbol":"$"
     },
     "transaction":{
 

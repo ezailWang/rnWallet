@@ -71,7 +71,7 @@ export default class HeadView extends Component {
                 </View>
                 <View style={styles.assetsContainer}>
                     <Text style={{ fontSize: 15, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
-                    <Text style={{ fontSize: 40, color: 'white' }}> ${this.props.totalAssets} </Text>
+                    <Text style={{ fontSize: 40, color: 'white' }}> {I18n.t('home.currency_symbol')}{this.props.totalAssets} </Text>
                 </View>
                 <View style={styles.buttonContainer}>
                     <OvalButton

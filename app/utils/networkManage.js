@@ -9,6 +9,7 @@ import { StorageKey, Network } from '../config/GlobalConfig'
 import { addToken, loadTokenBalance, setTotalAssets } from '../config/action/Actions'
 import lodash from 'lodash'
 import { TransferGasLimit } from '../config/GlobalConfig'
+import { I18n } from '../config/language/i18n'
 
 const Ether = new BigNumber(10e+17)
 var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
@@ -247,6 +248,31 @@ export default class networkManage {
     }
 
     /**
+     * Query token price
+     * @param {string} symbol 
+     */
+    static async getPrice(symbol) {
+        try {
+            const result = await fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`)
+            const resJson = await result.json()
+            if (resJson.code === 200) {
+                switch (I18n.currentLocale()) {
+                    case 'zh-Hans-US':
+                        return resJson.data.cny
+                    case 'en-US':
+                        return resJson.data.usd
+                    case 'ko-US':
+                        return resJson.data.krw
+                }
+            }
+            return 0.00
+        } catch (err) {
+            console.log('getPrice err:', err)
+            return 0.00
+        }
+    }
+
+    /**
      * Load the tokens the user owns
      */
     static async loadTokenList() {
@@ -280,6 +306,7 @@ export default class networkManage {
     static async getTokensBalance() {
         const { tokens } = store.getState().Core
         const completeTokens = lodash.cloneDeep(tokens)
+        var totalAssets = 0.00
         await Promise.all(completeTokens.map(async (token) => {
             const balance = await this.getBalance({
                 contractAddress: token.contractAddress,
@@ -289,18 +316,23 @@ export default class networkManage {
             token["balance"] = balance
             token["price"] = 0
             if (token.symbol === 'ETH') {
-                const ethPrice = await this.getEthPrice()
-                const total = balance * ethPrice
+                const ethPrice = await this.getPrice('eth')
+                const ethTotal = balance * ethPrice
                 token["price"] = ethPrice
-                store.dispatch(setTotalAssets(total))
+                totalAssets = totalAssets + ethTotal
             }
-            //token的价格暂时无法获取
+            if (token.symbol === 'ITC') {
+                const itcPrice = await this.getPrice('itc')
+                const itcTotal = balance * itcPrice
+                token["price"] = itcPrice
+                totalAssets = totalAssets + itcTotal
+            }
         }))
+        store.dispatch(setTotalAssets(totalAssets))
         store.dispatch(loadTokenBalance(completeTokens))
     }
 
     static async getSuggestGasPrice() {
-
         const web3 = this.getWeb3Instance();
         let price = await web3.eth.getGasPrice();
         return web3.utils.fromWei(price, 'gwei')

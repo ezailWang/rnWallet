@@ -13,7 +13,8 @@
         "add_token":"자산 추가",
         "contract_address":"계약 주소",
         "token_symbol":"토큰 심볼",
-        "token_decimals":"토큰 십진수"
+        "token_decimals":"토큰 십진수",
+        "currency_symbol":"‎₩"
     },
     "transaction":{
 

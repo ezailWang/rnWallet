@@ -58,10 +58,10 @@ class HomeCell extends Component {
                 <View style={styles.rightView}>
                     <Text
                         style={{ fontSize: 20 }}
-                    >{isNaN(balance) || balance === 0 ? '0.00' : balance}</Text>
+                    >{isNaN(balance) || balance === '0.0000' ? '0.00' : balance}</Text>
                     <Text
-                        style={{ fontSize: 15, color: Colors.fontGrayColor }}
-                    >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈$' + (balance * price).toFixed(2)}</Text>
+                        style={{ fontSize: 15, color: Colors.fontDarkGrayColor }}
+                    >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + I18n.t('home.currency_symbol') + (balance * price).toFixed(2)}</Text>
                 </View>
             </TouchableOpacity>
         )
