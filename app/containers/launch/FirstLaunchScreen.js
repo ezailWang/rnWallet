@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image,Dimensions,BackHandler,PermissionsAndroid,Platform,Alert} from 'react-native';
+import { View, StyleSheet, Image, Dimensions, BackHandler, PermissionsAndroid, Platform, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
-import {RightBlueNextButton,RightWhiteNextButton} from '../../components/Button'
-import {Colors} from '../../config/GlobalConfig'
+import { RightBlueNextButton, RightWhiteNextButton } from '../../components/Button'
+import { Colors } from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import SplashScreen from 'react-native-splash-screen'
 
 import { androidPermission } from '../../utils/permissionsAndroid';
-import {showToast} from '../../utils/Toast';
+import { showToast } from '../../utils/Toast';
 import networkManage from '../../utils/networkManage'
+import { I18n } from '../../config/language/i18n'
 
 let lastBackPressed = 0;
 
@@ -29,50 +30,50 @@ const styles = StyleSheet.create({
     marginTop10: {
         marginTop: 30,
     },
-    nextIcon:{
-        width:15,
-        height:15,
-        marginTop:10,
-        marginLeft:10,
-        zIndex:20,
+    nextIcon: {
+        width: 15,
+        height: 15,
+        marginTop: 10,
+        marginLeft: 10,
+        zIndex: 20,
     },
-    btnMargin:{
-       height:20,
+    btnMargin: {
+        height: 20,
     }
 });
 
-export default  class FirstLaunchScreen extends Component {
+export default class FirstLaunchScreen extends Component {
     componentDidMount() {
         SplashScreen.hide()
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.backHandler && this.backHandler.remove();
     }
-    onBackPressed=()=>{ 
-        
-        if(this.props.navigation.state.routeName == 'FirstLaunch'){
+    onBackPressed = () => {
+
+        if (this.props.navigation.state.routeName == 'FirstLaunch') {
             //在首页按了物理键返回
-            if((lastBackPressed + 2000)  >=  Date.now()){
-                 BackHandler.exitApp;
-                 return false;
-            }else{
-                 showToast('再按一次退出应用');
-                 lastBackPressed = Date.now();
-                 return true;
-        }
-        }else{
+            if ((lastBackPressed + 2000) >= Date.now()) {
+                BackHandler.exitApp;
+                return false;
+            } else {
+                showToast('再按一次退出应用');
+                lastBackPressed = Date.now();
+                return true;
+            }
+        } else {
             return true;
-        } 
+        }
     }
-    
+
 
     //验证android读写权限
     async vertifyAndroidPermissions(isCreateWallet) {
         if (Platform.OS === 'android') {
             var readWritePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
             //var writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-            if (readWritePermission) {  
+            if (readWritePermission) {
                 this.nextRoute(isCreateWallet)
             } else {
                 Alert.alert(
@@ -85,34 +86,34 @@ export default  class FirstLaunchScreen extends Component {
         }
     }
 
-    nextRoute(isCreateWallet){
-        if(isCreateWallet){
+    nextRoute(isCreateWallet) {
+        if (isCreateWallet) {
             this.props.navigation.navigate('CreateWallet')
-        }else{
+        } else {
             this.props.navigation.navigate('ImportWallet')
         }
     }
-    
-    createNew = async ()=>{
+
+    createNew = async () => {
         let web3 = networkManage.getWeb3Instance();
         let number = await web3.eth.getBlockNumber();
-        alert('current blockNumber'+number);
+        alert('current blockNumber' + number);
 
         let account = await web3.eth.accounts.create();
-        alert('account info'+JSON.stringify(account,3));
+        alert('account info' + JSON.stringify(account, 3));
 
         let keystore = await web3.eth.accounts.encrypt(account.privateKey, 'password');
-        alert('keystore info'+JSON.stringify(keystore,3))
+        alert('keystore info' + JSON.stringify(keystore, 3))
     }
 
-    importKeyStore = async ()=>{
+    importKeyStore = async () => {
 
         let web3 = networkManage.getWeb3Instance();
-        let account = await web3.eth.accounts.decrypt({"version":3,"id":"a28d87a2-5527-4395-a30c-af7a3fe24ade","address":"ffd74e5e87dbb1c3632c457547db7236a3b99af4","crypto":{"ciphertext":"f976e49400a50020fd24f6aed37cf9ed3617b0a0028da55adcfcd0507b9ce8de","cipherparams":{"iv":"daed75bedc31de69b944123ebbec67fe"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"ea2f455cc3bd0f69ed117ada26a4f830fe6fb43d39262fa1048778cc35a341c9","n":8192,"r":8,"p":1},"mac":"d288cc0c1f5ae40ac6bad4335c9d25f37fed71e2f9ab431be8885a663a5f332d"}}, 'password');
-        alert('decyypt account'+JSON.stringify(account,3));
+        let account = await web3.eth.accounts.decrypt({ "version": 3, "id": "a28d87a2-5527-4395-a30c-af7a3fe24ade", "address": "ffd74e5e87dbb1c3632c457547db7236a3b99af4", "crypto": { "ciphertext": "f976e49400a50020fd24f6aed37cf9ed3617b0a0028da55adcfcd0507b9ce8de", "cipherparams": { "iv": "daed75bedc31de69b944123ebbec67fe" }, "cipher": "aes-128-ctr", "kdf": "scrypt", "kdfparams": { "dklen": 32, "salt": "ea2f455cc3bd0f69ed117ada26a4f830fe6fb43d39262fa1048778cc35a341c9", "n": 8192, "r": 8, "p": 1 }, "mac": "d288cc0c1f5ae40ac6bad4335c9d25f37fed71e2f9ab431be8885a663a5f332d" } }, 'password');
+        alert('decyypt account' + JSON.stringify(account, 3));
     }
 
-    testFunc = async ()=>{
+    testFunc = async () => {
 
         //生成助记词
         // let mnemonic = bip39.generateMnemonic()
@@ -134,18 +135,18 @@ export default  class FirstLaunchScreen extends Component {
     render() {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
-                            style={styles.contentContainer}>
-                <StatusBarComponent/>            
-                <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'}/>
+                style={styles.contentContainer}>
+                <StatusBarComponent />
+                <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'} />
 
                 <RightBlueNextButton
-                        onPress={() => this.vertifyAndroidPermissions(true)}
-                        text='创建钱包'/>
+                    onPress={() => this.vertifyAndroidPermissions(true)}
+                    text={I18n.t('launch.creact_wallet')} />
                 <View style={styles.btnMargin}>
                 </View>
                 <RightWhiteNextButton
-                        onPress={()=> this.vertifyAndroidPermissions(false)}
-                        text='导入钱包'/> 
+                    onPress={() => this.vertifyAndroidPermissions(false)}
+                    text={I18n.t('launch.import_wallet')} />
             </LinearGradient>
         )
     }

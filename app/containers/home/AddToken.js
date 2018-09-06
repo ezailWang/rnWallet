@@ -13,6 +13,7 @@ import layoutConstants from '../../config/LayoutConstants'
 import ImageButton from '../../components/ImageButton'
 import networkManage from '../../utils/networkManage'
 import { store } from '../../config/store/ConfigureStore'
+import { I18n } from '../../config/language/i18n'
 
 export default class AddToken extends Component {
     constructor(props) {
@@ -58,24 +59,25 @@ export default class AddToken extends Component {
                         behavior="padding"
                         style={styles.contentContainer}>
                         <View style={styles.TopContainer}>
-                            <Text style={styles.TopText}> 添加资产 </Text>
+                            <Text style={styles.TopText}> {I18n.t('home.add_token')} </Text>
                             <ImageButton
                                 btnStyle={styles.BackBtn}
                                 imageStyle={{ width: 15, height: 15 }}
-                                onClick={()=>{
+                                onClick={() => {
                                     this.setState({
                                         tokenAddress: '',
                                         tokenSymbol: '',
                                         tokenDecimals: 0,
                                         isValidAddress: false,
                                     })
-                                    this.props.close()}}
+                                    this.props.close()
+                                }}
                                 backgroundImageSource={require('../../assets/home/addTokenBack.png')}
                             />
                         </View>
                         <View style={styles.MiddleContainer}>
                             <TextInput style={styles.TextInput}
-                                placeholder='合约地址'
+                                placeholder={I18n.t('home.contract_address')}
                                 autoCorrect={false}
                                 onChange={(event) => {
                                     this.setState({
@@ -85,7 +87,7 @@ export default class AddToken extends Component {
                                 }}
                             />
                             <TextInput style={styles.TextInput}
-                                placeholder='资产标识'
+                                placeholder={I18n.t('home.token_symbol')}
                                 autoCorrect={false}
                                 onChange={(event) => {
                                     this.setState({
@@ -94,7 +96,7 @@ export default class AddToken extends Component {
                                 }}
                             />
                             <TextInput style={styles.TextInput}
-                                placeholder='小数精度'
+                                placeholder={I18n.t('home.token_decimals')}
                                 keyboardType='numeric'
                                 onChange={(event) => {
                                     this.setState({
@@ -120,7 +122,7 @@ export default class AddToken extends Component {
                                     })
                                 }}
                             >
-                                <Text style={{ color: Colors.whiteBackgroundColor, fontWeight: 'bold', fontSize: 15 }}>添加</Text>
+                                <Text style={{ color: Colors.whiteBackgroundColor, fontWeight: 'bold', fontSize: 15 }}>{I18n.t('home.add')}</Text>
                             </TouchableOpacity>
                         </View>
                     </KeyboardAvoidingView>
@@ -181,8 +183,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginHorizontal: 40,
-        marginBottom: 25 + ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) - 50)/2 : 0),
-        marginTop: (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) - 50)/2 : 0,
+        marginBottom: 25 + ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) - 50) / 2 : 0),
+        marginTop: (layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) > 50 ? ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) - 50) / 2 : 0,
         borderRadius: ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2) > 25 ? 25 : ((layoutConstants.WINDOW_HEIGHT * 0.45 * 1 / 3 - 50) / 2),
     },
     BackBtn: {

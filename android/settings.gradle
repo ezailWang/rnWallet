@@ -1,4 +1,6 @@
 rootProject.name = 'rnWallet'
+include ':react-native-i18n'
+project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-i18n/android')
 include ':react-native-fast-crypto'
 project(':react-native-fast-crypto').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fast-crypto/android')
 include ':react-native-splash-screen'

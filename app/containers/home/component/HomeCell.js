@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
+import { I18n } from '../../../config/language/i18n'
 
 tokeniCon = {
     'ETH': require('../../../assets/home/ETH.png'),
@@ -30,7 +31,7 @@ class EmptyComponent extends Component {
     render() {
         return (
             <View style={styles.emptyView}>
-                <Text style={{ fontSize: 20 }}>还没有资产哦~</Text>
+                <Text style={{ fontSize: 20 }}>{I18n.t('home.no_assets')}</Text>
             </View>
         )
     }
@@ -57,7 +58,7 @@ class HomeCell extends Component {
                 <View style={styles.rightView}>
                     <Text
                         style={{ fontSize: 20 }}
-                    >{isNaN(balance) ? '--' : balance}</Text>
+                    >{isNaN(balance) || balance === 0 ? '0.00' : balance}</Text>
                     <Text
                         style={{ fontSize: 15, color: Colors.fontGrayColor }}
                     >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈$' + (balance * price).toFixed(2)}</Text>

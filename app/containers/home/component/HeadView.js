@@ -12,6 +12,7 @@ import ImageButton from '../../../components/ImageButton'
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
 import LinearGradient from 'react-native-linear-gradient'
+import { I18n } from '../../../config/language/i18n'
 
 export default class HeadView extends Component {
 
@@ -69,23 +70,23 @@ export default class HeadView extends Component {
                     </View>
                 </View>
                 <View style={styles.assetsContainer}>
-                    <Text style={{ fontSize: 15, color: 'white' }}> 总资产 </Text>
+                    <Text style={{ fontSize: 15, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
                     <Text style={{ fontSize: 40, color: 'white' }}> ${this.props.totalAssets} </Text>
                 </View>
                 <View style={styles.buttonContainer}>
                     <OvalButton
                         onClick={this.props.onSet}
-                        showText="设置"
+                        showText={I18n.t('home.settings')}
                         renderIcon={this.props.setBtnIcon}
                     />
                     <OvalButton
                         onClick={this.props.onQRCode}
-                        showText="二维码"
+                        showText={I18n.t('home.QRCode')}
                         renderIcon={this.props.QRbtnIcon}
                     />
                 </View>
                 <View style={styles.bottomAddAssetsContainer}>
-                    <Text style={{ marginLeft: 10, color: 'rgb(30,174,245)' }}> 资产 </Text>
+                    <Text style={{ marginLeft: 10, color: 'rgb(30,174,245)' }}> {I18n.t('home.assets')} </Text>
                     <ImageButton
                         btnStyle={{ marginRight: 10 }}
                         onClick={this.props.onAddAssets}
