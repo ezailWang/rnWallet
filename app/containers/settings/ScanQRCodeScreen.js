@@ -174,7 +174,7 @@ class ScanQRCodeScreen extends Component{
     render(){
         return(
             <View style={styles.container}>
-                 <StatusBarComponent/>
+                 <StatusBarComponent barStyle='light-content'/>
                  <BlackBgHeader  navigation={this.props.navigation} text='扫描二维码'/>
              
                  <Camera

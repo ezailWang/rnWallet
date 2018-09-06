@@ -136,7 +136,7 @@ export default class FirstLaunchScreen extends Component {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                 style={styles.contentContainer}>
-                <StatusBarComponent />
+                <StatusBarComponent  barStyle='light-content'/>
                 <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'} />
 
                 <RightBlueNextButton

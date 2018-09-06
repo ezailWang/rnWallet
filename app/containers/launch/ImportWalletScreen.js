@@ -292,7 +292,7 @@ class ImportWalletScreen extends Component {
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
             <View style={styles.container}>
-                <StatusBarComponent />
+                <StatusBarComponent  barStyle='light-content'/>
                 <BlueHeader navigation={this.props.navigation} />
                 <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}

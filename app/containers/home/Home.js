@@ -195,7 +195,7 @@ class HomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent />
+                <StatusBarComponent  barStyle='light-content'/>
                 <HeadView
 
                     // onSwitchWallet={() => {
