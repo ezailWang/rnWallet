@@ -34,14 +34,31 @@ const styles = StyleSheet.create({
         marginRight:20,
         //borderRadius:5,
     },
+    inputBox: {
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 42,
+        borderRadius: 5,
+        borderColor: Colors.borderColor_e,
+        borderWidth: 1,
+        paddingLeft: 10,
+        marginBottom: 10,
+    },
     inputText:{
-        height:40,
-        alignSelf:'stretch',
-        paddingLeft:10,
-        borderRadius:5,
-        borderColor:Colors.borderColor_e,
-        borderWidth:1,
+        flex:1,
+        height: 42,
         color:Colors.fontGrayColor_a0
+    },
+    
+    pwdBtnOpacity: {
+        height: 42,
+        width: 42,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    pwdIcon: {
+        height: 20,
     },
     buttonBox:{
         flexDirection:'row',
@@ -51,10 +68,6 @@ const styles = StyleSheet.create({
         flex:1,
         height:40,
         alignSelf:'stretch',
-        //borderRadius:20,
-        //backgroundColor: 'transparent',
-        //borderColor:'rgb(85,146,246)',
-        //borderWidth:1,
     },
     leftBtnTxt:{
         color:'rgb(85,146,246)',
@@ -66,7 +79,7 @@ const styles = StyleSheet.create({
     rightBtnBox:{
         flex:1,
         marginLeft:20,
-    }
+    },
 
 });
 export default class InputTextDialog extends Component{
@@ -77,73 +90,63 @@ export default class InputTextDialog extends Component{
         rightTxt: PropTypes.string.isRequired,
         leftTxt:PropTypes.string.isRequired,
         modalVisible: PropTypes.bool.isRequired,
-        defaultValue :PropTypes.string,
     }
     constructor(props){
         super(props);
         this.state = {
             text : '',
+            isShowPassword : false,
         }
     }
-
-    componentWillReceiveProps(nextProps){
-        if(nextProps.defaultValue != ''){
-            this.setState({
-                text : nextProps.defaultValue,
-            })
-        }
+    isOpenPwd() {
+        this.setState({ isShowPassword: !this.state.isShowPassword });
     }
-
-    setText(){
-        this.setState({
-            text : '',
-        })
+    closePwd(){
+        this.setState({ isShowPassword: false});
     }
-
     leftPressed=()=>{ 
+        this.closePwd()
         this.props.leftPress()
-        this.setText()
     }
     rightPressed=()=>{
-        
+        this.closePwd()
         this.props.rightPress()
-        this.setText()
     }
-
-    /**inputText(event){
-        this.setState({
-            text: event.nativeEvent.text
-        })
-    }**/
     render(){
+        let pwdIcon = this.state.isShowPassword ? require('../assets/launch/pwdOpenIcon.png') : require('../assets/launch/pwdHideIcon.png');
         return(
             <Modal
                   animationType={'fade'}
                   transparent={true}
                   visible={this.props.modalVisible}
                   onRequestClose={()=>{
-                     //Alert.alert("Modal has been closed.");
+                        //只有android点击物理返回键的时候才调用
+                        //console.log('L_modal_close','Modal has been closed.')
                   }}
                   onShow={()=>{
-                     //Alert.alert("Modal has been show.");
+                     //console.log('L_modal_show','Modal has been show.')
                   }}
             >
                 <View style={styles.modeBox}>
                 <View style={styles.contentBox}>
-                    <TextInput style={styles.inputText} 
-                        placeholder= {this.props.placeholder}
-                        underlineColorAndroid='transparent' 
-                        selectionColor='#00bfff' 
-                        ref={(input)=>{
-                            this.inputText=input;
-                        }}
-                        onChange={(event) => {
-                            this.setState({
-                                text: event.nativeEvent.text
-                            })
-                        }}
-                        defaultValue = {this.props.defaultValue}
-                    ></TextInput>
+                    <View style={styles.inputBox}>
+                         <TextInput style={styles.inputText} 
+                             returnKeyType='done'
+                             placeholder= {this.props.placeholder}
+                             underlineColorAndroid='transparent' 
+                             selectionColor='#00bfff' 
+                             secureTextEntry={!this.state.isShowPassword}
+                             onChange={(event) => {
+                                 this.setState({
+                                     text: event.nativeEvent.text
+                                 })
+                             }}
+                        ></TextInput>
+                        <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
+                            <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
+                        </TouchableOpacity>
+                    </View>
+                    
                     <View style={styles.buttonBox}>
                         <View style={[styles.leftBtnOpacity]}>
                             <WhiteButtonSmall onPress={this.leftPressed}

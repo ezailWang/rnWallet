@@ -6,6 +6,7 @@ import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
 import {NextButton} from '../../components/Button';
 import InputTextDialog from '../../components/InputTextDialog';
+import InputPasswordDialog from '../../components/InputPasswordDialog';
 import {Colors,FontSize,StorageKey}from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import * as Actions from '../../config/action/Actions';
@@ -62,51 +63,46 @@ class SetScreen extends Component {
     constructor(props){
         super(props);
         this.state = {
-            inputDialogPlaceholder:'',
-            modalText:'',
-            modalVisible : false,
+            nameModalVisible : false,
+            passwordModalVisible : false,
             loadingVisible:false,
         }
     }
 
-    openInputNameModal() {
-        this.setState({
-            inputDialogPlaceholder: '请输入钱包名称',
-            modalText:this.props.walletName,
-            modalVisible: true,
-        });
+    openNameModal() {
+        this.setState({nameModalVisible: true});
     }
-    openInputPwdModal() {
-        this.setState({
-             inputDialogPlaceholder:'请输入密码',
-             modalText:'',
-             modalVisible: true,
-        });
+    openPasswordModal() {
+        this.setState({passwordModalVisible: true});
     }
-    closeInputModal(){
-        this.setState({modalVisible: false});
+    closeNameModal(){
+        this.setState({nameModalVisible: false});
     }
-    inputDialogConfirmClick(){
-        if(this.state.inputDialogPlaceholder == "请输入钱包名称"){
-            var name = this.refs.inputTextDialog.state.text;
-            if(name==null || name == '' || name == undefined){
-                showToast('请输入钱包名称')
-            }else{
-                this.modifyWalletName(name);
-            }
-           
+    closePasswordModal(){
+        this.setState({passwordModalVisible: false});
+    }
+
+    nameConfirmClick(){
+        var name = this.refs.inputTextDialog.state.text;
+        this.closeNameModal()
+        if(name == '' || name == undefined){
+            showToast('请输入钱包名称')
+        }else if(name == this.props.walletName){
+            showToast('钱包名称与之前一致')
         }else{
-            var password = this.refs.inputTextDialog.state.text;
-            if(password == null || password == '' || password == undefined){
-                this.closeInputModal();//隐藏弹框
-                showToast('请输入密码')
-            }else{
-                this.closeInputModal();//隐藏弹框
-                this.showLoading()
-                this.exportKeyPrivate(password);
-            }
-            
-            
+            this.modifyWalletName(name);
+        }
+    }
+
+    passwordConfirmClick(){
+        var password = this.refs.inputPasswordDialog.state.text;
+        console.log('L_pwd',password)
+        this.closePasswordModal();
+        if(password == '' || password == undefined){
+            showToast('请输入密码')
+        }else{
+            this.showLoading()
+            this.exportKeyPrivate(password);
         }
     }
     async  modifyWalletName(name){
@@ -125,7 +121,7 @@ class SetScreen extends Component {
         this.props.modifyWalletName(name);
 
         this.refs.inputTextDialog.state.text = '';
-        this.closeInputModal();//隐藏弹框 
+        //this.closeNameModal();//隐藏弹框 
     }
 
 
@@ -148,7 +144,7 @@ class SetScreen extends Component {
             this.props.navigation.navigate('ExportKeystore',{keystore: keystore});
         }catch (err) {
           //this.closeLoading();
-          alert("导出私钥出错");
+          alert("密码错误，请输入正确的密码");
           console.log('exportKeystoreErr:', err)
         }
     }
@@ -188,17 +184,26 @@ class SetScreen extends Component {
                 <WhiteBgHeader  navigation={this.props.navigation} text='设置'/>
                 <InputTextDialog
                     ref = "inputTextDialog"
-                    placeholder = {this.state.inputDialogPlaceholder}
+                    placeholder = '请输入钱包名称'
                     leftTxt = "取消"
                     rightTxt = '确定'
-                    leftPress = {()=> this.closeInputModal()}
-                    rightPress = {()=> this.inputDialogConfirmClick()}
-                    modalVisible = {this.state.modalVisible}
-                    initText = {this.state.modalText}
+                    leftPress = {()=> this.closeNameModal()}
+                    rightPress = {()=> this.nameConfirmClick()}
+                    modalVisible = {this.state.nameModalVisible}
+                    defaultValue = {this.props.walletName}
                 />
+                <InputPasswordDialog
+                    ref = "inputPasswordDialog"
+                    placeholder = '请输入密码'
+                    leftTxt = "取消"
+                    rightTxt = '确定'
+                    leftPress = {()=> this.closePasswordModal()}
+                    rightPress = {()=> this.passwordConfirmClick()}
+                    modalVisible = {this.state.passwordModalVisible}
+                />    
                 <TouchableOpacity style={[styles.btnOpacity]} 
                                   activeOpacity={0.6} 
-                                  onPress={()=> this.openInputNameModal()}>
+                                  onPress={()=> this.openNameModal()}>
                     <Text style={styles.btnTxt}>修改钱包名称</Text>
                     <Text style={styles.walletName}>{this.props.walletName}</Text>
                 </TouchableOpacity> 
@@ -213,7 +218,7 @@ class SetScreen extends Component {
                 </View> 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.openInputPwdModal()}
+                        onPress = {()=> this.openPasswordModal()}
                         text = '导出私钥'
                     />
                 </View> 

@@ -122,6 +122,8 @@ class ImportWalletScreen extends Component {
             loadingVisible: false,
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
+            isShowPassword:false,
+            isShowRePassword:false,
             pwdWarn:'密码最少为8位，至少包含大、小写字母、数字、符号中的3种',
         }
         this.mnemonictxt = '';
@@ -158,35 +160,6 @@ class ImportWalletScreen extends Component {
         }
     }
     
-    //验证android读写权限
-    async vertifyPermissions(){
-        
-        if(Platform.OS === 'android'){
-            var  readPermission = await androidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE); 
-            if(readPermission){
-                var  writePermission = await androidPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE); 
-                if(writePermission){
-                    this.vertifyInputData()
-                } else {
-                    this.stopLoading();
-                    Alert.alert(
-                        'warn',
-                        '请允许写入内存卡权限',
-                    )
-                }
-            } else {
-                this.stopLoading()
-                Alert.alert(
-                    'warn',
-                    '请允许读取内存卡权限',
-                )
-            }
-        }else{
-            this.vertifyInputData()
-        }
-    }
-
-
    //所有信息都输入完成前，“创建”按钮显示为灰色
    btnIsEnableClick(){
         this._isShowPwdWarn(false);
