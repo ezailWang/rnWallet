@@ -78,7 +78,7 @@ export default class FirstLaunchScreen extends Component {
             } else {
                 Alert.alert(
                     'warn',
-                    '请允许读写内存卡权限',
+                    '请允许读写存储空间的权限',
                 )
             }
         } else {

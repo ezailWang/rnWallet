@@ -11,6 +11,7 @@ import { showToast } from '../../utils/Toast';
 import { BlueHeader } from '../../components/NavigaionHeader'
 import {vertifyPassword} from './Common' 
 import layoutConstants from '../../config/LayoutConstants'
+import { I18n } from '../../config/language/i18n'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     inputText: {
         alignSelf: 'stretch',
         height: 42,
-        paddingLeft: 10,
+        paddingLeft: 15,
         borderRadius: 5,
         borderColor: Colors.borderColor_e,
         borderWidth: 1,
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
         color:'red',
         alignSelf:'flex-end',
         marginBottom: 10,
+        paddingLeft:10,
     },
     warnTxtHidden:{
         height:0
@@ -99,14 +101,14 @@ class CreateWalletScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            walletName: '',
-            pwd: '',
-            rePwd: '',
+            //walletName: '',
+            //pwd: '',
+            //rePwd: '',
             isShowPassword: false,
             isShowRePassword: false,
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
-            pwdWarn:'密码最少为8位，至少包含大、小写字母、数字、符号中的3种',
+            pwdWarn:I18n.t('launch.password_warn'),
         }
         this.nametxt = '';
         this.pwdtxt = '';
@@ -152,10 +154,10 @@ class CreateWalletScreen extends Component {
     generateMnemonic() {
         walletUtils.generateMnemonic().then((data) => {
             this.props.generateMnemonic(data)
-            this.props.setWalletName(this.state.walletName);
-            this.props.navigation.navigate('BackupWallet',{password:this.state.pwd});
+            this.props.setWalletName(this.nametxt);
+            this.props.navigation.navigate('BackupWallet',{password:this.pwdtxt});
         }, (error) => {
-            showToast('创建钱包出错，请重新创建')
+            showToast(I18n.t('toast.create_wallet_error'))
         })
     }
 
@@ -196,7 +198,7 @@ class CreateWalletScreen extends Component {
                 this.setState({
                     isShowPwdWarn:true,
                     isDisabled: true,
-                    pwdWarn:'密码最少为8位，至少包含大、小写字母、数字、符号中的3种'
+                    pwdWarn:I18n.t('launch.password_warn'),
                 }) 
             }    
         }
@@ -206,19 +208,19 @@ class CreateWalletScreen extends Component {
 
     vertifyInputData() {
         this.hideKeyboard
-        let walletName = this.state.walletName;
-        let pwd = this.state.pwd;
-        let rePwd = this.state.rePwd;
+        let walletName = this.nametxt;
+        let pwd = this.pwdtxt;
+        let rePwd = this.rePwdtxt;
         //let isMathPwd = this.vertifyPassword()
         let warnMessage = "";
         if (walletName == '' || walletName == null || walletName == undefined) {
-            warnMessage = "请输入钱包名称"
+            warnMessage = I18n.t('toast.enter_wallet_name')
         } else if (pwd == '' || pwd == null || pwd == undefined) {
-            warnMessage = "请输入密码"
+            warnMessage = I18n.t('toast.enter_password')
         } else if (rePwd == '' || rePwd == null || rePwd == undefined) {
-            warnMessage = "请输入重复密码"
+            warnMessage = I18n.t('toast.enter_repassword')
         } else if (pwd != rePwd) {
-            warnMessage = "请输入一致的密码"
+            warnMessage = I18n.t('toast.enter_same_password')
         } 
         if (warnMessage != "") {
             showToast(warnMessage);
@@ -245,32 +247,26 @@ class CreateWalletScreen extends Component {
                 <View style={styles.contentContainer}>
                 
                         <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'} />
-                        <Text style={styles.titleTxt}>创建钱包</Text>
+                        <Text style={styles.titleTxt}>{I18n.t('launch.creact_wallet')}</Text>
                     
                         <TextInput style={styles.inputText}
                             returnKeyType='next' 
-                            placeholder="钱包名称"
+                            placeholder={I18n.t('launch.wallet_name_hint')}
                             underlineColorAndroid='transparent'
                             selectionColor='#00bfff'
                             onChange={(event) => {
                                 this.nametxt = event.nativeEvent.text;
-                                this.setState({
-                                    walletName: this.nametxt
-                                })
                                 this.btnIsEnableClick()
                             }} />
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 returnKeyType='next' 
-                                placeholder='密码'
+                                placeholder={I18n.t('launch.password_hint')}
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
                                 secureTextEntry={!this.state.isShowPassword}
                                 onChange={(event) => {
                                     this.pwdtxt = event.nativeEvent.text;
-                                    this.setState({
-                                        pwd: this.pwdtxt
-                                    })
                                     this.btnIsEnableClick()
                                 }}
                                 onFocus = {() => this._isShowPwdWarn(true)}
@@ -285,15 +281,12 @@ class CreateWalletScreen extends Component {
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 returnKeyType='done' 
-                                placeholder='重复密码'
+                                placeholder={I18n.t('launch.re_password_hint')}
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
                                 secureTextEntry={!this.state.isShowRePassword}
                                 onChange={(event) => {
                                     this.rePwdtxt = event.nativeEvent.text;
-                                    this.setState({
-                                        rePwd: this.rePwdtxt
-                                    })
                                     this.btnIsEnableClick()
                                 }}
                             />
@@ -306,7 +299,7 @@ class CreateWalletScreen extends Component {
                             <BlueButtonBig
                                 isDisabled = {this.state.isDisabled}
                                 onPress={() => this.vertifyInputData()}
-                                text='创建'
+                                text={I18n.t('launch.create')}
                             />
                         </View>
                        

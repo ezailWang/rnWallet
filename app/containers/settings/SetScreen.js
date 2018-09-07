@@ -13,6 +13,7 @@ import * as Actions from '../../config/action/Actions';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader';
 import Loading from  '../../components/LoadingComponent';
+import { I18n } from '../../config/language/i18n'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -86,9 +87,9 @@ class SetScreen extends Component {
         var name = this.refs.inputTextDialog.state.text;
         this.closeNameModal()
         if(name == '' || name == undefined){
-            showToast('请输入钱包名称')
+            showToast(I18n.t('toast.enter_wallet_name'))
         }else if(name == this.props.walletName){
-            showToast('钱包名称与之前一致')
+            showToast(I18n.t('toast.not_modified_wallet_name'))
         }else{
             this.modifyWalletName(name);
         }
@@ -99,7 +100,7 @@ class SetScreen extends Component {
         console.log('L_pwd',password)
         this.closePasswordModal();
         if(password == '' || password == undefined){
-            showToast('请输入密码')
+            showToast(I18n.t('toast.enter_password'))
         }else{
             this.showLoading()
             this.exportKeyPrivate(password);
@@ -129,7 +130,7 @@ class SetScreen extends Component {
         var privateKey = await keystoreUtils.getPrivateKey(password)
         this.closeLoading();//关闭Loading
         if(privateKey == null){
-            alert("导出私钥出错");
+            alert(I18n.t('modal.export_private_key_error'));
         }else{
             this.props.navigation.navigate('ExportPrivateKey',{privateKey: privateKey})
         }
@@ -144,7 +145,7 @@ class SetScreen extends Component {
             this.props.navigation.navigate('ExportKeystore',{keystore: keystore});
         }catch (err) {
           //this.closeLoading();
-          alert("密码错误，请输入正确的密码");
+          alert(I18n.t('modal.password_error'));
           console.log('exportKeystoreErr:', err)
         }
     }
@@ -181,12 +182,12 @@ class SetScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <WhiteBgHeader  navigation={this.props.navigation} text='设置'/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.set')}/>
                 <InputTextDialog
                     ref = "inputTextDialog"
-                    placeholder = '请输入钱包名称'
-                    leftTxt = "取消"
-                    rightTxt = '确定'
+                    placeholder = {I18n.t('settings.enter_wallet_name_hint')}
+                    leftTxt = {I18n.t('modal.cancel')}
+                    rightTxt = {I18n.t('modal.confirm')}
                     leftPress = {()=> this.closeNameModal()}
                     rightPress = {()=> this.nameConfirmClick()}
                     modalVisible = {this.state.nameModalVisible}
@@ -194,9 +195,9 @@ class SetScreen extends Component {
                 />
                 <InputPasswordDialog
                     ref = "inputPasswordDialog"
-                    placeholder = '请输入密码'
-                    leftTxt = "取消"
-                    rightTxt = '确定'
+                    placeholder = {I18n.t('settings.enter_passowrd_hint')}
+                    leftTxt = {I18n.t('modal.cancel')}
+                    rightTxt = {I18n.t('modal.confirm')}
                     leftPress = {()=> this.closePasswordModal()}
                     rightPress = {()=> this.passwordConfirmClick()}
                     modalVisible = {this.state.passwordModalVisible}
@@ -204,7 +205,7 @@ class SetScreen extends Component {
                 <TouchableOpacity style={[styles.btnOpacity]} 
                                   activeOpacity={0.6} 
                                   onPress={()=> this.openNameModal()}>
-                    <Text style={styles.btnTxt}>修改钱包名称</Text>
+                    <Text style={styles.btnTxt}>{I18n.t('settings.modify_wallet_name')}</Text>
                     <Text style={styles.walletName}>{this.props.walletName}</Text>
                 </TouchableOpacity> 
                 
@@ -213,13 +214,13 @@ class SetScreen extends Component {
                 <View style={styles.buttonBox}>
                     <NextButton
                         onPress = {()=> this.exportKeystore()}
-                        text = '导出Keystore'
+                        text = {I18n.t('settings.export_keystore')}
                     />
                 </View> 
                 <View style={styles.buttonBox}>
                     <NextButton
                         onPress = {()=> this.openPasswordModal()}
-                        text = '导出私钥'
+                        text = {I18n.t('settings.export_private_key')}
                     />
                 </View> 
                 <Loading visible={this.state.loadingVisible}>

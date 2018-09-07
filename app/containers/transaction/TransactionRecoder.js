@@ -20,7 +20,7 @@ import networkManage from '../../utils/networkManage';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import Loading from '../../components/LoadingComponent'
-
+import { I18n } from '../../config/language/i18n'
 const styles = StyleSheet.create({
 
     container:{
@@ -125,7 +125,7 @@ class EmptyComponent extends Component{
     render() {
         return (
             <View style={styles.emptyView}>
-                <Text style={styles.emptyViewStyle}>未查询到交易记录..</Text>
+                <Text style={styles.emptyViewStyle}>{I18n.t('transaction.no_transaction_history_found')}</Text>
             </View>
         )
     }
@@ -284,7 +284,7 @@ export default class TransactionRecoder extends Component{
             fromAddress:recoder.from,
             toAddress:recoder.to,
             gasPrice:recoder.gasPrice,
-            remark:"无",
+            remark:I18n.t('transaction.no'),
             transactionHash:recoder.hash,
             blockNumber:recoder.blockNumber,
             transactionTime:timestampToTime(recoder.timeStamp)+" +0800"
@@ -366,10 +366,10 @@ export default class TransactionRecoder extends Component{
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView]}>
                     <WhiteButtonMiddle  onPress={this.didTapTransactionButton}
-                                        text={"转账"}
+                                        text={I18n.t('transaction.transfer')}
                                         image={require('../../assets/transfer/recoder/zhuanzhang_icon.png')}/>
                     <WhiteButtonMiddle  onPress={this.didTapShowQrCodeButton}
-                                        text={"收款"}
+                                        text={I18n.t('transaction.receipt')}
                                         image={require('../../assets/transfer/recoder/shoukuan_icon.png')}/>
                 </View>
                 <Loading visible={this.state.loadingShow} />

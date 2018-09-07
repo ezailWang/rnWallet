@@ -1,4 +1,5 @@
 
+import { I18n } from '../../config/language/i18n'
 //打乱数组的顺序
 function upsetArrayOrder(array) {
     var len = array.length;
@@ -40,7 +41,7 @@ function  vertifyPassword(pwd){
     let iscontainSymbol = regSymbol.test(pwd) ? true : false;
    
     if(pwd.length < 8){
-        warnContent = '密码最少为8位, ' + matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol)
+        warnContent = I18n.t('launch.password_warn_least_8') + matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol)
     }else{
         warnContent = matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol);
     }
@@ -50,25 +51,25 @@ function  vertifyPassword(pwd){
 
 function matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol){
     if (iscontainUpper  &&  !iscontainLower  && !iscontainNum && !iscontainSymbol) {
-        return '还需包含小写字母、数字和符号中的2种'
+        return I18n.t('launch.password_warn_1')
     }else if (!iscontainUpper  &&  iscontainLower  && !iscontainNum && !iscontainSymbol) {
-        return '还需包含大写字母、数字和符号中的2种'
+        return I18n.t('launch.password_warn_2')
     }else if (!iscontainUpper  &&  !iscontainLower  && iscontainNum && !iscontainSymbol) {
-        return '还需包含大、小写字母和符号中的2种'
+        return I18n.t('launch.password_warn_3')
     }else if (!iscontainUpper  &&  !iscontainLower  && !iscontainNum && iscontainSymbol) {
-        return '还需包含大、小写字母和数字中的2种'
+        return I18n.t('launch.password_warn_4')
     }else if (iscontainUpper  &&  iscontainLower  &&  !iscontainNum && !iscontainSymbol) {
-        return '还需包含数字和符号中的1种'
+        return I18n.t('launch.password_warn_5')
     }else if (iscontainUpper  &&  !iscontainLower  && iscontainNum && !iscontainSymbol) {
-        return '还需包含小写字母、符号中的1种'
+        return I18n.t('launch.password_warn_6')
     }else if (iscontainUpper  &&  !iscontainLower  && !iscontainNum && iscontainSymbol) {
-        return '还需包含小写字母、数字中的1种'
+        return I18n.t('launch.password_warn_7')
     }else if (!iscontainUpper  &&  iscontainLower  && iscontainNum && !iscontainSymbol) {
-        return '还需包含大写字母、符号中的1种'
+        return I18n.t('launch.password_warn_8')
     }else if (!iscontainUpper  &&  iscontainLower  && !iscontainNum && iscontainSymbol) {
-        return '还需包含大写字母、数字中的1种'
+        return I18n.t('launch.password_warn_9')
     }else if (!iscontainUpper  &&  !iscontainLower  && iscontainNum && iscontainSymbol) {
-        return '还需包含大、小写字母中的1种'
+        return I18n.t('launch.password_warn_10')
     }else {
         return ''
     }

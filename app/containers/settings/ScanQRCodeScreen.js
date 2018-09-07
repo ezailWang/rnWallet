@@ -20,6 +20,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import {showToast} from '../../utils/Toast';
 import {BlackBgHeader} from '../../components/NavigaionHeader'
+import { I18n } from '../../config/language/i18n'
 const styles = StyleSheet.create({
     container:{
        flex:1,
@@ -175,7 +176,7 @@ class ScanQRCodeScreen extends Component{
         return(
             <View style={styles.container}>
                  <StatusBarComponent barStyle='light-content'/>
-                 <BlackBgHeader  navigation={this.props.navigation} text='扫描二维码'/>
+                 <BlackBgHeader  navigation={this.props.navigation} text={I18n.t('settings.scan_qrcode')}/>
              
                  <Camera
                      style={styles.contentContainer}
@@ -190,7 +191,7 @@ class ScanQRCodeScreen extends Component{
                                 {this._renderQRScanView()}
                                 <View style={styles.tranView}></View>
                             </View>
-                            <Text style={styles.text}>将二维码放入框内，即可自动扫描</Text>
+                            <Text style={styles.text}>{I18n.t('settings.scan_qrcode_prompt')}</Text>
                             <View style={styles.tranView}></View>
                      </View>
                 

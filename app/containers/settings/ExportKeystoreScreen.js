@@ -9,6 +9,7 @@ import ScreenshotWarn from '../../components/ScreenShowWarn';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import { I18n } from '../../config/language/i18n'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -147,17 +148,17 @@ export default class ExportKeystoreScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <WhiteBgHeader  navigation={this.props.navigation} text='导出Keystore'/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.export_keystore')}/>
                 <ScreenshotWarn
-                    content = '如果有人获取你的Keystore将可能获取你的资产！请妥善保管Keystore。'
-                    btnText = '知道了'
+                    content = {I18n.t('settings.export_keystore_modal_prompt')}
+                    btnText = {I18n.t('modal.i_know')}
                     modalVisible = {this.state.screenshotWarnVisible}
                     onPress = {()=> this.onCloseModal()}
                 />
                 <View style={styles.contentBox}>    
                     <View style={styles.warnBox}>
                         <Image style={styles.warnIcon} source={require('../../assets/set/ShieldIcon.png')} resizeMode={'contain'}/>
-                        <Text style={styles.warnTxt}>拥有Keystore就能完全控制该地址的资产，切勿保存至邮箱、网盘等，更不要使用网络工具进行传输。</Text>
+                        <Text style={styles.warnTxt}>{I18n.t('settings.export_keystore_prompt')}</Text>
                     </View> 
             
                     <View style={styles.privateKeyBox}>
@@ -173,7 +174,7 @@ export default class ExportKeystoreScreen extends Component {
                     <View style={styles.buttonBox}>
                         <BlueButtonBig
                             onPress = {()=> this.copy()}
-                            text = '复制Keystore'
+                            text = {I18n.t('settings.copy_keystore')}
                         />
                     </View>        
                 </View>

@@ -1,7 +1,41 @@
 {
     "launch":{
-        "creact_wallet":"creact wallet",
-        "import_wallet":"import wallet"
+        "creact_wallet":"create wallet",
+        "import_wallet":"import wallet",
+
+        "input_mnemonic_hint":"input mnemonic",
+        "set_password_hint":"set password",
+        "re_password_hint":"repeat password",
+        "import":"Import",
+
+        "wallet_name_hint":"wallet name",
+        "password_hint":"password",
+        "create":"Create",
+
+        "backup_wallet":"Backup wallet",
+        "backup_wallet_prompt":"Asset security cannot be guaranteed without proper backup. After removing the program or wallet, you need to back up the file to restore the wallet.",
+        
+        "backup_mnemonic":"Backup mnemonic",
+        "backup_mnemonic_prompt":"Please carefully copy the mnemonic below and we will verify it in the next step.",
+        "backup_mnemonic_complete":"The mnemonic has been copied",
+
+        "confirm_mnemonic":"Confirm mnemonic",
+        "confirm_mnemonic_prompt":"Please click on the mnemonic in order to confirm that you are backing up correctly.",
+        "complete":"Complete",
+
+    
+        "password_warn":"The password must be at least 8 digits, including at least 3 of the upper and lower case letters, numbers, and symbols.",
+        "password_warn_least_8":"Password is at least 8 digits,",
+        "password_warn_1":"also need to include 2 of lowercase letters, numbers, and symbols",
+        "password_warn_2":"also need to include 2 of capital letters, numbers, and symbols",
+        "password_warn_3":"also need to include 2 of the upper and lower case letters and symbols",
+        "password_warn_4":"also need to include 2 of the upper and lower case letters and numbers",
+        "password_warn_5":"also need to include one of numbers and symbols",
+        "password_warn_6":"also need to include one of the lowercase letters and symbols",
+        "password_warn_7":"also need to include one of lowercase letters and numbers",
+        "password_warn_8":"also need to include one of uppercase letters and symbols",
+        "password_warn_9":"also need to include one of uppercase letters and numbers",
+        "password_warn_10":"also need to include one of the upper and lower case letters"
     },
     "home":{
         "total_assets":"Total assets",
@@ -17,13 +51,100 @@
         "currency_symbol":"$"
     },
     "transaction":{
+        "miner_fee":"miner fee",
+        "fast":"fast",
+        "slow":"slow",
+        "transfer":"transfer",
+        "amount":"amount",
+        "balance":"balance",
+        "enter":"enter",
+        "collection_address":"collection address",
+        "enter_transfer_address":"Enter the transfer address",
+        "remarks":"Remarks",
+        "enter_remarks":"Enter a note",
+        "next_step":"Next step",
 
+        "transaction_details":"Transaction Details",
+        "sending_party":"Sending party",
+        "beneficiary":"Beneficiary",
+        "miner_cost":"Miner cost",
+        "transaction_number":"Transaction number",
+        "block":"Block",
+        "transaction_time":"transaction time",
+        "copy_address":"copy URL",
+
+        "no_transaction_history_found":"No transaction history found..",
+        "no":"no",
+        "receipt":"Receipt",
+
+        "payment_information":"Payment Information",
+        "payment_address":"Payment address",
+        "payment_details":"Payment details",
+        "wallet_password":"Wallet password",
+        "enter_password_hint":"Please enter your password",
+        "determine":"Determine"
     },
     "settings":{
+        "set":"Setting",
+        "enter_wallet_name_hint":"Please enter the name of the wallet",
+        "enter_passowrd_hint":"Please enter your password",
+        "modify_wallet_name":"Modify wallet name",
+        "export_keystore":"Export keystore",
+        "export_private_key":"Export private key",
 
+        "export_keystore_modal_prompt":"If someone gets your Keystore it will probably get your assets! Please keep the Keystore in a safe place.",
+        "export_keystore_prompt":"With Keystore, you can fully control the assets of this address. Do not save to email, network disk, etc., and do not use network tools for transmission.",
+        "copy_keystore":"Copy Keystore",
+
+        "export_private_key_modal_prompt":"If someone gets your private key it will probably get your assets! Please copy the private key and store it in a safe place.",
+        "export_private_key_prompt":"Have the private key to fully control the assets of the address, do not save to the mailbox, network disk, etc., and do not use network tools for transmission.",
+        "copy_private_key":"Copy Private Key",
+
+        "collection_code":"Collection code",
+        "copy_payment_address":"Copy payment address",
+
+        "scan_qrcode":"Scan QR code",
+        "scan_qrcode_prompt":"Put the QR code into the box and you can scan it automatically."  
     },
     "toast":{
         "exit_app":"Press again to exit the app",
-        "copy_wallet":"copied"
+        "copy_wallet":"copied",
+
+        "enter_wallet_name":"Please enter the name of the wallet",
+        "enter_mnemonic":"Please enter a mnemonic",
+        "enter_password":"Please enter your password",
+        "enter_repassword":"Please enter a duplicate password",
+        "enter_same_password":"Please enter a consistent password",
+        "check_mnemonic_is_correct":"Please check if the mnemonic is correct",
+
+        "import_mnemonic_error":"Error importing wallet",
+        "create_wallet_error":"Error creating wallet",
+
+        "not_modified_wallet_name":"You have not modified the wallet name",
+        "copied_keystore":"Keystore has been copied",
+        "copied":"Copied"
+    },
+    "modal":{
+        "permission_storage":"Please allow permission to read and write storage space",
+        "screenshot_warn":"Do not take a screenshot",
+        "screenshot_warn_content":"If someone gets your mnemonic, you will get your assets directly! Please copy the mnemonic and put it in a safe place.",
+        "i_know":"I know",
+
+        "backup_fail":"Backup failed",
+        "check_mnemonic_is_correct":"Please check if the mnemonic is correct",
+
+        "export_private_key_error":"Error exporting private key",
+        "password_error":"The password is incorrect. Please enter the correct password.",
+
+        "cancel":"Cancel",
+        "confirm":"Determine",
+
+        "permission_camera":"Please turn on the use of camera permissions first",
+
+        "get_private_key_fail":"Key acquisition failed",
+        "transaction_failed":"Transaction failed to send, please check the parameters",
+        "enter_valid_transfer_address":"Please enter a valid transfer address",
+        "enter_valid_transfer_amount":"Please enter a valid transfer amount",
+        "insufficient_balance":"Insufficient balance"
     }
 }

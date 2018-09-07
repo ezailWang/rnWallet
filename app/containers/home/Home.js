@@ -28,8 +28,6 @@ import { showToast } from '../../utils/Toast'
 import { I18n } from '../../config/language/i18n'
 
 let lastBackPressed = 0;
-
-
 class HomeScreen extends Component {
     constructor(props) {
         super(props)

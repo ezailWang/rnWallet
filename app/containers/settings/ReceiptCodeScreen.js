@@ -11,6 +11,7 @@ import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import Loading from  '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
+import { I18n } from '../../config/language/i18n'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -113,7 +114,7 @@ class ReceiptCodeScreen extends Component {
         }else{
             Alert.alert(
                 'warn',
-                '请先打开使用摄像头权限',
+                I18n.t('modal.permission_camera'),
             )
         }
     }
@@ -121,7 +122,7 @@ class ReceiptCodeScreen extends Component {
     copyAddress(){
         walletAddress = this.props.walletAddress
         Clipboard.setString(walletAddress);
-        showToast('已复制');
+        showToast(I18n.t('toast.copied'));
     }
 
     render() {
@@ -129,7 +130,7 @@ class ReceiptCodeScreen extends Component {
             <View style={styles.container}>
                 <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} 
-                                text='收款码'
+                                text={I18n.t('settings.collection_code')}
                                 /**rightPress = {()=>this.scanClick()}
                                 rightIcon= {require('../../assets/common/scanIcon.png')}**//>
                 <View style={styles.contentContainer}>
@@ -150,7 +151,7 @@ class ReceiptCodeScreen extends Component {
                      <View style={styles.buttonBox}>
                         <BlueButtonBig
                             onPress = {()=> this.copyAddress()}
-                            text = '复制收款地址'
+                            text = {I18n.t('settings.copy_payment_address')}
                         />
                      </View>       
                 </View> 

@@ -1,7 +1,42 @@
 {
     "launch":{
         "creact_wallet":"创建钱包",
-        "import_wallet":"导入钱包"
+        "import_wallet":"导入钱包",
+
+        "input_mnemonic_hint":"输入助记词",
+        "set_password_hint":"设置密码",
+        "re_password_hint":"重复密码",
+        "import":"导入",
+
+        "wallet_name_hint":"钱包名称",
+        "password_hint":"密码",
+        "create":"创建",
+
+        "backup_wallet":"备份钱包",
+        "backup_wallet_prompt":"没有妥善备份就无法保障资产安全。删除程序或钱包后，你需要备份文件来恢复钱包。",
+        
+        "backup_mnemonic":"备份助记词",
+        "backup_mnemonic_prompt":"请仔细抄写下方助记词，我们将在下一步验证。",
+        "backup_mnemonic_complete":"助记词已抄好",
+
+        "confirm_mnemonic":"确认助记词",
+        "confirm_mnemonic_prompt":"请按顺序点击助记词，以确认您正确备份。",
+        "complete":"完成",
+
+    
+        "password_warn":"密码最少为8位，至少包含大、小写字母、数字、符号中的3种",
+        "password_warn_least_8":"密码最少为8位",
+        "password_warn_1":"还需包含小写字母、数字和符号中的2种",
+        "password_warn_2":"还需包含大写字母、数字和符号中的2种",
+        "password_warn_3":"还需包含大、小写字母和符号中的2种",
+        "password_warn_4":"还需包含大、小写字母和数字中的2种",
+        "password_warn_5":"还需包含数字和符号中的1种",
+        "password_warn_6":"还需包含小写字母、符号中的1种",
+        "password_warn_7":"还需包含小写字母、数字中的1种",
+        "password_warn_8":"还需包含大写字母、符号中的1种",
+        "password_warn_9":"还需包含大写字母、数字中的1种",
+        "password_warn_10":"还需包含大、小写字母中的1种"
+
     },
     "home":{
         "total_assets":"总资产",
@@ -17,13 +52,101 @@
         "currency_symbok":"¥"
     },
     "transaction":{
+        "miner_fee":"矿工费",
+        "fast":"快",
+        "slow":"慢",
+        "transfer":"转账",
+        "amount":"金额",
+        "balance":"余额",
+        "enter":"输入",
+        "collection_address":"收款地址",
+        "enter_transfer_address":"输入转账地址",
+        "remarks":"备注",
+        "enter_remarks":"输入备注",
+        "next_step":"下一步",
 
+        "transaction_details":"交易详情",
+        "sending_party":"发款方",
+        "beneficiary":"收款方",
+        "miner_cost":"矿工费用",
+        "transaction_number":"交易号",
+        "block":"区块",
+        "transaction_time":"交易时间",
+        "copy_address":"复制URL",
+
+        "no_transaction_history_found":"未查询到交易记录..",
+        "no":"无",
+        "receipt":"收款",
+
+        "payment_information":"支付信息",
+        "payment_address":"付款地址",
+        "payment_details":"支付详情",
+        "wallet_password":"钱包密码",
+        "enter_password_hint":"请输入密码",
+        "determine":"确定"
     },
     "settings":{
+        "set":"设置",
+        "enter_wallet_name_hint":"请输入钱包名称",
+        "enter_passowrd_hint":"请输入密码",
+        "modify_wallet_name":"修改钱包名称",
+        "export_keystore":"导出Keystore",
+        "export_private_key":"导出私钥",
 
+        "export_keystore_modal_prompt":"如果有人获取你的Keystore将可能获取你的资产！请妥善保管Keystore。",
+        "export_keystore_prompt":"拥有Keystore就能完全控制该地址的资产，切勿保存至邮箱、网盘等，更不要使用网络工具进行传输。",
+        "copy_keystore":"复制Keystore",
+
+        "export_private_key_modal_prompt":"如果有人获取你的私钥将可能获取你的资产！请抄写下私钥并存放在安全的地方。",
+        "export_private_key_prompt":"拥有私钥就能完全控制该地址的资产，切勿保存至邮箱、网盘等，更不要使用网络工具进行传输。",
+        "copy_private_key":"复制Private Key",
+
+        "collection_code":"收款码",
+        "copy_payment_address":"复制收款地址",
+
+        "scan_qrcode":"扫描二维码",
+        "scan_qrcode_prompt":"将二维码放入框内，即可自动扫描"
     },
     "toast":{
         "exit_app":"再按一次退出应用",
-        "copy_wallet":"已复制"
+        "copy_wallet":"已复制",
+
+        "enter_wallet_name":"请输入钱包名称",
+        "enter_mnemonic":"请输入助记词",
+        "enter_password":"请输入密码",
+        "enter_repassword":"请输入重复密码",
+        "enter_same_password":"请输入一致的密码",
+        "check_mnemonic_is_correct":"请检查助记词是否正确",
+
+        "import_mnemonic_error":"导入钱包出错",
+        "create_wallet_error":"创建钱包出错",
+
+        "not_modified_wallet_name":"您没有修改钱包名称",
+        "copied_keystore":"已复制Keysotre",
+        "copied":"已复制"
+    },
+    "modal":{
+        "permission_storage":"请允许读写存储空间的权限",
+        "screenshot_warn":"请勿截图",
+        "screenshot_warn_content":"如果有人获取你的助记词将直接获取你的资产！请抄写下助记词并放在安全的地方。",
+        "i_know":"知道了",
+
+        "backup_fail":"备份失败",
+        "check_mnemonic_is_correct":"请检查助记词是否正确",
+
+        "export_private_key_error":"导出私钥出错",
+        "password_error":"密码错误，请输入正确的密码",
+
+        "cancel":"取消",
+        "confirm":"确定",
+
+        "permission_camera":"请先打开使用摄像头权限",
+
+
+        "get_private_key_fail":"秘钥获取失败",
+        "transaction_failed":"交易发送失败，请检查参数",
+        "enter_valid_transfer_address":"请输入有效的转账地址",
+        "enter_valid_transfer_amount":"请输入有效的转账金额",
+        "insufficient_balance":"余额不足"
     }
 }
