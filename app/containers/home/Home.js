@@ -61,37 +61,38 @@ class HomeScreen extends Component {
     onClickCell = async (item) => {
 
         //获取记录
-        this.showLoading()
-        const { walletAddress } = store.getState().Core
-        let arr = await networkManage.getTransations(item.item);
-        store.dispatch(setTransactionRecoders(arr));
+        // this.showLoading()
+        // const { walletAddress } = store.getState().Core
+        // let arr = await networkManage.getTransations(item.item);
+        // store.dispatch(setTransactionRecoders(arr));
 
         //获取余额信息
 
         let { contractAddress, symbol, decimals, price } = item.item;
 
-        let balanceAmount = '';
-        let ethBalance = '0';
+        // let balanceAmount = '';
+        // let ethBalance = '0';
 
-        if (symbol != 'ETH') {
-            balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals);
-            ethBalance = await networkManage.getEthBalance();
-        }
-        else {
-            balanceAmount = await networkManage.getEthBalance();
-            ethBalance = balanceAmount;
-        }
+        // if (symbol != 'ETH') {
+        //     balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals);
+        //     ethBalance = await networkManage.getEthBalance();
+        // }
+        // else {
+        //     balanceAmount = await networkManage.getEthBalance();
+        //     ethBalance = balanceAmount;
+        // }
 
         let balanceInfo = {
-            amount: balanceAmount,
-            price: price,
+            // amount: balanceAmount,
+            // price: price,
             transferType: symbol,
             contractAddress: contractAddress,
             decimals: decimals,
-            ethBalance: ethBalance
+            // ethBalance: ethBalance
         }
+        // let {contractAddress,transferType,decimals} = store.getState().Core.balance;
 
-        this.closeLoading()
+        // this.closeLoading()
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
     }

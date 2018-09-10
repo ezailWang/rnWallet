@@ -29,7 +29,7 @@ import keythereum from 'keythereum'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Loading from '../../components/LoadingComponent'
-import { I18n } from '../../config/language/i18n'
+
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
@@ -185,13 +185,18 @@ class InfoView extends Component {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
-        detailTitle: PropTypes.string,
         placeholder: PropTypes.string.isRequired,
         returnKeyType: PropTypes.string.isRequired,
         onChangeText: PropTypes.func.isRequired,
+        detailTitle: PropTypes.string,
         keyboardType: PropTypes.string,
-        value: PropTypes.string,
+        updateValue:PropTypes.string,
     };
+
+    shouldComponentUpdate(){
+        console.warn('控件被刷新',this.props.updateValue)
+        return true;
+    }
 
     render() {
         return (
@@ -205,7 +210,8 @@ class InfoView extends Component {
                         placeholder={this.props.placeholder}
                         returnKeyType={this.props.returnKeyType}
                         keyboardType={this.props.keyboardType}
-                        onChangeText={this.props.onChangeText}>{this.props.value}
+                        onChangeText={this.props.onChangeText}
+                        defaultValue={this.props.updateValue}>
                     </TextInput>
                 </View>
             </View>
@@ -229,7 +235,7 @@ class SliderView extends Component {
         return (
             <View style={[styles.sliderBottomView, styles.shadowStyle]}>
                 <View style={styles.sliderTitleContainerView}>
-                    <Text style={styles.sliderTitle}>{I18n.t('transaction.miner_fee')}</Text>
+                    <Text style={styles.sliderTitle}>矿工费</Text>
                     <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
                 </View>
                 <View style={styles.sliderContainerView}>
@@ -248,8 +254,8 @@ class SliderView extends Component {
                     />
                 </View>
                 <View style={styles.sliderAlertView}>
-                    <Text>{I18n.t('transaction.slow')}</Text>
-                    <Text style={{ alignSelf: 'flex-end' }}>{I18n.t('transaction.fast')}</Text>
+                    <Text>慢</Text>
+                    <Text style={{ alignSelf: 'flex-end' }}>快</Text>
                 </View>
             </View>
         )
@@ -277,12 +283,13 @@ export default class Transaction extends Component {
             maxGasPrice: 100,
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
-            transferValue: 0,
+            transferValue: -1,
             //toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
             toAddress:'',
             fromAddress: params.fromAddress,
             detailData: "",
-            loadingShow: false
+            loadingShow: false,
+            updateValue:''
         };
     };
 
@@ -341,7 +348,7 @@ export default class Transaction extends Component {
             }, 10);  
 
             setTimeout(() => {
-                alert(I18n.t('modal.get_private_key_fail'));
+                alert("秘钥获取失败");
             }, 100);
         }
         else {
@@ -375,7 +382,7 @@ export default class Transaction extends Component {
                 }
                 else {
                     setTimeout(() => {
-                        alert(I18n.t('modal.transaction_failed'));
+                        alert("交易发送失败，请检查参数");
                     }, 100);
                 }
             }, 10); 
@@ -385,12 +392,12 @@ export default class Transaction extends Component {
 
     didTapNextBtn = () => {
         if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
-            alert(I18n.t('modal.enter_valid_transfer_address'));
+            alert("请输入有效的转账地址");
             return;
         }
 
         if (parseFloat(this.state.transferValue) < 0 || parseFloat(this.state.transferValue)> this.params.balance) {
-            alert(I18n.t('modal.enter_valid_transfer_amount'));
+            alert("请输入有效的转账金额");
             return;
         }
 
@@ -400,7 +407,8 @@ export default class Transaction extends Component {
         totalGas = totalGas.toFixed(8);
 
         if(this.params.ethBalance < totalGas){
-            alert(I18n.t('modal.insufficient_balance'));
+
+            alert("余额不足");
             return;
         }
 
@@ -408,7 +416,7 @@ export default class Transaction extends Component {
             fromAddress: this.state.fromAddress,
             toAddress: this.state.toAddress,
             totalAmount: this.state.transferValue + " " + this.params.transferType,
-            payType: this.params.transferType + I18n.t('transaction.transfer'),
+            payType: this.params.transferType + "转账",
             gasPrice:this.getPriceTitle(this.state.currentGas),
             gasPriceInfo: this.getDetailPriceTitle()
         };
@@ -426,6 +434,17 @@ export default class Transaction extends Component {
     };
 
     valueTextInputChangeText = (text) => {
+
+        if (parseFloat(text) > this.params.balance){
+            
+            console.warn(text);
+            text = this.params.balance.toString();
+            console.warn(text);
+
+            this.setState({
+                updateValue:text
+            });
+        }
 
         this.setState({
             transferValue: parseFloat(text)
@@ -467,7 +486,7 @@ export default class Transaction extends Component {
         } else {
             Alert.alert(
                 'warn',
-                I18n.t('modal.permission_camera')
+                '请先打开使用摄像头权限',
             )
         }
     }
@@ -475,7 +494,7 @@ export default class Transaction extends Component {
     render() {
 
         let params = store.getState().Core.walletTransfer;
-        let title = params.transferType + I18n.t('transaction.transfer');
+        let title = params.transferType + "转账";
 
         return (
             <View style={styles.container}>
@@ -491,21 +510,36 @@ export default class Transaction extends Component {
                     <TransactionStep didTapSurePasswordBtn={this.didTapSurePasswordBtn}
                         ref={(dialog) => { this.dialog = dialog; }} />
                     {/*转账数量栏*/}
-                    <InfoView title={I18n.t('transaction.amount')}
-                        detailTitle={I18n.t('transaction.balance') + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
-                        placeholder={I18n.t('transaction.enter') + this.params.transferType + I18n.t('transaction.amount')}
+                    {/* <View style={styles.sectionView}>
+                        <View style={styles.sectionViewTopView}>
+                            <Text style={styles.sectionViewTitleText}>金额</Text>
+                            <Text style={styles.blueText}>{"余额：" + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}</Text>
+                        </View>
+                        <View style={[styles.sectionViewBottomView, (Platform.OS == 'ios' ? styles.shadowStyle : {})]}>
+                            <TextInput style={styles.sectionViewTextInput}
+                                placeholder={"输入" + this.params.transferType + "金额"}
+                                returnKeyType={'next'}
+                                keyboardType={'numeric'}
+                                onChangeText={this.valueTextInputChangeText}
+                                defaultValue={this.state.updateValue}>
+                            </TextInput>
+                        </View>
+                    </View> */}
+                    <InfoView title={"金额"}
+                        detailTitle={"余额：" + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
+                        placeholder={"输入" + this.params.transferType + "金额"}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
-                        onChangeText={this.valueTextInputChangeText} />
+                        onChangeText={this.valueTextInputChangeText} 
+                        updateValue = {this.state.updateValue}/>
                     {/*转账地址栏*/}
-                    <InfoView title={I18n.t('transaction.collection_address')}
-                        placeholder={I18n.t('transaction.enter_transfer_address')}
+                    <InfoView title={"收款地址"}
+                        placeholder={"输入转账地址"}
                         returnKeyType={"next"}
-                        onChangeText={this.toAddressTextInputChangeText}
-                        value={this.state.toAddress} />
+                        onChangeText={this.toAddressTextInputChangeText}/>
                     {/*备注栏*/}
-                    <InfoView title={I18n.t('transaction.remarks')}
-                        placeholder={I18n.t('transaction.enter_remarks')}
+                    <InfoView title={"备注"}
+                        placeholder={"输入备注"}
                         returnKeyType={"done"}
                         onChangeText={this.detailTextInputChangeText} />
                     {/*滑竿视图*/}
@@ -516,7 +550,7 @@ export default class Transaction extends Component {
                         onValueChange={this.sliderValueChanged} />
                     {/*下一步按钮*/}
                     <View style={styles.buttonBox}>
-                        <BlueButtonBig onPress={this.didTapNextBtn} text={I18n.t('transaction.next_step')} />
+                        <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"} />
                     </View>
                     
                 </ScrollView>
