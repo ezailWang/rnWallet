@@ -18,6 +18,7 @@ import { showToast } from '../../utils/Toast';
 import layoutConstants from '../../config/LayoutConstants'
 import {BlueHeader} from '../../components/NavigaionHeader'
 import {vertifyPassword,resetStringBlank ,stringTrim} from './Common'
+import { I18n } from '../../config/language/i18n'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
         color:'red',
         alignSelf:'flex-end',
         marginBottom: 10,
+        paddingLeft:10,
     },
     warnTxtHidden:{
         height:0
@@ -116,15 +118,15 @@ class ImportWalletScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mnemonic: '',
-            password: '',
-            rePassword: '',
+            //mnemonic: '',
+            //password: '',
+            //rePassword: '',
             loadingVisible: false,
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
             isShowPassword:false,
             isShowRePassword:false,
-            pwdWarn:'密码最少为8位，至少包含大、小写字母、数字、符号中的3种',
+            pwdWarn:I18n.t('launch.password_warn'),
         }
         this.mnemonictxt = '';
         this.pwdtxt = '';
@@ -197,7 +199,7 @@ class ImportWalletScreen extends Component {
                 this.setState({
                     isShowPwdWarn:true,
                     isDisabled: true,
-                    pwdWarn:'密码最少为8位，至少包含大、小写字母、数字、符号中的3种'
+                    pwdWarn:I18n.t('launch.password_warn')
                 }) 
             }
         }
@@ -207,23 +209,23 @@ class ImportWalletScreen extends Component {
     async vertifyInputData(){
         Keyboard.dismiss();
         let warnMessage = '';
-        let mnemonic = this.state.mnemonic;
-        let pwd = this.state.password;
-        let rePwd = this.state.rePassword;
+        let mnemonic = this.mnemonictxt;
+        let pwd = this.pwdtxt;
+        let rePwd = this.rePwdtxt;
         if(mnemonic == ''  || mnemonic == null || mnemonic == undefined){
-            warnMessage = "请输入助记词"
+            warnMessage = I18n.t('toast.enter_mnemonic')
         }else if(pwd == ''  || pwd == null || pwd == undefined){
-            warnMessage = "请输入密码"
+            warnMessage = I18n.t('toast.enter_password')
         }else if(rePwd == '' || rePwd == null || rePwd == undefined){
-            warnMessage = "请输入重复密码"
+            warnMessage = I18n.t('toast.enter_repassword')
         }else if(pwd != rePwd){
-            warnMessage = "请输入一致的密码"
+            warnMessage = I18n.t('toast.enter_same_password')
         }else{
             let str = stringTrim(mnemonic);
             let m =resetStringBlank(str);//将字符串中的多个空格缩减为一个空格
             let mnemonicIsOk = await walletUtils.validateMnemonic(m);//验证助记词
             if(!mnemonicIsOk){
-                warnMessage='请检查助记词是否正确'
+                warnMessage = I18n.t('toast.check_mnemonic_is_correct')
             }
         }
 
@@ -242,8 +244,8 @@ class ImportWalletScreen extends Component {
 
     async importWallet() {
         try {
-            var m = this.state.mnemonic;
-            const seed = walletUtils.mnemonicToSeed(m)
+            //var m = this.mnemonictxt;
+            const seed = walletUtils.mnemonicToSeed(this.mnemonictxt)
             const seedHex = seed.toString('hex')
             var hdwallet = HDWallet.fromMasterSeed(seed)
             const derivePath = "m/44'/60'/0'/0/0"
@@ -251,19 +253,19 @@ class ImportWalletScreen extends Component {
             const privateKey = hdwallet.getPrivateKey()
             const checksumAddress = hdwallet.getChecksumAddressString()
             
-            var password = this.state.password;
+            var password = this.pwdtxt;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
             var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv)
             await keystoreUtils.exportToFile(keyObject, "keystore")
 
-            this.props.generateMnemonic(this.state.mnemonic);
+            this.props.generateMnemonic(this.mnemonictxt);
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName('wallet');//保存默认的钱包名称
             var object = {
                 name: 'wallet',//默认的钱包名称
                 address: checksumAddress,
-                extra: this.state.pwdHint,
+                extra: '',
             }
             var key = StorageKey.User
             StorageManage.save(key, object)
@@ -271,7 +273,7 @@ class ImportWalletScreen extends Component {
             this.props.navigation.navigate('Home')
         } catch (err) {
             this.stopLoading()
-            showToast('导入助记词出错');
+            showToast(I18n.t('toast.import_mnemonic_error'));
             console.log('createWalletErr:', err)
         }
     }
@@ -300,36 +302,29 @@ class ImportWalletScreen extends Component {
                                          behavior="padding">
                 <View style={styles.contentContainer}> 
                         <Image style={styles.icon}  source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
-                        <Text style={styles.titleTxt}>导入钱包</Text>
+                        <Text style={styles.titleTxt}>{I18n.t('launch.import_wallet')}</Text>
                    
                     
                         <TextInput style={[styles.inputTextBox, styles.inputArea]}
                             returnKeyType='next'
-                            placeholder="输入助记词"
+                            placeholder={I18n.t('launch.input_mnemonic_hint')}
                             underlineColorAndroid='transparent'
                             selectionColor='#00bfff'
                             multiline={true}
                             onChange={(event) => {
                                 this.mnemonictxt = event.nativeEvent.text;
-                                this.setState({
-                                    mnemonic: this.mnemonictxt
-                                })
                                 this.btnIsEnableClick()
                             }}>
                         </TextInput>
-
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 returnKeyType='next'
-                                placeholder='设置密码'
+                                placeholder={I18n.t('launch.set_password_hint')}
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
                                 secureTextEntry={!this.state.isShowPassword}
                                 onChange={(event) => {
                                     this.pwdtxt = event.nativeEvent.text
-                                    this.setState({
-                                        password: this.pwdtxt
-                                    })
                                     this.btnIsEnableClick()
                                 }}
                                 onFocus = {() => this._isShowPwdWarn(true)}
@@ -342,15 +337,12 @@ class ImportWalletScreen extends Component {
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 returnKeyType='done'
-                                placeholder='重复密码'
+                                placeholder={I18n.t('launch.re_password_hint')}
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
                                 secureTextEntry={!this.state.isShowRePassword}
                                 onChange={(event) => {
                                     this.rePwdtxt = event.nativeEvent.text;
-                                    this.setState({
-                                        rePassword: this.rePwdtxt
-                                    })
                                     this.btnIsEnableClick()
                                 }}
                             />
@@ -363,7 +355,7 @@ class ImportWalletScreen extends Component {
                             <BlueButtonBig
                                 isDisabled = {this.state.isDisabled}
                                 onPress={() => this.vertifyInputData()}
-                                text='导入'
+                                text={I18n.t('launch.import')}
                             />
                         </View>
                 </View>

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {Colors,FontSize} from '../config/GlobalConfig'
+import { I18n } from '../config/language/i18n';
 const styles = StyleSheet.create({
     modeBox:{
         flex:1,
@@ -94,7 +95,7 @@ export default class ScreenshotWarn extends Component{
                 <View style={styles.modeBox}>
                   <View style={styles.contentBox}>
                      <Image style={styles.icon} source={require('../assets/launch/warnIcon.png')}/>
-                     <Text style={styles.titleTxt}>请勿截图</Text>
+                     <Text style={styles.titleTxt}>{I18n.t('modal.screenshot_warn')}</Text>
                      <Text style={styles.contentTxt}>{this.props.content}</Text>
                      <TouchableOpacity style={styles.btnOpacity} activeOpacity={0.6} onPress = {this.props.onPress}>
                          <Text style={styles.txt}>{this.props.btnText}</Text>

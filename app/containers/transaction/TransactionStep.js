@@ -18,7 +18,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Colors } from '../../config/GlobalConfig'
 import PropTypes from 'prop-types';
 import { store } from '../../config/store/ConfigureStore'
-
+import { I18n } from '../../config/language/i18n'
 const ScreenWidth = Dimensions.get('window').width;
 const ScreenHeight = Dimensions.get('window').height;
 const StatusBarHeight =  StatusBar.currentHeight;
@@ -173,18 +173,18 @@ let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice ,detailGas}
     <View style={styles.leftInfoView}>
         <View style={styles.infoTextViewFirst}>
             <Text style={styles.infoTitle}>
-                支付信息
+                {I18n.t('transaction.payment_information')}
             </Text>
             <Text style={styles.infoDetailTitle}>
                 {transferType}
             </Text>
         </View>
         <InfoContentView
-            title={"收款地址"}
+            title={I18n.t('transaction.collection_address')}
             deatilContent={toAddress}>
         </InfoContentView>
         <InfoContentView
-            title={"付款地址"}
+            title={I18n.t('transaction.collection_address')}
             deatilContent={fromAddress}>
         </InfoContentView>
         {/* <InfoContentView
@@ -197,7 +197,7 @@ let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice ,detailGas}
         <View style={styles.infoContent}>
             <View style={styles.infoContentTitle}>
                 <Text style={[styles.infoTitle]}>
-                    矿工费用
+                    {I18n.t('transaction.miner_cost')}
                 </Text>
             </View>
             <View style={styles.infoContentDetailView}>
@@ -353,7 +353,7 @@ export default class TransactionStep extends Component {
                                     </Image>
                                 </TouchableOpacity>
                                 <Text style={styles.titleView}>
-                                    支付详情
+                                    {I18n.t('transaction.payment_details')}
                                 </Text>
                             </View>
                             <View style={styles.costTextContainer}>
@@ -370,7 +370,7 @@ export default class TransactionStep extends Component {
                             </InfoTextView>
 
                             <TouchableOpacity style={styles.nextBtn} onPress={this.changeStepPage}>
-                                <Text style={styles.buttonTitle}>下一步</Text>
+                                <Text style={styles.buttonTitle}>{I18n.t('transaction.next_step')}</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -384,12 +384,12 @@ export default class TransactionStep extends Component {
                                     </Image>
                                 </TouchableOpacity>
                                 <Text style={styles.titleView}>
-                                    钱包密码
+                                    {I18n.t('transaction.wallet_password')}
                                 </Text>
                             </View>
                             <View style={styles.passwordFrameView}>
                                 <TextInput style={styles.passwordView}
-                                    placeholder={"请输入密码"}
+                                    placeholder={I18n.t('transaction.enter_password_hint')}
                                     returnKeyType={"done"}
                                     secureTextEntry={true}
                                     onChangeText={this.passWordTextInputChanged}
@@ -413,7 +413,7 @@ export default class TransactionStep extends Component {
                                 this.showStepView();
                                 this.props.didTapSurePasswordBtn(password);
                             }}>
-                                <Text style={styles.buttonTitle}>确定</Text>
+                                <Text style={styles.buttonTitle}>{I18n.t('transaction.determine')}</Text>
                             </TouchableOpacity>
                         </View>    
                     </ScrollView>

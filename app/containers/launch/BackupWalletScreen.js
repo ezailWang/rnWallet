@@ -6,6 +6,7 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 import {showToast} from '../../utils/Toast';
+import { I18n } from '../../config/language/i18n'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
     contentTxt:{
         fontSize:FontSize.ContentSize,
         color:Colors.fontGrayColor_a0,
+        textAlign:'center',
     },
     buttonBox:{
         flex:1,
@@ -61,13 +63,13 @@ export default class BackupWalletScreen extends Component {
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <View style={styles.contentContainer}>
                 <Image style={styles.icon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}/>
-                <Text style={styles.titleTxt}>备份钱包</Text>
-                <Text style={styles.contentTxt}>没有妥善备份就无法保障资产安全。删除程序或钱包后，你需要备份文件来恢复钱包。</Text>
+                <Text style={styles.titleTxt}>{I18n.t('launch.backup_wallet')}</Text>
+                <Text style={styles.contentTxt}>{I18n.t('launch.backup_wallet_prompt')}</Text>
                 
                 <View style={styles.buttonBox}>
                     <BlueButtonBig
                         onPress = {()=> this.props.navigation.navigate('BackupMnemonic',{password: this.props.navigation.state.params.password})}
-                        text = '备份助记词'
+                        text = {I18n.t('launch.backup_mnemonic')}
                     />
                 </View>    
                 </View>

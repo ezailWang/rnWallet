@@ -16,6 +16,7 @@ import { showToast } from '../../utils/Toast';
 import Loading from '../../components/LoadingComponent';
 import { StorageKey } from '../../config/GlobalConfig';
 import { store } from '../../config/store/ConfigureStore'
+import { I18n } from '../../config/language/i18n'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
     contentTxt: {
         fontSize: FontSize.ContentSize,
         color: Colors.fontGrayColor_a0,
+        textAlign:'center',
     },
     buttonBox: {
         flex: 1,
@@ -183,8 +185,8 @@ class VerifyMnemonicScreen extends Component {
             }, 2000);
         } else {
             Alert.alert(
-                '备份失败',
-                '请检查助记词是否正确',
+                I18n.t('modal.backup_fail'),
+                I18n.t('modal.check_mnemonic_is_correct'),
             )
         }
 
@@ -225,7 +227,7 @@ class VerifyMnemonicScreen extends Component {
             this.props.navigation.navigate('Home')
         } catch (err) {
             this.stopLoading()
-            showToast('创建钱包出错');
+            showToast(I18n.t('toast.create_wallet_error'));
             console.log('createWalletErr:', err)
         }
     }
@@ -265,8 +267,8 @@ class VerifyMnemonicScreen extends Component {
                 <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={() => this.backPressed()} />
                 <View style={styles.contentContainer}>
                     <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.png')} resizeMode={'center'} />
-                    <Text style={styles.titleTxt}>确认助记词</Text>
-                    <Text style={styles.contentTxt}>请按顺序点击助记词，以确认您正确备份。</Text>
+                    <Text style={styles.titleTxt}>{I18n.t('launch.confirm_mnemonic')}</Text>
+                    <Text style={styles.contentTxt}>{I18n.t('launch.confirm_mnemonic_prompt')}</Text>
 
                     <View style={styles.mnemonicSortBorder}>
                         <View style={[styles.mnemonicList,]}>
@@ -283,7 +285,7 @@ class VerifyMnemonicScreen extends Component {
                         <BlueButtonBig
                             isDisabled={this.state.isDisabled}
                             onPress={() => this.completeClickFun()}
-                            text='完成'
+                            text={I18n.t('launch.complete')}
                         />
                     </View>
                 </View>

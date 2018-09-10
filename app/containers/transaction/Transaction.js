@@ -29,7 +29,7 @@ import keythereum from 'keythereum'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Loading from '../../components/LoadingComponent'
-
+import { I18n } from '../../config/language/i18n'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
@@ -236,7 +236,7 @@ class SliderView extends Component {
         return (
             <View style={[styles.sliderBottomView, styles.shadowStyle]}>
                 <View style={styles.sliderTitleContainerView}>
-                    <Text style={styles.sliderTitle}>矿工费</Text>
+                    <Text style={styles.sliderTitle}>{I18n.t('transaction.miner_fee')}</Text>
                     <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
                 </View>
                 <View style={styles.sliderContainerView}>
@@ -255,8 +255,8 @@ class SliderView extends Component {
                     />
                 </View>
                 <View style={styles.sliderAlertView}>
-                    <Text>慢</Text>
-                    <Text style={{ alignSelf: 'flex-end' }}>快</Text>
+                    <Text>{I18n.t('transaction.slow')}</Text>
+                    <Text style={{ alignSelf: 'flex-end' }}>{I18n.t('transaction.fast')}</Text>
                 </View>
             </View>
         )
@@ -349,7 +349,7 @@ export default class Transaction extends Component {
             }, 10);  
 
             setTimeout(() => {
-                alert("秘钥获取失败");
+                alert(I18n.t('modal.get_private_key_fail'));
             }, 100);
         }
         else {
@@ -383,7 +383,7 @@ export default class Transaction extends Component {
                 }
                 else {
                     setTimeout(() => {
-                        alert("交易发送失败，请检查参数");
+                        alert(I18n.t('modal.transaction_failed'));
                     }, 100);
                 }
             }, 10); 
@@ -393,12 +393,12 @@ export default class Transaction extends Component {
 
     didTapNextBtn = () => {
         if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
-            alert("请输入有效的转账地址");
+            alert(I18n.t('modal.enter_valid_transfer_address'));
             return;
         }
 
         if (parseFloat(this.state.transferValue) < 0 || parseFloat(this.state.transferValue)> this.params.balance) {
-            alert("请输入有效的转账金额");
+            alert(I18n.t('modal.enter_valid_transfer_amount'));
             return;
         }
 
@@ -408,8 +408,7 @@ export default class Transaction extends Component {
         totalGas = totalGas.toFixed(8);
 
         if(this.params.ethBalance < totalGas){
-
-            alert("余额不足");
+            alert(I18n.t('modal.insufficient_balance'));
             return;
         }
 
@@ -417,7 +416,7 @@ export default class Transaction extends Component {
             fromAddress: this.state.fromAddress,
             toAddress: this.state.toAddress,
             totalAmount: this.state.transferValue + " " + this.params.transferType,
-            payType: this.params.transferType + "转账",
+            payType: this.params.transferType + I18n.t('transaction.transfer'),
             gasPrice:this.getPriceTitle(this.state.currentGas),
             gasPriceInfo: this.getDetailPriceTitle()
         };
@@ -487,7 +486,7 @@ export default class Transaction extends Component {
         } else {
             Alert.alert(
                 'warn',
-                '请先打开使用摄像头权限',
+                I18n.t('modal.permission_camera')
             )
         }
     }
@@ -495,7 +494,7 @@ export default class Transaction extends Component {
     render() {
 
         let params = store.getState().Core.walletTransfer;
-        let title = params.transferType + "转账";
+        let title = params.transferType + I18n.t('transaction.transfer');
 
         return (
             <View style={styles.container}>
@@ -511,21 +510,21 @@ export default class Transaction extends Component {
                     <TransactionStep didTapSurePasswordBtn={this.didTapSurePasswordBtn}
                         ref={(dialog) => { this.dialog = dialog; }} />
                     {/*转账数量栏*/}
-                    <InfoView title={"金额"}
-                        detailTitle={"余额：" + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
-                        placeholder={"输入" + this.params.transferType + "金额"}
+                    <InfoView title={I18n.t('transaction.amount')}
+                        detailTitle={I18n.t('transaction.balance') + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
+                        placeholder={I18n.t('transaction.enter') + this.params.transferType + I18n.t('transaction.amount')}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
                         onChangeText={this.valueTextInputChangeText} 
                         updateValue = {this.state.updateValue}/>
                     {/*转账地址栏*/}
-                    <InfoView title={"收款地址"}
-                        placeholder={"输入转账地址"}
+                    <InfoView title={I18n.t('transaction.collection_address')}
+                        placeholder={I18n.t('transaction.enter_transfer_address')}
                         returnKeyType={"next"}
                         onChangeText={this.toAddressTextInputChangeText}/>
                     {/*备注栏*/}
-                    <InfoView title={"备注"}
-                        placeholder={"输入备注"}
+                    <InfoView title={I18n.t('transaction.remarks')}
+                        placeholder={I18n.t('transaction.enter_remarks')}
                         returnKeyType={"done"}
                         onChangeText={this.detailTextInputChangeText} />
                     {/*滑竿视图*/}
@@ -536,7 +535,7 @@ export default class Transaction extends Component {
                         onValueChange={this.sliderValueChanged} />
                     {/*下一步按钮*/}
                     <View style={styles.buttonBox}>
-                        <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"} />
+                        <BlueButtonBig onPress={this.didTapNextBtn} text={I18n.t('transaction.next_step')} />
                     </View>
                     
                 </ScrollView>

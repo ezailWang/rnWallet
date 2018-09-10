@@ -7,6 +7,7 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 import {showToast} from '../../utils/Toast';
+import { I18n } from '../../config/language/i18n'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     contentTxt:{
         fontSize:FontSize.ContentSize,
         color:Colors.fontGrayColor_a0,
+        textAlign:'center',
     },
     mnemonicTxt:{
         alignSelf:'stretch',
@@ -92,42 +94,33 @@ class BackupMnemonicScreen extends Component {
         })
     }
 
-    onSnapshot(){
-        console.log("L_onSnapshotReady","截屏")
-        this.setState({
-            modalVisible : true,
-        })
-    }
-
     render() {
         return (
-            <SnapshotViewIOS style={styles.container}
-                             onSnapshotReady = {()=> this.onSnapshot()}>
-           
+            <View style={styles.container}>
                 <StatusBarComponent/>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <ScreenshotWarn
-                    content = '如果有人获取你的助记词将直接获取你的资产！请抄写下助记词并放在安全的地方。'
-                    btnText = '知道了'
+                    content = {I18n.t('modal.screenshot_warn_content')}
+                    btnText = {I18n.t('modal.i_know')}
                     modalVisible = {this.state.modalVisible}
                     onPress = {()=> this.onCloseModal()}
                 />
                 <View style={styles.contentBox}>    
                     <Image style={styles.icon} source={require('../../assets/launch/mnemonicIcon.png')} resizeMode={'center'}/>
-                    <Text style={styles.titleTxt}>备份助记词</Text>
-                    <Text style={styles.contentTxt}>请仔细抄写下方助记词，我们将在下一步验证。</Text>
+                    <Text style={styles.titleTxt}>{I18n.t('launch.backup_mnemonic')}</Text>
+                    <Text style={styles.contentTxt}>{I18n.t('launch.backup_mnemonic_prompt')}</Text>
                     <Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text>    
 
                     <View style={styles.buttonBox}>
                          <BlueButtonBig
                              onPress = {()=> this.complete()}
-                             text = '助记词已抄好'
+                             text = {I18n.t('launch.backup_mnemonic_complete')}
                          />
                     </View>          
                 </View>
 
               
-            </SnapshotViewIOS>
+            </View>
         );
     }
 }

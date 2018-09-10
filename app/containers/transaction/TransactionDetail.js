@@ -6,6 +6,7 @@ import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import {Colors} from '../../config/GlobalConfig';
 import {store} from '../../config/store/ConfigureStore'
 import {showToast} from '../../utils/Toast';
+import { I18n } from '../../config/language/i18n'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -141,46 +142,46 @@ export default class TransactionDetail extends Component {
 
     copyUrl(){
         Clipboard.setString(this.state.transactionHash);
-        showToast('已复制');
+        showToast(I18n.t('toast.copied'));
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <StatusBarComponent/>
-                <WhiteBgHeader  navigation={this.props.navigation} text='交易详情'/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')}/>
                 <View style={styles.countBox}>
                      <Text style={styles.countTxt}>{this.state.amount}</Text>
                      <Text style={styles.coinTypeTxt}>{this.state.transactionType}</Text>
                 </View>
                 <View style={styles.infoBox}>
-                     <Text style={[styles.fontGray]}>发款方</Text>
+                     <Text style={[styles.fontGray]}>{I18n.t('transaction.sending_party')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.fromAddress}</Text>
                 </View>
                 <View style={styles.infoBox}>
-                     <Text style={[styles.fontGray]}>收款方</Text>
+                     <Text style={[styles.fontGray]}>{I18n.t('transaction.beneficiary')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.toAddress}</Text>
                 </View>
                 <View style={styles.infoBox}>
-                     <Text style={[styles.fontGray]}>矿工费用</Text>
+                     <Text style={[styles.fontGray]}>{I18n.t('transaction.miner_cost')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.gasPrice+" gwei"}</Text>
                 </View>
                 <View style={styles.infoBox}>
-                     <Text style={[styles.fontGray]}>备注</Text>
+                     <Text style={[styles.fontGray]}>{I18n.t('transaction.remarks')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.remark}</Text>
                 </View>
 
                 <View style={styles.bottomBox}>
                      <View style={styles.infoLeftBox}>
-                           <Text style={[styles.fontGray]}>交易号</Text>
+                           <Text style={[styles.fontGray]}>{I18n.t('transaction.transaction_number')}</Text>
                            <TouchableOpacity style={[styles.marginTop2]} activeOpacity={0.6} onPress = {this.didTapTransactionNumber}>
                            <Text style={[styles.fontBlue]}
                                  numberOfLines={1}
                                  ellipsizeMode={"middle"}>{this.state.transactionHash}</Text>
                            </TouchableOpacity>      
-                           <Text style={[styles.fontGray,styles.marginTop10]}>区块</Text>
+                           <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.block')}</Text>
                            <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.blockNumber}</Text>
-                           <Text style={[styles.fontGray,styles.marginTop10]}>交易时间</Text>
+                           <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.transaction_time')}</Text>
                            <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.transactionTime}</Text>
                      </View>
                      <View style={styles.qrCodeBox}>
@@ -191,7 +192,7 @@ export default class TransactionDetail extends Component {
                                fgColor='#fff'
                             />
                             <TouchableOpacity style={[styles.copyBtn]} activeOpacity={0.6} onPress = {this.copyUrl}>
-                                 <Text style={styles.copyBtnTxt}>复制URL</Text>
+                                 <Text style={styles.copyBtnTxt}>{I18n.t('transaction.copy_address')}</Text>
                             </TouchableOpacity>
                      </View>
                 </View>
