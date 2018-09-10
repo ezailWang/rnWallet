@@ -51,7 +51,6 @@ export default class FirstLaunchScreen extends Component {
         this.backHandler && this.backHandler.remove();
     }
     onBackPressed = () => {
-
         if (this.props.navigation.state.routeName == 'FirstLaunch') {
             //在首页按了物理键返回
             if ((lastBackPressed + 2000) >= Date.now()) {

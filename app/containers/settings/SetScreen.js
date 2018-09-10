@@ -14,6 +14,7 @@ import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader';
 import Loading from  '../../components/LoadingComponent';
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -59,17 +60,17 @@ const styles = StyleSheet.create({
     
 })
 
-class SetScreen extends Component {
+class SetScreen extends BaseComponent {
   
     constructor(props){
         super(props);
         this.state = {
+            isShowLoading:false,
             nameModalVisible : false,
             passwordModalVisible : false,
-            loadingVisible:false,
         }
+       
     }
-
     openNameModal() {
         this.setState({nameModalVisible: true});
     }
@@ -97,12 +98,11 @@ class SetScreen extends Component {
 
     passwordConfirmClick(){
         var password = this.refs.inputPasswordDialog.state.text;
-        console.log('L_pwd',password)
         this.closePasswordModal();
         if(password == '' || password == undefined){
             showToast(I18n.t('toast.enter_password'))
         }else{
-            this.showLoading()
+            this._showLoding()
             this.exportKeyPrivate(password);
         }
     }
@@ -128,7 +128,7 @@ class SetScreen extends Component {
 
     async exportKeyPrivate(password){
         var privateKey = await keystoreUtils.getPrivateKey(password)
-        this.closeLoading();//关闭Loading
+        this._hideLoading();//关闭Loading
         if(privateKey == null){
             alert(I18n.t('modal.export_private_key_error'));
         }else{
@@ -141,10 +141,8 @@ class SetScreen extends Component {
         try{ 
             var address = this.props.walletAddress;
             var keystore = await keystoreUtils.importFromFile(address)
-            //this.closeLoading();
             this.props.navigation.navigate('ExportKeystore',{keystore: keystore});
         }catch (err) {
-          //this.closeLoading();
           alert(I18n.t('modal.password_error'));
           console.log('exportKeystoreErr:', err)
         }
@@ -157,31 +155,13 @@ class SetScreen extends Component {
          var newKeyObject = JSON.parse(str)
     }
 
-    showLoading(){
-        this.setState({
-            loadingVisible:true,
-        })
-    }
-    closeLoading(){
-        this.setState({
-            loadingVisible:false,
-        })
-    }
-    componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-    }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
+   
+   
     
-    render() {
+    renderComponent() {
+        console.log('L_set','renderComponent')
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.set')}/>
                 <InputTextDialog
                     ref = "inputTextDialog"
@@ -223,8 +203,6 @@ class SetScreen extends Component {
                         text = {I18n.t('settings.export_private_key')}
                     />
                 </View> 
-                <Loading visible={this.state.loadingVisible}>
-                </Loading>
             </View>
         );
     }
