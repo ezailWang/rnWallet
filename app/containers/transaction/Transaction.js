@@ -190,8 +190,14 @@ class InfoView extends Component {
         returnKeyType: PropTypes.string.isRequired,
         onChangeText: PropTypes.func.isRequired,
         keyboardType: PropTypes.string,
-        value: PropTypes.string,
+        updateValue:PropTypes.string,
     };
+
+    shouldComponentUpdate(){
+        console.warn('界面被刷新',this.props.updateValue)
+
+        return true;
+    }
 
     render() {
         return (
@@ -205,7 +211,8 @@ class InfoView extends Component {
                         placeholder={this.props.placeholder}
                         returnKeyType={this.props.returnKeyType}
                         keyboardType={this.props.keyboardType}
-                        onChangeText={this.props.onChangeText}>{this.props.value}
+                        onChangeText={this.props.onChangeText}
+                        value={this.props.updateValue}>
                     </TextInput>
                 </View>
             </View>
@@ -277,12 +284,13 @@ export default class Transaction extends Component {
             maxGasPrice: 100,
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
-            transferValue: 0,
+            transferValue: -1,
             //toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
             toAddress:'',
             fromAddress: params.fromAddress,
             detailData: "",
-            loadingShow: false
+            loadingShow: false,
+            updateValue:''
         };
     };
 
@@ -428,6 +436,17 @@ export default class Transaction extends Component {
 
     valueTextInputChangeText = (text) => {
 
+        if (parseFloat(text) > this.params.balance){
+            
+            console.warn(text);
+            text = this.params.balance.toString();
+            console.warn(text);
+
+            this.setState({
+                updateValue:text
+            });
+        }
+
         this.setState({
             transferValue: parseFloat(text)
         });
@@ -497,13 +516,13 @@ export default class Transaction extends Component {
                         placeholder={"输入" + this.params.transferType + "金额"}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
-                        onChangeText={this.valueTextInputChangeText} />
+                        onChangeText={this.valueTextInputChangeText} 
+                        updateValue = {this.state.updateValue}/>
                     {/*转账地址栏*/}
                     <InfoView title={"收款地址"}
                         placeholder={"输入转账地址"}
                         returnKeyType={"next"}
-                        onChangeText={this.toAddressTextInputChangeText}
-                        value={this.state.toAddress} />
+                        onChangeText={this.toAddressTextInputChangeText}/>
                     {/*备注栏*/}
                     <InfoView title={"备注"}
                         placeholder={"输入备注"}

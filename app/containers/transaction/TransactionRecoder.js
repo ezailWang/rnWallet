@@ -221,6 +221,29 @@ export default class TransactionRecoder extends Component{
         });
         store.dispatch(setTransactionRecoders(arr));
 
+        let recoders = store.getState().Core.recoders;
+
+        var itemList = []
+        recoders.map((item,i)=>{    
+            
+            let data = {
+                key:i.toString(),
+                address:item.to.toLowerCase()==walletAddress.toLowerCase()?item.from:item.to,
+                time:timestampToTime(item.timeStamp),
+                income:item.to.toLowerCase()==walletAddress.toLowerCase(),
+                amount:item.value,
+                type:transferType.toLocaleLowerCase()
+            }
+            itemList.push(data)
+        });
+
+        //反序
+        itemList.reverse();
+
+        this.setState({
+            "itemList":itemList
+        });
+
         //获取余额信息
         let balanceAmount = await networkManage.getEthBalance();
         let price = await networkManage.getEthPrice();
@@ -309,30 +332,7 @@ export default class TransactionRecoder extends Component{
     componentDidMount(){
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
 
-        let recoders = store.getState().Core.recoders;
-        const { walletAddress } = store.getState().Core
-        let {transferType} = store.getState().Core.balance;
-
-        var itemList = []
-        recoders.map((item,i)=>{    
-            
-            let data = {
-                key:i.toString(),
-                address:item.to.toLowerCase()==walletAddress.toLowerCase()?item.from:item.to,
-                time:timestampToTime(item.timeStamp),
-                income:item.to.toLowerCase()==walletAddress.toLowerCase(),
-                amount:item.value,
-                type:transferType.toLocaleLowerCase()
-            }
-            itemList.push(data)
-        });
-
-        //反序
-        itemList.reverse();
-
-        this.setState({
-            "itemList":itemList
-        });
+        this.onRefresh()
     }
 
     render (){
@@ -340,6 +340,11 @@ export default class TransactionRecoder extends Component{
         let {amount,price,transferType} = store.getState().Core.balance;
         let value = parseFloat(amount)*parseFloat(price);
         value = value.toFixed(2);
+
+        if (amount == null){
+            amount = 0;
+            value = 0;
+        }
 
         let bottomView = {height:60}
         if(Layout.DEVICE_IS_IPHONE_X()){
