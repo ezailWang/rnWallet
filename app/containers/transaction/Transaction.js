@@ -190,13 +190,8 @@ class InfoView extends Component {
         onChangeText: PropTypes.func.isRequired,
         detailTitle: PropTypes.string,
         keyboardType: PropTypes.string,
-        updateValue:PropTypes.string,
+        defaultValue: PropTypes.string,
     };
-
-    shouldComponentUpdate(){
-        console.warn('控件被刷新',this.props.updateValue)
-        return true;
-    }
 
     render() {
         return (
@@ -211,7 +206,7 @@ class InfoView extends Component {
                         returnKeyType={this.props.returnKeyType}
                         keyboardType={this.props.keyboardType}
                         onChangeText={this.props.onChangeText}
-                        defaultValue={this.props.updateValue}>
+                        >{this.props.defaultValue}
                     </TextInput>
                 </View>
             </View>
@@ -289,7 +284,7 @@ export default class Transaction extends Component {
             fromAddress: params.fromAddress,
             detailData: "",
             loadingShow: false,
-            updateValue:''
+            defaultTransferValue:''
         };
     };
 
@@ -391,6 +386,7 @@ export default class Transaction extends Component {
 
 
     didTapNextBtn = () => {
+        console.log('L_next_address',this.state.toAddress)
         if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
             alert("请输入有效的转账地址");
             return;
@@ -434,25 +430,24 @@ export default class Transaction extends Component {
     };
 
     valueTextInputChangeText = (text) => {
-
-        if (parseFloat(text) > this.params.balance){
-            
-            console.warn(text);
-            text = this.params.balance.toString();
-            console.warn(text);
-
+        let tValue = text;
+        let totalValue = this.params.balance;
+        if (parseFloat(text) > totalValue){
             this.setState({
-                updateValue:text
+                defaultTransferValue:totalValue
+            });
+            tValue = totalValue;
+        }else{
+            this.setState({
+                defaultTransferValue:text
             });
         }
-
         this.setState({
-            transferValue: parseFloat(text)
+            transferValue: parseFloat(tValue)
         });
     };
 
     toAddressTextInputChangeText = (text) => {
-
         this.setState({
             toAddress: text
         });
@@ -477,10 +472,10 @@ export default class Transaction extends Component {
             this.props.navigation.navigate('ScanQRCode', {
                 callback: function (data) {
                     var address = data.toAddress;
+                    console.log('L_address',address);
                     _this.setState({
                         toAddress: address
                     })
-                    console.log("LLtoAddress", address);
                 }
             })
         } else {
@@ -490,7 +485,6 @@ export default class Transaction extends Component {
             )
         }
     }
-
     render() {
 
         let params = store.getState().Core.walletTransfer;
@@ -531,12 +525,13 @@ export default class Transaction extends Component {
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
                         onChangeText={this.valueTextInputChangeText} 
-                        updateValue = {this.state.updateValue}/>
+                        defaultValue = {this.state.defaultTransferValue}/>
                     {/*转账地址栏*/}
                     <InfoView title={"收款地址"}
                         placeholder={"输入转账地址"}
                         returnKeyType={"next"}
-                        onChangeText={this.toAddressTextInputChangeText}/>
+                        onChangeText={this.toAddressTextInputChangeText}
+                        defaultValue = {this.state.toAddress}/>
                     {/*备注栏*/}
                     <InfoView title={"备注"}
                         placeholder={"输入备注"}
