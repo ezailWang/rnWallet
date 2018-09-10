@@ -192,7 +192,6 @@ export default class networkManage {
                 gas: gasLimit,
                 gasPrice: transactionGasPrice,
             };
-            console.log(transactionConfig);
             var cb = await web3.eth.sendTransaction(transactionConfig)
             return cb
         } catch (err) {
@@ -239,12 +238,17 @@ export default class networkManage {
     }
 
     /**
-     * Get ETH price
+     * Get ETH price (abandoned)
      */
     static async getEthPrice() {
-        const data = await api.stats.ethprice()
-        ethusd = data.result.ethusd
-        return ethusd
+        try {
+            const data = await api.stats.ethprice()
+            ethusd = data.result.ethusd
+            return ethusd
+        } catch (err) {
+            console.log('getEthPrice err:', err)
+            return 0
+        }
     }
 
     /**
@@ -315,8 +319,9 @@ export default class networkManage {
             })
             token["balance"] = balance
             token["price"] = 0
+            const ethPrice = await this.getPrice('eth')
+            token["ethPrice"] = ethPrice
             if (token.symbol === 'ETH') {
-                const ethPrice = await this.getPrice('eth')
                 const ethTotal = balance * ethPrice
                 token["price"] = ethPrice
                 totalAssets = totalAssets + ethTotal
@@ -333,9 +338,14 @@ export default class networkManage {
     }
 
     static async getSuggestGasPrice() {
-        const web3 = this.getWeb3Instance();
-        let price = await web3.eth.getGasPrice();
-        return web3.utils.fromWei(price, 'gwei')
+        try {
+            const web3 = this.getWeb3Instance();
+            let price = await web3.eth.getGasPrice();
+            return web3.utils.fromWei(price, 'gwei')
+        } catch (err) {
+            console.log('getSuggestGasPrice err:', err)
+            return 0
+        }
     }
 }
 
