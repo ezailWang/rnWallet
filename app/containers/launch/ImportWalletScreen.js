@@ -12,13 +12,12 @@ import { connect } from 'react-redux';
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import { BlueButtonBig } from '../../components/Button'
 import StatusBarComponent from '../../components/StatusBarComponent';
-import { androidPermission } from '../../utils/permissionsAndroid';
-import Loading from '../../components/LoadingComponent';
 import { showToast } from '../../utils/Toast';
 import layoutConstants from '../../config/LayoutConstants'
 import {BlueHeader} from '../../components/NavigaionHeader'
 import {vertifyPassword,resetStringBlank ,stringTrim} from './Common'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     }
 })
 
-class ImportWalletScreen extends Component {
+class ImportWalletScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -121,7 +120,6 @@ class ImportWalletScreen extends Component {
             //mnemonic: '',
             //password: '',
             //rePassword: '',
-            loadingVisible: false,
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
             isShowPassword:false,
@@ -132,23 +130,19 @@ class ImportWalletScreen extends Component {
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
+
+        this._setStatusBarStyleLight();
         
     }
 
-    componentWillMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    _addEventListener(){
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
     }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
+
+    _removeEventListener(){
         this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
-    }
-    onBackPressed=()=>{ 
-        console.log('L_back',"onBackPressed")
-        this.props.navigation.goBack();
-        return true;
     }
     keyboardDidShowHandler=(event)=>{
         this.keyBoardIsShow = true;
@@ -230,12 +224,10 @@ class ImportWalletScreen extends Component {
         }
 
        if(warnMessage!=''){
-            this.stopLoading()
+            this._hideLoading()
             showToast(warnMessage)
         }else{  
-            this.setState({
-                loadingVisible : true,
-            })
+            this._showLoding();
             setTimeout(()=>{
                 this.importWallet();
             }, 2000);
@@ -269,19 +261,15 @@ class ImportWalletScreen extends Component {
             }
             var key = StorageKey.User
             StorageManage.save(key, object)
-            this.stopLoading()
+            this._hideLoading()
             this.props.navigation.navigate('Home')
         } catch (err) {
-            this.stopLoading()
+            this._hideLoading()
             showToast(I18n.t('toast.import_mnemonic_error'));
             console.log('createWalletErr:', err)
         }
     }
-    stopLoading() {
-        this.setState({
-            loadingVisible: false,
-        })
-    }
+   
 
     isOpenPwd() {
         this.setState({ isShowPassword: !this.state.isShowPassword });
@@ -289,7 +277,7 @@ class ImportWalletScreen extends Component {
     isOpenRePwd() {
         this.setState({ isShowRePassword: !this.state.isShowRePassword });
     }
-    render() {
+    renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
@@ -361,7 +349,6 @@ class ImportWalletScreen extends Component {
                 </View>
                 </KeyboardAvoidingView>
                 </TouchableOpacity>
-                <Loading visible={this.state.loadingVisible}></Loading>
             </View>
         );
     }

@@ -171,7 +171,6 @@ class WhiteBgNoTitleHeader extends Component {
         if (Layout.DEVICE_IS_IPHONE_X()){
             contentMarginTop= {marginTop:48};
         }
-        console.log('WhiteBgNoTitleHeader',this.props.onPress);
         return (
             <View style={[styles.headerBgContainer,{height:height}]}>
                 <TouchableOpacity style={[styles.headerButtonBox,contentMarginTop]} 

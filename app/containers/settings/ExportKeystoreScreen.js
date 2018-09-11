@@ -10,6 +10,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     
 })
 
-export default class ExportKeystoreScreen extends Component {
+export default class ExportKeystoreScreen extends BaseComponent {
    
     constructor(props){
         super(props);
@@ -81,22 +82,10 @@ export default class ExportKeystoreScreen extends Component {
         }
     }
 
-    componentDidMount() {
-        this.showKeystore();
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    _initData() {
+        this.showKeystore();  
     }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
-
-    shouldComponentUpdate(nextProps,nextState){
-        return true;
-    }
-
+    
     showKeystore(){
         var keystore = this.props.navigation.state.params.keystore;
         this.setState(
@@ -144,10 +133,9 @@ export default class ExportKeystoreScreen extends Component {
         Clipboard.setString(this.state.keystore);
         showToast('已复制Keysotre');
     }
-    render() {
+    renderComponent() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.export_keystore')}/>
                 <ScreenshotWarn
                     content = {I18n.t('settings.export_keystore_modal_prompt')}

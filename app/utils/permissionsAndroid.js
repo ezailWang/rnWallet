@@ -55,10 +55,10 @@ async function requestAndroidPermission(permission){
             }**/
         )
         if(granted === 'granted'){
-            console.log("获得权限")
+            //console.log("获得权限")
             return true;
         }else{
-            console.log("禁止权限")
+            //console.log("禁止权限")
             return false;
         }
     }catch(exception){

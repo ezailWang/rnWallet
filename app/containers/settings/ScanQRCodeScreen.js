@@ -21,6 +21,7 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 import {showToast} from '../../utils/Toast';
 import {BlackBgHeader} from '../../components/NavigaionHeader'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
        flex:1,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
 });
 
 
-class ScanQRCodeScreen extends Component{
+class ScanQRCodeScreen extends BaseComponent{
 
     constructor(props){
         super(props);
@@ -103,17 +104,13 @@ class ScanQRCodeScreen extends Component{
             duration: 2000,
             easing: Easing.linear
         });
+
+        this._setStatusBarStyleLight();
     }
 
 
-    componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    _initData() {
         this.scanLineMove();
-    }
-    
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
     }
     
     //扫描二维码结果
@@ -165,17 +162,15 @@ class ScanQRCodeScreen extends Component{
         })
     }
 
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
+    _removeEventListener(){
         //this.state.animatedValue.stopAnimation()
         this.stopLineMove();
     }
 
 
-    render(){
+    renderComponent(){
         return(
             <View style={styles.container}>
-                 <StatusBarComponent barStyle='light-content'/>
                  <BlackBgHeader  navigation={this.props.navigation} text={I18n.t('settings.scan_qrcode')}/>
              
                  <Camera

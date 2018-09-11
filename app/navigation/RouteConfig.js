@@ -54,7 +54,6 @@ import {
     BackupWalletScreen,
     CreateWalletScreen,
     ImportWalletScreen,
-    UserRegulationScreen,
     VerifyMnemonicScreen,
     HomeScreen,
     SetContainers,
@@ -109,9 +108,9 @@ const FirstLaunchRouteConfig =
         screen: ImportWalletScreen,
     },
 
-    UserRegulation: {
+    /**UserRegulation: {
         screen: UserRegulationScreen,
-        /**navigationOptions: ({navigation}) => ({
+        navigationOptions: ({navigation}) => ({
             headerTitle:"用户条例",
             headerStyle: {
                 backgroundColor: "white",
@@ -119,8 +118,8 @@ const FirstLaunchRouteConfig =
             headerLeft: <BackButton onPress={() => {
                 navigation.goBack()
             }}/>,
-        })**/
-    },
+        })
+    },**/
 }
 
 //主页导航栈

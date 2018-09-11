@@ -12,6 +12,7 @@ import {Colors,FontSize} from '../../config/GlobalConfig'
 import Loading from  '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     }
 })
 
-class ReceiptCodeScreen extends Component {
+class ReceiptCodeScreen extends BaseComponent {
     /**static navigationOptions=({navigation}) => ({
         header:(<WhiteBgHeader navigation={navigation} 
                               text='收款码'
@@ -66,40 +67,10 @@ class ReceiptCodeScreen extends Component {
 
     constructor(props){
         super(props);
-        // this.state = {
-        //     loadingVisible:false,
-        // }
+        this.state = {
+        }
     }
 
-    componentDidMount() {
-      //  this.showLoading();
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-    }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
-
-    // showLoading(){
-    //     this.setState({
-    //         loadingVisible:true,
-    //     })
-    //     setTimeout(()=>{
-    //         this.closeLoading();
-    //     },3000);
-    // }
-
-    // closeLoading(){
-    //     if(this.state.loadingVisible){
-    //         this.setState({
-    //             loadingVisible : false,
-    //         })
-    //     }
-    //}
-    
 
     scanClick = async() =>{
         //const {navigate} = this.props.navigation;//页面跳转
@@ -125,10 +96,9 @@ class ReceiptCodeScreen extends Component {
         showToast(I18n.t('toast.copied'));
     }
 
-    render() {
+    renderComponent() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} 
                                 text={I18n.t('settings.collection_code')}
                                 /**rightPress = {()=>this.scanClick()}
@@ -155,8 +125,6 @@ class ReceiptCodeScreen extends Component {
                         />
                      </View>       
                 </View> 
-                {/* <Loading visible={this.state.loadingVisible}>
-                </Loading>                */}
             </View>
         );
     }

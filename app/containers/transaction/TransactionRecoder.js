@@ -21,6 +21,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import Loading from '../../components/LoadingComponent'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
 
     container:{
@@ -184,7 +185,7 @@ function timestampToTime(timestamp) {
     return Y+M+D+h+m+s;
 }
 
-export default class TransactionRecoder extends Component{
+export default class TransactionRecoder extends BaseComponent{
 
     constructor(props){
         super(props);
@@ -194,17 +195,10 @@ export default class TransactionRecoder extends Component{
         this.state={
             itemList:[],
             isRefreshing:false,
-            loadingShow:false,
         }
     }
 
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
+   
 
     onRefresh = async ()=>{
 
@@ -264,9 +258,7 @@ export default class TransactionRecoder extends Component{
 
     didTapTransactionButton= async ()=>{
 
-        this.setState({
-            loadingShow:true
-        })
+        this._showLoding()
 
         let {amount,price,transferType,ethBalance} = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
@@ -281,9 +273,7 @@ export default class TransactionRecoder extends Component{
             ethBalance:ethBalance
         };
 
-        this.setState({
-            loadingShow:false
-        })
+        this._hideLoading()
 
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
@@ -329,9 +319,7 @@ export default class TransactionRecoder extends Component{
         )
     }
 
-    componentDidMount(){
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-
+    _initData(){
         this.onRefresh()
     }
 
@@ -353,7 +341,6 @@ export default class TransactionRecoder extends Component{
 
         return(
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} text={transferType}/>
                 <FlatList   style={styles.flatList}
                             ListHeaderComponent={<Header balance={parseFloat(amount).toFixed(4)}
@@ -377,7 +364,6 @@ export default class TransactionRecoder extends Component{
                                         text={I18n.t('transaction.receipt')}
                                         image={require('../../assets/transfer/recoder/shoukuan_icon.png')}/>
                 </View>
-                <Loading visible={this.state.loadingShow} />
             </View>
         )
     }

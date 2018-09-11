@@ -7,6 +7,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 import {showToast} from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -45,21 +46,17 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class BackupWalletScreen extends Component {
-    componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+export default class BackupWalletScreen extends BaseComponent {
+   
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
     }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
-    render() {
+
+    renderComponent() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <View style={styles.contentContainer}>
                 <Image style={styles.icon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}/>

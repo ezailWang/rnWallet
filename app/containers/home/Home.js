@@ -4,7 +4,6 @@ import {
     View,
     StyleSheet,
     RefreshControl,
-    BackHandler,
     Clipboard
 } from 'react-native'
 import HeadView from './component/HeadView'
@@ -14,7 +13,6 @@ import layoutConstants from '../../config/LayoutConstants';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import AddToken from './AddToken'
 import ChangeNetwork from './component/ChangeNetwork'
-import { HeaderButton } from '../../components/Button'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
 import { addToken, setTransactionRecoders, setCoinBalance, setNetWork } from '../../config/action/Actions'
@@ -26,17 +24,17 @@ import Loading from '../../components/LoadingComponent'
 import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast'
 import { I18n } from '../../config/language/i18n'
-
-let lastBackPressed = 0;
-class HomeScreen extends Component {
+import BaseComponent from '../base/BaseComponent';
+class HomeScreen extends BaseComponent {
     constructor(props) {
         super(props)
         this.state = {
             addTokenShow: false,
             changeNetworkShow: false,
             isRefreshing: false,
-            loadingShow: false,
+            //isShowLoading: false,
         }
+        this._setStatusBarStyleLight();
     }
 
     renderItem = (item) => (
@@ -46,22 +44,10 @@ class HomeScreen extends Component {
         />
     )
 
-    showLoading() {
-        this.setState({
-            loadingShow: true
-        })
-    }
-
-    closeLoading() {
-        this.setState({
-            loadingShow: false
-        })
-    }
-
     onClickCell = async (item) => {
 
         //获取记录
-        // this.showLoading()
+        // this._showLoding()
         // const { walletAddress } = store.getState().Core
         // let arr = await networkManage.getTransations(item.item);
         // store.dispatch(setTransactionRecoders(arr));
@@ -92,7 +78,7 @@ class HomeScreen extends Component {
         }
         // let {contractAddress,transferType,decimals} = store.getState().Core.balance;
 
-        // this.closeLoading()
+        // this._hideLoading()
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
     }
@@ -108,9 +94,9 @@ class HomeScreen extends Component {
         this.setState({
             addTokenShow: false
         })
-        this.showLoading()
+        this._showLoding()
         await networkManage.loadTokenList()
-        this.closeLoading()
+        this._hideLoading()
     }
 
     showChangeNetwork = () => {
@@ -123,9 +109,9 @@ class HomeScreen extends Component {
         this.setState({
             changeNetworkShow: false
         })
-        this.showLoading()
+        this._showLoding()
         await networkManage.loadTokenList()
-        this.closeLoading()
+        this._hideLoading()
     }
 
     onRefresh = async () => {
@@ -142,19 +128,14 @@ class HomeScreen extends Component {
         return address.substr(0, 10) + '...' + address.slice(-10)
     }
 
-    async componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
+    async _initData() {
         SplashScreen.hide()
-        this.showLoading()
+        this._showLoding()
         await networkManage.loadTokenList()
-        this.closeLoading()
+        this._hideLoading()
     }
 
-    componentWillUnmount() {
-        //销毁返回键监听
-        this.backHandler && this.backHandler.remove();
-        //BackHandler.removeEventListener('hardwareBackPress',this.onBackPressed);
-    }
+   
 
     async saveTokenToStorage(token) {
         var localTokens = await StorageManage.load(StorageKey.Tokens)
@@ -169,32 +150,9 @@ class HomeScreen extends Component {
         StorageManage.save(StorageKey.Tokens, localTokens)
     }
 
-
-    onBackPressed = () => {
-
-        if (this.props.navigation.state.routeName == 'HomeScreen') {
-            //在首页按了物理键返回
-            if ((lastBackPressed + 2000) >= Date.now()) {
-                BackHandler.exitApp;
-                return false;
-            } else {
-                showToast(I18n.t('toast.exit_app'));
-                lastBackPressed = Date.now();
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    removeHardwareBackPress() {
-        this.backHandler && this.backHandler.remove();
-    }
-
-    render() {
+    renderComponent() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent  barStyle='light-content'/>
                 <HeadView
 
                     // onSwitchWallet={() => {
@@ -264,7 +222,6 @@ class HomeScreen extends Component {
                         this.changeNetworkDone()
                     }}
                 />
-                <Loading visible={this.state.loadingShow} />
             </View>
         )
     }

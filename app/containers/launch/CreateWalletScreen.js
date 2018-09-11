@@ -12,6 +12,7 @@ import { BlueHeader } from '../../components/NavigaionHeader'
 import {vertifyPassword} from './Common' 
 import layoutConstants from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     }
 })
 
-class CreateWalletScreen extends Component {
+class CreateWalletScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -114,22 +115,17 @@ class CreateWalletScreen extends Component {
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
+
+        this._setStatusBarStyleLight()
     }
-
-
-    componentWillMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
+    _addEventListener(){
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
     }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
+
+    _removeEventListener(){
         this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
     }
     keyboardDidShowHandler=(event)=>{
         this.keyBoardIsShow = true;
@@ -232,7 +228,7 @@ class CreateWalletScreen extends Component {
     
     
 
-    render() {
+    renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (

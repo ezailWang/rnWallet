@@ -17,6 +17,7 @@ import Loading from '../../components/LoadingComponent';
 import { StorageKey } from '../../config/GlobalConfig';
 import { store } from '../../config/store/ConfigureStore'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -91,25 +92,20 @@ const styles = StyleSheet.create({
 
 })
 
-class VerifyMnemonicScreen extends Component {
+class VerifyMnemonicScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
+        console.log('L_','constructor')
         this.state = {
             mnemonicDatas: [],
             sortMnemonicDatas: [],
-            loadingVisible: false,
             isDisabled: true,//创建按钮是否可以点击
         }
     }
 
-    componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
-    }
-    componentWillUnmount() {
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed = () => {
+    
+    _onBackPressed = () => {
         this.props.navigation.state.params.callback();
         this.props.navigation.goBack()
         return true;
@@ -120,7 +116,7 @@ class VerifyMnemonicScreen extends Component {
         this.props.navigation.goBack()
     }
 
-    componentWillMount() {
+    _initData(){
         var m = this.props.mnemonic.split(' ');
         var md = upsetArrayOrder(m);
         this.setState({
@@ -170,16 +166,8 @@ class VerifyMnemonicScreen extends Component {
     }
 
     completeClickFun() {
-        /**this.setState({
-            loadingVisible: true,
-        })
-        setTimeout(() => {
-            this.startCreateWallet();//创建钱包
-        }, 2000);**/
         if (this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic) {
-            this.setState({
-                loadingVisible: true,
-            })
+            this. _showLoding();
             setTimeout(() => {
                 this.startCreateWallet();//创建钱包
             }, 2000);
@@ -223,22 +211,17 @@ class VerifyMnemonicScreen extends Component {
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName(this.props.walletName);
             //console.log('LL_create',"完成");
-            this.stopLoading()
+            this._hideLoading()
             this.props.navigation.navigate('Home')
         } catch (err) {
-            this.stopLoading()
+            this._hideLoading()
             showToast(I18n.t('toast.create_wallet_error'));
             console.log('createWalletErr:', err)
         }
     }
-
-    stopLoading() {
-        this.setState({
-            loadingVisible: false,
-        })
-    }
-
-    render() {
+    renderComponent() {
+        console.log('L_','renderComponent')
+        console.log('L_',this.state.isShowLoading)
         var renderThis = this;
         var mnemonicView = [];
         this.state.mnemonicDatas.forEach(function (txt, index, b) {
@@ -263,7 +246,6 @@ class VerifyMnemonicScreen extends Component {
 
         return (
             <View style={styles.container}>
-                <StatusBarComponent />
                 <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={() => this.backPressed()} />
                 <View style={styles.contentContainer}>
                     <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.png')} resizeMode={'center'} />
@@ -289,7 +271,6 @@ class VerifyMnemonicScreen extends Component {
                         />
                     </View>
                 </View>
-                <Loading visible={this.state.loadingVisible}></Loading>
             </View>
         );
     }

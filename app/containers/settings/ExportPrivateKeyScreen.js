@@ -12,6 +12,7 @@ import Loading from  '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class ExportPrivateKeyScreen extends Component {
+export default class ExportPrivateKeyScreen extends BaseComponent {
 
     /**static navigationOptions = ({ navigation }) => ({
        
@@ -83,19 +84,10 @@ export default class ExportPrivateKeyScreen extends Component {
         }
     }
 
-    componentDidMount() {
+    _initData() {
         this.showPrivateKey();
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
     }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
-
-
+   
     showPrivateKey(){
         var privateKey = this.props.navigation.state.params.privateKey;
         var privateKeyHex = privateKey.toString('hex');
@@ -115,10 +107,9 @@ export default class ExportPrivateKeyScreen extends Component {
     copy(){
         Clipboard.setString(this.state.privateKey);
     }
-    render() {
+    renderComponent() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.export_private_key')}/>
                 <ScreenshotWarn
                     content = {I18n.t('settings.export_private_key_modal_prompt')}

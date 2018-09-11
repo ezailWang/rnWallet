@@ -7,6 +7,7 @@ import {Colors} from '../../config/GlobalConfig';
 import {store} from '../../config/store/ConfigureStore'
 import {showToast} from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class TransactionDetail extends Component {
+export default class TransactionDetail extends BaseComponent {
 
     constructor(props){
         super(props);
@@ -112,16 +113,7 @@ export default class TransactionDetail extends Component {
             transactionTime:params.transactionTime
         };
     }
-    componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-    }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
+   
 
     didTapTransactionNumber=()=>{ 
 
@@ -148,7 +140,6 @@ export default class TransactionDetail extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')}/>
                 <View style={styles.countBox}>
                      <Text style={styles.countTxt}>{this.state.amount}</Text>

@@ -8,11 +8,9 @@ import {NextButton} from '../../components/Button';
 import InputTextDialog from '../../components/InputTextDialog';
 import InputPasswordDialog from '../../components/InputPasswordDialog';
 import {Colors,FontSize,StorageKey}from '../../config/GlobalConfig'
-import StatusBarComponent from '../../components/StatusBarComponent';
 import * as Actions from '../../config/action/Actions';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader';
-import Loading from  '../../components/LoadingComponent';
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
@@ -65,11 +63,9 @@ class SetScreen extends BaseComponent {
     constructor(props){
         super(props);
         this.state = {
-            isShowLoading:false,
             nameModalVisible : false,
             passwordModalVisible : false,
         }
-       
     }
     openNameModal() {
         this.setState({nameModalVisible: true});

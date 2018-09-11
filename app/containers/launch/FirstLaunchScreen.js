@@ -7,11 +7,11 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import SplashScreen from 'react-native-splash-screen'
 
 import { androidPermission } from '../../utils/permissionsAndroid';
-import { showToast } from '../../utils/Toast';
+
 import networkManage from '../../utils/networkManage'
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../../containers/base/BaseComponent'
 
-let lastBackPressed = 0;
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -42,31 +42,18 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class FirstLaunchScreen extends Component {
-    componentDidMount() {
-        SplashScreen.hide()
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
-    }
-    componentWillUnmount() {
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed = () => {
-        if (this.props.navigation.state.routeName == 'FirstLaunch') {
-            //在首页按了物理键返回
-            if ((lastBackPressed + 2000) >= Date.now()) {
-                BackHandler.exitApp;
-                return false;
-            } else {
-                showToast('再按一次退出应用');
-                lastBackPressed = Date.now();
-                return true;
-            }
-        } else {
-            return true;
+export default class FirstLaunchScreen extends BaseComponent {
+
+    constructor(props) {
+        super(props);
+        this.state = {
         }
     }
 
-
+    _initData(){
+        SplashScreen.hide()
+    }
+    
     //验证android读写权限
     async vertifyAndroidPermissions(isCreateWallet) {
         if (Platform.OS === 'android') {
@@ -131,7 +118,7 @@ export default class FirstLaunchScreen extends Component {
         // alert("Encoding Address 地址："+ address1)
     }
 
-    render() {
+    renderComponent() {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                 style={styles.contentContainer}>

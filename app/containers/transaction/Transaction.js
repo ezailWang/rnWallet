@@ -29,7 +29,7 @@ import keythereum from 'keythereum'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Loading from '../../components/LoadingComponent'
-
+import BaseComponent from '../base/BaseComponent';
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
@@ -258,7 +258,7 @@ class SliderView extends Component {
 }
 
 
-export default class Transaction extends Component {
+export default class Transaction extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -283,7 +283,6 @@ export default class Transaction extends Component {
             toAddress:'',
             fromAddress: params.fromAddress,
             detailData: "",
-            loadingShow: false,
             defaultTransferValue:''
         };
     };
@@ -291,17 +290,6 @@ export default class Transaction extends Component {
     /**static navigationOptions = ({navigation}) => ({
         header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
     })**/
-
-    componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-    }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
 
     getPriceTitle = (gasPrice, ethPrice) => {
 
@@ -327,19 +315,14 @@ export default class Transaction extends Component {
     didTapSurePasswordBtn = async (password) => {
         // console.warn("输入密码--",password);
 
-        this.setState({
-            loadingShow: true
-        })
+        this._showLoding()
 
         var privateKey = await keystoreUtils.getPrivateKey(password)
 
         if (privateKey === null) {
 
             setTimeout(() => {
-
-                this.setState({
-                    loadingShow: false
-                })
+                this. _hideLoading()
             }, 10);  
 
             setTimeout(() => {
@@ -366,9 +349,7 @@ export default class Transaction extends Component {
 
             setTimeout(() => {
 
-                this.setState({
-                    loadingShow: false
-                })
+                this. _hideLoading()
 
                 if (res) {
                     //回调刷新
@@ -492,7 +473,6 @@ export default class Transaction extends Component {
 
         return (
             <View style={styles.container}>
-                <StatusBarComponent />
                 <WhiteBgHeader navigation={this.props.navigation}
                     text={title}
                     rightPress={() => this.scanClick()}
@@ -549,8 +529,6 @@ export default class Transaction extends Component {
                     </View>
                     
                 </ScrollView>
-                
-                <Loading visible={this.state.loadingShow} />
             </View>
 
         )

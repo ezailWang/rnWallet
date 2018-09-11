@@ -2,38 +2,96 @@ import React, {PureComponent} from 'react';
 import {StyleSheet,View,BackHandler} from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from '../../components/LoadingComponent';
+import { showToast } from '../../utils/Toast';
+import { I18n } from '../../config/language/i18n'
 let lastBackPressed = 0;
 export default class BaseComponent extends PureComponent{
 
     constructor(props){
         super(props);
+        console.log('L_base','constructor')
         this.renderComponent = this.renderComponent.bind(this);
+        this.state = {
+            isShowLoading: false,
+        }
+        
        
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);
         this._showLoding = this._showLoding.bind(this);
         this._hideLoading = this._hideLoading.bind(this);
+        this._setStatusBarStyleLight = this._setStatusBarStyleLight.bind(this);
+        this._initData = this._initData.bind(this);
+        this._barStyle = 'dark-content';
+    }
+    //设置StatusBar的barStyle为light-content,默认为dark-content
+    _setStatusBarStyleLight(){
+        this._barStyle = 'light-content';
     }
 
-
     componentWillMount() {
-        console.log('L_base','componentWillMount')
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this._onBackPressed);//Android物理返回键监听
         this._addEventListener();
     }
+
+    componentDidMount() {
+        this._initData();
+    }
     
     componentWillUnmount(){
-        console.log('L_base','componentWillUnmount')
-        this.backHandler && this.backHandler.remove();
+        this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
         this._removeEventListener();
     }
 
+   
+    //初始化数据
+    _initData(){
+    }
+
+    //添加事件监听
+    _addEventListener(){
+    }
+
+    //移除事件监听
+    _removeEventListener(){
+    }
+
+    //显示Loading
+    _showLoding(){
+        this.setState({
+            isShowLoading:true,
+        })
+    }
+
+    //隐藏Loading
+    _hideLoading(){
+        this.setState({
+            isShowLoading:false,
+        })
+    }
+
+    //渲染子组件
+    renderComponent(){
+        console.log('L_base','renderComponent')
+    };
+
+
+    render(){
+        console.log('L_base','render')
+        console.log('L_base',this.state.isShowLoading)
+        return (
+            <View style={styles.container}>
+                 <StatusBarComponent barStyle={this._barStyle}/>
+                 {this.renderComponent()}
+                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading}/>}
+            </View>
+        )
+    }
+
+    //点击android物理返回键的操作
     _onBackPressed=()=>{ 
-        console.log('L_base','_onBackPressed')
-        console.log('L_base',this.props.navigation)
         let routeName = this.props.navigation.state.routeName;
-        console.log('L_base',"routeName:" + routeName);
-        if(routeName == 'FirstLaunch' || routeName == 'Home'){
+        if(routeName == 'FirstLaunch' || routeName == 'HomeScreen'){
             //在首页按了物理键返回,Home、FirstLaunch
             if ((lastBackPressed + 2000) >= Date.now()) {
                 BackHandler.exitApp;
@@ -45,48 +103,8 @@ export default class BaseComponent extends PureComponent{
             }
         }else{
             this.props.navigation.goBack();
-        }
-        
-        return true;
-    }
-
-    _addEventListener(){
-        console.log('L_base','_addEventListener')
-    }
-
-    _removeEventListener(){
-        console.log('L_base','_removeEventListener')
-    }
-
-    _showLoding(){
-        console.log('L_base','_showLoding')
-        this.setState({
-            isShowLoading:true,
-        })
-    }
-
-    _hideLoading(){
-        console.log('L_base','_hideLoading')
-        this.setState({
-            isShowLoading:false,
-        })
-    }
-
-    //渲染子组件
-    renderComponent(){
-        console.log('L_base','renderComponent')
-    };
-
-    render(){
-        console.log('L_base','render')
-        console.log('L_isShowLoading',this.state.isShowLoading)
-        return (
-            <View style={styles.container}>
-                 <StatusBarComponent barStyle='light-content'/>
-                 {this.renderComponent()}
-                 <Loading visible={this.state.isShowLoading}/>
-            </View>
-        )
+            return true;
+        }  
     }
 }
 

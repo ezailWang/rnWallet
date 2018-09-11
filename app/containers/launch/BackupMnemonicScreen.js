@@ -8,6 +8,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 import {showToast} from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
+import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     }
 })
 
-class BackupMnemonicScreen extends Component {
+class BackupMnemonicScreen extends BaseComponent {
 
     constructor(props){
         super(props);
@@ -71,22 +72,14 @@ class BackupMnemonicScreen extends Component {
     onCloseModal() {
         this.setState({modalVisible: false});
     }
-    componentDidMount() {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',this.onBackPressed);
-    }
-    componentWillUnmount(){
-        this.backHandler && this.backHandler.remove();
-    }
-    onBackPressed=()=>{ 
-        this.props.navigation.goBack();
-        return true;
-    }
+    
     complete(){
         let _this = this;
         //this.props.navigation.navigate('VerifyMnemonic',{password: this.props.navigation.state.params.password})
         this.props.navigation.navigate('VerifyMnemonic', {
             password: this.props.navigation.state.params.password,
             callback: function () {
+                console.log('L_back','back__________________________')
                 _this.setState({
                     modalVisible : true,
                 })
@@ -94,10 +87,9 @@ class BackupMnemonicScreen extends Component {
         })
     }
 
-    render() {
+    renderComponent() {
         return (
             <View style={styles.container}>
-                <StatusBarComponent/>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <ScreenshotWarn
                     content = {I18n.t('modal.screenshot_warn_content')}
@@ -118,8 +110,6 @@ class BackupMnemonicScreen extends Component {
                          />
                     </View>          
                 </View>
-
-              
             </View>
         );
     }
