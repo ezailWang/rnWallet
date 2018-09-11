@@ -9,7 +9,6 @@ export default class BaseComponent extends PureComponent{
 
     constructor(props){
         super(props);
-        console.log('L_base','constructor')
         this.renderComponent = this.renderComponent.bind(this);
         this.state = {
             isShowLoading: false,
@@ -72,13 +71,11 @@ export default class BaseComponent extends PureComponent{
 
     //渲染子组件
     renderComponent(){
-        console.log('L_base','renderComponent')
+        
     };
 
 
     render(){
-        console.log('L_base','render')
-        console.log('L_base',this.state.isShowLoading)
         return (
             <View style={styles.container}>
                  <StatusBarComponent barStyle={this._barStyle}/>

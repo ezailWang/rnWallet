@@ -96,7 +96,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
-        console.log('L_','constructor')
+
         this.state = {
             mnemonicDatas: [],
             sortMnemonicDatas: [],
@@ -216,12 +216,9 @@ class VerifyMnemonicScreen extends BaseComponent {
         } catch (err) {
             this._hideLoading()
             showToast(I18n.t('toast.create_wallet_error'));
-            console.log('createWalletErr:', err)
         }
     }
     renderComponent() {
-        console.log('L_','renderComponent')
-        console.log('L_',this.state.isShowLoading)
         var renderThis = this;
         var mnemonicView = [];
         this.state.mnemonicDatas.forEach(function (txt, index, b) {
