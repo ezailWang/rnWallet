@@ -48,6 +48,13 @@ function addToken(token) {
     }
 }
 
+function removeToken(contractAddress){
+    return {
+        type:types.REMOVE_TOKEN,
+        contractAddress:contractAddress
+    }
+}
+
 function loadTokenBalance(tokens) {
     return {
         type: types.LOAD_TOKEN_BALANCE,
@@ -102,5 +109,6 @@ export {
     setTotalAssets,
     setTransactionRecoders,
     setCoinBalance,
-    setNetWork
+    setNetWork,
+    removeToken
 }

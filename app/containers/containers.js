@@ -28,6 +28,7 @@ import AboutUsScreen from './settings/AboutUsScreen';
 import FeedbackScreen from './settings/FeedbackScreen';
 import ChoseLanguageScreen from './settings/ChoseLanguageScreen';
 import ChoseCurrencyUnitScreen from './settings/ChoseCurrencyUnitScreen';
+import AddAssets from './home/AddAssets'
 export {
     HomeScreen,
     walletTest,
@@ -58,4 +59,5 @@ export {
     FeedbackScreen,
     ChoseLanguageScreen,
     ChoseCurrencyUnitScreen,
+    AddAssets
 }

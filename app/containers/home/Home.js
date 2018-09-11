@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import {
     FlatList,
+    SwipeableFlatList,
     View,
     StyleSheet,
     RefreshControl,
-    Clipboard
+    BackHandler,
+    Clipboard,
+    Animated,
+    Image,
+    Text,
+    TouchableOpacity,
 } from 'react-native'
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
@@ -15,7 +21,7 @@ import AddToken from './AddToken'
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setTransactionRecoders, setCoinBalance, setNetWork } from '../../config/action/Actions'
+import { addToken, setTransactionRecoders, setCoinBalance, setNetWork, removeToken } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -24,7 +30,11 @@ import Loading from '../../components/LoadingComponent'
 import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast'
 import { I18n } from '../../config/language/i18n'
-import BaseComponent from '../base/BaseComponent';
+import BaseComponent from '../base/BaseComponent'
+
+
+hiddenIcon_invi = require('../../assets/home/psd_invi_w.png')
+hiddenIcon_vi = require('../../assets/home/psd_vi_w.png')
 class HomeScreen extends BaseComponent {
     constructor(props) {
         super(props)
@@ -33,8 +43,21 @@ class HomeScreen extends BaseComponent {
             changeNetworkShow: false,
             isRefreshing: false,
             //isShowLoading: false,
+            scroollY: new Animated.Value(0),
+            statusbarStyle: 'light-content',
+            isTotalAssetsHidden: false,
         }
         this._setStatusBarStyleLight();
+        this.props.navigation.addListener('willBlur', () => {
+            this.setState({
+                statusbarStyle: 'dark-content'
+            })
+        })
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({
+                statusbarStyle: 'light-content'
+            })
+        })
     }
 
     renderItem = (item) => (
@@ -43,6 +66,28 @@ class HomeScreen extends BaseComponent {
             onClick={this.onClickCell.bind(this, item)}
         />
     )
+
+    renderQuickActions = (item) => (
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <TouchableOpacity
+                style={{ padding: 10, width: 80, justifyContent: 'center', backgroundColor: Colors.RedColor }}
+                onPress={() => {
+                    this.deleteItem(item)
+                }}
+            >
+                <Text style={{ textAlign: 'center', color: 'white' }}>{I18n.t('home.delete')}</Text>
+            </TouchableOpacity>
+        </View>
+    )
+
+    deleteItem = (item) => {
+        if (item.item.symbol === 'ETH' || item.item.symbol === 'ITC') {
+            showToast(I18n.t('home.delete_main_token'))
+            return
+        }
+        this.props.removeToken(item.item.contractAddress)
+        this.removeTokenFromStorage(item.item.contractAddress)
+    }
 
     onClickCell = async (item) => {
 
@@ -83,10 +128,15 @@ class HomeScreen extends BaseComponent {
         this.props.navigation.navigate('TransactionRecoder');
     }
 
-    showAddtoken = () => {
-        this.setState({
-            addTokenShow: true
-        })
+    pushAddtoken = () => {
+        this.props.navigation.navigate('AddAssets', {
+            callback: async (token) => {
+                this._showLoding()
+                await this.saveTokenToStorage(token)
+                await networkManage.loadTokenList()
+                this._hideLoading()
+            }
+        });
     }
 
     onClickAdd = async (token) => {
@@ -103,6 +153,10 @@ class HomeScreen extends BaseComponent {
         this.setState({
             changeNetworkShow: true
         })
+    }
+
+    showDrawer = () => {
+        this.props.navigation.navigate('DrawerOpen')
     }
 
     changeNetworkDone = async () => {
@@ -131,17 +185,22 @@ class HomeScreen extends BaseComponent {
     async _initData() {
         SplashScreen.hide()
         this._showLoding()
+        var localUser = await StorageManage.load(StorageKey.User)
+        if (localUser && localUser['isTotalAssetsHidden']) {
+            this.setState({
+                isTotalAssetsHidden: localUser['isTotalAssetsHidden']
+            })
+        }
         await networkManage.loadTokenList()
         this._hideLoading()
     }
-
-   
 
     async saveTokenToStorage(token) {
         var localTokens = await StorageManage.load(StorageKey.Tokens)
         if (!localTokens) {
             localTokens = []
         }
+
         localTokens.push({
             contractAddress: token.tokenAddress,
             symbol: token.tokenSymbol,
@@ -150,39 +209,89 @@ class HomeScreen extends BaseComponent {
         StorageManage.save(StorageKey.Tokens, localTokens)
     }
 
+    async removeTokenFromStorage(contractAddress) {
+        var localTokens = await StorageManage.load(StorageKey.Tokens)
+        if (!localTokens) {
+            console.error('localTokens is null')
+            return
+        }
+        localTokens.splice(localTokens.findIndex(item => item.contractAddress === contractAddress), 1)
+        StorageManage.save(StorageKey.Tokens, localTokens)
+    }
+
+    async saveIsTotalAssetsHiddenToStorage(isHidden) {
+        var localUser = await StorageManage.load(StorageKey.User)
+        if (localUser == null) {
+            console.error('load user is miss')
+        } else {
+            localUser["isTotalAssetsHidden"] = isHidden;
+        }
+        StorageManage.save(StorageKey.User, localUser)
+    }
+
     renderComponent() {
+        const headerHeight = this.state.scroollY.interpolate({
+            inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [layoutConstants.WINDOW_HEIGHT, layoutConstants.HOME_HEADER_MAX_HEIGHT, layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            extrapolate: 'clamp'
+        })
+        const headerZindex = this.state.scroollY.interpolate({
+            inputRange: [0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [0, 1],
+            extrapolate: 'clamp'
+        })
+        const headerTextOpacity = this.state.scroollY.interpolate({
+            inputRange: [layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT - 20, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [0, 1],
+            extrapolate: 'clamp'
+        })
+
         return (
             <View style={styles.container}>
-                <HeadView
-
-                    // onSwitchWallet={() => {
-                    //     console.log('---切换钱包按钮被点击')
-                    // }}
-                    onSet={() => {
-                        this.props.navigation.navigate('Set');
-                    }}
-                    onQRCode={() => {
-                        this.props.navigation.navigate('ReceiptCode');
-                    }}
-                    onAddAssets={() => {
-                        this.showAddtoken()
-                    }}
-                    onAddressCopy={() => {
-                        //复制钱包地址
-                        Clipboard.setString(this.props.walletAddress)
-                        showToast(I18n.t('toast.copy_wallet'))
-                    }}
-                    walletName={this.props.walletName}
-                    address={this.formatAddress(this.props.walletAddress)}
-                    totalAssets={this.props.totalAssets + ''}
-                    switchWalletIcon={require('../../assets/home/switch.png')}
-                    headIcon={require('../../assets/home/user.png')}
-                    QRbtnIcon={require('../../assets/home/QR_icon.png')}
-                    setBtnIcon={require('../../assets/home/setting.png')}
-                    addAssetsIcon={require('../../assets/home/plus_icon.png')}
-                    addressCopyIcon={require('../../assets/home/Fzicon.png')}
-                />
-                <FlatList
+                <StatusBarComponent barStyle={this.state.statusbarStyle} />
+                <Animated.View style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    backgroundColor: 'lightskyblue',
+                    height: headerHeight,
+                    zIndex: headerZindex,
+                }}>
+                    <Image
+                        style={{ flex: 1, width: layoutConstants.WINDOW_WIDTH }}
+                        source={require('../../assets/home/hp_bg.png')}
+                    />
+                    <Animated.Text
+                        style={{
+                            position: 'absolute',
+                            left: 20,
+                            top: 40,
+                            color: 'white',
+                            opacity: headerTextOpacity,
+                            fontSize: 16,
+                        }}
+                    >{I18n.t('home.total_assets')}</Animated.Text>
+                    <Animated.Text
+                        style={{
+                            position: 'absolute',
+                            left: 80,
+                            top: 37,
+                            color: 'white',
+                            fontWeight: 'bold',
+                            fontSize: 20,
+                            opacity: headerTextOpacity
+                        }}
+                    >{this.state.isTotalAssetsHidden ? '****' : I18n.t('home.currency_symbol') + this.props.totalAssets + ''}</Animated.Text>
+                </Animated.View>
+                <SwipeableFlatList
+                    maxSwipeDistance={80}
+                    bounceFirstRowOnMount={false}
+                    renderQuickActions={this.renderQuickActions}
+                    scrollEventThrottle={16}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: this.state.scroollY } } }]
+                    )}
                     ItemSeparatorComponent={ItemDivideComponent}
                     ListEmptyComponent={EmptyComponent}
                     getItemLayout={(data, index) => ({ length: 50, offset: 60 * index, index: index })}
@@ -192,16 +301,42 @@ class HomeScreen extends BaseComponent {
                     refreshControl={<RefreshControl
                         onRefresh={this.onRefresh}
                         refreshing={this.state.isRefreshing}
+                        colors={Colors.whiteBackgroundColor}
+                        tintColor={Colors.whiteBackgroundColor}
                     />}
+                    ListHeaderComponent={
+                        <HeadView
+                            onAddAssets={() => {
+                                this.pushAddtoken()
+                            }}
+                            onQRCode={() => {
+                                this.props.navigation.navigate('ReceiptCode');
+                            }}
+                            onHideAssets={() => {
+                                this.setState((previousState) => {
+                                    this.saveIsTotalAssetsHiddenToStorage(!previousState.isTotalAssetsHidden)
+                                    return { isTotalAssetsHidden: !previousState.isTotalAssetsHidden }
+                                })
+                            }}
+                            walletName={this.props.walletName}
+                            address={this.formatAddress(this.props.walletAddress)}
+                            totalAssets={
+                                this.state.isTotalAssetsHidden ? '****' : I18n.t('home.currency_symbol') + this.props.totalAssets + ''}
+                            hideAssetsIcon={this.state.isTotalAssetsHidden ? hiddenIcon_invi : hiddenIcon_vi}
+                            QRCodeIcon={require('../../assets/home/hp_qrc.png')}
+                            addAssetsIcon={require('../../assets/home/plus_icon.png')}
+                        />
+                    }
                 />
                 <ImageButton
-                    btnStyle={{ width: 30, height: 30, right: 20, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute' }}
+                    btnStyle={{ right: 20, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute', zIndex: 2 }}
+                    imageStyle={{ width: 19, height: 15 }}
                     onClick={() => {
-                        this.showChangeNetwork()
+                        this.showDrawer()
                     }}
-                    backgroundImageSource={require('../../assets/home/caidan.png')}
+                    backgroundImageSource={require('../../assets/home/hp_menu.png')}
                 />
-                <AddToken
+                {/* <AddToken
                     open={this.state.addTokenShow}
                     close={() => {
                         this.setState({
@@ -209,8 +344,8 @@ class HomeScreen extends BaseComponent {
                         })
                     }}
                     onClickAdd={this.onClickAdd.bind(this)}
-                />
-                <ChangeNetwork
+                /> */}
+                {/* <ChangeNetwork
                     open={this.state.changeNetworkShow}
                     close={() => {
                         this.setState({
@@ -221,7 +356,7 @@ class HomeScreen extends BaseComponent {
                         this.props.setNetWork(network)
                         this.changeNetworkDone()
                     }}
-                />
+                /> */}
             </View>
         )
     }
@@ -230,6 +365,7 @@ class HomeScreen extends BaseComponent {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white'
     }
 })
 
@@ -237,11 +373,12 @@ const mapStateToProps = state => ({
     tokens: state.Core.tokens,
     walletAddress: state.Core.walletAddress,
     totalAssets: state.Core.totalAssets,
-    walletName: state.Core.walletName,
+    walletName: state.Core.walletName
 })
 
 const mapDispatchToProps = dispatch => ({
-    setNetWork: (network) => dispatch(setNetWork(network))
+    setNetWork: (network) => dispatch(setNetWork(network)),
+    removeToken: (token) => dispatch(removeToken(token))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

@@ -260,13 +260,15 @@ export default class networkManage {
             const result = await fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`)
             const resJson = await result.json()
             if (resJson.code === 200) {
-                switch (I18n.currentLocale()) {
-                    case 'zh-Hans-US':
-                        return resJson.data.cny
-                    case 'en-US':
-                        return resJson.data.usd
-                    case 'ko-US':
-                        return resJson.data.krw
+                //优先判断货币 如果货币本地没有再使用语言
+                const currentLocale = I18n.currentLocale()
+                if(currentLocale.includes('zh-')){
+                    return resJson.data.cny
+                }else if(currentLocale.includes('ko-')){
+                    return resJson.data.krw
+                }else {
+                    //默认美元
+                    return resJson.data.usd
                 }
             }
             return 0.00

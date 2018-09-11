@@ -17,83 +17,60 @@ import { I18n } from '../../../config/language/i18n'
 export default class HeadView extends Component {
 
     static propTypes = {
-        // onSwitchWallet: PropTypes.func.isRequired,
-        onSet: PropTypes.func.isRequired,
         onQRCode: PropTypes.func.isRequired,
         onAddAssets: PropTypes.func.isRequired,
         walletName: PropTypes.string,
         address: PropTypes.string,
         totalAssets: PropTypes.string,
-
     }
 
     static defaultProps = {
-        switchWalletIcon: layoutConstants.DEFAULT_IAMGE,
-        headIcon: layoutConstants.DEFAULT_IAMGE,
-        setBtnIcon: layoutConstants.DEFAULT_IAMGE,
-        QRbtnIcon: layoutConstants.DEFAULT_IAMGE,
+        hideAssetsIcon: layoutConstants.DEFAULT_IAMGE,
+        QRCodeIcon: layoutConstants.DEFAULT_IAMGE,
         addAssetsIcon: layoutConstants.DEFAULT_IAMGE
     }
 
     render() {
         return (
-            <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
-                start={{ x: 0, y: 1 }}
-                end={{ x: 1, y: 1 }}
+            <View
                 style={styles.container}>
-                <View style={styles.topViewContainer}>
+                {/* <View style={styles.topViewContainer}>
+                </View> */}
+                <View style={styles.assetsContainer}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ marginLeft: 5, fontSize: 18, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
+                        <ImageButton
+                            btnStyle={{ width: 17, height: 11, marginTop: 5 }}
+                            imageStyle={{ width: 17, height: 11 }}
+                            onClick={this.props.onHideAssets}
+                            backgroundImageSource={this.props.hideAssetsIcon}
+                        />
+                    </View>
+                    <Text style={{ fontSize: 40, color: 'white' }}> {this.props.totalAssets} </Text>
                 </View>
-                <View style={styles.headContainer}>
-                    <Image
-                        style={{ width: 50, height: 50, marginLeft: 25, borderRadius: 25 }}
-                        source={this.props.headIcon}
-                    />
-                    <View style={{ margin: 10, backgroundColor: 'transparent' }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                            <Text style={{ color: 'white', fontSize: 16 }}> {this.props.walletName} </Text>
-                            {/* <ImageButton
-                                btnStyle={{ width: 15, height: 15 }}
-                                imageStyle={{ width: 15, height: 15 }}
-                                onClick={this.props.onSwitchWallet}
-                                backgroundImageSource={this.props.switchWalletIcon}
-                            /> */}
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                            <Text style={{ color: 'white', fontSize: 12 }}> {this.props.address} </Text>
-                            <ImageButton
-                                btnStyle={{ width: 15, height: 15 }}
-                                imageStyle={{ width: 15, height: 15 }}
-                                onClick={this.props.onAddressCopy}
-                                backgroundImageSource={this.props.addressCopyIcon}
-                            />
-                        </View>
+                <View style={styles.addressContainer}>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}> {this.props.walletName} </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                        <Text style={{ color: 'white', fontSize: 12 }}> {this.props.address} </Text>
+                        <ImageButton
+                            btnStyle={{ width: 13, height: 13, marginLeft: 8, marginTop: 3 }}
+                            imageStyle={{ width: 13, height: 13 }}
+                            onClick={this.props.onQRCode}
+                            backgroundImageSource={this.props.QRCodeIcon}
+                        />
                     </View>
                 </View>
-                <View style={styles.assetsContainer}>
-                    <Text style={{ fontSize: 15, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
-                    <Text style={{ fontSize: 40, color: 'white' }}> {I18n.t('home.currency_symbol')}{this.props.totalAssets} </Text>
-                </View>
-                <View style={styles.buttonContainer}>
-                    <OvalButton
-                        onClick={this.props.onSet}
-                        showText={I18n.t('home.settings')}
-                        renderIcon={this.props.setBtnIcon}
-                    />
-                    <OvalButton
-                        onClick={this.props.onQRCode}
-                        showText={I18n.t('home.QRCode')}
-                        renderIcon={this.props.QRbtnIcon}
-                    />
-                </View>
                 <View style={styles.bottomAddAssetsContainer}>
-                    <Text style={{ marginLeft: 10, color: 'rgb(30,174,245)' }}> {I18n.t('home.assets')} </Text>
+                    <Text style={{ marginLeft: 10 }}> {I18n.t('home.assets')} </Text>
                     <ImageButton
                         btnStyle={{ marginRight: 10 }}
                         onClick={this.props.onAddAssets}
                         backgroundImageSource={this.props.addAssetsIcon}
                     />
                 </View>
-            </LinearGradient>
+            </View>
         )
     }
 }
@@ -101,42 +78,31 @@ export default class HeadView extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'transparent',
-        height: layoutConstants.HOME_HEADER_HEIGHT,
-    },
-    topViewContainer: {
-        backgroundColor: 'transparent',
-        height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
-        flexDirection: 'row-reverse',
-        alignItems: 'flex-end'
-    },
-    headContainer: {
-        backgroundColor: 'transparent',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexDirection: 'row',
-        height: layoutConstants.HOME_HEADER_LADDER_HEIGHT
-
+        height: layoutConstants.HOME_HEADER_CONTENT_HEIGHT,
     },
     assetsContainer: {
         backgroundColor: 'transparent',
         height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
-        marginTop: 5
+        marginTop: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
+        marginLeft: 15,
     },
-    buttonContainer: {
+    addressContainer: {
         backgroundColor: 'transparent',
-        height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
-        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
+        height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
+        marginLeft: 15,
+
     },
     bottomAddAssetsContainer: {
-        backgroundColor: 'rgb(247,248,249)',
-        height: 40,
+        backgroundColor: 'white',
+        height: 60,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: 20,
     }
 
 })

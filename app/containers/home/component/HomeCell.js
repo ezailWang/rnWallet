@@ -5,7 +5,7 @@ import {
     Image,
     StyleSheet,
     Color,
-    TouchableOpacity,
+    TouchableHighlight,
 } from 'react-native'
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
@@ -45,25 +45,26 @@ class HomeCell extends Component {
             imageSource = tokeniCon[symbol]
         }
         return (
-            <TouchableOpacity
-                style={styles.container}
+            <TouchableHighlight
                 onPress={this.props.onClick}
             >
-                <View style={styles.leftView}>
-                    <Image style={styles.icon}
-                        source={imageSource}
-                    ></Image>
-                    <Text>{symbol}</Text>
+                <View style={styles.container}>
+                    <View style={styles.leftView}>
+                        <Image style={styles.icon}
+                            source={imageSource}
+                        ></Image>
+                        <Text>{symbol}</Text>
+                    </View>
+                    <View style={styles.rightView}>
+                        <Text
+                            style={{ fontSize: 17, color: Colors.themeColor }}
+                        >{isNaN(balance) || balance === '0.0000' || balance === '0' ? '0.00' : balance}</Text>
+                        <Text
+                            style={{ fontSize: 13, color: Colors.fontDarkGrayColor }}
+                        >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + I18n.t('home.currency_symbol') + (balance * price).toFixed(2)}</Text>
+                    </View>
                 </View>
-                <View style={styles.rightView}>
-                    <Text
-                        style={{ fontSize: 20 }}
-                    >{isNaN(balance) || balance === '0.0000' ? '0.00' : balance}</Text>
-                    <Text
-                        style={{ fontSize: 15, color: Colors.fontDarkGrayColor }}
-                    >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + I18n.t('home.currency_symbol') + (balance * price).toFixed(2)}</Text>
-                </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
         )
     }
 }
@@ -88,7 +89,8 @@ const styles = StyleSheet.create({
     separator: {
         flex: 1,
         backgroundColor: 'rgb(247,248,249)',
-        height: 10,
+        height: 1,
+        marginHorizontal: 10
     },
     icon: {
         width: 24,
