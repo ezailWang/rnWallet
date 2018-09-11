@@ -73,7 +73,7 @@ export default class keystoreUtils {
             return '0x' + privateKey.toString('hex')
         }
         catch (err) {
-            console.log('err:', err)
+            console.log('getPrivateKey err:', err)
             return null
         }
     }
