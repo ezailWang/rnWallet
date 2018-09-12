@@ -118,38 +118,16 @@ const styles = StyleSheet.create({
     icon:{
         width:10,
     },
-    
 
-    btnBox:{
-        flexDirection:'row',
-        height:48,
-        width:Layout.WINDOW_WIDTH*0.75,
-        alignItems:'center',
-        backgroundColor:'#fff',
-        paddingLeft:20,
-        paddingRight:16,
-        borderRadius:26,  
-    },
-    rightBlueNextBtn:{
-        backgroundColor:Colors.whiteBackgroundColor,
-        borderColor:'#fff',
-    },
-    rightWhiteNextBtn:{
+    whiteBorderBtn:{
         backgroundColor:'transparent',
         borderWidth:2,
         borderColor:'#fff',
     },
-    btnText:{
-        flex:1,
-        fontSize:FontSize.BtnFontSize,
-        textAlign:'center',
-        marginLeft:15,
-        fontWeight:"bold",
-    },
     rightBlueNextTxt:{
         color:Colors.fontBlueColor,
     },
-    rightWhiteNextTxt:{
+    whiteTxt:{
         color:Colors.fontWhiteColor,
     },
     nextIcon:{
@@ -242,6 +220,7 @@ class BlueButtonBig extends Component {
     render() {
         return (
             <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
+                              activeOpacity={0.6}
                               disabled={this.props.isDisabled}
                               onPress = {this.props.onPress}>
                 <Text style={[styles.blueBtnTitle,styles.normalBtnTitle]}>{this.props.text}</Text>
@@ -254,10 +233,12 @@ class WhiteButtonBig extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
+        buttonStyle: PropTypes.object,
     };
     render() {
         return (
-            <TouchableOpacity style={[styles.normalBtn,styles.whiteBtn]}
+            <TouchableOpacity style={[styles.normalBtn,styles.whiteBtn,this.props.buttonStyle]}
+                              activeOpacity={0.6}
                               onPress = {this.props.onPress}>
                 <Text style={[styles.whiteBtnTitle,styles.normalBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
@@ -382,33 +363,21 @@ class HeaderButton extends Component {
     }
 }
 
-//右边带有蓝色>的按钮，firstLaunch首页使用案例
-class RightBlueNextButton extends Component{
-    static propTypes = {
-        onPress: PropTypes.func.isRequired,
-        text: PropTypes.string.isRequired,
-    }
-    render() {
-        return (
-            <TouchableOpacity style={[styles.btnBox,styles.rightBlueNextBtn]} activeOpacity={0.6} onPress = { this.props.onPress }>
-                <Text style={[styles.btnText,styles.rightBlueNextTxt]}>{this.props.text}</Text>
-                <Image style={styles.nextIcon} source={require('../assets/common/backblue_icon.png')} resizeMode={'center'}/>
-            </TouchableOpacity>
-        )
-    }
-}
 
-//右边带有白色>的按钮，firstLaunch首页使用案例
-class RightWhiteNextButton extends Component{
+
+
+class WhiteBorderButton extends Component{
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
+        buttonStyle: PropTypes.object,
     }
     render() {
         return (
-            <TouchableOpacity style={[styles.btnBox,styles.rightWhiteNextBtn]} activeOpacity={0.6} onPress = {this.props.onPress }>
-                <Text style={[styles.btnText,styles.rightWhiteNextTxt]}>{this.props.text}</Text>
-                <Image style={styles.nextIcon} source={require('../assets/common/backwhite_icon.png')} resizeMode={'center'}/>
+            <TouchableOpacity style={[styles.normalBtn,styles.whiteBorderBtn,this.props.buttonStyle]} 
+                              activeOpacity={0.6} 
+                              onPress = {this.props.onPress }>
+                <Text style={[styles.normalBtnTitle,styles.whiteTxt]}>{this.props.text}</Text>
             </TouchableOpacity>
         )
     }
@@ -428,6 +397,5 @@ export {
     BlueButtonSmall,        //小号蓝色按钮
     NextButton,             //设置页面功能按钮
     HeaderButton,           //导航栏按钮
-    RightBlueNextButton,    //右边带有蓝色>的按钮
-    RightWhiteNextButton,   //右边带有白色>的按钮
+    WhiteBorderButton,      //白色边框、透明背景、白色字体
 }

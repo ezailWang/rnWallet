@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions, BackHandler, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text, PermissionsAndroid, Platform, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
-import { RightBlueNextButton, RightWhiteNextButton } from '../../components/Button'
+import { WhiteButtonBig, WhiteBorderButton } from '../../components/Button'
 import { Colors } from '../../config/GlobalConfig'
 import SplashScreen from 'react-native-splash-screen'
 import Layout from '../../config/LayoutConstants'
@@ -18,25 +18,31 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: Colors.backgroundColor,
-        paddingTop: 150,
+        paddingTop: 120,
     },
     logoImg: {
-        marginBottom: 50,
         width: 120,
         height: 120,
     },
-    marginTop10: {
-        marginTop: 30,
+    logoText:{
+        color:'white',
+        fontSize:30,
+        fontWeight:'bold',
     },
-    nextIcon: {
-        width: 15,
-        height: 15,
-        marginTop: 10,
-        marginLeft: 10,
-        zIndex: 20,
+    conetntText:{
+        color:'white',
+        fontSize:15,
+        fontWeight:'bold',
+        marginBottom: 50,
     },
     btnMargin: {
         height: 20,
+    },
+    btnBox:{
+        flex:1,
+        justifyContent:'flex-end',
+        marginBottom:80,
+
     }
 });
 
@@ -122,15 +128,18 @@ export default class FirstLaunchScreen extends BaseComponent {
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                 style={styles.contentContainer}>
                 <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'} />
-
-                <RightBlueNextButton
-                    onPress={() => this.vertifyAndroidPermissions(true)}
-                    text={I18n.t('launch.creact_wallet')} />
-                <View style={styles.btnMargin}>
-                </View>
-                <RightWhiteNextButton
-                    onPress={() => this.vertifyAndroidPermissions(false)}
-                    text={I18n.t('launch.import_wallet')} />
+                <Text style={styles.logoText}>IoT Chain</Text>
+                <Text style={styles.conetntText}>A high-security lite Iot OS</Text>
+                <View style={styles.btnBox}>
+                        <WhiteButtonBig
+                             buttonStyle={{height:48}}
+                             onPress={() => this.vertifyAndroidPermissions(true)}
+                             text={I18n.t('launch.creact_wallet')} />
+                        <WhiteBorderButton
+                             onPress={() => this.vertifyAndroidPermissions(false)}
+                             text={I18n.t('launch.import_wallet')} />
+                        </View>
+                
             </LinearGradient>
         )
     }

@@ -6,7 +6,7 @@ import * as Actions from '../../config/action/Actions'
 import { BlueButtonBig } from '../../components/Button';
 import { Colors, FontSize } from '../../config/GlobalConfig'
 import { showToast } from '../../utils/Toast';
-import { BlueHeader } from '../../components/NavigaionHeader'
+import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader'
 import {vertifyPassword} from './Common' 
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
@@ -17,15 +17,14 @@ let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.backgroundColor,
+        backgroundColor: Colors.whiteBackgroundColor,
     },
-    
     
     keyboardAwareScrollView: {
         alignSelf: 'stretch',
         justifyContent:'center',
         alignItems: 'center',
-        marginTop:40,
+        paddingTop:40,
     },
     contentContainer: {
         justifyContent:'center',
@@ -42,6 +41,19 @@ const styles = StyleSheet.create({
         color: Colors.fontBlueColor,
         marginBottom:30,
     }, 
+    warnBox:{
+        alignSelf: 'stretch',
+        backgroundColor:Colors.bgBlue_9a,
+        paddingLeft:15,
+        paddingRight:15,
+        paddingTop:10,
+        paddingBottom:10,
+        marginBottom:20,
+    },
+    warnText:{
+        color:'white',
+        fontSize:13
+    },
     inputText: {
         alignSelf: 'stretch',
         height: 42,
@@ -52,8 +64,7 @@ const styles = StyleSheet.create({
         color: Colors.fontGrayColor_a0,
         marginBottom: 10,
     },
-    buttonBox: {
-        alignSelf: 'center',
+    button: {
         marginTop:40,
     },
     inputBox: {
@@ -230,7 +241,7 @@ class CreateWalletScreen extends BaseComponent {
         return (
             
             <View style={styles.container}>
-                <BlueHeader navigation={this.props.navigation} />
+                <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'
@@ -239,6 +250,11 @@ class CreateWalletScreen extends BaseComponent {
                 
                         <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'} />
                         <Text style={styles.titleTxt}>{I18n.t('launch.creact_wallet')}</Text>
+
+                        <View style={styles.warnBox}>
+                            <Text style={styles.warnText}>*密码用于保护私钥和交易授权</Text>
+                            <Text style={styles.warnText}>*我们不存储密码,也没法帮您找回,请务必牢记</Text>
+                        </View>
                     
                         <TextInput style={styles.inputText}
                             returnKeyType='next' 
@@ -286,13 +302,12 @@ class CreateWalletScreen extends BaseComponent {
                             </TouchableOpacity>
                         </View>
                 
-                        <View style={styles.buttonBox}>
-                            <BlueButtonBig
-                                isDisabled = {this.state.isDisabled}
-                                onPress={() => this.vertifyInputData()}
-                                text={I18n.t('launch.create')}
-                            />
-                        </View>
+                        <BlueButtonBig
+                             buttonStyle = {styles.button}
+                             isDisabled = {this.state.isDisabled}
+                             onPress={() => this.vertifyInputData()}
+                             text={I18n.t('launch.create')}
+                        />
                        
                 </View>
                 </KeyboardAvoidingView>
