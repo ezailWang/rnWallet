@@ -6,6 +6,7 @@ import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import Layout from '../../config/LayoutConstants'
 import {showToast} from '../../utils/Toast';
 const styles = StyleSheet.create({
     container:{

@@ -19,8 +19,13 @@ import ExportKeystoreScreen from './settings/ExportKeystoreScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
 import ScanQRCodeScreen from './settings/ScanQRCodeScreen';
 import TransactionDetail from './transaction/TransactionDetail';
-import Loading from './appLoading/Loading'
-import TransactionRecoder from './transaction/TransactionRecoder'
+import Loading from './appLoading/Loading';
+import TransactionRecoder from './transaction/TransactionRecoder';
+import CreateContactScreen from './settings/CreateContactScreen';
+import ContactListScreen from './settings/ContactListScreen';
+import ContactInfoScreen from './settings/ContactInfoScreen';
+import AboutUsScreen from './settings/AboutUsScreen';
+import FeedbackScreen from './settings/FeedbackScreen';
 export {
     HomeScreen,
     walletTest,
@@ -43,5 +48,10 @@ export {
     ScanQRCodeScreen,
     TransactionDetail,
     Loading,
-    TransactionRecoder
+    TransactionRecoder,
+    CreateContactScreen,
+    ContactListScreen,
+    ContactInfoScreen,
+    AboutUsScreen,
+    FeedbackScreen
 }

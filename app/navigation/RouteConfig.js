@@ -66,7 +66,12 @@ import {
     ScanQRCodeScreen,
     TransactionDetail,
     Loading,
-    TransactionRecoder
+    TransactionRecoder,
+    CreateContactScreen,
+    ContactListScreen,
+    ContactInfoScreen,
+    AboutUsScreen,
+    FeedbackScreen,
 } from '../containers/containers';
 
 import {BlueHeader,WhiteBgHeader,WhiteBgNoTitleHeader} from '../components/NavigaionHeader'
@@ -107,6 +112,8 @@ const FirstLaunchRouteConfig =
     ImportWallet: {
         screen: ImportWalletScreen,
     },
+
+   
 
     /**UserRegulation: {
         screen: UserRegulationScreen,
@@ -173,6 +180,21 @@ const HomeRouteConfig =
     },
     ExportKeystore:{
         screen:ExportKeystoreScreen,
+    },
+    CreateContact:{
+        screen: CreateContactScreen,
+    },
+    ContactList:{
+        screen: ContactListScreen,
+    },
+    ContactInfo:{
+        screen: ContactInfoScreen,
+    },
+    AboutUs:{
+        screen:AboutUsScreen,
+    },
+    Feedback:{
+        screen:FeedbackScreen,
     }
 };
 

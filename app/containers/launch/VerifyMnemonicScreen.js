@@ -10,10 +10,9 @@ import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import { upsetArrayOrder } from './Common';
 import { Colors, FontSize } from '../../config/GlobalConfig'
-import StatusBarComponent from '../../components/StatusBarComponent';
 import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader'
 import { showToast } from '../../utils/Toast';
-import Loading from '../../components/LoadingComponent';
+import Layout from '../../config/LayoutConstants'
 import { StorageKey } from '../../config/GlobalConfig';
 import { store } from '../../config/store/ConfigureStore'
 import { I18n } from '../../config/language/i18n'
@@ -23,14 +22,14 @@ let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:'#fff',
     },
     contentContainer: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        paddingTop: ScreenHeight * 0.05,
-        paddingLeft: ScreenWidth * 0.08,
-        paddingRight: ScreenWidth * 0.08,
+        flex:1,
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignItems:'center',
+        alignSelf:'center',
+        paddingTop:ScreenHeight*0.08,
         //alignItems:'stretch',
     },
     icon: {

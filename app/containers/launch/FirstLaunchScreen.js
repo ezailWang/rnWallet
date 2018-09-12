@@ -3,11 +3,9 @@ import { View, StyleSheet, Image, Dimensions, BackHandler, PermissionsAndroid, P
 import LinearGradient from 'react-native-linear-gradient'
 import { RightBlueNextButton, RightWhiteNextButton } from '../../components/Button'
 import { Colors } from '../../config/GlobalConfig'
-import StatusBarComponent from '../../components/StatusBarComponent';
 import SplashScreen from 'react-native-splash-screen'
-
+import Layout from '../../config/LayoutConstants'
 import { androidPermission } from '../../utils/permissionsAndroid';
-
 import networkManage from '../../utils/networkManage'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
@@ -48,6 +46,7 @@ export default class FirstLaunchScreen extends BaseComponent {
         super(props);
         this.state = {
         }
+        this._setStatusBarStyleLight()
     }
 
     _initData(){
@@ -122,7 +121,6 @@ export default class FirstLaunchScreen extends BaseComponent {
         return (
             <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
                 style={styles.contentContainer}>
-                <StatusBarComponent  barStyle='light-content'/>
                 <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'} />
 
                 <RightBlueNextButton

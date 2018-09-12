@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import {BlueButtonBig} from '../../components/Button';
 import {Colors,FontSize} from '../../config/GlobalConfig'
-import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
+import Layout from '../../config/LayoutConstants'
 import {showToast} from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
@@ -14,15 +14,14 @@ let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:Colors.bgGrayColor,
+        backgroundColor:'#fff',
     },
     contentBox:{
         flex:1,
+        width:Layout.WINDOW_WIDTH*0.9,
         alignItems:'center',
-        backgroundColor:'#fff',
+        alignSelf:'center',
         paddingTop:ScreenHeight*0.15,
-        paddingLeft: ScreenWidth*0.08,
-        paddingRight: ScreenWidth*0.08,
     },
     icon:{
         width:48,

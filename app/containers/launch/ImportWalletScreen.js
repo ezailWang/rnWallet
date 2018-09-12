@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image, Text, TextInput, Animated,Keyboard, KeyboardAvoidingView,TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions,BackHandler} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
@@ -11,9 +10,8 @@ import * as Actions from '../../config/action/Actions'
 import { connect } from 'react-redux';
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import { BlueButtonBig } from '../../components/Button'
-import StatusBarComponent from '../../components/StatusBarComponent';
 import { showToast } from '../../utils/Toast';
-import layoutConstants from '../../config/LayoutConstants'
+import Layout from '../../config/LayoutConstants'
 import {BlueHeader} from '../../components/NavigaionHeader'
 import {vertifyPassword,resetStringBlank ,stringTrim} from './Common'
 import { I18n } from '../../config/language/i18n'
@@ -33,11 +31,9 @@ const styles = StyleSheet.create({
         marginTop:40,
     },
     contentContainer: {
-        alignSelf:'stretch',
-        alignItems: 'center',
         justifyContent:'center',
-        paddingLeft: ScreenWidth*0.08,
-        paddingRight: ScreenWidth*0.08,
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignItems:'center',
     },
     icon: {
         width: 48,
@@ -282,7 +278,6 @@ class ImportWalletScreen extends BaseComponent {
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
             <View style={styles.container}>
-                <StatusBarComponent  barStyle='light-content'/>
                 <BlueHeader navigation={this.props.navigation} />
                 <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}

@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid,BackHandler} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
-import StorageManage from '../../utils/StorageManage'
-import * as Actions from '../../config/action/Actions'
+import Layout from '../../config/LayoutConstants'
 import {HeaderButton,BlueButtonBig} from '../../components/Button';
 import {androidPermission}  from '../../utils/permissionsAndroid';
-import StatusBarComponent from '../../components/StatusBarComponent';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import {Colors,FontSize} from '../../config/GlobalConfig'
-import Loading from  '../../components/LoadingComponent';
 import {showToast} from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent';
@@ -19,11 +16,10 @@ const styles = StyleSheet.create({
     },
     contentContainer:{
         flex:1,
+        width:Layout.WINDOW_WIDTH*0.9,
         alignItems:'center',
-        backgroundColor:Colors.bgGrayColor,
         paddingTop:60,
-        paddingLeft:40,
-        paddingRight:40,
+        backgroundColor:Colors.bgGrayColor, 
     },
     icon:{
         width:66,

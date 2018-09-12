@@ -65,6 +65,7 @@ const StorageKey = {
     Tokens:'tokens',
     Network:'network',
     Language:'language',
+    Contact:'contact',//保存联系人的key
 }
 
 const Network = {

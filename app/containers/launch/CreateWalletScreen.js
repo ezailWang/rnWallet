@@ -5,12 +5,10 @@ import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import { BlueButtonBig } from '../../components/Button';
 import { Colors, FontSize } from '../../config/GlobalConfig'
-import StatusBarComponent from '../../components/StatusBarComponent';
-import Loading from '../../components/LoadingComponent';
 import { showToast } from '../../utils/Toast';
 import { BlueHeader } from '../../components/NavigaionHeader'
 import {vertifyPassword} from './Common' 
-import layoutConstants from '../../config/LayoutConstants'
+import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
@@ -30,11 +28,9 @@ const styles = StyleSheet.create({
         marginTop:40,
     },
     contentContainer: {
-        alignSelf:'stretch',
-        alignItems: 'center',
         justifyContent:'center',
-        paddingLeft: ScreenWidth*0.08,
-        paddingRight: ScreenWidth*0.08,
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignItems:'center',
     },
     icon: {
         width: 48,
@@ -234,7 +230,6 @@ class CreateWalletScreen extends BaseComponent {
         return (
             
             <View style={styles.container}>
-                <StatusBarComponent  barStyle='light-content'/>
                 <BlueHeader navigation={this.props.navigation} />
                 <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}

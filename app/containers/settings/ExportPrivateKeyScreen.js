@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Clipboard,BackHandler} from 'react-native';
-import keythereum from 'keythereum'
-import StorageManage from '../../utils/StorageManage'
-import keystoreUtils from '../../utils/keystoreUtils'
-import { connect } from 'react-redux';
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
-import StatusBarComponent from '../../components/StatusBarComponent';
-import Loading from  '../../components/LoadingComponent';
+import Layout from '../../config/LayoutConstants'
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { I18n } from '../../config/language/i18n'
@@ -19,12 +14,12 @@ const styles = StyleSheet.create({
         backgroundColor:Colors.bgGrayColor,
     },
     contentBox:{
-        paddingTop:20,
-        paddingLeft:20,
-        paddingRight:20,
-        paddingBottom:20,
         flex:1,
-        alignItems:'stretch',
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignItems:'center',
+        alignSelf:'center',
+        paddingTop:20,
+        paddingBottom:20,    
     },
     warnBox:{
         flexDirection:'row',

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { View,StyleSheet,Image,Text,Clipboard,ScrollView,TextInput,BackHandler} from 'react-native';
-import StorageManage from '../../utils/StorageManage'
-import keystoreUtils from '../../utils/keystoreUtils'
-import { connect } from 'react-redux';
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
-import StatusBarComponent from '../../components/StatusBarComponent';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
@@ -17,12 +14,12 @@ const styles = StyleSheet.create({
         backgroundColor:Colors.bgGrayColor,
     },
     contentBox:{
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignItems:'center',
+        alignSelf:'center',
         paddingTop:20,
-        paddingLeft:20,
-        paddingRight:20,
         paddingBottom:20,
         flex:1,
-        alignItems:'stretch',
     },
     warnBox:{
         flexDirection:'row',
@@ -170,9 +167,6 @@ export default class ExportKeystoreScreen extends BaseComponent {
         );
     }
 }
-/**
- * 
- * 
- */
+
 
 

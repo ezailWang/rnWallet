@@ -31,9 +31,10 @@ const styles = StyleSheet.create({
         height:20
     },
     normalBtn:{
-        width:Layout.WINDOW_WIDTH*0.75,
+        width:Layout.WINDOW_WIDTH*0.9,
+        //alignSelf:'stretch',
         height:44,
-        borderRadius:28,
+        borderRadius:5,
         justifyContent:"center",
         marginTop:20
     },
@@ -236,10 +237,11 @@ class BlueButtonBig extends Component {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
         isDisabled : PropTypes.bool,
+        buttonStyle: PropTypes.object,
     };
     render() {
         return (
-            <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn]}
+            <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
                               disabled={this.props.isDisabled}
                               onPress = {this.props.onPress}>
                 <Text style={[styles.blueBtnTitle,styles.normalBtnTitle]}>{this.props.text}</Text>

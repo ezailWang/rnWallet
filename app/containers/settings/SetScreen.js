@@ -12,6 +12,7 @@ import * as Actions from '../../config/action/Actions';
 import {showToast} from '../../utils/Toast';
 import {WhiteBgHeader} from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n'
+import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
@@ -67,11 +68,17 @@ class SetScreen extends BaseComponent {
             passwordModalVisible : false,
         }
     }
+    //todo
     openNameModal() {
-        this.setState({nameModalVisible: true});
+        //this.setState({nameModalVisible: true});
+        this.props.navigation.navigate('ContactList')
+        //this.props.navigation.navigate('AboutUs')
+        //this.props.navigation.navigate('Feedback')
     }
+    //todo
     openPasswordModal() {
-        this.setState({passwordModalVisible: true});
+        //this.setState({passwordModalVisible: true});
+        this.props.navigation.navigate('CreateContact')
     }
     closeNameModal(){
         this.setState({nameModalVisible: false});
@@ -155,7 +162,6 @@ class SetScreen extends BaseComponent {
    
     
     renderComponent() {
-        console.log('L_set','renderComponent')
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.set')}/>

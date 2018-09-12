@@ -16,9 +16,8 @@ var {width, height} = Dimensions.get('window');
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
 import * as Actions from '../../config/action/Actions'
-import StatusBarComponent from '../../components/StatusBarComponent';
 import {Colors,FontSize} from '../../config/GlobalConfig'
-import {showToast} from '../../utils/Toast';
+import Layout from '../../config/LayoutConstants'
 import {BlackBgHeader} from '../../components/NavigaionHeader'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent';
