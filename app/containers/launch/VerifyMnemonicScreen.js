@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         width:Layout.WINDOW_WIDTH*0.9,
         alignItems:'center',
         alignSelf:'center',
-        paddingTop:ScreenHeight*0.08,
+        paddingTop:40,
         //alignItems:'stretch',
     },
     icon: {

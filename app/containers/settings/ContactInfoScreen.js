@@ -5,7 +5,8 @@ import {
     Platform,
     PermissionsAndroid,
     Text,
-    Keyboard
+    Keyboard,
+    TouchableOpacity
 } from 'react-native';
 import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
@@ -17,16 +18,17 @@ import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import NetworkManager from '../../utils/networkManage';
 import {CommonTextInput} from '../../components/TextInputComponent'
+import RemindDialog from '../../components/RemindDialog'
 import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:Colors.bgGrayColor,
+        backgroundColor:'white',
     },
     contentBox:{
+        marginTop:40,
         width:Layout.WINDOW_WIDTH*0.9,
-        alignItems:'center',
-        paddingRight:20,
+        alignSelf:'center',
     },
     text:{
         color:Colors.fontBlackColor,
@@ -34,11 +36,20 @@ const styles = StyleSheet.create({
         marginBottom:3,
     },
     textInput:{
-        marginBottom:12,
+        marginBottom:15,
     },
-    buttonBox:{
-        alignSelf:'center',
-        marginTop:20,
+    button:{
+        marginTop:40,
+    },
+    deleteTouchable:{
+        height:40,
+        alignItems:'center',
+        justifyContent:'center',
+        marginTop:15,
+    },
+    deleteText:{
+        fontSize:16,
+        color:Colors.fontBlueColor,
     }
 })
 
@@ -51,6 +62,7 @@ export default class ContactInfoScreen extends BaseComponent {
             name:'',
             remark:'',
             address:'',
+            isShowDialog:false,
         }
 
         this.contactInfo = {},
@@ -152,7 +164,15 @@ export default class ContactInfoScreen extends BaseComponent {
         this.props.navigation.state.params.callback({});
         this.props.navigation.goBack()
     }
-    
+
+    deleteContact(){
+        this.setState({
+            isShowDialog:true
+        })
+    }
+    onConfirmDelete(){
+        
+    }
     
     renderComponent() {
         return (
@@ -161,6 +181,10 @@ export default class ContactInfoScreen extends BaseComponent {
                                 text={this.contactInfo.name}
                                 rightPress={() => this.scanClick()}
                                 rightIcon={require('../../assets/common/scanIcon.png')}/>
+                <RemindDialog   content={'确定删除联系人？'}    
+                                modalVisible={this.state.isShowDialog}
+                                rightPress = {()=> this.onConfirmDelete()}/>
+
                 <View style={styles.contentBox}>
                     <Text style={styles.text}>姓名</Text>
                     <CommonTextInput
@@ -181,13 +205,17 @@ export default class ContactInfoScreen extends BaseComponent {
                          onChangeText={this.addressOnChangeText}
                          defaultValue={this.state.address}/>          
                     
-                    <View style={styles.buttonBox}>
-                        <BlueButtonBig
-                            isDisabled = {this.state.isDisabled}
-                             onPress = {()=> this.saveModify()}
-                             text = {'保存修改'}
-                        />
-                    </View>   
+                    <BlueButtonBig
+                         buttonStyle= {styles.button}
+                         isDisabled = {this.state.isDisabled}
+                         onPress = {()=> this.saveModify()}
+                         text = {'保存修改'}
+                    />
+                    <TouchableOpacity style={styles.deleteTouchable}
+                              activeOpacity={0.6}
+                              onPress = {()=> this.deleteContact()}>
+                         <Text style={styles.deleteText}>删除联系人</Text>
+                    </TouchableOpacity>  
                 </View>
                      
             </View>    

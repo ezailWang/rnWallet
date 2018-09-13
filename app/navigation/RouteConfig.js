@@ -72,6 +72,8 @@ import {
     ContactInfoScreen,
     AboutUsScreen,
     FeedbackScreen,
+    ChoseLanguageScreen,
+    ChoseCurrencyUnitScreen,
 } from '../containers/containers';
 
 import {BlueHeader,WhiteBgHeader,WhiteBgNoTitleHeader} from '../components/NavigaionHeader'
@@ -195,6 +197,12 @@ const HomeRouteConfig =
     },
     Feedback:{
         screen:FeedbackScreen,
+    },
+    ChoseLanguage:{
+        screen:ChoseLanguageScreen,
+    },
+    ChoseCurrencyUnit:{
+        screen:ChoseCurrencyUnitScreen,
     }
 };
 

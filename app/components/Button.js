@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     normalMiddleBtn:{
         width:Layout.WINDOW_WIDTH*0.4,
         height:40,
-        borderRadius:20,
+        borderRadius:5,
         justifyContent:"center"
     },
     normalMiddleBtnTitle:{
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     normalSmallBtn:{
         width:Layout.WINDOW_WIDTH*0.35,
         height:40,
-        borderRadius:20,
+        borderRadius:5,
         justifyContent:"center"
     },
     btnOpacity:{

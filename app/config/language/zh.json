@@ -86,20 +86,22 @@
         "determine":"确定"
     },
     "settings":{
-        "set":"设置",
+        "set":"钱包工具",
         "enter_wallet_name_hint":"请输入钱包名称",
         "enter_passowrd_hint":"请输入密码",
         "modify_wallet_name":"修改钱包名称",
         "export_keystore":"导出Keystore",
         "export_private_key":"导出私钥",
 
-        "export_keystore_modal_prompt":"如果有人获取你的Keystore将可能获取你的资产！请妥善保管Keystore。",
+        "export_keystore_modal_prompt":"如果有人获取你的Keystore将可能获取你的资产!",
+        "export_keystore_modal_prompt1":"请妥善保管Keystore。",
         "export_keystore_prompt":"拥有Keystore就能完全控制该地址的资产，切勿保存至邮箱、网盘等，更不要使用网络工具进行传输。",
         "copy_keystore":"复制Keystore",
 
-        "export_private_key_modal_prompt":"如果有人获取你的私钥将可能获取你的资产！请抄写下私钥并存放在安全的地方。",
+        "export_private_key_modal_prompt":"如果有人获取你的私钥将可能获取你的资产!",
+        "export_private_key_modal_prompt1":"请抄写下私钥并存放在安全的地方。",
         "export_private_key_prompt":"拥有私钥就能完全控制该地址的资产，切勿保存至邮箱、网盘等，更不要使用网络工具进行传输。",
-        "copy_private_key":"复制Private Key",
+        "copy_private_key":"复制私钥",
 
         "collection_code":"收款码",
         "copy_payment_address":"复制收款地址",

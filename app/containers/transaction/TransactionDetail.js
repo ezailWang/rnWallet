@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Text,TouchableOpacity,Clipboard,BackHandler,Linking} from 'react-native';
+import { View,StyleSheet,Text,TouchableOpacity,Clipboard,Image,Linking} from 'react-native';
 import QRCode from 'react-native-qrcode';
-import StatusBarComponent from '../../components/StatusBarComponent';
-import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import Layout from '../../config/LayoutConstants'
+import {BlueHeader} from '../../components/NavigaionHeader'
 import {Colors} from '../../config/GlobalConfig';
 import {store} from '../../config/store/ConfigureStore'
 import {showToast} from '../../utils/Toast';
@@ -11,37 +11,46 @@ import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        alignItems:'center',
         backgroundColor:Colors.backgroundColor,
     },
     countBox:{
         flexDirection:'row',
         marginTop:30,
-        marginBottom:20,
-        alignItems:'flex-end',
+        marginBottom:50,
+        //alignItems:'flex-end',
+        justifyContent:'center'
+    },
+    
+    contentBox:{
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignSelf:'center',
+    },
+    content:{
+        backgroundColor:'white',
+        borderRadius:5,
+        paddingLeft:20,
+        paddingRight:20,
+        paddingTop:50,
+        paddingBottom:50,
+    },
+    statusIcon:{
+        position:'absolute',
+        width:120,
+        height:120,
+        alignSelf:'center',
+        marginTop:-60,
     },
     countTxt:{
-        fontSize:22,
-        color:'#000',
+        fontSize:24,
+        color:'white',
         fontWeight:'500',
     },
     coinTypeTxt:{
         fontSize:15,
         marginLeft:6,
         marginBottom:2,
-        color:Colors.fontBlackColor,
+        color:'white',
         alignSelf:'flex-end',
-    },
-    infoBox:{
-        alignSelf:'stretch',
-        justifyContent:'flex-start',
-        alignItems:'stretch',
-        backgroundColor:'#fff',
-        paddingTop:10,
-        paddingBottom:10,
-        paddingLeft:20,
-        paddingRight:20,
-        marginBottom:1,
     },
     fontBlue:{
         fontSize:13,
@@ -58,27 +67,26 @@ const styles = StyleSheet.create({
     marginTop2:{
         marginTop:2
     },
-    marginTop10:{
+    marginTop6:{
         marginTop:6,
     },
     bottomBox:{
-        flex:1,
         flexDirection:'row',
         marginTop:20,
-        marginLeft:20,
-        marginRight:20,
     },
     infoLeftBox:{
         flex:1,
         justifyContent:'flex-start',
+        marginTop:0
     },
     qrCodeBox:{
         marginLeft:20,
+        
     },
     copyBtn:{
         height:30,
         marginTop:10,
-        borderRadius:15,
+        borderRadius:5,
         borderWidth:1.2,
         borderColor: Colors.themeColor
     },
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
         height:30,
         lineHeight:30,
         textAlign:'center',
-    }
+    },
 })
 
 export default class TransactionDetail extends BaseComponent {
@@ -121,14 +129,11 @@ export default class TransactionDetail extends BaseComponent {
         // var baiduURL = 'https://etherscan.io/tx/'+ this.state.transactionHash;
 
         Linking.canOpenURL(baiduURL).then(supported => { 
-
             if (!supported) { 
                 console.warn('Can\'t handle url: ' + baiduURL); 
-            } 
-            else { 
+            }else { 
                 return Linking.openURL(baiduURL); 
             } 
-
         }).catch(err => console.error('An error occurred',baiduURL)); 
     }
 
@@ -140,53 +145,52 @@ export default class TransactionDetail extends BaseComponent {
     render() {
         return (
             <View style={styles.container}>
-                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')}/>
+                <BlueHeader  navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')}/>
                 <View style={styles.countBox}>
                      <Text style={styles.countTxt}>{this.state.amount}</Text>
                      <Text style={styles.coinTypeTxt}>{this.state.transactionType}</Text>
                 </View>
-                <View style={styles.infoBox}>
+                <View style={styles.contentBox}>
+                <View style={styles.content}>
+                     
                      <Text style={[styles.fontGray]}>{I18n.t('transaction.sending_party')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.fromAddress}</Text>
-                </View>
-                <View style={styles.infoBox}>
-                     <Text style={[styles.fontGray]}>{I18n.t('transaction.beneficiary')}</Text>
-                     <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.toAddress}</Text>
-                </View>
-                <View style={styles.infoBox}>
-                     <Text style={[styles.fontGray]}>{I18n.t('transaction.miner_cost')}</Text>
-                     <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.gasPrice+" gwei"}</Text>
-                </View>
-                <View style={styles.infoBox}>
-                     <Text style={[styles.fontGray]}>{I18n.t('transaction.remarks')}</Text>
-                     <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.remark}</Text>
-                </View>
 
-                <View style={styles.bottomBox}>
-                     <View style={styles.infoLeftBox}>
-                           <Text style={[styles.fontGray]}>{I18n.t('transaction.transaction_number')}</Text>
-                           <TouchableOpacity style={[styles.marginTop2]} activeOpacity={0.6} onPress = {this.didTapTransactionNumber}>
-                           <Text style={[styles.fontBlue]}
-                                 numberOfLines={1}
-                                 ellipsizeMode={"middle"}>{this.state.transactionHash}</Text>
-                           </TouchableOpacity>      
-                           <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.block')}</Text>
-                           <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.blockNumber}</Text>
-                           <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.transaction_time')}</Text>
-                           <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.transactionTime}</Text>
-                     </View>
-                     <View style={styles.qrCodeBox}>
-                           <QRCode
-                               value = {this.state.transactionHash}
-                               size={80}
-                               bgColor='#000'
-                               fgColor='#fff'
-                            />
-                            <TouchableOpacity style={[styles.copyBtn]} activeOpacity={0.6} onPress = {this.copyUrl}>
-                                 <Text style={styles.copyBtnTxt}>{I18n.t('transaction.copy_address')}</Text>
-                            </TouchableOpacity>
+                     <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.beneficiary')}</Text>
+                     <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.toAddress}</Text>
+
+                     <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.miner_cost')}</Text>
+                     <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.gasPrice+" gwei"}</Text>
+
+                     <View style={styles.bottomBox}>
+                         <View style={styles.infoLeftBox}>
+                                <Text style={[styles.fontGray]}>{I18n.t('transaction.transaction_number')}</Text>
+                                <TouchableOpacity style={[styles.marginTop2]} activeOpacity={0.6} onPress = {this.didTapTransactionNumber}>
+                                    <Text style={[styles.fontBlue]}
+                                         numberOfLines={1}
+                                         ellipsizeMode={"middle"}>{this.state.transactionHash}</Text>
+                                </TouchableOpacity>      
+                                <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.block')}</Text>
+                                <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.blockNumber}</Text>
+                                <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.transaction_time')}</Text>
+                                <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.transactionTime}</Text>
+                         </View>
+                         <View style={[styles.qrCodeBox,{marginTop:2}]}>
+                                <QRCode
+                                     value = {this.state.transactionHash}
+                                     size={80}
+                                     bgColor='#000'
+                                     fgColor='#fff'
+                                />
+                                <TouchableOpacity style={[styles.copyBtn]} activeOpacity={0.6} onPress = {this.copyUrl}>
+                                     <Text style={styles.copyBtnTxt}>{I18n.t('transaction.copy_address')}</Text>
+                                </TouchableOpacity>
+                         </View>
                      </View>
                 </View>
+                <Image style={styles.statusIcon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}></Image>
+                </View>
+                
             </View>
         );
     }

@@ -85,20 +85,22 @@
         "determine":"Determine"
     },
     "settings":{
-        "set":"Setting",
+        "set":"Wallet tool",
         "enter_wallet_name_hint":"Please enter the name of the wallet",
         "enter_passowrd_hint":"Please enter your password",
         "modify_wallet_name":"Modify wallet name",
         "export_keystore":"Export keystore",
         "export_private_key":"Export private key",
 
-        "export_keystore_modal_prompt":"If someone gets your Keystore it will probably get your assets! Please keep the Keystore in a safe place.",
+        "export_keystore_modal_prompt":"If someone gets your Keystore it will probably get your assets!",
+        "export_keystore_modal_prompt1":"Please keep the Keystore in a safe place.",
         "export_keystore_prompt":"With Keystore, you can fully control the assets of this address. Do not save to email, network disk, etc., and do not use network tools for transmission.",
         "copy_keystore":"Copy Keystore",
 
-        "export_private_key_modal_prompt":"If someone gets your private key it will probably get your assets! Please copy the private key and store it in a safe place.",
+        "export_private_key_modal_prompt":"If someone gets your private key it will probably get your assets!",
+        "export_private_key_modal_prompt1":"Please copy the private key and store it in a safe place.",
         "export_private_key_prompt":"Have the private key to fully control the assets of the address, do not save to the mailbox, network disk, etc., and do not use network tools for transmission.",
-        "copy_private_key":"Copy Private Key",
+        "copy_private_key":"Copy private key",
 
         "collection_code":"Collection code",
         "copy_payment_address":"Copy payment address",

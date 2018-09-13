@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
         backgroundColor:'black',  
     },
     icon:{
-        height:20,
-        width:20,
+        height:25,
+        width:25,
     },
     headerButtonBox:{
         height:40,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 })
 
 
-//返回按钮
+//白色返回按钮
 class BlueHeader extends Component {
     //
     static propTypes = {

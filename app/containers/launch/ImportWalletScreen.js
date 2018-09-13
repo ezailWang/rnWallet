@@ -12,7 +12,7 @@ import { Colors, StorageKey } from '../../config/GlobalConfig'
 import { BlueButtonBig } from '../../components/Button'
 import { showToast } from '../../utils/Toast';
 import Layout from '../../config/LayoutConstants'
-import {BlueHeader} from '../../components/NavigaionHeader'
+import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 import {vertifyPassword,resetStringBlank ,stringTrim} from './Common'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
@@ -21,7 +21,7 @@ let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.backgroundColor,
+        backgroundColor: 'white',
     },
     
     keyboardAwareScrollView: {
@@ -278,7 +278,7 @@ class ImportWalletScreen extends BaseComponent {
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         return (
             <View style={styles.container}>
-                <BlueHeader navigation={this.props.navigation} />
+                <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'

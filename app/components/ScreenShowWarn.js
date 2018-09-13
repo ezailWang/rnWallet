@@ -49,14 +49,15 @@ const styles = StyleSheet.create({
     contentTxt:{
         fontSize:16,
         alignSelf:'stretch',
-        marginBottom:30,
         color:Colors.fontBlackColor_31,
+        marginTop:4,
     },
     btnOpacity:{
         height:40,
         alignSelf:'stretch',
-        borderRadius:20,
+        borderRadius:5,
         backgroundColor: '#ff3635',
+        marginTop:30,
     },
     txt:{
         backgroundColor: 'transparent',
@@ -65,17 +66,23 @@ const styles = StyleSheet.create({
         height:40,
         lineHeight:40,
         textAlign:'center',
-        fontWeight:'bold',
+        fontWeight:'bold',   
     }
 });
 export default class ScreenshotWarn extends Component{
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         content:PropTypes.string.isRequired,
-        btnText: PropTypes.string.isRequired,
         modalVisible: PropTypes.bool.isRequired,
+        btnText: PropTypes.string.isRequired,  
+        title:PropTypes.string,
+        content1:PropTypes.string,       
     }
 
+    static defaultProps = {
+        title:'',
+        content1:'',
+    }
     
     
    render(){
@@ -95,8 +102,9 @@ export default class ScreenshotWarn extends Component{
                 <View style={styles.modeBox}>
                   <View style={styles.contentBox}>
                      <Image style={styles.icon} source={require('../assets/launch/warnIcon.png')}/>
-                     <Text style={styles.titleTxt}>{I18n.t('modal.screenshot_warn')}</Text>
+                     <Text style={styles.titleTxt}>{this.props.title}</Text>
                      <Text style={styles.contentTxt}>{this.props.content}</Text>
+                     <Text style={styles.contentTxt}>{this.props.content1}</Text>
                      <TouchableOpacity style={styles.btnOpacity} activeOpacity={0.6} onPress = {this.props.onPress}>
                          <Text style={styles.txt}>{this.props.btnText}</Text>
                      </TouchableOpacity>

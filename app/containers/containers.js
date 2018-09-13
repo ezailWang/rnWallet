@@ -26,6 +26,8 @@ import ContactListScreen from './settings/ContactListScreen';
 import ContactInfoScreen from './settings/ContactInfoScreen';
 import AboutUsScreen from './settings/AboutUsScreen';
 import FeedbackScreen from './settings/FeedbackScreen';
+import ChoseLanguageScreen from './settings/ChoseLanguageScreen';
+import ChoseCurrencyUnitScreen from './settings/ChoseCurrencyUnitScreen';
 export {
     HomeScreen,
     walletTest,
@@ -53,5 +55,7 @@ export {
     ContactListScreen,
     ContactInfoScreen,
     AboutUsScreen,
-    FeedbackScreen
+    FeedbackScreen,
+    ChoseLanguageScreen,
+    ChoseCurrencyUnitScreen,
 }

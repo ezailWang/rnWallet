@@ -111,10 +111,10 @@ export default class BackupWalletScreen extends BaseComponent {
                              <Text style={styles.checkText}>我已读，并且已经准备好纸和笔</Text>
                          </TouchableOpacity>
                          <BlueButtonBig
-                             buttonStyle={{marginTop:10}}
-                             isDisabled = {!this.state.isCheck}
-                             onPress = {()=> this.props.navigation.navigate('BackupMnemonic',{password: this.props.navigation.state.params.password})}
-                             text = {I18n.t('launch.backup_mnemonic')}
+                              buttonStyle={{marginTop:10}}
+                              isDisabled = {!this.state.isCheck}
+                              onPress = {()=> this.props.navigation.navigate('BackupMnemonic',{password: this.props.navigation.state.params.password})}
+                              text = {I18n.t('launch.backup_mnemonic')}
                          />
                      </View>
                        

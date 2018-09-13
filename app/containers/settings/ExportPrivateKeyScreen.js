@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         lineHeight:16,
     },
     privateKeyBox:{
-        height:150,
+        height:120,
         backgroundColor:Colors.bgGrayColor_ed,
         borderRadius:5,
         justifyContent:'center',
@@ -50,8 +50,7 @@ const styles = StyleSheet.create({
         paddingLeft:15,
         paddingRight:15,
         paddingBottom:15,
-        marginTop:40,
-        marginBottom:40,
+        marginTop:20,
     },
     privateKeyText:{
          //textAlignVertical:'center',
@@ -60,8 +59,11 @@ const styles = StyleSheet.create({
         lineHeight:22,
     },
     buttonBox:{
-        alignItems:'center'
-    }
+        flex:1,
+        alignSelf:'center',
+        justifyContent:'flex-end',
+        marginBottom:40,
+    },
 })
 
 export default class ExportPrivateKeyScreen extends BaseComponent {
@@ -108,6 +110,7 @@ export default class ExportPrivateKeyScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.export_private_key')}/>
                 <ScreenshotWarn
                     content = {I18n.t('settings.export_private_key_modal_prompt')}
+                    content1 = {I18n.t('settings.export_private_key_modal_prompt1')}
                     btnText = {I18n.t('modal.i_know')}
                     modalVisible = {this.state.screenshotWarnVisible}
                     onPress = {()=> this.onCloseModal()}

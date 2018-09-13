@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         width:Layout.WINDOW_WIDTH*0.9,
         alignItems:'center',
         alignSelf:'center',
-        paddingTop:ScreenHeight*0.15,
+        paddingTop:80,
     },
     icon:{
         width:48,

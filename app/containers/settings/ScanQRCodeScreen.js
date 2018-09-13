@@ -187,10 +187,7 @@ class ScanQRCodeScreen extends BaseComponent{
                             </View>
                             <Text style={styles.text}>{I18n.t('settings.scan_qrcode_prompt')}</Text>
                             <View style={styles.tranView}></View>
-                     </View>
-                
-                        
-                     
+                     </View>      
                  </Camera>     
             </View>
         )

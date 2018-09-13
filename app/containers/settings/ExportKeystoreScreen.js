@@ -42,11 +42,10 @@ const styles = StyleSheet.create({
         lineHeight:16,
     },
     privateKeyBox:{
-        height:150,
+        height:180,
         backgroundColor:Colors.bgGrayColor_ed,
         borderRadius:5,
-        marginTop:40,
-        marginBottom:40,
+        marginTop:20,
         paddingTop:15,
         paddingBottom:15,
     },
@@ -64,8 +63,11 @@ const styles = StyleSheet.create({
         textAlignVertical:'center',
     },
     buttonBox:{
-        alignItems:'center',
-    }
+        flex:1,
+        alignSelf:'center',
+        justifyContent:'flex-end',
+        marginBottom:40,
+    },
     
 })
 
@@ -136,6 +138,7 @@ export default class ExportKeystoreScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.export_keystore')}/>
                 <ScreenshotWarn
                     content = {I18n.t('settings.export_keystore_modal_prompt')}
+                    content1 = {I18n.t('settings.export_keystore_modal_prompt1')}
                     btnText = {I18n.t('modal.i_know')}
                     modalVisible = {this.state.screenshotWarnVisible}
                     onPress = {()=> this.onCloseModal()}

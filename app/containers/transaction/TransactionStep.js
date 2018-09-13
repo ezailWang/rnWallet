@@ -289,8 +289,6 @@ export default class TransactionStep extends Component {
     }
 
     changeStepPage() {
-        console.log('LL_height',ScreenHeight);
-        console.log('LL_statusbar',StatusBarHeight);
         let currentPage = !this.state.step;
 
         this.setState({
