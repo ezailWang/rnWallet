@@ -54,7 +54,7 @@ export default class ChoseCurrencyUnitScreen extends BaseComponent {
     renderComponent() {
         return (
             <View style={styles.container}>
-                <WhiteBgHeader  navigation={this.props.navigation} text={'货币单位'}/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.currency_unit')}/>
                 <View style={styles.contentBox}>
                      <ChoseItem content={'ETH'} isCheck={this.state.isCheckEth} itemPress= {this._onPressEth} 
                                 choseItemContentStyle={styles.choseItemContent}></ChoseItem>

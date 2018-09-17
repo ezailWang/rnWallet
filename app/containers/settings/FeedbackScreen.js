@@ -103,7 +103,7 @@ export default class FeedbackScreen extends BaseComponent {
     async submit(){
         Keyboard.dismiss();
         if(!validateEmail(this.email)){
-            showToast('邮箱格式不正确');
+            showToast(I18n.t('toast.email_format_incorrect'));
             return;
         }
     }
@@ -112,23 +112,23 @@ export default class FeedbackScreen extends BaseComponent {
     renderComponent() {
         return (
             <View style={styles.container}>
-                <WhiteBgHeader  navigation={this.props.navigation} text={'意见反馈'}/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.feedback')}/>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'
                                          behavior="padding">
                 <View style={styles.contentBox}>
-                    <Text style={styles.text}>姓名/昵称</Text>
+                    <Text style={styles.text}>{I18n.t('settings.nickname')}</Text>
                     <CommonTextInput
                          textInputStyle = {styles.textInput}
                          onChangeText={this.nameOnChangeText}/>
 
-                    <Text style={styles.text}>联系邮箱</Text>
+                    <Text style={styles.text}>{I18n.t('settings.contact_email')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          onChangeText={this.emailOnChangeText}
                          keyboardType={'email-address'}/>
 
-                    <Text style={styles.text}>问题描述</Text>
+                    <Text style={styles.text}>{I18n.t('settings.problem_description')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.desTextInput}
                          returnKeyType={"done"}
@@ -139,7 +139,7 @@ export default class FeedbackScreen extends BaseComponent {
                         buttonStyle = {styles.button}
                         isDisabled = {this.state.isDisabled}
                         onPress = {()=> this.submit()}
-                        text = {'提交'}
+                        text = {I18n.t('settings.submit')}
                     />   
                 </View>
                 </KeyboardAvoidingView>    

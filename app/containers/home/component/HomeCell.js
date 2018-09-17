@@ -4,7 +4,6 @@ import {
     Text,
     Image,
     StyleSheet,
-    Color,
     TouchableHighlight,
 } from 'react-native'
 import layoutConstants from '../../../config/LayoutConstants'

@@ -24,7 +24,6 @@
         "reason_backup_wallet4":"切勿将助记词保存至邮箱、网盘等，更不要使用网络工具进行传输。",
         "readed":"我已读，并且已经准备好纸和笔",
 
-        
         "backup_mnemonic":"备份助记词",
         "backup_mnemonic_prompt":"请仔细抄写下方助记词，我们将在下一步验证。",
         "backup_mnemonic_complete":"助记词已抄好",
@@ -33,7 +32,6 @@
         "confirm_mnemonic_prompt":"请按顺序点击助记词，以确认您正确备份。",
         "complete":"完成",
 
-    
         "password_warn":"密码最少为8位，至少包含大、小写字母、数字、符号中的3种",
         "password_warn_least_8":"密码最少为8位",
         "password_warn_1":"还需包含小写字母、数字和符号中的2种",
@@ -46,7 +44,6 @@
         "password_warn_8":"还需包含大写字母、符号中的1种",
         "password_warn_9":"还需包含大写字母、数字中的1种",
         "password_warn_10":"还需包含大、小写字母中的1种"
-
     },
     "home":{
         "total_assets":"总资产",
@@ -128,7 +125,33 @@
         "copy_payment_address":"复制收款地址",
 
         "scan_qrcode":"扫描二维码",
-        "scan_qrcode_prompt":"将二维码放入框内，即可自动扫描"
+        "scan_qrcode_prompt":"将二维码放入框内，即可自动扫描",
+
+
+        "about":"关于",
+        "currency_unit":"货币单位",
+        "multi_language":"多语言",
+
+        "make_sure_delete_contact":"确定删除联系人？",
+        "create_contact":"新建联系人",
+        "name":"姓名",
+        "remarks":"备注(选填)",
+        "wallet_address":"钱包地址",
+        "save_changes":"保存修改",
+        "delete_contact":"删除联系人",
+        "save":"保存",
+
+        "address_book":"地址簿",
+
+        "feedback":"意见反馈",
+        "nickname":"姓名/昵称",
+        "contact_email":"联系邮箱",
+        "problem_description":"问题描述",
+        "submit":"提交",
+
+        "system_settings":"系统设置",
+        "language":"语言"
+        
     },
     "toast":{
         "exit_app":"再按一次退出应用",
@@ -146,7 +169,10 @@
 
         "not_modified_wallet_name":"您没有修改钱包名称",
         "copied_keystore":"已复制Keysotre",
-        "copied":"已复制"
+        "copied":"已复制",
+
+        "enter_valid_transfer_address":"请输入有效的转账地址",
+        "email_format_incorrect":"邮箱格式不正确"
     },
     "modal":{
         "permission_storage":"请允许读写存储空间的权限",
@@ -164,7 +190,6 @@
         "confirm":"确定",
 
         "permission_camera":"请先打开使用摄像头权限",
-
 
         "get_private_key_fail":"秘钥获取失败",
         "transaction_failed":"交易发送失败，请检查参数",

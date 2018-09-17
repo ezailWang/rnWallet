@@ -132,7 +132,7 @@ export default class ContactInfoScreen extends BaseComponent {
         } else {
             Alert.alert(
                 'warn',
-                '请先打开使用摄像头权限',
+                I18n.t('modal.permission_camera')
             )
         }
     }
@@ -157,7 +157,7 @@ export default class ContactInfoScreen extends BaseComponent {
     async saveModify(){
         Keyboard.dismiss();
         if( NetworkManager.isValidAddress(this.address) === false){
-            showToast('请输入有效的转账地址')
+            showToast(I18n.t('toast.enter_valid_transfer_address'))
             return;
         }
         var object = {
@@ -198,25 +198,25 @@ export default class ContactInfoScreen extends BaseComponent {
                                 text={this.contactInfo.name}
                                 rightPress={() => this.scanClick()}
                                 rightIcon={require('../../assets/common/scanIcon.png')}/>
-                <RemindDialog   content={'确定删除联系人？'}    
+                <RemindDialog   content={I18n.t('settings.make_sure_delete_contact')}    
                                 modalVisible={this.state.isShowDialog}
                                 leftPress={() => this.onCancelClick()}
                                 rightPress = {()=> this.onConfirmDelete()}/>
 
                 <View style={styles.contentBox}>
-                    <Text style={styles.text}>姓名</Text>
+                    <Text style={styles.text}>{I18n.t('settings.name')} </Text>
                     <CommonTextInput
                          textInputStyle = {styles.textInput}
                          onChangeText={this.nameOnChangeText}
                          defaultValue={this.state.name}/>
 
-                    <Text style={styles.text}>备注(选填)</Text>
+                    <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          onChangeText={this.remarkOnChangeText}
                          defaultValue={this.state.remark}/>
 
-                    <Text style={styles.text}>钱包地址</Text>
+                    <Text style={styles.text}>{I18n.t('settings.wallet_address')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          returnKeyType={"done"}
@@ -227,12 +227,12 @@ export default class ContactInfoScreen extends BaseComponent {
                          buttonStyle= {styles.button}
                          isDisabled = {this.state.isDisabled}
                          onPress = {()=> this.saveModify()}
-                         text = {'保存修改'}
+                         text = {I18n.t('settings.save_changes')}
                     />
                     <TouchableOpacity style={styles.deleteTouchable}
                               activeOpacity={0.6}
                               onPress = {()=> this.deleteContact()}>
-                         <Text style={styles.deleteText}>删除联系人</Text>
+                         <Text style={styles.deleteText}>{I18n.t('settings.delete_contact')}</Text>
                     </TouchableOpacity>  
                 </View>
                      

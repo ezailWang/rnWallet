@@ -26,7 +26,6 @@ import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
 import SplashScreen from 'react-native-splash-screen'
-import Loading from '../../components/LoadingComponent'
 import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast'
 import { I18n } from '../../config/language/i18n'
@@ -254,7 +253,7 @@ class HomeScreen extends BaseComponent {
                     top: 0,
                     left: 0,
                     right: 0,
-                    backgroundColor: 'lightskyblue',
+                    backgroundColor:'lightskyblue',
                     height: headerHeight,
                     zIndex: headerZindex,
                 }}>

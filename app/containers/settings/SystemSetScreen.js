@@ -41,39 +41,52 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         marginBottom:80,
     },
-    itemBox:{
-        height:41
+    itemContainer:{
+        marginTop:10,
     },
-    item:{
-        height:40,
+    itemBox:{
+        height:51,
+        alignSelf:'stretch',
+    },
+    itemTouchable:{
+        height:50,
         flexDirection:'row',
         alignItems:'center',
+        backgroundColor:'white',
+        paddingLeft:20,
+        paddingRight:20,
     },
     itemTitle:{
         flex:1,
         fontSize:15,
         color:Colors.fontBlackColor,
-        paddingLeft:20,
     },
-    itemTouchable:{
-        alignItems:'center',
-        paddingRight:20,
+    itemRightBox:{
+        flexDirection:'row',
+        justifyContent:'flex-end',
     },
-    itemUrl:{
+    itemContent:{
         fontSize:15,
-        color:Colors.fontBlueColor,
+        color:Colors.fontBlackColor,
+        marginRight:20,
+    },
+    itemImage:{
+        width:20,
     },
     itemLine:{
         height:1,
-        backgroundColor:Colors.bgColor_e
+        //backgroundColor:Colors.bgColor_e
+        marginBottom:1,
     }
 })
 
-export default class AboutUsScreen extends BaseComponent {
+export default class SystemSetScreen extends BaseComponent {
    
     constructor(props){
         super(props);
         this.state = {
+            language:'',
+            currencyUnit:''
         }
     }
 
@@ -81,16 +94,26 @@ export default class AboutUsScreen extends BaseComponent {
 
     }
 
+
+    _choseLanguage= () =>{
+        this.props.navigation.navigate('ChoseLanguage')
+    }
+
+    _choseCurrencyUnit= () =>{
+        this.props.navigation.navigate('ChoseCurrencyUnit')
+    }
+
+
+
     renderComponent() {
         return (
             <View style={styles.container}>
-                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.about')}/>
-                <Image style={styles.image} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'}></Image>
-                <Text style={styles.title}>ITC Wallet</Text>
-                <Text style={styles.version}>1.0.0</Text>
-                <Item title={'Website'} url={'iotchain.io'} isDisabled={false}></Item> 
-                <Item title={'Email'} url={'support@iotchain.io'} isDisabled={true}></Item>
-                <Item title={'Telegram'} url={'https://t.me/IoTChain'} isDisabled={false}></Item>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.system_settings')}/>
+                <View  style={styles.itemContainer}>
+                    <Item title={I18n.t('settings.language')} content = {this.state.language} onPressed= {this._choseLanguage}></Item> 
+                    <Item title={I18n.t('settings.currency_unit')} content = {this.state.currencyUnit} onPressed= {this._choseCurrencyUnit}></Item>
+                </View>
+               
             </View>    
         );
     }
@@ -100,41 +123,29 @@ export default class AboutUsScreen extends BaseComponent {
 class Item extends PureComponent{
 
     static propTypes = {
+        onPressed:PropTypes.func.isRequired,
         title: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
         isDisabled : PropTypes.bool,
     };
 
-    _onPress = () =>{
-        let url;
-        if(this.props.url.substr(0,5) == 'https'){
-            url = this.props.url;
-        }else{
-            url = 'https://' + this.props.url;
-        }
-        
-        Linking.canOpenURL(url).then(supported=>{
-            if(supported){
-                Linking.openURL(url)
-            }else{
-                showToast('打不开')
-            }
-        }).catch(err=> console.log('openURLError', err))
-        
+    static defaultProps = {
+        isDisabled:false,
     }
 
     render(){
         return(
             <View style={styles.itemBox}>
-                <View style={styles.item}>
-                    <Text style={styles.itemTitle}>{this.props.title}</Text>
-                    <TouchableOpacity activeOpacity={0.6}
+                <TouchableOpacity activeOpacity={0.6}
                          style={styles.itemTouchable}
-                         onPress={this._onPress}
+                         onPress={this.props.onPressed}
                          disabled={this.props.isDisabled}>
-                         <Text style={styles.itemUrl}>{this.props.url}</Text>
-                    </TouchableOpacity>
-                </View>
+                         <Text style={styles.itemTitle}>{this.props.title}</Text>
+                         <View style={styles.itemRightBox}>
+                             <Text style={styles.itemContent}>{this.props.content}</Text>
+                             <Image style={styles.itemImage} source={require('../../assets/set/next.png')} resizeMode={'center'}></Image>
+                         </View>
+                </TouchableOpacity>
                 <View style={styles.itemLine}></View>
             </View>
             

@@ -95,7 +95,7 @@ export default class CreateContactScreen extends BaseComponent {
         } else {
             Alert.alert(
                 'warn',
-                '请先打开使用摄像头权限',
+                I18n.t('modal.modal'),
             )
         }
     }
@@ -119,7 +119,7 @@ export default class CreateContactScreen extends BaseComponent {
     async save(){
         Keyboard.dismiss();
         if( NetworkManager.isValidAddress(this.address) === false){
-            showToast('请输入有效的转账地址')
+            showToast(I18n.t('toast.enter_valid_transfer_address'))
             return;
         }
         var id = new Date().getTime();
@@ -141,21 +141,21 @@ export default class CreateContactScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} 
-                                text={'新建联系人'}
+                                text={I18n.t('settings.create_contact')}
                                 rightPress={() => this.scanClick()}
                                 rightIcon={require('../../assets/common/scanIcon.png')}/>
                 <View style={styles.contentBox}>
-                    <Text style={styles.text}>姓名</Text>
+                    <Text style={styles.text}>{I18n.t('settings.name')}</Text>
                     <CommonTextInput
                          textInputStyle = {styles.textInput}
                          onChangeText={this.nameOnChangeText}/>
 
-                    <Text style={styles.text}>备注(选填)</Text>
+                    <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          onChangeText={this.remarkOnChangeText}/>
 
-                    <Text style={styles.text}>钱包地址</Text>
+                    <Text style={styles.text}>{I18n.t('settings.wallet_address')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          returnKeyType={"done"}
@@ -166,7 +166,7 @@ export default class CreateContactScreen extends BaseComponent {
                         buttonStyle = {styles.button}
                         isDisabled = {this.state.isDisabled}
                         onPress = {()=> this.save()}
-                        text = {'保存'}
+                        text = {I18n.t('settings.save')}
                     />  
                 </View>
                      

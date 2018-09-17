@@ -18,15 +18,16 @@ const styles = StyleSheet.create({
     contentContainer:{
         flex:1,
         width:Layout.WINDOW_WIDTH*0.9,
-        justifyContent:'center',
+        //justifyContent:'center',
+        alignItems:'center',
         alignSelf:'center',
-        
+        marginTop:40,
     },
     contentImageBackground:{
-        flexDirection:'column',
-        backgroundColor:'red',
-        alignItems:'center',
-        paddingBottom:30,
+        alignSelf:'stretch',
+        alignItems:'center',  
+        width:Layout.WINDOW_WIDTH*0.9,
+        height:Layout.WINDOW_WIDTH*0.9*1.234,
     },
 
     titleTxt:{
@@ -47,15 +48,17 @@ const styles = StyleSheet.create({
         color:Colors.fontBlackColor,
     },
     btnImageBackground:{
-        backgroundColor:'yellow',
-        alignSelf:'stretch',
         alignItems:'center',
-        justifyContent:'center',
+        width:Layout.WINDOW_WIDTH*0.9,
+        height:Layout.WINDOW_WIDTH*0.9/5.84,
+        marginTop:-1,
+        alignSelf:'stretch',
     },
     btnOpacity:{
         backgroundColor:'transparent',
-        alignItems:'center',
+        flex:1,
         justifyContent:'center',
+        alignItems:'center',
     },
     btnTxt:{
         fontSize:16,
@@ -141,8 +144,7 @@ class ReceiptCodeScreen extends BaseComponent {
                                           activeOpacity={0.6}
                                           onPress = {()=> this.copyAddress()}>
                                 <Text style={styles.btnTxt}>{I18n.t('settings.copy_payment_address')}</Text>
-                        </TouchableOpacity>         
-                     
+                        </TouchableOpacity>           
                 </ImageBackground>
                 </View> 
             </ImageBackground>

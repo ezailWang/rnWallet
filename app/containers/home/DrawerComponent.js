@@ -23,6 +23,7 @@ const DrawerComponent = (props, params) => (
             <DrawerCell
                 onClick={() => {
                     props.navigation.navigate('DrawerClose')
+                    props.navigation.navigate('ContactList',{from:'transaction'})
                 }}
                 text={I18n.t('home.contact')}
                 imageSource={require('../../assets/home/menu/menu_contact.png')}
@@ -30,7 +31,7 @@ const DrawerComponent = (props, params) => (
             <DrawerCell
                 onClick={() => {
                     props.navigation.navigate('DrawerClose')
-                    //props.navigation.navigate('Set')
+                    props.navigation.navigate('SystemSet')
                 }}
                 text={I18n.t('home.system_settings')}
                 imageSource={require('../../assets/home/menu/menu_set.png')}
@@ -41,7 +42,7 @@ const DrawerComponent = (props, params) => (
             <DrawerCell
                 onClick={() => {
                     props.navigation.navigate('DrawerClose')
-                    // props.navigation.navigate('Set')
+                    props.navigation.navigate('Feedback')
                 }}
                 text={I18n.t('home.feedback')}
                 imageSource={require('../../assets/home/menu/menu_feedback.png')}
@@ -49,7 +50,7 @@ const DrawerComponent = (props, params) => (
             <DrawerCell
                 onClick={() => {
                     props.navigation.navigate('DrawerClose')
-                    // props.navigation.navigate('Set')
+                    props.navigation.navigate('AboutUs')
                 }}
                 text={I18n.t('home.about')}
                 imageSource={require('../../assets/home/menu/menu_about.png')}

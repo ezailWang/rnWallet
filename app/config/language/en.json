@@ -126,7 +126,31 @@
         "copy_payment_address":"Copy payment address",
 
         "scan_qrcode":"Scan QR code",
-        "scan_qrcode_prompt":"Put the QR code into the box and you can scan it automatically."  
+        "scan_qrcode_prompt":"Put the QR code into the box and you can scan it automatically.",  
+
+        "about":"About",
+        "currency_unit":"Currency Unit",
+        "multi_language":"multi-language",
+
+        "make_sure_delete_contact":"Are you sure to delete the contact?",
+        "create_contact":"Create a contact",
+        "name":"Name",
+        "remarks":"Remarks (optional)",
+        "wallet_address":"Wallet address",
+        "save_changes":"Save changes",
+        "delete_contact":"Delete contact",
+        "save":"save",
+
+        "address_book":"Address book",
+
+        "feedback":"Feedback",
+        "nickname":"Name/Nickname",
+        "contact_email":"Contact email",
+        "problem_description":"Problem Description",
+        "submit":"submit",
+
+        "system_settings":"System settings",
+        "language":"Language"
     },
     "toast":{
         "exit_app":"Press again to exit the app",
@@ -144,7 +168,10 @@
 
         "not_modified_wallet_name":"You have not modified the wallet name",
         "copied_keystore":"Keystore has been copied",
-        "copied":"Copied"
+        "copied":"Copied",
+
+        "enter_valid_transfer_address":"Please enter a valid transfer address",
+        "email_format_incorrect":"Email format is incorrect"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space",

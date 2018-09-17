@@ -156,7 +156,7 @@ export default class ContactListScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} 
-                                text={'地址簿'}
+                                text={I18n.t('settings.address_book')}
                                 rightPress={() => this.addContact()}
                                 rightIcon={require('../../assets/common/scanIcon.png')}/>
                 <FlatList
