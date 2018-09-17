@@ -14,7 +14,7 @@ const DrawerComponent = (props, params) => (
         <ScrollView style={{ marginTop: 50 }}>
             <DrawerCell
                 onClick={() => {
-                    props.navigation.navigate('DrawerClose')
+                    props.navigation.closeDrawer()
                     props.navigation.navigate('Set')
                 }}
                 text={I18n.t('home.wallet_tool')}
@@ -22,15 +22,15 @@ const DrawerComponent = (props, params) => (
             />
             <DrawerCell
                 onClick={() => {
-                    props.navigation.navigate('DrawerClose')
-                    props.navigation.navigate('ContactList',{from:'transaction'})
+                    props.navigation.closeDrawer()
+                    props.navigation.navigate('ContactList', { from: 'transaction' })
                 }}
                 text={I18n.t('home.contact')}
                 imageSource={require('../../assets/home/menu/menu_contact.png')}
             />
             <DrawerCell
                 onClick={() => {
-                    props.navigation.navigate('DrawerClose')
+                    props.navigation.closeDrawer()
                     props.navigation.navigate('SystemSet')
                 }}
                 text={I18n.t('home.system_settings')}
@@ -41,7 +41,7 @@ const DrawerComponent = (props, params) => (
             />
             <DrawerCell
                 onClick={() => {
-                    props.navigation.navigate('DrawerClose')
+                    props.navigation.closeDrawer()
                     props.navigation.navigate('Feedback')
                 }}
                 text={I18n.t('home.feedback')}
@@ -49,7 +49,7 @@ const DrawerComponent = (props, params) => (
             />
             <DrawerCell
                 onClick={() => {
-                    props.navigation.navigate('DrawerClose')
+                    props.navigation.closeDrawer()
                     props.navigation.navigate('AboutUs')
                 }}
                 text={I18n.t('home.about')}
