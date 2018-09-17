@@ -26,9 +26,8 @@ import { androidPermission } from '../../utils/permissionsAndroid';
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
 import keythereum from 'keythereum'
-import StatusBarComponent from '../../components/StatusBarComponent';
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
-import Loading from '../../components/LoadingComponent'
+import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -37,7 +36,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    contentContainer: {
+    scrollView: {
+        flex: 1,
+        backgroundColor: Colors.backgroundColor
+    },
+    contentBox:{
         flex: 1,
         backgroundColor: Colors.backgroundColor
     },
@@ -70,20 +73,23 @@ const styles = StyleSheet.create({
         //elevation: 3
     },
     sectionViewTitleText: {
+        flex:1,
         marginLeft: 20,
         marginTop: 20,
         height: 20,
-        width: ScreenWidth / 3,
+        //width: ScreenWidth / 3,
         color: Colors.fontBlackColor,
     },
-    blueText: {
+    infoViewDetailTitleTouchable:{
+        alignSelf:'flex-end',
         textAlign: "right",
-        color: Colors.fontBlueColor,
-        marginTop: 20,
+        paddingTop: 20,
         marginLeft: 0,
         marginRight: 20,
-        height: 20,
-        width: 2 * ScreenWidth / 3 - 40,
+    },
+    blueText: {
+        color: Colors.fontBlueColor,
+        //width: 2 * ScreenWidth / 3 - 40,
     },
     sectionViewTextInput: {
         marginLeft: 20,
@@ -109,11 +115,6 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         color: Colors.fontBlackColor
     },
-    transferPrice: {
-        textAlign: "right",
-        color: Colors.themeColor,
-        marginRight: 20
-    },
     buttonTitle: {
         fontSize: 20,
         color: Colors.fontWhiteColor,
@@ -128,18 +129,23 @@ const styles = StyleSheet.create({
         // backgroundColor:Colors.RedColor
     },
     sliderAlertView: {
+        alignSelf:'center',
         width: ScreenWidth - 80,
         marginTop: 5,
-        marginLeft: 40,
+        //marginLeft: 40,
         flexDirection: "row",
         justifyContent: 'space-between'
     },
-    buttonBox:{
-        marginTop:20,
-        alignSelf:'stretch',
-        alignItems:'center',
+    transferPrice: {
+        textAlign: "center",
+        color: Colors.fontBlackColor_43,
     },
-
+    buttonBox:{
+        flex:1,
+        justifyContent:'flex-end',
+        alignItems:'center',
+        marginBottom:80,
+    },
 });
 
 const sliderStyle = StyleSheet.create({
@@ -189,16 +195,25 @@ class InfoView extends Component {
         returnKeyType: PropTypes.string.isRequired,
         onChangeText: PropTypes.func.isRequired,
         detailTitle: PropTypes.string,
+        detailTitlePress: PropTypes.func,
         keyboardType: PropTypes.string,
         defaultValue: PropTypes.string,
+        detailTitlePress: PropTypes.func,
     };
-
+    static defaultProps = {
+        barStyle:'dark-content',
+    }
     render() {
         return (
             <View style={styles.sectionView}>
                 <View style={styles.sectionViewTopView}>
                     <Text style={styles.sectionViewTitleText}>{this.props.title}</Text>
-                    <Text style={styles.blueText}>{this.props.detailTitle}</Text>
+                    <TouchableOpacity style={styles.infoViewDetailTitleTouchable}
+                                      activeOpacity={0.6}
+                                      disabled={this.props.detailTitlePress == undefined ? true : false}
+                                      onPress = {this.props.detailTitlePress}>
+                        <Text style={styles.blueText}>{this.props.detailTitle}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={[styles.sectionViewBottomView, (Platform.OS == 'ios' ? styles.shadowStyle : {})]}>
                     <TextInput style={styles.sectionViewTextInput}
@@ -231,7 +246,6 @@ class SliderView extends Component {
             <View style={[styles.sliderBottomView, styles.shadowStyle]}>
                 <View style={styles.sliderTitleContainerView}>
                     <Text style={styles.sliderTitle}>矿工费</Text>
-                    <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
                 </View>
                 <View style={styles.sliderContainerView}>
 
@@ -250,6 +264,7 @@ class SliderView extends Component {
                 </View>
                 <View style={styles.sliderAlertView}>
                     <Text>慢</Text>
+                    <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
                     <Text style={{ alignSelf: 'flex-end' }}>快</Text>
                 </View>
             </View>
@@ -285,6 +300,7 @@ export default class Transaction extends BaseComponent {
             detailData: "",
             defaultTransferValue:''
         };
+
     };
 
     /**static navigationOptions = ({navigation}) => ({
@@ -301,7 +317,7 @@ export default class Transaction extends BaseComponent {
         // totalGasPrice = totalGasPrice.toFixed(8);
         // return totalGas + "ether≈" + totalGasPrice + "$";
 
-        return totalGas + "ether";
+        return totalGas + " ether";
     };
 
     getDetailPriceTitle = () => {
@@ -434,6 +450,20 @@ export default class Transaction extends BaseComponent {
         });
     };
 
+    routeContactList = () =>{
+        let _this = this;
+        this.props.navigation.navigate('ContactList', {
+            from:'transaction',
+            callback: function (data) {
+                var address = data.toAddress;
+                console.log('L_address',address);
+                _this.setState({
+                    toAddress: address
+                })
+            }
+        })
+    }
+
     detailTextInputChangeText = (text) => {
 
         this.setState({
@@ -477,10 +507,10 @@ export default class Transaction extends BaseComponent {
                     text={title}
                     rightPress={() => this.scanClick()}
                     rightIcon={require('../../assets/common/scanIcon.png')} />
-                <ScrollView style={styles.contentContainer}
+                {/**<ScrollView style={styles.scrollView}
                     bounces={false}
-                    keyboardShouldPersistTaps={'handled'}>
-
+                    keyboardShouldPersistTaps={'handled'}>**/}
+                    <View style={styles.contentBox}>
                     <TransactionStep didTapSurePasswordBtn={this.didTapSurePasswordBtn}
                         ref={(dialog) => { this.dialog = dialog; }} />
                     {/*转账数量栏*/}
@@ -508,15 +538,17 @@ export default class Transaction extends BaseComponent {
                         defaultValue = {this.state.defaultTransferValue}/>
                     {/*转账地址栏*/}
                     <InfoView title={"收款地址"}
+                        detailTitle={"地址簿"}
                         placeholder={"输入转账地址"}
                         returnKeyType={"next"}
                         onChangeText={this.toAddressTextInputChangeText}
-                        defaultValue = {this.state.toAddress}/>
+                        defaultValue = {this.state.toAddress}
+                        detailTitlePress = {this.routeContactList}/>
                     {/*备注栏*/}
-                    <InfoView title={"备注"}
+                    {/*<InfoView title={"备注"}
                         placeholder={"输入备注"}
                         returnKeyType={"done"}
-                        onChangeText={this.detailTextInputChangeText} />
+                        onChangeText={this.detailTextInputChangeText} />*/}
                     {/*滑竿视图*/}
                     <SliderView gasStr={this.state.gasStr}
                         minGasPrice={this.state.minGasPrice}
@@ -525,10 +557,11 @@ export default class Transaction extends BaseComponent {
                         onValueChange={this.sliderValueChanged} />
                     {/*下一步按钮*/}
                     <View style={styles.buttonBox}>
-                        <BlueButtonBig onPress={this.didTapNextBtn} text={"下一步"} />
+                        <BlueButtonBig 
+                            onPress={this.didTapNextBtn} text={"下一步"} />
                     </View>
-                    
-                </ScrollView>
+                    </View>
+               
             </View>
 
         )

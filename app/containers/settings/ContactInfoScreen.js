@@ -67,6 +67,7 @@ export default class ContactInfoScreen extends BaseComponent {
 
         this.contactInfo = {},
         this.index = undefined,
+        this.storageId = undefined,
         this.name = '';
         this.remark = '';
         this.address = '';
@@ -85,6 +86,13 @@ export default class ContactInfoScreen extends BaseComponent {
             remark:this.contactInfo.remark,
             address:this.contactInfo.address,
         })
+
+        this.getStorageId();
+    }
+
+    async getStorageId(){
+        var ids = await StorageManage.loadIdsForKey(StorageKey.Contact);
+        this.storageId = ids[this.index];
     }
 
     btnIsEnableClick(){
@@ -145,20 +153,19 @@ export default class ContactInfoScreen extends BaseComponent {
         this.btnIsEnableClick()
     };
 
+    
     async saveModify(){
         Keyboard.dismiss();
         if( NetworkManager.isValidAddress(this.address) === false){
             showToast('请输入有效的转账地址')
             return;
         }
-        var ids = await StorageManage.loadIdsForKey(StorageKey.Contact);
-        var id = ids[this.index];
         var object = {
             name: this.name,
             address: this.address,
             remark: this.remark,
         }
-        StorageManage.save(StorageKey.Contact, object, id)
+        StorageManage.save(StorageKey.Contact, object, this.storageId)
         //var loadRet = await StorageManage.loadAllDataForKey(StorageKey.Contact)
         
         this.props.navigation.state.params.callback({});
@@ -171,7 +178,17 @@ export default class ContactInfoScreen extends BaseComponent {
         })
     }
     onConfirmDelete(){
-        
+        this.setState({
+            isShowDialog:false
+        })
+        StorageManage.remove(StorageKey.Contact, this.storageId)
+        this.props.navigation.state.params.callback({});
+        this.props.navigation.goBack()
+    }
+    onCancelClick(){
+        this.setState({
+            isShowDialog:false
+        })
     }
     
     renderComponent() {
@@ -183,6 +200,7 @@ export default class ContactInfoScreen extends BaseComponent {
                                 rightIcon={require('../../assets/common/scanIcon.png')}/>
                 <RemindDialog   content={'确定删除联系人？'}    
                                 modalVisible={this.state.isShowDialog}
+                                leftPress={() => this.onCancelClick()}
                                 rightPress = {()=> this.onConfirmDelete()}/>
 
                 <View style={styles.contentBox}>

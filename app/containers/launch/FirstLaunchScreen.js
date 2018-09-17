@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions, Text, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text, PermissionsAndroid, Platform, Alert,ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
 import { WhiteButtonBig, WhiteBorderButton } from '../../components/Button'
 import { Colors } from '../../config/GlobalConfig'
@@ -21,19 +21,8 @@ const styles = StyleSheet.create({
         paddingTop: 120,
     },
     logoImg: {
-        width: 120,
-        height: 120,
-    },
-    logoText:{
-        color:'white',
-        fontSize:30,
-        fontWeight:'bold',
-    },
-    conetntText:{
-        color:'white',
-        fontSize:15,
-        fontWeight:'bold',
-        marginBottom: 50,
+        width: 180,
+        height: 180,
     },
     btnMargin: {
         height: 20,
@@ -69,7 +58,7 @@ export default class FirstLaunchScreen extends BaseComponent {
             } else {
                 Alert.alert(
                     'warn',
-                    '请允许读写存储空间的权限',
+                    I18n.t('modal.permission_storage'),
                 )
             }
         } else {
@@ -125,11 +114,11 @@ export default class FirstLaunchScreen extends BaseComponent {
 
     renderComponent() {
         return (
-            <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
-                style={styles.contentContainer}>
-                <Image style={styles.logoImg} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'} />
-                <Text style={styles.logoText}>IoT Chain</Text>
-                <Text style={styles.conetntText}>A high-security lite Iot OS</Text>
+            //<LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
+            //    style={styles.contentContainer}>
+            <ImageBackground style={styles.contentContainer}
+                             source={require('../../assets/launch/splash_bg.png')}>
+                <Image style={styles.logoImg} source={require('../../assets/launch/splash_logo.png')} resizeMode={'center'} />
                 <View style={styles.btnBox}>
                         <WhiteButtonBig
                              buttonStyle={{height:48}}
@@ -139,8 +128,8 @@ export default class FirstLaunchScreen extends BaseComponent {
                              onPress={() => this.vertifyAndroidPermissions(false)}
                              text={I18n.t('launch.import_wallet')} />
                         </View>
-                
-            </LinearGradient>
+            </ImageBackground>   
+            //</LinearGradient>
         )
     }
 }

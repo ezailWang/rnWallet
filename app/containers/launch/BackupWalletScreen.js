@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     },
     icon:{
         alignSelf:'center',
-        width:48,
-        height:48,
+        width:60,
+        height:60,
         marginBottom:25,
     },
     blueText:{
@@ -94,21 +94,21 @@ export default class BackupWalletScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('launch.backup_wallet')}/>
                 <View style={styles.contentContainer}>
                      <Image style={styles.icon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}/>
-               
-                     <Text style={styles.blueText}>为什么要备份助记词</Text>
-                     <Item content={'助记词可以恢复您的钱包，拥有助记词就能完全控制该地址的资产。'}></Item>
-                     <Item content={'我们不存储助记词，也无法帮您找回，请务必备份好您的助记词。'}></Item>
+    
+                     <Text style={styles.blueText}>{I18n.t('launch.why_backup_wallet')}</Text>
+                     <Item content={I18n.t('launch.reason_backup_wallet1')}></Item>
+                     <Item content={I18n.t('launch.reason_backup_wallet2')}></Item>
 
-                     <Text style={styles.blueText}>如何备份助记词</Text>
-                     <Item content={'请将助记词抄写在纸上，并存放在安全的地方。'}></Item>
-                     <Item content={'切勿将助记词保存至邮箱、网盘等，更不要使用网络工具进行传输。'}></Item>
+                     <Text style={styles.blueText}>{I18n.t('launch.how_backup_wallet')}</Text>
+                     <Item content={I18n.t('launch.reason_backup_wallet3')}></Item>
+                     <Item content={I18n.t('launch.reason_backup_wallet4')}></Item>
                 
                     
                 
                      <View style={styles.viewBottom}>
                          <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isReadPress()}>
                              <Image style={styles.checkImage} source={require('../../assets/common/scanIcon.png')} resizeMode={'center'} ></Image>
-                             <Text style={styles.checkText}>我已读，并且已经准备好纸和笔</Text>
+                             <Text style={styles.checkText}>{I18n.t('launch.readed')}</Text>
                          </TouchableOpacity>
                          <BlueButtonBig
                               buttonStyle={{marginTop:10}}

@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     icon: {
         width: 48,
         height: 48,
+        marginBottom: 10,
     },
     titleTxt: {
         fontSize: 20,
@@ -244,7 +245,7 @@ class VerifyMnemonicScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={() => this.backPressed()} />
                 <View style={styles.contentContainer}>
-                    <Image style={styles.icon} source={require('../../assets/launch/confirmIcon.png')} resizeMode={'center'} />
+                    <Image style={styles.icon} source={require('../../assets/launch/confirmWordIcon.png')} resizeMode={'center'} />
                     <Text style={styles.titleTxt}>{I18n.t('launch.confirm_mnemonic')}</Text>
                     <Text style={styles.contentTxt}>{I18n.t('launch.confirm_mnemonic_prompt')}</Text>
 

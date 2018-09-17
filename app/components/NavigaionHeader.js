@@ -5,7 +5,6 @@ import {
     StyleSheet,
     Image,
     Text,
-    StatusBar
 }from 'react-native'
 
 //import {StackNavigator} from 'react-navigation'
@@ -24,6 +23,10 @@ const styles = StyleSheet.create({
     blackBgContainer:{
         flexDirection:'row',
         backgroundColor:'black',  
+    },
+    transparentBgContainer:{
+        flexDirection:'row',
+        backgroundColor:'transparent',  
     },
     icon:{
         height:25,
@@ -116,6 +119,51 @@ class BlackBgHeader extends PureComponent {
     }
 };
 
+
+//Header {透明背景 白色返回按钮 白色title}
+class TransparentBgHeader extends PureComponent {
+    static propTypes = {
+        navigation:PropTypes.object.isRequired,
+        leftPress: PropTypes.func,
+        text:PropTypes.string,
+        rightPress: PropTypes.func,
+        rightIcon:PropTypes.number,
+    }
+
+    render() {
+        let height = Layout.NAVIGATION_HEIGHT();
+        let contentMarginTop = {marginTop:24};
+        if (Layout.DEVICE_IS_IPHONE_X()){
+            contentMarginTop= {marginTop:48};
+        }
+        return (
+            <View style={[styles.transparentBgContainer,{height:height}]}>
+                <TouchableOpacity style={[styles.headerButtonBox,contentMarginTop]} 
+                                  onPress = {() => {this.props.navigation.goBack()}}>
+                    <Image style={styles.icon}
+                           resizeMode={'center'}
+                           source={require('../assets/common/common_back_white.png')}>
+                    </Image>
+                </TouchableOpacity>  
+
+                <View style={[styles.headerTitleBox,contentMarginTop]}>
+                    <Text style={styles.whiteTitle}>
+                        {this.props.text}
+                    </Text>
+                </View>    
+                
+                <TouchableOpacity style={[styles.headerButtonBox,contentMarginTop]} onPress = {this.props.rightPress}>
+                    <Image style={styles.icon}
+                           resizeMode={'center'}
+                           source={this.props.rightIcon}>
+                    </Image>
+                </TouchableOpacity>  
+            </View>    
+        )
+    }
+};
+
+
 //Header {白色背景 蓝色返回按钮 黑色title}
 class WhiteBgHeader extends PureComponent {
     static propTypes = {
@@ -190,5 +238,6 @@ export {
     BlueHeader,
     WhiteBgHeader,
     WhiteBgNoTitleHeader,
-    BlackBgHeader
+    BlackBgHeader,
+    TransparentBgHeader
 }

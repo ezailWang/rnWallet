@@ -294,6 +294,7 @@ export default class networkManage {
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.contractAddress)
         var localTokens = await StorageManage.load(StorageKey.Tokens)
+        console.log('L_localTokens',localTokens)
         if (localTokens) {
             localTokens.filter(
                 token =>

@@ -12,8 +12,18 @@
         "password_hint":"密码",
         "create":"创建",
 
+        "create_wallet_warn1":"密码用于保护私钥和交易授权",
+        "create_wallet_warn2":"我们不存储密码,也没法帮您找回,请务必牢记",
+
         "backup_wallet":"备份钱包",
-        "backup_wallet_prompt":"没有妥善备份就无法保障资产安全。删除程序或钱包后，你需要备份文件来恢复钱包。",
+        "why_backup_wallet":"为什么要备份助记词",
+        "reason_backup_wallet1":"助记词可以恢复您的钱包，拥有助记词就能完全控制该地址的资产。",
+        "reason_backup_wallet2":"我们不存储助记词，也无法帮您找回，请务必备份好您的助记词。",
+        "how_backup_wallet":"如何备份助记词",
+        "reason_backup_wallet3":"请将助记词抄写在纸上，并存放在安全的地方。",
+        "reason_backup_wallet4":"切勿将助记词保存至邮箱、网盘等，更不要使用网络工具进行传输。",
+        "readed":"我已读，并且已经准备好纸和笔",
+
         
         "backup_mnemonic":"备份助记词",
         "backup_mnemonic_prompt":"请仔细抄写下方助记词，我们将在下一步验证。",

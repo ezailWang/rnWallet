@@ -12,8 +12,17 @@
         "password_hint":"password",
         "create":"Create",
 
+        "create_wallet_warn1":"Password is used to protect private keys and transaction authorizations",
+        "create_wallet_warn2":"We don't store passwords, we can't help you find them, so keep in mind",
+
         "backup_wallet":"Backup wallet",
-        "backup_wallet_prompt":"Asset security cannot be guaranteed without proper backup. After removing the program or wallet, you need to back up the file to restore the wallet.",
+        "why_backup_wallet":"Why back up mnemonics",
+        "reason_backup_wallet1":"A mnemonic restores your wallet and has mnemonics that give you complete control over the assets of that address.",
+        "reason_backup_wallet2":"We don't store mnemonics, we can't help you get back, so be sure to back up your mnemonics.",
+        "how_backup_wallet":"How to back up mnemonics",
+        "reason_backup_wallet3":"Please copy the mnemonic on paper and store it in a safe place.",
+        "reason_backup_wallet4":"Do not save mnemonics to your mailbox, network drive, etc., and do not use network tools for transmission.",
+        "readed":"I have read and have prepared paper and pen",
         
         "backup_mnemonic":"Backup mnemonic",
         "backup_mnemonic_prompt":"Please carefully copy the mnemonic below and we will verify it in the next step.",

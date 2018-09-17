@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, Alert,BackHandler, Platform, TouchableOpacity ,Dimensions,Animated,Keyboard,KeyboardAvoidingView} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, StyleSheet, Image, Text, TextInput,TouchableOpacity ,Dimensions,Animated,Keyboard,KeyboardAvoidingView} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import { BlueButtonBig } from '../../components/Button';
@@ -32,8 +34,9 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     icon: {
-        width: 48,
-        height: 48,
+        width: 60,
+        height: 60,
+        marginBottom:10,
     },
     titleTxt: {
         fontSize: 18,
@@ -50,9 +53,21 @@ const styles = StyleSheet.create({
         paddingBottom:10,
         marginBottom:20,
     },
-    warnText:{
+    itemBox:{
+        flexDirection:'row',
+        alignItems:'center',
+        marginBottom:1, 
+    },
+    itemCircle:{
+        width:4,
+        height:4,
+        borderRadius: 2,
+        marginRight:6,
+    },
+    itemText:{
+        width:Layout.WINDOW_WIDTH*0.9-10,
         color:'white',
-        fontSize:13
+        fontSize:13,
     },
     inputText: {
         alignSelf: 'stretch',
@@ -122,8 +137,6 @@ class CreateWalletScreen extends BaseComponent {
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
-
-        this._setStatusBarStyleLight()
     }
     _addEventListener(){
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
@@ -248,12 +261,12 @@ class CreateWalletScreen extends BaseComponent {
                                          behavior="padding">
                 <View style={styles.contentContainer}>
                 
-                        <Image style={styles.icon} source={require('../../assets/launch/createWalletIcon.png')} resizeMode={'center'} />
+                        <Image style={styles.icon} source={require('../../assets/launch/create_icon.png')} resizeMode={'center'} />
                         <Text style={styles.titleTxt}>{I18n.t('launch.creact_wallet')}</Text>
 
                         <View style={styles.warnBox}>
-                            <Text style={styles.warnText}>*密码用于保护私钥和交易授权</Text>
-                            <Text style={styles.warnText}>*我们不存储密码,也没法帮您找回,请务必牢记</Text>
+                            <Item content={I18n.t('launch.create_wallet_warn1')}></Item>
+                            <Item content={I18n.t('launch.create_wallet_warn2')}></Item>
                         </View>
                     
                         <TextInput style={styles.inputText}
@@ -318,6 +331,24 @@ class CreateWalletScreen extends BaseComponent {
     }
 }
 //<ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}>
+
+class Item extends PureComponent{
+    static propTypes = {
+        content: PropTypes.string.isRequired,
+    };
+    render(){
+        return(
+            <View style={styles.itemBox}>
+                <LinearGradient colors={['#fff', '#fff', '#fff']}
+                                 start={{x:0,y:0}}
+                                 end={{x:1,y:1}}
+                                 style={styles.itemCircle}>
+                </LinearGradient>
+                <Text style={styles.itemText}>{this.props.content}</Text>
+            </View>
+        )
+    }
+}
 
 
 

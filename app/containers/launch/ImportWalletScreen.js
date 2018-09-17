@@ -36,8 +36,9 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     icon: {
-        width: 48,
-        height: 48,
+        width: 60,
+        height: 60,
+        marginBottom:10,
     },
     titleTxt: {
         fontSize: 18,
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     pwdIcon: {
-        height: 20,
+        height: 40,
     },
     warnTxt:{
         fontSize:10,
@@ -125,10 +126,7 @@ class ImportWalletScreen extends BaseComponent {
         this.mnemonictxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
-        this.keyBoardIsShow = false;
-
-        this._setStatusBarStyleLight();
-        
+        this.keyBoardIsShow = false;        
     }
 
     _addEventListener(){

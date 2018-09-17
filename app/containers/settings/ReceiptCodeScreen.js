@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid,BackHandler} from 'react-native';
+import { View,StyleSheet,Image,Text,Clipboard,Alert,Platform,PermissionsAndroid,ImageBackground,TouchableOpacity} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
 import Layout from '../../config/LayoutConstants'
 import {HeaderButton,BlueButtonBig} from '../../components/Button';
 import {androidPermission}  from '../../utils/permissionsAndroid';
-import {WhiteBgHeader} from '../../components/NavigaionHeader'
+import {TransparentBgHeader} from '../../components/NavigaionHeader'
 import {Colors,FontSize} from '../../config/GlobalConfig'
 import {showToast} from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
@@ -13,37 +13,54 @@ import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
+        backgroundColor:'transparent',
     },
     contentContainer:{
         flex:1,
         width:Layout.WINDOW_WIDTH*0.9,
+        justifyContent:'center',
+        alignSelf:'center',
+        
+    },
+    contentImageBackground:{
+        flexDirection:'column',
+        backgroundColor:'red',
         alignItems:'center',
-        paddingTop:60,
-        backgroundColor:Colors.bgGrayColor, 
+        paddingBottom:30,
     },
-    icon:{
-        width:66,
-        height:66,
-    },
+
     titleTxt:{
         fontSize:18,
         fontWeight:'500',
         color:Colors.fontBlackColor,
-        marginTop:15,
-        marginBottom:30,
+        marginTop:100,
+        marginBottom:20,
     },
     qrCode:{
-        height:160,
+        height:180,
     },
     adderssTxt:{
-        marginTop:28,
-        fontSize:16,
+        width:180,
+        fontSize:14,
+        marginTop:20,
+        marginTop:20,
         color:Colors.fontBlackColor,
     },
-    buttonBox:{
-        flex:1,
-        justifyContent:'flex-end',
-        marginBottom:30,
+    btnImageBackground:{
+        backgroundColor:'yellow',
+        alignSelf:'stretch',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    btnOpacity:{
+        backgroundColor:'transparent',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    btnTxt:{
+        fontSize:16,
+        fontWeight:'bold',
+        color:Colors.fontBlueColor
     }
 })
 
@@ -65,6 +82,7 @@ class ReceiptCodeScreen extends BaseComponent {
         super(props);
         this.state = {
         }
+        this._setStatusBarStyleLight()
     }
 
 
@@ -94,18 +112,19 @@ class ReceiptCodeScreen extends BaseComponent {
 
     renderComponent() {
         return (
-            <View style={styles.container}>
-                <WhiteBgHeader  navigation={this.props.navigation} 
+            <ImageBackground style={styles.container} source={require('../../assets/launch/splash_bg.png')}>
+                <TransparentBgHeader  navigation={this.props.navigation} 
                                 text={I18n.t('settings.collection_code')}
                                 /**rightPress = {()=>this.scanClick()}
                                 rightIcon= {require('../../assets/common/scanIcon.png')}**//>
-                <View style={styles.contentContainer}>
-                     <Image style={styles.icon} source={require('../../assets/common/photoIcon.png')}/>
+                <View style={styles.contentContainer}>               
+                <ImageBackground style={styles.contentImageBackground} source={require('../../assets/set/qr_bg.png')}
+                                 resizeMode={'contain'}>
                      <Text style={styles.titleTxt}>{this.props.walletName}</Text>
                      <View style={styles.qrCode}>
                         <QRCode
                             value = {this.props.walletAddress}
-                            size={160}
+                            size={180}
                             bgColor='#000'
                             fgColor='#fff'
                             onLoad = {()=>{console.log('onLoad---')}}
@@ -113,15 +132,20 @@ class ReceiptCodeScreen extends BaseComponent {
                         />
                      </View>
                      
-                     <Text style={styles.adderssTxt}>{this.props.walletAddress}</Text>
-                     <View style={styles.buttonBox}>
-                        <BlueButtonBig
-                            onPress = {()=> this.copyAddress()}
-                            text = {I18n.t('settings.copy_payment_address')}
-                        />
-                     </View>       
+                     <Text style={styles.adderssTxt}>{this.props.walletAddress}</Text>      
+                </ImageBackground> 
+                
+                <ImageBackground style={styles.btnImageBackground} source={require('../../assets/set/qr_btn.png')}
+                                 resizeMode={'contain'}>
+                        <TouchableOpacity style={[styles.btnOpacity]}
+                                          activeOpacity={0.6}
+                                          onPress = {()=> this.copyAddress()}>
+                                <Text style={styles.btnTxt}>{I18n.t('settings.copy_payment_address')}</Text>
+                        </TouchableOpacity>         
+                     
+                </ImageBackground>
                 </View> 
-            </View>
+            </ImageBackground>
         );
     }
 }

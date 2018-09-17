@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 export default class RemindDialog extends Component{
     static propTypes = {
         content:PropTypes.string.isRequired,
-        leftPress: PropTypes.func,
+        leftPress: PropTypes.func.isRequired,
         rightPress: PropTypes.func.isRequired,
         modalVisible: PropTypes.bool.isRequired,
         rightTxt: PropTypes.string,
@@ -67,11 +67,26 @@ export default class RemindDialog extends Component{
         rightTxt:'确定',
     }
 
-    constructor(props){
+    /**constructor(props){
         super(props);
         this.state = {
             isVisible : false,
         }
+    }
+
+    componentWillMount(){
+        console.log('L——componentWillMount',this.props.modalVisible) 
+        this.setState({
+            isVisible : this.props.modalVisible,
+        })
+    }
+
+    componentWillReceiveProps(nextProps){
+        console.log('L——componentWillReceiveProps',this.props.modalVisible) 
+        console.log('L——componentWillReceiveProps1',nextProps) 
+        this.setState({
+            isVisible : nextProps.modalVisible,
+        })
     }
 
     showModal(){
@@ -94,21 +109,22 @@ export default class RemindDialog extends Component{
         console.log('LLLL',this.props.leftPress) 
         if(this.props.leftPress != undefined){
             this.props.leftPress
-        }
-        this.hideModal();
+        }else{
+            this.hideModal();
+        } 
     }
     
     rightPressed=()=>{
         console.log('LLLL1',this.props.rightPress) 
         this.props.rightPress
-    }
+    }**/
 
     render(){
         return(
             <Modal
                   animationType={'fade'}
                   transparent={true}
-                  visible={this.state.isVisible}
+                  visible={this.props.modalVisible}
                   onRequestClose={()=>{
                      //Alert.alert("Modal has been closed.");
                   }}
@@ -121,12 +137,12 @@ export default class RemindDialog extends Component{
                     <Text style={styles.text}>{this.props.content}</Text>
                     <View style={styles.buttonBox}>
                         <View style={styles.leftBtnBox}>
-                            <WhiteButtonSmall onPress={this.leftPressed}
+                            <WhiteButtonSmall onPress={this.props.leftPress}
                                               text={this.props.leftTxt}>
                             </WhiteButtonSmall>
                         </View>
                         <View style={styles.rightBtnBox}>
-                            <BlueButtonSmall onPress = { this.rightPressed}
+                            <BlueButtonSmall onPress = {this.props.rightPress}
                                              text = {this.props.rightTxt}>
                             </BlueButtonSmall>
                         </View> 

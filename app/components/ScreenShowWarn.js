@@ -101,7 +101,7 @@ export default class ScreenshotWarn extends Component{
             >
                 <View style={styles.modeBox}>
                   <View style={styles.contentBox}>
-                     <Image style={styles.icon} source={require('../assets/launch/warnIcon.png')}/>
+                     <Image style={styles.icon} source={require('../assets/common/warningIcon.png')}/>
                      <Text style={styles.titleTxt}>{this.props.title}</Text>
                      <Text style={styles.contentTxt}>{this.props.content}</Text>
                      <Text style={styles.contentTxt}>{this.props.content1}</Text>

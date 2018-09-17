@@ -75,6 +75,7 @@ export default class CreateContactScreen extends BaseComponent {
     }
     
     scanClick = async () => {
+        Keyboard.dismiss();
         var _this = this;
         var isAgree = true;
         if (Platform.OS === 'android') {
@@ -129,10 +130,10 @@ export default class CreateContactScreen extends BaseComponent {
         }
         StorageManage.save(StorageKey.Contact, object, id)
         //console.log('L_contact','保存完成')
-        var loadRet = await StorageManage.loadAllDataForKey(StorageKey.Contact)
-        var ids = await StorageManage.loadIdsForKey(StorageKey.Contact)
-        //console.log('L_contact',loadRet)
-        //console.log('L_contact',ids)
+        //var loadRet = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+        //var ids = await StorageManage.loadIdsForKey(StorageKey.Contact)
+        this.props.navigation.state.params.callback({});
+        this.props.navigation.goBack()
     }
     
     

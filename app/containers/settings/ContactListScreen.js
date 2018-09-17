@@ -27,10 +27,13 @@ const styles = StyleSheet.create({
         paddingBottom:15,
     },
     emptyListContainer:{
-        flex:1,
-        backgroundColor:"red",
+        marginTop:80,
         justifyContent:'center',
         alignItems: 'center',
+    },
+    emptyListText:{
+        fontSize:16,
+        color:Colors.fontDarkGrayColor
     },
     item:{
         height:60,
@@ -80,9 +83,12 @@ export default class ContactListScreen extends BaseComponent {
         this.state = {
             data:[],//列表数据
         }
+
+        this.from = undefined;//从哪个页面跳转过来的
     }
 
     _initData() { 
+        this.from = this.props.navigation.state.params.from;
         this.loadContactData();
     }
 
@@ -96,16 +102,22 @@ export default class ContactListScreen extends BaseComponent {
 
     _onPressItem = (item) => {
         var _this = this;
-        let contactInfo = item.item;
-        let index = item.index;
         //this.props.navigation.navigate('',{contactInfo:item.item,index:item.index});
-        this.props.navigation.navigate('ContactInfo', {
-            contactInfo:item.item,
-            index:item.index,
-            callback: function (data) {
-                _this.loadContactData()
-            }
-        })
+        if(this.from == 'transaction'){
+            //返回转账页面
+            this.props.navigation.state.params.callback({toAddress: item.item.address});
+            this.props.navigation.goBack()
+        }else{
+            //跳转到联系人详情页
+            this.props.navigation.navigate('ContactInfo', {
+                contactInfo:item.item,
+                index:item.index,
+                callback: function (data) {
+                    _this.loadContactData()
+                }
+            })
+        }
+        
     }
 
     //自定义分割线
@@ -117,7 +129,7 @@ export default class ContactListScreen extends BaseComponent {
     //空布局
     _renderEmptyView = () => (
         <View style={styles.emptyListContainer}>
-            <Text>数据为空</Text>
+            <Text style={styles.emptyListText}>您还未添加联系人</Text>
         </View>
     )
 

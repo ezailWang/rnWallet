@@ -24,8 +24,9 @@ const styles = StyleSheet.create({
         paddingTop:80,
     },
     icon:{
-        width:48,
-        height:48,
+        width:60,
+        height:60,
+        marginBottom:10,
     },
 
     titleTxt:{
@@ -97,7 +98,7 @@ class BackupMnemonicScreen extends BaseComponent {
                     onPress = {()=> this.onCloseModal()}
                 />
                 <View style={styles.contentBox}>    
-                    <Image style={styles.icon} source={require('../../assets/launch/mnemonicIcon.png')} resizeMode={'center'}/>
+                    <Image style={styles.icon} source={require('../../assets/launch/backupWordIcon.png')} resizeMode={'center'}/>
                     <Text style={styles.titleTxt}>{I18n.t('launch.backup_mnemonic')}</Text>
                     <Text style={styles.contentTxt}>{I18n.t('launch.backup_mnemonic_prompt')}</Text>
                     <Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text>    
