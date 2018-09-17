@@ -9,6 +9,7 @@ import {
     Linking 
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {Colors,StorageKey} from '../../config/GlobalConfig'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { showToast } from '../../utils/Toast';
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
     itemRightBox:{
         flexDirection:'row',
         justifyContent:'flex-end',
+        alignItems:'center'
     },
     itemContent:{
         fontSize:15,
@@ -85,18 +87,37 @@ export default class SystemSetScreen extends BaseComponent {
     constructor(props){
         super(props);
         this.state = {
-            language:'',
+            langStr:'',
             currencyUnit:''
         }
+        this.lang=''
     }
 
     _initData() { 
-
+        this.lang = I18n.locale
+        let str;
+        if(this.lang == 'zh'){
+            str = '简体中文'
+        }else if(this.lang == 'en'){
+            str = 'English'
+        }else if(this.lang == 'ko'){
+            str = '한국어'
+        }
+        this.setState({
+            langStr:str
+        })
     }
 
 
     _choseLanguage= () =>{
-        this.props.navigation.navigate('ChoseLanguage')
+        let _this = this;
+        this.props.navigation.navigate('ChoseLanguage', {
+            callback: function (data) {
+                _this.setState({
+                    langStr:data.language.langStr,
+                })
+            }
+        })
     }
 
     _choseCurrencyUnit= () =>{
@@ -110,7 +131,7 @@ export default class SystemSetScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.system_settings')}/>
                 <View  style={styles.itemContainer}>
-                    <Item title={I18n.t('settings.language')} content = {this.state.language} onPressed= {this._choseLanguage}></Item> 
+                    <Item title={I18n.t('settings.language')} content = {this.state.langStr} onPressed= {this._choseLanguage}></Item> 
                     <Item title={I18n.t('settings.currency_unit')} content = {this.state.currencyUnit} onPressed= {this._choseCurrencyUnit}></Item>
                 </View>
                
@@ -152,5 +173,6 @@ class Item extends PureComponent{
         )
     }
 }
+
 
 

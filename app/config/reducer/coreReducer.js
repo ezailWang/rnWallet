@@ -12,6 +12,7 @@ import {
     SET_COIN_BALANCE,
     SET_WALLET_PASSWORD_PROMPT,
     REMOVE_TOKEN,
+    SET_LANGUAGE
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -113,6 +114,8 @@ function coreReducer(state = defaultState, action) {
                 ...state,
                 tokens: copyToken
             }
+            
+          
 
         // case SET_WALLET_PASSWORD_PROMPT:
         //     return {

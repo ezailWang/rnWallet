@@ -98,6 +98,7 @@ function setNetWork(value) {
     }
 }
 
+
 export {
     generateMnemonic,
     setWalletTransferParams,

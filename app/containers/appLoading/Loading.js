@@ -5,11 +5,12 @@ import PropTypes from 'prop-types'
 import {
     setWalletAddress,
     setWalletName,
-    setNetWork
+    setNetWork,
+    setLanguage
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n, getLanguages } from '../../config/language/i18n'
-
+import DeviceInfo from 'react-native-device-info';
 class Loading extends Component {
 
     static propTypes = {
@@ -45,7 +46,7 @@ class Loading extends Component {
             this.props.dispatch(setNetWork(net))
         }
         if (language) {
-            I18n.locale = language
+            I18n.locale = language.lang
         }
         if (data) {
             if (data['address']) {
