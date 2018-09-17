@@ -50,7 +50,7 @@
     },
     "home":{
         "total_assets":"总资产",
-        "assets":"资产",
+        "assets":"资产列表",
         "settings":"设置",
         "QRCode":"二维码",
         "no_assets":"还没有资产哦~",
@@ -59,7 +59,18 @@
         "contract_address":"合约地址",
         "token_symbol":"资产符号",
         "token_decimals":"小数精度",
-        "currency_symbok":"¥"
+        "currency_symbol":"¥",
+        "delete":"删除",
+        "address_check":"Ox开头的42位地址",
+        "symbol_check":"1~9个字符，如ETH、ITC",
+        "decimals_check":"erc20代币的小数境地为0~36，多为18位",
+        "wallet_tool":"钱包工具",
+        "contact":"联系人",
+        "system_settings":"系统设置",
+        "feedback":"意见反馈",
+        "about":"关于",
+        "address_repeat":"该合约地址已经添加",
+        "delete_main_token":"该币种无法删除"
     },
     "transaction":{
         "miner_fee":"矿工费",

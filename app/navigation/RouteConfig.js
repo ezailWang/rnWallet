@@ -59,7 +59,7 @@ import {
     SetContainers,
     SetScreen,
     ModifyPasswordScreen,
-  //  PasswordPrompInfoScreen,
+    //  PasswordPrompInfoScreen,
     ExportPrivateKeyScreen,
     ExportKeystoreScreen,
     ReceiptCodeScreen,
@@ -74,11 +74,15 @@ import {
     FeedbackScreen,
     ChoseLanguageScreen,
     ChoseCurrencyUnitScreen,
+    AddAssets,
 } from '../containers/containers';
 
-import {BlueHeader,WhiteBgHeader,WhiteBgNoTitleHeader} from '../components/NavigaionHeader'
-import {BackButton,HeaderButton} from '../components/Button'
+import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
+import { BackButton, HeaderButton } from '../components/Button'
 import React from 'react';
+import { DrawerNavigator } from 'react-navigation'
+import { DrawerComponent } from '../containers/home/DrawerComponent'
+import layoutConstants from '../config/LayoutConstants'
 
 //首次启动导航栈
 const FirstLaunchRouteConfig =
@@ -88,7 +92,7 @@ const FirstLaunchRouteConfig =
         navigationOptions: ({ navigation }) => ({
             header: null,
             cardStack: {
-               // gesturesEnabled: false
+                // gesturesEnabled: false
             }
         })
     },
@@ -102,7 +106,7 @@ const FirstLaunchRouteConfig =
         screen: BackupWalletScreen,
         /**navigationOptions: ({navigation}) => ({
             header:<WhiteBgNoTitleHeader navigation={navigation}/>
-        })**/   
+        })**/
     },
     CreateWallet: {
         screen: CreateWalletScreen,
@@ -110,7 +114,7 @@ const FirstLaunchRouteConfig =
             header:<BlueHeader navigation={navigation}/>
         })**/
     },
-   
+
     ImportWallet: {
         screen: ImportWalletScreen,
     },
@@ -131,17 +135,33 @@ const FirstLaunchRouteConfig =
     },**/
 }
 
-//主页导航栈
-const HomeRouteConfig =
-{
+
+
+//主页侧滑
+const HomeDrawer = DrawerNavigator({
     HomeScreen: {
         screen: HomeScreen,
-        navigationOptions:{
-            header:null,
+        navigationOptions: {
+            header: null,
             //gesturesEnabled:false
         }
     },
-    Set:{
+},
+    {
+        drawerPosition: 'right',
+        contentComponent: DrawerComponent,
+        drawerWidth:layoutConstants.HOME_DRAWER_WIDTH
+    }
+)
+
+//主页导航栈
+const HomeRouteConfig =
+{
+    HomeScreen: HomeDrawer,
+    AddAssets:{
+        screen:AddAssets,
+    },
+    Set: {
         screen: SetScreen,
     },
     ModifyPassword: {
@@ -159,8 +179,8 @@ const HomeRouteConfig =
             header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
         })**/
     },
-    ScanQRCode:{
-        screen:ScanQRCodeScreen,
+    ScanQRCode: {
+        screen: ScanQRCodeScreen,
     },
     BackupMnemonic: {
         screen: BackupMnemonicScreen,
@@ -171,14 +191,14 @@ const HomeRouteConfig =
     CreateWallet: {
         screen: CreateWalletScreen,
     },
-    TransactionRecoder:{
+    TransactionRecoder: {
         screen: TransactionRecoder,
     },
-    Transaction:{
+    Transaction: {
         screen: Transaction,
     },
-    ExportPrivateKey:{
-        screen:ExportPrivateKeyScreen,
+    ExportPrivateKey: {
+        screen: ExportPrivateKeyScreen,
     },
     ExportKeystore:{
         screen:ExportKeystoreScreen,
@@ -208,16 +228,16 @@ const HomeRouteConfig =
 
 const TestRouteConfig = {
     WalletTest: {
-        screen:walletTest
+        screen: walletTest
     },
     RpcTest: {
-        screen:rpcTest
+        screen: rpcTest
     },
     KeystoreTest: {
-        screen:keystoreTest
+        screen: keystoreTest
     },
     NetworkTest: {
-        screen:networkTest
+        screen: networkTest
     },
 }
 

@@ -11,10 +11,12 @@ import {
     SET_TRANSACTION_RECODER,
     SET_COIN_BALANCE,
     SET_WALLET_PASSWORD_PROMPT,
+    REMOVE_TOKEN,
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
 import { Network } from '../../config/GlobalConfig'
+import lodash from 'lodash'
 
 const defaultState = {
     // testAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
@@ -28,7 +30,7 @@ const defaultState = {
     mnemonic: '',
     tokens: defaultTokens,
     totalAssets: '0.00',
-    recoders: []
+    recoders: [],
 }
 
 function coreReducer(state = defaultState, action) {
@@ -104,6 +106,14 @@ function coreReducer(state = defaultState, action) {
                 balance: action.balance
             }
             break;
+        case REMOVE_TOKEN:
+            const copyToken = lodash.cloneDeep(state.tokens)
+            copyToken.splice(state.tokens.findIndex(item => item.contractAddress === action.contractAddress),1)   
+            return {
+                ...state,
+                tokens: copyToken
+            }
+
         // case SET_WALLET_PASSWORD_PROMPT:
         //     return {
         //         ...state,

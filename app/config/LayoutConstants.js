@@ -1,5 +1,5 @@
 
-import {Dimensions,Platform} from 'react-native'
+import { Dimensions, Platform } from 'react-native'
 
 const { width, height } = Dimensions.get('window');
 // iPhoneX
@@ -18,14 +18,14 @@ function isIphoneX() {
     )
 }
 
-function isAndroid(){
-    return(
+function isAndroid() {
+    return (
         Platform.OS === 'android'
     )
 }
 
 function getNavigationHeight() {
-    if (isIphoneX()){
+    if (isIphoneX()) {
         return 88;
     }
     return 64;
@@ -35,14 +35,18 @@ const layoutConstants = {
 
     WINDOW_WIDTH: width,
     WINDOW_HEIGHT: height,
-    DEVICE_IS_IPHONE_X:isIphoneX,
-    NAVIGATION_HEIGHT:getNavigationHeight,
-    DEVICE_IS_ANDROID:isAndroid,
+    DEVICE_IS_IPHONE_X: isIphoneX,
+    NAVIGATION_HEIGHT: getNavigationHeight,
+    DEVICE_IS_ANDROID: isAndroid,
 
     DEFAULT_IAMGE: require('../assets/home/null.png'),
-    
-    HOME_HEADER_HEIGHT: 320,
-    HOME_HEADER_LADDER_HEIGHT: 70,
+
+    HOME_HEADER_MIN_HEIGHT: 70,
+    HOME_HEADER_MAX_HEIGHT: 260,
+    HOME_HEADER_LADDER_HEIGHT: 80,
+    HOME_HEADER_CONTENT_HEIGHT: 320,
+
+    HOME_DRAWER_WIDTH:280,
     
     INFURA_API_KEY: '8e55b014a45b47b29fcd1bb492ab503a',
     ETHERSCAN_API_KEY: 'YYIRIVJPD4G5U4HPKAFF344XMFMQJIY69D',

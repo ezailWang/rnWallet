@@ -37,6 +37,9 @@ const Colors = {
     whiteBackgroundColor:"#FFFFFF",
     bgColor_e:'#eee',
     bgBlue_9a:'#9ACEF2',
+    bgBlue_drawer_top:'rgb(241,250,254)',
+    //按钮颜色
+    btn_bg_blue:'rgb(1,176,245)',
     
     borderColor_e:'#eee',
 };
