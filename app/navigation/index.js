@@ -1,7 +1,7 @@
 
 import {
-    StackNavigator,
-    SwitchNavigator
+    createStackNavigator,
+    createSwitchNavigator
 } from 'react-navigation'
 import { Provider, connect } from 'react-redux';
 import {
@@ -24,10 +24,10 @@ let lastBackPressed = 0;
  * 导航结构不同模块功能分开放入不同的导航栈内，全部放入一个导航栈，容易内存泄露
  */
 //首次启动导航栈
-const FirstLaunchNavigation = StackNavigator(FirstLaunchRouteConfig, FirstLaunchStackNavigationConfig)
+const FirstLaunchNavigation = createStackNavigator(FirstLaunchRouteConfig, FirstLaunchStackNavigationConfig)
 
 //主页导航栈
-const HomeNavigation = StackNavigator(HomeRouteConfig, HomeStackNavigationConfig)
+const HomeNavigation = createStackNavigator(HomeRouteConfig, HomeStackNavigationConfig)
 /**const homeGetStateForAction = HomeNavigation.router.getStateForAction;
 HomeNavigation.router.getStateForAction = (action,state)=>{
     console.log('L_index_state1',state)
@@ -53,10 +53,10 @@ HomeNavigation.router.getStateForAction = (action,state)=>{
 }**/
 
 //测试导航栈
-const TestNavigation = StackNavigator(TestRouteConfig,TestStackNavigationConfig)
+const TestNavigation = createStackNavigator(TestRouteConfig,TestStackNavigationConfig)
 
 //导航栈选择
-const SwicthNavigation = SwitchNavigator({
+const SwicthNavigation = createSwitchNavigator({
     Apploading: Loading,
     Home: HomeNavigation,
     FirstLaunch: FirstLaunchNavigation,

@@ -155,7 +155,7 @@ class HomeScreen extends BaseComponent {
     }
 
     showDrawer = () => {
-        this.props.navigation.navigate('DrawerOpen')
+        this.props.navigation.openDrawer()
     }
 
     changeNetworkDone = async () => {
@@ -300,7 +300,7 @@ class HomeScreen extends BaseComponent {
                     refreshControl={<RefreshControl
                         onRefresh={this.onRefresh}
                         refreshing={this.state.isRefreshing}
-                        colors={Colors.whiteBackgroundColor}
+                        colors={[Colors.themeColor]}
                         tintColor={Colors.whiteBackgroundColor}
                     />}
                     ListHeaderComponent={

@@ -81,7 +81,7 @@ import {
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
 import { BackButton, HeaderButton } from '../components/Button'
 import React from 'react';
-import { DrawerNavigator } from 'react-navigation'
+import { createDrawerNavigator } from 'react-navigation'
 import { DrawerComponent } from '../containers/home/DrawerComponent'
 import layoutConstants from '../config/LayoutConstants'
 
@@ -139,7 +139,7 @@ const FirstLaunchRouteConfig =
 
 
 //主页侧滑
-const HomeDrawer = DrawerNavigator({
+const HomeDrawer = createDrawerNavigator({
     HomeScreen: {
         screen: HomeScreen,
         navigationOptions: {
