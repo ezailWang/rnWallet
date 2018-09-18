@@ -10,6 +10,7 @@ import {
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n, getLanguages } from '../../config/language/i18n'
+import {showToast} from '../../utils/Toast'
 import DeviceInfo from 'react-native-device-info';
 class Loading extends Component {
 
@@ -49,9 +50,11 @@ class Loading extends Component {
             I18n.locale = language.lang
         }else{
             let localeLanguage = DeviceInfo.getDeviceLocale();
-            if(localeLanguage == 'zh-CN'){
+            showToast(localeLanguage)
+            let lang = localeLanguage.substring(0,2)
+            if(lang == 'zh'){
                 I18n.locale = 'zh';
-            }else if(localeLanguage == 'ko-KR'){
+            }else if(lang == 'ko'){
                 I18n.locale = 'ko';
             }else{
                 //en-US
