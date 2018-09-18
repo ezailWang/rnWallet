@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Text,TouchableOpacity,Clipboard,Image,Linking} from 'react-native';
+import { View,StyleSheet,Text,TouchableOpacity,Clipboard,Image,Linking,ImageBackground} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import Layout from '../../config/LayoutConstants'
-import {BlueHeader} from '../../components/NavigaionHeader'
+import {TransparentBgHeader} from '../../components/NavigaionHeader'
 import {Colors} from '../../config/GlobalConfig';
 import {store} from '../../config/store/ConfigureStore'
 import {showToast} from '../../utils/Toast';
@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     },
     countBox:{
         flexDirection:'row',
-        marginTop:30,
-        marginBottom:50,
+        marginTop:20,
+        marginBottom:60,
         //alignItems:'flex-end',
         justifyContent:'center'
     },
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         borderRadius:5,
         paddingLeft:20,
         paddingRight:20,
-        paddingTop:50,
+        paddingTop:60,
         paddingBottom:50,
     },
     statusIcon:{
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         marginTop:-60,
     },
     countTxt:{
-        fontSize:24,
+        fontSize:26,
         color:'white',
         fontWeight:'500',
     },
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     marginTop2:{
         marginTop:2
     },
-    marginTop6:{
-        marginTop:6,
+    marginTop10:{
+        marginTop:10,
     },
     bottomBox:{
         flexDirection:'row',
@@ -118,7 +118,8 @@ export default class TransactionDetail extends BaseComponent {
             remark:params.remark,
             transactionHash:params.transactionHash,
             blockNumber:params.blockNumber,
-            transactionTime:params.transactionTime
+            transactionTime:params.transactionTime,
+            tranStatus : 'ok'
         };
     }
    
@@ -143,9 +144,17 @@ export default class TransactionDetail extends BaseComponent {
     }
 
     render() {
+        let statusIcon
+        if(this.state.tranStatus == 'ok'){
+            statusIcon = require('../../assets/transfer/trans_ok.png')
+        }else if(this.state.tranStatus == 'ing'){
+            statusIcon = require('../../assets/transfer/trans_ing.png')
+        }else if(this.state.tranStatus == 'fail'){
+            statusIcon = require('../../assets/transfer/trans_fail.png')
+        }
         return (
-            <View style={styles.container}>
-                <BlueHeader  navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')}/>
+            <ImageBackground style={styles.container} source={require('../../assets/launch/splash_bg.png')}>
+                <TransparentBgHeader  navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')}/>
                 <View style={styles.countBox}>
                      <Text style={styles.countTxt}>{this.state.amount}</Text>
                      <Text style={styles.coinTypeTxt}>{this.state.transactionType}</Text>
@@ -156,10 +165,10 @@ export default class TransactionDetail extends BaseComponent {
                      <Text style={[styles.fontGray]}>{I18n.t('transaction.sending_party')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.fromAddress}</Text>
 
-                     <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.beneficiary')}</Text>
+                     <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.beneficiary')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.toAddress}</Text>
 
-                     <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.miner_cost')}</Text>
+                     <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.miner_cost')}</Text>
                      <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.gasPrice+" gwei"}</Text>
 
                      <View style={styles.bottomBox}>
@@ -170,9 +179,9 @@ export default class TransactionDetail extends BaseComponent {
                                          numberOfLines={1}
                                          ellipsizeMode={"middle"}>{this.state.transactionHash}</Text>
                                 </TouchableOpacity>      
-                                <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.block')}</Text>
+                                <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.block')}</Text>
                                 <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.blockNumber}</Text>
-                                <Text style={[styles.fontGray,styles.marginTop6]}>{I18n.t('transaction.transaction_time')}</Text>
+                                <Text style={[styles.fontGray,styles.marginTop10]}>{I18n.t('transaction.transaction_time')}</Text>
                                 <Text style={[styles.fontBlack,styles.marginTop2]}>{this.state.transactionTime}</Text>
                          </View>
                          <View style={[styles.qrCodeBox,{marginTop:2}]}>
@@ -188,10 +197,10 @@ export default class TransactionDetail extends BaseComponent {
                          </View>
                      </View>
                 </View>
-                <Image style={styles.statusIcon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}></Image>
+                <Image style={styles.statusIcon} source={statusIcon} resizeMode={'center'}></Image>
                 </View>
                 
-            </View>
+            </ImageBackground>
         );
     }
 }

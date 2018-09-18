@@ -50,7 +50,6 @@ class Loading extends Component {
             I18n.locale = language.lang
         }else{
             let localeLanguage = DeviceInfo.getDeviceLocale();
-            showToast(localeLanguage)
             let lang = localeLanguage.substring(0,2)
             if(lang == 'zh'){
                 I18n.locale = 'zh';

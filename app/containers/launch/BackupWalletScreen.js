@@ -89,6 +89,7 @@ export default class BackupWalletScreen extends BaseComponent {
     }
 
     renderComponent() {
+        let checkIcon = this.state.isCheck ? require('../../assets/launch/check_on.png') : require('../../assets/launch/check_off.png');
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('launch.backup_wallet')}/>
@@ -107,7 +108,7 @@ export default class BackupWalletScreen extends BaseComponent {
                 
                      <View style={styles.viewBottom}>
                          <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isReadPress()}>
-                             <Image style={styles.checkImage} source={require('../../assets/common/scanIcon.png')} resizeMode={'center'} ></Image>
+                             <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
                              <Text style={styles.checkText}>{I18n.t('launch.readed')}</Text>
                          </TouchableOpacity>
                          <BlueButtonBig
