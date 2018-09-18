@@ -5,7 +5,7 @@ import DrawerCell from './component/DrawerCell'
 import { Colors } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 
-const DrawerComponent = (props, params) => (
+const DrawerComponent = (props) => (
     <SafeAreaView style={{ flex: 1 }}>
         <View style={{ marginTop: 80, height: 70, backgroundColor: Colors.bgBlue_drawer_top, alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}>
             <Image source={require('../../assets/home/menu/menu_icon.png')} style={{ height: 46, width: 46, marginLeft: 25 }} />
@@ -14,7 +14,6 @@ const DrawerComponent = (props, params) => (
         <ScrollView style={{ marginTop: 50 }}>
             <DrawerCell
                 onClick={() => {
-                    //props.navigation.closeDrawer()
                     props.navigation.navigate('Set')
                 }}
                 text={I18n.t('home.wallet_tool')}
@@ -22,7 +21,6 @@ const DrawerComponent = (props, params) => (
             />
             <DrawerCell
                 onClick={() => {
-                    //props.navigation.closeDrawer()
                     props.navigation.navigate('ContactList', { from: 'home' })
                 }}
                 text={I18n.t('home.contact')}
@@ -30,7 +28,6 @@ const DrawerComponent = (props, params) => (
             />
             <DrawerCell
                 onClick={() => {
-                    //props.navigation.closeDrawer()
                     props.navigation.navigate('SystemSet')
                 }}
                 text={I18n.t('home.system_settings')}
@@ -41,7 +38,6 @@ const DrawerComponent = (props, params) => (
             />
             <DrawerCell
                 onClick={() => {
-                    //props.navigation.closeDrawer()
                     props.navigation.navigate('Feedback')
                 }}
                 text={I18n.t('home.feedback')}
@@ -49,7 +45,6 @@ const DrawerComponent = (props, params) => (
             />
             <DrawerCell
                 onClick={() => {
-                    //props.navigation.closeDrawer()
                     props.navigation.navigate('AboutUs')
                 }}
                 text={I18n.t('home.about')}
