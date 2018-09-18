@@ -189,13 +189,12 @@ export default class TransactionRecoder extends BaseComponent{
 
     constructor(props){
         super(props);
-        
-        this.onRefresh = this.onRefresh.bind(this);
-
         this.state={
             itemList:[],
             isRefreshing:false,
         }
+
+        this.onRefresh = this.onRefresh.bind(this);
     }
 
    
@@ -323,7 +322,7 @@ export default class TransactionRecoder extends BaseComponent{
         this.onRefresh()
     }
 
-    render (){
+    renderComponent (){
 
         let {amount,price,transferType} = store.getState().Core.balance;
         let value = parseFloat(amount)*parseFloat(price);

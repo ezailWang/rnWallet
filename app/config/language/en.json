@@ -150,7 +150,11 @@
         "submit":"submit",
 
         "system_settings":"System settings",
-        "language":"Language"
+        "language":"Language",
+
+        "renminbi":"Renminbi",
+        "dollar":"Dollar",
+        "korean_currency":"Korean currency"
     },
     "toast":{
         "exit_app":"Press again to exit the app",

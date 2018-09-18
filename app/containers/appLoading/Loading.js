@@ -6,7 +6,7 @@ import {
     setWalletAddress,
     setWalletName,
     setNetWork,
-    setLanguage
+    setMonetaryUnit
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n, getLanguages } from '../../config/language/i18n'
@@ -43,6 +43,7 @@ class Loading extends Component {
         var data = await StorageManage.load(StorageKey.User)
         var net = await StorageManage.load(StorageKey.Network)
         var language = await StorageManage.load(StorageKey.Language)
+        var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
         if (net) {
             this.props.dispatch(setNetWork(net))
         }
@@ -56,9 +57,13 @@ class Loading extends Component {
             }else if(lang == 'ko'){
                 I18n.locale = 'ko';
             }else{
-                //en-US
                 I18n.locale = 'en';
             }
+        }
+        if(monetaryUnit){
+            this.props.dispatch(setMonetaryUnit(monetaryUnit))
+        }else{
+            this.byLanguageSetMonetaryUnit()
         }
         if (data) {
             if (data['address']) {
@@ -72,6 +77,32 @@ class Loading extends Component {
         }
     }
 
+    byLanguageSetMonetaryUnit(){
+        let lang = I18n.locale
+        let monetaryUnit = null;
+        if(lang == 'zh'){
+            monetaryUnit = {
+                monetaryUnitType: 'CNY',
+                monetaryUnitStr: I18n.t('settings.renminbi'),
+                symbol:'¥'
+            }
+        }else if(lang == 'en'){
+            monetaryUnit = {
+                monetaryUnitType: 'USD',
+                monetaryUnitStr: I18n.t('settings.dollar'),
+                symbol:'$'
+            }
+        }else if(lang == 'ko'){
+            monetaryUnit = {
+                monetaryUnitType: 'KRW',
+                monetaryUnitStr: I18n.t('settings.korean_currency'),
+                symbol:'₩'
+            }
+        }
+        StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit)
+        this.props.dispatch(setMonetaryUnit(monetaryUnit))
+    }
+
     render() {
         return null
     }
@@ -79,6 +110,7 @@ class Loading extends Component {
 
 const mapStateToProps = state => ({
     walletAddress: state.Core.walletAddress,
+    monetaryUnit : state.Core.monetaryUnit
 });
 
 export default connect(mapStateToProps)(Loading);

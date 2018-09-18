@@ -150,7 +150,11 @@
         "submit":"提交",
 
         "system_settings":"系统设置",
-        "language":"语言"
+        "language":"语言",
+
+        "renminbi":"人民币",
+        "dollar":"美元",
+        "korean_currency":"韩币"
         
     },
     "toast":{

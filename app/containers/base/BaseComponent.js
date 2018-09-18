@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {StyleSheet,View,BackHandler} from 'react-native';
+import {StyleSheet,View,BackHandler,DeviceEventEmitter} from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from '../../components/LoadingComponent';
 import { showToast } from '../../utils/Toast';
@@ -30,6 +30,7 @@ export default class BaseComponent extends PureComponent{
 
     componentWillMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',this._onBackPressed);//Android物理返回键监听
+        this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
         this._addEventListener();
     }
 
@@ -39,6 +40,7 @@ export default class BaseComponent extends PureComponent{
     
     componentWillUnmount(){
         this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
+        this.monetaryUnitChangeHandler && this.monetaryUnitChangeHandler.remove();
         this._removeEventListener();
     }
 
@@ -83,6 +85,11 @@ export default class BaseComponent extends PureComponent{
                  {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading}/>}
             </View>
         )
+    }
+
+    //接收到货币单位改变的监听所需要的操作
+    _monetaryUnitChange=(data)=>{
+
     }
 
     //点击android物理返回键的操作

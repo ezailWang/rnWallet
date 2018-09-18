@@ -21,7 +21,7 @@ import AddToken from './AddToken'
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setTransactionRecoders, setCoinBalance, setNetWork, removeToken } from '../../config/action/Actions'
+import { addToken, setTransactionRecoders, setCoinBalance, setNetWork, removeToken} from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -45,6 +45,7 @@ class HomeScreen extends BaseComponent {
             scroollY: new Animated.Value(0),
             statusbarStyle: 'light-content',
             isTotalAssetsHidden: false,
+            monetaryUnitSymbol:'',//货币单位符号
         }
         this._setStatusBarStyleLight();
         this.props.navigation.addListener('willBlur', () => {
@@ -63,6 +64,7 @@ class HomeScreen extends BaseComponent {
         <HomeCell
             item={item}
             onClick={this.onClickCell.bind(this, item)}
+            monetaryUnitSymbol = {this.state.monetaryUnitSymbol}
         />
     )
 
@@ -184,6 +186,10 @@ class HomeScreen extends BaseComponent {
     async _initData() {
         SplashScreen.hide()
         this._showLoding()
+        this.setState({
+            monetaryUnitSymbol : this.props.monetaryUnit.symbol
+        })
+        
         var localUser = await StorageManage.load(StorageKey.User)
         if (localUser && localUser['isTotalAssetsHidden']) {
             this.setState({
@@ -228,6 +234,15 @@ class HomeScreen extends BaseComponent {
         StorageManage.save(StorageKey.User, localUser)
     }
 
+     _monetaryUnitChange = async (data)=>{
+        await networkManage.loadTokenList()
+        this.setState({
+            monetaryUnitSymbol : data.monetaryUnit.symbol
+        })
+    }
+
+   
+
     renderComponent() {
         const headerHeight = this.state.scroollY.interpolate({
             inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
@@ -244,6 +259,7 @@ class HomeScreen extends BaseComponent {
             outputRange: [0, 1],
             extrapolate: 'clamp'
         })
+       
 
         return (
             <View style={styles.container}>
@@ -281,7 +297,7 @@ class HomeScreen extends BaseComponent {
                             fontSize: 20,
                             opacity: headerTextOpacity
                         }}
-                    >{this.state.isTotalAssetsHidden ? '****' : I18n.t('home.currency_symbol') + this.props.totalAssets + ''}</Animated.Text>
+                    >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Animated.Text>
                 </Animated.View>
                 <SwipeableFlatList
                     maxSwipeDistance={80}
@@ -320,7 +336,7 @@ class HomeScreen extends BaseComponent {
                             walletName={this.props.walletName}
                             address={this.formatAddress(this.props.walletAddress)}
                             totalAssets={
-                                this.state.isTotalAssetsHidden ? '****' : I18n.t('home.currency_symbol') + this.props.totalAssets + ''}
+                                this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}
                             hideAssetsIcon={this.state.isTotalAssetsHidden ? hiddenIcon_invi : hiddenIcon_vi}
                             QRCodeIcon={require('../../assets/home/hp_qrc.png')}
                             addAssetsIcon={require('../../assets/home/plus_icon.png')}
@@ -372,12 +388,14 @@ const mapStateToProps = state => ({
     tokens: state.Core.tokens,
     walletAddress: state.Core.walletAddress,
     totalAssets: state.Core.totalAssets,
-    walletName: state.Core.walletName
+    walletName: state.Core.walletName,
+    monetaryUnit: state.Core.monetaryUnit
 })
 
 const mapDispatchToProps = dispatch => ({
     setNetWork: (network) => dispatch(setNetWork(network)),
-    removeToken: (token) => dispatch(removeToken(token))
+    removeToken: (token) => dispatch(removeToken(token)),
+    setTotalAssets : (totalAssets) => dispatch(setTotalAssets(totalAssets)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

@@ -27,7 +27,7 @@ import ContactInfoScreen from './settings/ContactInfoScreen';
 import AboutUsScreen from './settings/AboutUsScreen';
 import FeedbackScreen from './settings/FeedbackScreen';
 import ChoseLanguageScreen from './settings/ChoseLanguageScreen';
-import ChoseCurrencyUnitScreen from './settings/ChoseCurrencyUnitScreen';
+import ChoseMonetaryUnitScreen from './settings/ChoseMonetaryUnitScreen';
 import SystemSetScreen from './settings/SystemSetScreen';
 import AddAssets from './home/AddAssets'
 export {
@@ -59,7 +59,7 @@ export {
     AboutUsScreen,
     FeedbackScreen,
     ChoseLanguageScreen,
-    ChoseCurrencyUnitScreen,
+    ChoseMonetaryUnitScreen,
     SystemSetScreen,
     AddAssets
 }

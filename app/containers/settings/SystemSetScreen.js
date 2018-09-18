@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import * as Actions from '../../config/action/Actions';
 import {Colors,StorageKey} from '../../config/GlobalConfig'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { showToast } from '../../utils/Toast';
@@ -82,29 +83,30 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class SystemSetScreen extends BaseComponent {
+class SystemSetScreen extends BaseComponent {
    
     constructor(props){
         super(props);
         this.state = {
             langStr:'',
-            currencyUnit:''
+            monetaryUnitStr:''
         }
-        this.lang=''
     }
 
     _initData() { 
-        this.lang = I18n.locale
+        let lang = I18n.locale
         let str;
-        if(this.lang == 'zh'){
+        if(lang == 'zh'){
             str = '简体中文'
-        }else if(this.lang == 'en'){
+        }else if(lang == 'en'){
             str = 'English'
-        }else if(this.lang == 'ko'){
+        }else if(lang == 'ko'){
             str = '한국어'
         }
+        let mUnitStr = this.props.monetaryUnit.monetaryUnitStr
         this.setState({
-            langStr:str
+            langStr:str,
+            monetaryUnitStr:mUnitStr,
         })
     }
 
@@ -115,13 +117,21 @@ export default class SystemSetScreen extends BaseComponent {
             callback: function (data) {
                 _this.setState({
                     langStr:data.language.langStr,
+                    monetaryUnitStr:data.monetaryUnit.monetaryUnitStr,
                 })
             }
         })
     }
 
-    _choseCurrencyUnit= () =>{
-        this.props.navigation.navigate('ChoseCurrencyUnit')
+    _choseMonetaryUnit= () =>{
+        let _this = this;
+        this.props.navigation.navigate('ChoseMonetaryUnit', {
+            callback: function (data) {
+                _this.setState({
+                    monetaryUnitStr:data.monetaryUnit.monetaryUnitStr,
+                })
+            }
+        })
     }
 
 
@@ -132,7 +142,7 @@ export default class SystemSetScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.system_settings')}/>
                 <View  style={styles.itemContainer}>
                     <Item title={I18n.t('settings.language')} content = {this.state.langStr} onPressed= {this._choseLanguage}></Item> 
-                    <Item title={I18n.t('settings.currency_unit')} content = {this.state.currencyUnit} onPressed= {this._choseCurrencyUnit}></Item>
+                    <Item title={I18n.t('settings.currency_unit')} content = {this.state.monetaryUnitStr} onPressed= {this._choseMonetaryUnit}></Item>
                 </View>
                
             </View>    
@@ -176,3 +186,8 @@ class Item extends PureComponent{
 
 
 
+const mapStateToProps = state => ({
+    monetaryUnit:state.Core.monetaryUnit,
+});
+
+export default connect(mapStateToProps, {})(SystemSetScreen)

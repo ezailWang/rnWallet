@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View,StyleSheet} from 'react-native';
+import { View,StyleSheet,DeviceEventEmitter} from 'react-native';
 import { connect } from 'react-redux';
+import * as Actions from '../../config/action/Actions';
 import {Colors,FontSize,StorageKey} from '../../config/GlobalConfig'
 import StorageManage from '../../utils/StorageManage'
 import {showToast} from '../../utils/Toast';
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     
 })
 
-export default class ChoseLanguageScreen extends BaseComponent {
+class ChoseLanguageScreen extends BaseComponent {
    
     constructor(props){
         super(props);
@@ -31,79 +32,84 @@ export default class ChoseLanguageScreen extends BaseComponent {
             isCheckKo:false,
         }
         this.lang = '';
+        this.langStr = '';
+
+        this.monetaryUnitType = ''
+        this.monetaryUnitStr = ''
+        this.monetaryUnitSymbol = ''
     }
 
     _initData(){
         this.lang = I18n.locale
+        this._checkLanguage()
+    }
+
+    _checkState(isZh,isEn,isKo){
+        this.setState({
+            isCheckZh:isZh,
+            isCheckEn:isEn,
+            isCheckKo:isKo,
+        }) 
+    }
+
+    _checkLanguage(){
         if(this.lang == 'zh'){
-            this.setState({
-                isCheckZh:true,
-                isCheckEn:false,
-                isCheckKo:false,
-            })
+            this.langStr = '简体中文'
+            this._checkState(true,false,false)
+
+            this.monetaryUnitType = 'CNY'
+            this.monetaryUnitStr = I18n.t('settings.renminbi')
+            this.monetaryUnitSymbol = '¥'
         }else if(this.lang == 'en'){
-            this.setState({
-                isCheckZh:false,
-                isCheckEn:true,
-                isCheckKo:false,
-            })
+            this.langStr = 'English'
+            this._checkState(false,true,false)
+
+            this.monetaryUnitType = 'USD'
+            this.monetaryUnitStr = I18n.t('settings.dollar')
+            this.monetaryUnitSymbol = '$'
         }else if(this.lang == 'ko'){
-            this.setState({
-                isCheckZh:false,
-                isCheckEn:false,
-                isCheckKo:true,
-            })
+            this.langStr = '한국어'
+            this._checkState(false,false,true)
+
+            this.monetaryUnitType = 'KRW'
+            this.monetaryUnitStr = I18n.t('settings.korean_currency')
+            this.monetaryUnitSymbol = '₩'
         }
     }
 
     _onPressZh(){
         this.lang = 'zh'
-        this.setState({
-            isCheckZh:true,
-            isCheckEn:false,
-            isCheckKo:false,
-        }) 
         this._saveLanguage() 
     }
     _onPressEn(){
         this.lang = 'en';
-        this.setState({
-            isCheckZh:false,
-            isCheckEn:true,
-            isCheckKo:false,
-        }) 
         this._saveLanguage()
     }
     _onPressKo(){
         this.lang = 'ko'
-        this.setState({
-            isCheckZh:false,
-            isCheckEn:false,
-            isCheckKo:true,
-        }) 
         this._saveLanguage()
     }
 
-    _saveLanguage(){
+    async _saveLanguage(){
         I18n.locale = this.lang
-        let langStr;
-        if(this.lang == 'zh'){
-            langStr = '简体中文'
-        }else if(this.lang == 'en'){
-            langStr = 'English'
-        }else if(this.lang == 'ko'){
-            langStr = '한국어'
-        }else{
-            langStr = 'English'
-        }
-        let object = {
+        this._checkLanguage()
+
+        let langObject = {
             lang: this.lang,
-            langStr: langStr,
+            langStr: this.langStr,
         }
-        StorageManage.save(StorageKey.Language, object)
-       // var loadRet = await StorageManage.load(StorageKey.Language)
-       // console.log('L_contact',loadRet)
-        this.props.navigation.state.params.callback({language: object});
+        StorageManage.save(StorageKey.Language, langObject)
+        let monetaryObject = {
+            monetaryUnitType: this.monetaryUnitType,
+            monetaryUnitStr: this.monetaryUnitStr,
+            symbol:this.monetaryUnitSymbol
+        }
+        this.props.setMonetaryUnit(monetaryObject)
+        StorageManage.save(StorageKey.MonetaryUnit, monetaryObject)
+        DeviceEventEmitter.emit('monetaryUnitChange', {monetaryUnit: monetaryObject});
+
+
+        this.props.navigation.state.params.callback({language: langObject,monetaryUnit:monetaryObject});
         this.props.navigation.goBack()
     }
     
@@ -121,6 +127,14 @@ export default class ChoseLanguageScreen extends BaseComponent {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    monetaryUnit:state.Core.monetaryUnit,
+});
+const mapDispatchToProps = dispatch => ({
+    setMonetaryUnit: (monetaryUnit) => dispatch(Actions.setMonetaryUnit(monetaryUnit)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ChoseLanguageScreen)
 
 
 

@@ -69,6 +69,7 @@ const StorageKey = {
     Network:'network',
     Language:'language',
     Contact:'contact',//保存联系人的key
+    MonetaryUnit:'monetaryUnit',//货币单位
 }
 
 const Network = {

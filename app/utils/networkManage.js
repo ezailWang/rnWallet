@@ -261,15 +261,29 @@ export default class networkManage {
             const resJson = await result.json()
             if (resJson.code === 200) {
                 //优先判断货币 如果货币本地没有再使用语言
-                const currentLocale = I18n.currentLocale()
-                if(currentLocale.includes('zh-')){
-                    return resJson.data.cny
-                }else if(currentLocale.includes('ko-')){
-                    return resJson.data.krw
-                }else {
-                    //默认美元
-                    return resJson.data.usd
+                //const currentLocale = I18n.currentLocale()
+                var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
+                if(monetaryUnit){
+                    let monetaryUnitType = monetaryUnit.monetaryUnitType
+                    if(monetaryUnitType == 'CNY'){
+                        return resJson.data.cny
+                    }else if(monetaryUnitType == 'KRW'){
+                        return resJson.data.krw
+                    }else{
+                        return resJson.data.usd
+                    }
+                }else{
+                    const currentLocale = I18n.locale
+                    if(currentLocale.includes('zh')){
+                        return resJson.data.cny
+                    }else if(currentLocale.includes('ko')){
+                        return resJson.data.krw
+                    }else {
+                        //默认美元
+                        return resJson.data.usd
+                    }
                 }
+                
             }
             return 0.00
         } catch (err) {

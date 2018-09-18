@@ -12,7 +12,7 @@ import {
     SET_COIN_BALANCE,
     SET_WALLET_PASSWORD_PROMPT,
     REMOVE_TOKEN,
-    SET_LANGUAGE
+    SET_MONETARY_UNIT
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -32,6 +32,7 @@ const defaultState = {
     tokens: defaultTokens,
     totalAssets: '0.00',
     recoders: [],
+    monetaryUnit:null
 }
 
 function coreReducer(state = defaultState, action) {
@@ -106,6 +107,12 @@ function coreReducer(state = defaultState, action) {
                 ...state,
                 balance: action.balance
             }
+            break;
+        case SET_MONETARY_UNIT:
+            return {
+                ...state,
+                monetaryUnit : action.monetaryUnit
+            }    
             break;
         case REMOVE_TOKEN:
             const copyToken = lodash.cloneDeep(state.tokens)

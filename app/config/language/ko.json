@@ -150,7 +150,11 @@
         "submit":"제출",
 
         "system_settings":"시스템 설정",
-        "language":"언어"
+        "language":"언어",
+
+        "renminbi":"인민폐",
+        "dollar":"달러",
+        "korean_currency":"한국 통화"
     },
     "toast":{
         "exit_app":"다시 누르면 앱이 종료됩니다",

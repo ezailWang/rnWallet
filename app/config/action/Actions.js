@@ -98,6 +98,13 @@ function setNetWork(value) {
     }
 }
 
+function setMonetaryUnit(value){
+    return{
+        type: types.SET_MONETARY_UNIT,
+        monetaryUnit : value
+    }
+}
+
 
 export {
     generateMnemonic,
@@ -111,5 +118,6 @@ export {
     setTransactionRecoders,
     setCoinBalance,
     setNetWork,
-    removeToken
+    removeToken,
+    setMonetaryUnit
 }

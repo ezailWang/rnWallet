@@ -5,7 +5,9 @@ import {
     Image,
     StyleSheet,
     TouchableHighlight,
+    DeviceEventEmitter
 } from 'react-native'
+import PropTypes from 'prop-types';
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
 import { I18n } from '../../../config/language/i18n'
@@ -37,8 +39,13 @@ class EmptyComponent extends Component {
 }
 
 class HomeCell extends Component {
+    static propTypes = {
+        monetaryUnitSymbol: PropTypes.string.isRequired,
+    };
+    
     render() {
         const { symbol, balance, price } = this.props.item.item || {}
+        console.log('L_HomeCell',this.props)
         var imageSource = require('../../../assets/home/null.png')
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
             imageSource = tokeniCon[symbol]
@@ -60,7 +67,7 @@ class HomeCell extends Component {
                         >{isNaN(balance) || balance === '0.0000' || balance === '0' ? '0.00' : balance}</Text>
                         <Text
                             style={{ fontSize: 13, color: Colors.fontDarkGrayColor }}
-                        >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + I18n.t('home.currency_symbol') + (balance * price).toFixed(2)}</Text>
+                        >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + this.props.monetaryUnitSymbol + (balance * price).toFixed(2)}</Text>
                     </View>
                 </View>
             </TouchableHighlight>

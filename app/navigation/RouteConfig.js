@@ -73,7 +73,7 @@ import {
     AboutUsScreen,
     FeedbackScreen,
     ChoseLanguageScreen,
-    ChoseCurrencyUnitScreen,
+    ChoseMonetaryUnitScreen,
     SystemSetScreen,
     AddAssets,
 } from '../containers/containers';
@@ -222,8 +222,8 @@ const HomeRouteConfig =
     ChoseLanguage:{
         screen:ChoseLanguageScreen,
     },
-    ChoseCurrencyUnit:{
-        screen:ChoseCurrencyUnitScreen,
+    ChoseMonetaryUnit:{
+        screen:ChoseMonetaryUnitScreen,
     },
     SystemSet:{
         screen: SystemSetScreen,
