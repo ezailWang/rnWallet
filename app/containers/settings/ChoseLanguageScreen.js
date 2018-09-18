@@ -103,7 +103,6 @@ export default class ChoseLanguageScreen extends BaseComponent {
         StorageManage.save(StorageKey.Language, object)
        // var loadRet = await StorageManage.load(StorageKey.Language)
        // console.log('L_contact',loadRet)
-        this.props.setLanguage(object)
         this.props.navigation.state.params.callback({language: object});
         this.props.navigation.goBack()
     }

@@ -9,6 +9,7 @@ import {
     Linking 
 } from 'react-native';
 import PropTypes from 'prop-types';
+import DeviceInfo from 'react-native-device-info';
 import {Colors,StorageKey} from '../../config/GlobalConfig'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { showToast } from '../../utils/Toast';
@@ -18,7 +19,7 @@ import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:Colors.bgGrayColor,
+        backgroundColor:'white',
     },
     image:{
         alignSelf:'center',
@@ -74,20 +75,24 @@ export default class AboutUsScreen extends BaseComponent {
     constructor(props){
         super(props);
         this.state = {
+            version:'',
         }
+        this.version = '';
     }
 
     _initData() { 
-
+        this.setState({
+            version:DeviceInfo.getVersion()
+        })
     }
 
     renderComponent() {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.about')}/>
-                <Image style={styles.image} source={require('../../assets/common/logo_icon.png')} resizeMode={'center'}></Image>
+                <Image style={styles.image} source={require('../../assets/set/logo_black.png')} resizeMode={'center'}></Image>
                 <Text style={styles.title}>ITC Wallet</Text>
-                <Text style={styles.version}>1.0.0</Text>
+                <Text style={styles.version}>{this.state.version}</Text>
                 <Item title={'Website'} url={'iotchain.io'} isDisabled={false}></Item> 
                 <Item title={'Email'} url={'support@iotchain.io'} isDisabled={true}></Item>
                 <Item title={'Telegram'} url={'https://t.me/IoTChain'} isDisabled={false}></Item>

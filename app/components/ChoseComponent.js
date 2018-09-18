@@ -52,7 +52,7 @@ class ChoseItem extends PureComponent {
         isShowLine:true,
     }
     render() {
-        let checkIcon = this.props.isCheck ? require('../assets/common/backblue_icon.png') : null;
+        let checkIcon = this.props.isCheck ? require('../assets/set/ok.png') : null;
         return (
             <View style={[styles.choseItem,this.props.choseItemStyle]}>
                 <TouchableOpacity style={[styles.choseItemContent,this.props.choseItemContentStyle]}

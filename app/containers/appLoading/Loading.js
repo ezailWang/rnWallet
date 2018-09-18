@@ -47,6 +47,16 @@ class Loading extends Component {
         }
         if (language) {
             I18n.locale = language.lang
+        }else{
+            let localeLanguage = DeviceInfo.getDeviceLocale();
+            if(localeLanguage == 'zh-CN'){
+                I18n.locale = 'zh';
+            }else if(localeLanguage == 'ko-KR'){
+                I18n.locale = 'ko';
+            }else{
+                //en-US
+                I18n.locale = 'en';
+            }
         }
         if (data) {
             if (data['address']) {
