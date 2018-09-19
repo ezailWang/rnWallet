@@ -5,7 +5,6 @@ import {
     Image,
     StyleSheet,
     TouchableHighlight,
-    DeviceEventEmitter
 } from 'react-native'
 import PropTypes from 'prop-types';
 import layoutConstants from '../../../config/LayoutConstants'

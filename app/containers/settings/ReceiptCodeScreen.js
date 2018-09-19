@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
         alignSelf:'stretch',
     },
     btnOpacity:{
-        backgroundColor:'transparent',
+        //backgroundColor:'transparent',
+        width:Layout.WINDOW_WIDTH*0.9,
         flex:1,
         justifyContent:'center',
         alignItems:'center',
