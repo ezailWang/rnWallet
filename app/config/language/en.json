@@ -133,6 +133,7 @@
         "multi_language":"multi-language",
 
         "make_sure_delete_contact":"Are you sure to delete the contact?",
+        "no_contact":"You have not added a contact yet",
         "create_contact":"Create a contact",
         "name":"Name",
         "remarks":"Remarks (optional)",

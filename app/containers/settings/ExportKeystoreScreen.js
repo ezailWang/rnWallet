@@ -130,7 +130,7 @@ export default class ExportKeystoreScreen extends BaseComponent {
     }
     copy(){
         Clipboard.setString(this.state.keystore);
-        showToast('已复制Keysotre');
+        showToast(I18n.t('toast.copied_keystore'));
     }
     renderComponent() {
         return (

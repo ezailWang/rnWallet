@@ -38,6 +38,13 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         marginTop:20
     },
+    normalBtnGradient:{
+        width:Layout.WINDOW_WIDTH*0.9,
+        //alignSelf:'stretch',
+        height:44,
+        borderRadius:5,
+        justifyContent:"center",
+    },
     normalBtnTitle:{
         fontSize:17,
         fontWeight:"bold",
@@ -223,7 +230,13 @@ class BlueButtonBig extends Component {
                               activeOpacity={0.6}
                               disabled={this.props.isDisabled}
                               onPress = {this.props.onPress}>
-                <Text style={[styles.blueBtnTitle,styles.normalBtnTitle]}>{this.props.text}</Text>
+                    <LinearGradient colors={['#66ceff', '#68ACFC', '#0094ff']}
+                                start={{x:0,y:1}}
+                                end={{x:1,y:1}}
+                                style={[styles.normalBtnGradient,{flex:1}]}>
+                            <Text style={[styles.blueBtnTitle,styles.normalBtnTitle]}>{this.props.text}</Text>
+                    </LinearGradient>          
+                
             </TouchableOpacity>
         )
     }
@@ -273,7 +286,7 @@ class BlueButtonMiddle extends Component {
         return (
             <TouchableOpacity style={styles.normalMiddleBtn}
                               onPress = { this.props.onPress }>
-                <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
+                <LinearGradient colors={['#66ceff', '#68ACFC', '#0094ff']}
                                 start={{x:0,y:1}}
                                 end={{x:1,y:1}}
                                 style={[styles.normalMiddleBtn,{flex:1}]}>
@@ -313,7 +326,7 @@ class BlueButtonSmall extends Component {
         return (
             <TouchableOpacity style={styles.normalSmallBtn}
                               onPress = { this.props.onPress }>
-                <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
+                <LinearGradient colors={['#66ceff', '#68ACFC', '#0094ff']}
                                 start={{x:0,y:1}}
                                 end={{x:1,y:1}}
                                 style={[styles.normalSmallBtn,{flex:1}]}>

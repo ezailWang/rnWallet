@@ -119,7 +119,7 @@ export default class ContactListScreen extends BaseComponent {
         }
         
     }
-
+    
     //自定义分割线
     _renderItemSeparatorComponent = () => (
         <View style={styles.itemSeparator}>

@@ -133,6 +133,7 @@
         "multi_language":"다국어",
 
         "make_sure_delete_contact":"연락처를 삭제 하시겠습니까?",
+        "no_contact":"아직 연락처를 추가하지 않았습니다.",
         "create_contact":"새 연락처",
         "name":"이름",
         "remarks":"비고 (선택 사항)",

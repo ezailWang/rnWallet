@@ -13,6 +13,7 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import HeadView from './component/HeadView'
+import { DrawerActions } from 'react-navigation'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
 import ImageButton from '../../components/ImageButton'
 import layoutConstants from '../../config/LayoutConstants';
@@ -241,6 +242,9 @@ class HomeScreen extends BaseComponent {
         this.setState({
             monetaryUnitSymbol : data.monetaryUnit.symbol
         })
+       // this.props.navigation.closeDrawer()
+       //this.props.navigation.dispatch(DrawerActions.closeDrawer())
+
     }
 
    
