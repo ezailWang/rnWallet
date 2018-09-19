@@ -226,11 +226,12 @@ class BlueButtonBig extends Component {
     };
     render() {
         return (
-            <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
+            //<TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
+            <TouchableOpacity style={[styles.normalBtn]}
                               activeOpacity={0.6}
                               disabled={this.props.isDisabled}
                               onPress = {this.props.onPress}>
-                    <LinearGradient colors={['#66ceff', '#68ACFC', '#0094ff']}
+                    <LinearGradient colors={this.props.isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#68ACFC', '#0094ff']}
                                 start={{x:0,y:1}}
                                 end={{x:1,y:1}}
                                 style={[styles.normalBtnGradient,{flex:1}]}>

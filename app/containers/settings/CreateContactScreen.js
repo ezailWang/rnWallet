@@ -143,7 +143,7 @@ export default class CreateContactScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} 
                                 text={I18n.t('settings.create_contact')}
                                 rightPress={() => this.scanClick()}
-                                rightIcon={require('../../assets/common/scanIcon.png')}/>
+                                rightIcon={require('../../assets/common/scanIcon.png')}/>             
                 <View style={styles.contentBox}>
                     <Text style={styles.text}>{I18n.t('settings.name')}</Text>
                     <CommonTextInput

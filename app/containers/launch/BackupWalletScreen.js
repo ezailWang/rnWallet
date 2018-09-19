@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         width:Layout.WINDOW_WIDTH*0.9-14,
         color:Colors.fontBlackColor,
         fontSize:14,
+        //lineHeight:16,
     },
     viewBottom:{
         flex:1,

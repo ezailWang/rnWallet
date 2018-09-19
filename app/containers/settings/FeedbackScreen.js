@@ -3,7 +3,7 @@ import {
     View,
     StyleSheet,
     Platform,
-    PermissionsAndroid,
+    TouchableOpacity,
     Text,
     Keyboard,
     KeyboardAvoidingView
@@ -63,10 +63,33 @@ export default class FeedbackScreen extends BaseComponent {
         this.name = '';
         this.email = '';
         this.description = '';
+        this.keyBoardIsShow = false;   
     }
 
     _initData() { 
 
+    }
+
+    _addEventListener(){
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
+    }
+
+    _removeEventListener(){
+        this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
+    }
+
+    keyboardDidShowHandler=(event)=>{
+        this.keyBoardIsShow = true;
+    }
+    keyboardDidHideHandler=(event)=>{
+        this.keyBoardIsShow = false;
+    }
+    hideKeyboard = () => {
+        if(this.keyBoardIsShow){
+            Keyboard.dismiss();
+        }
     }
 
     btnIsEnableClick(){
@@ -85,8 +108,6 @@ export default class FeedbackScreen extends BaseComponent {
         }
     }
     
-   
-
     nameOnChangeText = (text) => {
         this.name = text;
         this.btnIsEnableClick()
@@ -113,6 +134,7 @@ export default class FeedbackScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.feedback')}/>
+                <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>   
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'
                                          behavior="padding">
@@ -142,7 +164,8 @@ export default class FeedbackScreen extends BaseComponent {
                         text = {I18n.t('settings.submit')}
                     />   
                 </View>
-                </KeyboardAvoidingView>    
+                </KeyboardAvoidingView> 
+                </TouchableOpacity>   
             </View>    
         );
     }
