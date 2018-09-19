@@ -50,7 +50,7 @@ class AddAssets extends BaseComponent {
         })
     }
 
-    render() {
+    renderComponent() {
         return (
             <View
                 onStartShouldSetResponder={() => true}

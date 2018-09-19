@@ -48,16 +48,18 @@ class HomeScreen extends BaseComponent {
             monetaryUnitSymbol:'',//货币单位符号
         }
         this._setStatusBarStyleLight();
-        this.props.navigation.addListener('willBlur', () => {
-            this.setState({
-                statusbarStyle: 'dark-content'
-            })
-        })
-        this.props.navigation.addListener('willFocus', () => {
-            this.setState({
-                statusbarStyle: 'light-content'
-            })
-        })
+        // this.props.navigation.addListener('willBlur', () => {
+        //     console.log('willBlur')
+        //     this.setState({
+        //         statusbarStyle: 'dark-content'
+        //     })
+        // })
+        // this.props.navigation.addListener('willFocus', () => {
+        //     console.log('willFocus')
+        //     this.setState({
+        //         statusbarStyle: 'light-content'
+        //     })
+        // })
     }
 
     renderItem = (item) => (
