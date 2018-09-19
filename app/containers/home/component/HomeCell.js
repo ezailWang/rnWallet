@@ -44,7 +44,6 @@ class HomeCell extends Component {
     
     render() {
         const { symbol, balance, price } = this.props.item.item || {}
-        console.log('L_HomeCell',this.props)
         var imageSource = require('../../../assets/home/null.png')
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
             imageSource = tokeniCon[symbol]

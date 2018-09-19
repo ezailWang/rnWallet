@@ -81,10 +81,6 @@ import {
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
 import { BackButton, HeaderButton } from '../components/Button'
 import React from 'react';
-import { createDrawerNavigator } from 'react-navigation'
-import  DrawerComponent1 from '../containers/home/DrawerComponent1'
-import layoutConstants from '../config/LayoutConstants'
-
 
 //首次启动导航栈
 const FirstLaunchRouteConfig =
@@ -121,7 +117,7 @@ const FirstLaunchRouteConfig =
         screen: ImportWalletScreen,
     },
 
-   
+
 
     /**UserRegulation: {
         screen: UserRegulationScreen,
@@ -138,9 +134,9 @@ const FirstLaunchRouteConfig =
 }
 
 
-
-//主页侧滑
-const HomeDrawer = createDrawerNavigator({
+//主页导航栈
+const HomeRouteConfig =
+{
     HomeScreen: {
         screen: HomeScreen,
         navigationOptions: {
@@ -148,21 +144,8 @@ const HomeDrawer = createDrawerNavigator({
             //gesturesEnabled:false
         }
     },
-},
-    {
-        initialRouteName:'HomeScreen',
-        drawerPosition: 'right',
-        contentComponent: DrawerComponent1,
-        drawerWidth:layoutConstants.HOME_DRAWER_WIDTH
-    }
-)
-
-//主页导航栈
-const HomeRouteConfig =
-{
-    HomeScreen: HomeDrawer,
-    AddAssets:{
-        screen:AddAssets,
+    AddAssets: {
+        screen: AddAssets,
     },
     Set: {
         screen: SetScreen,
@@ -203,31 +186,31 @@ const HomeRouteConfig =
     ExportPrivateKey: {
         screen: ExportPrivateKeyScreen,
     },
-    ExportKeystore:{
-        screen:ExportKeystoreScreen,
+    ExportKeystore: {
+        screen: ExportKeystoreScreen,
     },
-    CreateContact:{
+    CreateContact: {
         screen: CreateContactScreen,
     },
-    ContactList:{
+    ContactList: {
         screen: ContactListScreen,
     },
-    ContactInfo:{
+    ContactInfo: {
         screen: ContactInfoScreen,
     },
-    AboutUs:{
-        screen:AboutUsScreen,
+    AboutUs: {
+        screen: AboutUsScreen,
     },
-    Feedback:{
-        screen:FeedbackScreen,
+    Feedback: {
+        screen: FeedbackScreen,
     },
-    ChoseLanguage:{
-        screen:ChoseLanguageScreen,
+    ChoseLanguage: {
+        screen: ChoseLanguageScreen,
     },
-    ChoseMonetaryUnit:{
-        screen:ChoseMonetaryUnitScreen,
+    ChoseMonetaryUnit: {
+        screen: ChoseMonetaryUnitScreen,
     },
-    SystemSet:{
+    SystemSet: {
         screen: SystemSetScreen,
     }
 };
@@ -247,5 +230,10 @@ const TestRouteConfig = {
     },
 }
 
-export { HomeRouteConfig, FirstLaunchRouteConfig, Loading, TestRouteConfig };
+export {
+    HomeRouteConfig,
+    FirstLaunchRouteConfig,
+    Loading,
+    TestRouteConfig
+};
 

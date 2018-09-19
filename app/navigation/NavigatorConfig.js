@@ -19,10 +19,11 @@
         headerPressColorAndroid：安卓独有的设置颜色纹理，需要安卓版本大于5.0
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
-import {StyleSheet} from 'react-native';
-import {Colors} from '../config/GlobalConfig';
+import { StyleSheet } from 'react-native';
+import { Colors } from '../config/GlobalConfig';
 import PropType from 'prop-types'
-
+import DrawerComponent from '../containers/home/DrawerComponent'
+import layoutConstants from '../config/LayoutConstants'
 
 
 const StackNavigationConfig = {
@@ -34,7 +35,7 @@ const StackNavigationConfig = {
 }
 
 const HomeStackNavigationConfig = {
-    
+
     initialRouteName: 'HomeScreen',
     headerMode: 'none',
     /**navigationOptions: ({ navigation }) => ({
@@ -55,15 +56,29 @@ const HomeStackNavigationConfig = {
 
 }
 
+const HomeDrawerConfig = {
+    initialRouteName: 'HomeNav',
+    drawerPosition: 'right',
+    contentComponent: DrawerComponent,
+    drawerWidth: layoutConstants.HOME_DRAWER_WIDTH
+
+}
+
 const FirstLaunchStackNavigationConfig = {
     initialRouteName: 'FirstLaunch',
     headerMode: 'none',
 }
 
 const TestStackNavigationConfig = {
-    initialRouteName:'NetworkTest'
+    initialRouteName: 'NetworkTest'
 }
 
-export {HomeStackNavigationConfig,FirstLaunchStackNavigationConfig,StackNavigationConfig,TestStackNavigationConfig}
+export {
+    HomeStackNavigationConfig,
+    FirstLaunchStackNavigationConfig,
+    StackNavigationConfig,
+    HomeDrawerConfig,
+    TestStackNavigationConfig
+}
 
 

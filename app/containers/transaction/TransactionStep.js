@@ -21,7 +21,7 @@ import { store } from '../../config/store/ConfigureStore'
 import { I18n } from '../../config/language/i18n'
 const ScreenWidth = Dimensions.get('window').width;
 const ScreenHeight = Dimensions.get('window').height;
-const StatusBarHeight =  StatusBar.currentHeight;
+const StatusBarHeight = StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
 
@@ -30,17 +30,17 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.blackOpacityColor,
         justifyContent: "flex-end"
     },
-    KeyboardContainer:{
-        marginTop:Platform.OS === 'android' ? ScreenHeight - 400 - StatusBarHeight : ScreenHeight - 400,
-        height:400,
+    KeyboardContainer: {
+        marginTop: Platform.OS === 'android' ? ScreenHeight - 400 - StatusBarHeight : ScreenHeight - 400,
+        height: 400,
         marginBottom: 0,
         marginRight: 0,
         marginLeft: 0,
     },
     scrollView: {
         flexDirection: "row",
-        flex:1,
-        height:400,
+        flex: 1,
+        height: 400,
     },
     leftContainer: {
         marginLeft: 0,
@@ -166,10 +166,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         paddingVertical: 0
     },
-    
+
 });
 
-let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice ,detailGas}) => (
+let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice, detailGas }) => (
     <View style={styles.leftInfoView}>
         <View style={styles.infoTextViewFirst}>
             <Text style={styles.infoTitle}>
@@ -192,24 +192,24 @@ let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice ,detailGas}
             deatilContent={gasPrice}>
         </InfoContentView> */}
         <View style={{ flex: 1 }}>
-        <View style={styles.lineView}>
-        </View>
-        <View style={styles.infoContent}>
-            <View style={styles.infoContentTitle}>
-                <Text style={[styles.infoTitle]}>
-                    {I18n.t('transaction.miner_cost')}
-                </Text>
+            <View style={styles.lineView}>
             </View>
-            <View style={styles.infoContentDetailView}>
-                <Text style={styles.infoContentDetailTitle}>
-                    {gasPrice}
-                </Text>
-                <Text style={[styles.infoContentDetailTitle,{color:Colors.fontDarkGrayColor}]}>
-                    {detailGas}
-                </Text>
+            <View style={styles.infoContent}>
+                <View style={styles.infoContentTitle}>
+                    <Text style={[styles.infoTitle]}>
+                        {I18n.t('transaction.miner_cost')}
+                    </Text>
+                </View>
+                <View style={styles.infoContentDetailView}>
+                    <Text style={styles.infoContentDetailTitle}>
+                        {gasPrice}
+                    </Text>
+                    <Text style={[styles.infoContentDetailTitle, { color: Colors.fontDarkGrayColor }]}>
+                        {detailGas}
+                    </Text>
+                </View>
             </View>
         </View>
-    </View>
     </View>
 );
 
@@ -248,7 +248,7 @@ export default class TransactionStep extends Component {
             toAddress: '0x',
             totalAmount: "0",
             payType: "",
-            gasPrice:'',
+            gasPrice: '',
             gasPriceInfo: "",
             password: ""
         };
@@ -257,27 +257,27 @@ export default class TransactionStep extends Component {
         this.passWordTextInputChanged = this.passWordTextInputChanged.bind(this)
     }
     // 加载完成
-    componentDidMount() {
-        //
-    }
+    // componentDidMount() {
+
+    // }
     // view卸载
-    componentWillUnmount() {
-        //
-    }
+    // componentWillUnmount() {
+
+    // }
 
     showStepView(params) {
 
         let isShow = this.state.show;
-        
+
         if (params) {
-            
+
             this.setState({
                 show: !isShow,
                 fromAddress: params.fromAddress,
                 toAddress: params.toAddress,
                 totalAmount: params.totalAmount,
                 payType: params.payType,
-                gasPrice:params.gasPrice,
+                gasPrice: params.gasPrice,
                 gasPriceInfo: params.gasPriceInfo
             })
         }
@@ -325,78 +325,78 @@ export default class TransactionStep extends Component {
                     console.log('安卓物理返回');
                 }}>
                 <View style={styles.container}>
-                <KeyboardAwareScrollView  
-                    style={styles.KeyboardContainer}
-                    keyboardShouldPersistTaps={'handled'}>
-                    <ScrollView 
-                        style={styles.scrollView}
-                        keyboardShouldPersistTaps={'handled'}
-                        horizontal={true}   //水平方向
-                        showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}
-                        scrollEnabled={false}
-                        bounces={false}
-                        ref={(scroll) => {
-                            this.scroll = scroll;
-                        }}
-                        behavior="padding">
-                        
-                        {/*步骤一 确认交易信息*/}
-                        <View style={styles.leftContainer}>
-                            <View style={styles.firstStepTitleView}>
-                                <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
-                                    <Image resizeMode={'center'}
-                                        source={require('../../assets/transfer/transfer_cancel.png')}
-                                        style={{ width: 15, height: 15 }}>
-                                    </Image>
-                                </TouchableOpacity>
-                                <Text style={styles.titleView}>
-                                    {I18n.t('transaction.payment_details')}
-                                </Text>
-                            </View>
-                            <View style={styles.costTextContainer}>
-                                <Text style={styles.costText}>
-                                    {this.state.totalAmount}
-                                </Text>
-                            </View>
-                            <InfoTextView
-                                transferType={this.state.payType}
-                                fromAddress={this.state.fromAddress}
-                                toAddress={this.state.toAddress}
-                                gasPrice={this.state.gasPrice}
-                                detailGas={this.state.gasPriceInfo}>
-                            </InfoTextView>
+                    <KeyboardAwareScrollView
+                        style={styles.KeyboardContainer}
+                        keyboardShouldPersistTaps={'handled'}>
+                        <ScrollView
+                            style={styles.scrollView}
+                            keyboardShouldPersistTaps={'handled'}
+                            horizontal={true}   //水平方向
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            scrollEnabled={false}
+                            bounces={false}
+                            ref={(scroll) => {
+                                this.scroll = scroll;
+                            }}
+                            behavior="padding">
 
-                            <TouchableOpacity style={styles.nextBtn} onPress={this.changeStepPage}>
-                                <Text style={styles.buttonTitle}>{I18n.t('transaction.next_step')}</Text>
-                            </TouchableOpacity>
-                        </View>
+                            {/*步骤一 确认交易信息*/}
+                            <View style={styles.leftContainer}>
+                                <View style={styles.firstStepTitleView}>
+                                    <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
+                                        <Image resizeMode={'center'}
+                                            source={require('../../assets/transfer/transfer_cancel.png')}
+                                            style={{ width: 15, height: 15 }}>
+                                        </Image>
+                                    </TouchableOpacity>
+                                    <Text style={styles.titleView}>
+                                        {I18n.t('transaction.payment_details')}
+                                    </Text>
+                                </View>
+                                <View style={styles.costTextContainer}>
+                                    <Text style={styles.costText}>
+                                        {this.state.totalAmount}
+                                    </Text>
+                                </View>
+                                <InfoTextView
+                                    transferType={this.state.payType}
+                                    fromAddress={this.state.fromAddress}
+                                    toAddress={this.state.toAddress}
+                                    gasPrice={this.state.gasPrice}
+                                    detailGas={this.state.gasPriceInfo}>
+                                </InfoTextView>
 
-                        {/*步骤二 ，输入密码*/}
-                        <View style={styles.rightContainer}>
-                            <View style={[styles.firstStepTitleView, { borderBottomWidth: 0 }]}>
-                                <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
-                                    <Image resizeMode={'center'}
-                                        source={require('../../assets/common/common_back.png')}
-                                        style={{height: 20,width:20, }}>
-                                    </Image>
+                                <TouchableOpacity style={styles.nextBtn} onPress={this.changeStepPage}>
+                                    <Text style={styles.buttonTitle}>{I18n.t('transaction.next_step')}</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.titleView}>
-                                    {I18n.t('transaction.wallet_password')}
-                                </Text>
                             </View>
-                            <View style={styles.passwordFrameView}>
-                                <TextInput style={styles.passwordView}
-                                    placeholder={I18n.t('transaction.enter_password_hint')}
-                                    returnKeyType={"done"}
-                                    secureTextEntry={true}
-                                    onChangeText={this.passWordTextInputChanged}
-                                    ref={(textinput) => {
-                                        this.INPUT = textinput;
-                                    }}>
-                                </TextInput>
-                            </View>
-                            {/* <Text
+
+                            {/*步骤二 ，输入密码*/}
+                            <View style={styles.rightContainer}>
+                                <View style={[styles.firstStepTitleView, { borderBottomWidth: 0 }]}>
+                                    <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
+                                        <Image resizeMode={'center'}
+                                            source={require('../../assets/common/common_back.png')}
+                                            style={{ height: 20, width: 20, }}>
+                                        </Image>
+                                    </TouchableOpacity>
+                                    <Text style={styles.titleView}>
+                                        {I18n.t('transaction.wallet_password')}
+                                    </Text>
+                                </View>
+                                <View style={styles.passwordFrameView}>
+                                    <TextInput style={styles.passwordView}
+                                        placeholder={I18n.t('transaction.enter_password_hint')}
+                                        returnKeyType={"done"}
+                                        secureTextEntry={true}
+                                        onChangeText={this.passWordTextInputChanged}
+                                        ref={(textinput) => {
+                                            this.INPUT = textinput;
+                                        }}>
+                                    </TextInput>
+                                </View>
+                                {/* <Text
                                 style={{
                                     fontSize: 13,
                                     paddingLeft: 25,
@@ -405,16 +405,16 @@ export default class TransactionStep extends Component {
                                     color:Colors.fontGrayColor_a0
                                 }}
                             >密码提示: {walletPasswordPrompt}</Text> */}
-                            <TouchableOpacity style={styles.nextBtn} onPress={() => {
-                                let password = this.state.password;
-                                // console.warn(password);
-                                this.showStepView();
-                                this.props.didTapSurePasswordBtn(password);
-                            }}>
-                                <Text style={styles.buttonTitle}>{I18n.t('transaction.determine')}</Text>
-                            </TouchableOpacity>
-                        </View>    
-                    </ScrollView>
+                                <TouchableOpacity style={styles.nextBtn} onPress={() => {
+                                    let password = this.state.password;
+                                    // console.warn(password);
+                                    this.showStepView();
+                                    this.props.didTapSurePasswordBtn(password);
+                                }}>
+                                    <Text style={styles.buttonTitle}>{I18n.t('transaction.determine')}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </ScrollView>
                     </KeyboardAwareScrollView>
                 </View>
             </Modal>

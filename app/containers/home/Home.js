@@ -11,9 +11,9 @@ import {
     Image,
     Text,
     TouchableOpacity,
+    DeviceEventEmitter
 } from 'react-native'
 import HeadView from './component/HeadView'
-import { DrawerActions } from 'react-navigation'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
 import ImageButton from '../../components/ImageButton'
 import layoutConstants from '../../config/LayoutConstants';
@@ -22,7 +22,7 @@ import AddToken from './AddToken'
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setTransactionRecoders, setCoinBalance, setNetWork, removeToken} from '../../config/action/Actions'
+import { addToken, setTransactionRecoders, setCoinBalance, setNetWork, removeToken } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -46,28 +46,21 @@ class HomeScreen extends BaseComponent {
             scroollY: new Animated.Value(0),
             statusbarStyle: 'light-content',
             isTotalAssetsHidden: false,
-            monetaryUnitSymbol:'',//货币单位符号
+            monetaryUnitSymbol: '',//货币单位符号
         }
-        this._setStatusBarStyleLight();
 
         this.props.navigation.addListener('willFocus', () => {
             this.setState({
                 statusbarStyle: 'light-content'
             })
         })
-        // this.props.navigation.addListener('willFocus', () => {
-        //     console.log('willFocus')
-        //     this.setState({
-        //         statusbarStyle: 'light-content'
-        //     })
-        // })
     }
 
     renderItem = (item) => (
         <HomeCell
             item={item}
             onClick={this.onClickCell.bind(this, item)}
-            monetaryUnitSymbol = {this.state.monetaryUnitSymbol}
+            monetaryUnitSymbol={this.state.monetaryUnitSymbol}
         />
     )
 
@@ -176,9 +169,9 @@ class HomeScreen extends BaseComponent {
         SplashScreen.hide()
         this._showLoding()
         this.setState({
-            monetaryUnitSymbol : this.props.monetaryUnit.symbol
+            monetaryUnitSymbol: this.props.monetaryUnit.symbol
         })
-        
+
         var localUser = await StorageManage.load(StorageKey.User)
         if (localUser && localUser['isTotalAssetsHidden']) {
             this.setState({
@@ -223,17 +216,14 @@ class HomeScreen extends BaseComponent {
         StorageManage.save(StorageKey.User, localUser)
     }
 
-     _monetaryUnitChange = async (data)=>{
+    _monetaryUnitChange = async (data) => {
         await networkManage.loadTokenList()
         this.setState({
-            monetaryUnitSymbol : data.monetaryUnit.symbol
+            monetaryUnitSymbol: data.monetaryUnit.symbol
         })
-       // this.props.navigation.closeDrawer()
-       //this.props.navigation.dispatch(DrawerActions.closeDrawer())
-
     }
 
-   
+
 
     renderComponent() {
         const headerHeight = this.state.scroollY.interpolate({
@@ -251,7 +241,7 @@ class HomeScreen extends BaseComponent {
             outputRange: [0, 1],
             extrapolate: 'clamp'
         })
-       
+
 
         return (
             <View style={styles.container}>
@@ -261,7 +251,7 @@ class HomeScreen extends BaseComponent {
                     top: 0,
                     left: 0,
                     right: 0,
-                    backgroundColor:'lightskyblue',
+                    backgroundColor: 'lightskyblue',
                     height: headerHeight,
                     zIndex: headerZindex,
                 }}>
@@ -392,7 +382,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     setNetWork: (network) => dispatch(setNetWork(network)),
     removeToken: (token) => dispatch(removeToken(token)),
-    setTotalAssets : (totalAssets) => dispatch(setTotalAssets(totalAssets)),
+    setTotalAssets: (totalAssets) => dispatch(setTotalAssets(totalAssets)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

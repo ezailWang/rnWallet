@@ -1,120 +1,126 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity,BackHandler} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, Alert, ScrollView, TouchableOpacity, BackHandler, DeviceEventEmitter } from 'react-native';
 
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
-import {NextButton} from '../../components/Button';
+import { NextButton } from '../../components/Button';
 import InputTextDialog from '../../components/InputTextDialog';
 import InputPasswordDialog from '../../components/InputPasswordDialog';
-import {Colors,FontSize,StorageKey}from '../../config/GlobalConfig'
+import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig'
 import * as Actions from '../../config/action/Actions';
-import {showToast} from '../../utils/Toast';
-import {WhiteBgHeader} from '../../components/NavigaionHeader';
+import { showToast } from '../../utils/Toast';
+import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        alignItems:'center',
-        backgroundColor:Colors.bgGrayColor,
-        paddingBottom:20,
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: Colors.bgGrayColor,
+        paddingBottom: 20,
     },
-    btnOpacity:{
-        flexDirection:'row',
-        height:56,
-        alignSelf:'stretch',
-        alignItems:'center',
-        backgroundColor:'#fff',
-        marginTop:1,
-        paddingLeft:20,
-        paddingRight:20,
+    btnOpacity: {
+        flexDirection: 'row',
+        height: 56,
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        marginTop: 1,
+        paddingLeft: 20,
+        paddingRight: 20,
     },
-    btnTxt:{
-        flex:1,
+    btnTxt: {
+        flex: 1,
         backgroundColor: 'transparent',
-        color:Colors.fontBlackColor_43,
-        fontSize:FontSize.TitleSize,
-        height:56,
-        lineHeight:56,
-        textAlign:'left',
+        color: Colors.fontBlackColor_43,
+        fontSize: FontSize.TitleSize,
+        height: 56,
+        lineHeight: 56,
+        textAlign: 'left',
     },
-    headIcon:{
-        height:36,
-        width:36,
+    headIcon: {
+        height: 36,
+        width: 36,
     },
-    walletName:{
-        fontSize:FontSize.DetailTitleSize,
-        color:Colors.fontGrayColor_a1
+    walletName: {
+        fontSize: FontSize.DetailTitleSize,
+        color: Colors.fontGrayColor_a1
     },
-    buttonBox:{
-        marginTop:1,
-        justifyContent:'flex-end',
-        alignSelf:'stretch',
+    buttonBox: {
+        marginTop: 1,
+        justifyContent: 'flex-end',
+        alignSelf: 'stretch',
     },
-    marginBottom20:{
-        marginBottom:20,
+    marginBottom20: {
+        marginBottom: 20,
     }
-    
+
 })
 
 class SetScreen extends BaseComponent {
-  
-    constructor(props){
+
+    constructor(props) {
         super(props);
         this.state = {
-            nameModalVisible : false,
-            passwordModalVisible : false,
+            nameModalVisible: false,
+            passwordModalVisible: false,
         }
+    }
+
+    componentDidMount() {
+        super.componentDidMount()
+        console.log('set componentDidMount')
+        DeviceEventEmitter.emit('closeDrawer')
     }
 
     openNameModal() {
         this.setState({nameModalVisible: true});
     }
-  
+
     openPasswordModal() {
-        this.setState({passwordModalVisible: true});
+        this.setState({ passwordModalVisible: true });
     }
-    closeNameModal(){
-        this.setState({nameModalVisible: false});
+    closeNameModal() {
+        this.setState({ nameModalVisible: false });
     }
-    closePasswordModal(){
-        this.setState({passwordModalVisible: false});
+    closePasswordModal() {
+        this.setState({ passwordModalVisible: false });
     }
 
-    nameConfirmClick(){
+    nameConfirmClick() {
         var name = this.refs.inputTextDialog.state.text;
         this.closeNameModal()
-        if(name == '' || name == undefined){
+        if (name == '' || name == undefined) {
             showToast(I18n.t('toast.enter_wallet_name'))
-        }else if(name == this.props.walletName){
+        } else if (name == this.props.walletName) {
             showToast(I18n.t('toast.not_modified_wallet_name'))
-        }else{
+        } else {
             this.modifyWalletName(name);
         }
     }
 
-    passwordConfirmClick(){
+    passwordConfirmClick() {
         var password = this.refs.inputPasswordDialog.state.text;
         this.closePasswordModal();
-        if(password == '' || password == undefined){
+        if (password == '' || password == undefined) {
             showToast(I18n.t('toast.enter_password'))
-        }else{
+        } else {
             this._showLoding()
             this.exportKeyPrivate(password);
         }
     }
-    async  modifyWalletName(name){
-       // var name = this.refs.inputTextDialog.state.text;
+    async  modifyWalletName(name) {
+        // var name = this.refs.inputTextDialog.state.text;
         var key = StorageKey.User;
-        
+
         var loadUser = await StorageManage.load(key);
-        if(loadUser == null){
+        if (loadUser == null) {
             loadUser = {
                 name: name,
             }
-        }else{
+        } else {
             loadUser.name = name;//修改name值
         }
         StorageManage.save(key, loadUser)
@@ -125,89 +131,89 @@ class SetScreen extends BaseComponent {
     }
 
 
-    async exportKeyPrivate(password){
+    async exportKeyPrivate(password) {
         var privateKey = await keystoreUtils.getPrivateKey(password)
         this._hideLoading();//关闭Loading
-        if(privateKey == null){
+        if (privateKey == null) {
             alert(I18n.t('modal.export_private_key_error'));
-        }else{
-            this.props.navigation.navigate('ExportPrivateKey',{privateKey: privateKey})
+        } else {
+            this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
         }
     }
 
-    async exportKeystore(){
+    async exportKeystore() {
         //this.showLoading();
-        try{ 
+        try {
             var address = this.props.walletAddress;
             var keystore = await keystoreUtils.importFromFile(address)
-            this.props.navigation.navigate('ExportKeystore',{keystore: keystore});
-        }catch (err) {
-          alert(I18n.t('modal.password_error'));
-          console.log('exportKeystoreErr:', err)
+            this.props.navigation.navigate('ExportKeystore', { keystore: keystore });
+        } catch (err) {
+            alert(I18n.t('modal.password_error'));
+            console.log('exportKeystoreErr:', err)
         }
     }
 
-    async exportWallet(){
-         var key = 'uesr'
-         var user = await StorageManage.load(key);
-         var str = await keystoreUtils.importFromFile(user.address)
-         var newKeyObject = JSON.parse(str)
+    async exportWallet() {
+        var key = 'uesr'
+        var user = await StorageManage.load(key);
+        var str = await keystoreUtils.importFromFile(user.address)
+        var newKeyObject = JSON.parse(str)
     }
 
-   
-   
-    
+
+
+
     renderComponent() {
         return (
             <View style={styles.container}>
-                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.set')}/>
+                <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.set')} />
                 <InputTextDialog
-                    ref = "inputTextDialog"
-                    placeholder = {I18n.t('settings.enter_wallet_name_hint')}
-                    leftTxt = {I18n.t('modal.cancel')}
-                    rightTxt = {I18n.t('modal.confirm')}
-                    leftPress = {()=> this.closeNameModal()}
-                    rightPress = {()=> this.nameConfirmClick()}
-                    modalVisible = {this.state.nameModalVisible}
-                    defaultValue = {this.props.walletName}
+                    ref="inputTextDialog"
+                    placeholder={I18n.t('settings.enter_wallet_name_hint')}
+                    leftTxt={I18n.t('modal.cancel')}
+                    rightTxt={I18n.t('modal.confirm')}
+                    leftPress={() => this.closeNameModal()}
+                    rightPress={() => this.nameConfirmClick()}
+                    modalVisible={this.state.nameModalVisible}
+                    defaultValue={this.props.walletName}
                 />
                 <InputPasswordDialog
-                    ref = "inputPasswordDialog"
-                    placeholder = {I18n.t('settings.enter_passowrd_hint')}
-                    leftTxt = {I18n.t('modal.cancel')}
-                    rightTxt = {I18n.t('modal.confirm')}
-                    leftPress = {()=> this.closePasswordModal()}
-                    rightPress = {()=> this.passwordConfirmClick()}
-                    modalVisible = {this.state.passwordModalVisible}
-                />    
-                <TouchableOpacity style={[styles.btnOpacity]} 
-                                  activeOpacity={0.6} 
-                                  onPress={()=> this.openNameModal()}>
+                    ref="inputPasswordDialog"
+                    placeholder={I18n.t('settings.enter_passowrd_hint')}
+                    leftTxt={I18n.t('modal.cancel')}
+                    rightTxt={I18n.t('modal.confirm')}
+                    leftPress={() => this.closePasswordModal()}
+                    rightPress={() => this.passwordConfirmClick()}
+                    modalVisible={this.state.passwordModalVisible}
+                />
+                <TouchableOpacity style={[styles.btnOpacity]}
+                    activeOpacity={0.6}
+                    onPress={() => this.openNameModal()}>
                     <Text style={styles.btnTxt}>{I18n.t('settings.modify_wallet_name')}</Text>
                     <Text style={styles.walletName}>{this.props.walletName}</Text>
-                </TouchableOpacity> 
-                
-                
-                
+                </TouchableOpacity>
+
+
+
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.exportKeystore()}
-                        text = {I18n.t('settings.export_keystore')}
+                        onPress={() => this.exportKeystore()}
+                        text={I18n.t('settings.export_keystore')}
                     />
-                </View> 
+                </View>
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress = {()=> this.openPasswordModal()}
-                        text = {I18n.t('settings.export_private_key')}
+                        onPress={() => this.openPasswordModal()}
+                        text={I18n.t('settings.export_private_key')}
                     />
-                </View> 
+                </View>
             </View>
         );
     }
 }
 const mapStateToProps = state => ({
-    walletName:state.Core.walletName,
-    walletAddress:state.Core.walletAddress,
+    walletName: state.Core.walletName,
+    walletAddress: state.Core.walletAddress,
 });
 const mapDispatchToProps = dispatch => ({
     modifyWalletName: (walletName) => dispatch(Actions.setWalletName(walletName)),

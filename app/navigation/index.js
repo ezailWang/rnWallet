@@ -1,7 +1,8 @@
 
 import {
     createStackNavigator,
-    createSwitchNavigator
+    createSwitchNavigator,
+    createDrawerNavigator
 } from 'react-navigation'
 import { Provider, connect } from 'react-redux';
 import {
@@ -13,7 +14,8 @@ import {
 import {
     HomeStackNavigationConfig,
     FirstLaunchStackNavigationConfig,
-    TestStackNavigationConfig
+    TestStackNavigationConfig,
+    HomeDrawerConfig
 } from './NavigatorConfig'
 import {
     BackHandler
@@ -52,19 +54,26 @@ HomeNavigation.router.getStateForAction = (action,state)=>{
     return homeGetStateForAction(action,state);
 }**/
 
+//首页侧滑导航
+const HomeDrawer = createDrawerNavigator({
+    HomeNav: {
+        screen: HomeNavigation
+    }
+}, HomeDrawerConfig)
+
 //测试导航栈
-const TestNavigation = createStackNavigator(TestRouteConfig,TestStackNavigationConfig)
+const TestNavigation = createStackNavigator(TestRouteConfig, TestStackNavigationConfig)
 
 //导航栈选择
 const SwicthNavigation = createSwitchNavigator({
     Apploading: Loading,
-    Home: HomeNavigation,
+    Home: HomeDrawer,
     FirstLaunch: FirstLaunchNavigation,
-    Test:TestNavigation,
+    Test: TestNavigation,
 }, {
-    initialRouteName: 'Apploading',
-    backBehavior:'none',
-})
+        initialRouteName: 'Apploading',
+        backBehavior: 'none',
+    })
 
 
 export default SwicthNavigation

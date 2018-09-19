@@ -14,6 +14,8 @@ import { I18n } from '../../config/language/i18n';
 import { BlurView } from 'react-native-blur';
 import layoutConstants from '../../config/LayoutConstants';
 let lastBackPressed = 0;
+
+//所有基层该组件的组件，重写该组件方法请先运行super.funcName()
 export default class BaseComponent extends PureComponent {
 
     constructor(props) {
