@@ -49,12 +49,12 @@ class HomeScreen extends BaseComponent {
             monetaryUnitSymbol:'',//货币单位符号
         }
         this._setStatusBarStyleLight();
-        // this.props.navigation.addListener('willBlur', () => {
-        //     console.log('willBlur')
-        //     this.setState({
-        //         statusbarStyle: 'dark-content'
-        //     })
-        // })
+
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({
+                statusbarStyle: 'light-content'
+            })
+        })
         // this.props.navigation.addListener('willFocus', () => {
         //     console.log('willFocus')
         //     this.setState({
@@ -95,44 +95,26 @@ class HomeScreen extends BaseComponent {
 
     onClickCell = async (item) => {
 
-        //获取记录
-        // this._showLoding()
-        // const { walletAddress } = store.getState().Core
-        // let arr = await networkManage.getTransations(item.item);
-        // store.dispatch(setTransactionRecoders(arr));
-
-        //获取余额信息
-
-        let { contractAddress, symbol, decimals, price } = item.item;
-
-        // let balanceAmount = '';
-        // let ethBalance = '0';
-
-        // if (symbol != 'ETH') {
-        //     balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals);
-        //     ethBalance = await networkManage.getEthBalance();
-        // }
-        // else {
-        //     balanceAmount = await networkManage.getEthBalance();
-        //     ethBalance = balanceAmount;
-        // }
+        let { contractAddress, symbol, decimals, price,balance } = item.item;
 
         let balanceInfo = {
-            // amount: balanceAmount,
-            // price: price,
-            transferType: symbol,
-            contractAddress: contractAddress,
-            decimals: decimals,
-            // ethBalance: ethBalance
+            amount:balance,
+            price:price,
+            symbol:symbol,
+            contractAddress:contractAddress,
+            decimals:decimals
         }
-        // let {contractAddress,transferType,decimals} = store.getState().Core.balance;
-
-        // this._hideLoading()
+        
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
     }
 
     pushAddtoken = () => {
+
+        this.setState({
+            statusbarStyle: 'dark-content'
+        })
+
         this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
                 this._showLoding()
@@ -160,6 +142,10 @@ class HomeScreen extends BaseComponent {
     }
 
     showDrawer = () => {
+
+        this.setState({
+            statusbarStyle: 'dark-content'
+        })
         this.props.navigation.openDrawer()
     }
 
@@ -331,6 +317,11 @@ class HomeScreen extends BaseComponent {
                                 this.pushAddtoken()
                             }}
                             onQRCode={() => {
+
+                                this.setState({
+                                    statusbarStyle: 'dark-content'
+                                })
+
                                 this.props.navigation.navigate('ReceiptCode');
                             }}
                             onHideAssets={() => {

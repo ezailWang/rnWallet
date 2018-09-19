@@ -129,7 +129,7 @@ export default class ContactListScreen extends BaseComponent {
     //空布局
     _renderEmptyView = () => (
         <View style={styles.emptyListContainer}>
-            <Text style={styles.emptyListText}>您还未添加联系人</Text>
+            <Text style={styles.emptyListText}>{I18n.t('settings.no_contact')}</Text>
         </View>
     )
 
@@ -158,7 +158,7 @@ export default class ContactListScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} 
                                 text={I18n.t('settings.address_book')}
                                 rightPress={() => this.addContact()}
-                                rightIcon={require('../../assets/common/scanIcon.png')}/>
+                                rightIcon={require('../../assets/set/add.png')}/>
                 <FlatList
                     style = {styles.listContainer}
                     ref = {ref=>this.flatList = ref}

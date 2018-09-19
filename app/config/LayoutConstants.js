@@ -41,10 +41,14 @@ const layoutConstants = {
 
     DEFAULT_IAMGE: require('../assets/home/null.png'),
 
-    HOME_HEADER_MIN_HEIGHT: 70,
+    HOME_HEADER_MIN_HEIGHT: getNavigationHeight(),
     HOME_HEADER_MAX_HEIGHT: 260,
     HOME_HEADER_LADDER_HEIGHT: 80,
     HOME_HEADER_CONTENT_HEIGHT: 320,
+
+    //交易记录页面
+    TRANSFER_HEADER_MIN_HEIGHT: getNavigationHeight(),
+    TRANSFER_HEADER_MAX_HEIGHT: width * 0.58,
 
     HOME_DRAWER_WIDTH:255,
     

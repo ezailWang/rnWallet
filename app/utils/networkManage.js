@@ -116,6 +116,7 @@ export default class networkManage {
                 timeStamp: t.timeStamp,
                 hash: t.hash,
                 value: web3.utils.fromWei(t.value, 'ether'),
+                isError:t.isError,
                 gasPrice: t.gasPrice,
                 blockNumber: t.blockNumber
             }))
@@ -147,7 +148,8 @@ export default class networkManage {
                 hash: t.hash,
                 value: web3.utils.fromWei(t.value, 'ether'),
                 gasPrice: t.gasPrice,
-                blockNumber: t.blockNumber
+                blockNumber: t.blockNumber,
+                isError:t.isError,
             }))
         } catch (err) {
             console.log('getERC20Transations err:', err)
@@ -230,6 +232,11 @@ export default class networkManage {
             console.log('sendERC20Transaction err:', err)
             return null
         }
+    }
+
+    static async getCurrentBlockNumber() {
+        const web3 = this.getWeb3Instance();
+        return await web3.eth.getBlockNumber();
     }
 
     static isValidAddress(address) {

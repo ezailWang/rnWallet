@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Image, Text, TextInput,TouchableOpacity ,Dimensions,Animated,Keyboard,KeyboardAvoidingView} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput,TouchableOpacity ,Dimensions,Keyboard,KeyboardAvoidingView} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import PropTypes from 'prop-types'
@@ -137,6 +137,8 @@ class CreateWalletScreen extends BaseComponent {
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
+
+        console.log('L_routeName1',this.props.navigation.state.routeName)
     }
     _addEventListener(){
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);

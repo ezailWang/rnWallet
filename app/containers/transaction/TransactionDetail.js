@@ -7,7 +7,7 @@ import { Colors } from '../../config/GlobalConfig';
 import { store } from '../../config/store/ConfigureStore'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
-import BaseComponent from '../base/BaseComponent';
+import BaseComponent from '../base/BaseComponent'; 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     countBox: {
         flexDirection: 'row',
         marginTop: 20,
-        marginBottom: 60,
+        marginBottom: Layout.WINDOW_WIDTH * 0.15,
         //alignItems:'flex-end',
         justifyContent: 'center'
     },
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: 60,
-        paddingBottom: 50,
+        paddingTop: Layout.WINDOW_WIDTH * 0.15,
+        paddingBottom: Layout.WINDOW_WIDTH * 0.1,
     },
     statusIcon: {
         position: 'absolute',
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         marginTop: 2
     },
     marginTop10: {
-        marginTop: 10,
+        marginTop: Layout.WINDOW_WIDTH * 0.02,
     },
     bottomBox: {
         flexDirection: 'row',
@@ -185,7 +185,7 @@ export default class TransactionDetail extends BaseComponent {
                                 <Text style={[styles.fontGray, styles.marginTop10]}>{I18n.t('transaction.transaction_time')}</Text>
                                 <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.transactionTime}</Text>
                             </View>
-                            <View style={[styles.qrCodeBox, { marginTop: 2 }]}>
+                            <View style={[styles.qrCodeBox, { marginTop: 6 }]}>
                                 <QRCode
                                     value={this.state.transactionHash}
                                     size={80}
