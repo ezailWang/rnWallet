@@ -69,12 +69,6 @@ class SetScreen extends BaseComponent {
         }
     }
 
-    componentDidMount() {
-        super.componentDidMount()
-        console.log('set componentDidMount')
-        DeviceEventEmitter.emit('closeDrawer')
-    }
-
     openNameModal() {
         this.setState({nameModalVisible: true});
     }

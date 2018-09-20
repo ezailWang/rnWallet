@@ -9,14 +9,14 @@ import PropTypes from 'prop-types';
 import BaseComponent from '../base/BaseComponent'
 
 class DrawerComponent extends BaseComponent {
-    constructor(props){
+    constructor(props) {
         super(props)
         this._setStatusBarStyleLight();
     }
-    navigateToScreen = (route,params) => () => {
+    navigateToScreen = (route, params) => () => {
         const navigateAction = NavigationActions.navigate({
             routeName: route,
-            params:params
+            params: params
         });
         this.props.navigation.dispatch(navigateAction);
         this.props.navigation.dispatch(DrawerActions.closeDrawer())
@@ -36,7 +36,7 @@ class DrawerComponent extends BaseComponent {
                         imageSource={require('../../assets/home/menu/menu_tool.png')}
                     />
                     <DrawerCell
-                        onClick={this.navigateToScreen('ContactList',{from:'home'})}
+                        onClick={this.navigateToScreen('ContactList', { from: 'home' })}
                         text={I18n.t('home.contact')}
                         imageSource={require('../../assets/home/menu/menu_contact.png')}
                     />

@@ -54,6 +54,17 @@ HomeNavigation.router.getStateForAction = (action,state)=>{
     return homeGetStateForAction(action,state);
 }**/
 
+//隐藏二级页面的侧滑菜单
+HomeNavigation.navigationOptions = ({ navigation }) => {
+    let drawerLockMode = 'unlocked';
+    if (navigation.state.index > 0) {
+      drawerLockMode = 'locked-closed';
+    }
+    return {
+      drawerLockMode,
+    };
+  };
+
 //首页侧滑导航
 const HomeDrawer = createDrawerNavigator({
     HomeNav: {
