@@ -635,11 +635,11 @@ export default class TransactionRecoder extends BaseComponent{
                             >
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView,btnShadowStyle]}>
-                    <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height,backgroundColor:"red"}} onPress={this.didTapTransactionButton}>
+                    <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapTransactionButton}>
                         <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>转账</Text>
                     </TouchableOpacity> 
-                    <View style={{width:50,marginTop:5,marginBottom:5,backgroundColor:Colors.fontBlackColor}} /> 
-                    <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height,backgroundColor:"green"}} onPress={this.didTapShowQrCodeButton}>
+                    <View style={{width:50,height:bottomView.height-10,backgroundColor:Colors.fontBlackColor}} /> 
+                    <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapShowQrCodeButton}>
                         <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>收款</Text>
                     </TouchableOpacity>  
                     {/* <WhiteButtonMiddle  onPress={this.didTapTransactionButton}
