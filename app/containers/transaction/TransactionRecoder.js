@@ -124,6 +124,15 @@ const styles = StyleSheet.create({
         marginRight:10,
         height:25,
         // backgroundColor:"green",
+    },
+    backImage:{
+        position: 'relative',
+        width:25,
+        height:25,
+        left:30,
+        top:Layout.DEVICE_IS_IPHONE_X() ? 48 : 24,
+        zIndex: 10,
+        //justifyContent:'center'
     }
 });
 
@@ -505,30 +514,23 @@ export default class TransactionRecoder extends BaseComponent{
             <View style={styles.container}>
             <StatusBarComponent barStyle={'light-content'} />
             {/* <BackWhiteButton style={{position: 'absolute',left:20,top:10}} onPress={() => {this.props.navigation.goBack()}}/> */}
+            
             <Animated.View style={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
-                    backgroundColor: 'lightskyblue',
+                    //backgroundColor: 'lightskyblue',
                     height: headerHeight,
                     zIndex: headerZindex,
+                    
                 }}>
                     <Image
-                        style={{ flex: 1, width: Layout.WINDOW_WIDTH }}
+                        style={{ flex: 1, width: Layout.WINDOW_WIDTH}}
                         source={require('../../assets/home/hp_bg.png')}
                         
                     />
-                    <TouchView style={{position: 'absolute',width:20,height:20,left:30,top:20,backgroundColor:'red'}}
-                               onPress={()=>{
-                                   this.props.navigation.goBack()
-                                }}>
-                                <Image 
-                                    style={{marginTop:0}}
-                                    source={require('../../assets/common/common_back_white.png')}
-                                    resizeMode={'center'}
-                                />
-                    </TouchView>
+                   
                     {/* <AnimatedBackButton
                         style={{
                             position: 'absolute',
@@ -548,7 +550,7 @@ export default class TransactionRecoder extends BaseComponent{
                             opacity: titleTextOpacity,
                             fontSize: 20,
                             textAlign:'center',
-                            fontWeight:"500"
+                            fontWeight:"500",
                         }}
                     >{symbol}</Animated.Text>
                     <Animated.Image
@@ -572,20 +574,7 @@ export default class TransactionRecoder extends BaseComponent{
                             opacity: headerTextOpacity,
                             fontSize: 17,
                             textAlign:'center',
-                            fontWeight:"500"
-                        }}
-                    >{symbol}</Animated.Text>
-                    <Animated.Text
-                        style={{
-                            position: 'absolute',
-                            left: 60,
-                            height:30,
-                            bottom: 55,
-                            color: 'white',
-                            opacity: headerTextOpacity,
-                            fontSize: 17,
-                            textAlign:'center',
-                            fontWeight:"500"
+                            fontWeight:"500",
                         }}
                     >{symbol}</Animated.Text>
                     <Animated.Text
@@ -598,7 +587,7 @@ export default class TransactionRecoder extends BaseComponent{
                             opacity: headerTextOpacity,
                             fontSize: 35,
                             textAlign:'right',
-                            fontWeight:"700"
+                            fontWeight:"700",
                         }}
                     >{this.state.balance}</Animated.Text> 
                     <Animated.Text
@@ -611,11 +600,25 @@ export default class TransactionRecoder extends BaseComponent{
                             opacity: headerTextOpacity,
                             fontSize: 15,
                             textAlign:'right',
-                            fontWeight:"500"
+                            fontWeight:"500",
                         }}
-                    >{priceStr}</Animated.Text>            
+                    >{priceStr}</Animated.Text>    
+
+                           
                 </Animated.View>
-                <FlatList   style={styles.flatList}
+                
+                <TouchableOpacity style={styles.backImage}
+                               onPress={()=>{
+                                   this.props.navigation.goBack()
+                                }}>
+                                <Image 
+                                    style={{marginTop:0}}
+                                    source={require('../../assets/common/common_back_white.png')}
+                                    resizeMode={'center'}
+                                />
+                 </TouchableOpacity> 
+            
+                <FlatList   style={[styles.flatList]}
                             ListHeaderComponent={<Header balance={parseFloat(amount).toFixed(4)}
                                                          value={value} 
                                                          style={{height:headerHeight}}/>}

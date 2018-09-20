@@ -112,7 +112,7 @@ export default class ScreenshotWarn extends Component{
                      <Text style={styles.contentTxt}>{this.props.content}</Text>
                      <Text style={styles.contentTxt}>{this.props.content1}</Text>
                      <TouchableOpacity style={styles.btnOpacity} activeOpacity={0.6} onPress = {this.props.onPress}>
-                            <LinearGradient colors={['#ff3455', '#d01f3e', '#e90329']}
+                            <LinearGradient colors={['#ff3455', '#e90329']}
                                 start={{x:0,y:0}}
                                 end={{x:0,y:1}}
                                 style={[styles.linearGradient]}>

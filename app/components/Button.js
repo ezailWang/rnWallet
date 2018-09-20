@@ -231,7 +231,7 @@ class BlueButtonBig extends Component {
                               activeOpacity={0.6}
                               disabled={this.props.isDisabled}
                               onPress = {this.props.onPress}>
-                    <LinearGradient colors={this.props.isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#68ACFC', '#0094ff']}
+                    <LinearGradient colors={this.props.isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#0094ff']}
                                 start={{x:0,y:1}}
                                 end={{x:1,y:1}}
                                 style={[styles.normalBtnGradient,{flex:1}]}>
@@ -287,7 +287,7 @@ class BlueButtonMiddle extends Component {
         return (
             <TouchableOpacity style={styles.normalMiddleBtn}
                               onPress = { this.props.onPress }>
-                <LinearGradient colors={['#66ceff', '#68ACFC', '#0094ff']}
+                <LinearGradient colors={['#66ceff', '#0094ff']}
                                 start={{x:0,y:1}}
                                 end={{x:1,y:1}}
                                 style={[styles.normalMiddleBtn,{flex:1}]}>
@@ -327,7 +327,7 @@ class BlueButtonSmall extends Component {
         return (
             <TouchableOpacity style={styles.normalSmallBtn}
                               onPress = { this.props.onPress }>
-                <LinearGradient colors={['#66ceff', '#68ACFC', '#0094ff']}
+                <LinearGradient colors={['#66ceff', '#0094ff']}
                                 start={{x:0,y:1}}
                                 end={{x:1,y:1}}
                                 style={[styles.normalSmallBtn,{flex:1}]}>
