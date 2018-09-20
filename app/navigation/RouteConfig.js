@@ -215,25 +215,9 @@ const HomeRouteConfig =
     }
 };
 
-const TestRouteConfig = {
-    WalletTest: {
-        screen: walletTest
-    },
-    RpcTest: {
-        screen: rpcTest
-    },
-    KeystoreTest: {
-        screen: keystoreTest
-    },
-    NetworkTest: {
-        screen: networkTest
-    },
-}
-
 export {
     HomeRouteConfig,
     FirstLaunchRouteConfig,
     Loading,
-    TestRouteConfig
 };
 

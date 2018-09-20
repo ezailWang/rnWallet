@@ -18,7 +18,6 @@ import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeC
 import ImageButton from '../../components/ImageButton'
 import layoutConstants from '../../config/LayoutConstants';
 import StatusBarComponent from '../../components/StatusBarComponent';
-import AddToken from './AddToken'
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
@@ -48,12 +47,6 @@ class HomeScreen extends BaseComponent {
             isTotalAssetsHidden: false,
             monetaryUnitSymbol: '',//货币单位符号
         }
-
-        this.props.navigation.addListener('willFocus', () => {
-            this.setState({
-                statusbarStyle: 'light-content'
-            })
-        })
     }
 
     renderItem = (item) => (
@@ -103,11 +96,6 @@ class HomeScreen extends BaseComponent {
     }
 
     pushAddtoken = () => {
-
-        this.setState({
-            statusbarStyle: 'dark-content'
-        })
-
         this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
                 this._showLoding()
@@ -135,10 +123,6 @@ class HomeScreen extends BaseComponent {
     }
 
     showDrawer = () => {
-
-        this.setState({
-            statusbarStyle: 'dark-content'
-        })
         this.props.navigation.openDrawer()
     }
 
@@ -223,8 +207,6 @@ class HomeScreen extends BaseComponent {
         })
     }
 
-
-
     renderComponent() {
         const headerHeight = this.state.scroollY.interpolate({
             inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
@@ -307,11 +289,6 @@ class HomeScreen extends BaseComponent {
                                 this.pushAddtoken()
                             }}
                             onQRCode={() => {
-
-                                this.setState({
-                                    statusbarStyle: 'dark-content'
-                                })
-
                                 this.props.navigation.navigate('ReceiptCode');
                             }}
                             onHideAssets={() => {
@@ -338,15 +315,6 @@ class HomeScreen extends BaseComponent {
                     }}
                     backgroundImageSource={require('../../assets/home/hp_menu.png')}
                 />
-                {/* <AddToken
-                    open={this.state.addTokenShow}
-                    close={() => {
-                        this.setState({
-                            addTokenShow: false
-                        })
-                    }}
-                    onClickAdd={this.onClickAdd.bind(this)}
-                /> */}
                 {/* <ChangeNetwork
                     open={this.state.changeNetworkShow}
                     close={() => {
