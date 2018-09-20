@@ -154,9 +154,9 @@ const sliderStyle = StyleSheet.create({
         borderRadius: 7,
     },
     thumb: {
-        width: 22,
-        height: 22,
-        borderRadius: 22 / 2,
+        width: 28,
+        height: 28,
+        borderRadius: 28 / 2,
         backgroundColor: 'white',
         shadowColor: '#808080',
         shadowOffset: { width: 2, height: 2 },
