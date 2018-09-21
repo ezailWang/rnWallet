@@ -63,8 +63,9 @@ class AddAssets extends BaseComponent {
                 <View style={{ height: 1, backgroundColor: Colors.bgGrayColor }} />
                 <KeyboardAvoidingView
                     behavior='padding'
-                    style={{ height: 360, width: layoutConstants.WINDOW_WIDTH, paddingTop: 20 }} enabled>
+                    style={{ height: 360, width: layoutConstants.WINDOW_WIDTH }} enabled>
                     <AddTokenInput
+                        inputStyle={{ paddingTop: 20 }}
                         title={I18n.t('home.contract_address')}
                         onChange={(event) => {
                             const isValidAddressLet = networkManage.isValidAddress(event.nativeEvent.text)
@@ -93,6 +94,7 @@ class AddAssets extends BaseComponent {
                         checkText={this.state.SymbolCheckStr}
                     />
                     <AddTokenInput
+                        inputStyle={{ paddingBottom: 20 }}
                         title={I18n.t('home.token_decimals')}
                         onChange={(event) => {
                             this.setState({
@@ -104,10 +106,11 @@ class AddAssets extends BaseComponent {
                         checkTextColor={this.state.tokenDecimals !== 0 && !this.state.isValidDecimals ? Colors.RedColor : Colors.addTokenCheckTextColor}
                         checkText={this.state.DecimalsCheckStr}
                     />
-                    <View style={{ paddingTop: 20,justifyContent:'center',alignItems:'center' }}>
+                    <View style={{ alignItems: 'center' }}>
                         <BlueButtonBig
                             text={I18n.t('home.add')}
                             isDisabled={!(this.state.isValidAddress && this.state.isValidDecimals && this.state.isValidSymbol)}
+                            buttonStyle={{ marginTop: 0 }}
                             onPress={() => {
                                 Keyboard.dismiss()
                                 this.props.navigation.state.params.callback({
@@ -118,9 +121,6 @@ class AddAssets extends BaseComponent {
                                 this.props.navigation.goBack()
                             }}
                         >
-                            {/* <Text
-                                style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}
-                            >{I18n.t('home.add')}</Text> */}
                         </BlueButtonBig>
                     </View>
                 </KeyboardAvoidingView>
@@ -130,16 +130,3 @@ class AddAssets extends BaseComponent {
 }
 
 export default AddAssets
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    bottomBtn: {
-        marginHorizontal: 20,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 45,
-    }
-})

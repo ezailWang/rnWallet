@@ -12,7 +12,7 @@ class AddTokenInput extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this.props.inputStyle]}>
                 <Text style={{ marginLeft: 20, fontSize: 14, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
                 <TextInput style={styles.TextInput}
                     onChange={this.props.onChange}
@@ -31,6 +31,7 @@ export default AddTokenInput
 const styles = StyleSheet.create({
     container: {
         width: layoutConstants.WINDOW_WIDTH,
+        backgroundColor:'red',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
