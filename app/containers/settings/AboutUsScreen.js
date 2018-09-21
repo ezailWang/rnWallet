@@ -23,37 +23,37 @@ const styles = StyleSheet.create({
     },
     image:{
         alignSelf:'center',
-        width:150,
-        height:150,
-        marginTop:80,
-        marginBottom:6,
+        width:120,
+        height:136.5,
+        marginTop:Layout.WINDOW_HEIGHT*0.12,
+        marginBottom:16,
     },
     title:{
         alignSelf:'center',
-        color:Colors.fontBlackColor,
+        color:Colors.fontBlackColor_0a,
         fontSize:20,
         fontWeight:'bold',
-        marginBottom:6,
+        marginBottom:12,
     },
     version:{
         alignSelf:'center',
-        color:Colors.fontBlackColor,
+        color:Colors.fontBlackColor_0a,
         fontSize:13,
         fontWeight:'bold',
-        marginBottom:80,
+        marginBottom:Layout.WINDOW_HEIGHT*0.12,
     },
     itemBox:{
-        height:41
+        height:45
     },
     item:{
-        height:40,
+        height:44,
         flexDirection:'row',
         alignItems:'center',
     },
     itemTitle:{
         flex:1,
-        fontSize:15,
-        color:Colors.fontBlackColor,
+        fontSize:14,
+        color:Colors.fontDarkColor,
         paddingLeft:20,
     },
     itemTouchable:{
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
         paddingRight:20,
     },
     itemUrl:{
-        fontSize:15,
+        fontSize:14,
         color:Colors.fontBlueColor,
     },
     itemLine:{
         height:1,
-        backgroundColor:Colors.bgColor_e
+        backgroundColor:Colors.bgGrayColor_e5,
     }
 })
 
@@ -90,7 +90,7 @@ export default class AboutUsScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.about')}/>
-                <Image style={styles.image} source={require('../../assets/set/logo_black.png')} resizeMode={'center'}></Image>
+                <Image style={styles.image} source={require('../../assets/set/logo_black.png')} resizeMode={'stretch'}></Image>
                 <Text style={styles.title}>ITC Wallet</Text>
                 <Text style={styles.version}>{this.state.version}</Text>
                 <Item title={'Website'} url={'iotchain.io'} isDisabled={false}></Item> 

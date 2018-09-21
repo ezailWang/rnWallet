@@ -31,6 +31,8 @@ class CommonTextInput extends Component {
           defaultValue: PropTypes.string,//展示的value
           textInputStyle: PropTypes.object,//添加/修改的样式
           onChangeText: PropTypes.func,
+          onFocus:PropTypes.func,
+          onBlur:PropTypes.func,
           keyboardType: PropTypes.string,
           multiline: PropTypes.bool,
     };
@@ -53,6 +55,8 @@ class CommonTextInput extends Component {
                        keyboardType={this.props.keyboardType}
                        onChangeText={this.props.onChangeText}
                        multiline={this.props.multiline}
+                       onFocus={this.props.onFocus}
+                       onBlur={this.props.onBlur}
                        >{this.props.defaultValue}
             </TextInput>
         )

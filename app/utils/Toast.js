@@ -33,6 +33,7 @@ function showToast(message){
 const styles = StyleSheet.create({
     containerStyle :{
         borderRadius:20,
+        fontSize:14
     }
 })
 module.exports = {showToast}

@@ -38,6 +38,16 @@ const styles = StyleSheet.create({
     textInput:{
         marginBottom:15,
     },
+    warnTxt:{
+        fontSize:10,
+        color:'red',
+        alignSelf:'flex-end',
+        marginBottom: 10,
+        paddingLeft:10,
+    },
+    warnTxtHidden:{
+        height:0
+    },
     button:{
         marginTop:40,
     },
@@ -50,7 +60,8 @@ const styles = StyleSheet.create({
     deleteText:{
         fontSize:16,
         color:Colors.fontBlueColor,
-    }
+    },
+    
 })
 
 export default class ContactInfoScreen extends BaseComponent {
@@ -63,6 +74,8 @@ export default class ContactInfoScreen extends BaseComponent {
             remark:'',
             address:'',
             isShowDialog:false,
+            isShowAddressWarn:false,
+            addressWarn:I18n.t('toast.enter_valid_transfer_address'),
         }
 
         this.contactInfo = {},
@@ -71,6 +84,7 @@ export default class ContactInfoScreen extends BaseComponent {
         this.name = '';
         this.remark = '';
         this.address = '';
+        this.isAddressFocus = ''
     }
 
     _initData() { 
@@ -95,6 +109,14 @@ export default class ContactInfoScreen extends BaseComponent {
         this.storageId = ids[this.index];
     }
 
+    vertifyInput(){
+        if(this.isAddressFocus){
+            this.vertifyAddress()
+        }else{
+            this.btnIsEnableClick()
+        }
+    }
+
     btnIsEnableClick(){
         if (this.name == ''|| this.address == '' ||
            (this.name == this.contactInfo.name && this.remark == this.contactInfo.remark && this.address == this.contactInfo.address)) {
@@ -111,8 +133,29 @@ export default class ContactInfoScreen extends BaseComponent {
              } 
         }
     }
+
+    vertifyAddress(){
+        let addressIsOK = true;
+        if(this.address != ''){
+            addressIsOK = NetworkManager.isValidAddress(this.address);
+            let disabled = this.name == '' || 
+                            (this.name == this.contactInfo.name && this.remark == this.contactInfo.remark && this.address == this.contactInfo.address)
+                            || !addressIsOK
+            this.setState({
+                isShowAddressWarn:!addressIsOK,
+                isDisabled: disabled
+            })
+        }else{
+            if(!this.state.isDisabled){
+                this.setState({
+                    isDisabled: true
+                })  
+            }
+        }  
+    }
     
     scanClick = async () => {
+        Keyboard.dismiss();
         var _this = this;
         var isAgree = true;
         if (Platform.OS === 'android') {
@@ -126,7 +169,7 @@ export default class ContactInfoScreen extends BaseComponent {
                     _this.setState({
                         address: address
                     })
-                    _this.btnIsEnableClick()
+                    _this.vertifyAddress()
                 }
             })
         } else {
@@ -139,18 +182,18 @@ export default class ContactInfoScreen extends BaseComponent {
 
     nameOnChangeText = (text) => {
         this.name = text;
-        this.btnIsEnableClick()
+        this.vertifyInput()
     };
     remarkOnChangeText = (text) => {
         this.remark = text;
-        this.btnIsEnableClick()
+        this.vertifyInput()
     };
     addressOnChangeText = (text) => {
         this.address = text;
         this.setState({
             address:text,
         })
-        this.btnIsEnableClick()
+        this.vertifyInput()
     };
 
     
@@ -221,8 +264,10 @@ export default class ContactInfoScreen extends BaseComponent {
                          textInputStyle = {styles.textInput}
                          returnKeyType={"done"}
                          onChangeText={this.addressOnChangeText}
-                         defaultValue={this.state.address}/>          
-                    
+                         defaultValue={this.state.address}
+                         onFocus = {() => {this.isAddressFocus = true;this.vertifyAddress()}}
+                         onBlur = {() => {this.isAddressFocus = false}}/>          
+                    <Text style={this.state.isShowAddressWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.addressWarn}</Text>
                     <BlueButtonBig
                          buttonStyle= {styles.button}
                          isDisabled = {this.state.isDisabled}

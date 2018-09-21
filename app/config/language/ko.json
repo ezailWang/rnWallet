@@ -44,7 +44,9 @@
         "password_warn_7":"소문자와 숫자 중 하나를 포함해야합니다.",
         "password_warn_8":"또한 대문자 및 기호 중 하나를 포함해야합니다.",
         "password_warn_9":"또한 대문자와 숫자 중 하나를 포함해야합니다.",
-        "password_warn_10":"또한 대소 문자 중 하나를 포함해야합니다."
+        "password_warn_10":"또한 대소 문자 중 하나를 포함해야합니다.",
+
+        "enter_same_password":"일관된 암호를 입력하십시오"
     },
     "home":{
         "total_assets":"총자산",
@@ -165,7 +167,7 @@
         "enter_mnemonic":"니모닉을 입력하십시오",
         "enter_password":"비밀번호를 입력하십시오",
         "enter_repassword":"중복 된 암호를 입력하십시오",
-        "enter_same_password":"일관된 암호를 입력하십시오",
+        
         "check_mnemonic_is_correct":"니모닉이 올바른지 확인하십시오",
 
         "import_mnemonic_error":"지갑을 가져 오는 중 오류가 발생했습니다",

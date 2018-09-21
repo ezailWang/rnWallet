@@ -47,6 +47,16 @@ const styles = StyleSheet.create({
         textAlign:'left',
         textAlignVertical:'top',
     },
+    warnTxt:{
+        fontSize:10,
+        color:'red',
+        alignSelf:'flex-end',
+        marginBottom: 10,
+        paddingLeft:10,
+    },
+    warnTxtHidden:{
+        height:0
+    },
     button:{
         marginTop:40,
     }
@@ -58,12 +68,15 @@ export default class FeedbackScreen extends BaseComponent {
         super(props);
         this.state = {
             isDisabled:true,
+            isShowEmailWarn:false,
+            emailWarn:I18n.t('toast.email_format_incorrect'),
         }
 
         this.name = '';
         this.email = '';
         this.description = '';
         this.keyBoardIsShow = false;   
+        this.isEmailFocus = false
     }
 
     _initData() { 
@@ -107,6 +120,22 @@ export default class FeedbackScreen extends BaseComponent {
              }   
         }
     }
+    vertifyEmail(){
+        let emailIsOk = true
+        if(this.email != ''){
+            emailIsOk = validateEmail(this.email)
+            this.setState({
+                isShowEmailWarn : !emailIsOk,
+                isDisabled:this.name == ''|| this.description == ''|| !emailIsOk
+            })
+        }else{
+            if(!this.state.isDisabled){
+                this.setState({
+                    isDisabled: true
+                })
+             } 
+        }
+    }
     
     nameOnChangeText = (text) => {
         this.name = text;
@@ -114,7 +143,7 @@ export default class FeedbackScreen extends BaseComponent {
     };
     emailOnChangeText = (text) => {
         this.email = text;
-        this.btnIsEnableClick()
+        this.vertifyEmail()
     };
     descriptionOnChangeText = (text) => {
         this.description = text;
@@ -123,10 +152,10 @@ export default class FeedbackScreen extends BaseComponent {
 
     async submit(){
         Keyboard.dismiss();
-        if(!validateEmail(this.email)){
+        /*if(!validateEmail(this.email)){
             showToast(I18n.t('toast.email_format_incorrect'));
             return;
-        }
+        }*/
     }
     
     
@@ -148,8 +177,10 @@ export default class FeedbackScreen extends BaseComponent {
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          onChangeText={this.emailOnChangeText}
-                         keyboardType={'email-address'}/>
-
+                         keyboardType={'email-address'}
+                         onFocus = {() => {this.isEmailFocus = true;}}
+                         onBlur = {() => {this.isEmailFocus = false; }}/>
+                    <Text style={this.state.isShowEmailWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.emailWarn}</Text>
                     <Text style={styles.text}>{I18n.t('settings.problem_description')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.desTextInput}

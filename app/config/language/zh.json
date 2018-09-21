@@ -43,7 +43,9 @@
         "password_warn_7":"还需包含小写字母、数字中的1种",
         "password_warn_8":"还需包含大写字母、符号中的1种",
         "password_warn_9":"还需包含大写字母、数字中的1种",
-        "password_warn_10":"还需包含大、小写字母中的1种"
+        "password_warn_10":"还需包含大、小写字母中的1种",
+
+        "enter_same_password":"请输入一致的密码"
     },
     "home":{
         "total_assets":"总资产",
@@ -166,7 +168,7 @@
         "enter_mnemonic":"请输入助记词",
         "enter_password":"请输入密码",
         "enter_repassword":"请输入重复密码",
-        "enter_same_password":"请输入一致的密码",
+        
         "check_mnemonic_is_correct":"请检查助记词是否正确",
 
         "import_mnemonic_error":"导入钱包出错",
