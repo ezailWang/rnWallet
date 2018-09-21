@@ -50,7 +50,7 @@
     },
     "home":{
         "total_assets":"Total assets",
-        "assets":"assets list",
+        "assets":"Assets list",
         "settings":"settings",
         "QRCode":"QRCode",
         "no_assets":"No assets yet~",

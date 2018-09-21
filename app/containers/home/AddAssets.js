@@ -15,6 +15,7 @@ import networkManage from '../../utils/networkManage'
 import layoutConstants from '../../config/LayoutConstants'
 import { I18n } from '../../config//language/i18n'
 import { store } from '../../config/store/ConfigureStore'
+import { BlueButtonBig } from '../../components/Button'
 
 
 class AddAssets extends BaseComponent {
@@ -46,7 +47,7 @@ class AddAssets extends BaseComponent {
         this.setState({
             isValidAddress: isValidAddress,
             AddressCheckStr: I18n.t('home.address_repeat'),
-            tokenAddress:addrees
+            tokenAddress: addrees
         })
     }
 
@@ -62,7 +63,7 @@ class AddAssets extends BaseComponent {
                 <View style={{ height: 1, backgroundColor: Colors.bgGrayColor }} />
                 <KeyboardAvoidingView
                     behavior='padding'
-                    style={{ height: 360, width: layoutConstants.WINDOW_WIDTH, marginTop: 20 }} enabled>
+                    style={{ height: 360, width: layoutConstants.WINDOW_WIDTH, paddingTop: 20 }} enabled>
                     <AddTokenInput
                         title={I18n.t('home.contract_address')}
                         onChange={(event) => {
@@ -77,7 +78,7 @@ class AddAssets extends BaseComponent {
                                 })
                             }
                         }}
-                        checkTextColor={this.state.tokenAddress !== '' && !this.state.isValidAddress ? Colors.RedColor : Colors.fontGrayColor}
+                        checkTextColor={this.state.tokenAddress !== '' && !this.state.isValidAddress ? Colors.RedColor : Colors.addTokenCheckTextColor}
                         checkText={this.state.AddressCheckStr}
                     />
                     <AddTokenInput
@@ -88,7 +89,7 @@ class AddAssets extends BaseComponent {
                                 tokenSymbol: event.nativeEvent.text
                             })
                         }}
-                        checkTextColor={this.state.tokenSymbol !== '' && !this.state.isValidSymbol ? Colors.RedColor : Colors.fontGrayColor}
+                        checkTextColor={this.state.tokenSymbol !== '' && !this.state.isValidSymbol ? Colors.RedColor : Colors.addTokenCheckTextColor}
                         checkText={this.state.SymbolCheckStr}
                     />
                     <AddTokenInput
@@ -100,26 +101,28 @@ class AddAssets extends BaseComponent {
                             })
                         }}
                         keyboardType='numeric'
-                        checkTextColor={this.state.tokenDecimals !== 0 && !this.state.isValidDecimals ? Colors.RedColor : Colors.fontGrayColor}
+                        checkTextColor={this.state.tokenDecimals !== 0 && !this.state.isValidDecimals ? Colors.RedColor : Colors.addTokenCheckTextColor}
                         checkText={this.state.DecimalsCheckStr}
                     />
-                    <TouchableOpacity
-                        style={[styles.bottomBtn, { backgroundColor: this.state.isValidAddress && this.state.isValidDecimals && this.state.isValidSymbol ? Colors.btn_bg_blue : Colors.bgGrayColor }]}
-                        disabled={!(this.state.isValidAddress && this.state.isValidDecimals && this.state.isValidSymbol)}
-                        onPress={() => {
-                            Keyboard.dismiss()
-                            this.props.navigation.state.params.callback({
-                                tokenAddress: this.state.tokenAddress,
-                                tokenSymbol: this.state.tokenSymbol,
-                                tokenDecimals: this.state.tokenDecimals,
-                            })
-                            this.props.navigation.goBack()
-                        }}
-                    >
-                        <Text
-                            style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}
-                        >{I18n.t('home.add')}</Text>
-                    </TouchableOpacity>
+                    <View style={{ paddingTop: 20,justifyContent:'center',alignItems:'center' }}>
+                        <BlueButtonBig
+                            text={I18n.t('home.add')}
+                            isDisabled={!(this.state.isValidAddress && this.state.isValidDecimals && this.state.isValidSymbol)}
+                            onPress={() => {
+                                Keyboard.dismiss()
+                                this.props.navigation.state.params.callback({
+                                    tokenAddress: this.state.tokenAddress,
+                                    tokenSymbol: this.state.tokenSymbol,
+                                    tokenDecimals: this.state.tokenDecimals,
+                                })
+                                this.props.navigation.goBack()
+                            }}
+                        >
+                            {/* <Text
+                                style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}
+                            >{I18n.t('home.add')}</Text> */}
+                        </BlueButtonBig>
+                    </View>
                 </KeyboardAvoidingView>
             </View >
         )
@@ -137,7 +140,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
         height: 45,
     }
 })

@@ -44,6 +44,15 @@ const Colors = {
     btn_bg_blue:'rgb(1,176,245)',
     
     borderColor_e:'#eee',
+    
+    //Home
+    homeAssetsTestColor:'#535353',
+
+    //添加资产
+    addTokenBorderColor:'#eeeeee',
+    addTokenCheckTextColor:'#a0a0a0',
+    addTokenLeftTitleColor:'#000000',
+    addTokenAddBtnBgColor:'#bfbfbf'
 };
 
 const TransferType = {

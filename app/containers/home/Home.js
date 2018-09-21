@@ -49,13 +49,15 @@ class HomeScreen extends BaseComponent {
         }
     }
 
-    renderItem = (item) => (
+    renderItem = (item) => {
+        item.item['isTotalAssetsHidden'] = this.state.isTotalAssetsHidden
+        return(
         <HomeCell
             item={item}
             onClick={this.onClickCell.bind(this, item)}
             monetaryUnitSymbol={this.state.monetaryUnitSymbol}
         />
-    )
+    )}
 
     renderQuickActions = (item) => (
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
@@ -81,16 +83,16 @@ class HomeScreen extends BaseComponent {
 
     onClickCell = async (item) => {
 
-        let { contractAddress, symbol, decimals, price,balance } = item.item;
+        let { contractAddress, symbol, decimals, price, balance } = item.item;
 
         let balanceInfo = {
-            amount:balance,
-            price:price,
-            symbol:symbol,
-            contractAddress:contractAddress,
-            decimals:decimals
+            amount: balance,
+            price: price,
+            symbol: symbol,
+            contractAddress: contractAddress,
+            decimals: decimals
         }
-        
+
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
     }
@@ -156,7 +158,7 @@ class HomeScreen extends BaseComponent {
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
         })
 
-        var localUser = await StorageManage.load(StorageKey.User)
+        let localUser = await StorageManage.load(StorageKey.User)
         if (localUser && localUser['isTotalAssetsHidden']) {
             this.setState({
                 isTotalAssetsHidden: localUser['isTotalAssetsHidden']
@@ -167,7 +169,7 @@ class HomeScreen extends BaseComponent {
     }
 
     async saveTokenToStorage(token) {
-        var localTokens = await StorageManage.load(StorageKey.Tokens)
+        let localTokens = await StorageManage.load(StorageKey.Tokens)
         if (!localTokens) {
             localTokens = []
         }
@@ -181,7 +183,7 @@ class HomeScreen extends BaseComponent {
     }
 
     async removeTokenFromStorage(contractAddress) {
-        var localTokens = await StorageManage.load(StorageKey.Tokens)
+        let localTokens = await StorageManage.load(StorageKey.Tokens)
         if (!localTokens) {
             console.error('localTokens is null')
             return
@@ -191,7 +193,7 @@ class HomeScreen extends BaseComponent {
     }
 
     async saveIsTotalAssetsHiddenToStorage(isHidden) {
-        var localUser = await StorageManage.load(StorageKey.User)
+        let localUser = await StorageManage.load(StorageKey.User)
         if (localUser == null) {
             console.error('load user is miss')
         } else {
@@ -308,8 +310,8 @@ class HomeScreen extends BaseComponent {
                     }
                 />
                 <ImageButton
-                    btnStyle={{ right: 20, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute', zIndex: 2 }}
-                    imageStyle={{ width: 19, height: 15 }}
+                    btnStyle={{ width: 16, height: 13, right: 20, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute', zIndex: 2 }}
+                    imageStyle={{ width: 16, height: 13 }}
                     onClick={() => {
                         this.showDrawer()
                     }}
