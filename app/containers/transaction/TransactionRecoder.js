@@ -126,14 +126,13 @@ const styles = StyleSheet.create({
         // backgroundColor:"green",
     },
     backImage:{
-        position: 'relative',
-        width:25,
-        height:25,
-        left:30,
+        position: 'absolute',
+        // width:25,
+        // height:25,
+        left:20,
         top:Layout.DEVICE_IS_IPHONE_X() ? 48 : 24,
         zIndex: 10,
-        //justifyContent:'center'
-    }
+    },
 });
 
 class Header extends Component{
@@ -302,11 +301,17 @@ export default class TransactionRecoder extends BaseComponent{
         });
         let currentBlock = await networkManage.getCurrentBlockNumber()
 
-        store.dispatch(setTransactionRecoders(recoders));
-
         var itemList = []
         recoders.map((item,i)=>{    
             
+            //测试数据
+            if(i < 11){
+                item.blockNumber = currentBlock-i
+            }
+            if(i == recoders.length - 3){
+                item.isError="1"
+            }
+
             let data = {
                 key:i.toString(),
                 address:item.to.toLowerCase()==walletAddress.toLowerCase()?item.from:item.to,
@@ -317,20 +322,14 @@ export default class TransactionRecoder extends BaseComponent{
                 sureBlock:currentBlock-item.blockNumber+1,
                 isError:item.isError
             }
-
-            //测试数据
-            if(i < 11){
-                data.sureBlock=i+1
-            }
-
-            if(i == recoders.length - 3){
-                data.isError="1"
-            }
-
             itemList.push(data)
         });
+
         //反序
         itemList.reverse();
+        recoders.reverse();
+        store.dispatch(setTransactionRecoders(recoders));
+
 
         //获取余额信息
         let balanceAmount = '';
@@ -380,7 +379,6 @@ export default class TransactionRecoder extends BaseComponent{
         let {amount,price,symbol,ethBalance} = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
         let suggestGas = await networkManage.getSuggestGasPrice();
-
         transferProps = {
             transferType:symbol,
             balance:amount,
@@ -403,11 +401,24 @@ export default class TransactionRecoder extends BaseComponent{
         this.props.navigation.navigate('ReceiptCode');
     };
 
-    didTapTransactionCell=(index)=>{
+    didTapTransactionCell= async (index)=>{
 
         let {symbol} = store.getState().Core.balance;
         let recoders = store.getState().Core.recoders;
-        let recoder = recoders[recoders.length-index-1];
+        let recoder = recoders[index];
+
+        let currentBlock = await networkManage.getCurrentBlockNumber()
+
+        // "0"--已确认 "1"--错误  "2"--确认中
+        let state = recoder.isError
+        if(state == "0"){
+
+            let sureBlock = currentBlock - recoder.blockNumber ;
+            if(sureBlock<12){
+                state = "2"
+            }
+        }
+    
         let transactionDetail={
             amount:parseFloat(recoder.value),
             transactionType:symbol,
@@ -417,7 +428,8 @@ export default class TransactionRecoder extends BaseComponent{
             remark:I18n.t('transaction.no'),
             transactionHash:recoder.hash,
             blockNumber:recoder.blockNumber,
-            transactionTime:timestampToTime(recoder.timeStamp)+" +0800"
+            transactionTime:timestampToTime(recoder.timeStamp)+" +0800",
+            state:state
         };
 
         store.dispatch(setTransactionDetailParams(transactionDetail));
@@ -515,6 +527,16 @@ export default class TransactionRecoder extends BaseComponent{
             <StatusBarComponent barStyle={'light-content'} />
             {/* <BackWhiteButton style={{position: 'absolute',left:20,top:10}} onPress={() => {this.props.navigation.goBack()}}/> */}
             
+            <TouchableOpacity style={styles.backImage}
+                               onPress={()=>{
+                                   this.props.navigation.goBack()
+                                }}>
+                                <Image 
+                                    style={{marginTop:0}}
+                                    source={require('../../assets/common/common_back_white.png')}
+                                    resizeMode={'center'}
+                                />
+            </TouchableOpacity> 
             <Animated.View style={{
                     position: 'absolute',
                     top: 0,
@@ -528,17 +550,7 @@ export default class TransactionRecoder extends BaseComponent{
                     <Image
                         style={{ flex: 1, width: Layout.WINDOW_WIDTH}}
                         source={require('../../assets/home/hp_bg.png')}
-                        
                     />
-                   
-                    {/* <AnimatedBackButton
-                        style={{
-                            position: 'absolute',
-                            left: 30,
-                            top:Layout.NAVIGATION_HEIGHT() - 34,
-                            backgroundColor: 'white',
-                        }}
-                        /> */}
                     <Animated.Text
                         style={{
                             position: 'absolute',
@@ -602,22 +614,8 @@ export default class TransactionRecoder extends BaseComponent{
                             textAlign:'right',
                             fontWeight:"500",
                         }}
-                    >{priceStr}</Animated.Text>    
-
-                           
+                    >{priceStr}</Animated.Text> 
                 </Animated.View>
-                
-                <TouchableOpacity style={styles.backImage}
-                               onPress={()=>{
-                                   this.props.navigation.goBack()
-                                }}>
-                                <Image 
-                                    style={{marginTop:0}}
-                                    source={require('../../assets/common/common_back_white.png')}
-                                    resizeMode={'center'}
-                                />
-                 </TouchableOpacity> 
-            
                 <FlatList   style={[styles.flatList]}
                             ListHeaderComponent={<Header balance={parseFloat(amount).toFixed(4)}
                                                          value={value} 
