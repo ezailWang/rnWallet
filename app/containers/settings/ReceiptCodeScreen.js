@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         //justifyContent:'center',
         alignItems: 'center',
         alignSelf: 'center',
-        marginTop: 40,
+        marginTop: Layout.WINDOW_HEIGHT * 0.065,
     },
     contentImageBackground: {
         alignSelf: 'stretch',
@@ -31,10 +31,9 @@ const styles = StyleSheet.create({
     },
 
     titleTxt: {
-        fontSize: 18,
-        fontWeight: '500',
-        color: Colors.fontBlackColor,
-        marginTop: 100,
+        fontSize: 15,
+        color: Colors.fontDarkColor,
+        marginTop: 111,
         marginBottom: 20,
     },
     qrCode: {
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
     adderssTxt: {
         width: 180,
         fontSize: 14,
-        marginTop: 20,
+        marginTop: 23,
         marginTop: 20,
         color: Colors.fontBlackColor,
     },
@@ -63,7 +62,6 @@ const styles = StyleSheet.create({
     },
     btnTxt: {
         fontSize: 16,
-        fontWeight: 'bold',
         color: Colors.fontBlueColor
     }
 })
