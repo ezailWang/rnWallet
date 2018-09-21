@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native'
 import React, { Component } from 'react';
 import { store } from '../../config/store/ConfigureStore'
 import DrawerCell from './component/DrawerCell'
@@ -7,12 +7,12 @@ import { I18n } from '../../config/language/i18n'
 import { NavigationActions, DrawerActions } from 'react-navigation'
 import PropTypes from 'prop-types';
 import BaseComponent from '../base/BaseComponent'
+import StatusBarComponent from '../../components/StatusBarComponent';
+import { BlurView } from 'react-native-blur';
+import Loading from '../../components/LoadingComponent';
+import layoutConstants from '../../config/LayoutConstants'
 
 class DrawerComponent extends BaseComponent {
-    constructor(props) {
-        super(props)
-        this._setStatusBarStyleLight();
-    }
     navigateToScreen = (route, params) => () => {
         const navigateAction = NavigationActions.navigate({
             routeName: route,
@@ -20,11 +20,19 @@ class DrawerComponent extends BaseComponent {
         });
         this.props.navigation.dispatch(navigateAction);
         this.props.navigation.dispatch(DrawerActions.closeDrawer())
+        this._barStyle = 'light-content'
     }
 
-    renderComponent() {
+    render() {
+        //这个地方直接render，防止把其他页面的状态栏颜色改了
+        if (this.props.navigation.state.isDrawerOpen) {
+            this._barStyle = 'dark-content'
+        } else {
+            this._barStyle = 'light-content'
+        }
         return (
             <SafeAreaView style={{ flex: 1 }}>
+                <StatusBarComponent barStyle={this._barStyle} />
                 <View style={{ marginTop: 80, height: 70, backgroundColor: Colors.bgBlue_drawer_top, alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}>
                     <Image source={require('../../assets/home/menu/menu_icon.png')} style={{ height: 46, width: 46, marginLeft: 25 }} />
                     <Text style={{ fontSize: 18, marginLeft: 10 }}>{store.getState().Core.walletName}</Text>
@@ -60,10 +68,25 @@ class DrawerComponent extends BaseComponent {
                         imageSource={require('../../assets/home/menu/menu_about.png')}
                     />
                 </ScrollView>
+                {Platform.OS === 'ios' && this.state.showBlur && <BlurView
+                    style={styles.blurStyle}
+                    blurType='light'
+                    blurAmount={10}
+                />}
+                {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
             </SafeAreaView>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    blurStyle: {
+        position: "absolute",
+        top: 0, left: 0, bottom: 0, right: 0,
+        height: layoutConstants.WINDOW_HEIGHT,
+        zIndex: 1000,
+    }
+})
 
 DrawerComponent.prototypes = {
     navigation: PropTypes.object

@@ -1,8 +1,3 @@
-
-import walletTest from './test/walletTest'
-import rpcTest from './test/rpcTest'
-import keystoreTest from './test/keystoreTest'
-import networkTest from './test/networkTest'
 import Transaction from './transaction/Transaction'
 import HomeScreen from './home/Home'
 import FirstLaunchScreen from './launch/FirstLaunchScreen';
@@ -32,10 +27,6 @@ import SystemSetScreen from './settings/SystemSetScreen';
 import AddAssets from './home/AddAssets'
 export {
     HomeScreen,
-    walletTest,
-    rpcTest,
-    keystoreTest,
-    networkTest,
     Transaction,
     FirstLaunchScreen,
     BackupMnemonicScreen,

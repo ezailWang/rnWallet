@@ -9,12 +9,10 @@ import {
     FirstLaunchRouteConfig,
     HomeRouteConfig,
     Loading,
-    TestRouteConfig
 } from './RouteConfig'
 import {
     HomeStackNavigationConfig,
     FirstLaunchStackNavigationConfig,
-    TestStackNavigationConfig,
     HomeDrawerConfig
 } from './NavigatorConfig'
 import {
@@ -72,15 +70,11 @@ const HomeDrawer = createDrawerNavigator({
     }
 }, HomeDrawerConfig)
 
-//测试导航栈
-const TestNavigation = createStackNavigator(TestRouteConfig, TestStackNavigationConfig)
-
 //导航栈选择
 const SwicthNavigation = createSwitchNavigator({
     Apploading: Loading,
     Home: HomeDrawer,
     FirstLaunch: FirstLaunchNavigation,
-    Test: TestNavigation,
 }, {
         initialRouteName: 'Apploading',
         backBehavior: 'none',

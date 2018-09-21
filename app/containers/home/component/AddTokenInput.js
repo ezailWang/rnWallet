@@ -20,7 +20,7 @@ class AddTokenInput extends Component {
                     returnKeyType={this.props.returnKeyType}
                     ref={this.props.ref}
                 />
-                <Text style={[{ alignSelf: 'flex-end', color: this.props.checkTextColor, marginRight: 20, fontSize: 14 }]}>{this.props.checkText}</Text>
+                <Text style={[{ alignSelf: 'flex-end', color: this.props.checkTextColor, marginHorizontal: 20, fontSize: 14 }]}>{this.props.checkText}</Text>
             </View>
         )
     }
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
-        backgroundColor:'white',
-        paddingVertical:10,
+        backgroundColor: 'white',
+        paddingVertical: 10,
     },
     TextInput: {
         marginTop: 5,
@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
         borderColor: Colors.bgGrayColor,
         borderRadius: 5,
         height: 40,
-        width:layoutConstants.WINDOW_WIDTH-40,
-        marginLeft:20,
+        width: layoutConstants.WINDOW_WIDTH - 40,
+        marginLeft: 20,
         paddingHorizontal: 10,
         paddingVertical: 0
     },

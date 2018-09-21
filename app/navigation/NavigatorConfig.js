@@ -69,16 +69,11 @@ const FirstLaunchStackNavigationConfig = {
     headerMode: 'none',
 }
 
-const TestStackNavigationConfig = {
-    initialRouteName: 'NetworkTest'
-}
-
 export {
     HomeStackNavigationConfig,
     FirstLaunchStackNavigationConfig,
     StackNavigationConfig,
     HomeDrawerConfig,
-    TestStackNavigationConfig
 }
 
 

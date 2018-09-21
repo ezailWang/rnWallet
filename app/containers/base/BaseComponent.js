@@ -15,7 +15,7 @@ import { BlurView } from 'react-native-blur';
 import layoutConstants from '../../config/LayoutConstants';
 let lastBackPressed = 0;
 
-//所有基层该组件的组件，重写该组件方法请先运行super.funcName()
+//所有继承该组件的组件，重写该组件方法请先运行super.funcName()
 export default class BaseComponent extends PureComponent {
 
     constructor(props) {
@@ -38,6 +38,10 @@ export default class BaseComponent extends PureComponent {
     //设置StatusBar的barStyle为light-content,默认为dark-content
     _setStatusBarStyleLight() {
         this._barStyle = 'light-content';
+    }
+
+    _setStatusBarStyleDark() {
+        this._barStyle = 'dark-content';
     }
 
     componentWillMount() {

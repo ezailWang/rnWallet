@@ -119,7 +119,7 @@ export default class TransactionDetail extends BaseComponent {
             transactionHash: params.transactionHash,
             blockNumber: params.blockNumber,
             transactionTime: params.transactionTime,
-            tranStatus: 'ok'
+            tranStatus:params.state
         };
         this._setStatusBarStyleLight()
     }
@@ -146,13 +146,15 @@ export default class TransactionDetail extends BaseComponent {
 
     renderComponent() {
         let statusIcon
-        if (this.state.tranStatus == 'ok') {
+        if (this.state.tranStatus == "0") {
             statusIcon = require('../../assets/transfer/trans_ok.png')
-        } else if (this.state.tranStatus == 'ing') {
+        } else if (this.state.tranStatus == "2") {
             statusIcon = require('../../assets/transfer/trans_ing.png')
-        } else if (this.state.tranStatus == 'fail') {
+        } else if (this.state.tranStatus == "1") {
             statusIcon = require('../../assets/transfer/trans_fail.png')
         }
+
+        // console.log(this.state.tranStatus)
         return (
             <ImageBackground style={styles.container} source={require('../../assets/launch/splash_bg.png')}>
                 <TransparentBgHeader navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')} />
