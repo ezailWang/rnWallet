@@ -15,9 +15,9 @@ const styles = StyleSheet.create({
     },
     countBox: {
         flexDirection: 'row',
-        marginTop: 20,
-        marginBottom: Layout.WINDOW_WIDTH * 0.15,
-        //alignItems:'flex-end',
+        marginTop: Layout.WINDOW_HEIGHT * 0.05,
+        marginBottom:Layout.WINDOW_HEIGHT * 0.1,
+        //marginTop:48,
         justifyContent: 'center'
     },
 
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: Layout.WINDOW_WIDTH * 0.15,
-        paddingBottom: Layout.WINDOW_WIDTH * 0.1,
+        paddingTop: Layout.WINDOW_HEIGHT * 0.08,
+        paddingBottom: Layout.WINDOW_HEIGHT * 0.07,
     },
     statusIcon: {
         position: 'absolute',
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         height: 120,
         alignSelf: 'center',
         marginTop: -60,
+        zIndex:10,
     },
     countTxt: {
         fontSize: 26,
@@ -65,14 +66,20 @@ const styles = StyleSheet.create({
         color: Colors.fontDarkGrayColor,
     },
     marginTop2: {
-        marginTop: 2
+        marginTop: Layout.WINDOW_HEIGHT * 0.009,
+        //marginTop:6
     },
     marginTop10: {
-        marginTop: Layout.WINDOW_WIDTH * 0.02,
+        marginTop: Layout.WINDOW_HEIGHT * 0.02,
+        //marginTop:16
+    },
+    marginTop12: {
+        marginTop: Layout.WINDOW_HEIGHT * 0.025,
     },
     bottomBox: {
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: Layout.WINDOW_HEIGHT * 0.045,
+        //marginTop: 35,
     },
     infoLeftBox: {
         flex: 1,
@@ -81,11 +88,11 @@ const styles = StyleSheet.create({
     },
     qrCodeBox: {
         marginLeft: 20,
-
     },
     copyBtn: {
-        height: 30,
-        marginTop: 10,
+        height: 29,
+        marginTop: Layout.WINDOW_HEIGHT * 0.02,
+        //marginTop: 16,
         borderRadius: 5,
         borderWidth: 1.2,
         borderColor: Colors.themeColor
@@ -94,8 +101,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         color: Colors.themeColor,
         fontSize: 13,
-        height: 30,
-        lineHeight: 30,
+        height: 29,
+        lineHeight: 29,
         textAlign: 'center',
     },
 })
@@ -190,7 +197,7 @@ export default class TransactionDetail extends BaseComponent {
                             <View style={[styles.qrCodeBox, { marginTop: 6 }]}>
                                 <QRCode
                                     value={this.state.transactionHash}
-                                    size={80}
+                                    size={96}
                                     bgColor='#000'
                                     fgColor='#fff'
                                     onLoad={() => { }}
