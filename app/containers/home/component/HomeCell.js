@@ -41,12 +41,18 @@ class HomeCell extends Component {
     static propTypes = {
         monetaryUnitSymbol: PropTypes.string.isRequired,
     };
-    
+
     render() {
-        const { symbol, balance, price } = this.props.item.item || {}
-        var imageSource = require('../../../assets/home/null.png')
+        const { symbol, balance, price, isTotalAssetsHidden } = this.props.item.item || {}
+        let imageSource = require('../../../assets/home/null.png')
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
             imageSource = tokeniCon[symbol]
+        }
+        let balanceText = isNaN(balance) || balance === '0.0000' || balance === '0' ? '0.00' : balance
+        let balancePriText = isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + this.props.monetaryUnitSymbol + (balance * price).toFixed(2)
+        if(isTotalAssetsHidden){
+            balanceText = '****'
+            balancePriText = '--'
         }
         return (
             <TouchableHighlight
@@ -62,10 +68,10 @@ class HomeCell extends Component {
                     <View style={styles.rightView}>
                         <Text
                             style={{ fontSize: 17, color: Colors.themeColor }}
-                        >{isNaN(balance) || balance === '0.0000' || balance === '0' ? '0.00' : balance}</Text>
+                        >{balanceText}</Text>
                         <Text
                             style={{ fontSize: 13, color: Colors.fontDarkGrayColor }}
-                        >{isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + this.props.monetaryUnitSymbol + (balance * price).toFixed(2)}</Text>
+                        >{balancePriText}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -83,12 +89,12 @@ const styles = StyleSheet.create({
     leftView: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 10,
+        marginLeft: 23,
     },
     rightView: {
         justifyContent: 'center',
         alignItems: 'flex-end',
-        marginRight: 10,
+        marginRight: 23,
     },
     separator: {
         flex: 1,
