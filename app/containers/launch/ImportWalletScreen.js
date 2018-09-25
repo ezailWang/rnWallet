@@ -159,20 +159,17 @@ class ImportWalletScreen extends BaseComponent {
     
    //所有信息都输入完成前，“创建”按钮显示为灰色
    btnIsEnableClick(){
-        if (this.mnemonictxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt) {
-            if(!this.state.isDisabled){
-                this.setState({
-                    isDisabled: true,
-                })
-            }   
+        if (this.mnemonictxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
+              || vertifyPassword(this.pwdtxt) != '') {
+            this.setState({
+                isDisabled: true,
+                isShowRePwdWarn: this.pwdtxt != this.rePwdtxt,
+            }) 
         }else{
-            if(this.state.isDisabled){
-                this.setState({
-                    isDisabled: false,
-                    isShowRePwdWarn: false,
-                })
-            }
-            
+            this.setState({
+                isDisabled: false,
+                isShowRePwdWarn: false,
+            })
         }  
     }
 
