@@ -190,7 +190,7 @@ class CreateWalletScreen extends BaseComponent {
               || vertifyPassword(this.pwdtxt) != '') {
                 this.setState({
                     isDisabled: true,
-                    isShowRePwdWarn: this.pwdtxt != this.rePwdtxt,
+                    isShowRePwdWarn : this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn
                 })   
         }else{
             this.setState({

@@ -15,9 +15,9 @@ const styles = StyleSheet.create({
     },
     countBox: {
         flexDirection: 'row',
-        marginTop: Layout.WINDOW_HEIGHT * 0.05,
+        //marginTop: Layout.WINDOW_HEIGHT * 0.05,
+        marginTop: Layout.WINDOW_HEIGHT * 0.03,
         marginBottom:Layout.WINDOW_HEIGHT * 0.1,
-        //marginTop:48,
         justifyContent: 'center'
     },
 
@@ -30,8 +30,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: Layout.WINDOW_HEIGHT * 0.08,
-        paddingBottom: Layout.WINDOW_HEIGHT * 0.07,
+       // paddingTop: Layout.WINDOW_HEIGHT * 0.08,
+       // paddingBottom: Layout.WINDOW_HEIGHT * 0.07,
+        paddingTop: Layout.WINDOW_HEIGHT * 0.07,
+        paddingBottom: Layout.WINDOW_HEIGHT * 0.06,
     },
     statusIcon: {
         position: 'absolute',
@@ -66,19 +68,22 @@ const styles = StyleSheet.create({
         color: Colors.fontDarkGrayColor,
     },
     marginTop2: {
-        marginTop: Layout.WINDOW_HEIGHT * 0.009,
+        //marginTop: Layout.WINDOW_HEIGHT * 0.009,
+        marginTop: Layout.WINDOW_HEIGHT * 0.007,
         //marginTop:6
     },
     marginTop10: {
-        marginTop: Layout.WINDOW_HEIGHT * 0.02,
+        //marginTop: Layout.WINDOW_HEIGHT * 0.02,
         //marginTop:16
+        marginTop: Layout.WINDOW_HEIGHT * 0.016,
     },
     marginTop12: {
         marginTop: Layout.WINDOW_HEIGHT * 0.025,
     },
     bottomBox: {
         flexDirection: 'row',
-        marginTop: Layout.WINDOW_HEIGHT * 0.045,
+        //marginTop: Layout.WINDOW_HEIGHT * 0.045,
+        marginTop: Layout.WINDOW_HEIGHT * 0.04,
         //marginTop: 35,
     },
     infoLeftBox: {
