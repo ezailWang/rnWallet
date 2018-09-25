@@ -227,7 +227,7 @@ class BlueButtonBig extends Component {
     render() {
         return (
             //<TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
-            <TouchableOpacity style={[styles.normalBtn]}
+            <TouchableOpacity style={[styles.normalBtn,this.props.buttonStyle]}
                               activeOpacity={0.6}
                               disabled={this.props.isDisabled}
                               onPress = {this.props.onPress}>

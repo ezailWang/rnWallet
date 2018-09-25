@@ -34,8 +34,8 @@ class DrawerComponent extends BaseComponent {
             <SafeAreaView style={{ flex: 1 }}>
                 <StatusBarComponent barStyle={this._barStyle} />
                 <View style={{ marginTop: 80, height: 70, backgroundColor: Colors.bgBlue_drawer_top, alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}>
-                    <Image source={require('../../assets/home/menu/menu_icon.png')} style={{ height: 46, width: 46, marginLeft: 25 }} />
-                    <Text style={{ fontSize: 18, marginLeft: 10 }}>{store.getState().Core.walletName}</Text>
+                    <Image source={require('../../assets/home/menu/menu_icon.png')} style={{ height: 46, width: 46, marginLeft: 21 }} />
+                    <Text style={{ fontSize: 15, marginLeft: 10, color: Colors.fontBlackColor_31, fontWeight: '400' }}>{store.getState().Core.walletName}</Text>
                 </View>
                 <ScrollView style={{ marginTop: 50 }}>
                     <DrawerCell

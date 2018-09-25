@@ -131,14 +131,16 @@ class CreateWalletScreen extends BaseComponent {
             isShowRePassword: false,
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
+            isShowRePwdWarn:false,
             pwdWarn:I18n.t('launch.password_warn'),
+            rePwdWarn:I18n.t('launch.enter_same_password'),
         }
         this.nametxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
-
-        console.log('L_routeName1',this.props.navigation.state.routeName)
+        this.isPwdFocus = false;//密码框是否获得焦点
+        this.isRePwdFocus = false;
     }
     _addEventListener(){
         super._addEventListener()
@@ -156,6 +158,7 @@ class CreateWalletScreen extends BaseComponent {
     }
     keyboardDidHideHandler=(event)=>{
         this.keyBoardIsShow = false;
+        this._isShowRePwdWarn();
     }
     hideKeyboard = () => {
         if(this.keyBoardIsShow){
@@ -181,46 +184,62 @@ class CreateWalletScreen extends BaseComponent {
         })
     }
 
-    //所有信息都输入完成前，“创建”按钮显示为灰色
+
     btnIsEnableClick(){ 
-        this._isShowPwdWarn(false);
-        if (this.nametxt == '' || this.nametxt == null || this.nametxt == undefined
-            || this.pwdtxt == '' || this.pwdtxt == null || this.pwdtxt == undefined
-            || this.rePwdtxt == '' || this.rePwdtxt == null || this.rePwdtxt == undefined ) {
+        if (this.nametxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
+              || vertifyPassword(this.pwdtxt) != '') {
                 this.setState({
-                    isDisabled: true
-                })
+                    isDisabled: true,
+                    isShowRePwdWarn: this.pwdtxt != this.rePwdtxt,
+                })   
         }else{
             this.setState({
                 isDisabled: false,
+                isShowRePwdWarn: false,
             })
         }  
     }
 
-    _isShowPwdWarn(isFocus){
-        let isMathPwd = '';
+    _isShowRePwdWarn(){
+        if(this.pwdtxt != '' &&  !this.state.isShowPwdWarn && this.rePwdtxt != '' 
+            && this.pwdtxt != this.rePwdtxt){
+            if(!this.state.isShowRePwdWarn){
+                this.setState({
+                    isShowRePwdWarn: true,
+                })
+            }
+        }else{
+            if(this.state.isShowRePwdWarn){
+                this.setState({
+                    isShowRePwdWarn: false,
+                })
+            }
+        }
+    }
+
+    _isShowPwdWarn(){
+        let isMatchPwd = '';
         if(this.pwdtxt != ''){
-            isMathPwd = vertifyPassword(this.pwdtxt)
-            if(isMathPwd != ''){
+            isMatchPwd = vertifyPassword(this.pwdtxt)
+            if(isMatchPwd != ''){//密码不匹配
                 this.setState({
                     isShowPwdWarn:true,
                     isDisabled: true,
-                    pwdWarn:isMathPwd,
+                    pwdWarn:isMatchPwd,
                 })
-            }else{
+            }else{//密码匹配
                 this.setState({
                     isShowPwdWarn:false,
                     pwdWarn:'',
                 })
+                this.btnIsEnableClick()
             }  
         }else{
-            if(isFocus){
-                this.setState({
-                    isShowPwdWarn:true,
-                    isDisabled: true,
-                    pwdWarn:I18n.t('launch.password_warn'),
-                }) 
-            }    
+            this.setState({
+                isShowPwdWarn:true,
+                isDisabled: true,
+                pwdWarn:I18n.t('launch.password_warn'),
+            })    
         }
     }
 
@@ -231,7 +250,7 @@ class CreateWalletScreen extends BaseComponent {
         let walletName = this.nametxt;
         let pwd = this.pwdtxt;
         let rePwd = this.rePwdtxt;
-        //let isMathPwd = this.vertifyPassword()
+        //let isMatchPwd = this.vertifyPassword()
         let warnMessage = "";
         if (walletName == '' || walletName == null || walletName == undefined) {
             warnMessage = I18n.t('toast.enter_wallet_name')
@@ -290,10 +309,12 @@ class CreateWalletScreen extends BaseComponent {
                                 selectionColor='#00bfff'
                                 secureTextEntry={!this.state.isShowPassword}
                                 onChange={(event) => {
+                                    console.log('L_onChange','onChange')
                                     this.pwdtxt = event.nativeEvent.text;
-                                    this.btnIsEnableClick()
+                                    this._isShowPwdWarn()
                                 }}
-                                onFocus = {() => this._isShowPwdWarn(true)}
+                                onFocus = {() => {console.log('L_onChange','onFocus');this.isPwdFocus = true;this._isShowPwdWarn()}}
+                                onBlur = {() => {this.isPwdFocus = false}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
                                 <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
@@ -313,11 +334,14 @@ class CreateWalletScreen extends BaseComponent {
                                     this.rePwdtxt = event.nativeEvent.text;
                                     this.btnIsEnableClick()
                                 }}
+                                onFocus = {() => {this.isRePwdFocus = true}}
+                                onBlur = {() => {this.isRePwdFocus = false;this._isShowRePwdWarn()}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenRePwd()}>
                                 <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'} />
                             </TouchableOpacity>
                         </View>
+                        <Text style={this.state.isShowRePwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.rePwdWarn}</Text>
                 
                         <BlueButtonBig
                              buttonStyle = {styles.button}

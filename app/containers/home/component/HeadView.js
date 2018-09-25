@@ -38,7 +38,7 @@ export default class HeadView extends Component {
                 </View> */}
                 <View style={styles.assetsContainer}>
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ marginLeft: 5, fontSize: 18, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
+                        <Text style={{ fontSize: 16, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
                         <ImageButton
                             btnStyle={{ width: 17, height: 11, marginTop: 5 }}
                             imageStyle={{ width: 17, height: 11 }}
@@ -46,13 +46,13 @@ export default class HeadView extends Component {
                             backgroundImageSource={this.props.hideAssetsIcon}
                         />
                     </View>
-                    <Text style={{ fontSize: 40, color: 'white' }}> {this.props.totalAssets} </Text>
+                    <Text style={{ fontSize: 30, color: 'white' }}> {this.props.totalAssets} </Text>
                 </View>
                 <View style={styles.addressContainer}>
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}> {this.props.walletName} </Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17 }}> {this.props.walletName} </Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 5 }}>
                         <Text style={{ color: 'white', fontSize: 12 }}> {this.props.address} </Text>
                         <ImageButton
                             btnStyle={{ width: 13, height: 13, marginLeft: 8, marginTop: 3 }}
@@ -63,9 +63,9 @@ export default class HeadView extends Component {
                     </View>
                 </View>
                 <View style={styles.bottomAddAssetsContainer}>
-                    <Text style={{ marginLeft: 10 }}> {I18n.t('home.assets')} </Text>
+                    <Text style={{ fontSize: 17, marginLeft: 23, color: Colors.homeAssetsTestColor, fontWeight: '300' }}> {I18n.t('home.assets')} </Text>
                     <ImageButton
-                        btnStyle={{ marginRight: 10 }}
+                        btnStyle={{ marginRight: 23 }}
                         onClick={this.props.onAddAssets}
                         backgroundImageSource={this.props.addAssetsIcon}
                     />
@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         marginTop: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
-        marginLeft: 15,
+        marginLeft: 23,
     },
     addressContainer: {
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'flex-start',
         height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
-        marginLeft: 15,
+        marginLeft: 23,
 
     },
     bottomAddAssetsContainer: {

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     headerTitle:{
         fontSize:FontSize.HeaderSize,
-        color:Colors.fontBlackColor,
+        color:Colors.fontDarkColor,
     },
     whiteTitle:{
         fontSize:FontSize.HeaderSize,

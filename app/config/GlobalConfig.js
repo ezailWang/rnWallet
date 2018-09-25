@@ -10,10 +10,11 @@ const Colors = {
     //字体颜色
     fontBlackColor: '#424242',
     fontDarkColor: '#000',
+    fontBlackColor_0a: '#0a1e3b',
     fontGrayColor: '#ECECEC',
     fontDarkGrayColor: '#959595',
     fontWhiteColor: '#FFFFFF',
-    fontBlueColor: '#00a0e9',
+    fontBlueColor: '#01a1e6',
     fontGreenColor: '#1bc94b',
     fontRedColor: '#e62624',
     fontGrayColor_a0: '#a0a0a0',
@@ -33,6 +34,7 @@ const Colors = {
     //灰色背景
     bgGrayColor:'#F8F8F8',
     bgGrayColor_ed:'#ededed',
+    bgGrayColor_e5:'#e5e5e5',
     //白底
     whiteBackgroundColor:"#FFFFFF",
     bgColor_e:'#eee',
@@ -42,6 +44,15 @@ const Colors = {
     btn_bg_blue:'rgb(1,176,245)',
     
     borderColor_e:'#eee',
+    
+    //Home
+    homeAssetsTestColor:'#535353',
+
+    //添加资产
+    addTokenBorderColor:'#eeeeee',
+    addTokenCheckTextColor:'#a0a0a0',
+    addTokenLeftTitleColor:'#000000',
+    addTokenAddBtnBgColor:'#bfbfbf'
 };
 
 const TransferType = {

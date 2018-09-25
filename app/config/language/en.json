@@ -44,11 +44,13 @@
         "password_warn_7":"also need to include one of lowercase letters and numbers",
         "password_warn_8":"also need to include one of uppercase letters and symbols",
         "password_warn_9":"also need to include one of uppercase letters and numbers",
-        "password_warn_10":"also need to include one of the upper and lower case letters"
+        "password_warn_10":"also need to include one of the upper and lower case letters",
+
+        "enter_same_password":"Please enter a consistent password",
     },
     "home":{
         "total_assets":"Total assets",
-        "assets":"assets list",
+        "assets":"Assets list",
         "settings":"settings",
         "QRCode":"QRCode",
         "no_assets":"No assets yet~",
@@ -166,7 +168,7 @@
         "enter_mnemonic":"Please enter a mnemonic",
         "enter_password":"Please enter your password",
         "enter_repassword":"Please enter a duplicate password",
-        "enter_same_password":"Please enter a consistent password",
+        
         "check_mnemonic_is_correct":"Please check if the mnemonic is correct",
 
         "import_mnemonic_error":"Error importing wallet",

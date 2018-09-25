@@ -122,11 +122,14 @@ class ImportWalletScreen extends BaseComponent {
             isShowPassword:false,
             isShowRePassword:false,
             pwdWarn:I18n.t('launch.password_warn'),
+            rePwdWarn:I18n.t('launch.enter_same_password'),
         }
         this.mnemonictxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
-        this.keyBoardIsShow = false;        
+        this.keyBoardIsShow = false;    
+        this.isPwdFocus = false;//密码框是否获得焦点
+        this.isRePwdFocus = false;    
     }
 
     _addEventListener(){
@@ -145,55 +148,74 @@ class ImportWalletScreen extends BaseComponent {
     }
     keyboardDidHideHandler=(event)=>{
         this.keyBoardIsShow = false;
+        this._isShowRePwdWarn();
     }
     hideKeyboard = () => {
         if(this.keyBoardIsShow){
             Keyboard.dismiss();
         }
     }
+
     
    //所有信息都输入完成前，“创建”按钮显示为灰色
    btnIsEnableClick(){
-        this._isShowPwdWarn(false);
-        if (this.mnemonictxt == ''  || this.mnemonictxt == null || this.mnemonictxt == undefined
-            || this.pwdtxt == '' || this.pwdtxt == null || this.pwdtxt == undefined
-            || this.rePwdtxt == '' || this.rePwdtxt == null || this.rePwdtxt == undefined ) {
+        if (this.mnemonictxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
+              || vertifyPassword(this.pwdtxt) != '') {
             this.setState({
-                isDisabled: true
-            })
-         }else{
+                isDisabled: true,
+                isShowRePwdWarn: this.pwdtxt != this.rePwdtxt,
+            }) 
+        }else{
             this.setState({
-                isDisabled: false
+                isDisabled: false,
+                isShowRePwdWarn: false,
             })
+        }  
+    }
+
+    _isShowRePwdWarn(){
+        if(this.pwdtxt != '' &&  !this.state.isShowPwdWarn && this.rePwdtxt != '' 
+            && this.pwdtxt != this.rePwdtxt){
+            if(!this.state.isShowRePwdWarn){
+                this.setState({
+                    isShowRePwdWarn: true,
+                })
+            }
+        }else{
+            if(this.state.isShowRePwdWarn){
+                this.setState({
+                    isShowRePwdWarn: false,
+                })
+            }
         }
     }
 
-    _isShowPwdWarn(isFocus){
-        let isMathPwd = '';
+    _isShowPwdWarn(){
+        let isMatchPwd = '';
         if(this.pwdtxt != ''){
-            isMathPwd = vertifyPassword(this.pwdtxt)
-            if(isMathPwd != ''){
+            isMatchPwd = vertifyPassword(this.pwdtxt)
+            if(isMatchPwd != ''){//密码不匹配
                 this.setState({
                     isShowPwdWarn:true,
                     isDisabled: true,
-                    pwdWarn:isMathPwd,
+                    pwdWarn:isMatchPwd,
                 })
-            }else{
+            }else{//密码匹配
                 this.setState({
                     isShowPwdWarn:false,
                     pwdWarn:'',
                 })
+                this.btnIsEnableClick()
             }  
         }else{
-            if(isFocus){
-                this.setState({
-                    isShowPwdWarn:true,
-                    isDisabled: true,
-                    pwdWarn:I18n.t('launch.password_warn')
-                }) 
-            }
+            this.setState({
+                isShowPwdWarn:true,
+                isDisabled: true,
+                pwdWarn:I18n.t('launch.password_warn'),
+            })    
         }
     }
+
 
 
     async vertifyInputData(){
@@ -202,11 +224,11 @@ class ImportWalletScreen extends BaseComponent {
         let mnemonic = this.mnemonictxt;
         let pwd = this.pwdtxt;
         let rePwd = this.rePwdtxt;
-        if(mnemonic == ''  || mnemonic == null || mnemonic == undefined){
+        if(mnemonic == ''){
             warnMessage = I18n.t('toast.enter_mnemonic')
-        }else if(pwd == ''  || pwd == null || pwd == undefined){
+        }else if(pwd == ''){
             warnMessage = I18n.t('toast.enter_password')
-        }else if(rePwd == '' || rePwd == null || rePwd == undefined){
+        }else if(rePwd == ''){
             warnMessage = I18n.t('toast.enter_repassword')
         }else if(pwd != rePwd){
             warnMessage = I18n.t('toast.enter_same_password')
@@ -308,9 +330,10 @@ class ImportWalletScreen extends BaseComponent {
                                 secureTextEntry={!this.state.isShowPassword}
                                 onChange={(event) => {
                                     this.pwdtxt = event.nativeEvent.text
-                                    this.btnIsEnableClick()
+                                    this._isShowPwdWarn()
                                 }}
-                                onFocus = {() => this._isShowPwdWarn(true)}
+                                onFocus = {() => {console.log('L_onChange','onFocus');this.isPwdFocus = true;this._isShowPwdWarn()}}
+                                onBlur = {() => {this.isPwdFocus = false}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
                                 <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
@@ -328,12 +351,15 @@ class ImportWalletScreen extends BaseComponent {
                                     this.rePwdtxt = event.nativeEvent.text;
                                     this.btnIsEnableClick()
                                 }}
+                                onFocus = {() => {this.isRePwdFocus = true}}
+                                onBlur = {() => {this.isRePwdFocus = false;this._isShowRePwdWarn()}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenRePwd()}>
                                 <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'} />
                             </TouchableOpacity>
 
                         </View>
+                        <Text style={this.state.isShowRePwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.rePwdWarn}</Text>
                         <View style={styles.buttonBox}>
                             <BlueButtonBig
                                 isDisabled = {this.state.isDisabled}

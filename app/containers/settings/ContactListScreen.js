@@ -17,13 +17,13 @@ import BaseComponent from '../base/BaseComponent'
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:Colors.bgGrayColor,
+        backgroundColor:Colors.backgroundColor,
         alignItems:'center',
     },
     listContainer:{
         flex:1,
         width:Layout.WINDOW_WIDTH*0.9,
-        paddingTop:15,
+        paddingTop:12,
         paddingBottom:15,
     },
     emptyListContainer:{
@@ -63,15 +63,15 @@ const styles = StyleSheet.create({
     },
     itemName:{
         fontSize:15,
-        color:Colors.fontBlackColor,
+        color:Colors.fontBlackColor_43,
         marginBottom:2,
     },
     itemAddress:{
-        fontSize:13,
+        fontSize:12,
         color:Colors.fontGrayColor_a1,
     },
     itemSeparator:{
-        height:10,
+        height:12,
         backgroundColor:'transparent',
     }
 })

@@ -37,6 +37,16 @@ const styles = StyleSheet.create({
     textInput:{
         marginBottom:12,
     },
+    warnTxt:{
+        fontSize:10,
+        color:'red',
+        alignSelf:'flex-end',
+        marginBottom: 10,
+        paddingLeft:10,
+    },
+    warnTxtHidden:{
+        height:0
+    },
     button:{
         alignSelf:'center',
         marginTop:20,
@@ -49,29 +59,54 @@ export default class CreateContactScreen extends BaseComponent {
         super(props);
         this.state = {
             isDisabled:true,
-            address:'',//扫描回来带的地址
+            address:'',
+            isShowAddressWarn:false,
+            addressWarn:I18n.t('toast.enter_valid_transfer_address'),
         }
 
         this.name = '';
         this.remark = '';
         this.address = '';
+        this.isAddressFocus = false
     }
 
     _initData() { 
 
     }
 
+
     btnIsEnableClick(){
         if (this.name == ''|| this.address == '') {
-            this.setState({
-                isDisabled: true
-            })
+            if(!this.state.isDisabled){
+                this.setState({
+                    isDisabled: true
+                })
+            }
          }else{
-            this.setState({
-                isDisabled: false
-            })
-            
+            if(this.state.isDisabled){
+                this.setState({
+                    isDisabled: false
+                })  
+            }   
         }
+    }
+
+    vertifyAddress(){
+        let addressIsOK = true;
+        if(this.address != ''){
+            addressIsOK = NetworkManager.isValidAddress(this.address);
+            let disabled = this.name == '' || !addressIsOK
+            this.setState({
+                isShowAddressWarn:!addressIsOK,
+                isDisabled: disabled
+            })
+        }else{
+            if(!this.state.isDisabled){
+                this.setState({
+                    isDisabled: true
+                })  
+            }
+        }  
     }
     
     scanClick = async () => {
@@ -89,7 +124,7 @@ export default class CreateContactScreen extends BaseComponent {
                     _this.setState({
                         address: address
                     })
-                    _this.btnIsEnableClick()
+                    _this.vertifyAddress()
                 }
             })
         } else {
@@ -106,14 +141,14 @@ export default class CreateContactScreen extends BaseComponent {
     };
     remarkOnChangeText = (text) => {
         this.remark = text;
-        this.btnIsEnableClick()
+        //this.btnIsEnableClick()
     };
     addressOnChangeText = (text) => {
         this.address = text;
         this.setState({
             address:text,
         })
-        this.btnIsEnableClick()
+        this.vertifyAddress()
     };
 
     async save(){
@@ -149,7 +184,7 @@ export default class CreateContactScreen extends BaseComponent {
                     <CommonTextInput
                          textInputStyle = {styles.textInput}
                          onChangeText={this.nameOnChangeText}/>
-
+                    
                     <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
@@ -160,8 +195,10 @@ export default class CreateContactScreen extends BaseComponent {
                          textInputStyle = {styles.textInput}
                          returnKeyType={"done"}
                          onChangeText={this.addressOnChangeText}
-                         defaultValue={this.state.address}/>          
-                    
+                         defaultValue={this.state.address}
+                         onFocus = {() => {this.isAddressFocus = true;}}
+                         onBlur = {() => {this.isAddressFocus = false}}/>          
+                    <Text style={this.state.isShowAddressWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.addressWarn}</Text>
                     <BlueButtonBig
                         buttonStyle = {styles.button}
                         isDisabled = {this.state.isDisabled}
