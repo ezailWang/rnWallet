@@ -85,7 +85,7 @@
         "remarks":"备注",
         "enter_remarks":"输入备注",
         "next_step":"下一步",
-
+        "address_list":"地址簿",
         "transaction_details":"交易详情",
         "sending_party":"发款方",
         "beneficiary":"收款方",
@@ -104,7 +104,16 @@
         "payment_details":"支付详情",
         "wallet_password":"钱包密码",
         "enter_password_hint":"请输入密码",
-        "determine":"确定"
+        "determine":"确定",
+
+        "transaction_fail":"交易失败",
+
+        "alert_0":"秘钥获取失败",
+        "alert_1":"交易发送失败，请检查参数",
+        "alert_2":"请输入有效的转账地址",
+        "alert_3":"请输入有效的转账金额",
+        "alert_4":"余额不足",
+        "alert_5":"请先打开使用摄像头权限"
     },
     "settings":{
         "set":"钱包工具",

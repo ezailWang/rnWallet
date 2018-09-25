@@ -32,6 +32,7 @@ const tokenIcon = {
     'DPY': require('../../assets/home/DPY.png'),
 }
 
+let timer;
 
 const styles = StyleSheet.create({
 
@@ -247,7 +248,7 @@ class Cell extends Component{
                             <Text style={[colorStyle,styles.transactionValue]}>
                                 {showText}
                             </Text>
-                            {transcationStatus == "1"?<Text style={styles.transactionFailed}>交易失败</Text>:null}
+                            {transcationStatus == "1"?<Text style={styles.transactionFailed}>{I18n.t('transaction.transaction_fail')}</Text>:null}
                         </View>
                     </View>
                     {this.props.item.item.sureBlock < 12 ? <ProgressView totalProgress={12} curProgress={this.props.item.item.sureBlock}/>:null}
@@ -376,23 +377,27 @@ export default class TransactionRecoder extends BaseComponent{
 
         this._showLoding()
 
-        let {amount,price,symbol,ethBalance} = store.getState().Core.balance;
+        let {amount,price,symbol} = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
         let suggestGas = await networkManage.getSuggestGasPrice();
+        let ethBalance = await networkManage.getEthBalance();
+
+
         transferProps = {
             transferType:symbol,
+            ethBalance:ethBalance,
             balance:amount,
             suggestGasPrice:parseFloat(suggestGas),
             ethPrice:price,
             fromAddress:walletAddress,
-            ethBalance:ethBalance
         };
 
         this._hideLoading()
 
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
-            onGoBack: () => this.onRefresh(),
+            onGoBack: () => {},
+            // onGoBack: () => this.onRefresh(),
           });
     };
 
@@ -462,6 +467,19 @@ export default class TransactionRecoder extends BaseComponent{
                 imageSource = tokenIcon[symbol]
         }
         return imageSource
+    }
+
+    componentWillMount(){
+     
+        timer = setInterval(()=>{
+
+            this.getRecoder()
+        },10 * 1000)
+    }
+
+    componentWillUnmount(){
+        
+        clearInterval(timer)
     }
 
     renderComponent (){
@@ -637,11 +655,11 @@ export default class TransactionRecoder extends BaseComponent{
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView,btnShadowStyle]}>
                     <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapTransactionButton}>
-                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>转账</Text>
+                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.transfer')}</Text>
                     </TouchableOpacity> 
                     <View style={{width:1,height:bottomView.height-10,backgroundColor:Colors.fontGrayColor}} /> 
                     <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapShowQrCodeButton}>
-                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>收款</Text>
+                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.receipt')}</Text>
                     </TouchableOpacity>  
                     {/* <WhiteButtonMiddle  onPress={this.didTapTransactionButton}
                                         text={I18n.t('transaction.transfer')}

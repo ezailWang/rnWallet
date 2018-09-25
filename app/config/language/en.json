@@ -86,6 +86,7 @@
         "remarks":"Remarks",
         "enter_remarks":"Enter a note",
         "next_step":"Next step",
+        "address_list":"address list",
 
         "transaction_details":"Transaction Details",
         "sending_party":"Sending party",
@@ -105,7 +106,16 @@
         "payment_details":"Payment details",
         "wallet_password":"Wallet password",
         "enter_password_hint":"Please enter your password",
-        "determine":"Determine"
+        "determine":"Determine",
+
+        "transaction_fail":"failed",
+        
+        "alert_0":"Get Secret key failed",
+        "alert_1":"Transaction failed, please check parameters.",
+        "alert_2":"Please enter a valid transfer address.",
+        "alert_3":"Please enter a valid transfer amount.",
+        "alert_4":"Sorry, your credit is running low",
+        "alert_5":"Please open the camera access first."
     },
     "settings":{
         "set":"Wallet tool",
