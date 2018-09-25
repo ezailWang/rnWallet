@@ -316,6 +316,7 @@ class ImportWalletScreen extends BaseComponent {
                             underlineColorAndroid='transparent'
                             selectionColor='#00bfff'
                             multiline={true}
+                            defaultValue={'violin stamp exist price hard coyote cream decide solution cargo sign mixture'}
                             onChange={(event) => {
                                 this.mnemonictxt = event.nativeEvent.text;
                                 this.btnIsEnableClick()

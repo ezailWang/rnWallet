@@ -248,7 +248,7 @@ class SliderView extends Component {
         return (
             <View style={[styles.sliderBottomView, styles.shadowStyle]}>
                 <View style={styles.sliderTitleContainerView}>
-                    <Text style={styles.sliderTitle}>矿工费</Text>
+                    <Text style={styles.sliderTitle}>{I18n.t('transaction.miner_fee')}</Text>
                 </View>
                 <View style={styles.sliderContainerView}>
 
@@ -266,9 +266,9 @@ class SliderView extends Component {
                     />
                 </View>
                 <View style={styles.sliderAlertView}>
-                    <Text>慢</Text>
+                    <Text>{I18n.t('transaction.fast')}</Text>
                     <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
-                    <Text style={{ alignSelf: 'flex-end' }}>快</Text>
+                    <Text style={{ alignSelf: 'flex-end' }}>{I18n.t('transaction.slow')}</Text>
                 </View>
             </View>
         )
@@ -297,8 +297,7 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            //toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
-            toAddress:'',
+            toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
             fromAddress: params.fromAddress,
             detailData: "",
             defaultTransferValue:''
@@ -345,16 +344,16 @@ export default class Transaction extends BaseComponent {
             }, 10);  
 
             setTimeout(() => {
-                alert("秘钥获取失败");
+                alert(I18n.t('transaction.alert_0'));
             }, 100);
         }
         else {
 
-            let { contractAddress, transferType, decimals } = store.getState().Core.balance;
+            let { contractAddress, symbol, decimals } = store.getState().Core.balance;
             let res = await NetworkManager.sendTransaction(
                 {
                     "contractAddress": contractAddress,
-                    "symbol": transferType,
+                    "symbol": symbol,
                     "decimals": decimals
                 },
                 this.state.toAddress,
@@ -377,7 +376,7 @@ export default class Transaction extends BaseComponent {
                 }
                 else {
                     setTimeout(() => {
-                        alert("交易发送失败，请检查参数");
+                        alert(I18n.t('transaction.alert_1'));
                     }, 100);
                 }
             }, 10); 
@@ -388,12 +387,12 @@ export default class Transaction extends BaseComponent {
     didTapNextBtn = () => {
         console.log('L_next_address',this.state.toAddress)
         if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
-            alert("请输入有效的转账地址");
+            alert(I18n.t('transaction.alert_2'));
             return;
         }
 
         if (parseFloat(this.state.transferValue) < 0 || parseFloat(this.state.transferValue)> this.params.balance) {
-            alert("请输入有效的转账金额");
+            alert(I18n.t('transaction.alert_3'));
             return;
         }
 
@@ -404,7 +403,7 @@ export default class Transaction extends BaseComponent {
 
         if(this.params.ethBalance < totalGas){
 
-            alert("余额不足");
+            alert(I18n.t('transaction.alert_4'));
             return;
         }
 
@@ -412,7 +411,7 @@ export default class Transaction extends BaseComponent {
             fromAddress: this.state.fromAddress,
             toAddress: this.state.toAddress,
             totalAmount: this.state.transferValue + " " + this.params.transferType,
-            payType: this.params.transferType + "转账",
+            payType: this.params.transferType + I18n.t('transaction.transfer'),
             gasPrice:this.getPriceTitle(this.state.currentGas),
             gasPriceInfo: this.getDetailPriceTitle()
         };
@@ -434,24 +433,25 @@ export default class Transaction extends BaseComponent {
         let totalValue = this.params.balance;
         let fl =parseFloat(tValue)
 
-        console.log(fl,totalValue)
+        // console.log(fl,totalValue)
 
         if (fl > parseFloat(totalValue)){
             this.setState({
                 defaultTransferValue:totalValue
+                // defaultTransferValue:'0.1'
             });
-            console.log("1")
+            // console.log("1")
             tValue = totalValue;
         }else{
             this.setState({
                 defaultTransferValue:text
             });
-            console.log("2")
+            // console.log("2")
         }
         this.setState({
             transferValue: parseFloat(tValue)
         });
-        console.log("3")
+        // console.log("3")
     };
 
     toAddressTextInputChangeText = (text) => {
@@ -502,14 +502,14 @@ export default class Transaction extends BaseComponent {
         } else {
             Alert.alert(
                 'warn',
-                '请先打开使用摄像头权限',
+                I18n.t('transaction.alert_2'),
             )
         }
     }
-    render() {
-
+    renderComponent() {
+        
         let params = store.getState().Core.walletTransfer;
-        let title = params.transferType + "转账";
+        let title = params.transferType + I18n.t('transaction.transfer');
 
         return (
             <View style={styles.container}>

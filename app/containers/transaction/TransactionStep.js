@@ -319,10 +319,10 @@ export default class TransactionStep extends Component {
                 transparent={true}
                 visible={this.state.show}
                 onShow={() => {
-                    console.log('控件显示');
+                    // console.log('控件显示');
                 }}
                 onRequestClose={() => {
-                    console.log('安卓物理返回');
+                    // console.log('安卓物理返回');
                 }}>
                 <View style={styles.container}>
                     <KeyboardAwareScrollView

@@ -85,7 +85,7 @@
         "remarks":"비고",
         "enter_remarks":"메모 입력",
         "next_step":"다음 단계",
-        "address_list":"地址簿",
+        "address_list":"주소록",
         
         "transaction_details":"거래 세부 정보",
         "sending_party":"발신자",
@@ -105,7 +105,16 @@
         "payment_details":"지불 세부 사항",
         "wallet_password":"월렛 비밀번호",
         "enter_password_hint":"비밀번호를 입력하십시오",
-        "determine":"결정"
+        "determine":"결정",
+
+        "transaction_fail":"거래가 실패하다",
+        
+        "alert_0":"비밀 키 가져오기 실패",
+        "alert_1":"거래 발송 실패, 인자 검사",
+        "alert_2":"유효한 이체 주소를 입력하십시오.",
+        "alert_3":"유효한 이체 금액을 입력하십시오.",
+        "alert_4":"잔고가 부족하다.",
+        "alert_5":"카메라 권한 먼저 열어주세요."
     },
     "settings":{
         "set":"지갑 도구",
