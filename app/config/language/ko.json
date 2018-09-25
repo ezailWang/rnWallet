@@ -83,7 +83,8 @@
         "remarks":"비고",
         "enter_remarks":"메모 입력",
         "next_step":"다음 단계",
-
+        "address_list":"地址簿",
+        
         "transaction_details":"거래 세부 정보",
         "sending_party":"발신자",
         "beneficiary":"수취인",

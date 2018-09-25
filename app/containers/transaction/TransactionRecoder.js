@@ -376,16 +376,19 @@ export default class TransactionRecoder extends BaseComponent{
 
         this._showLoding()
 
-        let {amount,price,symbol,ethBalance} = store.getState().Core.balance;
+        let {amount,price,symbol} = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
         let suggestGas = await networkManage.getSuggestGasPrice();
+        let ethBalance = await networkManage.getEthBalance();
+
+
         transferProps = {
             transferType:symbol,
+            ethBalance:ethBalance,
             balance:amount,
             suggestGasPrice:parseFloat(suggestGas),
             ethPrice:price,
             fromAddress:walletAddress,
-            ethBalance:ethBalance
         };
 
         this._hideLoading()
@@ -637,11 +640,11 @@ export default class TransactionRecoder extends BaseComponent{
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView,btnShadowStyle]}>
                     <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapTransactionButton}>
-                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>转账</Text>
+                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.transfer')}</Text>
                     </TouchableOpacity> 
                     <View style={{width:1,height:bottomView.height-10,backgroundColor:Colors.fontGrayColor}} /> 
                     <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapShowQrCodeButton}>
-                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>收款</Text>
+                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.receipt')}</Text>
                     </TouchableOpacity>  
                     {/* <WhiteButtonMiddle  onPress={this.didTapTransactionButton}
                                         text={I18n.t('transaction.transfer')}

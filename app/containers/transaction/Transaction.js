@@ -29,6 +29,9 @@ import keythereum from 'keythereum'
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
+
+import I18n from 'react-native-i18n'
+
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
@@ -361,7 +364,7 @@ export default class Transaction extends BaseComponent {
             )
 
 
-            console.warn('交易发送完毕'+res);
+            // console.warn('交易发送完毕'+res);
 
             setTimeout(() => {
 
@@ -429,19 +432,26 @@ export default class Transaction extends BaseComponent {
     valueTextInputChangeText = (text) => {
         let tValue = text;
         let totalValue = this.params.balance;
-        if (parseFloat(text) > totalValue){
+        let fl =parseFloat(tValue)
+
+        console.log(fl,totalValue)
+
+        if (fl > parseFloat(totalValue)){
             this.setState({
                 defaultTransferValue:totalValue
             });
+            console.log("1")
             tValue = totalValue;
         }else{
             this.setState({
                 defaultTransferValue:text
             });
+            console.log("2")
         }
         this.setState({
             transferValue: parseFloat(tValue)
         });
+        console.log("3")
     };
 
     toAddressTextInputChangeText = (text) => {
@@ -529,17 +539,17 @@ export default class Transaction extends BaseComponent {
                             </TextInput>
                         </View>
                     </View> */}
-                    <InfoView title={"金额"}
-                        detailTitle={"余额：" + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
-                        placeholder={"输入" + this.params.transferType + "金额"}
+                    <InfoView title={I18n.t('transaction.amount')}
+                        detailTitle={I18n.t('transaction.balance')+':' + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
+                        placeholder={I18n.t('transaction.enter') + this.params.transferType + I18n.t('transaction.amount')}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
                         onChangeText={this.valueTextInputChangeText} 
                         defaultValue = {this.state.defaultTransferValue}/>
                     {/*转账地址栏*/}
-                    <InfoView title={"收款地址"}
-                        detailTitle={"地址簿"}
-                        placeholder={"输入转账地址"}
+                    <InfoView title={I18n.t('transaction.collection_address')}
+                        detailTitle={I18n.t('transaction.address_list')}
+                        placeholder={I18n.t('transaction.enter_transfer_address')}
                         returnKeyType={"next"}
                         onChangeText={this.toAddressTextInputChangeText}
                         defaultValue = {this.state.toAddress}
@@ -558,7 +568,7 @@ export default class Transaction extends BaseComponent {
                     {/*下一步按钮*/}
                     <View style={styles.buttonBox}>
                         <BlueButtonBig 
-                            onPress={this.didTapNextBtn} text={"下一步"} />
+                            onPress={this.didTapNextBtn} text={I18n.t('transaction.next_step')} />
                     </View>
                     </View>
                

@@ -83,6 +83,7 @@
         "remarks":"Remarks",
         "enter_remarks":"Enter a note",
         "next_step":"Next step",
+        "address_list":"地址簿",
 
         "transaction_details":"Transaction Details",
         "sending_party":"Sending party",
