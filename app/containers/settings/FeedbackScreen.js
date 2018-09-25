@@ -84,11 +84,13 @@ export default class FeedbackScreen extends BaseComponent {
     }
 
     _addEventListener(){
+        super._addEventListener()
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
     }
 
     _removeEventListener(){
+        super._removeEventListener()
         this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
     }

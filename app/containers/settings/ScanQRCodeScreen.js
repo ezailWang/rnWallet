@@ -79,11 +79,11 @@ const styles = StyleSheet.create({
         fontSize:15,
         color:'#fff',
         paddingTop:12,
-        backgroundColor:'rgba(0,0,0,0.8)',
+        backgroundColor:'rgba(0,0,0,0.6)',
     },
     tranView:{
         flex:1,
-        backgroundColor:'rgba(0,0,0,0.8)',
+        backgroundColor:'rgba(0,0,0,0.6)',
     },
     
 });
