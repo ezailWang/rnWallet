@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     },
     icon:{
         alignSelf:'center',
-        width:60,
-        height:60,
+        width: 72,
+        height: 72,
         marginBottom:25,
     },
     blueText:{
@@ -38,21 +38,21 @@ const styles = StyleSheet.create({
     },
     itemBox:{
         flexDirection:'row',
-        alignItems:'center',
+        //alignItems:'center',
         marginBottom:8,
-        
     },
     itemCircle:{
         width:4,
         height:4,
         borderRadius: 2,
         marginRight:10,
+        marginTop:6
     },
     itemText:{
         width:Layout.WINDOW_WIDTH*0.9-14,
         color:Colors.fontBlackColor,
         fontSize:14,
-        //lineHeight:16,
+        lineHeight:16,
     },
     viewBottom:{
         flex:1,

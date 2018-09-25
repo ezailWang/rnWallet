@@ -33,6 +33,10 @@ function showToast(message){
 const styles = StyleSheet.create({
     containerStyle :{
         borderRadius:20,
+        height:30,
+        paddingLeft:16,
+        paddingRight:16,
+        justifyContent:'center'
     }
 })
 module.exports = {showToast}

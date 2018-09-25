@@ -29,20 +29,20 @@ const styles = StyleSheet.create({
         paddingTop:40,
     },
     contentContainer: {
-        justifyContent:'center',
+        //justifyContent:'center',
         width:Layout.WINDOW_WIDTH*0.9,
         alignItems:'center',
     },
     icon: {
-        width: 60,
-        height: 60,
+        width: 72,
+        height: 72,
         marginBottom:10,
     },
     titleTxt: {
         fontSize: 18,
         fontWeight: '500',
         color: Colors.fontBlueColor,
-        marginBottom:30,
+        paddingBottom:50,
     }, 
     warnBox:{
         alignSelf: 'stretch',
@@ -55,17 +55,18 @@ const styles = StyleSheet.create({
     },
     itemBox:{
         flexDirection:'row',
-        alignItems:'center',
+        //alignItems:'center',
         marginBottom:1, 
     },
     itemCircle:{
         width:4,
         height:4,
         borderRadius: 2,
-        marginRight:6,
+        marginRight:10,
+        marginTop:6
     },
     itemText:{
-        width:Layout.WINDOW_WIDTH*0.9-10,
+        width:Layout.WINDOW_WIDTH*0.9-40,
         color:'white',
         fontSize:13,
     },
@@ -127,20 +128,21 @@ class CreateWalletScreen extends BaseComponent {
             //walletName: '',
             //pwd: '',
             //rePwd: '',
+            isShowNameWarn:false,
             isShowPassword: false,
             isShowRePassword: false,
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
             isShowRePwdWarn:false,
+            nameWarn:I18n.t('launch.enter_normative_wallet_name'),
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
+
         }
         this.nametxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
-        this.isPwdFocus = false;//密码框是否获得焦点
-        this.isRePwdFocus = false;
     }
     _addEventListener(){
         super._addEventListener()
@@ -187,18 +189,21 @@ class CreateWalletScreen extends BaseComponent {
 
     btnIsEnableClick(){ 
         if (this.nametxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
-              || vertifyPassword(this.pwdtxt) != '') {
+              || vertifyPassword(this.pwdtxt) != '' || this.nametxt.length > 12) {
                 this.setState({
                     isDisabled: true,
-                    isShowRePwdWarn : this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn
+                    isShowRePwdWarn : this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn,
+                    isShowNameWarn: (this.nametxt == '' || this.nametxt.length > 12) ? true : false,
                 })   
         }else{
             this.setState({
                 isDisabled: false,
                 isShowRePwdWarn: false,
+                isShowNameWarn: false,
             })
         }  
     }
+
 
     _isShowRePwdWarn(){
         if(this.pwdtxt != '' &&  !this.state.isShowPwdWarn && this.rePwdtxt != '' 
@@ -211,6 +216,7 @@ class CreateWalletScreen extends BaseComponent {
         }else{
             if(this.state.isShowRePwdWarn){
                 this.setState({
+                    isDisabled: false,
                     isShowRePwdWarn: false,
                 })
             }
@@ -268,9 +274,10 @@ class CreateWalletScreen extends BaseComponent {
         }
     }
 
-    
-    
 
+
+
+    
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
@@ -284,7 +291,7 @@ class CreateWalletScreen extends BaseComponent {
                                          behavior="padding">
                 <View style={styles.contentContainer}>
                 
-                        <Image style={styles.icon} source={require('../../assets/launch/create_icon.png')} resizeMode={'center'} />
+                        <Image style={styles.icon} source={require('../../assets/launch/create_icon.png')} resizeMode='contain'/>
                         <Text style={styles.titleTxt}>{I18n.t('launch.creact_wallet')}</Text>
 
                         <View style={styles.warnBox}>
@@ -292,15 +299,19 @@ class CreateWalletScreen extends BaseComponent {
                             <Item content={I18n.t('launch.create_wallet_warn2')}></Item>
                         </View>
                     
-                        <TextInput style={styles.inputText}
-                            returnKeyType='next' 
-                            placeholder={I18n.t('launch.wallet_name_hint')}
-                            underlineColorAndroid='transparent'
-                            selectionColor='#00bfff'
-                            onChange={(event) => {
-                                this.nametxt = event.nativeEvent.text;
-                                this.btnIsEnableClick()
-                            }} />
+                        <View style={styles.inputBox}>
+                            <TextInput style={styles.input}
+                                returnKeyType='next' 
+                                placeholder={I18n.t('launch.wallet_name_hint')}
+                                underlineColorAndroid='transparent'
+                                selectionColor='#00bfff'
+                                onChange={(event) => {
+                                    this.nametxt = event.nativeEvent.text;
+                                    this.btnIsEnableClick()
+                                }} 
+                                onFocus = {() => {this.btnIsEnableClick()}}/>
+                        </View>  
+                        <Text style={this.state.isShowNameWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.nameWarn}</Text>  
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 returnKeyType='next' 
@@ -313,8 +324,8 @@ class CreateWalletScreen extends BaseComponent {
                                     this.pwdtxt = event.nativeEvent.text;
                                     this._isShowPwdWarn()
                                 }}
-                                onFocus = {() => {console.log('L_onChange','onFocus');this.isPwdFocus = true;this._isShowPwdWarn()}}
-                                onBlur = {() => {this.isPwdFocus = false}}
+                                onFocus = {() => {this._isShowPwdWarn()}}
+                                onBlur = {() => {}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
                                 <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
@@ -334,8 +345,8 @@ class CreateWalletScreen extends BaseComponent {
                                     this.rePwdtxt = event.nativeEvent.text;
                                     this.btnIsEnableClick()
                                 }}
-                                onFocus = {() => {this.isRePwdFocus = true}}
-                                onBlur = {() => {this.isRePwdFocus = false;this._isShowRePwdWarn()}}
+                                onFocus = {() => {}}
+                                onBlur = {() => {this._isShowRePwdWarn()}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenRePwd()}>
                                 <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'} />

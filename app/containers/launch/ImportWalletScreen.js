@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     icon: {
-        width: 60,
-        height: 60,
+        width: 72,
+        height: 72,
         marginBottom:10,
     },
     titleTxt: {
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     },
     inputTextBox: {
         alignSelf: 'stretch',
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingLeft: 10,
+        paddingRight: 10,
         borderRadius: 5,
         borderColor: 'rgb(241,241,241)',
         borderWidth: 1,
@@ -310,7 +310,8 @@ class ImportWalletScreen extends BaseComponent {
                         <Text style={styles.titleTxt}>{I18n.t('launch.import_wallet')}</Text>
                    
                     
-                        <TextInput style={[styles.inputTextBox, styles.inputArea]}
+                        <View style={styles.inputTextBox}>
+                        <TextInput style={[styles.inputArea]}
                             returnKeyType='next'
                             placeholder={I18n.t('launch.input_mnemonic_hint')}
                             underlineColorAndroid='transparent'
@@ -321,6 +322,7 @@ class ImportWalletScreen extends BaseComponent {
                                 this.btnIsEnableClick()
                             }}>
                         </TextInput>
+                        </View>
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 returnKeyType='next'

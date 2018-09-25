@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
         paddingTop:80,
     },
     icon:{
-        width:60,
-        height:60,
+        width: 72,
+        height: 72,
         marginBottom:10,
     },
 
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor:Colors.bgColor_e,
         fontSize:16,
         color:'black',
-        //borderRadius:5,
+        borderRadius: 8,
         marginTop:30,
         paddingLeft:20,
         paddingRight:20,

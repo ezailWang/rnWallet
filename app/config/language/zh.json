@@ -45,7 +45,8 @@
         "password_warn_9":"还需包含大写字母、数字中的1种",
         "password_warn_10":"还需包含大、小写字母中的1种",
 
-        "enter_same_password":"请输入一致的密码"
+        "enter_same_password":"请输入一致的密码",
+        "enter_normative_wallet_name":"请输入1~12位钱包名称"
     },
     "home":{
         "total_assets":"总资产",
