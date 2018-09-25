@@ -161,10 +161,10 @@ class ImportWalletScreen extends BaseComponent {
    btnIsEnableClick(){
         if (this.mnemonictxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
               || vertifyPassword(this.pwdtxt) != '') {
-            this.setState({
-                isDisabled: true,
-                isShowRePwdWarn: this.pwdtxt != this.rePwdtxt,
-            }) 
+                this.setState({
+                    isDisabled: true,
+                    isShowRePwdWarn : this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn
+                }) 
         }else{
             this.setState({
                 isDisabled: false,
