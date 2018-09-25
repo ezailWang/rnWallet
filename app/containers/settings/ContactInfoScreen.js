@@ -70,9 +70,7 @@ export default class ContactInfoScreen extends BaseComponent {
         super(props);
         this.state = {
             isDisabled:true,
-            name:'',
-            remark:'',
-            address:'',
+            contentChangeCount:1,
             isShowDialog:false,
             isShowAddressWarn:false,
             addressWarn:I18n.t('toast.enter_valid_transfer_address'),
@@ -96,9 +94,10 @@ export default class ContactInfoScreen extends BaseComponent {
         this.address = this.contactInfo.address;
 
         this.setState({
-            name:this.contactInfo.name,
-            remark:this.contactInfo.remark,
-            address:this.contactInfo.address,
+            contentChangeCount : this.state.contentChangeCount+1
+           // name:this.contactInfo.name,
+           // remark:this.contactInfo.remark,
+           // address:this.contactInfo.address,
         })
 
         this.getStorageId();
@@ -107,14 +106,6 @@ export default class ContactInfoScreen extends BaseComponent {
     async getStorageId(){
         var ids = await StorageManage.loadIdsForKey(StorageKey.Contact);
         this.storageId = ids[this.index];
-    }
-
-    vertifyInput(){
-        if(this.isAddressFocus){
-            this.vertifyAddress()
-        }else{
-            this.btnIsEnableClick()
-        }
     }
 
     btnIsEnableClick(){
@@ -167,7 +158,8 @@ export default class ContactInfoScreen extends BaseComponent {
                     var address = data.toAddress;
                     _this.address = address
                     _this.setState({
-                        address: address
+                        //address: address
+                        contentChangeCount : this.state.contentChangeCount+1
                     })
                     _this.vertifyAddress()
                 }
@@ -182,18 +174,19 @@ export default class ContactInfoScreen extends BaseComponent {
 
     nameOnChangeText = (text) => {
         this.name = text;
-        this.vertifyInput()
+        this.btnIsEnableClick()
     };
     remarkOnChangeText = (text) => {
         this.remark = text;
-        this.vertifyInput()
+        this.btnIsEnableClick()
     };
     addressOnChangeText = (text) => {
         this.address = text;
         this.setState({
-            address:text,
+            //address:text,
+            contentChangeCount : this.state.contentChangeCount+1
         })
-        this.vertifyInput()
+        this.vertifyAddress()
     };
 
     
@@ -251,20 +244,20 @@ export default class ContactInfoScreen extends BaseComponent {
                     <CommonTextInput
                          textInputStyle = {styles.textInput}
                          onChangeText={this.nameOnChangeText}
-                         defaultValue={this.state.name}/>
+                         defaultValue={this.name}/>
 
                     <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          onChangeText={this.remarkOnChangeText}
-                         defaultValue={this.state.remark}/>
+                         defaultValue={this.remark}/>
 
                     <Text style={styles.text}>{I18n.t('settings.wallet_address')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}
                          returnKeyType={"done"}
                          onChangeText={this.addressOnChangeText}
-                         defaultValue={this.state.address}
+                         defaultValue={this.address}
                          onFocus = {() => {this.isAddressFocus = true;this.vertifyAddress()}}
                          onBlur = {() => {this.isAddressFocus = false}}/>          
                     <Text style={this.state.isShowAddressWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.addressWarn}</Text>

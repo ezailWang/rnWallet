@@ -74,13 +74,6 @@ export default class CreateContactScreen extends BaseComponent {
 
     }
 
-    vertifyInput(){
-        if(this.isAddressFocus){
-            this.vertifyAddress()
-        }else{
-            this.btnIsEnableClick()
-        }
-    }
 
     btnIsEnableClick(){
         if (this.name == ''|| this.address == '') {
@@ -144,7 +137,7 @@ export default class CreateContactScreen extends BaseComponent {
 
     nameOnChangeText = (text) => {
         this.name = text;
-        this.vertifyInput()
+        this.btnIsEnableClick()
     };
     remarkOnChangeText = (text) => {
         this.remark = text;
@@ -155,7 +148,7 @@ export default class CreateContactScreen extends BaseComponent {
         this.setState({
             address:text,
         })
-        this.vertifyInput()
+        this.vertifyAddress()
     };
 
     async save(){
@@ -203,7 +196,7 @@ export default class CreateContactScreen extends BaseComponent {
                          returnKeyType={"done"}
                          onChangeText={this.addressOnChangeText}
                          defaultValue={this.state.address}
-                         onFocus = {() => {this.isAddressFocus = true;this.vertifyAddress()}}
+                         onFocus = {() => {this.isAddressFocus = true;}}
                          onBlur = {() => {this.isAddressFocus = false}}/>          
                     <Text style={this.state.isShowAddressWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.addressWarn}</Text>
                     <BlueButtonBig

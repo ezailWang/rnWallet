@@ -269,7 +269,8 @@ export default class networkManage {
             if (resJson.code === 200) {
                 //优先判断货币 如果货币本地没有再使用语言
                 //const currentLocale = I18n.currentLocale()
-                var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
+                //var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit) 
+                const monetaryUnit = store.getState().Core.monetaryUnit
                 if(monetaryUnit){
                     let monetaryUnitType = monetaryUnit.monetaryUnitType
                     if(monetaryUnitType == 'CNY'){

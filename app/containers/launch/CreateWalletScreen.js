@@ -184,30 +184,19 @@ class CreateWalletScreen extends BaseComponent {
         })
     }
 
-    
-    vertifyInput(){
-        if(this.isPwdFocus){//焦点在输入密码框内
-            this._isShowPwdWarn()
-        }
-        this.btnIsEnableClick()
-    }
 
-    //所有信息都输入完成前，“创建”按钮显示为灰色
     btnIsEnableClick(){ 
-        if (this.nametxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt) {
-            if(!this.state.isDisabled){
+        if (this.nametxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
+              || vertifyPassword(this.pwdtxt) != '') {
                 this.setState({
                     isDisabled: true,
-                })
-            }   
+                    isShowRePwdWarn: this.pwdtxt != this.rePwdtxt,
+                })   
         }else{
-            if(this.state.isDisabled){
-                this.setState({
-                    isDisabled: false,
-                    isShowRePwdWarn: false,
-                })
-            }
-            
+            this.setState({
+                isDisabled: false,
+                isShowRePwdWarn: false,
+            })
         }  
     }
 
@@ -243,7 +232,7 @@ class CreateWalletScreen extends BaseComponent {
                     isShowPwdWarn:false,
                     pwdWarn:'',
                 })
-                this._isShowRePwdWarn()
+                this.btnIsEnableClick()
             }  
         }else{
             this.setState({
@@ -310,7 +299,7 @@ class CreateWalletScreen extends BaseComponent {
                             selectionColor='#00bfff'
                             onChange={(event) => {
                                 this.nametxt = event.nativeEvent.text;
-                                this.vertifyInput()
+                                this.btnIsEnableClick()
                             }} />
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
@@ -322,7 +311,7 @@ class CreateWalletScreen extends BaseComponent {
                                 onChange={(event) => {
                                     console.log('L_onChange','onChange')
                                     this.pwdtxt = event.nativeEvent.text;
-                                    this.vertifyInput()
+                                    this._isShowPwdWarn()
                                 }}
                                 onFocus = {() => {console.log('L_onChange','onFocus');this.isPwdFocus = true;this._isShowPwdWarn()}}
                                 onBlur = {() => {this.isPwdFocus = false}}
@@ -343,7 +332,7 @@ class CreateWalletScreen extends BaseComponent {
                                 secureTextEntry={!this.state.isShowRePassword}
                                 onChange={(event) => {
                                     this.rePwdtxt = event.nativeEvent.text;
-                                    this.vertifyInput()
+                                    this.btnIsEnableClick()
                                 }}
                                 onFocus = {() => {this.isRePwdFocus = true}}
                                 onBlur = {() => {this.isRePwdFocus = false;this._isShowRePwdWarn()}}

@@ -156,16 +156,9 @@ class ImportWalletScreen extends BaseComponent {
         }
     }
 
-    vertifyInput(){
-        if(this.isPwdFocus){//焦点在输入密码框内
-            this._isShowPwdWarn()
-        }
-        this.btnIsEnableClick()
-    }
     
    //所有信息都输入完成前，“创建”按钮显示为灰色
    btnIsEnableClick(){
-
         if (this.mnemonictxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt) {
             if(!this.state.isDisabled){
                 this.setState({
@@ -215,7 +208,7 @@ class ImportWalletScreen extends BaseComponent {
                     isShowPwdWarn:false,
                     pwdWarn:'',
                 })
-                this._isShowRePwdWarn()
+                this.btnIsEnableClick()
             }  
         }else{
             this.setState({
@@ -234,11 +227,11 @@ class ImportWalletScreen extends BaseComponent {
         let mnemonic = this.mnemonictxt;
         let pwd = this.pwdtxt;
         let rePwd = this.rePwdtxt;
-        if(mnemonic == ''  || mnemonic == null || mnemonic == undefined){
+        if(mnemonic == ''){
             warnMessage = I18n.t('toast.enter_mnemonic')
-        }else if(pwd == ''  || pwd == null || pwd == undefined){
+        }else if(pwd == ''){
             warnMessage = I18n.t('toast.enter_password')
-        }else if(rePwd == '' || rePwd == null || rePwd == undefined){
+        }else if(rePwd == ''){
             warnMessage = I18n.t('toast.enter_repassword')
         }else if(pwd != rePwd){
             warnMessage = I18n.t('toast.enter_same_password')
@@ -328,7 +321,7 @@ class ImportWalletScreen extends BaseComponent {
                             multiline={true}
                             onChange={(event) => {
                                 this.mnemonictxt = event.nativeEvent.text;
-                                this.vertifyInput()
+                                this.btnIsEnableClick()
                             }}>
                         </TextInput>
                         <View style={styles.inputBox}>
@@ -340,7 +333,7 @@ class ImportWalletScreen extends BaseComponent {
                                 secureTextEntry={!this.state.isShowPassword}
                                 onChange={(event) => {
                                     this.pwdtxt = event.nativeEvent.text
-                                    this.vertifyInput()
+                                    this._isShowPwdWarn()
                                 }}
                                 onFocus = {() => {console.log('L_onChange','onFocus');this.isPwdFocus = true;this._isShowPwdWarn()}}
                                 onBlur = {() => {this.isPwdFocus = false}}
@@ -359,7 +352,7 @@ class ImportWalletScreen extends BaseComponent {
                                 secureTextEntry={!this.state.isShowRePassword}
                                 onChange={(event) => {
                                     this.rePwdtxt = event.nativeEvent.text;
-                                    this.vertifyInput()
+                                    this.btnIsEnableClick()
                                 }}
                                 onFocus = {() => {this.isRePwdFocus = true}}
                                 onBlur = {() => {this.isRePwdFocus = false;this._isShowRePwdWarn()}}
