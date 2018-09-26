@@ -326,7 +326,7 @@ export default class TransactionRecoder extends BaseComponent{
                 income:item.to.toLowerCase()==walletAddress.toLowerCase(),
                 amount:item.value,
                 type:symbol.toLowerCase(),
-                sureBlock:currentBlock-item.blockNumber+1,
+                sureBlock:currentBlock-item.blockNumber,
                 isError:item.isError
             }
             itemList.push(data)
@@ -336,7 +336,6 @@ export default class TransactionRecoder extends BaseComponent{
         itemList.reverse();
         recoders.reverse();
         store.dispatch(setTransactionRecoders(recoders));
-
 
         //获取余额信息
         let balanceAmount = '';
