@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backgroundColor
     },
-    contentBox:{
+    contentBox: {
         flex: 1,
         backgroundColor: Colors.backgroundColor
     },
@@ -76,15 +76,15 @@ const styles = StyleSheet.create({
         //elevation: 3
     },
     sectionViewTitleText: {
-        flex:1,
+        flex: 1,
         marginLeft: 20,
         marginTop: 20,
         height: 20,
         //width: ScreenWidth / 3,
         color: Colors.fontBlackColor,
     },
-    infoViewDetailTitleTouchable:{
-        alignSelf:'flex-end',
+    infoViewDetailTitleTouchable: {
+        alignSelf: 'flex-end',
         textAlign: "right",
         paddingTop: 20,
         marginLeft: 0,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         // backgroundColor:Colors.RedColor
     },
     sliderAlertView: {
-        alignSelf:'center',
+        alignSelf: 'center',
         width: ScreenWidth - 80,
         marginTop: 5,
         //marginLeft: 40,
@@ -143,11 +143,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: Colors.fontBlackColor_43,
     },
-    buttonBox:{
-        flex:1,
-        justifyContent:'flex-end',
-        alignItems:'center',
-        marginBottom:80,
+    buttonBox: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginBottom: 80,
     },
 });
 
@@ -204,7 +204,7 @@ class InfoView extends Component {
         detailTitlePress: PropTypes.func,
     };
     static defaultProps = {
-        barStyle:'dark-content',
+        barStyle: 'dark-content',
     }
     render() {
         return (
@@ -212,9 +212,9 @@ class InfoView extends Component {
                 <View style={styles.sectionViewTopView}>
                     <Text style={styles.sectionViewTitleText}>{this.props.title}</Text>
                     <TouchableOpacity style={styles.infoViewDetailTitleTouchable}
-                                      activeOpacity={0.6}
-                                      disabled={this.props.detailTitlePress == undefined ? true : false}
-                                      onPress = {this.props.detailTitlePress}>
+                        activeOpacity={0.6}
+                        disabled={this.props.detailTitlePress == undefined ? true : false}
+                        onPress={this.props.detailTitlePress}>
                         <Text style={styles.blueText}>{this.props.detailTitle}</Text>
                     </TouchableOpacity>
                 </View>
@@ -224,7 +224,7 @@ class InfoView extends Component {
                         returnKeyType={this.props.returnKeyType}
                         keyboardType={this.props.keyboardType}
                         onChangeText={this.props.onChangeText}
-                        >{this.props.defaultValue}
+                    >{this.props.defaultValue}
                     </TextInput>
                 </View>
             </View>
@@ -300,7 +300,7 @@ export default class Transaction extends BaseComponent {
             // toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
             fromAddress: params.fromAddress,
             detailData: "",
-            defaultTransferValue:''
+            defaultTransferValue: ''
         };
 
     };
@@ -340,8 +340,8 @@ export default class Transaction extends BaseComponent {
         if (privateKey === null) {
 
             setTimeout(() => {
-                this. _hideLoading()
-            }, 10);  
+                this._hideLoading()
+            }, 10);
 
             setTimeout(() => {
                 alert(I18n.t('transaction.alert_0'));
@@ -359,7 +359,10 @@ export default class Transaction extends BaseComponent {
                 this.state.toAddress,
                 this.state.transferValue,
                 this.state.currentGas,
-                privateKey
+                privateKey,
+                (hash) => {
+                    console.log('hash', hash)
+                }
             )
 
 
@@ -367,7 +370,7 @@ export default class Transaction extends BaseComponent {
 
             setTimeout(() => {
 
-                this. _hideLoading()
+                this._hideLoading()
 
                 if (res) {
                     //回调刷新
@@ -379,19 +382,19 @@ export default class Transaction extends BaseComponent {
                         alert(I18n.t('transaction.alert_1'));
                     }, 100);
                 }
-            }, 10); 
+            }, 10);
         }
     };
 
 
     didTapNextBtn = () => {
-        console.log('L_next_address',this.state.toAddress)
+        console.log('L_next_address', this.state.toAddress)
         if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
             alert(I18n.t('transaction.alert_2'));
             return;
         }
 
-        if (parseFloat(this.state.transferValue) < 0 || parseFloat(this.state.transferValue)> this.params.balance) {
+        if (parseFloat(this.state.transferValue) < 0 || parseFloat(this.state.transferValue) > this.params.balance) {
             alert(I18n.t('transaction.alert_3'));
             return;
         }
@@ -401,7 +404,7 @@ export default class Transaction extends BaseComponent {
         let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = totalGas.toFixed(8);
 
-        if(this.params.ethBalance < totalGas){
+        if (this.params.ethBalance < totalGas) {
 
             alert(I18n.t('transaction.alert_4'));
             return;
@@ -412,10 +415,10 @@ export default class Transaction extends BaseComponent {
             toAddress: this.state.toAddress,
             totalAmount: this.state.transferValue + " " + this.params.transferType,
             payType: this.params.transferType + I18n.t('transaction.transfer'),
-            gasPrice:this.getPriceTitle(this.state.currentGas),
+            gasPrice: this.getPriceTitle(this.state.currentGas),
             gasPriceInfo: this.getDetailPriceTitle()
         };
-       
+
         this.dialog.showStepView(params);
     };
     //----视图的事件方法
@@ -431,20 +434,20 @@ export default class Transaction extends BaseComponent {
     valueTextInputChangeText = (text) => {
         let tValue = text;
         let totalValue = this.params.balance;
-        let fl =parseFloat(tValue)
+        let fl = parseFloat(tValue)
 
         // console.log(fl,totalValue)
 
-        if (fl > parseFloat(totalValue)){
+        if (fl > parseFloat(totalValue)) {
             this.setState({
-                defaultTransferValue:totalValue
+                defaultTransferValue: totalValue
                 // defaultTransferValue:'0.1'
             });
             // console.log("1")
             tValue = totalValue;
-        }else{
+        } else {
             this.setState({
-                defaultTransferValue:text
+                defaultTransferValue: text
             });
             // console.log("2")
         }
@@ -460,13 +463,13 @@ export default class Transaction extends BaseComponent {
         });
     };
 
-    routeContactList = () =>{
+    routeContactList = () => {
         let _this = this;
         this.props.navigation.navigate('ContactList', {
-            from:'transaction',
+            from: 'transaction',
             callback: function (data) {
                 var address = data.toAddress;
-                console.log('L_address',address);
+                console.log('L_address', address);
                 _this.setState({
                     toAddress: address
                 })
@@ -493,7 +496,7 @@ export default class Transaction extends BaseComponent {
             this.props.navigation.navigate('ScanQRCode', {
                 callback: function (data) {
                     var address = data.toAddress;
-                    console.log('L_address',address);
+                    console.log('L_address', address);
                     _this.setState({
                         toAddress: address
                     })
@@ -507,7 +510,7 @@ export default class Transaction extends BaseComponent {
         }
     }
     renderComponent() {
-        
+
         let params = store.getState().Core.walletTransfer;
         let title = params.transferType + I18n.t('transaction.transfer');
 
@@ -520,7 +523,7 @@ export default class Transaction extends BaseComponent {
                 {/**<ScrollView style={styles.scrollView}
                     bounces={false}
                     keyboardShouldPersistTaps={'handled'}>**/}
-                    <View style={styles.contentBox}>
+                <View style={styles.contentBox}>
                     <TransactionStep didTapSurePasswordBtn={this.didTapSurePasswordBtn}
                         ref={(dialog) => { this.dialog = dialog; }} />
                     {/*转账数量栏*/}
@@ -540,20 +543,20 @@ export default class Transaction extends BaseComponent {
                         </View>
                     </View> */}
                     <InfoView title={I18n.t('transaction.amount')}
-                        detailTitle={I18n.t('transaction.balance')+':' + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
+                        detailTitle={I18n.t('transaction.balance') + ':' + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
                         placeholder={I18n.t('transaction.enter') + this.params.transferType + I18n.t('transaction.amount')}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
-                        onChangeText={this.valueTextInputChangeText} 
-                        defaultValue = {this.state.defaultTransferValue}/>
+                        onChangeText={this.valueTextInputChangeText}
+                        defaultValue={this.state.defaultTransferValue} />
                     {/*转账地址栏*/}
                     <InfoView title={I18n.t('transaction.collection_address')}
                         detailTitle={I18n.t('transaction.address_list')}
                         placeholder={I18n.t('transaction.enter_transfer_address')}
                         returnKeyType={"next"}
                         onChangeText={this.toAddressTextInputChangeText}
-                        defaultValue = {this.state.toAddress}
-                        detailTitlePress = {this.routeContactList}/>
+                        defaultValue={this.state.toAddress}
+                        detailTitlePress={this.routeContactList} />
                     {/*备注栏*/}
                     {/*<InfoView title={"备注"}
                         placeholder={"输入备注"}
@@ -567,11 +570,11 @@ export default class Transaction extends BaseComponent {
                         onValueChange={this.sliderValueChanged} />
                     {/*下一步按钮*/}
                     <View style={styles.buttonBox}>
-                        <BlueButtonBig 
+                        <BlueButtonBig
                             onPress={this.didTapNextBtn} text={I18n.t('transaction.next_step')} />
                     </View>
-                    </View>
-               
+                </View>
+
             </View>
 
         )
