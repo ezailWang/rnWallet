@@ -31,9 +31,16 @@ const styles = StyleSheet.create({
         marginTop:40,
     },
     contentContainer: {
-        justifyContent:'center',
         width:Layout.WINDOW_WIDTH*0.9,
+        justifyContent:'center',
         alignItems:'center',
+        alignSelf:'center'
+    },
+    titleBox:{
+        alignItems: 'center',
+        justifyContent:'center',
+        //paddingTop:40,
+        paddingBottom:20,
     },
     icon: {
         width: 72,
@@ -44,7 +51,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: Colors.fontBlueColor,
-        marginBottom:30,
     }, 
     inputArea: {
         height: 120,
@@ -70,7 +76,7 @@ const styles = StyleSheet.create({
         //flex: 1,
         //justifyContent:'center',
         alignSelf: 'center',
-        marginTop:40,
+        marginTop:20,
     },
     inputBox: {
         alignSelf: 'stretch',
@@ -123,6 +129,8 @@ class ImportWalletScreen extends BaseComponent {
             isShowRePassword:false,
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
+            keyboardHeight : 0,//软键盘高度
+            titleHeight : 200,
         }
         this.mnemonictxt = '';
         this.pwdtxt = '';
@@ -145,10 +153,21 @@ class ImportWalletScreen extends BaseComponent {
     }
     keyboardDidShowHandler=(event)=>{
         this.keyBoardIsShow = true;
+
+        let height = event.endCoordinates.height;
+        this.setState({
+            keyboardHeight : height,
+            titleHeight : 200-height > 0 ? 200-height :0
+        })
     }
     keyboardDidHideHandler=(event)=>{
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
+
+        this.setState({
+            keyboardHeight : 0,
+            titleHeight : 200
+        })
     }
     hideKeyboard = () => {
         if(this.keyBoardIsShow){
@@ -298,17 +317,21 @@ class ImportWalletScreen extends BaseComponent {
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
+        let titleText = (this.state.keyboardHeight != 0  ) ? '' : I18n.t('launch.import_wallet');
+        let titleIcon = (this.state.keyboardHeight != 0  ) ? null : require('../../assets/launch/importIcon.png');
         return (
             <View style={styles.container}>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
-                <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
+                {/*<KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'
-                                         behavior="padding">
+        behavior="padding">*/}
                 <View style={styles.contentContainer}> 
-                        <Image style={styles.icon}  source={require('../../assets/launch/importIcon.png')} resizeMode={'center'} />
-                        <Text style={styles.titleTxt}>{I18n.t('launch.import_wallet')}</Text>
-                   
+                        
+                        <View style={[styles.titleBox,{height:this.state.titleHeight}]}>
+                              <Image style={styles.icon}  source={titleIcon} resizeMode={'contain'} />
+                              <Text style={styles.titleTxt}>{titleText}</Text>
+                        </View>
                     
                         <View style={styles.inputTextBox}>
                         <TextInput style={[styles.inputArea]}
@@ -317,7 +340,7 @@ class ImportWalletScreen extends BaseComponent {
                             underlineColorAndroid='transparent'
                             selectionColor='#00bfff'
                             multiline={true}
-                            defaultValue={'violin stamp exist price hard coyote cream decide solution cargo sign mixture'}
+                            //defaultValue={'violin stamp exist price hard coyote cream decide solution cargo sign mixture'}
                             onChange={(event) => {
                                 this.mnemonictxt = event.nativeEvent.text;
                                 this.btnIsEnableClick()
@@ -363,15 +386,13 @@ class ImportWalletScreen extends BaseComponent {
 
                         </View>
                         <Text style={this.state.isShowRePwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.rePwdWarn}</Text>
-                        <View style={styles.buttonBox}>
-                            <BlueButtonBig
+                        <BlueButtonBig
+                                buttonStyle = {styles.buttonBox}
                                 isDisabled = {this.state.isDisabled}
                                 onPress={() => this.vertifyInputData()}
                                 text={I18n.t('launch.import')}
-                            />
-                        </View>
+                        />
                 </View>
-                </KeyboardAvoidingView>
                 </TouchableOpacity>
             </View>
         );

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Image, Text, TextInput,TouchableOpacity ,Dimensions,Keyboard,KeyboardAvoidingView} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput,TouchableOpacity,Keyboard,Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import PropTypes from 'prop-types'
@@ -16,6 +16,7 @@ import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -26,12 +27,19 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent:'center',
         alignItems: 'center',
-        paddingTop:40,
     },
     contentContainer: {
         //justifyContent:'center',
         width:Layout.WINDOW_WIDTH*0.9,
+        justifyContent:'center',
         alignItems:'center',
+        alignSelf:'center'
+    },
+    titleBox:{
+        alignItems: 'center',
+        justifyContent:'center',
+        //paddingTop:40,
+        paddingBottom:20,
     },
     icon: {
         width: 72,
@@ -42,7 +50,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: Colors.fontBlueColor,
-        paddingBottom:50,
     }, 
     warnBox:{
         alignSelf: 'stretch',
@@ -55,7 +62,6 @@ const styles = StyleSheet.create({
     },
     itemBox:{
         flexDirection:'row',
-        //alignItems:'center',
         marginBottom:1, 
     },
     itemCircle:{
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
         fontSize:10,
         color:'red',
         alignSelf:'flex-end',
-        marginBottom: 10,
+        paddingBottom: 10,
         paddingLeft:10,
     },
     warnTxtHidden:{
@@ -137,12 +143,15 @@ class CreateWalletScreen extends BaseComponent {
             nameWarn:I18n.t('launch.enter_normative_wallet_name'),
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
-
+            keyboardHeight : 0,//软键盘高度
+            //titleHeight : new Animated.Value(200),
+            titleHeight : 200,
         }
         this.nametxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
+        //this.titleHeight = new Animated.Value(200);
     }
     _addEventListener(){
         super._addEventListener()
@@ -157,10 +166,21 @@ class CreateWalletScreen extends BaseComponent {
     }
     keyboardDidShowHandler=(event)=>{
         this.keyBoardIsShow = true;
+
+        let height = event.endCoordinates.height;
+        this.setState({
+            keyboardHeight : height,
+            titleHeight : 200-height > 0 ? 200-height :0
+        })
     }
     keyboardDidHideHandler=(event)=>{
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
+
+        this.setState({
+            keyboardHeight : 0,
+            titleHeight : 200
+        })
     }
     hideKeyboard = () => {
         if(this.keyBoardIsShow){
@@ -281,19 +301,23 @@ class CreateWalletScreen extends BaseComponent {
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
+        let titleText = (this.state.keyboardHeight != 0  ) ? '' : I18n.t('launch.creact_wallet');
+        let titleIcon = (this.state.keyboardHeight != 0  ) ? null : require('../../assets/launch/create_icon.png');
         return (
             
             <View style={styles.container}>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
-                <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
-                                         keyboardShouldPersistTaps='handled'
-                                         behavior="padding">
+                {/*<KeyboardAvoidingView style={styles.keyboardAwareScrollView}
+                                      keyboardShouldPersistTaps='handled'
+        behavior="padding"> */}                    
                 <View style={styles.contentContainer}>
                 
-                        <Image style={styles.icon} source={require('../../assets/launch/create_icon.png')} resizeMode='contain'/>
-                        <Text style={styles.titleTxt}>{I18n.t('launch.creact_wallet')}</Text>
-
+                        <View style={[styles.titleBox,{height:this.state.titleHeight}]}>
+                                <Image style={styles.icon} source={titleIcon} resizeMode='contain'/>
+                                <Text style={styles.titleTxt}>{titleText}</Text>
+                        </View>
+                       
                         <View style={styles.warnBox}>
                             <Item content={I18n.t('launch.create_wallet_warn1')}></Item>
                             <Item content={I18n.t('launch.create_wallet_warn2')}></Item>
@@ -309,7 +333,7 @@ class CreateWalletScreen extends BaseComponent {
                                     this.nametxt = event.nativeEvent.text;
                                     this.btnIsEnableClick()
                                 }} 
-                                onFocus = {() => {this.btnIsEnableClick()}}/>
+                                onFocus = {() => {this.btnIsEnableClick(); }}/>
                         </View>  
                         <Text style={this.state.isShowNameWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.nameWarn}</Text>  
                         <View style={styles.inputBox}>
@@ -324,7 +348,7 @@ class CreateWalletScreen extends BaseComponent {
                                     this.pwdtxt = event.nativeEvent.text;
                                     this._isShowPwdWarn()
                                 }}
-                                onFocus = {() => {this._isShowPwdWarn()}}
+                                onFocus = {() => {this._isShowPwdWarn();}}
                                 onBlur = {() => {}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
@@ -362,7 +386,7 @@ class CreateWalletScreen extends BaseComponent {
                         />
                        
                 </View>
-                </KeyboardAvoidingView>
+                {/*</KeyboardAvoidingView>  */}
                 </TouchableOpacity>
             </View>
             
