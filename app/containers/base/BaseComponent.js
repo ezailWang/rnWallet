@@ -5,7 +5,10 @@ import {
     BackHandler,
     AppState,
     Platform,
-    DeviceEventEmitter
+    TextInput,
+    DeviceEventEmitter,
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from '../../components/LoadingComponent';
@@ -109,16 +112,23 @@ export default class BaseComponent extends PureComponent {
 
     render() {
         return (
-            <View style={styles.container}>
-                <StatusBarComponent barStyle={this._barStyle} />
-                {this.renderComponent()}
-                {Platform.OS === 'ios' && this.state.showBlur && <BlurView
-                    style={styles.blurStyle}
-                    blurType='light'
-                    blurAmount={10}
-                />}
-                {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
-            </View>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                {/* <View style={{flex: 1}}>
+                
+                </View> */}
+                <View style={styles.container}>
+                    <StatusBarComponent barStyle={this._barStyle} />
+                    {/* <TextInput keyboardType='numeric'/> */}
+                    {this.renderComponent()}
+                    {Platform.OS === 'ios' && this.state.showBlur && <BlurView
+                        style={styles.blurStyle}
+                        blurType='light'
+                        blurAmount={10}
+                    />}
+                    {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
+                </View>
+            </TouchableWithoutFeedback>
+            
         )
     }
 
