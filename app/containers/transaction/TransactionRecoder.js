@@ -130,10 +130,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         // width:25,
         // height:25,
-        left:20,
+        left:12,
         top:Layout.DEVICE_IS_IPHONE_X() ? 48 : 24,
         zIndex: 10,
     },
+    functionBtn:{
+        flex:1,
+        justifyContent:"center",
+        borderTopColor:Colors.fontGrayColor,
+        borderTopWidth:1
+    }
 });
 
 class Header extends Component{
@@ -225,7 +231,7 @@ class Cell extends Component{
         let transcationStatus = this.props.item.item.isError
 
         if (transcationStatus == "1"){
-            image = require('../../assets/transfer/trans_fail.png');
+            image = require('../../assets/transfer/transaction_fail.png');
         }
         return (
             <TouchableOpacity   style={[styles.cell,{height:cellHeight},(Platform.OS=='ios' ? styles.shadow :{})]}
@@ -382,7 +388,6 @@ export default class TransactionRecoder extends BaseComponent{
         let suggestGas = await networkManage.getSuggestGasPrice();
         let ethBalance = await networkManage.getEthBalance();
 
-
         transferProps = {
             transferType:symbol,
             ethBalance:ethBalance,
@@ -524,13 +529,13 @@ export default class TransactionRecoder extends BaseComponent{
         })
 
         const headerTextOpacity = this.state.scroollY.interpolate({
-            inputRange: [space - Layout.NAVIGATION_HEIGHT() - 60, space],
+            inputRange: [space - Layout.NAVIGATION_HEIGHT() - 30, space],
             outputRange: [1, 0],
             extrapolate: 'clamp'
         })
 
         const titleTextOpacity = this.state.scroollY.interpolate({
-            inputRange: [space - Layout.NAVIGATION_HEIGHT() - 60, space],
+            inputRange: [space - Layout.NAVIGATION_HEIGHT() - 50, space],
             outputRange: [0, 1],
             extrapolate: 'clamp'
         })
@@ -572,17 +577,31 @@ export default class TransactionRecoder extends BaseComponent{
                     <Animated.Text
                         style={{
                             position: 'absolute',
-                            left: 0,
-                            width:Layout.WINDOW_WIDTH,
+                            left: 40,
+                            width:100,
                             height:30,
-                            top:Layout.NAVIGATION_HEIGHT() - 34,
+                            top:Layout.NAVIGATION_HEIGHT() - 32,
                             color: 'white',
                             opacity: titleTextOpacity,
-                            fontSize: 20,
-                            textAlign:'center',
+                            fontSize: 18,
+                            textAlign:'left',
                             fontWeight:"500",
                         }}
                     >{symbol}</Animated.Text>
+                    <Animated.Text
+                        style={{
+                            position: 'absolute',
+                            right: 20,
+                            width:100,
+                            height:30,
+                            top:Layout.NAVIGATION_HEIGHT() - 32,
+                            color: 'white',
+                            opacity: titleTextOpacity,
+                            fontSize: 18,
+                            textAlign:'right',
+                            fontWeight:"500",
+                        }}
+                    >{amount}</Animated.Text>
                     <Animated.Image
                         style={{
                             position: 'absolute',
@@ -654,11 +673,11 @@ export default class TransactionRecoder extends BaseComponent{
                             >
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView,btnShadowStyle]}>
-                    <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapTransactionButton}>
+                    <TouchableOpacity style={[styles.functionBtn,{height:bottomView.height}]} onPress={this.didTapTransactionButton}>
                         <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.transfer')}</Text>
                     </TouchableOpacity> 
                     <View style={{width:1,height:bottomView.height-10,backgroundColor:Colors.fontGrayColor}} /> 
-                    <TouchableOpacity style={{flex:1,justifyContent:"center",height:bottomView.height}} onPress={this.didTapShowQrCodeButton}>
+                    <TouchableOpacity style={[styles.functionBtn,{height:bottomView.height}]} onPress={this.didTapShowQrCodeButton}>
                         <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.receipt')}</Text>
                     </TouchableOpacity>  
                     {/* <WhiteButtonMiddle  onPress={this.didTapTransactionButton}

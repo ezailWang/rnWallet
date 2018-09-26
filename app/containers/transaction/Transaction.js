@@ -29,6 +29,7 @@ import keythereum from 'keythereum'
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
+import { showToast } from '../../utils/Toast';
 
 import I18n from 'react-native-i18n'
 
@@ -82,13 +83,16 @@ const styles = StyleSheet.create({
         height: 20,
         //width: ScreenWidth / 3,
         color: Colors.fontBlackColor,
+        // backgroundColor:"green"
     },
     infoViewDetailTitleTouchable:{
-        alignSelf:'flex-end',
-        textAlign: "right",
-        paddingTop: 20,
+        alignSelf:'center',
+        // textAlign: "right",
+        marginTop: 18,
+        height:20,
         marginLeft: 0,
         marginRight: 20,
+        // backgroundColor:'red',
     },
     blueText: {
         color: Colors.fontBlueColor,
@@ -297,7 +301,7 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            // toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
+            toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
             fromAddress: params.fromAddress,
             detailData: "",
             defaultTransferValue:''
@@ -336,20 +340,31 @@ export default class Transaction extends BaseComponent {
         this._showLoding()
 
         var privateKey = await keystoreUtils.getPrivateKey(password)
+        // console.warn("开始转账，验证私钥",privateKey);
+        // this. _hideLoading()
+        if (privateKey === null || privateKey.length == 0) {
 
-        if (privateKey === null) {
-
+            // console.warn("密码错误")
             setTimeout(() => {
                 this. _hideLoading()
-            }, 10);  
+            }, 3000);  
+            
+            
+            setTimeout(()=>{
+                showToast(I18n.t('transaction.alert_0'))
+            },3100)
+            
 
-            setTimeout(() => {
-                alert(I18n.t('transaction.alert_0'));
-            }, 100);
+            // setTimeout(() => {
+            //     alert(I18n.t('transaction.alert_0'));
+            // }, 100);
         }
         else {
 
             let { contractAddress, symbol, decimals } = store.getState().Core.balance;
+
+            console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
+
             let res = await NetworkManager.sendTransaction(
                 {
                     "contractAddress": contractAddress,
@@ -362,8 +377,7 @@ export default class Transaction extends BaseComponent {
                 privateKey
             )
 
-
-            // console.warn('交易发送完毕'+res);
+            console.warn('交易发送完毕'+res);
 
             setTimeout(() => {
 
@@ -506,6 +520,7 @@ export default class Transaction extends BaseComponent {
             )
         }
     }
+
     renderComponent() {
         
         let params = store.getState().Core.walletTransfer;
