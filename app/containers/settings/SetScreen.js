@@ -127,9 +127,12 @@ class SetScreen extends BaseComponent {
         this.closePasswordModal();
         if (password == '' || password == undefined) {
             showToast(I18n.t('toast.enter_password'))
-        } else {
+        } else { 
             this._showLoding()
-            this.exportKeyPrivate(password);
+            setTimeout(()=>{
+                this.exportKeyPrivate(password);
+            }, 2000);
+           
         }
     }
     async  modifyWalletName(name) {
@@ -153,17 +156,28 @@ class SetScreen extends BaseComponent {
 
 
     async exportKeyPrivate(password) {
-        var privateKey = await keystoreUtils.getPrivateKey(password)
-        this._hideLoading();//关闭Loading
-        if (privateKey == null) {
-            alert(I18n.t('modal.export_private_key_error'));
-        } else {
-            this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
+        let  privateKey
+        try{
+            privateKey = await keystoreUtils.getPrivateKey(password)
+            this._hideLoading();//关闭Loading
+           if (privateKey == null) {
+                //alert(I18n.t('modal.export_private_key_error'));
+                showToast(I18n.t('modal.export_private_key_error'))
+           } else {
+                this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
+           } 
+        }catch(e){
+            console.log('exportKeyPrivateErr:', err)
+        }finally{
+            this._hideLoading();
         }
+        
+
+        
+        
     }
 
     async exportKeystore() {
-        //this.showLoading();
         try {
             var address = this.props.walletAddress;
             var keystore = await keystoreUtils.importFromFile(address)

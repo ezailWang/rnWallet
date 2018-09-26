@@ -98,7 +98,7 @@
         "transaction_time":"Transaction Time",
         "copy_address":"Copy URL",
 
-        "no_transaction_history_found":"Transaction record not found.",
+        "no_transaction_history_found":"No transaction history",
         "no":"None",
         "receipt":"Receive",
 

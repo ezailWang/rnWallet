@@ -17,6 +17,7 @@ const Colors = {
     fontBlueColor: '#01a1e6',
     fontGreenColor: '#1bc94b',
     fontRedColor: '#e62624',
+    fontGrayColor_a: '#aaaaaa',
     fontGrayColor_a0: '#a0a0a0',
     fontGrayColor_a1: '#a1a1a1',
     fontBlackColor_31: '#313131',

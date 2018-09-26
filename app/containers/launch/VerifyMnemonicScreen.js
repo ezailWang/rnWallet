@@ -189,33 +189,33 @@ class VerifyMnemonicScreen extends BaseComponent {
             const derivePath = "m/44'/60'/0'/0/0"
             hdwallet.setDerivePath(derivePath)
             const privateKey = hdwallet.getPrivateKey()
-            const checksumAddress = hdwallet.getChecksumAddressString()
-            //console.log('L3_prikey:', hdwallet.getPrivateKeyString())
-
+            const checksumAddress = hdwallet.getChecksumAddressString(); 
+        
             var password = this.props.navigation.state.params.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
-            var keyObject = keystoreUtils.dump(password, privateKey, dk.salt, dk.iv)
+            var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv); 
             await keystoreUtils.exportToFile(keyObject, "keystore")
-            console.log('LL_keyObject', "keyObject完成");
             //var str = await keystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)
+
+            this.props.setWalletAddress(checksumAddress);
+            this.props.setWalletName(this.props.walletName);
+
             var object = {
                 name: this.props.walletName,
                 address: checksumAddress,
                 extra: '',
             }
             StorageManage.save(StorageKey.User, object)
-            //var loadRet = await StorageManage.load(key)
-
-            this.props.setWalletAddress(checksumAddress);
-            this.props.setWalletName(this.props.walletName);
-            //console.log('LL_create',"完成");
+            //var loadRet = await StorageManage.load(StorageKey.User)
+           
             this._hideLoading()
             this.props.navigation.navigate('Home')
         } catch (err) {
             this._hideLoading()
             showToast(I18n.t('toast.create_wallet_error'));
+            console.log('createWalletErr1:', err)
         }
     }
     renderComponent() {

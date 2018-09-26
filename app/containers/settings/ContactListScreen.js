@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     FlatList,
     Text,
+    Image
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
 import PropTypes from 'prop-types'
@@ -27,13 +28,19 @@ const styles = StyleSheet.create({
         paddingBottom:15,
     },
     emptyListContainer:{
-        marginTop:80,
+        marginTop:150,
+        width:94,
         justifyContent:'center',
-        alignItems: 'center',
+        alignSelf:'center',
+    },
+    emptyListIcon:{
+        width:94,
+        height:114,
+        marginBottom:23,     
     },
     emptyListText:{
         fontSize:16,
-        color:Colors.fontDarkGrayColor
+        color:Colors.fontGrayColor_a,
     },
     item:{
         height:60,
@@ -129,6 +136,7 @@ export default class ContactListScreen extends BaseComponent {
     //空布局
     _renderEmptyView = () => (
         <View style={styles.emptyListContainer}>
+            <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'}/>
             <Text style={styles.emptyListText}>{I18n.t('settings.no_contact')}</Text>
         </View>
     )

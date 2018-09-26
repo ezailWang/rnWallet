@@ -281,12 +281,12 @@ class ImportWalletScreen extends BaseComponent {
             const derivePath = "m/44'/60'/0'/0/0"
             hdwallet.setDerivePath(derivePath)
             const privateKey = hdwallet.getPrivateKey()
-            const checksumAddress = hdwallet.getChecksumAddressString()
+            const checksumAddress = hdwallet.getChecksumAddressString(); 
             
             var password = this.pwdtxt;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
-            var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv)
+            var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv); 
             await keystoreUtils.exportToFile(keyObject, "keystore")
 
             this.props.generateMnemonic(this.mnemonictxt);
@@ -359,7 +359,7 @@ class ImportWalletScreen extends BaseComponent {
                                     this.pwdtxt = event.nativeEvent.text
                                     this._isShowPwdWarn()
                                 }}
-                                onFocus = {() => {console.log('L_onChange','onFocus');this.isPwdFocus = true;this._isShowPwdWarn()}}
+                                onFocus = {() => {this.isPwdFocus = true;this._isShowPwdWarn()}}
                                 onBlur = {() => {this.isPwdFocus = false}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>

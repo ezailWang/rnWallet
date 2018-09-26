@@ -97,7 +97,7 @@
         "transaction_time":"交易时间",
         "copy_address":"复制URL",
 
-        "no_transaction_history_found":"未查询到交易记录..",
+        "no_transaction_history_found":"暂无交易记录",
         "no":"无",
         "receipt":"收款",
 
@@ -150,7 +150,7 @@
         "multi_language":"多语言",
 
         "make_sure_delete_contact":"确定删除联系人？",
-        "no_contact":"您还未添加联系人",
+        "no_contact":"暂无联系人",
         "create_contact":"新建联系人",
         "name":"姓名",
         "remarks":"备注(选填)",

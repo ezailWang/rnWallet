@@ -74,11 +74,21 @@ const styles = StyleSheet.create({
         fontSize:FontSize.alertTitleSize,
         color:Colors.fontDarkGrayColor,
     },
-    emptyViewStyle:{
-        alignSelf:"center",
-        marginTop:80,
+    emptyListContainer:{
         color:Colors.fontDarkGrayColor,
-        fontSize:FontSize.HeaderSize,
+        marginTop:120,
+        width:94,
+        justifyContent:'center',
+        alignSelf:'center',
+    },
+    emptyListIcon:{
+        width:94,
+        height:114,
+        marginBottom:23,     
+    },
+    emptyListText:{
+        fontSize:16,
+        color:Colors.fontGrayColor_a,
     },
     cell:{
         marginTop:7,
@@ -165,8 +175,9 @@ class EmptyComponent extends Component{
 
     render() {
         return (
-            <View style={styles.emptyView}>
-                <Text style={styles.emptyViewStyle}>{this.props.show?I18n.t('transaction.no_transaction_history_found'):''}</Text>
+            <View style={styles.emptyListContainer}>
+                 <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'}/>
+                 <Text style={styles.emptyListText}>{this.props.show?I18n.t('transaction.no_transaction_history_found'):''}</Text>
             </View>
         )
     }
