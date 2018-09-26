@@ -66,11 +66,21 @@ class SetScreen extends BaseComponent {
         this.state = {
             nameModalVisible: false,
             passwordModalVisible: false,
+            isShowNameWarn: true,
+            rightBtnDisabled : true,
+            nameWarnText : I18n.t('toast.not_modified_wallet_name')
         }
+
+        this.inputName = ''
     }
 
     openNameModal() {
-        this.setState({nameModalVisible: true});
+        this.setState({
+            nameModalVisible: true,
+            isShowNameWarn: true,
+            rightBtnDisabled : true,
+            nameWarnText : I18n.t('toast.not_modified_wallet_name')
+        });
     }
 
     openPasswordModal() {
@@ -84,7 +94,8 @@ class SetScreen extends BaseComponent {
     }
 
     nameConfirmClick() {
-        var name = this.refs.inputTextDialog.state.text;
+        //var name = this.refs.inputTextDialog.state.text;
+        var name = this.inputName;
         this.closeNameModal()
         if (name == '' || name == undefined) {
             showToast(I18n.t('toast.enter_wallet_name'))
@@ -94,6 +105,22 @@ class SetScreen extends BaseComponent {
             this.modifyWalletName(name);
         }
     }
+
+    nameOnChangeText = (text) => {
+        this.inputName = text
+        let isShow = (text == '' || text.length > 12 || text == this.props.walletName) ? true : false
+        let warnText = '';
+        if(text == this.props.walletName){
+            warnText = I18n.t('toast.not_modified_wallet_name')
+        }else if(text == '' || text.length > 12){
+            warnText = I18n.t('launch.enter_normative_wallet_name')
+        }
+        this.setState({
+            isShowNameWarn: isShow,
+            rightBtnDisabled : isShow,
+            nameWarnText: warnText
+        })  
+    };
 
     passwordConfirmClick() {
         var password = this.refs.inputPasswordDialog.state.text;
@@ -120,7 +147,7 @@ class SetScreen extends BaseComponent {
         StorageManage.save(key, loadUser)
         this.props.modifyWalletName(name);
 
-        this.refs.inputTextDialog.state.text = '';
+        //this.refs.inputTextDialog.state.text = '';
         //this.closeNameModal();//隐藏弹框 
     }
 
@@ -169,7 +196,11 @@ class SetScreen extends BaseComponent {
                     leftPress={() => this.closeNameModal()}
                     rightPress={() => this.nameConfirmClick()}
                     modalVisible={this.state.nameModalVisible}
+                    onChangeText = {this.nameOnChangeText}
                     defaultValue={this.props.walletName}
+                    warnText={this.state.nameWarnText}
+                    isShowWarn = {this.state.isShowNameWarn}
+                    rightBtnDisabled = {this.state.rightBtnDisabled}
                 />
                 <InputPasswordDialog
                     ref="inputPasswordDialog"

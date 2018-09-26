@@ -66,6 +66,17 @@ const styles = StyleSheet.create({
     rightBtnBox:{
         flex:1,
         marginLeft:20,
+    },
+    warnTxt:{
+        fontSize:10,
+        color:'red',
+        alignSelf:'flex-end',
+        paddingBottom: 10,
+        paddingLeft:10,
+        marginTop:2
+    },
+    warnTxtHidden:{
+        height:0
     }
 
 });
@@ -77,44 +88,43 @@ export default class InputTextDialog extends Component{
         rightTxt: PropTypes.string.isRequired,
         leftTxt:PropTypes.string.isRequired,
         modalVisible: PropTypes.bool.isRequired,
+        onChangeText: PropTypes.func,
         defaultValue :PropTypes.string,
+        isShowWarn:PropTypes.bool,
+        warnText:PropTypes.string,
+        rightBtnDisabled : PropTypes.bool,
     }
-    constructor(props){
+
+    static defaultProps = {
+        defaultValue:'',
+        isShowWarn:false,
+        warnText:'',
+        rightBtnDisabled:false
+    }
+
+    /*constructor(props){
         super(props);
         this.state = {
             text : '',
         }
     }
-
     componentWillReceiveProps(nextProps){
         if(nextProps.defaultValue != ''){
             this.setState({
                 text : nextProps.defaultValue,
             })
         }
-    }
-
-    setText(){
-        this.setState({
-            text : '',
-        })
-    }
+    }*/
 
     leftPressed=()=>{ 
         this.props.leftPress()
-        this.setText()
     }
-    rightPressed=()=>{
-        
+    rightPressed=()=>{ 
         this.props.rightPress()
-        this.setText()
     }
-
-    /**inputText(event){
-        this.setState({
-            text: event.nativeEvent.text
-        })
-    }**/
+    onChangeText=(text)=>{
+        this.props.onChangeText(text) 
+    }
     render(){
         return(
             <Modal
@@ -137,13 +147,10 @@ export default class InputTextDialog extends Component{
                         ref={(input)=>{
                             this.inputText=input;
                         }}
-                        onChange={(event) => {
-                            this.setState({
-                                text: event.nativeEvent.text
-                            })
-                        }}
+                        onChangeText={this.onChangeText}
                         defaultValue = {this.props.defaultValue}
                     ></TextInput>
+                    <Text style={this.props.isShowWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.props.warnText}</Text>
                     <View style={styles.buttonBox}>
                         <View style={[styles.leftBtnOpacity]}>
                             <WhiteButtonSmall onPress={this.leftPressed}
@@ -152,7 +159,8 @@ export default class InputTextDialog extends Component{
                         </View>
                         <View style={styles.rightBtnBox}>
                             <BlueButtonSmall onPress = { this.rightPressed}
-                                             text = {this.props.rightTxt}>
+                                             text = {this.props.rightTxt}
+                                             isDisabled = {this.props.rightBtnDisabled}>
                             </BlueButtonSmall>
                         </View> 
                     </View>

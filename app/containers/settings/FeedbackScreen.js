@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         marginBottom:12,
     },
     desTextInput:{
-        height:160,
+        height:130,
         paddingTop:10,
         marginBottom:10,
         textAlign:'left',

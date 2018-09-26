@@ -317,6 +317,7 @@ class BlueButtonSmall extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
+        isDisabled : PropTypes.bool, 
     };
     render() {
         let backItemStyle = {marginTop:30};
@@ -326,8 +327,9 @@ class BlueButtonSmall extends Component {
         }
         return (
             <TouchableOpacity style={styles.normalSmallBtn}
-                              onPress = { this.props.onPress }>
-                <LinearGradient colors={['#66ceff', '#0094ff']}
+                              onPress = { this.props.onPress }
+                              disabled={this.props.isDisabled}>
+                <LinearGradient colors={this.props.isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#0094ff']}
                                 start={{x:0,y:1}}
                                 end={{x:1,y:1}}
                                 style={[styles.normalSmallBtn,{flex:1}]}>
