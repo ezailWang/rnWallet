@@ -113,12 +113,8 @@ export default class BaseComponent extends PureComponent {
     render() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                {/* <View style={{flex: 1}}>
-                
-                </View> */}
                 <View style={styles.container}>
                     <StatusBarComponent barStyle={this._barStyle} />
-                    {/* <TextInput keyboardType='numeric'/> */}
                     {this.renderComponent()}
                     {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                         style={styles.blurStyle}
