@@ -5,10 +5,8 @@ import {
     BackHandler,
     AppState,
     Platform,
-    TextInput,
     DeviceEventEmitter,
-    TouchableWithoutFeedback,
-    Keyboard
+    ScrollView
 } from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from '../../components/LoadingComponent';
@@ -112,19 +110,18 @@ export default class BaseComponent extends PureComponent {
 
     render() {
         return (
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}
+                        keyboardShouldPersistTaps='handled' 
+                        scrollEnabled={false}>
                     <StatusBarComponent barStyle={this._barStyle} />
-                    {this.renderComponent()}
-                    {Platform.OS === 'ios' && this.state.showBlur && <BlurView
-                        style={styles.blurStyle}
-                        blurType='light'
-                        blurAmount={10}
-                    />}
+                            {this.renderComponent()}
+                            {Platform.OS === 'ios' && this.state.showBlur && <BlurView
+                                style={styles.blurStyle}
+                                blurType='light'
+                                blurAmount={10}
+                            />}
                     {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
-                </View>
-            </TouchableWithoutFeedback>
-            
+            </ScrollView>
         )
     }
 

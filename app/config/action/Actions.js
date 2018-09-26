@@ -105,6 +105,13 @@ function setMonetaryUnit(value){
     }
 }
 
+function setNewTransaction(value){
+    return{
+        type: types.SET_NEW_TRANSACTION,
+        newTransaction : value
+    }
+}
+
 
 export {
     generateMnemonic,
@@ -119,5 +126,6 @@ export {
     setCoinBalance,
     setNetWork,
     removeToken,
-    setMonetaryUnit
+    setMonetaryUnit,
+    setNewTransaction
 }

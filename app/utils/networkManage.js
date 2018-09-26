@@ -116,7 +116,7 @@ export default class networkManage {
                 timeStamp: t.timeStamp,
                 hash: t.hash,
                 value: web3.utils.fromWei(t.value, 'ether'),
-                isError:t.isError,
+                isError: t.isError,
                 gasPrice: t.gasPrice,
                 blockNumber: t.blockNumber
             }))
@@ -149,7 +149,7 @@ export default class networkManage {
                 value: web3.utils.fromWei(t.value, 'ether'),
                 gasPrice: t.gasPrice,
                 blockNumber: t.blockNumber,
-                isError:t.isError,
+                isError: t.isError,
             }))
         } catch (err) {
             console.log('getERC20Transations err:', err)
@@ -165,11 +165,11 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice  
      */
-    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout, gasPrice, privateKey) {
+    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout, gasPrice, privateKey, callBackHash) {
         if (symbol === 'ETH') {
-            return this.sendETHTransaction(toAddress, amout, gasPrice, privateKey)
+            return this.sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash)
         }
-        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey)
+        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey, callBackHash)
     }
 
     /**
@@ -179,7 +179,7 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice 
      */
-    static async sendETHTransaction(toAddress, amout, gasPrice, privateKey) {
+    static async sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash) {
         try {
             const web3 = this.getWeb3Instance();
             web3.eth.accounts.wallet.add(privateKey)
@@ -194,7 +194,9 @@ export default class networkManage {
                 gas: gasLimit,
                 gasPrice: transactionGasPrice,
             };
-            var cb = await web3.eth.sendTransaction(transactionConfig)
+            var cb = await web3.eth.sendTransaction(transactionConfig).on('transactionHash', (hash) => {
+                callBackHash(hash)
+            })
             return cb
         } catch (err) {
             console.log('sendETHTransaction err:', err)
@@ -210,7 +212,7 @@ export default class networkManage {
      * @param {String} toAddress 
      * @param {String} amout 
      */
-    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey) {
+    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey, callBackHash) {
         try {
             const web3 = this.getWeb3Instance();
             web3.eth.accounts.wallet.add(privateKey)
@@ -226,7 +228,9 @@ export default class networkManage {
                 gasPrice: web3.utils.toHex(price),
             }
             // tx['gas'] = await web3.eth.estimateGas(tx)
-            var cb = await web3.eth.sendTransaction(tx)
+            var cb = await web3.eth.sendTransaction(tx).on('transactionHash', (hash) => {
+                callBackHash(hash)
+            })
             return cb
         } catch (err) {
             console.log('sendERC20Transaction err:', err)
@@ -271,27 +275,27 @@ export default class networkManage {
                 //const currentLocale = I18n.currentLocale()
                 //var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit) 
                 const monetaryUnit = store.getState().Core.monetaryUnit
-                if(monetaryUnit){
+                if (monetaryUnit) {
                     let monetaryUnitType = monetaryUnit.monetaryUnitType
-                    if(monetaryUnitType == 'CNY'){
+                    if (monetaryUnitType == 'CNY') {
                         return resJson.data.cny
-                    }else if(monetaryUnitType == 'KRW'){
+                    } else if (monetaryUnitType == 'KRW') {
                         return resJson.data.krw
-                    }else{
+                    } else {
                         return resJson.data.usd
                     }
-                }else{
+                } else {
                     const currentLocale = I18n.locale
-                    if(currentLocale.includes('zh')){
+                    if (currentLocale.includes('zh')) {
                         return resJson.data.cny
-                    }else if(currentLocale.includes('ko')){
+                    } else if (currentLocale.includes('ko')) {
                         return resJson.data.krw
-                    }else {
+                    } else {
                         //默认美元
                         return resJson.data.usd
                     }
                 }
-                
+
             }
             return 0.00
         } catch (err) {
@@ -318,7 +322,7 @@ export default class networkManage {
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.contractAddress)
         var localTokens = await StorageManage.load(StorageKey.Tokens)
-        console.log('L_localTokens',localTokens)
+        console.log('L_localTokens', localTokens)
         if (localTokens) {
             localTokens.filter(
                 token =>
