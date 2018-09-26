@@ -306,6 +306,17 @@ export default class TransactionRecoder extends BaseComponent{
             symbol:symbol,
             decimals:decimals
         });
+
+        let lastTransaction = store.getState().Core.newTransaction
+        // console.warn(lastTransaction)
+
+        let newTr = recoders[recoders.length - 1]
+
+        if(lastTransaction && newTr.hash != lastTransaction.hash){
+            recoders.push(lastTransaction)
+        }
+
+
         let currentBlock = await networkManage.getCurrentBlockNumber()
 
         var itemList = []
@@ -400,7 +411,9 @@ export default class TransactionRecoder extends BaseComponent{
 
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
-            onGoBack: () => {},
+            onGoBack: () => {
+                this.getRecoder()
+            },
             // onGoBack: () => this.onRefresh(),
           });
     };

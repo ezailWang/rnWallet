@@ -31,7 +31,10 @@ import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 import { showToast } from '../../utils/Toast';
 
+import { setNewTransaction } from '../../config/action/Actions';
+
 import I18n from 'react-native-i18n'
+
 
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -360,8 +363,9 @@ export default class Transaction extends BaseComponent {
 
             let { contractAddress, symbol, decimals } = store.getState().Core.balance;
 
-            console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
+            // console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
 
+            let currentBlock = await NetworkManager.getCurrentBlockNumber();
             let res = await NetworkManager.sendTransaction(
                 {
                     "contractAddress": contractAddress,
@@ -373,11 +377,25 @@ export default class Transaction extends BaseComponent {
                 this.state.currentGas,
                 privateKey,
                 (hash) => {
-                    console.log('hash', hash)
-                }
+                    // console.log('hash', hash)
+
+                    let { walletAddress } = store.getState().Core
+
+                    let newTransaction = {
+                        from: walletAddress,
+                        to: this.state.toAddress,
+                        timeStamp: null,
+                        hash: hash,
+                        value: this.state.transferValue,
+                        isError: "0",
+                        gasPrice: this.state.currentGas,
+                        blockNumber: currentBlock
+                    }
+                    store.dispatch(setNewTransaction(newTransaction));
+                },
             )
 
-            console.warn('交易发送完毕'+res);
+            // console.warn('交易发送完毕'+res);
 
             setTimeout(() => {
 
@@ -399,7 +417,7 @@ export default class Transaction extends BaseComponent {
 
 
     didTapNextBtn = () => {
-        console.log('L_next_address', this.state.toAddress)
+        // console.log('L_next_address', this.state.toAddress)
         if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
             alert(I18n.t('transaction.alert_2'));
             return;
@@ -480,7 +498,7 @@ export default class Transaction extends BaseComponent {
             from: 'transaction',
             callback: function (data) {
                 var address = data.toAddress;
-                console.log('L_address', address);
+                // console.log('L_address', address);
                 _this.setState({
                     toAddress: address
                 })
@@ -507,7 +525,7 @@ export default class Transaction extends BaseComponent {
             this.props.navigation.navigate('ScanQRCode', {
                 callback: function (data) {
                     var address = data.toAddress;
-                    console.log('L_address', address);
+                    // console.log('L_address', address);
                     _this.setState({
                         toAddress: address
                     })

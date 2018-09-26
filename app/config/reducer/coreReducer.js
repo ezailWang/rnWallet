@@ -12,7 +12,8 @@ import {
     SET_COIN_BALANCE,
     SET_WALLET_PASSWORD_PROMPT,
     REMOVE_TOKEN,
-    SET_MONETARY_UNIT
+    SET_MONETARY_UNIT,
+    SET_NEW_TRANSACTION
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -112,6 +113,12 @@ function coreReducer(state = defaultState, action) {
             return {
                 ...state,
                 monetaryUnit : action.monetaryUnit
+            }    
+            break;
+        case SET_NEW_TRANSACTION:
+            return {
+                ...state,
+                newTransaction : action.newTransaction
             }    
             break;
         case REMOVE_TOKEN:

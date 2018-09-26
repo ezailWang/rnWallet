@@ -21,7 +21,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setTransactionRecoders, setCoinBalance, setNetWork, removeToken } from '../../config/action/Actions'
+import { addToken, setNewTransaction, setCoinBalance, setNetWork, removeToken } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -92,8 +92,11 @@ class HomeScreen extends BaseComponent {
             contractAddress: contractAddress,
             decimals: decimals
         }
-
+       
         store.dispatch(setCoinBalance(balanceInfo));
+
+        console.warn(store.getState().Core)
+
         this.props.navigation.navigate('TransactionRecoder');
     }
 
