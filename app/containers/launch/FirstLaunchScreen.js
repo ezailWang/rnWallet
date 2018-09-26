@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     },
     logoImg: {
         width: 180,
-        height: 180,
+        height: 180/144*153,
     },
     btnMargin: {
         height: 20,

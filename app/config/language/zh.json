@@ -3,7 +3,7 @@
         "creact_wallet":"创建钱包",
         "import_wallet":"导入钱包",
 
-        "input_mnemonic_hint":"输入助记词",
+        "input_mnemonic_hint":"输入助记词，用空格分隔",
         "set_password_hint":"设置密码",
         "re_password_hint":"重复密码",
         "import":"导入",
@@ -45,7 +45,9 @@
         "password_warn_9":"还需包含大写字母、数字中的1种",
         "password_warn_10":"还需包含大、小写字母中的1种",
 
-        "enter_same_password":"请输入一致的密码"
+        "enter_same_password":"请输入一致的密码",
+        //
+        "enter_normative_wallet_name":"请输入1~12位钱包名称"
     },
     "home":{
         "total_assets":"总资产",
@@ -60,9 +62,9 @@
         "token_decimals":"小数精度",
         "currency_symbol":"¥",
         "delete":"删除",
-        "address_check":"Ox开头的42位地址",
+        "address_check":"0x开头的42位地址",
         "symbol_check":"1~9个字符，如ETH、ITC",
-        "decimals_check":"erc20代币的小数境地为0~36，多为18位",
+        "decimals_check":"erc20代币的小数精度为0~36，多为18位",
         "wallet_tool":"钱包工具",
         "contact":"联系人",
         "system_settings":"系统设置",
@@ -80,10 +82,11 @@
         "balance":"余额",
         "enter":"输入",
         "collection_address":"收款地址",
-        "enter_transfer_address":"输入转账地址",
+        "enter_transfer_address":"输入收款地址",
         "remarks":"备注",
         "enter_remarks":"输入备注",
         "next_step":"下一步",
+        //
         "address_list":"地址簿",
         "transaction_details":"交易详情",
         "sending_party":"发款方",
@@ -105,8 +108,10 @@
         "enter_password_hint":"请输入密码",
         "determine":"确定",
 
+        //
         "transaction_fail":"交易失败",
 
+        //
         "alert_0":"秘钥获取失败",
         "alert_1":"交易发送失败，请检查参数",
         "alert_2":"请输入有效的转账地址",
@@ -135,6 +140,7 @@
         "collection_code":"收款码",
         "copy_payment_address":"复制收款地址",
 
+        //
         "scan_qrcode":"扫描二维码",
         "scan_qrcode_prompt":"将二维码放入框内，即可自动扫描",
 
@@ -153,6 +159,7 @@
         "delete_contact":"删除联系人",
         "save":"保存",
 
+        
         "address_book":"地址簿",
 
         "feedback":"意见反馈",
@@ -176,7 +183,7 @@
         "enter_wallet_name":"请输入钱包名称",
         "enter_mnemonic":"请输入助记词",
         "enter_password":"请输入密码",
-        "enter_repassword":"请输入重复密码",
+        "enter_repassword":"请重复输入密码",
         
         "check_mnemonic_is_correct":"请检查助记词是否正确",
 
@@ -184,7 +191,7 @@
         "create_wallet_error":"创建钱包出错",
 
         "not_modified_wallet_name":"您没有修改钱包名称",
-        "copied_keystore":"已复制Keysotre",
+        "copied_keystore":"已复制Keystore",
         "copied":"已复制",
 
         "enter_valid_transfer_address":"请输入有效的转账地址",

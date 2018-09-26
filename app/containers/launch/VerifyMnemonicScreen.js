@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
         //alignItems:'stretch',
     },
     icon: {
-        width: 48,
-        height: 48,
+        width: 72,
+        height: 72,
         marginBottom: 10,
     },
     titleTxt: {
