@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     pwdIcon: {
-        height: 20,
+        width:20,
+        height: 20/14*9,
     },
     warnTxt:{
         fontSize:10,
