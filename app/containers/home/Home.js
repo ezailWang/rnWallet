@@ -11,7 +11,8 @@ import {
     Image,
     Text,
     TouchableOpacity,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    findNodeHandle
 } from 'react-native'
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
@@ -46,6 +47,7 @@ class HomeScreen extends BaseComponent {
             statusbarStyle: 'light-content',
             isTotalAssetsHidden: false,
             monetaryUnitSymbol: '',//货币单位符号
+            headBgImageRef: null
         }
     }
 
@@ -231,6 +233,17 @@ class HomeScreen extends BaseComponent {
             outputRange: [0, 1],
             extrapolate: 'clamp'
         })
+        const headerBgImageScale = this.state.scroollY.interpolate({
+            inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [layoutConstants.WINDOW_HEIGHT/layoutConstants.TRANSFER_HEADER_MAX_HEIGHT + 1.5, 1, 1],
+            extrapolate: 'clamp'
+        })
+
+        const headerBgImageTranslateY = this.state.scroollY.interpolate({
+            inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [0, 0, -(layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT)],
+            extrapolate: 'clamp'
+        })
 
 
         return (
@@ -241,12 +254,18 @@ class HomeScreen extends BaseComponent {
                     top: 0,
                     left: 0,
                     right: 0,
-                    backgroundColor: 'lightskyblue',
+                    backgroundColor: Colors.themeColor,
                     height: headerHeight,
                     zIndex: headerZindex,
                 }}>
-                    <Image
-                        style={{ flex: 1, width: layoutConstants.WINDOW_WIDTH }}
+                    <Animated.Image
+                        onLoad={() => this.setState({ headBgImageRef: findNodeHandle(this.refs.headBackgroundImage) })}
+                        ref='headBackgroundImage'
+                        style={{
+                            height: layoutConstants.HOME_HEADER_MAX_HEIGHT,
+                            width: layoutConstants.WINDOW_WIDTH,
+                            transform: [{ translateY: headerBgImageTranslateY }, { scale: headerBgImageScale }]
+                        }}
                         source={require('../../assets/home/hp_bg.png')}
                     />
                     <Animated.View
@@ -255,30 +274,32 @@ class HomeScreen extends BaseComponent {
                             left: 20,
                             top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35,
                             opacity: headerTextOpacity,
-                            flexDirection: 'row'
+                            flexDirection: 'row',
+                            justifyContent: 'center'
                         }}
                     >
-                        <Animated.Text
+                        <Text
                             style={{
                                 color: 'white',
+                                marginTop: 3,
                                 fontSize: 16,
                             }}
-                        >{I18n.t('home.total_assets')}</Animated.Text>
-                        <Animated.Text
+                        >{I18n.t('home.total_assets')}</Text>
+                        <Text
                             style={{
-                                marginLeft: 5,
+                                marginLeft: 8,
                                 color: 'white',
                                 fontWeight: '400',
                                 fontSize: 18,
                             }}
-                        >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Animated.Text>
+                        >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Text>
                     </Animated.View>
                 </Animated.View>
                 <SwipeableFlatList
                     maxSwipeDistance={80}
                     bounceFirstRowOnMount={false}
                     renderQuickActions={this.renderQuickActions}
-                    scrollEventThrottle={16}
+                    scrollEventThrottle={1}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scroollY } } }]
                     )}
@@ -319,7 +340,7 @@ class HomeScreen extends BaseComponent {
                     }
                 />
                 <ImageButton
-                    btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute', zIndex: 2 }}
+                    btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 57 : 37, position: 'absolute', zIndex: 2 }}
                     imageStyle={{ width: 16, height: 13 }}
                     onClick={() => {
                         this.showDrawer()
