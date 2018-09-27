@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     backgroundImageStyle: {
-        flex:1,
+       // flex:1,
         width:20,
         height:20,
     }

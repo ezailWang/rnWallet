@@ -19,6 +19,7 @@ class AddTokenInput extends Component {
                     keyboardType={this.props.keyboardType}
                     returnKeyType={this.props.returnKeyType}
                     ref={this.props.ref}
+                    onFocus={this.props.onFocus}
                 />
                 <Text style={[{ alignSelf: 'flex-end', color: this.props.checkTextColor, marginHorizontal: 20, fontSize: 12 }]}>{this.props.checkText}</Text>
             </View>

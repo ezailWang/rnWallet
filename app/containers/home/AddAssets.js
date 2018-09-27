@@ -31,6 +31,9 @@ class AddAssets extends BaseComponent {
             AddressCheckStr: I18n.t('home.address_check'),
             SymbolCheckStr: I18n.t('home.symbol_check'),
             DecimalsCheckStr: I18n.t('home.decimals_check'),
+            isFocusAddress: false,
+            isFocusSymbol: false,
+            isFocusDecimals: false,
         }
 
     }
@@ -55,8 +58,14 @@ class AddAssets extends BaseComponent {
         return (
             <View
                 onStartShouldSetResponder={() => true}
-                onResponderRelease={() => {
+                onResponderGrant={() => {
                     Keyboard.dismiss()
+                    this.setState({
+                        isFocusAddress: false,
+                        isFocusSymbol: false,
+                        isFocusDecimals: false,
+                    })
+
                 }}
                 style={{ flex: 1, backgroundColor: 'white' }}>
                 <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('home.add_token')} />
@@ -79,7 +88,15 @@ class AddAssets extends BaseComponent {
                                 })
                             }
                         }}
-                        checkTextColor={this.state.tokenAddress !== '' && !this.state.isValidAddress ? Colors.RedColor : Colors.addTokenCheckTextColor}
+                        onFocus={() => {
+                            this.setState({
+                                isFocusAddress: true,
+                                isFocusSymbol: false,
+                                isFocusDecimals: false,
+                            })
+                        }}
+                        keyboardType='email-address'
+                        checkTextColor={!this.state.isFocusAddress ? Colors.clearColor : (this.state.tokenAddress !== '' && !this.state.isValidAddress ? Colors.RedColor : Colors.addTokenCheckTextColor)}
                         checkText={this.state.AddressCheckStr}
                     />
                     <AddTokenInput
@@ -90,7 +107,14 @@ class AddAssets extends BaseComponent {
                                 tokenSymbol: event.nativeEvent.text
                             })
                         }}
-                        checkTextColor={this.state.tokenSymbol !== '' && !this.state.isValidSymbol ? Colors.RedColor : Colors.addTokenCheckTextColor}
+                        onFocus={() => {
+                            this.setState({
+                                isFocusAddress: false,
+                                isFocusSymbol: true,
+                                isFocusDecimals: false,
+                            })
+                        }}
+                        checkTextColor={!this.state.isFocusSymbol ? Colors.clearColor : (this.state.tokenSymbol !== '' && !this.state.isValidSymbol ? Colors.RedColor : Colors.addTokenCheckTextColor)}
                         checkText={this.state.SymbolCheckStr}
                     />
                     <AddTokenInput
@@ -102,8 +126,15 @@ class AddAssets extends BaseComponent {
                                 tokenDecimals: event.nativeEvent.text
                             })
                         }}
+                        onFocus={() => {
+                            this.setState({
+                                isFocusAddress: false,
+                                isFocusSymbol: false,
+                                isFocusDecimals: true,
+                            })
+                        }}
                         keyboardType='numeric'
-                        checkTextColor={this.state.tokenDecimals !== 0 && !this.state.isValidDecimals ? Colors.RedColor : Colors.addTokenCheckTextColor}
+                        checkTextColor={!this.state.isFocusDecimals ? Colors.clearColor : (this.state.tokenDecimals !== 0 && !this.state.isValidDecimals ? Colors.RedColor : Colors.addTokenCheckTextColor)}
                         checkText={this.state.DecimalsCheckStr}
                     />
                     <View style={{ alignItems: 'center' }}>
