@@ -47,16 +47,14 @@ export default class Loading extends PureComponent{
     constructor(props){
         super(props);
         this.state = {
-            //isAnimation : true,
         }
-        this.isAnimation = false;//是否执行动画
+        this.isAnimation = true;//是否执行动画
         this.rotateValue = new Animated.Value(0);
-
         this.animationLoading = Animated.timing(
             this.rotateValue,
             {
                 toValue:360,
-                duration:1800,
+                duration:900,
                 easing:Easing.linear
             }
         );
@@ -71,11 +69,10 @@ export default class Loading extends PureComponent{
    
     componentDidMount(){
         //组件加载完成后启动动画
-        console.log('L_load_DisMount','componentDidMount')
         this.startAnimation();
     }
     startAnimation(){
-        console.log('L_load',"开始动画")
+        console.log('L_isAnimation',this.isAnimation)
         if(this.isAnimation){
             this.rotateValue.setValue(0);
             this.animationLoading.start(()=>this.startAnimation());//循环旋转
@@ -84,27 +81,17 @@ export default class Loading extends PureComponent{
         //setTimeout(Animated.loop(animationLoading).stop, 5000); // 5秒后停止动画，可用于任意时刻停止动画
     }
 
-    stopAnimation(){
-        console.log('L_load',"停止动画")
-        this.setState({
-            isAnimation : false
-        })
-    }
-
     componentWillReceiveProps(nextProps){
         const {visible} = nextProps;
         if(visible){
-
+            this.isAnimation = true;//循环动画
         }else{
-
+            this.isAnimation = false;//停止动画
         }
-        /*this.setState({
-            visible:visible,
-        })*/
     }
     
     render(){
-        const {visible} = this.state;
+        const {visible} = this.props;
         /*if(!visible){
             return null;
         }*/

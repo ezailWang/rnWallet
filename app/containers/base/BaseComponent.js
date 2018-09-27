@@ -28,7 +28,6 @@ export default class BaseComponent extends PureComponent {
             showBlur: false,
         }
 
-
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);
         this._showLoding = this._showLoding.bind(this);

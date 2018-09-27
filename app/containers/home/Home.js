@@ -170,11 +170,7 @@ class HomeScreen extends BaseComponent {
             })
         }
         await networkManage.loadTokenList()
-        //todo
-        setTimeout(()=>{
-            
-            this._hideLoading()
-        }, 5000);
+        this._hideLoading()
         
     }
 
