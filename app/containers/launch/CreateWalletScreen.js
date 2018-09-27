@@ -335,8 +335,11 @@ class CreateWalletScreen extends BaseComponent {
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
-        let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.creact_wallet');
-        let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/create_icon.png');
+        //let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.creact_wallet');
+        //let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/create_icon.png');
+
+        let titleText = I18n.t('launch.creact_wallet');
+        let titleIcon = require('../../assets/launch/create_icon.png');
         return (
             
             <View style={styles.container}>

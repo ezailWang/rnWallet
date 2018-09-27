@@ -18,6 +18,9 @@ import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
+const TITLE_BOX_HEIGHT = 200;
+const IMAGE_HEIGHT = 72;
+const TEXT_FONT_SIZE = 18;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -127,6 +130,10 @@ class ImportWalletScreen extends BaseComponent {
             isShowRePassword:false,
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
+
+            //titleHeight : new Animated.Value(200),
+            //imageHeight : new Animated.Value(72),
+            //textFontSize : new Animated.Value(18),
         }
         this.mnemonictxt = '';
         this.pwdtxt = '';
@@ -358,8 +365,11 @@ class ImportWalletScreen extends BaseComponent {
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
-        let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.import_wallet');
-        let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/importIcon.png');
+        //let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.import_wallet');
+        //let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/importIcon.png');
+
+        let titleText =  I18n.t('launch.import_wallet');
+        let titleIcon = require('../../assets/launch/importIcon.png');
         return (
             <View style={styles.container}>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
