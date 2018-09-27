@@ -18,9 +18,6 @@ import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
-const TITLE_BOX_HEIGHT = 200;
-const IMAGE_HEIGHT = 72;
-const TEXT_FONT_SIZE = 18;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -43,27 +40,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'center',
         //paddingTop:40,
-        paddingBottom:20,
+       // paddingBottom:20,
     },
     icon: {
         width: 72,
-        height: 72,
+        //height: 72,
         marginBottom:10,
     },
     titleTxt: {
-        fontSize: 18,
+        //fontSize: 18,
         fontWeight: '500',
         color: Colors.fontBlueColor,
     }, 
     inputArea: {
-        height: 120,
+        height: 90,
         //textAlign:'start',
         fontSize: 16,
         lineHeight: 30,
         textAlignVertical: 'top',
+        color: Colors.fontBlackColor_43,
     },
     inputText: {
-        height: 42,
+        height: 40,
     },
     inputTextBox: {
         alignSelf: 'stretch',
@@ -73,7 +71,7 @@ const styles = StyleSheet.create({
         borderColor: 'rgb(241,241,241)',
         borderWidth: 1,
         color: 'rgb(146,146,146)',
-        marginBottom: 10,
+        
     },
     buttonBox: {
         //flex: 1,
@@ -85,21 +83,21 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         flexDirection: 'row',
         alignItems: 'center',
-        height: 42,
+        height: 40,
         borderRadius: 5,
         borderColor: Colors.borderColor_e,
         borderWidth: 1,
         paddingLeft: 10,
-        marginBottom: 10,
+        marginTop: 10,
     },
     input: {
         flex: 1,
-        height: 42,
-        color: Colors.fontGrayColor_a0,
+        height: 40,
+        color: Colors.fontBlackColor_43,
     },
     pwdBtnOpacity: {
-        height: 42,
-        width: 42,
+        height: 40,
+        width: 40,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
         fontSize:10,
         color:'red',
         alignSelf:'flex-end',
-        marginBottom: 10,
+        paddingTop: 5,
         paddingLeft:10,
     },
     warnTxtHidden:{
@@ -125,9 +123,11 @@ class ImportWalletScreen extends BaseComponent {
         super(props);
         this.state = {
             isDisabled:true,//创建按钮是否可以点击
-            isShowPwdWarn:false,
             isShowPassword:false,
+            isShowNameWarn:false,
+            isShowPwdWarn:false,
             isShowRePassword:false,
+            nameWarn:I18n.t('launch.enter_normative_wallet_name'),
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
 
@@ -135,6 +135,7 @@ class ImportWalletScreen extends BaseComponent {
             //imageHeight : new Animated.Value(72),
             //textFontSize : new Animated.Value(18),
         }
+        this.nametxt = '';
         this.mnemonictxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
@@ -187,7 +188,7 @@ class ImportWalletScreen extends BaseComponent {
         console.log('L_didShow','didShow')
         this.keyBoardIsShow = true;
         //'event', 
-        let duration = 10;
+        let duration = 100;
         this.titleBoxAnimated(duration,0,0,0)
     }
 
@@ -195,7 +196,7 @@ class ImportWalletScreen extends BaseComponent {
         console.log('L_didHide','didHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
-        let duration = 10;
+        let duration = 100;
         this.titleBoxAnimated(duration,200,72,18)  
     }
 
@@ -225,16 +226,18 @@ class ImportWalletScreen extends BaseComponent {
     
    //所有信息都输入完成前，“创建”按钮显示为灰色
    btnIsEnableClick(){
-        if (this.mnemonictxt == ''|| this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
-              || vertifyPassword(this.pwdtxt) != '') {
+        if (this.mnemonictxt == ''|| this.nametxt == '' || this.pwdtxt == ''|| this.rePwdtxt == '' || this.pwdtxt != this.rePwdtxt
+              || vertifyPassword(this.pwdtxt) != '' || this.nametxt.length > 12) {
                 this.setState({
                     isDisabled: true,
-                    isShowRePwdWarn : this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn
+                    isShowRePwdWarn : this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn,
+                    isShowNameWarn: (this.nametxt == '' || this.nametxt.length > 12) ? true : false,
                 }) 
         }else{
             this.setState({
                 isDisabled: false,
                 isShowRePwdWarn: false,
+                isShowNameWarn: false,
             })
         }  
     }
@@ -337,9 +340,9 @@ class ImportWalletScreen extends BaseComponent {
 
             this.props.generateMnemonic(this.mnemonictxt);
             this.props.setWalletAddress(checksumAddress);
-            this.props.setWalletName('wallet');//保存默认的钱包名称
+            this.props.setWalletName(this.nametxt);//保存默认的钱包名称
             var object = {
-                name: 'wallet',//默认的钱包名称
+                name: this.nametxt,
                 address: checksumAddress,
                 extra: '',
             }
@@ -385,19 +388,32 @@ class ImportWalletScreen extends BaseComponent {
                         </Animated.View>
                     
                         <View style={styles.inputTextBox}>
-                        <TextInput style={[styles.inputArea]}
-                            returnKeyType='next'
-                            placeholder={I18n.t('launch.input_mnemonic_hint')}
-                            underlineColorAndroid='transparent'
-                            selectionColor='#00bfff'
-                            multiline={true}
-                            // defaultValue={'violin stamp exist price hard coyote cream decide solution cargo sign mixture'}
-                            onChange={(event) => {
-                                this.mnemonictxt = event.nativeEvent.text;
-                                this.btnIsEnableClick()
-                            }}>
-                        </TextInput>
+                            <TextInput style={[styles.inputArea]}
+                                returnKeyType='next'
+                                placeholder={I18n.t('launch.input_mnemonic_hint')}
+                                underlineColorAndroid='transparent'
+                                selectionColor='#00bfff'
+                                multiline={true}
+                                // defaultValue={'violin stamp exist price hard coyote cream decide solution cargo sign mixture'}
+                                onChange={(event) => {
+                                     this.mnemonictxt = event.nativeEvent.text;
+                                     this.btnIsEnableClick()
+                                }}>
+                            </TextInput>
                         </View>
+                        <View style={styles.inputBox}>
+                            <TextInput style={styles.input}
+                                returnKeyType='next' 
+                                placeholder={I18n.t('launch.wallet_name_hint')}
+                                underlineColorAndroid='transparent'
+                                selectionColor='#00bfff'
+                                onChange={(event) => {
+                                    this.nametxt = event.nativeEvent.text;
+                                    this.btnIsEnableClick()
+                                }} 
+                                onFocus = {() => {this.btnIsEnableClick(); }}/>
+                        </View>  
+                        <Text style={this.state.isShowNameWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.nameWarn}</Text> 
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
                                 returnKeyType='next'

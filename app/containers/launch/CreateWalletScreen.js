@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         paddingRight:15,
         paddingTop:10,
         paddingBottom:10,
-        marginBottom:20,
+        marginBottom:10,
     },
     itemBox:{
         flexDirection:'row',
@@ -78,13 +78,13 @@ const styles = StyleSheet.create({
     },
     inputText: {
         alignSelf: 'stretch',
-        height: 42,
+        height: 40,
         paddingLeft: 15,
         borderRadius: 5,
         borderColor: Colors.borderColor_e,
         borderWidth: 1,
         color: Colors.fontGrayColor_a0,
-        marginBottom: 10,
+        //marginBottom: 10,
     },
     button: {
         marginTop:40,
@@ -93,21 +93,21 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         flexDirection: 'row',
         alignItems: 'center',
-        height: 42,
+        height: 40,
         borderRadius: 5,
         borderColor: Colors.borderColor_e,
         borderWidth: 1,
         paddingLeft: 10,
-        marginBottom: 10,
+        marginTop: 10,
     },
     input: {
         flex: 1,
-        height: 42,
-        color: Colors.fontGrayColor_a0,
+        height: 40,
+        color: Colors.fontBlackColor_43,
     },
     pwdBtnOpacity: {
-        height: 42,
-        width: 42,
+        height: 40,
+        width: 40,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         fontSize:10,
         color:'red',
         alignSelf:'flex-end',
-        paddingBottom: 10,
+        paddingTop: 5,
         paddingLeft:10,
     },
     warnTxtHidden:{
@@ -193,7 +193,7 @@ class CreateWalletScreen extends BaseComponent {
         console.log('L_didShow','didShow')
         this.keyBoardIsShow = true;
         //'event', 
-        let duration = 10;
+        let duration = 100;
         this.titleBoxAnimated(duration,0,0,0)
     }
 
@@ -201,7 +201,7 @@ class CreateWalletScreen extends BaseComponent {
         console.log('L_didHide','didHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
-        let duration = 10;
+        let duration = 100;
         this.titleBoxAnimated(duration,200,72,18)  
     }
 

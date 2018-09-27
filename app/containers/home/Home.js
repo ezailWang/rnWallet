@@ -158,6 +158,7 @@ class HomeScreen extends BaseComponent {
     async _initData() {
         SplashScreen.hide()
         this._showLoding()
+
         this.setState({
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
         })
@@ -169,7 +170,12 @@ class HomeScreen extends BaseComponent {
             })
         }
         await networkManage.loadTokenList()
-        this._hideLoading()
+        //todo
+        setTimeout(()=>{
+            
+            this._hideLoading()
+        }, 5000);
+        
     }
 
     async saveTokenToStorage(token) {
