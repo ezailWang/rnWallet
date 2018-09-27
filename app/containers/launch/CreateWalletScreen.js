@@ -331,14 +331,6 @@ class CreateWalletScreen extends BaseComponent {
     }
 
 
-    backPress(){
-        if(this.keyBoardIsShow){
-            Keyboard.dismiss();
-        }else{
-            this.props.navigation.goBack()
-        }
-    }
-
     
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
@@ -348,7 +340,7 @@ class CreateWalletScreen extends BaseComponent {
         return (
             
             <View style={styles.container}>
-                <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={()=>this.backPress()}/>
+                <WhiteBgNoTitleHeader navigation={this.props.navigation} />
                 {/*<TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                       keyboardShouldPersistTaps='handled'

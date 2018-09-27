@@ -225,7 +225,7 @@ class WhiteBgNoTitleHeader extends Component {
         return (
             <View style={[styles.headerBgContainer,{height:height}]}>
                 <TouchableOpacity style={[styles.headerButtonBox,contentMarginTop]} 
-                                  onPress = {this.props.onPress == undefined ? () => {this.props.navigation.goBack()} : this.props.onPress}>
+                                  onPress = {this.props.onPress == undefined ? () => {Keyboard.dismiss();this.props.navigation.goBack()} : this.props.onPress}>
                     <Image style={styles.icon}
                            //resizeMode={'contain'}
                            resizeMode={'center'}
