@@ -5,6 +5,7 @@ import {
     StyleSheet,
     Image,
     Text,
+    Keyboard
 }from 'react-native'
 
 //import {StackNavigator} from 'react-navigation'
@@ -183,7 +184,9 @@ class WhiteBgHeader extends PureComponent {
         return (
             <View style={[styles.headerBgContainer,{height:height}]}>
                 <TouchableOpacity style={[styles.headerButtonBox,contentMarginTop]} 
-                                  onPress = {() => {this.props.navigation.goBack()}}>
+                                  onPress = {() => {
+                                      Keyboard.dismiss()
+                                      this.props.navigation.goBack()}}>
                     <Image style={styles.icon}
                            resizeMode={'center'}
                            source={require('../assets/common/common_back.png')}>

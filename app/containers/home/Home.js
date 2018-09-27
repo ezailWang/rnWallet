@@ -51,13 +51,14 @@ class HomeScreen extends BaseComponent {
 
     renderItem = (item) => {
         item.item['isTotalAssetsHidden'] = this.state.isTotalAssetsHidden
-        return(
-        <HomeCell
-            item={item}
-            onClick={this.onClickCell.bind(this, item)}
-            monetaryUnitSymbol={this.state.monetaryUnitSymbol}
-        />
-    )}
+        return (
+            <HomeCell
+                item={item}
+                onClick={this.onClickCell.bind(this, item)}
+                monetaryUnitSymbol={this.state.monetaryUnitSymbol}
+            />
+        )
+    }
 
     renderQuickActions = (item) => (
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
@@ -92,7 +93,7 @@ class HomeScreen extends BaseComponent {
             contractAddress: contractAddress,
             decimals: decimals
         }
-       
+
         store.dispatch(setCoinBalance(balanceInfo));
 
         console.warn(store.getState().Core)
@@ -246,27 +247,30 @@ class HomeScreen extends BaseComponent {
                         style={{ flex: 1, width: layoutConstants.WINDOW_WIDTH }}
                         source={require('../../assets/home/hp_bg.png')}
                     />
-                    <Animated.Text
+                    <Animated.View
                         style={{
                             position: 'absolute',
                             left: 20,
-                            top: 40,
-                            color: 'white',
+                            top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35,
                             opacity: headerTextOpacity,
-                            fontSize: 16,
+                            flexDirection: 'row'
                         }}
-                    >{I18n.t('home.total_assets')}</Animated.Text>
-                    <Animated.Text
-                        style={{
-                            position: 'absolute',
-                            left: 80,
-                            top: 37,
-                            color: 'white',
-                            fontWeight: 'bold',
-                            fontSize: 20,
-                            opacity: headerTextOpacity
-                        }}
-                    >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Animated.Text>
+                    >
+                        <Animated.Text
+                            style={{
+                                color: 'white',
+                                fontSize: 16,
+                            }}
+                        >{I18n.t('home.total_assets')}</Animated.Text>
+                        <Animated.Text
+                            style={{
+                                marginLeft: 5,
+                                color: 'white',
+                                fontWeight: '400',
+                                fontSize: 18,
+                            }}
+                        >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Animated.Text>
+                    </Animated.View>
                 </Animated.View>
                 <SwipeableFlatList
                     maxSwipeDistance={80}
@@ -313,7 +317,7 @@ class HomeScreen extends BaseComponent {
                     }
                 />
                 <ImageButton
-                    btnStyle={{ width: 16, height: 13, right: 20, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute', zIndex: 2 }}
+                    btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 60 : 40, position: 'absolute', zIndex: 2 }}
                     imageStyle={{ width: 16, height: 13 }}
                     onClick={() => {
                         this.showDrawer()

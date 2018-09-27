@@ -40,7 +40,7 @@ export default class HeadView extends Component {
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ fontSize: 16, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
                         <ImageButton
-                            btnStyle={{ width: 17, height: 11, marginTop: 5 }}
+                            btnStyle={{ marginLeft: 5 }}
                             imageStyle={{ width: 17, height: 11 }}
                             onClick={this.props.onHideAssets}
                             backgroundImageSource={this.props.hideAssetsIcon}
@@ -53,9 +53,9 @@ export default class HeadView extends Component {
                         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17 }}> {this.props.walletName} </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 5 }}>
-                        <Text style={{ color: 'white', fontSize: 12 }}> {this.props.address} </Text>
+                        <Text style={{ color: 'white', fontSize: 12, marginTop: 2 }}> {this.props.address} </Text>
                         <ImageButton
-                            btnStyle={{ width: 13, height: 13, marginLeft: 8, marginTop: 3 }}
+                            btnStyle={{ marginLeft: 8 }}
                             imageStyle={{ width: 13, height: 13 }}
                             onClick={this.props.onQRCode}
                             backgroundImageSource={this.props.QRCodeIcon}
@@ -65,7 +65,7 @@ export default class HeadView extends Component {
                 <View style={styles.bottomAddAssetsContainer}>
                     <Text style={{ fontSize: 17, marginLeft: 23, color: Colors.homeAssetsTestColor, fontWeight: '300' }}> {I18n.t('home.assets')} </Text>
                     <ImageButton
-                        btnStyle={{ marginRight: 23 }}
+                        btnStyle={{ width: 30, height: 30, marginRight: 18 }}
                         onClick={this.props.onAddAssets}
                         backgroundImageSource={this.props.addAssetsIcon}
                     />
