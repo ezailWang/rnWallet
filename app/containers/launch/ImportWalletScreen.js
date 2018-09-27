@@ -121,17 +121,12 @@ class ImportWalletScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            //mnemonic: '',
-            //password: '',
-            //rePassword: '',
             isDisabled:true,//创建按钮是否可以点击
             isShowPwdWarn:false,
             isShowPassword:false,
             isShowRePassword:false,
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
-            keyboardHeight : 0,//软键盘高度
-            titleHeight : 200,
         }
         this.mnemonictxt = '';
         this.pwdtxt = '';
@@ -139,42 +134,86 @@ class ImportWalletScreen extends BaseComponent {
         this.keyBoardIsShow = false;    
         this.isPwdFocus = false;//密码框是否获得焦点
         this.isRePwdFocus = false;    
+
+        //this.keyboardHeight = 0
+        this.titleHeight = new Animated.Value(200)
+        this.imageHeight = new Animated.Value(72)
+        this.textFontSize = new Animated.Value(18)
     }
 
     _addEventListener(){
         super._addEventListener()
+       
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
+        this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',this.keyboardWillShowHandler);//android不监听keyboardWillShow和keyboardWillHide
+        this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',this.keyboardWillHideHandler);
+        
     }
 
     _removeEventListener(){
         super._removeEventListener()
+        this.keyboardWillShowListener && this.keyboardWillShowListener.remove();
+        this.keyboardWillHideListener && this.keyboardWillHideListener.remove();
         this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
+        
     }
-    keyboardDidShowHandler=(event)=>{
+    keyboardWillShowHandler=(event)=>{
+        console.log('L_willShow','willShow')
         this.keyBoardIsShow = true;
-
-        let height = event.endCoordinates.height;
-        this.setState({
-            keyboardHeight : height,
-            titleHeight : 200-height > 0 ? 200-height :0
-        })
+        let duration = event.duration;
+        //let height = event.endCoordinates.height;//软键盘高度
+        this.titleBoxAnimated(duration,0,0,0)
+        
     }
-    keyboardDidHideHandler=(event)=>{
+
+    keyboardWillHideHandler=(event)=>{
+        console.log('L_willHide','willHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
-
-        this.setState({
-            keyboardHeight : 0,
-            titleHeight : 200
-        })
+        let duration = event.duration;
+        this.titleBoxAnimated(duration,200,72,18)   
     }
-    hideKeyboard = () => {
+
+    keyboardDidShowHandler=(event)=>{
+        console.log('L_didShow','didShow')
+        this.keyBoardIsShow = true;
+        //'event', 
+        let duration = 10;
+        this.titleBoxAnimated(duration,0,0,0)
+    }
+
+    keyboardDidHideHandler=(event)=>{
+        console.log('L_didHide','didHide')
+        this.keyBoardIsShow = false;
+        this._isShowRePwdWarn();
+        let duration = 10;
+        this.titleBoxAnimated(duration,200,72,18)  
+    }
+
+    titleBoxAnimated(duration,titleToValue,imageToValue,textToValue){
+        Animated.parallel([
+            Animated.timing(this.titleHeight,{
+                duration:duration,
+                toValue:titleToValue
+            }),
+            Animated.timing(this.imageHeight,{
+                duration:duration,
+                toValue:imageToValue
+            }),
+            Animated.timing(this.textFontSize,{
+                duration:duration,
+                toValue:textToValue
+            }),
+        ]).start();   
+    }
+
+    /*hideKeyboard = () => {
         if(this.keyBoardIsShow){
             Keyboard.dismiss();
         }
-    }
+    }*/
 
     
    //所有信息都输入完成前，“创建”按钮显示为灰色
@@ -308,6 +347,13 @@ class ImportWalletScreen extends BaseComponent {
         }
     }
    
+    backPress(){
+        if(this.keyBoardIsShow){
+            Keyboard.dismiss();
+        }else{
+            this.props.navigation.goBack()
+        }
+    }
 
     isOpenPwd() {
         this.setState({ isShowPassword: !this.state.isShowPassword });
@@ -318,21 +364,21 @@ class ImportWalletScreen extends BaseComponent {
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
-        let titleText = (this.state.keyboardHeight != 0  ) ? '' : I18n.t('launch.import_wallet');
-        let titleIcon = (this.state.keyboardHeight != 0  ) ? null : require('../../assets/launch/importIcon.png');
+        let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.import_wallet');
+        let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/importIcon.png');
         return (
             <View style={styles.container}>
-                <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
-                <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
-                {/*<KeyboardAvoidingView style={styles.keyboardAwareScrollView}
+                <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={()=>this.backPress()}/>
+                {/*<TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
+                <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'
         behavior="padding">*/}
                 <View style={styles.contentContainer}> 
                         
-                        <View style={[styles.titleBox,{height:this.state.titleHeight}]}>
-                              <Image style={styles.icon}  source={titleIcon} resizeMode={'contain'} />
-                              <Text style={styles.titleTxt}>{titleText}</Text>
-                        </View>
+                        <Animated.View style={[styles.titleBox,{height:this.titleHeight}]}>
+                              <Animated.Image style={[styles.icon,{height:this.imageHeight}]}  source={titleIcon} resizeMode={'contain'} />
+                              <Animated.Text style={[styles.titleTxt,{fontSize:this.textFontSize}]}>{titleText}</Animated.Text>
+                        </Animated.View>
                     
                         <View style={styles.inputTextBox}>
                         <TextInput style={[styles.inputArea]}
@@ -394,7 +440,6 @@ class ImportWalletScreen extends BaseComponent {
                                 text={I18n.t('launch.import')}
                         />
                 </View>
-                </TouchableOpacity>
             </View>
         );
     }

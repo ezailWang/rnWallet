@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.borderColor_e,
         paddingLeft:10,
         paddingRight:10,
-        color:Colors.fontGrayColor_a0,
+        color:Colors.fontBlackColor_43,
         fontSize:13,
     }
 })

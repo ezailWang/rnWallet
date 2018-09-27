@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     itemTitle:{
         flex:1,
         fontSize:15,
-        color:Colors.fontBlackColor,
+        color:Colors.fontBlackColor_43,
     },
     itemRightBox:{
         flexDirection:'row',
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     itemContent:{
         fontSize:15,
-        color:Colors.fontBlackColor,
+        color:Colors.fontBlackColor_43,
         marginRight:20,
     },
     itemImage:{

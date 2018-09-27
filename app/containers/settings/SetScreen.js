@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     walletName: {
         fontSize: FontSize.DetailTitleSize,
-        color: Colors.fontGrayColor_a1
+        color: Colors.fontBlackColor_43
     },
     buttonBox: {
         marginTop: 1,

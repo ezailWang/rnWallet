@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     txt:{
         flex:1,
         backgroundColor: 'transparent',
-        color:Colors.fontBlackColor,
+        color:Colors.fontBlackColor_43,
         fontSize:FontSize.TitleSize,
         height:56,
         lineHeight:56,

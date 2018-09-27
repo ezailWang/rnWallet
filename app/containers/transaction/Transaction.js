@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: 20,
         //width: ScreenWidth / 3,
-        color: Colors.fontBlackColor,
+        color: Colors.fontBlackColor_43,
         // backgroundColor:"green"
     },
 
@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         height: 38,
         marginRight: 20,
-        fontSize: 12
+        fontSize: 12,
+        color:Colors.fontBlackColor_43
     },
     sliderBottomView: {
         marginTop: 12,

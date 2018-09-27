@@ -9,6 +9,7 @@ const Colors = {
     RandomColor: RandomColor,
     //字体颜色
     fontBlackColor: '#424242',
+    fontBlackColor_43: '#434343',
     fontDarkColor: '#000',
     fontBlackColor_0a: '#0a1e3b',
     fontGrayColor: '#ECECEC',

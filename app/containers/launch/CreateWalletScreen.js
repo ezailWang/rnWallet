@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Image, Text, TextInput,TouchableOpacity,Keyboard,Dimensions} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput,TouchableOpacity,Keyboard,Dimensions,Animated} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
 import PropTypes from 'prop-types'
@@ -132,9 +132,6 @@ class CreateWalletScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            //walletName: '',
-            //pwd: '',
-            //rePwd: '',
             isShowNameWarn:false,
             isShowPassword: false,
             isShowRePassword: false,
@@ -144,50 +141,88 @@ class CreateWalletScreen extends BaseComponent {
             nameWarn:I18n.t('launch.enter_normative_wallet_name'),
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
-            keyboardHeight : 0,//软键盘高度
-            //titleHeight : new Animated.Value(200),
-            titleHeight : 200,
+            
         }
         this.nametxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
         this.keyBoardIsShow = false;
         //this.titleHeight = new Animated.Value(200);
+
+        this.titleHeight = new Animated.Value(200)
+        this.imageHeight = new Animated.Value(72)
+        this.textFontSize = new Animated.Value(18)
     }
     _addEventListener(){
         super._addEventListener()
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
+        this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',this.keyboardWillShowHandler);//android不监听keyboardWillShow和keyboardWillHide
+        this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',this.keyboardWillHideHandler);
     }
 
     _removeEventListener(){
         super._removeEventListener()
+        this.keyboardWillShowListener && this.keyboardWillShowListener.remove();
+        this.keyboardWillHideListener && this.keyboardWillHideListener.remove();
         this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
     }
-    keyboardDidShowHandler=(event)=>{
-        this.keyBoardIsShow = true;
 
-        let height = event.endCoordinates.height;
-        this.setState({
-            keyboardHeight : height,
-            titleHeight : 200-height > 0 ? 200-height :0
-        })
+
+
+
+    keyboardWillShowHandler=(event)=>{
+        console.log('L_willShow','willShow')
+        this.keyBoardIsShow = true;
+        let duration = event.duration;
+        //let height = event.endCoordinates.height;//软键盘高度
+        this.titleBoxAnimated(duration,0,0,0)
+        
     }
-    keyboardDidHideHandler=(event)=>{
+
+    keyboardWillHideHandler=(event)=>{
+        console.log('L_willHide','willHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
+        let duration = event.duration;
+        this.titleBoxAnimated(duration,200,72,18)   
+    }
 
-        this.setState({
-            keyboardHeight : 0,
-            titleHeight : 200
-        })
+    keyboardDidShowHandler=(event)=>{
+        console.log('L_didShow','didShow')
+        this.keyBoardIsShow = true;
+        //'event', 
+        let duration = 10;
+        this.titleBoxAnimated(duration,0,0,0)
     }
-    hideKeyboard = () => {
-        if(this.keyBoardIsShow){
-            Keyboard.dismiss();
-        }
+
+    keyboardDidHideHandler=(event)=>{
+        console.log('L_didHide','didHide')
+        this.keyBoardIsShow = false;
+        this._isShowRePwdWarn();
+        let duration = 10;
+        this.titleBoxAnimated(duration,200,72,18)  
     }
+
+    titleBoxAnimated(duration,titleToValue,imageToValue,textToValue){
+        Animated.parallel([
+            Animated.timing(this.titleHeight,{
+                duration:duration,
+                toValue:titleToValue
+            }),
+            Animated.timing(this.imageHeight,{
+                duration:duration,
+                toValue:imageToValue
+            }),
+            Animated.timing(this.textFontSize,{
+                duration:duration,
+                toValue:textToValue
+            }),
+        ]).start();   
+    }
+
+
     isOpenPwd() {
         this.setState({ isShowPassword: !this.state.isShowPassword });
     }
@@ -296,28 +331,34 @@ class CreateWalletScreen extends BaseComponent {
     }
 
 
-
+    backPress(){
+        if(this.keyBoardIsShow){
+            Keyboard.dismiss();
+        }else{
+            this.props.navigation.goBack()
+        }
+    }
 
     
     renderComponent() {
         let pwdIcon = this.state.isShowPassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
-        let titleText = (this.state.keyboardHeight != 0  ) ? '' : I18n.t('launch.creact_wallet');
-        let titleIcon = (this.state.keyboardHeight != 0  ) ? null : require('../../assets/launch/create_icon.png');
+        let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.creact_wallet');
+        let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/create_icon.png');
         return (
             
             <View style={styles.container}>
-                <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
-                <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
-                {/*<KeyboardAvoidingView style={styles.keyboardAwareScrollView}
+                <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={()=>this.backPress()}/>
+                {/*<TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
+                <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                       keyboardShouldPersistTaps='handled'
         behavior="padding"> */}                    
                 <View style={styles.contentContainer}>
                 
-                        <View style={[styles.titleBox,{height:this.state.titleHeight}]}>
-                                <Image style={styles.icon} source={titleIcon} resizeMode='contain'/>
-                                <Text style={styles.titleTxt}>{titleText}</Text>
-                        </View>
+                        <Animated.View style={[styles.titleBox,{height:this.titleHeight}]}>
+                                <Animated.Image style={[styles.icon,{height:this.imageHeight}]} source={titleIcon} resizeMode='contain'/>
+                                <Animated.Text style={[styles.titleTxt,{fontSize:this.textFontSize}]}>{titleText}</Animated.Text>
+                        </Animated.View>
                        
                         <View style={styles.warnBox}>
                             <Item content={I18n.t('launch.create_wallet_warn1')}></Item>
@@ -388,7 +429,6 @@ class CreateWalletScreen extends BaseComponent {
                        
                 </View>
                 {/*</KeyboardAvoidingView>  */}
-                </TouchableOpacity>
             </View>
             
         );

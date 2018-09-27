@@ -18,7 +18,10 @@ const styles = StyleSheet.create({
     contentBox:{
         flex:1,
         marginTop:15,
-    }
+    },
+    choseItemContent:{
+    
+    },
     
 })
 
@@ -118,9 +121,12 @@ class ChoseLanguageScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.multi_language')}/>
                 <View style={styles.contentBox}>
-                     <ChoseItem content={'简体中文'} isCheck={this.state.isCheckZh} itemPress= {()=> this._onPressZh()}></ChoseItem>
-                     <ChoseItem content={'English'} isCheck={this.state.isCheckEn} itemPress= {()=> this._onPressEn()}></ChoseItem>
-                     <ChoseItem content={'한국어'} isCheck={this.state.isCheckKo} itemPress= {()=> this._onPressKo()}></ChoseItem>
+                     <ChoseItem content={'简体中文'} isCheck={this.state.isCheckZh} itemPress= {()=> this._onPressZh()}
+                                choseItemContentStyle={styles.choseItemContent}></ChoseItem>
+                     <ChoseItem content={'English'} isCheck={this.state.isCheckEn} itemPress= {()=> this._onPressEn()}
+                                choseItemContentStyle={styles.choseItemContent}></ChoseItem>
+                     <ChoseItem content={'한국어'} isCheck={this.state.isCheckKo} itemPress= {()=> this._onPressKo()}
+                                choseItemContentStyle={styles.choseItemContent}></ChoseItem>
                 </View>
                 
             </View>    

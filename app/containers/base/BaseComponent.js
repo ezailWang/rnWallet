@@ -133,15 +133,12 @@ export default class BaseComponent extends PureComponent {
     //点击android物理返回键的操作
     _onBackPressed = () => {
         let routeName = this.props.navigation.state.routeName;
-        console.log('L_routeName',routeName)
         if (routeName == 'FirstLaunch' || routeName == 'Home' || routeName == 'HomeScreen') {
             //在首页按了物理键返回,Home、FirstLaunch
             if ((lastBackPressed + 2000) >= Date.now()) {
-                console.log('L_routeName1','退出')
                 BackHandler.exitApp;
                 return false;
             } else {
-                console.log('L_routeName2',lastBackPressed)
                 showToast(I18n.t('toast.exit_app'));
                 lastBackPressed = Date.now();
                 return true;

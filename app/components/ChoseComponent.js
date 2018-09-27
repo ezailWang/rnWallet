@@ -13,7 +13,7 @@ import {Colors} from '../config/GlobalConfig'
 const styles = StyleSheet.create({
     choseItem:{
         //width:Layout.WINDOW_WIDTH,
-        height:42, 
+        height:41, 
     },
     choseItemContent:{
         height:40,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         height:40,
     },
     choseItemLine:{
-        height:2,
+        height:1,
         backgroundColor:Colors.bgGrayColor,
     }
 })
