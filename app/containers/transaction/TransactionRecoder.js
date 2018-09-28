@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         // alignItems:"center"
     },
     icon:{
-        marginLeft:20,
+        marginLeft:21,
         alignSelf:"center",
         width:22,
         height:22,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     tranContainer:{
         flex:1,
         marginLeft:10,
-        marginRight:10,
+        marginRight:21,
         // backgroundColor:"red",
         flexDirection:'row'
     },
@@ -660,7 +660,7 @@ export default class TransactionRecoder extends BaseComponent{
                             opacity: headerTextOpacity,
                             fontSize: 39,
                             textAlign:'right',
-                            fontWeight:"900",
+                            fontWeight:"700",
                         }}
                     >{this.state.balance}</Animated.Text> 
                     <Animated.Text
@@ -698,11 +698,11 @@ export default class TransactionRecoder extends BaseComponent{
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView,btnShadowStyle]}>
                     <TouchableOpacity style={[styles.functionBtn,{height:bottomView.height}]} onPress={this.didTapTransactionButton}>
-                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.transfer')}</Text>
+                        <Text style={{color:Colors.fontBlueColor,textAlign:'center',fontSize:16}}>{I18n.t('transaction.transfer')}</Text>
                     </TouchableOpacity> 
                     <View style={{width:1,height:bottomView.height-10,backgroundColor:Colors.fontGrayColor}} /> 
                     <TouchableOpacity style={[styles.functionBtn,{height:bottomView.height}]} onPress={this.didTapShowQrCodeButton}>
-                        <Text style={{color:Colors.fontBlueColor,textAlign:'center'}}>{I18n.t('transaction.receipt')}</Text>
+                        <Text style={{color:Colors.fontBlueColor,textAlign:'center',fontSize:16}}>{I18n.t('transaction.receipt')}</Text>
                     </TouchableOpacity>  
                     {/* <WhiteButtonMiddle  onPress={this.didTapTransactionButton}
                                         text={I18n.t('transaction.transfer')}

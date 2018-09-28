@@ -26,16 +26,16 @@ const styles = StyleSheet.create({
         //zIndex:10,
     },
     modeContent:{
-        backgroundColor:'rgba(246,246,246,0.6)',
-        width:130,
-        height:150,
+        backgroundColor:'rgba(246,246,246,0.9)',
+        width:100,
+        height:120,
         borderRadius:8,
         justifyContent:'center',
         alignItems:'center',
     },
     animationImg:{
-        width:68,
-        height:77,
+        width:60,
+        height:60/68*77,
     },
     text:{
         marginTop:10,

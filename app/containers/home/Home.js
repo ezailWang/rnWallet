@@ -349,7 +349,7 @@ class HomeScreen extends BaseComponent {
                 />
                 <ImageButton
                     btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 57 : 37, position: 'absolute', zIndex: 2 }}
-                    imageStyle={{ width: 16, height: 13 }}
+                    imageStyle={{ width: 23, height: 23/16*13 }}
                     onClick={() => {
                         this.showDrawer()
                     }}

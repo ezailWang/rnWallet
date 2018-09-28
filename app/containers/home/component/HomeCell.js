@@ -63,7 +63,7 @@ class HomeCell extends Component {
                         <Image style={styles.icon}
                             source={imageSource}
                         ></Image>
-                        <Text>{symbol}</Text>
+                        <Text style={{ fontSize: 15, color: Colors.fontBlackColor_43,fontWeight:'500' }}>{symbol}</Text>
                     </View>
                     <View style={styles.rightView}>
                         <Text
@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
     leftView: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 23,
+        marginLeft: 21,
     },
     rightView: {
         justifyContent: 'center',
         alignItems: 'flex-end',
-        marginRight: 23,
+        marginRight: 21,
     },
     separator: {
         flex: 1,

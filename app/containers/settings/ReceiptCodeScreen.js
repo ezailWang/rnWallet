@@ -33,14 +33,15 @@ const styles = StyleSheet.create({
     titleTxt: {
         fontSize: 15,
         color: Colors.fontDarkColor,
-        marginTop: 111,
+        fontWeight:'600',
+        marginTop: 91,
         marginBottom: 20,
     },
     qrCode: {
-        height: 180,
+        height: 190,
     },
     adderssTxt: {
-        width: 180,
+        width: 190,
         fontSize: 14,
         marginTop: 23,
         marginTop: 20,
@@ -62,7 +63,8 @@ const styles = StyleSheet.create({
     },
     btnTxt: {
         fontSize: 16,
-        color: Colors.fontBlueColor
+        color: Colors.fontBlueColor,
+        fontWeight:'500',
     }
 })
 
@@ -124,7 +126,7 @@ class ReceiptCodeScreen extends BaseComponent {
                         <View style={styles.qrCode}>
                             <QRCode
                                 value={this.props.walletAddress}
-                                size={180}
+                                size={190}
                                 bgColor='#000'
                                 fgColor='#fff'
                                 onLoad={() => { }}

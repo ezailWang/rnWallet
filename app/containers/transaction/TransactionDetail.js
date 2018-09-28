@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     countTxt: {
         fontSize: 39,
         color: 'white',
-        fontWeight: '900',
+        fontWeight: '700',
     },
     coinTypeTxt: {
         fontSize: 15,

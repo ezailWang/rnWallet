@@ -46,7 +46,7 @@ export default class HeadView extends Component {
                             backgroundImageSource={this.props.hideAssetsIcon}
                         />
                     </View>
-                    <Text style={{ fontSize: 39, color: 'white', fontWeight:'900'}}> {this.props.totalAssets} </Text>
+                    <Text style={{ fontSize: 39, color: 'white', fontWeight:'700' ,marginLeft:-3,paddingLeft:0}}> {this.props.totalAssets} </Text>
                 </View>
                 <View style={styles.addressContainer}>
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -63,9 +63,9 @@ export default class HeadView extends Component {
                     </View>
                 </View>
                 <View style={styles.bottomAddAssetsContainer}>
-                    <Text style={{ fontSize: 15, marginLeft: 23, color: Colors.homeAssetsTestColor, fontWeight: '300' }}> {I18n.t('home.assets')} </Text>
+                    <Text style={{ fontSize: 15, marginLeft: 21, color: Colors.homeAssetsTestColor, fontWeight: '600' }}> {I18n.t('home.assets')} </Text>
                     <ImageButton
-                        btnStyle={{ width: 30, height: 30, marginRight: 18 }}
+                        btnStyle={{ width: 32, height: 32, marginRight: 18 }}
                         onClick={this.props.onAddAssets}
                         backgroundImageSource={this.props.addAssetsIcon}
                     />
@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         marginTop: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
-        marginLeft: 23,
+        marginLeft: 21,
     },
     addressContainer: {
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'flex-start',
         height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
-        marginLeft: 23,
+        marginLeft: 21,
 
     },
     bottomAddAssetsContainer: {
