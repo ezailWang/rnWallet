@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
     },
     emptyListContainer:{
         marginTop:150,
-        width:94,
+        width:Layout.WINDOW_WIDTH*0.9,
         justifyContent:'center',
         alignSelf:'center',
+        alignItems:'center'
     },
     emptyListIcon:{
         width:94,
@@ -40,7 +41,9 @@ const styles = StyleSheet.create({
     },
     emptyListText:{
         fontSize:16,
+        width:Layout.WINDOW_WIDTH*0.9,
         color:Colors.fontGrayColor_a,
+        textAlign:'center',
     },
     item:{
         height:60,

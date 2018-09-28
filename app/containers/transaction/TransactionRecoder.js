@@ -79,15 +79,18 @@ const styles = StyleSheet.create({
         width:94,
         justifyContent:'center',
         alignSelf:'center',
+        alignItems:'center'
     },
     emptyListIcon:{
-        width:94,
+        width:Layout.WINDOW_WIDTH*0.9,
         height:114,
         marginBottom:23,     
     },
     emptyListText:{
+        width:Layout.WINDOW_WIDTH*0.9,
         fontSize:16,
         color:Colors.fontGrayColor_a,
+        textAlign:'center',
     },
     cell:{
         marginTop:7,

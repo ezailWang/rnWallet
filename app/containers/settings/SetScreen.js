@@ -66,9 +66,9 @@ class SetScreen extends BaseComponent {
         this.state = {
             nameModalVisible: false,
             passwordModalVisible: false,
-            isShowNameWarn: true,
+            //isShowNameWarn: false,
             rightBtnDisabled : true,
-            nameWarnText : I18n.t('toast.not_modified_wallet_name')
+            nameWarnText : ' '
         }
 
         this.inputName = ''
@@ -77,9 +77,9 @@ class SetScreen extends BaseComponent {
     openNameModal() {
         this.setState({
             nameModalVisible: true,
-            isShowNameWarn: true,
+            //isShowNameWarn: false,
             rightBtnDisabled : true,
-            nameWarnText : I18n.t('toast.not_modified_wallet_name')
+            nameWarnText : ' '
         });
     }
 
@@ -108,16 +108,15 @@ class SetScreen extends BaseComponent {
 
     nameOnChangeText = (text) => {
         this.inputName = text
-        let isShow = (text == '' || text.length > 12 || text == this.props.walletName) ? true : false
+        //let isShowWarn = (text == '' || text.length > 12) ? true : false
+        let isDisabled = (text == '' || text.length > 12 || text == this.props.walletName) ? true : false
         let warnText = '';
-        if(text == this.props.walletName){
-            warnText = I18n.t('toast.not_modified_wallet_name')
-        }else if(text == '' || text.length > 12){
+        if(text == '' || text.length > 12){
             warnText = I18n.t('launch.enter_normative_wallet_name')
         }
         this.setState({
-            isShowNameWarn: isShow,
-            rightBtnDisabled : isShow,
+            //isShowNameWarn: isShowWarn,
+            rightBtnDisabled : isDisabled,
             nameWarnText: warnText
         })  
     };
@@ -213,7 +212,7 @@ class SetScreen extends BaseComponent {
                     onChangeText = {this.nameOnChangeText}
                     defaultValue={this.props.walletName}
                     warnText={this.state.nameWarnText}
-                    isShowWarn = {this.state.isShowNameWarn}
+                    isShowWarn = {true}
                     rightBtnDisabled = {this.state.rightBtnDisabled}
                 />
                 <InputPasswordDialog

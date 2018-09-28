@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         backgroundColor:Colors.bgGrayColor,
     },
     contentBox:{
-        paddingTop:20,
+        paddingTop:10,
         width:Layout.WINDOW_WIDTH*0.9,
         alignItems:'stretch',
         alignSelf:'center',
@@ -33,15 +33,16 @@ const styles = StyleSheet.create({
         color:Colors.fontBlackColor_43,
         fontSize:13,
         marginBottom:3,
+        marginTop:12,
     },
     textInput:{
-        marginBottom:12,
+        //marginBottom:12,
     },
     warnTxt:{
         fontSize:10,
         color:'red',
         alignSelf:'flex-end',
-        marginBottom: 10,
+        paddingTop: 5,
         paddingLeft:10,
     },
     warnTxtHidden:{
@@ -60,8 +61,11 @@ export default class CreateContactScreen extends BaseComponent {
         this.state = {
             isDisabled:true,
             address:'',
+            isShowNameWarn:false,
             isShowAddressWarn:false,
+            nameWarn:I18n.t('launch.enter_normative_wallet_name'),
             addressWarn:I18n.t('toast.enter_valid_transfer_address'),
+
         }
 
         this.name = '';
@@ -76,18 +80,17 @@ export default class CreateContactScreen extends BaseComponent {
 
 
     btnIsEnableClick(){
-        if (this.name == ''|| this.address == '') {
-            if(!this.state.isDisabled){
+        if (this.name == ''|| this.address == '' 
+            || this.name.length > 12) {
                 this.setState({
-                    isDisabled: true
+                    isDisabled: true,
+                    isShowNameWarn: (this.name == ''|| this.name.length > 12) ? true : false
                 })
-            }
          }else{
-            if(this.state.isDisabled){
-                this.setState({
-                    isDisabled: false
-                })  
-            }   
+            this.setState({
+                isDisabled: false,
+                isShowNameWarn:false
+            })    
         }
     }
 
@@ -95,10 +98,11 @@ export default class CreateContactScreen extends BaseComponent {
         let addressIsOK = true;
         if(this.address != ''){
             addressIsOK = NetworkManager.isValidAddress(this.address);
-            let disabled = this.name == '' || !addressIsOK
+            let disabled = this.name == '' || !addressIsOK || this.name.length > 12
             this.setState({
                 isShowAddressWarn:!addressIsOK,
-                isDisabled: disabled
+                isDisabled: disabled,
+                //isShowNameWarn: (this.name == ''||this.name.length > 12) ? true : false
             })
         }else{
             if(!this.state.isDisabled){
@@ -184,7 +188,7 @@ export default class CreateContactScreen extends BaseComponent {
                     <CommonTextInput
                          textInputStyle = {styles.textInput}
                          onChangeText={this.nameOnChangeText}/>
-                    
+                    <Text style={this.state.isShowNameWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.nameWarn}</Text> 
                     <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}

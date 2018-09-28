@@ -71,9 +71,10 @@ const styles = StyleSheet.create({
         fontSize:10,
         color:'red',
         alignSelf:'flex-end',
-        paddingBottom: 10,
+        //paddingBottom: 10,
         paddingLeft:10,
-        marginTop:2
+        marginTop:2,
+        height:12
     },
     warnTxtHidden:{
         height:0
