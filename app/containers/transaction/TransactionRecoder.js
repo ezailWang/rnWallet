@@ -422,6 +422,8 @@ export default class TransactionRecoder extends BaseComponent{
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
             onGoBack: () => {
+
+                this.refs.flatList.scrollToOffset(0)
                 this.getRecoder()
             },
             // onGoBack: () => this.onRefresh(),
@@ -692,7 +694,7 @@ export default class TransactionRecoder extends BaseComponent{
                                 [{ nativeEvent: { contentOffset: { y: this.state.scroollY } } }]
                             )}
                             // keyExtractor={(item)=>{item.key}}
-                            >
+                            ref="flatList">
                 </FlatList>
                 <View style={[styles.bottomBtnView,bottomView,btnShadowStyle]}>
                     <TouchableOpacity style={[styles.functionBtn,{height:bottomView.height}]} onPress={this.didTapTransactionButton}>

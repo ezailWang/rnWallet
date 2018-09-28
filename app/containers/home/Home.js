@@ -98,8 +98,6 @@ class HomeScreen extends BaseComponent {
 
         store.dispatch(setCoinBalance(balanceInfo));
 
-        console.warn(store.getState().Core)
-
         this.props.navigation.navigate('TransactionRecoder');
     }
 

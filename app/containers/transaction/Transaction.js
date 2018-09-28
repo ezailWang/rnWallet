@@ -11,7 +11,7 @@ import {
     InteractionManager,
     Platform,
     PermissionsAndroid,
-    BackHandler
+    BackHandler,
 } from 'react-native';
 
 import { Colors, TransferGasLimit, TransferType } from "../../config/GlobalConfig";
@@ -339,26 +339,20 @@ export default class Transaction extends BaseComponent {
         return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
     };
 
-    didTapSurePasswordBtn = async (password) => {
-        // console.warn("输入密码--",password);
+    async startSendTransaction(password){
 
-        this._showLoding()
+        //console.warn("开始转账，验证私钥");
 
         var privateKey = await keystoreUtils.getPrivateKey(password)
-        // console.warn("开始转账，验证私钥",privateKey);
-        // this. _hideLoading()
+        //console.warn("私钥验证完成",privateKey);
+        
         if (privateKey === null || privateKey.length == 0) {
+            
+            this. _hideLoading()    
 
-            // console.warn("密码错误")
             setTimeout(() => {
-                this. _hideLoading()
-            }, 3000);  
-            
-            
-            setTimeout(()=>{
-                showToast(I18n.t('transaction.alert_0'))
-            },3100)
-            
+                showToast(I18n.t('transaction.alert_0'))    
+            }, 100);
         }
         else {
 
@@ -396,7 +390,7 @@ export default class Transaction extends BaseComponent {
                 },
             )
 
-            // console.warn('交易发送完毕'+res);
+        // console.warn('交易发送完毕'+res);
 
             setTimeout(() => {
 
@@ -414,7 +408,18 @@ export default class Transaction extends BaseComponent {
                 }
             }, 10);
         }
-    };
+    }
+
+    didTapSurePasswordBtn =  (password) => {
+        // console.warn("输入密码--",password);
+        this._showLoding()
+        // console.warn("进入转账步骤1");
+
+        InteractionManager.runAfterInteractions(()=>{
+
+            this.startSendTransaction(password)
+        })
+     };
 
 
     didTapNextBtn = () => {
