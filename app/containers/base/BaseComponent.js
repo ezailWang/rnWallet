@@ -9,7 +9,8 @@ import {
     ScrollView
 } from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
-import Loading from '../../components/LoadingComponent';
+//import Loading from '../../components/LoadingComponent';
+import Loading from '../../components/Loading';
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import { BlurView } from 'react-native-blur';
@@ -26,7 +27,6 @@ export default class BaseComponent extends PureComponent {
             isShowLoading: false,
             showBlur: false,
         }
-
 
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);

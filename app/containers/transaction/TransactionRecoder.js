@@ -20,7 +20,6 @@ import {setTransactionDetailParams, setWalletTransferParams,setTransactionRecode
 import networkManage from '../../utils/networkManage'
 import StatusBarComponent from '../../components/StatusBarComponent'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
-import Loading from '../../components/LoadingComponent'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import LinearGradient from 'react-native-linear-gradient'

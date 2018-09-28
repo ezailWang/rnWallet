@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
 
     headerBgContainer:{
         flexDirection:'row',
-        backgroundColor:Colors.whiteBackgroundColor,  
+        backgroundColor:Colors.whiteBackgroundColor, 
+        zIndex:10, 
     },
     blackBgContainer:{
         flexDirection:'row',
