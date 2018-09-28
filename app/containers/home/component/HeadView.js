@@ -38,7 +38,7 @@ export default class HeadView extends Component {
                 </View> */}
                 <View style={styles.assetsContainer}>
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 16, color: 'white' }}> {I18n.t('home.total_assets')} </Text>
+                        <Text style={{ fontSize: 14, color: 'white' ,}}> {I18n.t('home.total_assets')} </Text>
                         <ImageButton
                             btnStyle={{ marginLeft: 5 }}
                             imageStyle={{ width: 17, height: 11 }}
@@ -46,11 +46,11 @@ export default class HeadView extends Component {
                             backgroundImageSource={this.props.hideAssetsIcon}
                         />
                     </View>
-                    <Text style={{ fontSize: 30, color: 'white' }}> {this.props.totalAssets} </Text>
+                    <Text style={{ fontSize: 39, color: 'white', fontWeight:'900'}}> {this.props.totalAssets} </Text>
                 </View>
                 <View style={styles.addressContainer}>
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17 }}> {this.props.walletName} </Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17.3 }}> {this.props.walletName} </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 5 }}>
                         <Text style={{ color: 'white', fontSize: 12, marginTop: 2 }}> {this.props.address} </Text>
@@ -63,7 +63,7 @@ export default class HeadView extends Component {
                     </View>
                 </View>
                 <View style={styles.bottomAddAssetsContainer}>
-                    <Text style={{ fontSize: 17, marginLeft: 23, color: Colors.homeAssetsTestColor, fontWeight: '300' }}> {I18n.t('home.assets')} </Text>
+                    <Text style={{ fontSize: 15, marginLeft: 23, color: Colors.homeAssetsTestColor, fontWeight: '300' }}> {I18n.t('home.assets')} </Text>
                     <ImageButton
                         btnStyle={{ width: 30, height: 30, marginRight: 18 }}
                         onClick={this.props.onAddAssets}

@@ -106,14 +106,24 @@ class HomeScreen extends BaseComponent {
     pushAddtoken = () => {
         this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
-                this._showLoding()
                 await this.saveTokenToStorage(token)
-                await networkManage.loadTokenList()
-                this._hideLoading()
+                this._showLoding()
+                
+                setTimeout(()=>{
+                    this.startAddToken(token);
+                }, 5000);
+                
             }
         });
     }
 
+    startAddToken = async (token) => {
+                //this._showLoding()
+                
+               // await networkManage.loadTokenList()
+                this._hideLoading()
+    }
+   
     onClickAdd = async (token) => {
         await this.saveTokenToStorage(token)
         this.setState({

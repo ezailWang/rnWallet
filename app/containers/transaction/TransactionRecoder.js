@@ -656,9 +656,9 @@ export default class TransactionRecoder extends BaseComponent{
                             bottom: 58,
                             color: 'white',
                             opacity: headerTextOpacity,
-                            fontSize: 35,
+                            fontSize: 39,
                             textAlign:'right',
-                            fontWeight:"700",
+                            fontWeight:"900",
                         }}
                     >{this.state.balance}</Animated.Text> 
                     <Animated.Text

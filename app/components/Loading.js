@@ -14,6 +14,9 @@ import {
 import PropTypes from 'prop-types';
 import {Colors,FontSize} from '../config/GlobalConfig'
 import loadingImage from '../assets/common/loadingIcon.png'
+
+let lastBackTime = 0;
+
 const styles = StyleSheet.create({
     modeBox:{
         flex:1,
@@ -46,8 +49,7 @@ export default class Loading extends PureComponent{
     
     constructor(props){
         super(props);
-        this.state = {
-        }
+        
         this.isAnimation = true;//是否执行动画
         this.rotateValue = new Animated.Value(0);
         this.animationLoading = Animated.timing(
@@ -60,7 +62,7 @@ export default class Loading extends PureComponent{
         );
     }
     static propTypes = {
-        visible:PropTypes.bool,
+        visible:PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -83,14 +85,21 @@ export default class Loading extends PureComponent{
 
     componentWillReceiveProps(nextProps){
         const {visible} = nextProps;
+        console.log('L_ReceiveProps',visible)
+        console.log('L_time',Date.now()-lastBackTime)
+        lastBackTime = Date.now();
+        
         if(visible){
+            console.log('L_ReceiveProps','循环动画')
             this.isAnimation = true;//循环动画
         }else{
+            console.log('L_ReceiveProps','停止动画')
             this.isAnimation = false;//停止动画
         }
     }
     
     render(){
+        console.log('L_render','Loading消失')
         const {visible} = this.props;
         /*if(!visible){
             return null;
