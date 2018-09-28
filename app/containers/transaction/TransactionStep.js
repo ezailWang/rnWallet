@@ -184,7 +184,7 @@ let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice, detailGas 
             deatilContent={toAddress}>
         </InfoContentView>
         <InfoContentView
-            title={I18n.t('transaction.collection_address')}
+            title={I18n.t('transaction.payment_address')}
             deatilContent={fromAddress}>
         </InfoContentView>
         {/* <InfoContentView

@@ -11,7 +11,7 @@ import {
     InteractionManager,
     Platform,
     PermissionsAndroid,
-    BackHandler
+    BackHandler,
 } from 'react-native';
 
 import { Colors, TransferGasLimit, TransferType } from "../../config/GlobalConfig";
@@ -339,12 +339,12 @@ export default class Transaction extends BaseComponent {
         return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
     };
 
-    async sendTransaction(password){
+    async startSendTransaction(password){
 
-        console.warn("开始转账，验证私钥");
+        //console.warn("开始转账，验证私钥");
 
         var privateKey = await keystoreUtils.getPrivateKey(password)
-        console.warn("私钥验证完成",privateKey);
+        //console.warn("私钥验证完成",privateKey);
         
         if (privateKey === null || privateKey.length == 0) {
             
@@ -413,12 +413,12 @@ export default class Transaction extends BaseComponent {
     didTapSurePasswordBtn =  (password) => {
         // console.warn("输入密码--",password);
         this._showLoding()
+        // console.warn("进入转账步骤1");
 
-        console.warn("进入转账步骤");
+        InteractionManager.runAfterInteractions(()=>{
 
-        setTimeout(() => {
-            this.sendTransaction(password)
-        },3 * 1000)
+            this.startSendTransaction(password)
+        })
      };
 
 
