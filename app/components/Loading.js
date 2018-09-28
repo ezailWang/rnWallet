@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import {Colors,FontSize} from '../config/GlobalConfig'
 import loadingImage from '../assets/common/loadingIcon.png'
 
-let lastBackTime = 0;
 
 const styles = StyleSheet.create({
     modeBox:{
@@ -71,13 +70,13 @@ export default class Loading extends PureComponent{
    
     componentDidMount(){
         //组件加载完成后启动动画
-        this.startAnimation();
+        this.isAnimation = this.props.visible;
+        this.isStartAnimation()
     }
-    startAnimation(){
-        console.log('L_isAnimation',this.isAnimation)
+    isStartAnimation(){
         if(this.isAnimation){
             this.rotateValue.setValue(0);
-            this.animationLoading.start(()=>this.startAnimation());//循环旋转
+            this.animationLoading.start(()=>this.isStartAnimation());//循环旋转
         }
         //Animated.loop(animationLoading).start();//开始动画
         //setTimeout(Animated.loop(animationLoading).stop, 5000); // 5秒后停止动画，可用于任意时刻停止动画
@@ -85,21 +84,21 @@ export default class Loading extends PureComponent{
 
     componentWillReceiveProps(nextProps){
         const {visible} = nextProps;
-        console.log('L_ReceiveProps',visible)
-        console.log('L_time',Date.now()-lastBackTime)
-        lastBackTime = Date.now();
-        
         if(visible){
-            console.log('L_ReceiveProps','循环动画')
-            this.isAnimation = true;//循环动画
+            this.isAnimation = true;//循环动画  
         }else{
-            console.log('L_ReceiveProps','停止动画')
             this.isAnimation = false;//停止动画
         }
+
+        if(visible == true && this.props.visible == visible){
+            //visible为true && preVisible与nextProps相同时不再再次启动动画
+        }else{
+            this.isStartAnimation()
+        }
+        
     }
     
     render(){
-        console.log('L_render','Loading消失')
         const {visible} = this.props;
         /*if(!visible){
             return null;

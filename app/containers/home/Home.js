@@ -97,7 +97,6 @@ class HomeScreen extends BaseComponent {
         }
 
         store.dispatch(setCoinBalance(balanceInfo));
-
         this.props.navigation.navigate('TransactionRecoder');
     }
 
@@ -110,10 +109,6 @@ class HomeScreen extends BaseComponent {
                 this._hideLoading()  
             }
         });
-    }
-
-    startAddToken = async (token) => {
-                
     }
    
     onClickAdd = async (token) => {
