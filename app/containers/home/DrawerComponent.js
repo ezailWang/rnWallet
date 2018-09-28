@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import BaseComponent from '../base/BaseComponent'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import { BlurView } from 'react-native-blur';
-import Loading from '../../components/LoadingComponent';
+import Loading from '../../components/Loading';
 import layoutConstants from '../../config/LayoutConstants'
 
 class DrawerComponent extends BaseComponent {

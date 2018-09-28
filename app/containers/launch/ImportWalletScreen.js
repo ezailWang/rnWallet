@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, Animated,Keyboard, KeyboardAvoidingView,TouchableOpacity, Alert, Platform, PermissionsAndroid ,Dimensions,BackHandler} from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, Animated,Keyboard, KeyboardAvoidingView,TouchableOpacity, findNodeHandle,UIManager, Platform, PermissionsAndroid ,Dimensions,BackHandler} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
@@ -131,7 +131,7 @@ class ImportWalletScreen extends BaseComponent {
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
 
-            //titleHeight : new Animated.Value(200),
+            //titleHeight : new Animated.Value(180),
             //imageHeight : new Animated.Value(72),
             //textFontSize : new Animated.Value(18),
         }
@@ -143,36 +143,68 @@ class ImportWalletScreen extends BaseComponent {
         this.isPwdFocus = false;//密码框是否获得焦点
         this.isRePwdFocus = false;    
 
-        //this.keyboardHeight = 0
-        this.titleHeight = new Animated.Value(200)
+        this.keyboardHeight = 0
+        this.textInputMarginBottom = 0;
+        this.titleHeight = new Animated.Value(180)
         this.imageHeight = new Animated.Value(72)
         this.textFontSize = new Animated.Value(18)
+        this.containerMarginTop = new Animated.Value(0)
+
+       
+    }
+
+
+
+    layout(ref){
+        const handle = findNodeHandle(ref)
+        UIManager.measure(handle,(x,y,width,height,pageX,pageY)=>{
+            console.log('L_Layout.WINDOW_HEIGHT',Layout.WINDOW_HEIGHT) 
+            console.log('L_pageY',pageY) 
+            if(this.keyBoardIsShow){
+                this.textInputMarginBottom = Layout.WINDOW_HEIGHT-pageY -40;
+            }else{
+                this.textInputMarginBottom = Layout.WINDOW_HEIGHT-pageY - 40  + 180;
+            }   
+        })
     }
 
     _addEventListener(){
         super._addEventListener()
-       
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
-        this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',this.keyboardWillShowHandler);//android不监听keyboardWillShow和keyboardWillHide
-        this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',this.keyboardWillHideHandler);
-        
+        if(Platform.OS == 'ios'){
+            this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',this.keyboardWillShowHandler);//android不监听keyboardWillShow和keyboardWillHide
+            this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',this.keyboardWillHideHandler);
+        }else{
+            this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
+            this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
+        }   
     }
 
     _removeEventListener(){
         super._removeEventListener()
-        this.keyboardWillShowListener && this.keyboardWillShowListener.remove();
-        this.keyboardWillHideListener && this.keyboardWillHideListener.remove();
-        this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
-        
+        if(Platform.OS == 'ios'){
+            this.keyboardWillShowListener && this.keyboardWillShowListener.remove();
+            this.keyboardWillHideListener && this.keyboardWillHideListener.remove();
+        }else{
+            this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
+            this.keyboardDidHideListener && this.keyboardDidHideListener.remove(); 
+        }   
     }
+
     keyboardWillShowHandler=(event)=>{
         console.log('L_willShow','willShow')
         this.keyBoardIsShow = true;
         let duration = event.duration;
-        //let height = event.endCoordinates.height;//软键盘高度
-        this.titleBoxAnimated(duration,0,0,0)
+        this.keyboardHeight = event.endCoordinates.height;//软键盘高度
+
+       let t = this.textInputMarginBottom - this.keyboardHeight;
+        console.log('L_textInputMarginBottom',this.textInputMarginBottom) 
+        console.log('L_keyboardHeight',this.keyboardHeight) 
+        console.log('L_I',t)
+        if(this.isRePwdFocus && t < 0 ){       
+            this.titleBoxAnimated(duration,t,0,0,0)
+        }else{
+            this.titleBoxAnimated(duration,0,0,0,0)
+        }
         
     }
 
@@ -180,28 +212,45 @@ class ImportWalletScreen extends BaseComponent {
         console.log('L_willHide','willHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
+        this.keyboardHeight = 0;
         let duration = event.duration;
-        this.titleBoxAnimated(duration,200,72,18)   
+        this.titleBoxAnimated(duration,0,180,72,18)   
     }
 
     keyboardDidShowHandler=(event)=>{
-        console.log('L_didShow','didShow')
+        //console.log('L_didShow','didShow')
         this.keyBoardIsShow = true;
         //'event', 
         let duration = 100;
-        this.titleBoxAnimated(duration,0,0,0)
+        this.keyboardHeight = event.endCoordinates.height;
+        
+        let t = this.textInputMarginBottom - this.keyboardHeight;
+        console.log('L_textInputMarginBottom',this.textInputMarginBottom) 
+        console.log('L_keyboardHeight',this.keyboardHeight) 
+        console.log('L_I',t)
+        if(this.isRePwdFocus && t < 0 ){       
+            this.titleBoxAnimated(duration,t,0,0,0)
+        }else{
+            this.titleBoxAnimated(duration,0,0,0,0)
+        }
+        
     }
 
     keyboardDidHideHandler=(event)=>{
-        console.log('L_didHide','didHide')
+        //console.log('L_didHide','didHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
         let duration = 100;
-        this.titleBoxAnimated(duration,200,72,18)  
+        this.keyboardHeight = 0;
+        this.titleBoxAnimated(duration,0,180,72,18)  
     }
 
-    titleBoxAnimated(duration,titleToValue,imageToValue,textToValue){
+    titleBoxAnimated(duration,marginTopToValue,titleToValue,imageToValue,textToValue){
         Animated.parallel([
+            Animated.timing(this.containerMarginTop,{
+                duration:duration,
+                toValue:marginTopToValue
+            }),
             Animated.timing(this.titleHeight,{
                 duration:duration,
                 toValue:titleToValue
@@ -357,6 +406,9 @@ class ImportWalletScreen extends BaseComponent {
         }
     }
    
+    getRePwdMeasure(){
+        rePwdRef.measure()
+    } 
     
 
     isOpenPwd() {
@@ -380,7 +432,7 @@ class ImportWalletScreen extends BaseComponent {
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'
         behavior="padding">*/}
-                <View style={styles.contentContainer}> 
+                <Animated.View style={[styles.contentContainer,{marginTop:this.containerMarginTop}]}> 
                         
                         <Animated.View style={[styles.titleBox,{height:this.titleHeight}]}>
                               <Animated.Image style={[styles.icon,{height:this.imageHeight}]}  source={titleIcon} resizeMode={'contain'} />
@@ -401,7 +453,7 @@ class ImportWalletScreen extends BaseComponent {
                                 }}>
                             </TextInput>
                         </View>
-                        <View style={styles.inputBox}>
+                        <View style={styles.inputBox} >
                             <TextInput style={styles.input}
                                 returnKeyType='next' 
                                 placeholder={I18n.t('launch.wallet_name_hint')}
@@ -433,7 +485,7 @@ class ImportWalletScreen extends BaseComponent {
                             </TouchableOpacity>
                         </View>
                         <Text style={this.state.isShowPwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.pwdWarn}</Text>
-                        <View style={styles.inputBox}>
+                        <View style={styles.inputBox} ref="rePwdRef">
                             <TextInput style={styles.input}
                                 returnKeyType='done'
                                 placeholder={I18n.t('launch.re_password_hint')}
@@ -444,7 +496,7 @@ class ImportWalletScreen extends BaseComponent {
                                     this.rePwdtxt = event.nativeEvent.text;
                                     this.btnIsEnableClick()
                                 }}
-                                onFocus = {() => {this.isRePwdFocus = true}}
+                                onFocus = {() => {this.isRePwdFocus = true;this.layout(this.refs.rePwdRef)}}
                                 onBlur = {() => {this.isRePwdFocus = false;this._isShowRePwdWarn()}}
                             />
                             <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenRePwd()}>
@@ -459,7 +511,7 @@ class ImportWalletScreen extends BaseComponent {
                                 onPress={() => this.vertifyInputData()}
                                 text={I18n.t('launch.import')}
                         />
-                </View>
+                </Animated.View>
             </View>
         );
     }
