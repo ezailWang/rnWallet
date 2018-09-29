@@ -3,16 +3,20 @@ import {
     View,
     Text,
     TextInput,
-    StyleSheet
+    StyleSheet,
+    Animated
 } from 'react-native'
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
+
+MIN_HEIGHT = 80
+MAX_HEIGHT = 100
 
 class AddTokenInput extends Component {
 
     render() {
         return (
-            <View style={[styles.container,this.props.inputStyle]}>
+            <Animated.View style={[styles.container,this.props.inputStyle, {height:this.props.checkTextColor === Colors.clearColor ? MIN_HEIGHT : MAX_HEIGHT}]}>
                 <Text style={{ marginLeft: 20, fontSize: 14, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
                 <TextInput style={styles.TextInput}
                     onChange={this.props.onChange}
@@ -22,7 +26,7 @@ class AddTokenInput extends Component {
                     onFocus={this.props.onFocus}
                 />
                 <Text style={[{ alignSelf: 'flex-end', color: this.props.checkTextColor, marginHorizontal: 20, fontSize: 12 }]}>{this.props.checkText}</Text>
-            </View>
+            </Animated.View>
         )
     }
 }
@@ -32,11 +36,9 @@ export default AddTokenInput
 const styles = StyleSheet.create({
     container: {
         width: layoutConstants.WINDOW_WIDTH,
-        backgroundColor:'red',
-        flex: 1,
+        backgroundColor:'white',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        backgroundColor: 'white',
         paddingVertical: 10,
     },
     TextInput: {

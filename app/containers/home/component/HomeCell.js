@@ -63,11 +63,11 @@ class HomeCell extends Component {
                         <Image style={styles.icon}
                             source={imageSource}
                         ></Image>
-                        <Text>{symbol}</Text>
+                        <Text style={{ fontSize: 15, color: Colors.fontBlackColor_43,fontWeight:'500' }}>{symbol}</Text>
                     </View>
                     <View style={styles.rightView}>
                         <Text
-                            style={{ fontSize: 17, color: Colors.themeColor }}
+                            style={{ fontSize: 15, color: Colors.themeColor }}
                         >{balanceText}</Text>
                         <Text
                             style={{ fontSize: 13, color: Colors.fontDarkGrayColor }}
@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
     leftView: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 23,
+        marginLeft: 21,
     },
     rightView: {
         justifyContent: 'center',
         alignItems: 'flex-end',
-        marginRight: 23,
+        marginRight: 21,
     },
     separator: {
         flex: 1,
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
     icon: {
-        width: 24,
-        height: 24,
+        width: 26,
+        height: 26,
         backgroundColor: 'transparent',
         marginRight: 10
     },

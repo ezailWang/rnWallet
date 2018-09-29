@@ -14,6 +14,8 @@ import {
 import PropTypes from 'prop-types';
 import {Colors,FontSize} from '../config/GlobalConfig'
 import loadingImage from '../assets/common/loadingIcon.png'
+
+
 const styles = StyleSheet.create({
     modeBox:{
         flex:1,
@@ -23,16 +25,16 @@ const styles = StyleSheet.create({
         //zIndex:10,
     },
     modeContent:{
-        backgroundColor:'rgba(246,246,246,0.6)',
-        width:130,
-        height:150,
+        backgroundColor:'rgba(246,246,246,0.9)',
+        width:100,
+        height:120,
         borderRadius:8,
         justifyContent:'center',
         alignItems:'center',
     },
     animationImg:{
-        width:68,
-        height:77,
+        width:60,
+        height:60/68*77,
     },
     text:{
         marginTop:10,
@@ -46,8 +48,7 @@ export default class Loading extends PureComponent{
     
     constructor(props){
         super(props);
-        this.state = {
-        }
+        
         this.isAnimation = true;//是否执行动画
         this.rotateValue = new Animated.Value(0);
         this.animationLoading = Animated.timing(
@@ -60,7 +61,7 @@ export default class Loading extends PureComponent{
         );
     }
     static propTypes = {
-        visible:PropTypes.bool,
+        visible:PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -69,13 +70,13 @@ export default class Loading extends PureComponent{
    
     componentDidMount(){
         //组件加载完成后启动动画
-        this.startAnimation();
+        this.isAnimation = this.props.visible;
+        this.isStartAnimation()
     }
-    startAnimation(){
-        console.log('L_isAnimation',this.isAnimation)
+    isStartAnimation(){
         if(this.isAnimation){
             this.rotateValue.setValue(0);
-            this.animationLoading.start(()=>this.startAnimation());//循环旋转
+            this.animationLoading.start(()=>this.isStartAnimation());//循环旋转
         }
         //Animated.loop(animationLoading).start();//开始动画
         //setTimeout(Animated.loop(animationLoading).stop, 5000); // 5秒后停止动画，可用于任意时刻停止动画
@@ -84,10 +85,17 @@ export default class Loading extends PureComponent{
     componentWillReceiveProps(nextProps){
         const {visible} = nextProps;
         if(visible){
-            this.isAnimation = true;//循环动画
+            this.isAnimation = true;//循环动画  
         }else{
             this.isAnimation = false;//停止动画
         }
+
+        if(visible == true && this.props.visible == visible){
+            //visible为true && preVisible与nextProps相同时不再再次启动动画
+        }else{
+            this.isStartAnimation()
+        }
+        
     }
     
     render(){

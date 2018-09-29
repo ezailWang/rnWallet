@@ -97,7 +97,6 @@ class HomeScreen extends BaseComponent {
         }
 
         store.dispatch(setCoinBalance(balanceInfo));
-
         this.props.navigation.navigate('TransactionRecoder');
     }
 
@@ -107,11 +106,11 @@ class HomeScreen extends BaseComponent {
                 this._showLoding()
                 await this.saveTokenToStorage(token)
                 await networkManage.loadTokenList()
-                this._hideLoading()
+                this._hideLoading()  
             }
         });
     }
-
+   
     onClickAdd = async (token) => {
         await this.saveTokenToStorage(token)
         this.setState({
@@ -339,7 +338,7 @@ class HomeScreen extends BaseComponent {
                 />
                 <ImageButton
                     btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 57 : 37, position: 'absolute', zIndex: 2 }}
-                    imageStyle={{ width: 16, height: 13 }}
+                    imageStyle={{ width: 23, height: 23/16*13 }}
                     onClick={() => {
                         this.showDrawer()
                     }}

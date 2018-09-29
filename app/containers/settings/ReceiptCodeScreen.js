@@ -17,52 +17,67 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        width: Layout.WINDOW_WIDTH * 0.9,
+        width: Layout.WINDOW_WIDTH * 0.86,
         //justifyContent:'center',
-        alignItems: 'center',
         alignSelf: 'center',
-        marginTop: Layout.WINDOW_HEIGHT * 0.065,
+        paddingTop: 98,
     },
-    contentImageBackground: {
-        alignSelf: 'stretch',
+    contentBox:{
+        width: Layout.WINDOW_WIDTH * 0.86,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 5,
+        borderTopRightRadius:5,
+        paddingBottom: 20,
         alignItems: 'center',
-        width: Layout.WINDOW_WIDTH * 0.9,
-        height: Layout.WINDOW_WIDTH * 0.9 * 1.234,
-    },
 
+    },
+    logoIcon: {
+        position: 'absolute',
+        width: 120,
+        height: 120,
+        alignSelf: 'center',
+        marginTop: 36,
+        zIndex:10,
+    },
     titleTxt: {
         fontSize: 15,
         color: Colors.fontDarkColor,
-        marginTop: 111,
-        marginBottom: 20,
+        fontWeight:'600',
+        marginBottom: 12,
+        marginTop:55,
     },
     qrCode: {
-        height: 180,
+        height: 190,
     },
     adderssTxt: {
-        width: 180,
+        width: 190,
         fontSize: 14,
-        marginTop: 23,
-        marginTop: 20,
+        marginTop: 16,
         color: Colors.fontBlackColor,
+    },
+    btnImageTopBackground:{
+        //marginTop:-2,
+        width: Layout.WINDOW_WIDTH * 0.86,
+        height: Layout.WINDOW_WIDTH * 0.86 * 0.0419,
     },
     btnImageBackground: {
         alignItems: 'center',
-        width: Layout.WINDOW_WIDTH * 0.9,
-        height: Layout.WINDOW_WIDTH * 0.9 / 5.84,
+        width: Layout.WINDOW_WIDTH * 0.86,
+        height: Layout.WINDOW_WIDTH * 0.86 * 0.1713,
         marginTop: -1,
         alignSelf: 'stretch',
     },
     btnOpacity:{
         //backgroundColor:'transparent',
-        width:Layout.WINDOW_WIDTH*0.9,
+        width:Layout.WINDOW_WIDTH*0.86,
         flex:1,
         justifyContent:'center',
         alignItems:'center',
     },
     btnTxt: {
         fontSize: 16,
-        color: Colors.fontBlueColor
+        color: Colors.fontBlueColor,
+        fontWeight:'500',
     }
 })
 
@@ -118,13 +133,14 @@ class ReceiptCodeScreen extends BaseComponent {
                                 /**rightPress = {()=>this.scanClick()}
                                 rightIcon= {require('../../assets/common/scanIcon.png')}**//>
                 <View style={styles.contentContainer}>
-                    <ImageBackground style={styles.contentImageBackground} source={require('../../assets/set/qr_bg.png')}
-                        resizeMode={'contain'}>
+                    <Image style={styles.logoIcon} source={require('../../assets/set/logoWhiteBg.png')} resizeMode={'center'}></Image>
+                    <View style={styles.contentBox}>
+                        
                         <Text style={styles.titleTxt}>{this.props.walletName}</Text>
                         <View style={styles.qrCode}>
                             <QRCode
                                 value={this.props.walletAddress}
-                                size={180}
+                                size={190}
                                 bgColor='#000'
                                 fgColor='#fff'
                                 onLoad={() => { }}
@@ -133,8 +149,10 @@ class ReceiptCodeScreen extends BaseComponent {
                         </View>
 
                         <Text style={styles.adderssTxt}>{this.props.walletAddress}</Text>
-                    </ImageBackground>
-
+                        
+                    </View>
+                    
+                    <ImageBackground style={styles.btnImageTopBackground} source={require('../../assets/set/rWhiteBg.png')} resizeMode={'contain'}/>
                     <ImageBackground style={styles.btnImageBackground} source={require('../../assets/set/qr_btn.png')}
                         resizeMode={'contain'}>
                         <TouchableOpacity style={[styles.btnOpacity]}

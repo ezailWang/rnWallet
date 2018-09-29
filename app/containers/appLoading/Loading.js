@@ -10,8 +10,7 @@ import {
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n, getLanguages } from '../../config/language/i18n'
-import {showToast} from '../../utils/Toast'
-import DeviceInfo from 'react-native-device-info';
+import { showToast } from '../../utils/Toast'
 class Loading extends Component {
 
     static propTypes = {
@@ -49,20 +48,10 @@ class Loading extends Component {
         }
         if (language) {
             I18n.locale = language.lang
-        }else{
-            let localeLanguage = DeviceInfo.getDeviceLocale();
-            let lang = localeLanguage.substring(0,2)
-            if(lang == 'zh'){
-                I18n.locale = 'zh';
-            }else if(lang == 'ko'){
-                I18n.locale = 'ko';
-            }else{
-                I18n.locale = 'en';
-            }
         }
-        if(monetaryUnit){
+        if (monetaryUnit) {
             this.props.dispatch(setMonetaryUnit(monetaryUnit))
-        }else{
+        } else {
             this.byLanguageSetMonetaryUnit()
         }
         if (data) {
@@ -77,26 +66,26 @@ class Loading extends Component {
         }
     }
 
-    byLanguageSetMonetaryUnit(){
+    byLanguageSetMonetaryUnit() {
         let lang = I18n.locale
         let monetaryUnit = null;
-        if(lang == 'zh'){
+        if (lang == 'zh') {
             monetaryUnit = {
                 monetaryUnitType: 'CNY',
                 monetaryUnitStr: I18n.t('settings.renminbi'),
-                symbol:'¥'
+                symbol: '¥'
             }
-        }else if(lang == 'en'){
+        } else if (lang == 'en') {
             monetaryUnit = {
                 monetaryUnitType: 'USD',
                 monetaryUnitStr: I18n.t('settings.dollar'),
-                symbol:'$'
+                symbol: '$'
             }
-        }else if(lang == 'ko'){
+        } else if (lang == 'ko') {
             monetaryUnit = {
                 monetaryUnitType: 'KRW',
                 monetaryUnitStr: I18n.t('settings.korean_currency'),
-                symbol:'₩'
+                symbol: '₩'
             }
         }
         StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit)
@@ -110,7 +99,7 @@ class Loading extends Component {
 
 const mapStateToProps = state => ({
     walletAddress: state.Core.walletAddress,
-    monetaryUnit : state.Core.monetaryUnit
+    monetaryUnit: state.Core.monetaryUnit
 });
 
 export default connect(mapStateToProps)(Loading);
