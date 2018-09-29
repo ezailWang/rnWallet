@@ -48,7 +48,22 @@ class Loading extends Component {
         }
         if (language) {
             I18n.locale = language.lang
+            console.log('L_lang1',I18n.locale)
+        }else{
+            //let localeLanguage = DeviceInfo.getDeviceLocale();
+            console.log('L_lang2',I18n.locale)
+            let localeLanguage = I18n.locale;
+            let lang = localeLanguage.substring(0,2).toLowerCase()
+            if(lang == 'zh'){
+                I18n.locale = 'zh';
+            }else if(lang == 'ko'){
+                I18n.locale = 'ko';
+            }else{                
+                I18n.locale = 'en';
+            }
+
         }
+        
         if (monetaryUnit) {
             this.props.dispatch(setMonetaryUnit(monetaryUnit))
         } else {
@@ -69,6 +84,7 @@ class Loading extends Component {
     byLanguageSetMonetaryUnit() {
         let lang = I18n.locale
         let monetaryUnit = null;
+        console.log('L_lang',lang)
         if (lang == 'zh') {
             monetaryUnit = {
                 monetaryUnitType: 'CNY',

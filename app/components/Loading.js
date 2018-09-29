@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         //zIndex:10,
     },
     modeContent:{
-        backgroundColor:'rgba(246,246,246,0.9)',
+        backgroundColor:'rgba(246,246,246,1)',
         width:100,
         height:120,
         borderRadius:8,

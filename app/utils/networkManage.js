@@ -10,6 +10,8 @@ import { addToken, loadTokenBalance, setTotalAssets } from '../config/action/Act
 import lodash from 'lodash'
 import { TransferGasLimit } from '../config/GlobalConfig'
 import { I18n } from '../config/language/i18n'
+import { DeviceEventEmitter } from 'react-native'
+
 
 const Ether = new BigNumber(10e+17)
 var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
@@ -63,6 +65,7 @@ export default class networkManage {
             var balance = await web3.eth.getBalance(walletAddress)
             return parseFloat(balance / Math.pow(10, 18)).toFixed(4)
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getEthBalanceErr:', err)
             return 0.00
         }
@@ -82,6 +85,7 @@ export default class networkManage {
             const bigBalance = new BigNumber(await contract.methods.balanceOf(walletAddress).call())
             return parseFloat(bigBalance.dividedBy(Ether)).toFixed(2);
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getERC20BalanceErr:', err)
             return 0.00
         }
@@ -121,6 +125,7 @@ export default class networkManage {
                 blockNumber: t.blockNumber
             }))
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getEthTransations err:', err)
             return []
         }
@@ -152,6 +157,7 @@ export default class networkManage {
                 isError: t.isError,
             }))
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getERC20Transations err:', err)
             return []
         }
@@ -199,6 +205,7 @@ export default class networkManage {
             })
             return cb
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('sendETHTransaction err:', err)
             return null
         }
@@ -233,19 +240,32 @@ export default class networkManage {
             })
             return cb
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('sendERC20Transaction err:', err)
             return null
         }
     }
 
     static async getCurrentBlockNumber() {
-        const web3 = this.getWeb3Instance();
-        return await web3.eth.getBlockNumber();
+        try {
+            const web3 = this.getWeb3Instance();
+            return await web3.eth.getBlockNumber();
+        } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
+            console.log('getCurrentBlockNumber err:', err)
+            return 0
+        }
     }
 
     static isValidAddress(address) {
-        const web3 = this.getWeb3Instance();
-        return web3.utils.isAddress(address);
+        try {
+            const web3 = this.getWeb3Instance();
+            return web3.utils.isAddress(address);
+        } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
+            console.log('isValidAddress err:', err)
+            return false
+        }
     }
 
     /**
@@ -257,6 +277,7 @@ export default class networkManage {
             ethusd = data.result.ethusd
             return ethusd
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getEthPrice err:', err)
             return 0
         }
@@ -299,6 +320,7 @@ export default class networkManage {
             }
             return 0.00
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getPrice err:', err)
             return 0.00
         }
@@ -312,6 +334,7 @@ export default class networkManage {
             await this.loadTokensFromStorage()
             await this.getTokensBalance()
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('loadTokenList err:', err)
         }
     }
@@ -372,6 +395,7 @@ export default class networkManage {
             let price = await web3.eth.getGasPrice();
             return web3.utils.fromWei(price, 'gwei')
         } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getSuggestGasPrice err:', err)
             return 0
         }
