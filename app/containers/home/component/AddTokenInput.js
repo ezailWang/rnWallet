@@ -9,15 +9,15 @@ import {
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
 
-MIN_HEIGHT = 80
-MAX_HEIGHT = 100
+MIN_HEIGHT = 65
+MAX_HEIGHT = 80
 
 class AddTokenInput extends Component {
 
     render() {
         return (
-            <Animated.View style={[styles.container,this.props.inputStyle, {height:this.props.checkTextColor === Colors.clearColor ? MIN_HEIGHT : MAX_HEIGHT}]}>
-                <Text style={{ marginLeft: 20, fontSize: 14, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
+            <Animated.View style={[styles.container, this.props.inputStyle, { height: this.props.checkTextColor === Colors.clearColor ? MIN_HEIGHT : MAX_HEIGHT }]}>
+                <Text style={{ height: 15, marginLeft: 20, fontSize: 14, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
                 <TextInput style={styles.TextInput}
                     onChange={this.props.onChange}
                     keyboardType={this.props.keyboardType}
@@ -25,7 +25,8 @@ class AddTokenInput extends Component {
                     ref={this.props.ref}
                     onFocus={this.props.onFocus}
                 />
-                <Text style={[{ alignSelf: 'flex-end', color: this.props.checkTextColor, marginHorizontal: 20, fontSize: 12 }]}>{this.props.checkText}</Text>
+                <Text style={[{ height: 20, alignSelf: 'flex-end', color: this.props.checkTextColor, marginHorizontal: 20, fontSize: 12 }]}
+                    >{this.props.checkText}</Text>
             </Animated.View>
         )
     }
@@ -36,10 +37,10 @@ export default AddTokenInput
 const styles = StyleSheet.create({
     container: {
         width: layoutConstants.WINDOW_WIDTH,
-        backgroundColor:'white',
-        justifyContent: 'center',
+        backgroundColor: 'white',
+        // justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingVertical: 10,
+        paddingTop: 5,
     },
     TextInput: {
         marginTop: 5,

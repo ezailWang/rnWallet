@@ -63,7 +63,7 @@ export default class HeadView extends Component {
                     </View>
                 </View>
                 <View style={styles.bottomAddAssetsContainer}>
-                    <Text style={{ fontSize: 15, marginLeft: 21, color: Colors.homeAssetsTestColor, fontWeight: '600' }}> {I18n.t('home.assets')} </Text>
+                    <Text style={{ fontSize: 14, marginLeft: 21, color: Colors.homeAssetsTestColor, fontWeight: '600' }}> {I18n.t('home.assets')} </Text>
                     <ImageButton
                         btnStyle={{ width: 32, height: 32, marginRight: 18 }}
                         onClick={this.props.onAddAssets}

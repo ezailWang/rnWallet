@@ -296,7 +296,7 @@ class HomeScreen extends BaseComponent {
                     maxSwipeDistance={80}
                     bounceFirstRowOnMount={false}
                     renderQuickActions={this.renderQuickActions}
-                    scrollEventThrottle={1}
+                    scrollEventThrottle={16}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scroollY } } }]
                     )}
