@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent:'center',
         alignItems: 'center',
-        marginTop:40,
+        marginTop:20,
     },
     contentContainer: {
         width:Layout.WINDOW_WIDTH*0.9,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         height: 90,
         //textAlign:'start',
         fontSize: 16,
-        lineHeight: 30,
+        lineHeight: 20,
         textAlignVertical: 'top',
         color: Colors.fontBlackColor_43,
     },
@@ -131,7 +131,7 @@ class ImportWalletScreen extends BaseComponent {
             pwdWarn:I18n.t('launch.password_warn'),
             rePwdWarn:I18n.t('launch.enter_same_password'),
 
-            //titleHeight : new Animated.Value(180),
+            //titleHeight : new Animated.Value(160),
             //imageHeight : new Animated.Value(72),
             //textFontSize : new Animated.Value(18),
         }
@@ -145,7 +145,7 @@ class ImportWalletScreen extends BaseComponent {
 
         this.keyboardHeight = 0
         this.textInputMarginBottom = 0;
-        this.titleHeight = new Animated.Value(180)
+        this.titleHeight = new Animated.Value(160)
         this.imageHeight = new Animated.Value(72)
         this.textFontSize = new Animated.Value(18)
         this.containerMarginTop = new Animated.Value(0)
@@ -163,7 +163,7 @@ class ImportWalletScreen extends BaseComponent {
             if(this.keyBoardIsShow){
                 this.textInputMarginBottom = Layout.WINDOW_HEIGHT-pageY -40;
             }else{
-                this.textInputMarginBottom = Layout.WINDOW_HEIGHT-pageY - 40  + 180;
+                this.textInputMarginBottom = Layout.WINDOW_HEIGHT-pageY - 40  + 160;
             }   
         })
     }
@@ -214,7 +214,7 @@ class ImportWalletScreen extends BaseComponent {
         this._isShowRePwdWarn();
         this.keyboardHeight = 0;
         let duration = event.duration;
-        this.titleBoxAnimated(duration,0,180,72,18)   
+        this.titleBoxAnimated(duration,0,160,72,18)   
     }
 
     keyboardDidShowHandler=(event)=>{
@@ -242,7 +242,7 @@ class ImportWalletScreen extends BaseComponent {
         this._isShowRePwdWarn();
         let duration = 100;
         this.keyboardHeight = 0;
-        this.titleBoxAnimated(duration,0,180,72,18)  
+        this.titleBoxAnimated(duration,0,160,72,18)  
     }
 
     titleBoxAnimated(duration,marginTopToValue,titleToValue,imageToValue,textToValue){
