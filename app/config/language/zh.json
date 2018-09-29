@@ -197,7 +197,9 @@
         "copied":"已复制",
 
         "enter_valid_transfer_address":"请输入有效的转账地址",
-        "email_format_incorrect":"邮箱格式不正确"
+        "email_format_incorrect":"邮箱格式不正确",
+
+        "net_request_err":"网络异常"
     },
     "modal":{
         "permission_storage":"请允许读写存储空间的权限",
