@@ -171,6 +171,7 @@
         "system_settings":"Settings",
         "language":"Language",
 
+        //
         "renminbi":"Renminbi",
         "dollar":"Dollar",
         "korean_currency":"Korean currency"
@@ -194,9 +195,7 @@
         "copied":"Copied",
 
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
-        "email_format_incorrect":"Incorrect email format",
-
-        "net_request_err":"Network Error"
+        "email_format_incorrect":"Incorrect email format"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",

@@ -336,12 +336,12 @@ export default class TransactionRecoder extends BaseComponent{
         recoders.map((item,i)=>{    
             
             //测试数据
-            if(i < 11){
-                item.blockNumber = currentBlock-i
-            }
-            if(i == recoders.length - 3){
-                item.isError="1"
-            }
+            // if(i < 11){
+            //     item.blockNumber = currentBlock-i
+            // }
+            // if(i == recoders.length - 3){
+            //     item.isError="1"
+            // }
 
             let data = {
                 key:i.toString(),

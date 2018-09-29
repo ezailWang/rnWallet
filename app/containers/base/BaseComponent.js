@@ -144,7 +144,8 @@ export default class BaseComponent extends PureComponent {
             || err.message === 'Error: Network Error') {
             this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP);
         } else {
-            this.toast = showToast(err.message, Toast.positions.TOP);
+            let errMessage = err.message === undefined ? err : err.message
+            this.toast = showToast(errMessage, Toast.positions.TOP);
         }
     }
     //点击android物理返回键的操作
