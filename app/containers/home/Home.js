@@ -274,7 +274,6 @@ class HomeScreen extends BaseComponent {
                             flexDirection: 'row',
                             justifyContent: 'center',
                             alignItems:'center',
-                            backgroundColor:'red'
                         }}
                     >
                         <Text

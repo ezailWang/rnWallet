@@ -74,10 +74,12 @@ export default class Loading extends PureComponent{
         this.isStartAnimation()
     }
     isStartAnimation(){
-        if(this.isAnimation){
+        /*if(this.isAnimation){
             this.rotateValue.setValue(0);
             this.animationLoading.start(()=>this.isStartAnimation());//循环旋转
-        }
+        }*/
+        this.rotateValue.setValue(0);
+        this.animationLoading.start(()=>{if(this.isAnimation){this.isStartAnimation()}});
         //Animated.loop(animationLoading).start();//开始动画
         //setTimeout(Animated.loop(animationLoading).stop, 5000); // 5秒后停止动画，可用于任意时刻停止动画
     }
@@ -90,6 +92,7 @@ export default class Loading extends PureComponent{
             this.isAnimation = false;//停止动画
         }
 
+        console.log('L_ReceiveProps','preVisible:'+this.props.visible + ' curVisible:'+visible)
         if(visible == true && this.props.visible == visible){
             //visible为true && preVisible与nextProps相同时不再再次启动动画
         }else{
@@ -103,7 +106,7 @@ export default class Loading extends PureComponent{
         /*if(!visible){
             return null;
         }*/
-       
+        console.log('L_render:',visible)
         const animatedTransform = {
             transform:[
                 {rotateY: this.rotateValue.interpolate(

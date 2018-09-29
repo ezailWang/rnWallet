@@ -178,7 +178,11 @@ export default class CreateContactScreen extends BaseComponent {
     
     renderComponent() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container}
+                  onStartShouldSetResponder={() => true}
+                  onResponderGrant={() => {
+                       Keyboard.dismiss()
+                  }}>
                 <WhiteBgHeader  navigation={this.props.navigation} 
                                 text={I18n.t('settings.create_contact')}
                                 rightPress={() => this.scanClick()}

@@ -89,7 +89,7 @@ class SystemSetScreen extends BaseComponent {
         super(props);
         this.state = {
             langStr:'',
-            monetaryUnitStr:''
+            monetaryUnitType:''
         }
     }
 
@@ -103,10 +103,10 @@ class SystemSetScreen extends BaseComponent {
         }else if(lang == 'ko'){
             str = '한국어'
         }
-        let mUnitStr = this.props.monetaryUnit.monetaryUnitStr
+        let mUnitStr = this.props.monetaryUnit.monetaryUnitType
         this.setState({
             langStr:str,
-            monetaryUnitStr:mUnitStr,
+            monetaryUnitType:mUnitStr,
         })
     }
 
@@ -117,7 +117,7 @@ class SystemSetScreen extends BaseComponent {
             callback: function (data) {
                 _this.setState({
                     langStr:data.language.langStr,
-                    monetaryUnitStr:data.monetaryUnit.monetaryUnitStr,
+                    monetaryUnitType:data.monetaryUnit.monetaryUnitType,
                 })
             }
         })
@@ -128,7 +128,7 @@ class SystemSetScreen extends BaseComponent {
         this.props.navigation.navigate('ChoseMonetaryUnit', {
             callback: function (data) {
                 _this.setState({
-                    monetaryUnitStr:data.monetaryUnit.monetaryUnitStr,
+                    monetaryUnitType:data.monetaryUnit.monetaryUnitType,
                 })
             }
         })
@@ -142,7 +142,7 @@ class SystemSetScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.system_settings')}/>
                 <View  style={styles.itemContainer}>
                     <Item title={I18n.t('settings.language')} content = {this.state.langStr} onPressed= {this._choseLanguage}></Item> 
-                    <Item title={I18n.t('settings.currency_unit')} content = {this.state.monetaryUnitStr} onPressed= {this._choseMonetaryUnit}></Item>
+                    <Item title={I18n.t('settings.currency_unit')} content = {this.state.monetaryUnitType} onPressed= {this._choseMonetaryUnit}></Item>
                 </View>
                
             </View>    

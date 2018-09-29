@@ -196,15 +196,7 @@ class ImportWalletScreen extends BaseComponent {
         let duration = event.duration;
         this.keyboardHeight = event.endCoordinates.height;//软键盘高度
 
-       let t = this.textInputMarginBottom - this.keyboardHeight;
-        console.log('L_textInputMarginBottom',this.textInputMarginBottom) 
-        console.log('L_keyboardHeight',this.keyboardHeight) 
-        console.log('L_I',t)
-        if(this.isRePwdFocus && t < 0 ){       
-            this.titleBoxAnimated(duration,t,0,0,0)
-        }else{
-            this.titleBoxAnimated(duration,0,0,0,0)
-        }
+        this.titleBoxAnimated(duration,0,0,0,0)
         
     }
 
@@ -265,12 +257,6 @@ class ImportWalletScreen extends BaseComponent {
             }),
         ]).start();   
     }
-
-    /*hideKeyboard = () => {
-        if(this.keyBoardIsShow){
-            Keyboard.dismiss();
-        }
-    }*/
 
     
    //所有信息都输入完成前，“创建”按钮显示为灰色
@@ -426,7 +412,11 @@ class ImportWalletScreen extends BaseComponent {
         let titleText =  I18n.t('launch.import_wallet');
         let titleIcon = require('../../assets/launch/importIcon.png');
         return (
-            <View style={styles.container}>
+            <View style={styles.container}
+                  onStartShouldSetResponder={() => true}
+                  onResponderGrant={() => {
+                      Keyboard.dismiss()
+                  }}>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
                 {/*<TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}

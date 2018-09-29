@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View,StyleSheet,Image,Text,Dimensions,TouchableOpacity} from 'react-native';
+import { View,StyleSheet,Image,Text,Dimensions,TouchableOpacity,ScrollView} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'
 import PropTypes from 'prop-types'
 import {BlueButtonBig} from '../../components/Button';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         flex:1,
         width:Layout.WINDOW_WIDTH*0.9,
         alignSelf:'center',
-        paddingTop:40,
+        paddingTop:30,
         //alignItems:'stretch',
     },
     icon:{
@@ -55,15 +55,16 @@ const styles = StyleSheet.create({
         lineHeight:16,
     },
     viewBottom:{
-        flex:1,
-        justifyContent:'flex-end',
+        //flex:1,
+        //justifyContent:'flex-end',
         alignItems:'center',
-        marginBottom:40,
+        marginTop:40,
     },
     checkBox:{
         flexDirection:'row',
-        width:Layout.WINDOW_WIDTH*0.7
+        //width:Layout.WINDOW_WIDTH*0.9,
         //alignItems:'center',
+        //alignSelf:'center',
     },
     checkImage:{
         width:18,
@@ -95,7 +96,7 @@ export default class BackupWalletScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('launch.backup_wallet')}/>
-                <View style={styles.contentContainer}>
+                <ScrollView style={styles.contentContainer}>
                      <Image style={styles.icon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}/>
     
                      <Text style={styles.blueText}>{I18n.t('launch.why_backup_wallet')}</Text>
@@ -121,7 +122,7 @@ export default class BackupWalletScreen extends BaseComponent {
                          />
                      </View>
                        
-                </View>
+                </ScrollView>
                          
             </View>
         );
