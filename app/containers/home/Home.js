@@ -261,7 +261,7 @@ class HomeScreen extends BaseComponent {
                         style={{
                             height: layoutConstants.HOME_HEADER_MAX_HEIGHT,
                             width: layoutConstants.WINDOW_WIDTH,
-                            transform: [{ translateY: headerBgImageTranslateY }, { scale: headerBgImageScale }]
+                            transform: [{ translateY: headerBgImageTranslateY }, { scale: headerBgImageScale }],
                         }}
                         source={require('../../assets/home/hp_bg.png')}
                     />
@@ -272,14 +272,17 @@ class HomeScreen extends BaseComponent {
                             top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35,
                             opacity: headerTextOpacity,
                             flexDirection: 'row',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            alignItems:'center',
+                            backgroundColor:'red'
                         }}
                     >
                         <Text
                             style={{
                                 color: 'white',
-                                marginTop: 3,
+                                //marginTop: 3,
                                 fontSize: 16,
+                                lineHeight:16
                             }}
                         >{I18n.t('home.total_assets')}</Text>
                         <Text
@@ -288,6 +291,7 @@ class HomeScreen extends BaseComponent {
                                 color: 'white',
                                 fontWeight: '400',
                                 fontSize: 18,
+                                lineHeight:18
                             }}
                         >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Text>
                     </Animated.View>

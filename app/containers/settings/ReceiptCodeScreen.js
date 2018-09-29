@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         paddingTop: 98,
         alignItems:'center',
-       // backgroundColor:'red'
     },
     contentBox:{
         width: Layout.WINDOW_WIDTH * 0.86-3,
@@ -59,14 +58,15 @@ const styles = StyleSheet.create({
     },
     btnImageBackground: {
         alignItems: 'center',
-        width: Layout.WINDOW_WIDTH * 0.86,
+        alignSelf:'center',
+        width: Layout.WINDOW_WIDTH * 0.86-3,
         height: Layout.WINDOW_WIDTH * 0.86 * 0.22,
         marginTop: -1,
         //alignSelf: 'stretch',
         paddingLeft:0,
         paddingRight:0,
         marginLeft:0,
-        marginRight:0
+        marginRight:0,
     },
     btnOpacity:{
         //backgroundColor:'transparent',
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: Colors.fontBlueColor,
         fontWeight:'500',
+        marginTop:20,
     }
 })
 
