@@ -63,7 +63,7 @@ export default class CreateContactScreen extends BaseComponent {
             address:'',
             isShowNameWarn:false,
             isShowAddressWarn:false,
-            nameWarn:I18n.t('launch.enter_normative_wallet_name'),
+            nameWarn:I18n.t('settings.enter_normative_contact_name'),
             addressWarn:I18n.t('toast.enter_valid_transfer_address'),
 
         }

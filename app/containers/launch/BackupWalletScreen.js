@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
     },
     checkBox:{
         flexDirection:'row',
-        alignItems:'center',
+        width:Layout.WINDOW_WIDTH*0.7
+        //alignItems:'center',
     },
     checkImage:{
         width:18,

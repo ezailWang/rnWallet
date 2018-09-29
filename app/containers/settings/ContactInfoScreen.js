@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
     },
     contentBox:{
-        marginTop:40,
+        marginTop:10,
         width:Layout.WINDOW_WIDTH*0.9,
         alignSelf:'center',
     },
@@ -34,15 +34,16 @@ const styles = StyleSheet.create({
         color:Colors.fontBlackColor,
         fontSize:13,
         marginBottom:3,
+        marginTop:12,
     },
     textInput:{
-        marginBottom:15,
+        //marginBottom:15,
     },
     warnTxt:{
         fontSize:10,
         color:'red',
         alignSelf:'flex-end',
-        marginBottom: 10,
+        paddingTop: 5,
         paddingLeft:10,
     },
     warnTxtHidden:{
@@ -72,7 +73,9 @@ export default class ContactInfoScreen extends BaseComponent {
             isDisabled:true,
             contentChangeCount:1,
             isShowDialog:false,
+            isShowNameWarn:false,
             isShowAddressWarn:false,
+            nameWarn:I18n.t('settings.enter_normative_contact_name'),
             addressWarn:I18n.t('toast.enter_valid_transfer_address'),
         }
 
@@ -109,19 +112,17 @@ export default class ContactInfoScreen extends BaseComponent {
     }
 
     btnIsEnableClick(){
-        if (this.name == ''|| this.address == '' ||
+        if (this.name == ''|| this.address == '' || this.name.length > 12 || 
            (this.name == this.contactInfo.name && this.remark == this.contactInfo.remark && this.address == this.contactInfo.address)) {
-               if(!this.state.isDisabled){
-                    this.setState({
-                        isDisabled: true
-                    })
-               }
+                 this.setState({
+                     isDisabled: true,
+                     isShowNameWarn: (this.name == ''|| this.name.length > 12) ? true : false
+                 })
          }else{
-             if(this.state.isDisabled){
-                    this.setState({
-                        isDisabled: false
-                    })
-             } 
+                 this.setState({
+                     isDisabled: false,
+                     isShowNameWarn:false
+                 })
         }
     }
 
@@ -131,7 +132,7 @@ export default class ContactInfoScreen extends BaseComponent {
             addressIsOK = NetworkManager.isValidAddress(this.address);
             let disabled = this.name == '' || 
                             (this.name == this.contactInfo.name && this.remark == this.contactInfo.remark && this.address == this.contactInfo.address)
-                            || !addressIsOK
+                            || !addressIsOK || this.name.length > 12
             this.setState({
                 isShowAddressWarn:!addressIsOK,
                 isDisabled: disabled
@@ -245,7 +246,7 @@ export default class ContactInfoScreen extends BaseComponent {
                          textInputStyle = {styles.textInput}
                          onChangeText={this.nameOnChangeText}
                          defaultValue={this.name}/>
-
+                    <Text style={this.state.isShowNameWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.nameWarn}</Text> 
                     <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
                     <CommonTextInput 
                          textInputStyle = {styles.textInput}

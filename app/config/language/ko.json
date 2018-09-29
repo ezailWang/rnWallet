@@ -157,6 +157,8 @@
         "save_changes":"수정을 저장합니다.",
         "delete_contact":"연락처를 삭제합니다.",
         "save":"저장하기",
+        //
+        "enter_normative_contact_name":"请输入1~12位联系人姓名",
 
         "address_book":"주소록",
 
