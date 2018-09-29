@@ -122,7 +122,7 @@ class Item extends PureComponent{
             if(supported){
                 Linking.openURL(url)
             }else{
-                showToast('打不开')
+                //showToast('打不开')
             }
         }).catch(err=> console.log('openURLError', err))
         

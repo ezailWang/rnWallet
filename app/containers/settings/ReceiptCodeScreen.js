@@ -21,9 +21,11 @@ const styles = StyleSheet.create({
         //justifyContent:'center',
         alignSelf: 'center',
         paddingTop: 98,
+        alignItems:'center',
+       // backgroundColor:'red'
     },
     contentBox:{
-        width: Layout.WINDOW_WIDTH * 0.86,
+        width: Layout.WINDOW_WIDTH * 0.86-3,
         backgroundColor: 'white',
         borderTopLeftRadius: 5,
         borderTopRightRadius:5,
@@ -55,17 +57,16 @@ const styles = StyleSheet.create({
         marginTop: 16,
         color: Colors.fontBlackColor,
     },
-    btnImageTopBackground:{
-        //marginTop:-2,
-        width: Layout.WINDOW_WIDTH * 0.86,
-        height: Layout.WINDOW_WIDTH * 0.86 * 0.0419,
-    },
     btnImageBackground: {
         alignItems: 'center',
         width: Layout.WINDOW_WIDTH * 0.86,
-        height: Layout.WINDOW_WIDTH * 0.86 * 0.1713,
+        height: Layout.WINDOW_WIDTH * 0.86 * 0.22,
         marginTop: -1,
-        alignSelf: 'stretch',
+        //alignSelf: 'stretch',
+        paddingLeft:0,
+        paddingRight:0,
+        marginLeft:0,
+        marginRight:0
     },
     btnOpacity:{
         //backgroundColor:'transparent',
@@ -152,8 +153,7 @@ class ReceiptCodeScreen extends BaseComponent {
                         
                     </View>
                     
-                    <ImageBackground style={styles.btnImageTopBackground} source={require('../../assets/set/rWhiteBg.png')} resizeMode={'contain'}/>
-                    <ImageBackground style={styles.btnImageBackground} source={require('../../assets/set/qr_btn.png')}
+                    <ImageBackground style={styles.btnImageBackground} source={require('../../assets/set/qrBtnBg.png')}
                         resizeMode={'contain'}>
                         <TouchableOpacity style={[styles.btnOpacity]}
                             activeOpacity={0.6}

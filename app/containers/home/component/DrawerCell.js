@@ -39,17 +39,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         width: layoutConstants.HOME_DRAWER_WIDTH,
         height: 50,
+        alignItems:'center'
     },
     image: {
         width: 17,
         height: 16,
         marginLeft: 25,
-        marginVertical: 15,
+        //marginVertical: 15,
     },
     text: {
         fontSize: 15,
         marginLeft: 12,
-        marginVertical: 15,
+        //marginVertical: 15,
         color: Colors.fontBlackColor_31
     }
 
