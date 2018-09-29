@@ -140,7 +140,6 @@
         "collection_code":"수령 코드",
         "copy_payment_address":"수령 주소 복사하기",
 
-        //
         "scan_qrcode":"QR 코드 스캔",
         "scan_qrcode_prompt":"QR코드를 박스 안에 넣으면 자동으로 스캔할 수 있습니다.",  
 
@@ -178,7 +177,7 @@
     },
     "toast":{
         "exit_app":"한 번 더 눌러서 로그아웃하기",
-        "copy_wallet":"복사하였습니다.",
+        "copy_wallet":"복사하였습니다",
 
         "enter_wallet_name":"지갑 명칭을 입력해주세요",
         "enter_mnemonic":"니모닉을 입력해주세요",
@@ -187,15 +186,17 @@
         
         "check_mnemonic_is_correct":"니모닉이 정확한지 확인해주세요",
 
-        "import_mnemonic_error":"지갑 도입 시 오류가 발생했습니다.",
-        "create_wallet_error":"지갑 생성 시 오류가 발생했습니다.",
+        "import_mnemonic_error":"지갑 도입 시 오류가 발생했습니다",
+        "create_wallet_error":"지갑 생성 시 오류가 발생했습니다",
 
-        "not_modified_wallet_name":"지갑 명칭을 변경하지 않았습니다.",
-        "copied_keystore":"키스토어를 복사했습니다.",
-        "copied":"복사하였습니다.",
+        "not_modified_wallet_name":"지갑 명칭을 변경하지 않았습니다",
+        "copied_keystore":"키스토어를 복사했습니다",
+        "copied":"복사하였습니다",
 
         "enter_valid_transfer_address":"유효한 이체 주소를 입력해주세요",
-        "email_format_incorrect":"올바른 이메일 주소를 입력하세요."
+        "email_format_incorrect":"올바른 이메일 주소를 입력하세요",
+
+        "net_request_err":"네트워크 이상"
     },
     "modal":{
         "permission_storage":"저장 공간을 읽기 쓰기 권한을 부여해주세요.",

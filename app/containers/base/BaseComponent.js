@@ -15,6 +15,8 @@ import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import { BlurView } from 'react-native-blur';
 import layoutConstants from '../../config/LayoutConstants';
+import Toast from 'react-native-root-toast';
+import RootSiblings from 'react-native-root-siblings';
 let lastBackPressed = 0;
 
 //所有继承该组件的组件，重写该组件方法请先运行super.funcName()
@@ -63,6 +65,7 @@ export default class BaseComponent extends PureComponent {
 
     //添加事件监听
     _addEventListener() {
+        this.netRequestErrHandler = DeviceEventEmitter.addListener('netRequestErr', this._netRequestErr);//网络异常情况监听
         this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
         AppState.addEventListener('change', this._handleAppStateChange);
@@ -111,25 +114,39 @@ export default class BaseComponent extends PureComponent {
     render() {
         return (
             <ScrollView contentContainerStyle={styles.container}
-                        keyboardShouldPersistTaps='handled' 
-                        scrollEnabled={false}>
-                    <StatusBarComponent barStyle={this._barStyle} />
-                            {this.renderComponent()}
-                            {Platform.OS === 'ios' && this.state.showBlur && <BlurView
-                                style={styles.blurStyle}
-                                blurType='light'
-                                blurAmount={10}
-                            />}
-                    {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
+                keyboardShouldPersistTaps='handled'
+                scrollEnabled={false}>
+                <StatusBarComponent barStyle={this._barStyle} />
+                {this.renderComponent()}
+                {Platform.OS === 'ios' && this.state.showBlur && <BlurView
+                    style={styles.blurStyle}
+                    blurType='light'
+                    blurAmount={10}
+                />}
+                {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
             </ScrollView>
         )
     }
 
     //接收到货币单位改变的监听所需要的操作
-    _monetaryUnitChange=(data)=>{
+    _monetaryUnitChange = (data) => {
 
     }
 
+    //网络请假错误回调
+    _netRequestErr = (err) => {
+        this._hideLoading()
+        if (this.toast instanceof RootSiblings) {
+            return
+        }
+        if (err.message === 'Network request failed'
+            || err.message === 'Invalid JSON RPC response: \"The Internet connection appears to be offline.\"'
+            || err.message === 'Error: Network Error') {
+            this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP);
+        } else {
+            this.toast = showToast(err.message, Toast.positions.TOP);
+        }
+    }
     //点击android物理返回键的操作
     _onBackPressed = () => {
         let routeName = this.props.navigation.state.routeName;
@@ -162,6 +179,6 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 0, left: 0, bottom: 0, right: 0,
         height: layoutConstants.WINDOW_HEIGHT,
-        zIndex:1000,
+        zIndex: 1000,
     }
 })
