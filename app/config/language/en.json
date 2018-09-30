@@ -47,7 +47,7 @@
         "password_warn_10":"passwords should contain at least one uppercase or one lowercase.",
 
         "enter_same_password":"Please enter the password again. ",
-        //
+        
         "enter_normative_wallet_name":"请输入1~12位钱包名称"
     },
     "home":{
@@ -109,9 +109,9 @@
         "enter_password_hint":"Please enter your password",
         "determine":"Confirm",
 
-        //
+        
         "transaction_fail":"failed",
-        //
+        
         "alert_0":"Get Secret key failed",
         "alert_1":"Transaction failed, please check parameters.",
         "alert_2":"Please enter a valid transfer address.",
@@ -140,7 +140,7 @@
         "collection_code":"Payment code",
         "copy_payment_address":"Copy receiving address",
 
-        //
+        
         "scan_qrcode":"Scan QR code",
         "scan_qrcode_prompt":"The QR code can be automatically scanned by putting it into the frame.",  
 
@@ -157,7 +157,7 @@
         "save_changes":"Save Changes",
         "delete_contact":"Delete Contact",
         "save":"Save",
-        // 
+        
         "enter_normative_contact_name":"请输入1~12位联系人姓名",
 
         "address_book":"Address list",
@@ -171,7 +171,7 @@
         "system_settings":"Settings",
         "language":"Language",
 
-        //
+        
         "renminbi":"Renminbi",
         "dollar":"Dollar",
         "korean_currency":"Korean currency"
@@ -195,7 +195,11 @@
         "copied":"Copied",
 
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
-        "email_format_incorrect":"Incorrect email format"
+        "email_format_incorrect":"Incorrect email format",
+
+        "net_request_err":"network error",
+
+        "net_request_token_unable_resolve":"token invalid"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",

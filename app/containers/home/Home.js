@@ -286,6 +286,7 @@ class HomeScreen extends BaseComponent {
                         >{I18n.t('home.total_assets')}</Text>
                         <Text
                             style={{
+                                marginTop:3,
                                 marginLeft: 8,
                                 color: 'white',
                                 fontWeight: '400',
@@ -340,7 +341,7 @@ class HomeScreen extends BaseComponent {
                     }
                 />
                 <ImageButton
-                    btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 57 : 37, position: 'absolute', zIndex: 2 }}
+                    btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35, position: 'absolute', zIndex: 2 }}
                     imageStyle={{ width: 23, height: 23/16*13 }}
                     onClick={() => {
                         this.showDrawer()
