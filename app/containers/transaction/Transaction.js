@@ -12,6 +12,7 @@ import {
     Platform,
     PermissionsAndroid,
     BackHandler,
+    Keyboard
 } from 'react-native';
 
 import { Colors, TransferGasLimit, TransferType } from "../../config/GlobalConfig";
@@ -306,10 +307,11 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            // toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
+            toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
             fromAddress: params.fromAddress,
             detailData: "",
-            defaultTransferValue: ''
+            defaultTransferValue: '',
+            isDisabled:true
         };
 
     };
@@ -339,86 +341,80 @@ export default class Transaction extends BaseComponent {
         return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
     };
 
-    async startSendTransaction(password){
+    async startSendTransaction(privateKey){
 
-        //console.warn("开始转账，验证私钥");
+        // console.warn("开始转账，已验证私钥");
 
-        var privateKey = await keystoreUtils.getPrivateKey(password)
-        //console.warn("私钥验证完成",privateKey);
-        
-        if (privateKey === null || privateKey.length == 0) {
-            
-            this. _hideLoading()    
+        let { contractAddress, symbol, decimals } = store.getState().Core.balance;
 
-            setTimeout(() => {
-                showToast(I18n.t('transaction.alert_0'))    
-            }, 100);
-        }
-        else {
+        // console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
 
-            let { contractAddress, symbol, decimals } = store.getState().Core.balance;
+        let currentBlock = await NetworkManager.getCurrentBlockNumber();
+        let res = await NetworkManager.sendTransaction(
+            {
+                "contractAddress": contractAddress,
+                "symbol": symbol,
+                "decimals": decimals
+            },
+            this.state.toAddress,
+            this.state.transferValue,
+            this.state.currentGas,
+            privateKey,
+            (hash) => {
+                // console.log('hash', hash)
 
-            // console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
+                let { walletAddress } = store.getState().Core
 
-            let currentBlock = await NetworkManager.getCurrentBlockNumber();
-            let res = await NetworkManager.sendTransaction(
-                {
-                    "contractAddress": contractAddress,
-                    "symbol": symbol,
-                    "decimals": decimals
-                },
-                this.state.toAddress,
-                this.state.transferValue,
-                this.state.currentGas,
-                privateKey,
-                (hash) => {
-                    // console.log('hash', hash)
-
-                    let { walletAddress } = store.getState().Core
-
-                    let newTransaction = {
-                        from: walletAddress,
-                        to: this.state.toAddress,
-                        timeStamp: null,
-                        hash: hash,
-                        value: this.state.transferValue,
-                        isError: "0",
-                        gasPrice: this.state.currentGas,
-                        blockNumber: currentBlock
-                    }
-                    store.dispatch(setNewTransaction(newTransaction));
-                },
-            )
+                let newTransaction = {
+                    from: walletAddress,
+                    to: this.state.toAddress,
+                    timeStamp: null,
+                    hash: hash,
+                    value: this.state.transferValue,
+                    isError: "0",
+                    gasPrice: this.state.currentGas,
+                    blockNumber: currentBlock
+                }
+                store.dispatch(setNewTransaction(newTransaction));
+            },
+        )
 
         // console.warn('交易发送完毕'+res);
 
-            setTimeout(() => {
-
-                this._hideLoading()
-
-                if (res) {
-                    //回调刷新
-                    this.props.navigation.state.params.onGoBack();
-                    this.props.navigation.goBack();
-                }
-                else {
-                    setTimeout(() => {
-                        alert(I18n.t('transaction.alert_1'));
-                    }, 100);
-                }
-            }, 10);
+        if (res) {
+            //回调刷新
+            this.props.navigation.state.params.onGoBack();
+            this.props.navigation.goBack();
+        }
+        else {
+            // setTimeout(() => {
+                alert(I18n.t('transaction.alert_1'));
+            // }, 100);
         }
     }
 
-    didTapSurePasswordBtn =  (password) => {
+    async didTapSurePasswordBtn (password){
         // console.warn("输入密码--",password);
         this._showLoding()
-        // console.warn("进入转账步骤1");
+       
+        setTimeout(async ()=>{
 
-        InteractionManager.runAfterInteractions(()=>{
+            // console.log("开始执行")
 
-            this.startSendTransaction(password)
-        })
+            let  privateKey
+            try{
+                privateKey = await keystoreUtils.getPrivateKey(password)
+                if (privateKey == null) {
+                    showToast(I18n.t('modal.password_error'))
+                } else {
+                    await this.startSendTransaction(privateKey)
+                } 
+            }catch(err){
+                console.log('exportKeyPrivateErr:', err)
+            }finally{
+                this._hideLoading();
+            } 
+        },2000)
      };
 
 
@@ -467,36 +463,33 @@ export default class Transaction extends BaseComponent {
     };
 
     valueTextInputChangeText = (text) => {
-        let tValue = text;
-        let totalValue = this.params.balance;
-        let fl = parseFloat(tValue)
 
-        // console.log(fl,totalValue)
-
-        if (fl > parseFloat(totalValue)) {
-            this.setState({
-                defaultTransferValue: totalValue
-                // defaultTransferValue:'0.1'
-            });
-            // console.log("1")
-            tValue = totalValue;
-        } else {
-            this.setState({
-                defaultTransferValue: text
-            });
-            // console.log("2")
-        }
         this.setState({
-            transferValue: parseFloat(tValue)
+            transferValue: parseFloat(text),
+        },()=>{
+            this.judgeCanSendInfoCorrect()
         });
-        // console.log("3")
     };
 
     toAddressTextInputChangeText = (text) => {
+        
         this.setState({
             toAddress: text
+        },()=>{
+            this.judgeCanSendInfoCorrect()
         });
     };
+
+    judgeCanSendInfoCorrect (){
+
+        let totalValue = this.params.balance;
+        let amountIsNotValid = this.state.transferValue > totalValue
+        let addressIsNotValid = !NetworkManager.isValidAddress(this.state.toAddress)
+
+        this.setState({
+            isDisabled: amountIsNotValid||addressIsNotValid
+        });
+    }
 
     routeContactList = () => {
         let _this = this;
@@ -544,14 +537,17 @@ export default class Transaction extends BaseComponent {
             )
         }
     }
-
     renderComponent() {
 
         let params = store.getState().Core.walletTransfer;
         let title = params.transferType + I18n.t('transaction.transfer');
+        let alertHeight = NetworkManager.isValidAddress(this.state.toAddress) ? 0 : 15
 
         return (
-            <View style={styles.container}>
+            <View   style={styles.container} 
+                    onResponderGrant={() => {
+                        Keyboard.dismiss()
+                    }}>
                 <WhiteBgHeader navigation={this.props.navigation}
                     text={title}
                     rightPress={() => this.scanClick()}
@@ -560,31 +556,16 @@ export default class Transaction extends BaseComponent {
                     bounces={false}
                     keyboardShouldPersistTaps={'handled'}>**/}
                 <View style={styles.contentBox}>
-                    <TransactionStep didTapSurePasswordBtn={this.didTapSurePasswordBtn}
+                    <TransactionStep didTapSurePasswordBtn={(password)=>{
+                            this.didTapSurePasswordBtn(password)
+                        }}
                         ref={(dialog) => { this.dialog = dialog; }} />
-                    {/*转账数量栏*/}
-                    {/* <View style={styles.sectionView}>
-                        <View style={styles.sectionViewTopView}>
-                            <Text style={styles.sectionViewTitleText}>金额</Text>
-                            <Text style={styles.blueText}>{"余额：" + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}</Text>
-                        </View>
-                        <View style={[styles.sectionViewBottomView, (Platform.OS == 'ios' ? styles.shadowStyle : {})]}>
-                            <TextInput style={styles.sectionViewTextInput}
-                                placeholder={"输入" + this.params.transferType + "金额"}
-                                returnKeyType={'next'}
-                                keyboardType={'numeric'}
-                                onChangeText={this.valueTextInputChangeText}
-                                defaultValue={this.state.updateValue}>
-                            </TextInput>
-                        </View>
-                    </View> */}
                     <InfoView title={I18n.t('transaction.amount')}
                         detailTitle={I18n.t('transaction.balance') + ':' + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
                         placeholder={I18n.t('transaction.enter') + this.params.transferType + I18n.t('transaction.amount')}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
-                        onChangeText={this.valueTextInputChangeText}
-                        defaultValue={this.state.defaultTransferValue} />
+                        onChangeText={this.valueTextInputChangeText}/>
                     {/*转账地址栏*/}
                     <InfoView title={I18n.t('transaction.collection_address')}
                         detailTitle={I18n.t('transaction.address_list')}
@@ -599,6 +580,7 @@ export default class Transaction extends BaseComponent {
                         returnKeyType={"done"}
                         onChangeText={this.detailTextInputChangeText} />*/}
                     {/*滑竿视图*/}
+                    <Text style={{height:alertHeight,color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}}>{I18n.t('modal.enter_valid_transfer_address')}</Text>
                     <SliderView gasStr={this.state.gasStr}
                         minGasPrice={this.state.minGasPrice}
                         maxGasPrice={this.state.maxGasPrice}
@@ -607,7 +589,11 @@ export default class Transaction extends BaseComponent {
                     {/*下一步按钮*/}
                     <View style={styles.buttonBox}>
                         <BlueButtonBig
-                            onPress={this.didTapNextBtn} text={I18n.t('transaction.next_step')} />
+                            buttonStyle = {styles.button}
+                            isDisabled = {this.state.isDisabled}
+                            onPress = {()=> this.didTapNextBtn()}
+                            text = {I18n.t('transaction.next_step')}
+                        /> 
                     </View>
                 </View>
 
