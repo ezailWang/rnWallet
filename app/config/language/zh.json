@@ -46,7 +46,7 @@
         "password_warn_10":"还需包含大、小写字母中的1种",
 
         "enter_same_password":"请输入一致的密码",
-        //
+        
         "enter_normative_wallet_name":"请输入1~12位钱包名称"
     },
     "home":{
@@ -86,7 +86,7 @@
         "remarks":"备注",
         "enter_remarks":"输入备注",
         "next_step":"下一步",
-        //
+        
         "address_list":"地址簿",
         "transaction_details":"交易详情",
         "sending_party":"发款方",
@@ -108,10 +108,10 @@
         "enter_password_hint":"请输入密码",
         "determine":"确定",
 
-        //
+        
         "transaction_fail":"交易失败",
 
-        //
+        
         "alert_0":"秘钥获取失败",
         "alert_1":"交易发送失败，请检查参数",
         "alert_2":"请输入有效的转账地址",
@@ -140,7 +140,7 @@
         "collection_code":"收款码",
         "copy_payment_address":"复制收款地址",
 
-        //
+        
         "scan_qrcode":"扫描二维码",
         "scan_qrcode_prompt":"将二维码放入框内，即可自动扫描",
 
@@ -158,7 +158,7 @@
         "save_changes":"保存修改",
         "delete_contact":"删除联系人",
         "save":"保存",
-        //
+        
         "enter_normative_contact_name":"请输入1~12位联系人姓名",
 
         
@@ -199,7 +199,8 @@
         "enter_valid_transfer_address":"请输入有效的转账地址",
         "email_format_incorrect":"邮箱格式不正确",
 
-        "net_request_err":"网络异常"
+        "net_request_err":"网络异常",
+        "net_request_token_unable_resolve":"资产中存在无效资产"
     },
     "modal":{
         "permission_storage":"请允许读写存储空间的权限",

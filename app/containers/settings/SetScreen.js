@@ -159,12 +159,14 @@ class SetScreen extends BaseComponent {
         try{
             privateKey = await keystoreUtils.getPrivateKey(password)
             this._hideLoading();//关闭Loading
-           if (privateKey == null) {
+            if (privateKey == null) {
                 //alert(I18n.t('modal.export_private_key_error'));
                 showToast(I18n.t('modal.export_private_key_error'))
            } else {
+                console.log('L_keyprivate','跳转')
                 this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
-           } 
+           }
+           
         }catch(e){
             console.log('exportKeyPrivateErr:', err)
         }finally{

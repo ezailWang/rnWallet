@@ -48,9 +48,9 @@ class HomeCell extends Component {
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
             imageSource = tokeniCon[symbol]
         }
-        let balanceText = isNaN(balance) || balance === '0.0000' || balance === '0' ? '0.00' : balance
+        let balanceText = isNaN(balance) || balance === 0 || balance === '0.0000' ? '0.00' : balance
         let balancePriText = isNaN(balance * price) || (balance * price) === 0 ? '--' : '≈' + this.props.monetaryUnitSymbol + (balance * price).toFixed(2)
-        if(isTotalAssetsHidden){
+        if (isTotalAssetsHidden) {
             balanceText = '****'
             balancePriText = '--'
         }
@@ -63,7 +63,7 @@ class HomeCell extends Component {
                         <Image style={styles.icon}
                             source={imageSource}
                         ></Image>
-                        <Text style={{ fontSize: 15, color: Colors.fontBlackColor_43,fontWeight:'500' }}>{symbol}</Text>
+                        <Text style={{ fontSize: 15, color: Colors.fontBlackColor_43, fontWeight: '500' }}>{symbol}</Text>
                     </View>
                     <View style={styles.rightView}>
                         <Text

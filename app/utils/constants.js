@@ -1,17 +1,17 @@
 import uuid from 'react-native-uuid';
 
 const defaultTokens = [
-    // {
-    //     contractAddress: '0xb4f8192668d8f2ee3b5b82bdb98f68848ba39ece',
-    //     decimals: 18,
-    //     id: uuid.v4(),
-    //     name: 'wsdtest',
-    //     symbol: 'DSW',
-    // },
     {
         name: 'Ethereum',
         id: uuid.v4(),
         symbol: 'ETH',
+    },
+    {
+        contractAddress: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940',
+        decimals: 18,
+        id: uuid.v4(),
+        name: 'IOT on Chain',
+        symbol: 'ITC',
     },
 ];
 

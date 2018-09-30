@@ -261,7 +261,7 @@ class HomeScreen extends BaseComponent {
                         style={{
                             height: layoutConstants.HOME_HEADER_MAX_HEIGHT,
                             width: layoutConstants.WINDOW_WIDTH,
-                            transform: [{ translateY: headerBgImageTranslateY }, { scale: headerBgImageScale }]
+                            transform: [{ translateY: headerBgImageTranslateY }, { scale: headerBgImageScale }],
                         }}
                         source={require('../../assets/home/hp_bg.png')}
                     />
@@ -272,22 +272,26 @@ class HomeScreen extends BaseComponent {
                             top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35,
                             opacity: headerTextOpacity,
                             flexDirection: 'row',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            alignItems:'center',
                         }}
                     >
                         <Text
                             style={{
                                 color: 'white',
-                                marginTop: 3,
+                                //marginTop: 3,
                                 fontSize: 16,
+                                lineHeight:16
                             }}
                         >{I18n.t('home.total_assets')}</Text>
                         <Text
                             style={{
+                                marginTop:3,
                                 marginLeft: 8,
                                 color: 'white',
                                 fontWeight: '400',
                                 fontSize: 18,
+                                lineHeight:18
                             }}
                         >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Text>
                     </Animated.View>
@@ -296,7 +300,7 @@ class HomeScreen extends BaseComponent {
                     maxSwipeDistance={80}
                     bounceFirstRowOnMount={false}
                     renderQuickActions={this.renderQuickActions}
-                    scrollEventThrottle={1}
+                    scrollEventThrottle={16}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scroollY } } }]
                     )}
@@ -337,7 +341,7 @@ class HomeScreen extends BaseComponent {
                     }
                 />
                 <ImageButton
-                    btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 57 : 37, position: 'absolute', zIndex: 2 }}
+                    btnStyle={{ right: 21, top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35, position: 'absolute', zIndex: 2 }}
                     imageStyle={{ width: 23, height: 23/16*13 }}
                     onClick={() => {
                         this.showDrawer()

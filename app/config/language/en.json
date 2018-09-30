@@ -5,7 +5,7 @@
 
         "input_mnemonic_hint":"Please enter mnemonic words and separate by space.",
         "set_password_hint":"Password",
-        "re_password_hint":"Repeat Password",
+        "re_password_hint":"Confirm Password",
         "import":"Import",
 
         "wallet_name_hint":"Wallet Name",
@@ -13,23 +13,23 @@
         "create":"Create",
 
         "create_wallet_warn1":"Password is used to protect private key and transaction authorization.",
-        "create_wallet_warn2":"We will not store your password and cannot help you to recover the password, please backup cautiously.",
+        "create_wallet_warn2":"We DO NOT store your password and cannot help you to recover the password, please backup cautiously.",
 
         "backup_wallet":"Back-up wallet.",
-        "why_backup_wallet":"Why need to backup mnemonic words?",
-        "reason_backup_wallet1":"Mnemonic words can restore your wallet. Anyone in possession of your mnemonic words will have access of your assets! ",
-        "reason_backup_wallet2":"We will not store your password and cannot help you to recover the password, please backup cautiously.",
-        "how_backup_wallet":"How to backup mnemonic words?",
-        "reason_backup_wallet3":"Please write down the mnemonic words on the paper and keep them in a safe place.",
-        "reason_backup_wallet4":"Do not save mnemonic words on mailbox or network disk. Do not use network tools for transmission.",
+        "why_backup_wallet":"Why need to backup mnemonic phrases?",
+        "reason_backup_wallet1":"Mnemonic phrases can restore your wallet. Anyone who gains access to your mnemonic phrases can recover your wallet and control all your assets! ",
+        "reason_backup_wallet2":"We DO NOT store your  mnemonic phrases, nor can we recover them. Please backup cautiously.",
+        "how_backup_wallet":"How to backup?",
+        "reason_backup_wallet3":"Please write down the mnemonic phrases on paper and keep them safe.",
+        "reason_backup_wallet4":"Do not save mnemonic phrases on mailbox or network disk. Do not use network tools for transmission.",
         "readed":"I understand. And I have already prepared paper and pen.",
         
-        "backup_mnemonic":"Backup mnemonic words",
-        "backup_mnemonic_prompt":"Please write down the mnemonic words carefully. We will verify them in the next step.",
-        "backup_mnemonic_complete":"Mnemonic words have been copied.",
+        "backup_mnemonic":"Back up mnemonic phrases",
+        "backup_mnemonic_prompt":"Please write down the mnemonic phrases carefully. It will be required for subsequent verification process.",
+        "backup_mnemonic_complete":"mnemonic phrases have been copied.",
 
-        "confirm_mnemonic":"Mnemonic words verification",
-        "confirm_mnemonic_prompt":"Please click the mnemonic words in order to confirm your backup correctly.",
+        "confirm_mnemonic":"Confirm",
+        "confirm_mnemonic_prompt":"Please select  mnemonic phrases in correct order.",
         "complete":"Complete",
 
     
@@ -47,7 +47,7 @@
         "password_warn_10":"passwords should contain at least one uppercase or one lowercase.",
 
         "enter_same_password":"Please enter the password again. ",
-        //
+        
         "enter_normative_wallet_name":"请输入1~12位钱包名称"
     },
     "home":{
@@ -109,9 +109,9 @@
         "enter_password_hint":"Please enter your password",
         "determine":"Confirm",
 
-        //
+        
         "transaction_fail":"failed",
-        //
+        
         "alert_0":"Get Secret key failed",
         "alert_1":"Transaction failed, please check parameters.",
         "alert_2":"Please enter a valid transfer address.",
@@ -140,7 +140,7 @@
         "collection_code":"Payment code",
         "copy_payment_address":"Copy receiving address",
 
-        //
+        
         "scan_qrcode":"Scan QR code",
         "scan_qrcode_prompt":"The QR code can be automatically scanned by putting it into the frame.",  
 
@@ -157,7 +157,7 @@
         "save_changes":"Save Changes",
         "delete_contact":"Delete Contact",
         "save":"Save",
-        // 
+        
         "enter_normative_contact_name":"请输入1~12位联系人姓名",
 
         "address_book":"Address list",
@@ -171,6 +171,7 @@
         "system_settings":"Settings",
         "language":"Language",
 
+        
         "renminbi":"Renminbi",
         "dollar":"Dollar",
         "korean_currency":"Korean currency"
@@ -196,7 +197,9 @@
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
         "email_format_incorrect":"Incorrect email format",
 
-        "net_request_err":"Network Error"
+        "net_request_err":"network error",
+
+        "net_request_token_unable_resolve":"token invalid"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",

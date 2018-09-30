@@ -163,9 +163,12 @@ export default class FeedbackScreen extends BaseComponent {
     
     renderComponent() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container}
+                  onStartShouldSetResponder={() => true}
+                  onResponderGrant={() => {
+                      Keyboard.dismiss()
+                  }}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.feedback')}/>
-                <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={this.hideKeyboard}>   
                 <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
                                          keyboardShouldPersistTaps='handled'
                                          behavior="padding">
@@ -197,8 +200,7 @@ export default class FeedbackScreen extends BaseComponent {
                         text = {I18n.t('settings.submit')}
                     />   
                 </View>
-                </KeyboardAvoidingView> 
-                </TouchableOpacity>   
+                </KeyboardAvoidingView>
             </View>    
         );
     }

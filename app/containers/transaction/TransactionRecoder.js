@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
     emptyListContainer:{
         color:Colors.fontDarkGrayColor,
         marginTop:120,
-        width:94,
+        width:Layout.WINDOW_WIDTH*0.9,
         justifyContent:'center',
         alignSelf:'center',
         alignItems:'center'
     },
     emptyListIcon:{
-        width:Layout.WINDOW_WIDTH*0.9,
+        width:94,
         height:114,
         marginBottom:23,     
     },

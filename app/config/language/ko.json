@@ -13,23 +13,23 @@
         "create":"만들기",
 
         "create_wallet_warn1":"비밀번호는 개인 키 보호와 거래 수권 시 사용됩니다.",
-        "create_wallet_warn2":"비밀번호를 저장하지 않습니다. 찾아드릴 수도 없으니 꼭 기억해주시길 바랍니다.",
+        "create_wallet_warn2":"비밀번호를 저장해주 않습니다. 찾아드릴 수도 없으니 꼭 기억해주시길 바랍니다.",
 
         "backup_wallet":"지갑 백업",
-        "why_backup_wallet":"니모닉을 왜 백업해야 합니까?",
-        "reason_backup_wallet1":"니모닉으로 지갑을 복구할 수 있으며 해당 주소의 자산을 완전히 관리할 수 있습니다.",
-        "reason_backup_wallet2":"니모닉을 저장해주지 않습니다. 찾아드릴 수도 없으니 니모닉을 꼭 백업해주시기 바랍니다.",
-        "how_backup_wallet":"니모닉을 어떻게 백업합니까",
-        "reason_backup_wallet3":"니모닉을 종이에 써 주시고 안전한 곳에 보관해주시기 바랍니다.",
-        "reason_backup_wallet4":"니모닉을 이메일, 웹 드라이브 등에 저장하지 마십시오. 네트워크를 통해 전송하지 마십시오.",
+        "why_backup_wallet":"니모닉 코드 문구를 왜 백업해야 합니까?",
+        "reason_backup_wallet1":"니모닉 코드 문구로 지갑을 복구할 수 있으며 해당 주소의 자산에 접근할 수 있습니다.",
+        "reason_backup_wallet2":"니모닉 코드 문구를 저장해주지 않습니다. 찾아드릴 수도 없으니 니모닉을 꼭 백업해주시기 바랍니다.",
+        "how_backup_wallet":"니모닉 코드 문구를 어떻게 백업합니까",
+        "reason_backup_wallet3":"니모닉 코드 문구를 종이에 써 주시고 안전한 곳에 보관해주시기 바랍니다.",
+        "reason_backup_wallet4":"니모닉 코드 문구 이메일, 웹 드라이브 등에 저장하지 마십시오. 네트워크를 통해 전송하지 마십시오.",
         "readed":"잘 읽었습니다. 종이와 펜을 준비했습니다.",
         
-        "backup_mnemonic":"니모닉을 백업합니다.",
-        "backup_mnemonic_prompt":"아래의 니모닉을 잘 적어두시고 다음 단계에서 확인하겠습니다.",
-        "backup_mnemonic_complete":"니모닉을 잘 적었습니다.",
+        "backup_mnemonic":"니모닉 코드 문구 백업합니다.",
+        "backup_mnemonic_prompt":"아래의 니모닉 코드 문구 잘 적어두시고 다음 단계에서 확인하겠습니다.",
+        "backup_mnemonic_complete":"니모닉 코드 문구를 잘 적었습니다.",
 
-        "confirm_mnemonic":"니모닉을 확인합니다.",
-        "confirm_mnemonic_prompt":"순서대로 니모닉을 클릭하여 정확히 백업하셨는지 확인합니다. ",
+        "confirm_mnemonic":"니모닉 코드 문구를 확인합니다.",
+        "confirm_mnemonic_prompt":"순서대로 니모닉 코드 문구를 클릭하여 정확히 백업하셨는지 확인합니다. ",
         "complete":"완료",
 
     
@@ -47,8 +47,8 @@
         "password_warn_10":"대문자, 소문자 중 한 가지가 더 필요합니다.",
 
         "enter_same_password":"일치한 비밀번호를 입력해주세요",
-        //
-        "enter_normative_wallet_name":"请输入1~12位钱包名称"
+        
+        "enter_normative_wallet_name":"1~12자리의 지갑 명칭을 입력해주세요"
     },
     "home":{
         "total_assets":"자산 총액",
@@ -70,7 +70,7 @@
         "contact":"어바웃",
         "system_settings":"시스템 설정",
         "feedback":"피드백",
-        "about":"정보",
+        "about":"회사 소개",
         "address_repeat":"해당 컨트렉트 주소 추가되었습니다.",
         "delete_main_token":"해당 암호화폐는 삭제할 수 없습니다."
     },
@@ -82,8 +82,8 @@
         "amount":"금액",
         "balance":"잔액",
         "enter":"입력",
-        "collection_address":"수금 계정",
-        "enter_transfer_address":"수금 주소를 입력하기",
+        "collection_address":"입금 주소",
+        "enter_transfer_address":"입금 주소를 입력하기",
         "remarks":"메모",
         "enter_remarks":"메모를 입력하기",
         "next_step":"다음",
@@ -102,26 +102,26 @@
         "no":"없음.",
         "receipt":"수령",
 
-        "payment_information":"지불 정보",
-        "payment_address":"지불 정보",
-        "payment_details":"지불 내역",
+        "payment_information":"출금 정보",
+        "payment_address":"출금 주소",
+        "payment_details":"출금 내역",
         "wallet_password":"지갑 비밀번호",
         "enter_password_hint":"비밀번호를 입력해주세요",
         "determine":"확정",
 
-        //
-        "transaction_fail":"거래가 실패하다",
-        //
-        "alert_0":"비밀 키 가져오기 실패",
-        "alert_1":"거래 발송 실패, 인자 검사",
-        "alert_2":"유효한 이체 주소를 입력하십시오.",
-        "alert_3":"유효한 이체 금액을 입력하십시오.",
+        
+        "transaction_fail":"거래가 실패했습니다.",
+        
+        "alert_0":"개인 키 획득에 실패했습니다.",
+        "alert_1":"거래 발송이 실패했습니다. 매개 변수를 확인해주세요 ",
+        "alert_2":"유효한 이체 주소를 입력해주세요",
+        "alert_3":"유효한 이체 금액을 입력해주세요",
         "alert_4":"잔액이 부족합니다.",
         "alert_5":"카메라 사용 권한을 부여해주세요"
     },
     "settings":{
         "set":"지갑 도구",
-        "enter_wallet_name_hint":"지갑 명칭을 입력해주세요",
+        "enter_wallet_name_hint":"지갑 이름을 입력해주세요",
         "enter_passowrd_hint":"비밀번호 입력해주세요",
         "modify_wallet_name":"지갑 명칭을 수정하기",
         "export_keystore":"키스토어를 내보내기 ",
@@ -129,12 +129,12 @@
 
         "export_keystore_modal_prompt":"키스토어를 얻으면 당신의 자산을 얻을 수 있습니다!",
         "export_keystore_modal_prompt1":"키스토어를 잘 보관해주세요",
-        "export_keystore_prompt":"키스토어로 해당 주소의 자산을 완전히 통제할 수 있으니 이메일/웹 드라이브 등에 저장하지 마시고  네트워크를 통해 전송하지 마십시오.",
+        "export_keystore_prompt":"키스토어로 해당 주소의 자산에 접근할 수 있으니 이메일/웹 드라이브 등에 저장하지 마시고  네트워크를 통해 전송하지 마십시오.",
         "copy_keystore":"키스토어를 복사하기",
 
         "export_private_key_modal_prompt":"개인 를 얻으면 당신의 자산을 얻을 수 있습니다!",
         "export_private_key_modal_prompt1":"개인 키를 잘 적어주시고 안전한 곳에 보관해주시기 바랍니다.",
-        "export_private_key_prompt":"개인 키로 해당 주소의 자산을 완전히 통제할 수 있으니 이메일/웹 드라이브 등에 저장하거나 네트워크를 통해 전송하지 마십시오.",
+        "export_private_key_prompt":"개인 키로 해당 주소의 자산에 접근할 수 있으니 이메일/웹 드라이브 등에 저장하거나 네트워크를 통해 전송하지 마십시오.",
         "copy_private_key":"개인 키를 복사하기",
 
         "collection_code":"수령 코드",
@@ -143,7 +143,7 @@
         "scan_qrcode":"QR 코드 스캔",
         "scan_qrcode_prompt":"QR코드를 박스 안에 넣으면 자동으로 스캔할 수 있습니다.",  
 
-        "about":"어바웃",
+        "about":"회사 소개",
         "currency_unit":"통화 단위",
         "multi_language":"언어 설정",
 
@@ -153,11 +153,11 @@
         "name":"이름",
         "remarks":"메모(선택 사항)",
         "wallet_address":"지갑 주소",
-        "save_changes":"수정을 저장합니다.",
+        "save_changes":"변경을 저장합니다.",
         "delete_contact":"연락처를 삭제합니다.",
         "save":"저장하기",
-        //
-        "enter_normative_contact_name":"请输入1~12位联系人姓名",
+        
+        "enter_normative_contact_name":"1-12명의 연락처 이름을 입력해주세요",
 
         "address_book":"주소록",
 
@@ -170,33 +170,34 @@
         "system_settings":"시스템 설정",
         "language":"언어",
 
-        //
+        
         "renminbi":"인민폐",
         "dollar":"달러",
-        "korean_currency":"한국 통화"
+        "korean_currency":"한국 원화"
     },
     "toast":{
         "exit_app":"한 번 더 눌러서 로그아웃하기",
         "copy_wallet":"복사하였습니다",
 
-        "enter_wallet_name":"지갑 명칭을 입력해주세요",
-        "enter_mnemonic":"니모닉을 입력해주세요",
+        "enter_wallet_name":"지갑 이름을 입력해주세요",
+        "enter_mnemonic":"니모닉 코드 문구를 입력해주세요",
         "enter_password":"비밀번호를 입력해주세요",
         "enter_repassword":"비밀번호를 다시 한 번 입력해주세요",
         
-        "check_mnemonic_is_correct":"니모닉이 정확한지 확인해주세요",
+        "check_mnemonic_is_correct":"니모닉 코드 문구가 정확한지 확인해주세요",
 
         "import_mnemonic_error":"지갑 도입 시 오류가 발생했습니다",
         "create_wallet_error":"지갑 생성 시 오류가 발생했습니다",
 
-        "not_modified_wallet_name":"지갑 명칭을 변경하지 않았습니다",
+        "not_modified_wallet_name":"지갑 이름을 변경하지 않았습니다.",
         "copied_keystore":"키스토어를 복사했습니다",
         "copied":"복사하였습니다",
 
         "enter_valid_transfer_address":"유효한 이체 주소를 입력해주세요",
         "email_format_incorrect":"올바른 이메일 주소를 입력하세요",
 
-        "net_request_err":"네트워크 이상"
+        "net_request_err":"네트워크 이상",
+        "net_request_token_unable_resolve":"잘못된 토큰"
     },
     "modal":{
         "permission_storage":"저장 공간을 읽기 쓰기 권한을 부여해주세요.",
@@ -216,7 +217,7 @@
         "permission_camera":"카메라 사용 권한을 부여해주세요",
 
         "get_private_key_fail":"개인 키 획득에 실패했습니다.",
-        "transaction_failed":"거래 발송이 실패했습니다. 매개 변수를 확인해주세요 ",
+        "transaction_failed":"거래 발송이 실패했습니다. 매개 변수를 확인해주세요",
         "enter_valid_transfer_address":"유효한 이체 주소를 입력해주세요",
         "enter_valid_transfer_amount":"유효한 이체 금액을 입력해주세요",
         "insufficient_balance":"잔액이 부족합니다."

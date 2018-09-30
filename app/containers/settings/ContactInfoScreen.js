@@ -230,7 +230,11 @@ export default class ContactInfoScreen extends BaseComponent {
     
     renderComponent() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container}
+                  onStartShouldSetResponder={() => true}
+                  onResponderGrant={() => {
+                     Keyboard.dismiss()
+                  }}>
                 <WhiteBgHeader  navigation={this.props.navigation} 
                                 text={this.contactInfo.name}
                                 rightPress={() => this.scanClick()}
