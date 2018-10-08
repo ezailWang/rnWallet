@@ -63,10 +63,10 @@
         "token_decimals":"Decimal precision",
         "currency_symbol":"$",
         "delete":"delete",
-        "address_check":"The 42-digit address starting with 0x",
+        "address_check":"42 characters in length starting with 0x",
         "symbol_check":"1 to 9 characters, for example ETH and ITC",
         "decimals_check":"The decimal precision of erc20 token is 0~36, mostly 18 digits.",
-        "wallet_tool":"Wallet tools",
+        "wallet_tool":"Manage Wallet",
         "contact":"Contacts",
         "system_settings":"System Settings",
         "feedback":"Feedback",
@@ -198,8 +198,8 @@
         "email_format_incorrect":"Incorrect email format",
 
         "net_request_err":"network error",
-
-        "net_request_token_unable_resolve":"token invalid"
+        "net_request_token_unable_resolve":"token invalid",
+        "net_request_timeout":"request timeout"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",

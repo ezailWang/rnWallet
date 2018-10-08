@@ -145,6 +145,8 @@ export default class BaseComponent extends PureComponent {
             this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP);
         } else if (err.message === 'Couldn\'t decode uint256 from ABI: 0x') {
             this.toast = showToast(I18n.t('toast.net_request_token_unable_resolve'), Toast.positions.TOP + 10)
+        } else if (err.message === 'timeout of 10000ms exceeded') {
+            this.toast = showToast(I18n.t('net_request_timeout'))
         } else {
             let errMessage = err.message === undefined ? err : err.message
             this.toast = showToast(errMessage, Toast.positions.TOP + 10);
