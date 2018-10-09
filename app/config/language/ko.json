@@ -3,7 +3,7 @@
         "creact_wallet":"지갑 생성",
         "import_wallet":"지갑 도입",
 
-        "input_mnemonic_hint":"간격을 구분하여 니모닉을 입력해주세요",
+        "input_mnemonic_hint":"간격을 구분하여 니모닉 코드 문구를 입력해주세요",
         "set_password_hint":"비밀번호 설정",
         "re_password_hint":"비밀번호 재입력",
         "import":"도입",

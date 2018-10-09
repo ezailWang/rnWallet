@@ -46,7 +46,6 @@
         "password_warn_10":"还需包含大、小写字母中的1种",
 
         "enter_same_password":"请输入一致的密码",
-        
         "enter_normative_wallet_name":"请输入1~12位钱包名称"
     },
     "home":{
