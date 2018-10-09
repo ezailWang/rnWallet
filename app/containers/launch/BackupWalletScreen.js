@@ -18,16 +18,17 @@ const styles = StyleSheet.create({
     },
     contentContainer:{
         flex:1,
-        width:Layout.WINDOW_WIDTH*0.9,
+        width:Layout.WINDOW_WIDTH,
         alignSelf:'center',
-        paddingTop:30,
+        
         //alignItems:'stretch',
     },
     icon:{
+        marginTop:30,
         alignSelf:'center',
         width: 72,
         height: 72,
-        marginBottom:25,
+        marginBottom:10,
     },
     blueText:{
         fontSize:18,
@@ -35,11 +36,15 @@ const styles = StyleSheet.create({
         color: Colors.fontBlueColor,
         marginBottom:15,
         marginTop:15,
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignSelf:'center',
     },
     itemBox:{
         flexDirection:'row',
         //alignItems:'center',
         marginBottom:8,
+        width:Layout.WINDOW_WIDTH*0.9,
+        alignSelf:'center',
     },
     itemCircle:{
         width:4,
@@ -59,10 +64,13 @@ const styles = StyleSheet.create({
         //justifyContent:'flex-end',
         alignItems:'center',
         marginTop:40,
+        width:Layout.WINDOW_WIDTH*0.9,
+        marginBottom:30,
+        alignSelf:'center',
     },
     checkBox:{
         flexDirection:'row',
-        //width:Layout.WINDOW_WIDTH*0.9,
+        width:Layout.WINDOW_WIDTH*0.9,
         //alignItems:'center',
         //alignSelf:'center',
     },
@@ -73,6 +81,7 @@ const styles = StyleSheet.create({
         marginRight:8,
     },
     checkText:{
+        width:Layout.WINDOW_WIDTH*0.9-26,
         color:Colors.fontBlackColor,
         fontSize:14,
     }
