@@ -657,11 +657,11 @@ export default class TransactionRecoder extends BaseComponent{
                         style={{
                             position: 'absolute',
                             right: 20,
-                            height:40,
+                            // height:40,
                             bottom: 58,
                             color: 'white',
                             opacity: headerTextOpacity,
-                            fontSize: 39,
+                            fontSize: 38,
                             textAlign:'right',
                             fontWeight:"700",
                         }}
@@ -692,7 +692,7 @@ export default class TransactionRecoder extends BaseComponent{
                                 refreshing={this.state.isRefreshing}
                                 tintColor={Colors.whiteBackgroundColor}
                             />}
-                            scrollEventThrottle={10}
+                            scrollEventThrottle={1}
                             onScroll={Animated.event(
                                 [{ nativeEvent: { contentOffset: { y: this.state.scroollY } } }]
                             )}

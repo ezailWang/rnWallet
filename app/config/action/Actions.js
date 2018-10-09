@@ -112,6 +112,11 @@ function setNewTransaction(value){
     }
 }
 
+function setFirstQR(){
+    return{
+        type:types.SET_FIRST_QR,
+    }
+}
 
 export {
     generateMnemonic,
@@ -127,5 +132,6 @@ export {
     setNetWork,
     removeToken,
     setMonetaryUnit,
-    setNewTransaction
+    setNewTransaction,
+    setFirstQR
 }
