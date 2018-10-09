@@ -3,7 +3,7 @@
         "creact_wallet":"Create Wallet",
         "import_wallet":"Import Wallet",
 
-        "input_mnemonic_hint":"Please enter mnemonic words and separate by space.",
+        "input_mnemonic_hint":"Please enter mnemonic phrases and separate by space.",
         "set_password_hint":"Password",
         "re_password_hint":"Confirm Password",
         "import":"Import",
@@ -12,10 +12,10 @@
         "password_hint":"Password",
         "create":"Create",
 
-        "create_wallet_warn1":"Password is used to protect private key and transaction authorization.",
-        "create_wallet_warn2":"We DO NOT store your password and cannot help you to recover the password, please backup cautiously.",
+        "create_wallet_warn1":"Password is used for private key protection and transaction authorization.",
+        "create_wallet_warn2":"We DO NOT store your password, nor can we recover them. Please backup cautiously.",
 
-        "backup_wallet":"Back-up wallet.",
+        "backup_wallet":"Backup wallet",
         "why_backup_wallet":"Why need to backup mnemonic phrases?",
         "reason_backup_wallet1":"Mnemonic phrases can restore your wallet. Anyone who gains access to your mnemonic phrases can recover your wallet and control all your assets! ",
         "reason_backup_wallet2":"We DO NOT store your  mnemonic phrases, nor can we recover them. Please backup cautiously.",
@@ -30,7 +30,7 @@
 
         "confirm_mnemonic":"Confirm",
         "confirm_mnemonic_prompt":"Please select  mnemonic phrases in correct order.",
-        "complete":"Complete",
+        "complete":"Done",
 
     
         "password_warn":"Passwords must be at least 8 characters in length, contain at least 3 out of 4 of the following: one uppercase, one lowercase, one digit and one symbol.",
@@ -171,7 +171,6 @@
         "system_settings":"Settings",
         "language":"Language",
 
-        
         "renminbi":"Renminbi",
         "dollar":"Dollar",
         "korean_currency":"Korean currency"
@@ -196,6 +195,7 @@
 
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
         "email_format_incorrect":"Incorrect email format",
+
 
         "net_request_err":"network error",
         "net_request_token_unable_resolve":"token invalid",
