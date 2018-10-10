@@ -320,6 +320,10 @@ export default class TransactionRecoder extends BaseComponent{
             decimals:decimals
         });
 
+        if(recoders.length == 0 && this.state.itemList.length != 0){
+            return;
+        }
+
         let lastTransaction = store.getState().Core.newTransaction
         // console.warn(lastTransaction)
 

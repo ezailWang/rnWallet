@@ -364,11 +364,12 @@ export default class Transaction extends BaseComponent {
                 // console.log('hash', hash)
 
                 let { walletAddress } = store.getState().Core
+                let timestamp=new Date().getTime()
 
                 let newTransaction = {
                     from: walletAddress,
                     to: this.state.toAddress,
-                    timeStamp: null,
+                    timeStamp: timestamp,
                     hash: hash,
                     value: this.state.transferValue,
                     isError: "0",
