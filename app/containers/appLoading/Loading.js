@@ -58,7 +58,11 @@ class Loading extends Component {
                 I18n.locale = 'zh';
             }else if(lang == 'ko'){
                 I18n.locale = 'ko';
-            }else{                
+            }else if(lang == 'de'){                
+                I18n.locale = 'de';
+            }else if(lang == 'nl'){                
+                I18n.locale = 'nl';
+            }else{
                 I18n.locale = 'en';
             }
 
@@ -88,20 +92,22 @@ class Loading extends Component {
         if (lang == 'zh') {
             monetaryUnit = {
                 monetaryUnitType: 'CNY',
-                monetaryUnitStr: I18n.t('settings.renminbi'),
                 symbol: '¥'
             }
         } else if (lang == 'en') {
             monetaryUnit = {
                 monetaryUnitType: 'USD',
-                monetaryUnitStr: I18n.t('settings.dollar'),
                 symbol: '$'
             }
         } else if (lang == 'ko') {
             monetaryUnit = {
                 monetaryUnitType: 'KRW',
-                monetaryUnitStr: I18n.t('settings.korean_currency'),
                 symbol: '₩'
+            }
+        }else if (lang == 'de' || lang == 'nl'){
+            monetaryUnit = {
+                monetaryUnitType: 'EUR',
+                symbol: '€'
             }
         }
         StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit)

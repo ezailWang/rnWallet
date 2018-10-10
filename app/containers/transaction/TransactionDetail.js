@@ -15,10 +15,32 @@ const styles = StyleSheet.create({
     },
     countBox: {
         flexDirection: 'row',
-        //marginTop: Layout.WINDOW_HEIGHT * 0.05,
         marginTop: Layout.WINDOW_HEIGHT * 0.03,
         marginBottom:Layout.WINDOW_HEIGHT * 0.1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        //alignItems:'flex-end',
+    },
+    countTxt: {
+        fontSize: 39,
+        color: 'white',
+        fontWeight: '700',
+        lineHeight:39,
+        height:39,
+        //alignItems: 'flex-end',
+       
+        //textAlignVertical:'bottom',
+        //textAlign:'center'
+    },
+    coinTypeTxt: {
+        fontSize: 15,
+        marginLeft: 6,
+        //marginBottom: 2,
+        color: 'white',
+        lineHeight:15,
+        //fontWeight: '700',
+        alignSelf: 'flex-end',
+        height:15,
+        marginBottom:7
     },
 
     contentBox: {
@@ -35,6 +57,7 @@ const styles = StyleSheet.create({
         paddingTop: Layout.WINDOW_HEIGHT * 0.07,
         paddingBottom: Layout.WINDOW_HEIGHT * 0.06,
     },
+    
     statusIcon: {
         position: 'absolute',
         width: 120,
@@ -43,18 +66,7 @@ const styles = StyleSheet.create({
         marginTop: -60,
         zIndex:10,
     },
-    countTxt: {
-        fontSize: 39,
-        color: 'white',
-        fontWeight: '700',
-    },
-    coinTypeTxt: {
-        fontSize: 15,
-        marginLeft: 6,
-        marginBottom: 2,
-        color: 'white',
-        alignSelf: 'flex-end',
-    },
+   
     fontBlue: {
         fontSize: 13,
         color: Colors.fontBlueColor

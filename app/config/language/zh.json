@@ -32,6 +32,14 @@
         "confirm_mnemonic_prompt":"请按顺序点击助记词，以确认您正确备份。",
         "complete":"完成",
 
+        "service_agreement":"服务协议",
+        "agree_service_agreement":"我已仔细阅读并同意以上服务及隐私条款",
+        "agree_and_set_login_password":"同意并设置登录密码",
+        "set_login_password":"请设置登录密码",
+        "repeat_new_password":"重复新密码",
+        "enter_password":"请输入密码",
+
+       
         "password_warn":"密码最少为8位，至少包含大、小写字母、数字、符号中的3种",
         "password_warn_least_8":"密码最少为8位",
         "password_warn_1":"还需包含小写字母、数字和符号中的2种",
@@ -59,7 +67,6 @@
         "contract_address":"合约地址",
         "token_symbol":"资产符号",
         "token_decimals":"小数精度",
-        "currency_symbol":"¥",
         "delete":"删除",
         "address_check":"0x开头的42位地址",
         "symbol_check":"1~9个字符，如ETH、ITC",
@@ -70,7 +77,9 @@
         "feedback":"意见反馈",
         "about":"关于",
         "address_repeat":"该合约地址已经添加",
-        "delete_main_token":"该币种无法删除"
+        "delete_main_token":"该币种无法删除",
+
+        "currency_symbol":"¥"
     },
     "transaction":{
         "miner_fee":"矿工费",
@@ -79,7 +88,7 @@
         "transfer":"转账",
         "amount":"金额",
         "balance":"余额",
-        "enter":"输入",
+        "enter":"请输入转账金额",
         "collection_address":"收款地址",
         "enter_transfer_address":"输入收款地址",
         "remarks":"备注",
@@ -102,15 +111,14 @@
 
         "payment_information":"支付信息",
         "payment_address":"付款地址",
+        "pay_to":"收款地址",
         "payment_details":"支付详情",
         "wallet_password":"钱包密码",
         "enter_password_hint":"请输入密码",
         "determine":"确定",
-
         
         "transaction_fail":"交易失败",
 
-        
         "alert_0":"秘钥获取失败",
         "alert_1":"交易发送失败，请检查参数",
         "alert_2":"请输入有效的转账地址",
@@ -139,10 +147,8 @@
         "collection_code":"收款码",
         "copy_payment_address":"复制收款地址",
 
-        
         "scan_qrcode":"扫描二维码",
         "scan_qrcode_prompt":"将二维码放入框内，即可自动扫描",
-
 
         "about":"关于",
         "currency_unit":"货币单位",
@@ -159,8 +165,7 @@
         "save":"保存",
         
         "enter_normative_contact_name":"请输入1~12位联系人姓名",
-
-        
+ 
         "address_book":"地址簿",
 
         "feedback":"意见反馈",
@@ -171,20 +176,21 @@
 
         "system_settings":"系统设置",
         "language":"语言",
-
-        "renminbi":"人民币",
-        "dollar":"美元",
-        "korean_currency":"韩币"
         
+        "terms_use_and_privacy_policy":"使用协议与隐私条款"
+
     },
     "toast":{
         "exit_app":"再按一次退出应用",
         "copy_wallet":"已复制",
+        "space_separate_mnemonic":"请用空格分隔助记词",
+        "enter_repassword":"请重复输入密码",
+        "enter_same_password":"请输入一致的密码",
 
         "enter_wallet_name":"请输入钱包名称",
         "enter_mnemonic":"请输入助记词",
         "enter_password":"请输入密码",
-        "enter_repassword":"请重复输入密码",
+        
         
         "check_mnemonic_is_correct":"请检查助记词是否正确",
 
@@ -200,7 +206,11 @@
 
         "net_request_err":"网络异常",
         "net_request_token_unable_resolve":"资产中存在无效资产",
-        "net_request_timeout":"请求超时"
+        "net_request_timeout":"请求超时",
+
+        "pwd_inconsistent_reset":"密码不一致，请重新设置",
+        "submitted_successfully":"提交成功",
+        "submission_ailed":"提交失败"
     },
     "modal":{
         "permission_storage":"请允许读写存储空间的权限",
@@ -223,6 +233,11 @@
         "transaction_failed":"交易发送失败，请检查参数",
         "enter_valid_transfer_address":"请输入有效的转账地址",
         "enter_valid_transfer_amount":"请输入有效的转账金额",
-        "insufficient_balance":"余额不足"
+        "insufficient_balance":"余额不足",
+
+        "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
+        "ping_id_warn2":"请务必记牢您的登录密码。",
+        "open_face_id":"是否开启Face ID?",
+        "open_touch_id":"是否开启Touch ID?"
     }
 }

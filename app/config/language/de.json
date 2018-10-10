@@ -1,0 +1,241 @@
+{
+    "launch":{
+        "creact_wallet":"Wallet erstellen",
+        "import_wallet":"Wallet importieren",
+
+        "input_mnemonic_hint":"Bitte geben Sie ihre mnemonische Passphrase ein und trennen sie die Wörter mit Leerzeichen",
+        "set_password_hint":"Passwort",
+        "re_password_hint":"Passwort Wiederholung",
+        "import":"Importieren",
+
+        "wallet_name_hint":"Walletname",
+        "password_hint":"Passwort",
+        "create":"Erstellen",
+
+        "create_wallet_warn1":"Das Passwort wird für die Sicherung privater Schlüssel und zur Autorisierung von Transaktionen verwendet.",
+        "create_wallet_warn2":"Wir speichern weder Ihr Passwort, noch können wir es wiederherstellen. Bitte sichern Sie dieses sorgfältig.",
+
+        "backup_wallet":"Wallet Sicherungskopie ",
+        "why_backup_wallet":"Warum müssen mnemonische Phrasen gesichert werden?",
+        "reason_backup_wallet1":"Wir speichern weder Ihr Passwort, noch können wir es wiederherstellen. Bitte sichern Sie dieses sorgfältig.",
+        "reason_backup_wallet2":"Wallet Sicherungskopie ",
+        "how_backup_wallet":"Wie erstellt man eine Sicherungskopie?",
+        "reason_backup_wallet3":"Bitte schreiben Sie die mnemonische Phrase auf Papier und bewahren Sie diese sicher auf.",
+        "reason_backup_wallet4":"Speichern Sie keine mnemonischen Ausdrücke auf der Mailbox oder der Netzwerkfestplatte. Verwenden Sie keine Netzwerk-Tools für die Übertragung.",
+        "readed":"Ich habe verstanden und habe bereits Papier und Stift zur Hand.",
+
+        "backup_mnemonic":"Sicherungskopie der mnemonischen Phrasen",
+        "backup_mnemonic_prompt":"Bitte schreiben Sie die mnemonische Phrase sorgfältig auf, sie wird für den nachfolgenden Verifizierungsprozess wieder benötigt.",
+        "backup_mnemonic_complete":"Die mnemonischen Phrasen wurden kopiert.",
+
+        "confirm_mnemonic":"Bestätigen",
+        "confirm_mnemonic_prompt":"Bitte wählen sie die mnemonischen Phrasen in der richtige Reihenfolge.",
+        "complete":"Erledigt",
+
+        "service_agreement":"服务协议",
+        "agree_service_agreement":"我已仔细阅读并同意以上服务及隐私条款",
+        "agree_and_set_login_password":"同意并设置登录密码",
+        "set_login_password":"请设置登录密码",
+        "repeat_new_password":"重复新密码",
+        "enter_password":"请输入密码",
+
+        "password_warn":"Passwörter müssen mindestens 8 Zeichen lang sein und mindestens 3 von 4 der folgenden Zeichen enthalten: ein Groß- und ein Kleinbuchstabe, eine Ziffer und ein Symbol.",
+        "password_warn_least_8":"Passwörter müssen mindestens 8 Zeichen lang sein.",
+        "password_warn_1":"Passwörter sollten mindestens 2 der folgenden Elemente enthalten: ein Großbuchstabe, eine Ziffer und ein Symbol.",
+        "password_warn_2":"Passwörter sollten mindestens 2 der folgenden Elemente enthalten: ein Großbuchstabe, eine Ziffer und ein Symbol.",
+        "password_warn_3":"Passwörter sollten mindestens zwei der folgenden Elemente enthalten: ein Groß- und ein Kleinbuchstabe und ein Symbol.",
+        "password_warn_4":"Kennwörter sollten mindestens zwei der folgenden Elemente enthalten: ein Groß- und ein Kleinbuchstabe und eine Ziffer.",
+        "password_warn_5":"Passwörter sollten mindestens eine Ziffer oder ein Symbol enthalten.",
+        "password_warn_6":"Passwörter sollten mindestens einen Kleinbuchstaben oder ein Symbol enthalten.",
+        "password_warn_7":"Passwörter sollten mindestens einen Kleinbuchstaben oder eine Ziffer enthalten.",
+        "password_warn_8":"Passwörter sollten mindestens ein Groß- oder ein Symbol enthalten.",
+        "password_warn_9":"Passwörter sollten mindestens einen Großbuchstaben oder eine Ziffer enthalten.",
+        "password_warn_10":"Passwörter sollten mindestens einen Großbuchstaben oder einen Kleinbuchstaben enthalten.",
+
+        "enter_same_password":"请输入一致的密码",
+        "enter_normative_wallet_name":"Bitte geben Sie einen Walletnamen ein (1-12 Zeichen)"
+    },
+    "home":{
+        "total_assets":"Gesamtguthaben",
+        "assets":"Liste der Vermögenswerte",
+        "settings":"Einstellungen",
+        "QRCode":"Adresscode",
+        "no_assets":"Kein Guthaben",
+        "add":"Hinzufügen",
+        "add_token":"Guthaben hinzufügen",
+        "contract_address":"Vertragsadresse",
+        "token_symbol":"Währungssymbol",
+        "token_decimals":"Dezimalgenauigkeit",
+        "delete":"删除",
+        "address_check":"42 Zeichen lang, beginnend mit 0x",
+        "symbol_check":"1 bis 9 Zeichen. Beispielsweise ETH oder ITC",
+        "decimals_check":"Die Dezimalgenauigkeit von erc20 Token ist 0 ~ 36, meist 18 Ziffern.",
+        "wallet_tool":"Wallet verwalten",
+        "contact":"Kontakte",
+        "system_settings":"Einstellungen",
+        "feedback":"Feedback",
+        "about":"Über",
+        "address_repeat":"Die Vertragsadresse wurde hinzugefügt.",
+        "delete_main_token":"Diese Währung kann nicht gelöscht werden.",
+
+        "currency_symbol":"€"
+    },
+    "transaction":{
+        "miner_fee":"Transaktionsgebühr",
+        "fast":"快",
+        "slow":"Langsam",
+        "transfer":"Transfer",
+        "amount":"Menge",
+        "balance":"Guthaben",
+        "enter":"Menge",
+        "collection_address":"Empfangsadresse",
+        "enter_transfer_address":"输入收款地址",
+        "remarks":"Notiz",
+        "enter_remarks":"Notiz eingeben",
+        "next_step":"Weiter",
+        
+        "address_list":"Kontakte",
+        "transaction_details":"Einzelheiten zur Transaktion",
+        "sending_party":"Von",
+        "beneficiary":"Nach",
+        "miner_cost":"Transaktionsgebühr",
+        "transaction_number":"Transaktion #",
+        "block":"Block #",
+        "transaction_time":"Uhrzeit der Transaktion",
+        "copy_address":"URL kopieren",
+
+        "no_transaction_history_found":"Transaktionsprotokoll nicht gefunden",
+        "no":"Keine",
+        "receipt":"Empfangen",
+
+        "payment_information":"Titel",
+        "payment_address":"Zahlung von",
+        "pay_to":"Empfangsadresse",
+        "payment_details":"Zahlung anfordern",
+        "wallet_password":"Passwort",
+        "enter_password_hint":"Walletpasswort eingeben",
+        "determine":"Bestätigen",
+        
+        "transaction_fail":"Transaktion fehlgeschlagen",
+
+        "alert_0":"Der private Schlüssel wurde nicht erhalten.",
+        "alert_1":"Transaktion fehlgeschlagen. Bitte überprüfen Sie die Parameter.",
+        "alert_2":"Bitte geben Sie eine korrekte Transferadresse an.",
+        "alert_3":"Bitte geben Sie einen korrekten Transferbetrag an.",
+        "alert_4":"Unzureichende Mittel",
+        "alert_5":"Bitte Öffnen Sie zuerst den Kamerazugriff."
+    },
+    "settings":{
+        "set":"钱包工具",
+        "enter_wallet_name_hint":"Walletname",
+        "enter_passowrd_hint":"Walletpasswort eingeben",
+        "modify_wallet_name":"修改钱包名称",
+        "export_keystore":"Keystore exportieren",
+        "export_private_key":"Privater Schlüssel exportieren",
+
+        "export_keystore_modal_prompt":"Jeder mit Zugriff auf den Keystore hat die Kontrolle über Ihr Guthaben!",
+        "export_keystore_modal_prompt1":"Bitte speichern sie den Keystore sorgfältig.",
+        "export_keystore_prompt":"Jeder der über den Keystore verfügt hat die Kontrolle über Ihr gesamtes Guthaben! Speichern Sie den Keystore nicht auf der Mailbox oder der Netzwerkfestplatte. Verwenden Sie keine Netzwerk-Tools für die Übertragung.",
+        "copy_keystore":"Keystore kopieren",
+
+        "export_private_key_modal_prompt":"Jeder mit Zugriff auf den Keystore hat die Kontrolle über Ihr Guthaben!",
+        "export_private_key_modal_prompt1":"Bitte nur auf Papier speichern und gut aufbewahren!",
+        "export_private_key_prompt":"Speichern Sie den privaten Schlüssel niemals auf der Mailbox oder der Netzwerkfestplatte. Verwenden Sie keine Netzwerk-Tools für die Übertragung.",
+        "copy_private_key":"Privaten Schlüssel kopieren",
+
+        "collection_code":"Zahlungscode",
+        "copy_payment_address":"Empfängeradresse kopieren",
+
+        "scan_qrcode":"扫描二维码",
+        "scan_qrcode_prompt":"Der QR code wird automatisch gescannt wenn Sie ihn innerhalb des Rahmens führen.",
+
+        "about":"Über",
+        "currency_unit":"Währungseinheit",
+        "multi_language":"Mehrsprachig",
+
+        "make_sure_delete_contact":"Bestätigen Sie, um zu löschen.",
+        "no_contact":"Keine Kontakte",
+        "create_contact":"Kontakte",
+        "name":"Name",
+        "remarks":"Notitz (optional)",
+        "wallet_address":"Walletadresse",
+        "save_changes":"Speichern",
+        "delete_contact":"Kontakt löschen",
+        "save":"Speichern",
+        
+        "enter_normative_contact_name":"Bitte geben Sie einen Kontaktnamen an (1-12 Zeichen).",
+ 
+        "address_book":"Kontakte",
+
+        "feedback":"Feedback",
+        "nickname":"Name",
+        "contact_email":"E-Mail",
+        "problem_description":"Problembeschreibung",
+        "submit":"Übersenden",
+
+        "system_settings":"Einstellungen",
+        "language":"Sprache",
+
+        "terms_use_and_privacy_policy":"使用协议与隐私条款"
+    },
+    "toast":{
+        "exit_app":"Klicken Sie nochmals um die App zu schließen.",
+        "copy_wallet":"Kopiert",
+        "space_separate_mnemonic":"Bitte trennen Sie die mnemonischen Phrasen durch Leerzeichen.",
+        "enter_repassword":"Bitte geben Sie Passwort nochmals ein.",
+        "enter_same_password":"Bitte bestätigen Sie Ihr Passwort.",
+
+        "enter_wallet_name":"请输入钱包名称",
+        "enter_mnemonic":"请输入助记词",
+        "enter_password":"请输入密码",
+        
+        
+        "check_mnemonic_is_correct":"Bitte überprüfen Sie die mnemonischen Phrasen.",
+
+        "import_mnemonic_error":"Fehler beim Importieren der Wallet.",
+        "create_wallet_error":"Fehler beim Erstellen der Wallet.",
+
+        "not_modified_wallet_name":"Sie haben den Walletnamen nicht geändert.",
+        "copied_keystore":"Keystore kopiert",
+        "copied":"Kopiert",
+
+        "enter_valid_transfer_address":"Bitte geben Sie eine korrekte Transferadresse ein.",
+        "email_format_incorrect":"Falsches E-Mail Format",
+
+        "net_request_err":"Netzwerkanomalie",
+        "net_request_token_unable_resolve":"资产中存在无效资产",
+        "net_request_timeout":"请求超时",
+
+        "pwd_inconsistent_reset":"密码不一致，请重新设置",
+        "submitted_successfully":"提交成功",
+        "submission_ailed":"提交失败"
+    },
+    "modal":{
+        "permission_storage":"Bitte erlauben Sie, Speicherplatz zu lesen und zu schreiben.",
+        "screenshot_warn":"Nehmen Sie keinen Screenshot auf",
+        "screenshot_warn_content":"Jeder der Zugriff zu ihrer mnemonischen Passphrase hat kann ihre Wallet wiederherstellen und hat damit Kontrolle über ihr Guthaben. Bitte notieren sie die mnemonische Passphrase auf Papier und bewahren sie es sicher auf.",
+        "i_know":"Verstanden",
+
+        "backup_fail":"Sicherungskopie fehlgeschlagen",
+        "check_mnemonic_is_correct":"Bitte überprüfen Sie die mnemonische Passphrase.",
+
+        "export_private_key_error":"Fehler beim Exportieren des privaten Schlüssels.",
+        "password_error":"Falsches Passwort",
+
+        "cancel":"Abbrechen",
+        "confirm":"Bestätigen",
+
+        "permission_camera":"Bitte Öffnen Sie zuerst den Kamerazugriff.",
+
+        "get_private_key_fail":"Der private Schlüssel wurde nicht erhalten.",
+        "transaction_failed":"Transaktion fehlgeschlagen. Bitte überprüfen Sie die Parameter.",
+        "enter_valid_transfer_address":"Bitte geben Sie eine korrekte Transferadresse an.",
+        "enter_valid_transfer_amount":"Bitte geben Sie einen korrekten Transferbetrag an.",
+        "insufficient_balance":"Unzureichende Mittel",
+
+        "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
+        "ping_id_warn2":"请务必记牢您的登录密码。",
+        "open_face_id":"是否开启Face ID?",
+        "open_touch_id":"是否开启Touch ID?"
+    }
+}

@@ -102,6 +102,10 @@ class SystemSetScreen extends BaseComponent {
             str = 'English'
         }else if(lang == 'ko'){
             str = '한국어'
+        }else if(lang == 'de'){
+            str = 'Deutsch'
+        }else if(lang == 'nl'){
+            str = 'Nederlands'
         }
         let mUnitStr = this.props.monetaryUnit.monetaryUnitType
         this.setState({

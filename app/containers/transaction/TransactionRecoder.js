@@ -25,10 +25,10 @@ import BaseComponent from '../base/BaseComponent'
 import LinearGradient from 'react-native-linear-gradient'
 
 const tokenIcon = {
-    'ETH': require('../../assets/home/ETH.png'),
-    'ITC': require('../../assets/home/ITC.png'),
-    'MANA': require('../../assets/home/MANA.png'),
-    'DPY': require('../../assets/home/DPY.png'),
+    'ETH': require('../../assets/transfer/ethIcon.png'),
+    'ITC': require('../../assets/transfer/itcIcon.png'),
+    //'MANA': require('../../assets/home/MANA.png'),
+    //'DPY': require('../../assets/home/DPY.png'),
 }
 
 let timer;
@@ -490,7 +490,6 @@ export default class TransactionRecoder extends BaseComponent{
     }
 
     async _initData(){
-        
         this._showLoding()
         await this.getRecoder()
         this._hideLoading()
@@ -498,7 +497,7 @@ export default class TransactionRecoder extends BaseComponent{
 
     getIconImage(symbol){
 
-        let imageSource = require('../../assets/home/null.png')
+        let imageSource = require('../../assets/transfer/naIcon.png')
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
                 imageSource = tokenIcon[symbol]
         }
@@ -506,7 +505,7 @@ export default class TransactionRecoder extends BaseComponent{
     }
 
     componentWillMount(){
-     
+        super.componentWillMount()
         timer = setInterval(()=>{
 
             this.getRecoder()
@@ -514,7 +513,7 @@ export default class TransactionRecoder extends BaseComponent{
     }
 
     componentWillUnmount(){
-        
+        super.componentWillUnmount()
         clearInterval(timer)
     }
 
