@@ -91,11 +91,17 @@ export default class InputTextDialog extends Component{
         rightTxt: PropTypes.string.isRequired,
         leftTxt:PropTypes.string.isRequired,
         modalVisible: PropTypes.bool.isRequired,
+        onChangeText: PropTypes.func,
+        rightBtnDisabled : PropTypes.bool,
     }
+    static defaultProps = {
+        rightBtnDisabled:false
+    }
+
     constructor(props){
         super(props);
         this.state = {
-            text : '',
+            //text : '',
             isShowPassword : false,
         }
     }
@@ -113,10 +119,14 @@ export default class InputTextDialog extends Component{
         this.closePwd()
         this.props.rightPress()
     }
+    onChangeText=(text)=>{
+        this.props.onChangeText(text) 
+    }
     render(){
         let pwdIcon = this.state.isShowPassword ? require('../assets/launch/pwdOpenIcon.png') : require('../assets/launch/pwdHideIcon.png');
         return(
             <Modal
+                  onStartShouldSetResponder={() => false}
                   animationType={'fade'}
                   transparent={true}
                   visible={this.props.modalVisible}
@@ -137,11 +147,7 @@ export default class InputTextDialog extends Component{
                              underlineColorAndroid='transparent' 
                              selectionColor='#00bfff' 
                              secureTextEntry={!this.state.isShowPassword}
-                             onChange={(event) => {
-                                 this.setState({
-                                     text: event.nativeEvent.text
-                                 })
-                             }}
+                             onChangeText={this.onChangeText}
                         ></TextInput>
                         <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
                             <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
@@ -156,7 +162,8 @@ export default class InputTextDialog extends Component{
                         </View>
                         <View style={styles.rightBtnBox}>
                             <BlueButtonSmall onPress = { this.rightPressed}
-                                             text = {this.props.rightTxt}>
+                                             text = {this.props.rightTxt}
+                                             isDisabled = {this.props.rightBtnDisabled}>
                             </BlueButtonSmall>
                         </View> 
                     </View>

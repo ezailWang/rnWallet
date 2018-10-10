@@ -68,10 +68,12 @@ class SetScreen extends BaseComponent {
             passwordModalVisible: false,
             //isShowNameWarn: false,
             rightBtnDisabled : true,
+            pwdRightBtnDisabled:true,
             nameWarnText : ' '
         }
 
-        this.inputName = ''
+        this.inputName = '';
+        this.inputPwd = '';
     }
 
     openNameModal() {
@@ -84,7 +86,10 @@ class SetScreen extends BaseComponent {
     }
 
     openPasswordModal() {
-        this.setState({ passwordModalVisible: true });
+        this.setState({ 
+            passwordModalVisible: true ,
+            pwdRightBtnDisabled:true,
+        });
     }
     closeNameModal() {
         this.setState({ nameModalVisible: false });
@@ -121,8 +126,17 @@ class SetScreen extends BaseComponent {
         })  
     };
 
+    pwdOnChangeText = (text) => {
+        this.inputPwd = text
+        let isDisabled = (text == '' || text.length < 8) ? true : false
+        this.setState({
+            pwdRightBtnDisabled : isDisabled,
+        })
+    }
+
     passwordConfirmClick() {
-        var password = this.refs.inputPasswordDialog.state.text;
+        //var password = this.refs.inputPasswordDialog.state.text;
+        let password = this.inputPwd
         this.closePasswordModal();
         if (password == '' || password == undefined) {
             showToast(I18n.t('toast.enter_password'))
@@ -225,6 +239,8 @@ class SetScreen extends BaseComponent {
                     leftPress={() => this.closePasswordModal()}
                     rightPress={() => this.passwordConfirmClick()}
                     modalVisible={this.state.passwordModalVisible}
+                    rightBtnDisabled = {this.state.pwdRightBtnDisabled}
+                    onChangeText = {this.pwdOnChangeText}
                 />
                 <TouchableOpacity style={[styles.btnOpacity]}
                     activeOpacity={0.6}

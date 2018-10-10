@@ -103,6 +103,7 @@ export default class ExportPrivateKeyScreen extends BaseComponent {
     }
     copy(){
         Clipboard.setString(this.state.privateKey);
+        showToast(I18n.t('toast.copied'));
     }
     renderComponent() {
         return (

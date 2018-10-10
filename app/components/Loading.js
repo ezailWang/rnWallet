@@ -118,6 +118,7 @@ export default class Loading extends PureComponent{
         };
         return(
             <Modal
+                  onStartShouldSetResponder={() => false}
                   animationType={'none'}
                   transparent={true}
                   visible={visible}

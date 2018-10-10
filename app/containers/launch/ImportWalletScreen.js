@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
         marginBottom:10,
     },
     titleTxt: {
-        //fontSize: 18,
+        fontSize: 18,
         fontWeight: '500',
         color: Colors.fontBlueColor,
     }, 
     inputArea: {
         height: 90,
         //textAlign:'start',
-        fontSize: 16,
+        fontSize: 14,
         lineHeight: 20,
         textAlignVertical: 'top',
         color: Colors.fontBlackColor_43,
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         height: 40,
+        fontSize: 14,
         color: Colors.fontBlackColor_43,
     },
     pwdBtnOpacity: {
@@ -431,7 +432,7 @@ class ImportWalletScreen extends BaseComponent {
                     
                         <View style={styles.inputTextBox}>
                             <TextInput style={[styles.inputArea]}
-                                returnKeyType='next'
+                                //returnKeyType='next'
                                 placeholder={I18n.t('launch.input_mnemonic_hint')}
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'

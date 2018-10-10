@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
         fontSize:15,
         color:'#fff',
         paddingTop:12,
+        paddingLeft:20,
+        paddingRight:20,
         backgroundColor:'rgba(0,0,0,0.6)',
     },
     tranView:{

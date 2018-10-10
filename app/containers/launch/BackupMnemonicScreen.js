@@ -34,11 +34,13 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         color: Colors.fontBlueColor,
         marginBottom:30,
+        
     },
     contentTxt:{
         fontSize:FontSize.ContentSize,
         color:Colors.fontGrayColor_a0,
-        textAlign:'center',
+        //alignSelf:'flex-start',
+        textAlign:'left',
     },
     mnemonicTxt:{
         alignSelf:'stretch',

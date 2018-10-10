@@ -94,6 +94,7 @@ export default class ScreenshotWarn extends Component{
    render(){
         return(
             <Modal
+                  onStartShouldSetResponder={() => false}
                   animationType={'fade'}
                   transparent={true}
                   visible={this.props.modalVisible}

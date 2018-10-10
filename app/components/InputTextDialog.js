@@ -129,6 +129,7 @@ export default class InputTextDialog extends Component{
     render(){
         return(
             <Modal
+                  onStartShouldSetResponder={() => false}
                   animationType={'fade'}
                   transparent={true}
                   visible={this.props.modalVisible}

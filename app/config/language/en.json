@@ -17,28 +17,35 @@
 
         "backup_wallet":"Backup wallet",
         "why_backup_wallet":"Why need to backup mnemonic phrases?",
-        "reason_backup_wallet1":"Mnemonic phrases can restore your wallet. Anyone who gains access to your mnemonic phrases can recover your wallet and control all your assets! ",
-        "reason_backup_wallet2":"We DO NOT store your  mnemonic phrases, nor can we recover them. Please backup cautiously.",
+        "reason_backup_wallet1":"Mnemonic phrases can restore your wallet. Anyone who knows your Mnemonic phrases can take away your assets.",
+        "reason_backup_wallet2":"We DO NOT store your mnemonic phrases, nor can we recover them. Please backup cautiously.",
         "how_backup_wallet":"How to backup?",
-        "reason_backup_wallet3":"Please write down the mnemonic phrases on paper and keep them safe.",
-        "reason_backup_wallet4":"Do not save mnemonic phrases on mailbox or network disk. Do not use network tools for transmission.",
+        "reason_backup_wallet3":"Please write down the mnemonic phrases on paper and store it safely.",
+        "reason_backup_wallet4":"Do not save mnemonic phrases in Mail or network drive. Do not use network to handle a transmission.",
         "readed":"I understand. And I have already prepared paper and pen.",
         
         "backup_mnemonic":"Back up mnemonic phrases",
         "backup_mnemonic_prompt":"Please write down the mnemonic phrases carefully. It will be required for subsequent verification process.",
-        "backup_mnemonic_complete":"mnemonic phrases have been copied.",
+        "backup_mnemonic_complete":"Mnemonic phrases have been copied.",
 
         "confirm_mnemonic":"Confirm",
-        "confirm_mnemonic_prompt":"Please select  mnemonic phrases in correct order.",
+        "confirm_mnemonic_prompt":"Please select mnemonic phrases in correct order.",
         "complete":"Done",
+
+        "service_agreement":"服务协议",
+        "agree_service_agreement":"我已仔细阅读并同意以上服务及隐私条款",
+        "agree_and_set_login_password":"同意并设置登录密码",
+        "set_login_password":"请设置登录密码",
+        "repeat_new_password":"重复新密码",
+        "enter_password":"请输入密码",
 
     
         "password_warn":"Passwords must be at least 8 characters in length, contain at least 3 out of 4 of the following: one uppercase, one lowercase, one digit and one symbol.",
         "password_warn_least_8":"The password must be at lease 8 characters in length,",
-        "password_warn_1":"passwords should contain at least 2 out of the following: one uppercase, one digit and one symbol.",
-        "password_warn_2":"passwords should contain at least 2 out of the following: one uppercase, one digit and one symbol.",
-        "password_warn_3":"passwords should contain at least 2 out of the following: one uppercase, one lowercase and one symbol.",
-        "password_warn_4":"passwords should contain at least 2 out of the following: one uppercase, one lowercase and one digit.",
+        "password_warn_1":"passwords must contain at least one lowercase, one digit and one symbol.",
+        "password_warn_2":"passwords should contain at least one uppercase, one digit and one symbol.",
+        "password_warn_3":"passwords should contain at least one uppercase, one lowercase and one symbol.",
+        "password_warn_4":"passwords should contain at least one uppercase, one lowercase and one digit.",
         "password_warn_5":"passwords should contain at least one digit or one symbol.",
         "password_warn_6":"passwords should contain at least one lowercase or one symbol.",
         "password_warn_7":"passwords should contain at least one lowercase or one digit.",
@@ -46,121 +53,120 @@
         "password_warn_9":"passwords should contain at least one uppercase or one digit.",
         "password_warn_10":"passwords should contain at least one uppercase or one lowercase.",
 
-        "enter_same_password":"Please enter the password again. ",
-        
+        "enter_same_password":"Please enter the password again. ", 
         "enter_normative_wallet_name":"请输入1~12位钱包名称"
     },
     "home":{
         "total_assets":"Total Assets",
         "assets":"Asset List",
         "settings":"Settings",
-        "QRCode":"Scan",
-        "no_assets":"No assets yet~",
+        "QRCode":"Address QR code",
+        "no_assets":"No assets",
         "add":"Add",
         "add_token":"Add Assets",
         "contract_address":"Contract address",
         "token_symbol":"Assets symbol",
         "token_decimals":"Decimal precision",
-        "currency_symbol":"$",
         "delete":"delete",
         "address_check":"42 characters in length starting with 0x",
         "symbol_check":"1 to 9 characters, for example ETH and ITC",
         "decimals_check":"The decimal precision of erc20 token is 0~36, mostly 18 digits.",
         "wallet_tool":"Manage Wallet",
         "contact":"Contacts",
-        "system_settings":"System Settings",
+        "system_settings":"Settings",
         "feedback":"Feedback",
         "about":"About",
         "address_repeat":"The contract address has been added",
-        "delete_main_token":"This currency cannot be deleted"
+        "delete_main_token":"This currency cannot be deleted",
+
+        "currency_symbol":"$"
     },
     "transaction":{
-        "miner_fee":"Mining Fee",
+        "miner_fee":"Tx Fee",
         "fast":"Fast",
         "slow":"Slow",
-        "transfer":"Transaction",
+        "transfer":"Transfer",
         "amount":"Amount",
         "balance":"Balance",
-        "enter":"Enter",
+        "enter":"Amount",
         "collection_address":"Receiver's Address",
-        "enter_transfer_address":"Enter Receiver's Address",
+        "enter_transfer_address":"输入收款地址",
         "remarks":"Memo",
         "enter_remarks":"Enter Memo",
         "next_step":"Next",
-        "address_list":"Address list",
-
+        
+        "address_list":"Contacts",
         "transaction_details":"Transaction Details",
         "sending_party":"From",
         "beneficiary":"To",
-        "miner_cost":"Gas Fee",
-        "transaction_number":"Transaction",
-        "block":"Block",
+        "miner_cost":"Tx Fee",
+        "transaction_number":"Transaction #",
+        "block":"Block #",
         "transaction_time":"Transaction Time",
         "copy_address":"Copy URL",
 
-        "no_transaction_history_found":"No transaction history",
+        "no_transaction_history_found":"Transaction log not found",
         "no":"None",
         "receipt":"Receive",
 
-        "payment_information":"Payment information",
-        "payment_address":"Payment address",
-        "payment_details":"Payment details",
+        "payment_information":"Title",
+        "payment_address":"Pay by",
+        "pay_to":"Pay to",
+        "payment_details":"Payment Request",
         "wallet_password":"Password",
-        "enter_password_hint":"Please enter your password",
+        "enter_password_hint":"Input the wallet password",
         "determine":"Confirm",
+        
+        "transaction_fail":"Transaction Failed",
 
-        
-        "transaction_fail":"failed",
-        
-        "alert_0":"Get Secret key failed",
-        "alert_1":"Transaction failed, please check parameters.",
+        "alert_0":"Failed to acquire the private key.",
+        "alert_1":"Transaction failed. Please check the parameters.",
         "alert_2":"Please enter a valid transfer address.",
         "alert_3":"Please enter a valid transfer amount.",
         "alert_4":"Insufficient Balance",
-        "alert_5":"Please open the camera access first."
+        "alert_5":"Please allow camera access."
     },
     "settings":{
         "set":"Wallet tools",
-        "enter_wallet_name_hint":"Please enter your wallet name",
-        "enter_passowrd_hint":"Please enter your password",
-        "modify_wallet_name":"Change the wallet name",
+        "enter_wallet_name_hint":"Wallet name",
+        "enter_passowrd_hint":"Input the wallet password",
+        "modify_wallet_name":"修改钱包名称",
         "export_keystore":"Export Keystore",
         "export_private_key":"Export Private Key",
 
-        "export_keystore_modal_prompt":"Anyone in possession of your Keystore will have access to your assets!",
+        "export_keystore_modal_prompt":"Anyone with the Keystore can access your assets!",
         "export_keystore_modal_prompt1":"Please keep the Keystore properly.",
-        "export_keystore_prompt":"Anyone in possession of your Keystore will have access of your assets! Do not save Keystore on mailbox or network disk. Do not use network tools for transmission.",
+        "export_keystore_prompt":"Anyone with the Keystore can access your assets! Do not save  Keystore in Mail or network drive. Do not use network to handle a transmission.",
         "copy_keystore":"Copy Keystore",
 
-        "export_private_key_modal_prompt":"Anyone in possession of your private key will have access of your assets!",
+        "export_private_key_modal_prompt":"Anyone with the private key can access your assets!",
         "export_private_key_modal_prompt1":"Please keep only hardcopy and keep it safe.",
-        "export_private_key_prompt":"Do not save mnemonic words on mailbox or network disk. Do not use network tools for transmission..",
+        "export_private_key_prompt":"Do not save private key on mailbox or network disk. Do not use network tools for transmission.",
         "copy_private_key":"Copy private key",
 
         "collection_code":"Payment code",
         "copy_payment_address":"Copy receiving address",
 
-        
-        "scan_qrcode":"Scan QR code",
-        "scan_qrcode_prompt":"The QR code can be automatically scanned by putting it into the frame.",  
+        "scan_qrcode":"扫描二维码",
+        "scan_qrcode_prompt":"The QR code can be automatically scanned by putting it into the frame.",
 
         "about":"About",
         "currency_unit":"Currency Unit",
-        "multi_language":"Multi-Language",
+        "multi_language":"Language",
 
-        "make_sure_delete_contact":"Are you sure you want to delete this contact?",
-        "no_contact":"None",
-        "create_contact":"New contact",
+        "make_sure_delete_contact":"Are you sure to delete?",
+        "no_contact":"No Contacts",
+        "create_contact":"Create new contact",
         "name":"Name",
         "remarks":"Memo (Optional)",
         "wallet_address":"Wallet Address",
-        "save_changes":"Save Changes",
+        "save_changes":"Save",
         "delete_contact":"Delete Contact",
         "save":"Save",
         
-        "enter_normative_contact_name":"请输入1~12位联系人姓名",
-
-        "address_book":"Address list",
+        "enter_normative_contact_name":"Please enter a contact name (1-12 characters)",
+ 
+        "address_book":"Contacts",
 
         "feedback":"Feedback",
         "nickname":"Name",
@@ -171,20 +177,22 @@
         "system_settings":"Settings",
         "language":"Language",
 
-        "renminbi":"Renminbi",
-        "dollar":"Dollar",
-        "korean_currency":"Korean currency"
+        "terms_use_and_privacy_policy":"使用协议与隐私条款"
+
     },
     "toast":{
         "exit_app":"Click again to exit the app.",
         "copy_wallet":"Copied",
+        "space_separate_mnemonic":"Please use space to separate the mnemonic phrases.",
+        "enter_repassword":"Please enter the password again.",
+        "enter_same_password":"Please confirm your password.",
 
-        "enter_wallet_name":"Please enter your wallet name",
+        "enter_wallet_name":"Please enter the wallet name",
         "enter_mnemonic":"Please enter the mnemonic words.",
-        "enter_password":"Please enter your password",
-        "enter_repassword":"Please enter the password again. ",
+        "enter_password":"Input the wallet password",
         
-        "check_mnemonic_is_correct":"Please check the mnemonic words.",
+        
+        "check_mnemonic_is_correct":"Please check the mnemonic phrases.",
 
         "import_mnemonic_error":"Error importing wallet",
         "create_wallet_error":"Error creating wallet",
@@ -196,32 +204,40 @@
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
         "email_format_incorrect":"Incorrect email format",
 
-
-        "net_request_err":"network error",
+        "net_request_err":"Network Anomaly",
         "net_request_token_unable_resolve":"token invalid",
-        "net_request_timeout":"request timeout"
+        "net_request_timeout":"request timeout",
+
+        "pwd_inconsistent_reset":"密码不一致，请重新设置",
+        "submitted_successfully":"提交成功",
+        "submission_ailed":"提交失败"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",
         "screenshot_warn":"Do not screenshot",
-        "screenshot_warn_content":"Anyone in possession of your mnemonic words will have access to your assets! Please keep only hardcopy and keep it safe.",
-        "i_know":"I understand",
+        "screenshot_warn_content":"Anyone who gains access to your mnemonic phrases can recover your wallet and control all your assets! Please write down the mnemonic phrases on paper and keep them safe.",
+        "i_know":"Understood",
 
-        "backup_fail":"Failed to backup.",
-        "check_mnemonic_is_correct":"Please check the mnemonic word.",
+        "backup_fail":"Backup failed.",
+        "check_mnemonic_is_correct":"Please check the mnemonic phrases.",
 
-        "export_private_key_error":"Error exporting private key.",
-        "password_error":"Incorrect password. Please enter the correct password.",
+        "export_private_key_error":"Error! Cannot Export Private Key.",
+        "password_error":"Password incorrect. Please try again.",
 
         "cancel":"Cancel",
         "confirm":"Confirm",
 
-        "permission_camera":"Please open the camera access first.",
+        "permission_camera":"Please allow camera access.",
 
         "get_private_key_fail":"Failed to acquire the private key.",
-        "transaction_failed":"Transaction failed. Please check the parameters.",
+        "transaction_failed":"Transaction failed. Please check the parameters or network status.",
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
         "enter_valid_transfer_amount":"Please enter a valid transfer amount.",
-        "insufficient_balance":"Insufficient Balance"
+        "insufficient_balance":"Insufficient Balance",
+
+        "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
+        "ping_id_warn2":"请务必记牢您的登录密码。",
+        "open_face_id":"是否开启Face ID?",
+        "open_touch_id":"是否开启Touch ID?"
     }
 }
