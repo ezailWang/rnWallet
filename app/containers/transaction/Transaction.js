@@ -417,7 +417,7 @@ export default class Transaction extends BaseComponent {
                     await this.startSendTransaction(privateKey)
                 } 
             }catch(err){
-                console.log('exportKeyPrivateErr:', err)
+                // console.log('exportKeyPrivateErr:', err)
             }finally{
                 this._hideLoading();
             } 

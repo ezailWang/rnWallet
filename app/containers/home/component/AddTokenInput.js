@@ -17,7 +17,7 @@ class AddTokenInput extends Component {
     render() {
         return (
             <Animated.View style={[styles.container, this.props.inputStyle, { height: this.props.checkTextColor === Colors.clearColor ? MIN_HEIGHT : MAX_HEIGHT }]}>
-                <Text style={{ height: 15, marginLeft: 20, fontSize: 14, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
+                <Text style={{ height: 16, marginLeft: 20, fontSize: 13, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
                 <TextInput style={styles.TextInput}
                     placeholderTextColor = {Colors.fontGrayColor_a0}
                     onChange={this.props.onChange}

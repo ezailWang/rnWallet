@@ -3,6 +3,7 @@ package com.rnwallet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
             new RNDeviceInfo(),
             new BlurViewPackage(),
             new RNI18nPackage(),
