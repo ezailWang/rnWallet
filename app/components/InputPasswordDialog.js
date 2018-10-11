@@ -142,6 +142,7 @@ export default class InputTextDialog extends Component{
                 <View style={styles.contentBox}>
                     <View style={styles.inputBox}>
                          <TextInput style={styles.inputText} 
+                            placeholderTextColor = {Colors.fontGrayColor_a0}
                              returnKeyType='done'
                              placeholder= {this.props.placeholder}
                              underlineColorAndroid='transparent' 

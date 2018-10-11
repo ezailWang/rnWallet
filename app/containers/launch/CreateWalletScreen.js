@@ -405,6 +405,7 @@ class CreateWalletScreen extends BaseComponent {
                     
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
+                                placeholderTextColor = {Colors.fontGrayColor_a0}
                                 returnKeyType='next' 
                                 placeholder={I18n.t('launch.wallet_name_hint')}
                                 underlineColorAndroid='transparent'
@@ -418,6 +419,7 @@ class CreateWalletScreen extends BaseComponent {
                         <Text style={this.state.isShowNameWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.nameWarn}</Text>  
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
+                                placeholderTextColor = {Colors.fontGrayColor_a0}
                                 returnKeyType='next' 
                                 placeholder={I18n.t('launch.password_hint')}
                                 underlineColorAndroid='transparent'
@@ -440,6 +442,7 @@ class CreateWalletScreen extends BaseComponent {
                         
                         <View style={styles.inputBox} ref="rePwdRef">
                             <TextInput style={styles.input}
+                                placeholderTextColor = {Colors.fontGrayColor_a0}
                                 returnKeyType='done' 
                                 placeholder={I18n.t('launch.re_password_hint')}
                                 underlineColorAndroid='transparent'

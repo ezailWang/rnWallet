@@ -9,6 +9,7 @@ import { androidPermission } from '../../utils/permissionsAndroid';
 import networkManage from '../../utils/networkManage'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
+import PingModal from '../../components/PingModal'
 
 
 let ScreenWidth = Dimensions.get('window').width;
@@ -112,12 +113,19 @@ export default class FirstLaunchScreen extends BaseComponent {
         // alert("Encoding Address 地址："+ address1)
     }
 
+    /*
+    <PingModal
+                    visible = {true}    
+                />
+    */
     renderComponent() {
         return (
             //<LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
             //    style={styles.contentContainer}>
             <ImageBackground style={styles.contentContainer}
                              source={require('../../assets/launch/splash_bg.png')}>
+
+                             
                 <Image style={styles.logoImg} source={require('../../assets/launch/splash_logo.png')} resizeMode={'center'} />
                 <View style={styles.btnBox}>
                         <WhiteButtonBig

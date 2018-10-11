@@ -108,6 +108,7 @@ export default class PasswordPrompInfoScreen extends Component {
                 <WhiteBgHeader navigation={this.props.navigation} text='密码提示信息' />
                 <View style={styles.inputBox}>
                     <TextInput style={styles.inputText}
+                        placeholderTextColor = {Colors.fontGrayColor_a0}
                         placeholder='请输入密码提示信息'
                         underlineColorAndroid='transparent'
                         selectionColor='#00bfff'

@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import {Colors} from '../config/GlobalConfig'
 import {BlueButtonSmall,WhiteButtonSmall} from './Button'
 import Layout from '../config/LayoutConstants'
+import { I18n } from '../config/language/i18n'
 
 const styles = StyleSheet.create({
     modeBox:{
@@ -63,8 +64,8 @@ export default class RemindDialog extends Component{
     }
 
     static defaultProps = {
-        leftTxt:'取消',
-        rightTxt:'确定',
+        leftTxt: I18n.t('modal.cancel'),
+        rightTxt: I18n.t('modal.confirm'),
     }
 
     /**constructor(props){

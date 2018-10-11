@@ -433,6 +433,7 @@ class ImportWalletScreen extends BaseComponent {
                         <View style={styles.inputTextBox}>
                             <TextInput style={[styles.inputArea]}
                                 //returnKeyType='next'
+                                placeholderTextColor = {Colors.fontGrayColor_a0}
                                 placeholder={I18n.t('launch.input_mnemonic_hint')}
                                 underlineColorAndroid='transparent'
                                 selectionColor='#00bfff'
@@ -446,6 +447,7 @@ class ImportWalletScreen extends BaseComponent {
                         </View>
                         <View style={styles.inputBox} >
                             <TextInput style={styles.input}
+                                placeholderTextColor = {Colors.fontGrayColor_a0}
                                 returnKeyType='next' 
                                 placeholder={I18n.t('launch.wallet_name_hint')}
                                 underlineColorAndroid='transparent'
@@ -459,6 +461,7 @@ class ImportWalletScreen extends BaseComponent {
                         <Text style={this.state.isShowNameWarn ?styles.warnTxt : styles.warnTxtHidden}>{this.state.nameWarn}</Text> 
                         <View style={styles.inputBox}>
                             <TextInput style={styles.input}
+                                placeholderTextColor = {Colors.fontGrayColor_a0}
                                 returnKeyType='next'
                                 placeholder={I18n.t('launch.set_password_hint')}
                                 underlineColorAndroid='transparent'
@@ -478,6 +481,7 @@ class ImportWalletScreen extends BaseComponent {
                         <Text style={this.state.isShowPwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.pwdWarn}</Text>
                         <View style={styles.inputBox} ref="rePwdRef">
                             <TextInput style={styles.input}
+                                placeholderTextColor = {Colors.fontGrayColor_a0}
                                 returnKeyType='done'
                                 placeholder={I18n.t('launch.re_password_hint')}
                                 underlineColorAndroid='transparent'

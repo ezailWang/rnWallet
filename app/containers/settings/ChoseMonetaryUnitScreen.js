@@ -43,7 +43,6 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
 
     _initData(){
         this.monetaryUnitType = this.props.monetaryUnit.monetaryUnitType
-        console.log('L____money',this.props.monetaryUnit)
         this._checkMonetaryUnit()
     }
 

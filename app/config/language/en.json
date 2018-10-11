@@ -32,12 +32,12 @@
         "confirm_mnemonic_prompt":"Please select mnemonic phrases in correct order.",
         "complete":"Done",
 
-        "service_agreement":"服务协议",
-        "agree_service_agreement":"我已仔细阅读并同意以上服务及隐私条款",
-        "agree_and_set_login_password":"同意并设置登录密码",
-        "set_login_password":"请设置登录密码",
-        "repeat_new_password":"重复新密码",
-        "enter_password":"请输入密码",
+        "service_agreement":"Service agreement",
+        "agree_service_agreement":"I have read and agree to the service and privacy policy",
+        "agree_and_set_login_password":"Agree and set the login password",
+        "set_login_password":"Set up the login password",
+        "repeat_new_password":"Repeat new password",
+        "enter_password":"Please enter your password",
 
     
         "password_warn":"Passwords must be at least 8 characters in length, contain at least 3 out of 4 of the following: one uppercase, one lowercase, one digit and one symbol.",
@@ -53,8 +53,8 @@
         "password_warn_9":"passwords should contain at least one uppercase or one digit.",
         "password_warn_10":"passwords should contain at least one uppercase or one lowercase.",
 
-        "enter_same_password":"Please enter the password again. ", 
-        "enter_normative_wallet_name":"请输入1~12位钱包名称"
+        "enter_same_password":"Please enter a consistent password", 
+        "enter_normative_wallet_name":"Please enter a wallet name (1-12 characters)"
     },
     "home":{
         "total_assets":"Total Assets",
@@ -67,7 +67,7 @@
         "contract_address":"Contract address",
         "token_symbol":"Assets symbol",
         "token_decimals":"Decimal precision",
-        "delete":"delete",
+        "delete":"Delete",
         "address_check":"42 characters in length starting with 0x",
         "symbol_check":"1 to 9 characters, for example ETH and ITC",
         "decimals_check":"The decimal precision of erc20 token is 0~36, mostly 18 digits.",
@@ -90,7 +90,7 @@
         "balance":"Balance",
         "enter":"Amount",
         "collection_address":"Receiver's Address",
-        "enter_transfer_address":"输入收款地址",
+        "enter_transfer_address":"Enter receiving address",
         "remarks":"Memo",
         "enter_remarks":"Enter Memo",
         "next_step":"Next",
@@ -130,7 +130,7 @@
         "set":"Wallet tools",
         "enter_wallet_name_hint":"Wallet name",
         "enter_passowrd_hint":"Input the wallet password",
-        "modify_wallet_name":"修改钱包名称",
+        "modify_wallet_name":"Modify wallet name",
         "export_keystore":"Export Keystore",
         "export_private_key":"Export Private Key",
 
@@ -147,7 +147,7 @@
         "collection_code":"Payment code",
         "copy_payment_address":"Copy receiving address",
 
-        "scan_qrcode":"扫描二维码",
+        "scan_qrcode":"Scan QR code",
         "scan_qrcode_prompt":"The QR code can be automatically scanned by putting it into the frame.",
 
         "about":"About",
@@ -177,7 +177,7 @@
         "system_settings":"Settings",
         "language":"Language",
 
-        "terms_use_and_privacy_policy":"使用协议与隐私条款"
+        "terms_use_and_privacy_policy":"Terms of use and privacy policy"
 
     },
     "toast":{
@@ -205,12 +205,12 @@
         "email_format_incorrect":"Incorrect email format",
 
         "net_request_err":"Network Anomaly",
-        "net_request_token_unable_resolve":"token invalid",
-        "net_request_timeout":"request timeout",
+        "net_request_token_unable_resolve":"Invalid assets",
+        "net_request_timeout":"Request timed out",
 
-        "pwd_inconsistent_reset":"密码不一致，请重新设置",
-        "submitted_successfully":"提交成功",
-        "submission_ailed":"提交失败"
+        "pwd_inconsistent_reset":"The passwords are inconsistent, please reset",
+        "submitted_successfully":"Submitted successfully",
+        "submission_ailed":"Submission failed"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",
@@ -235,9 +235,9 @@
         "enter_valid_transfer_amount":"Please enter a valid transfer amount.",
         "insufficient_balance":"Insufficient Balance",
 
-        "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
-        "ping_id_warn2":"请务必记牢您的登录密码。",
-        "open_face_id":"是否开启Face ID?",
-        "open_touch_id":"是否开启Touch ID?"
+        "ping_id_warn1":"Once the login password is set successfully, it cannot be modified or retrieved.",
+        "ping_id_warn2":"Make sure to remember your login password.",
+        "open_face_id":"Do you want to use Face ID?",
+        "open_touch_id":"Do you want to use Touch ID?"
     }
 }

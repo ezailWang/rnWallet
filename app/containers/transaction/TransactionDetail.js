@@ -151,8 +151,8 @@ export default class TransactionDetail extends BaseComponent {
 
     didTapTransactionNumber = () => {
 
-        var baiduURL = 'https://rinkeby.etherscan.io/tx/' + this.state.transactionHash;
-        // var baiduURL = 'https://etherscan.io/tx/'+ this.state.transactionHash;
+        //var baiduURL = 'https://rinkeby.etherscan.io/tx/' + this.state.transactionHash;
+         var baiduURL = 'https://etherscan.io/tx/'+ this.state.transactionHash;
 
         Linking.canOpenURL(baiduURL).then(supported => {
             if (!supported) {

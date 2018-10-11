@@ -50,6 +50,7 @@ class CommonTextInput extends Component {
     render() {
         return (
             <TextInput style={[styles.commonTextInput,this.props.textInputStyle]}
+                       placeholderTextColor = {Colors.fontGrayColor_a0}
                        placeholder={this.props.placeholder}
                        returnKeyType={this.props.returnKeyType}
                        keyboardType={this.props.keyboardType}

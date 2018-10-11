@@ -91,6 +91,7 @@ export default class ModifyPasswordScreen extends Component {
                 <View style={styles.inputBox}> 
                     <Text style={styles.inputTxt}>当前密码</Text>
                     <TextInput style={styles.inputText} 
+                           placeholderTextColor = {Colors.fontGrayColor_a0}
                            underlineColorAndroid='transparent' 
                            selectionColor='#00bfff'
                            secureTextEntry={true} 
@@ -104,6 +105,7 @@ export default class ModifyPasswordScreen extends Component {
                 <View style={styles.inputBox}> 
                     <Text style={styles.inputTxt}>新密码</Text>
                     <TextInput style={styles.inputText} 
+                           placeholderTextColor = {Colors.fontGrayColor_a0}
                            underlineColorAndroid='transparent' 
                            selectionColor='#00bfff' 
                            secureTextEntry={true}
@@ -117,6 +119,7 @@ export default class ModifyPasswordScreen extends Component {
                 <View style={styles.inputBox}> 
                     <Text style={styles.inputTxt}>重复新密码</Text>
                     <TextInput style={styles.inputText} 
+                           placeholderTextColor = {Colors.fontGrayColor_a0}
                            underlineColorAndroid='transparent' 
                            selectionColor='#00bfff' 
                            secureTextEntry={true}

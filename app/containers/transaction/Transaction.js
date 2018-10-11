@@ -189,6 +189,7 @@ const SectionView = ({ titleText, placeHolder, detailTitle, returnKeyType, targe
 
         <View style={[styles.sectionViewBottomView, (Platform.OS == 'ios' ? styles.shadowStyle : {})]}>
             <TextInput style={styles.sectionViewTextInput}
+                placeholderTextColor = {Colors.fontGrayColor_a0}
                 placeholder={placeHolder}
                 returnKeyType={returnKeyType}
                 ref={(textInput) => {
@@ -230,6 +231,7 @@ class InfoView extends Component {
                 </View>
                 <View style={[styles.sectionViewBottomView, (Platform.OS == 'ios' ? styles.shadowStyle : {})]}>
                     <TextInput style={styles.sectionViewTextInput}
+                        placeholderTextColor = {Colors.fontGrayColor_a0}
                         placeholder={this.props.placeholder}
                         returnKeyType={this.props.returnKeyType}
                         keyboardType={this.props.keyboardType}
@@ -300,6 +302,9 @@ export default class Transaction extends BaseComponent {
         this.getDetailPriceTitle = this.getDetailPriceTitle.bind(this);
         this.params = params;
 
+        this.inputTransferValue = 0;
+        this.inputToAddress = '';
+
         this.state = {
             transferType: params.transferType,
             minGasPrice: 1,
@@ -307,7 +312,8 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
+            //toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
+            toAddress: '',
             fromAddress: params.fromAddress,
             detailData: "",
             defaultTransferValue: '',
@@ -446,7 +452,7 @@ export default class Transaction extends BaseComponent {
             fromAddress: this.state.fromAddress,
             toAddress: this.state.toAddress,
             totalAmount: this.state.transferValue + " " + this.params.transferType,
-            payType: this.params.transferType + I18n.t('transaction.transfer'),
+            payType: /*this.params.transferType + */I18n.t('transaction.transfer'),
             gasPrice: this.getPriceTitle(this.state.currentGas),
             gasPriceInfo: this.getDetailPriceTitle()
         };
@@ -465,28 +471,25 @@ export default class Transaction extends BaseComponent {
 
     valueTextInputChangeText = (text) => {
 
+        let value = this.inputTransferValue
         this.setState({
-            transferValue: parseFloat(text),
-        },()=>{
-            this.judgeCanSendInfoCorrect()
+            transferValue: parseFloat(value),
         });
+        this.judgeCanSendInfoCorrect()
     };
 
     toAddressTextInputChangeText = (text) => {
-        
+        let address = this.inputToAddress
         this.setState({
-            toAddress: text
-        },()=>{
-            this.judgeCanSendInfoCorrect()
+            toAddress: address
         });
+        this.judgeCanSendInfoCorrect()
     };
 
     judgeCanSendInfoCorrect (){
-
         let totalValue = this.params.balance;
-        let amountIsNotValid = this.state.transferValue > totalValue
-        let addressIsNotValid = !NetworkManager.isValidAddress(this.state.toAddress)
-
+        let amountIsNotValid = this.inputTransferValue == 0 || this.inputTransferValue  > totalValue
+        let addressIsNotValid = this.inputToAddress=='' || !NetworkManager.isValidAddress(this.inputToAddress) 
         this.setState({
             isDisabled: amountIsNotValid||addressIsNotValid
         });
@@ -498,10 +501,12 @@ export default class Transaction extends BaseComponent {
             from: 'transaction',
             callback: function (data) {
                 var address = data.toAddress;
+                _this.inputToAddress = address;
                 // console.log('L_address', address);
                 _this.setState({
                     toAddress: address
                 })
+                _this.judgeCanSendInfoCorrect()
             }
         })
     }
@@ -525,10 +530,12 @@ export default class Transaction extends BaseComponent {
             this.props.navigation.navigate('ScanQRCode', {
                 callback: function (data) {
                     var address = data.toAddress;
+                    _this.inputToAddress = address;
                     // console.log('L_address', address);
                     _this.setState({
                         toAddress: address
                     })
+                    _this.judgeCanSendInfoCorrect()
                 }
             })
         } else {
@@ -541,7 +548,7 @@ export default class Transaction extends BaseComponent {
     renderComponent() {
 
         let params = store.getState().Core.walletTransfer;
-        let title = params.transferType + I18n.t('transaction.transfer');
+        let title = /*params.transferType + ' ' + */I18n.t('transaction.transfer');
         let alertHeight = NetworkManager.isValidAddress(this.state.toAddress) ? 0 : 15
 
         return (
@@ -563,16 +570,16 @@ export default class Transaction extends BaseComponent {
                         ref={(dialog) => { this.dialog = dialog; }} />
                     <InfoView title={I18n.t('transaction.amount')}
                         detailTitle={I18n.t('transaction.balance') + ':' + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
-                        placeholder={I18n.t('transaction.enter') + this.params.transferType + I18n.t('transaction.amount')}
+                        placeholder={I18n.t('transaction.enter') /*+ this.params.transferType + I18n.t('transaction.amount')*/}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
-                        onChangeText={this.valueTextInputChangeText}/>
+                        onChangeText={(txt)=>{this.inputTransferValue = txt;this.valueTextInputChangeText()}}/>
                     {/*转账地址栏*/}
                     <InfoView title={I18n.t('transaction.collection_address')}
                         detailTitle={I18n.t('transaction.address_list')}
                         placeholder={I18n.t('transaction.enter_transfer_address')}
                         returnKeyType={"next"}
-                        onChangeText={this.toAddressTextInputChangeText}
+                        onChangeText={(txt)=>{this.inputToAddress = txt;this.toAddressTextInputChangeText()}}
                         defaultValue={this.state.toAddress}
                         detailTitlePress={this.routeContactList} />
                     {/*备注栏*/}

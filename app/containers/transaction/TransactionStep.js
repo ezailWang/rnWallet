@@ -180,7 +180,7 @@ let InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice, detailGas 
             </Text>
         </View>
         <InfoContentView
-            title={I18n.t('transaction.collection_address')}
+            title={I18n.t('transaction.pay_to')}
             deatilContent={toAddress}>
         </InfoContentView>
         <InfoContentView
@@ -387,6 +387,7 @@ export default class TransactionStep extends Component {
                                 </View>
                                 <View style={styles.passwordFrameView}>
                                     <TextInput style={styles.passwordView}
+                                        placeholderTextColor = {Colors.fontGrayColor_a0}
                                         placeholder={I18n.t('transaction.enter_password_hint')}
                                         returnKeyType={"done"}
                                         secureTextEntry={true}

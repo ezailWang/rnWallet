@@ -143,6 +143,7 @@ export default class InputTextDialog extends Component{
                 <View style={styles.modeBox}>
                 <View style={styles.contentBox}>
                     <TextInput style={styles.inputText} 
+                        placeholderTextColor = {Colors.fontGrayColor_a0}
                         placeholder= {this.props.placeholder}
                         underlineColorAndroid='transparent' 
                         selectionColor='#00bfff' 
