@@ -27,8 +27,8 @@ import LinearGradient from 'react-native-linear-gradient'
 const tokenIcon = {
     'ETH': require('../../assets/transfer/ethIcon.png'),
     'ITC': require('../../assets/transfer/itcIcon.png'),
-    //'MANA': require('../../assets/home/MANA.png'),
-    //'DPY': require('../../assets/home/DPY.png'),
+    'MANA': require('../../assets/transfer/manaIcon.png'),
+    'DPY': require('../../assets/transfer/dpyIcon.png'),
 }
 
 let timer;
