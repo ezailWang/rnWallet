@@ -17,7 +17,7 @@ class AddTokenInput extends Component {
     render() {
         return (
             <Animated.View style={[styles.container, this.props.inputStyle, { height: this.props.checkTextColor === Colors.clearColor ? MIN_HEIGHT : MAX_HEIGHT }]}>
-                <Text style={{ height: 16, marginLeft: 20, fontSize: 13, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
+                <Text style={{ height: 15, marginLeft: 20, fontSize: 13, color: Colors.addTokenLeftTitleColor }}>{this.props.title}</Text>
                 <TextInput style={styles.TextInput}
                     placeholderTextColor = {Colors.fontGrayColor_a0}
                     onChange={this.props.onChange}
@@ -26,7 +26,7 @@ class AddTokenInput extends Component {
                     ref={this.props.ref}
                     onFocus={this.props.onFocus}
                 />
-                <Text style={[{ height: 20, alignSelf: 'flex-end', color: this.props.checkTextColor, marginHorizontal: 20, fontSize: 12 }]}
+                <Text style={[{ height: 30, alignSelf: 'flex-end', color: this.props.checkTextColor, marginHorizontal: 20, fontSize: 12 }]}
                     >{this.props.checkText}</Text>
             </Animated.View>
         )
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.addTokenBorderColor,
         borderRadius: 5,
-        height: 40,
+        height: 38,
         width: layoutConstants.WINDOW_WIDTH - 40,
         marginLeft: 20,
         paddingHorizontal: 10,
