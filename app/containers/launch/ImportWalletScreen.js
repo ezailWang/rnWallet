@@ -385,6 +385,7 @@ class ImportWalletScreen extends BaseComponent {
             var key = StorageKey.User
             StorageManage.save(key, object)
             this._hideLoading()
+            this._openAppVerifyIdentidy = false
             this.props.navigation.navigate('Home')
         } catch (err) {
             this._hideLoading()

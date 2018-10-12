@@ -7,11 +7,14 @@ import PinModalSet from '../../components/PinModalSet'
 import PinModalConfirm from '../../components/PinModalConfirm'
 import StorageManage from '../../utils/StorageManage'
 import RemindDialog from '../../components/RemindDialog'
+import { connect } from 'react-redux'
+import * as Actions from '../../config/action/Actions';
 import Layout from '../../config/LayoutConstants'
 import { androidPermission } from '../../utils/permissionsAndroid';
 import networkManage from '../../utils/networkManage'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
+
 
 const styles = StyleSheet.create({
     contentContainer: {
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class FirstLaunchScreen extends BaseComponent {
+class FirstLaunchScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -45,6 +48,7 @@ export default class FirstLaunchScreen extends BaseComponent {
             isShowRemind:false,
             remindContent:'',
         }
+        this.isNeedSetPin = false
         this.routeTo = ''
         this.pinPassword = '';
         this._setStatusBarStyleLight()
@@ -52,6 +56,24 @@ export default class FirstLaunchScreen extends BaseComponent {
 
     _initData(){
         SplashScreen.hide()
+        console.log('L_initData','_initData')
+        if(this.props.pinInfo == null){
+            this.isNeedSetPin = true
+        }else{
+            this.isNeedSetPin = false
+            this._verifyIdentidy();
+            /*if(this.props.navigation.state.params.isVerifyIdentidy){
+                this._verifyIdentidy();
+            }*/
+        }
+    }
+
+    componentWillUpdate(){
+        if(this.props.pinInfo == null){
+            this.isNeedSetPin = true
+        }else{
+            this.isNeedSetPin = false
+        }
     }
     
     //验证android读写权限
@@ -79,20 +101,31 @@ export default class FirstLaunchScreen extends BaseComponent {
             this.routeTo = 'importWallet'
         }
         let _this = this;
-        this.props.navigation.navigate('ServiceAgreement', {
-            callback: function (data) {
-                let isShowPin = data.isShowPin;
-                _this.setState({
-                    isShowSetPin:isShowPin
-                })
-            }
-        })
+        if(this.props.pinInfo == null){
+            this.isNeedSetPin = true
+            this.props.navigation.navigate('ServiceAgreement', {
+                callback: function (data) {
+                    let isShowPin = data.isShowPin;
+                    _this.setState({
+                        isShowSetPin:isShowPin
+                    })
+                }
+            })
+        }else{
+            this.isNeedSetPin = false
+            this._toRute()
+        }
+        
     }
 
     _pinIsShowEmitter = (data) => {
         let pinType = data.pinObject.pinType
         let isVisible =  data.pinObject.visible
         this.pinPassword = data.pinObject.pinPassword
+
+        if(pinType == 'PinModal'){
+            this._hidePin()
+        }
         
         if(pinType == 'PinModalSet' && !isVisible ){
             this.setState({
@@ -122,21 +155,36 @@ export default class FirstLaunchScreen extends BaseComponent {
     }
 
     _supportTouchId(){
-        this.setState({
-            isShowRemind:true,
-            remindContent:I18n.t('modal.open_face_id'),
-        })
+        if(this.isNeedSetPin){
+            this.setState({
+                isShowRemind:true,
+                remindContent:I18n.t('modal.open_face_id'),
+            })
+        }else{
+            super._supportTouchId()
+        }
+        
     }
 
     _supportFaceId(){
-        this.setState({
-            isShowRemind:true,
-            remindContent:I18n.t('modal.open_touch_id'),
-        })
+        if(this.isNeedSetPin){
+            this.setState({
+                isShowRemind:true,
+                remindContent:I18n.t('modal.open_touch_id'),
+            })
+        }else{
+            super._supportFaceId()
+        }
+        
     }
 
     _notSupportTouchId(error){
-        this.savePinInfo(false)
+        if(this.isNeedSetPin){
+            this.savePinInfo(false)
+        }else{
+            super._notSupportTouchId()
+        }
+        
     }
 
     onConfirmUse(){
@@ -155,11 +203,19 @@ export default class FirstLaunchScreen extends BaseComponent {
     }
 
     _touchIdAuthenticateSuccess(){
-        this._toRute()
+        if(this.isNeedSetPin){
+            this._toRute()
+        }else{
+            super._touchIdAuthenticateSuccess()
+        }
+        
     }
 
-    _touchIdAuthenticateFail(error){
-
+    _touchIdAuthenticateFail(err){
+        if(this.isNeedSetPin){
+        }else{
+            super._touchIdAuthenticateFail()
+        }
     }
 
     _toRute(){
@@ -175,6 +231,7 @@ export default class FirstLaunchScreen extends BaseComponent {
             password: this.pinPassword,
             isUseTouchId: isUseTouchId
         }
+        this.props.setPinInfo(object);
         StorageManage.save(StorageKey.PinInfo, object)
     }
 
@@ -210,3 +267,12 @@ export default class FirstLaunchScreen extends BaseComponent {
         )
     }
 }
+
+
+const mapStateToProps = state => ({
+    pinInfo: state.Core.pinInfo,
+});
+const mapDispatchToProps = dispatch => ({
+    setPinInfo: (pinInfo) => dispatch(Actions.setPinInfo(pinInfo)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(FirstLaunchScreen)

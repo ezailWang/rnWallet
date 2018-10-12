@@ -118,9 +118,10 @@ function setFirstQR(){
     }
 }
 
-function setPinInfo(){
+function setPinInfo(value){
     return{
         type:types.SET_PIN_INFO,
+        pinInfo:value
     }
 }
 

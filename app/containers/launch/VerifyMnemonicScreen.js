@@ -211,6 +211,7 @@ class VerifyMnemonicScreen extends BaseComponent {
             //var loadRet = await StorageManage.load(StorageKey.User)
            
             this._hideLoading()
+            this._openAppVerifyIdentidy = false
             this.props.navigation.navigate('Home')
         } catch (err) {
             this._hideLoading()

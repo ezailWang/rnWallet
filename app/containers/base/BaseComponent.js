@@ -14,7 +14,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from '../../components/Loading';
 import { showToast } from '../../utils/Toast';
 import PinModal from '../../components/PinModal'
-
+import { store } from '../../config/store/ConfigureStore'
 import { I18n } from '../../config/language/i18n';
 import { BlurView } from 'react-native-blur';
 import layoutConstants from '../../config/LayoutConstants';
@@ -45,6 +45,15 @@ export default class BaseComponent extends PureComponent {
             showBlur: false,
         }
 
+
+        this.pinPassowrd = '';
+        this.isUseTouchId = false;
+
+
+        this._openAppVerifyIdentidy = true;
+        this.isShowPin = false;
+        this.backgroundTimer = 0;//在后台的时间
+
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);
         this._showLoding = this._showLoding.bind(this);
@@ -52,6 +61,8 @@ export default class BaseComponent extends PureComponent {
         this._setStatusBarStyleLight = this._setStatusBarStyleLight.bind(this);
         this._initData = this._initData.bind(this);
         this._barStyle = 'dark-content';
+
+        
     }
     //设置StatusBar的barStyle为light-content,默认为dark-content
     _setStatusBarStyleLight() {
@@ -131,11 +142,17 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
+            let isNeedVerify  = (Date.now()-this.backgroundTimer) >= 60000
+            this.backgroundTimer = 0;
+            if(isNeedVerify){
+                console.log('L_isNeedVerify','isNeedVerify')
+                this._verifyIdentidy()
+            }
             this.setState({
                 showBlur: false,
             })
-        }
-        else {
+        }else {
+            this.backgroundTimer = Date.now();
             this.setState({
                 showBlur: true,
             })
@@ -143,19 +160,22 @@ export default class BaseComponent extends PureComponent {
     }
 
     render() {
+        const { pinInfo } = store.getState().Core
         return (
             <ScrollView contentContainerStyle={styles.container}
                 keyboardShouldPersistTaps='handled'
                 scrollEnabled={false}>
                 <StatusBarComponent barStyle={this._barStyle} />
+                {this.state.isShowPin == undefined ? null :
+                     <PinModal visible = {this.state.isShowPin}
+                               password = {pinInfo == null ? '' : pinInfo.password}/>}
                 {this.renderComponent()}
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
                     blurType='light'
                     blurAmount={10}
                 />}
-                {/*<PinModal visible = {this.state.isShowPin}/>*/}
-                {/*<PinModal visible = {this.state.isShowPin}/>*/}
+                
                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
             </ScrollView>
         )
@@ -163,12 +183,18 @@ export default class BaseComponent extends PureComponent {
 
     //接收到货币单位改变的监听所需要的操作
     _monetaryUnitChange = (data) => {
-
+        
     }
 
     //接收到Pin显示隐藏的监听所需要的操作
     _pinIsShowEmitter = (data) => {
-
+        let pinType = data.pinObject.pinType
+        let isVisible =  data.pinObject.visible
+        if(pinType == 'PinModal'){
+            this.setState({
+                isShowPin:isVisible,
+            })
+        }
     }
     
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
@@ -177,12 +203,12 @@ export default class BaseComponent extends PureComponent {
                .then(
                    success=>{
                        //身份验证成功
-                       console.log('L_Authenticate','身份验证成功')
+                       //console.log('L_Authenticate','身份验证成功')
                        this._touchIdAuthenticateSuccess()
-                }).catch(error =>{
+                }).catch((err) =>{
                        //身份验证失败
-                       console.log('L_Authenticate',error)
-                       this._touchIdAuthenticateFail(error)
+                       console.log('L_Authenticate',err)
+                       this._touchIdAuthenticateFail(err)
                 })
     }
 
@@ -193,37 +219,41 @@ export default class BaseComponent extends PureComponent {
                .then(type => {
                    if(type == 'FaceID'){
                        //FaceID is supported
-                       console.log('L_isSupported','FaceID')
+                       //console.log('L_isSupported','FaceID')
                        this._supportTouchId()
                    }else{
                        //TouchID is supported
-                       console.log('L_isSupported','TouchID')
+                       //console.log('L_isSupported','TouchID')
                        this._supportFaceId()
                    }
                }).catch(error => {
-                       console.log('L_isSupported',error)
+                       //console.log('L_isSupported',error)
                        this._notSupportTouchId(error)
                })
     }
 
     _supportTouchId(){
-
+        this._touchIdAuthenticate()
     }
 
     _supportFaceId(){
-
+        this._touchIdAuthenticate()
     }
 
-    _notSupportTouchId(error){
-
+    _notSupportTouchId(err){
+        this.isShowPin = true
     }
 
     _touchIdAuthenticateSuccess(){
-
     }
 
-    _touchIdAuthenticateFail(error){
-
+    _touchIdAuthenticateFail(err){
+        //用户点击了取消按钮
+        //[TouchIDError: User canceled authentication]
+        this.isShowPin = true;
+            this.setState({
+                isShowPin:true
+        })  
     }
         
 
@@ -263,6 +293,26 @@ export default class BaseComponent extends PureComponent {
             this.props.navigation.goBack();
             return true;
         }
+    }
+
+
+    _verifyIdentidy(){
+        const { pinInfo } = store.getState().Core
+        //console.log('L_pinInfo',pinInfo)
+        /*pinInfo.password
+        isUseTouchId:*/
+        if(pinInfo != null && pinInfo != undefined){
+            if(pinInfo.isUseTouchId){
+                this.isShowPin = false;
+                this._touchIdIsSupported()
+            }else{
+                this.isShowPin = true;
+                this._showPin()
+            }     
+        }else{
+            this._showPin()
+        }
+
     }
 }
 

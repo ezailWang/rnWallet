@@ -1,17 +1,19 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../config/LayoutConstants'
-import {Colors,FontSize} from '../config/GlobalConfig'
+import {Colors,FontSize,StorageKey} from '../config/GlobalConfig'
+import { showToast } from '../utils/Toast';
 import { I18n } from '../config/language/i18n';
 import StatusBarComponent from './StatusBarComponent';
-import PinCircle from './PinCircle'
-import PinPoint from './PinPoint'
+import PinComponent from './PinComponent'
 import {
     View,
     StyleSheet,
     Text,
     Modal,
     Animated,
+    DeviceEventEmitter,
+    
 }from 'react-native'
 
 
@@ -32,43 +34,46 @@ export default class PinModal extends PureComponent{
             delDisabled: true,
         }
 
-        this.translateXValue = new Animated.Value(0);
-        this.pwd = '123456'
         this.inputPassword = ''
+        this.isAnimation = false
     }
     static propTypes = {
         visible:PropTypes.bool.isRequired,
+        password:PropTypes.string.isRequired,
     };
     static defaultProps = {
     }
+
+
     
     onCirclePressed = (text) => {
         this.inputPassword = this.inputPassword + text;
         let inputlength = this.inputPassword.length;
-        let p = this.pwd.substring(0,inputlength);
-        if(this.inputPassword == p){
-            if(inputlength == 6){
-                let password =  this.inputPassword;
-                this.inputPassword = ''
-                this.setState({
+        //let p = this.props.password.substring(0,inputlength);
+        if(inputlength == 6){
+            let password =  this.inputPassword;
+            this.inputPassword = ''
+            this.isAnimation = password != this.props.password
+            this.setState({
                     pointsCkeckedCount : 0,
                     delDisabled: true,
-                })
-            }else{
-                this.setState({
-                    pointsCkeckedCount : inputlength,
-                    delDisabled: false,
-                })
-            }
+            }) 
+            setTimeout(()=>{
+                if(password == this.props.password){
+                    this.hidePinConfirm()
+                }else{
+                }
+            }, 150);
+            
+            
+
         }else{
-            this.inputPassword = ''
+            this.isAnimation = false
             this.setState({
-                pointsCkeckedCount : 0,
-                delDisabled: true,
+                pointsCkeckedCount : inputlength,
+                delDisabled: inputlength==0 ? true : false,
             })
-            this.startAnimation()
         }
-        
     }
 
     deletePressed = () => {
@@ -88,22 +93,18 @@ export default class PinModal extends PureComponent{
         }
     }
 
-    startAnimation(){
-        Animated.sequence([
-            Animated.timing(this.translateXValue,{
-                duration:50,
-                toValue:-20
-            }),
-            Animated.timing(this.translateXValue,{
-                duration:50,
-                toValue:40
-            }),
-            Animated.timing(this.translateXValue,{
-                duration:50,
-                toValue:0
-            }),
-        ]).start();  
+    
+
+    hidePinConfirm(){
+        let object = {
+            pinType: 'PinModal',
+            visible:false,
+        }
+        DeviceEventEmitter.emit('pinIsShow', {pinObject: object});   
     }
+
+
+    
 
     render(){
         return(
@@ -120,11 +121,11 @@ export default class PinModal extends PureComponent{
             >
                 <View style={styles.modeBox}>
                       <StatusBarComponent barStyle={'dark-content'} /> 
-                      <PinComponent title={I18n.t('launch.repeat_new_password')}
+                      <PinComponent title={I18n.t('launch.enter_password')}
                            pointsCkeckedCount={this.state.pointsCkeckedCount}
                            circlePressed={this.onCirclePressed}
                            deletePressed={this.deletePressed}
-                           isAnimation = {false}
+                           isAnimation = {this.isAnimation}
                            isShowDeleteBtn = {true}
                            delDisabled = {this.state.delDisabled}>
 

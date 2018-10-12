@@ -156,8 +156,10 @@ class HomeScreen extends BaseComponent {
 
     async _initData() {
         SplashScreen.hide()
+        if(this._openAppVerifyIdentidy == true){
+            this._verifyIdentidy();
+        }
         this._showLoding()
-
         this.setState({
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
         })

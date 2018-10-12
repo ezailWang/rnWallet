@@ -11,9 +11,7 @@ import {
     StyleSheet,
     Text,
     Modal,
-    Animated,
-    DeviceEventEmitter,
-    
+    DeviceEventEmitter, 
 }from 'react-native'
 
 
@@ -32,15 +30,15 @@ export default class PinModalConfirm extends PureComponent{
         this.state = {
             pointsCkeckedCount : 0, 
             delDisabled: true,
+            isShowWarn:true,
         }
 
-        this.translateXValue = new Animated.Value(0);
         this.inputPassword = ''
         this.isAnimation = false
     }
     static propTypes = {
         visible:PropTypes.bool.isRequired,
-        password:PropTypes.string.isRequired,
+        password:PropTypes.string,
     };
     static defaultProps = {
     }
@@ -59,14 +57,16 @@ export default class PinModalConfirm extends PureComponent{
                     pointsCkeckedCount : 0,
                     delDisabled: true,
             }) 
-            setTimeout(()=>{
-                if(password == this.props.password){
-                    this.hidePinConfirm(password,true)
-                }else{
-                    showToast(I18n.t('toast.pwd_inconsistent_reset'))
+
+            if(password == this.props.password){
+                this.hidePinConfirm(password,true)
+            }else{
+                showToast(I18n.t('toast.pwd_inconsistent_reset'))
+                setTimeout(()=>{
                     this.hidePinConfirm('',false) 
-                }
-            }, 200);
+                }, 150);   
+            }
+            
             
             
 
@@ -162,7 +162,6 @@ export default class PinModalConfirm extends PureComponent{
                            delDisabled = {this.state.delDisabled}>
 
                       </PinComponent>
-                      
                 </View>     
             </Modal> 
         )
