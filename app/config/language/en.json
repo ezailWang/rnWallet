@@ -210,7 +210,7 @@
 
         "pwd_inconsistent_reset":"The passwords are inconsistent, please reset",
         "submitted_successfully":"Submitted successfully",
-        "submission_ailed":"Submission failed"
+        "submission_failed":"Submission failed"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",

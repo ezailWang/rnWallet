@@ -20,6 +20,8 @@ import { CommonTextInput } from '../../components/TextInputComponent'
 import BaseComponent from '../base/BaseComponent';
 import ImagePicker from 'react-native-image-picker';
 import ImageButton from '../../components/ImageButton'
+import DeviceInfo from 'react-native-device-info'
+import networkManage from '../../utils/networkManage';
 
 const styles = StyleSheet.create({
     container: {
@@ -157,14 +159,32 @@ export default class FeedbackScreen extends BaseComponent {
         this.btnIsEnableClick()
     };
 
-    async submit() {
+    submit() {
         Keyboard.dismiss();
-        /*if(!validateEmail(this.email)){
-            showToast(I18n.t('toast.email_format_incorrect'));
-            return;
-        }*/
+        let params = {
+            'userId': '1',
+            'name': this.name,
+            'mailAddress': this.email,
+            'system': Platform.OS,
+            'systemVersion': DeviceInfo.getSystemVersion(),
+            'deviceModel': DeviceInfo.getModel(),
+            'content': this.description
+        }
+        this._showLoding()
+        networkManage.uploadFeedback(params, this.state.photoArray)
+            .then(res => {
+                this._hideLoading()
+                if (res.code === 200) {
+                    showToast(I18n.t('toast.submitted_successfully'))
+                    this.props.navigation.goBack()
+                } else {
+                    showToast(res.msg)
+                }
+            }).catch(err => {
+                showToast(I18n.t('toast.submitted_failed'))
+                this._hideLoading()
+            })
     }
-
 
     renderComponent() {
         let photoSelectComponents = []
@@ -172,7 +192,7 @@ export default class FeedbackScreen extends BaseComponent {
             photoSelectComponents.push(
                 <View
                     key={index}
-                    style={{ width: 56, height: 56, marginRight: 10 }}
+                    style={{ width: 56, height: 56, marginRight: 10, marginTop: 5 }}
                 >
                     <Image
                         style={{ width: 56, height: 56 }}
@@ -184,7 +204,7 @@ export default class FeedbackScreen extends BaseComponent {
                         onClick={() => {
                             this.setState(previousState => {
                                 let newArray = previousState.photoArray.concat()
-                                newArray.pop()
+                                newArray.splice(index,1)
                                 return { photoArray: newArray }
                             })
                         }}
@@ -225,34 +245,40 @@ export default class FeedbackScreen extends BaseComponent {
                             multiline={true} />
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             {photoSelectComponents}
-                            <ImageButton
-                                btnStyle={{ width: 56, height: 56 }}
-                                imageStyle={{ width: 56, height: 56 }}
-                                backgroundImageSource={require('../../assets/home/kuang.png')}
-                                onClick={() => {
-                                    ImagePicker.launchImageLibrary(null, (response) => {
-                                        if (response.didCancel) {
-                                            console.log('User cancelled image picker');
-                                        } else if (response.error) {
-                                            console.log('ImagePicker Error: ', response.error);
-                                        } else if (response.customButton) {
-                                            console.log('User tapped custom button: ', response.customButton);
-                                        } else {
-                                            const source = { uri: response.uri };
-                                            this.setState(previousState => {
-                                                let newArray = previousState.photoArray.concat()
-                                                newArray.push(source)
-                                                return { photoArray: newArray }
+                            {
+                                this.state.photoArray.length < 9 ?
+                                    <ImageButton
+                                        btnStyle={{ width: 56, height: 56 ,marginTop:5}}
+                                        imageStyle={{ width: 56, height: 56 }}
+                                        backgroundImageSource={require('../../assets/home/kuang.png')}
+                                        onClick={() => {
+                                            ImagePicker.launchImageLibrary(null, (response) => {
+                                                if (response.didCancel) {
+                                                    console.log('User cancelled image picker');
+                                                } else if (response.error) {
+                                                    console.log('ImagePicker Error: ', response.error);
+                                                } else if (response.customButton) {
+                                                    console.log('User tapped custom button: ', response.customButton);
+                                                } else {
+                                                    const source = { uri: response.uri };
+                                                    this.setState(previousState => {
+                                                        let newArray = previousState.photoArray.concat()
+                                                        newArray.push(source)
+                                                        return { photoArray: newArray }
+                                                    })
+                                                }
                                             })
-                                        }
-                                    })
-                                }}
-                            />
+                                        }}
+                                    />
+                                    : null}
                         </View>
                         <BlueButtonBig
                             buttonStyle={styles.button}
                             isDisabled={this.state.isDisabled}
-                            onPress={() => this.submit()}
+                            onPress={() => {
+                                console.log('submit11')
+                                this.submit()
+                            }}
                             text={I18n.t('settings.submit')}
                         />
                     </View>

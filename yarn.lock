@@ -5664,6 +5664,10 @@ react-native-linear-gradient@^2.4.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-md5@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/react-native-md5/download/react-native-md5-1.0.0.tgz#2320be24d674938ae5ef4f492698edbbfa0e0205"
+
 react-native-modal-dropdown@^0.6.2:
   version "0.6.2"
   resolved "http://registry.npm.taobao.org/react-native-modal-dropdown/download/react-native-modal-dropdown-0.6.2.tgz#da6027b3546d2031fbce46242bffc95561e13599"

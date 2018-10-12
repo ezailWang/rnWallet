@@ -11,7 +11,8 @@ import lodash from 'lodash'
 import { TransferGasLimit } from '../config/GlobalConfig'
 import { I18n } from '../config/language/i18n'
 import { DeviceEventEmitter } from 'react-native'
-
+import FetchUtils from './FetchUtils'
+import NetAddr from './NetAddr'
 
 const Ether = new BigNumber(10e+17)
 var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
@@ -400,5 +401,23 @@ export default class networkManage {
             return 0
         }
     }
+
+    /**
+     * feedback 
+     */
+
+    static uploadFeedback(params,images){
+        return FetchUtils.requestPost(NetAddr.feedback,params,images.length > 0 ? images : null)
+    }
+    
+    /**
+     * register
+     */
+
+    static deviceRegister(params){
+        return FetchUtils.requestPost(NetAddr.registerDevice,params)
+    } 
+
+
 }
 
