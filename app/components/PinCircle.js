@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         height:66,
         borderRadius: 33,
         borderWidth:1,
-        borderColor:'blue',
+        borderColor:Colors.fontBlueColor,
         backgroundColor:'transparent',
         alignItems:'center',
         justifyContent:'center'
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class PingCircle extends PureComponent{
+export default class PinCircle extends PureComponent{
     static propTypes = {
         text1:PropTypes.number.isRequired,
         text2:PropTypes.string.isRequired,

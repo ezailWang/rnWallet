@@ -328,13 +328,12 @@ export default class TransactionRecoder extends BaseComponent{
         // console.warn(lastTransaction)
 
         let newTr = recoders[recoders.length - 1]
-
+        let currentBlock = await networkManage.getCurrentBlockNumber()
+        
         if(lastTransaction && newTr.hash != lastTransaction.hash){
+            lastTransaction.blockNumber = currentBlock
             recoders.push(lastTransaction)
         }
-
-
-        let currentBlock = await networkManage.getCurrentBlockNumber()
 
         var itemList = []
         recoders.map((item,i)=>{    

@@ -1,6 +1,7 @@
 import Transaction from './transaction/Transaction'
 import HomeScreen from './home/Home'
 import FirstLaunchScreen from './launch/FirstLaunchScreen';
+import ServiceAgreementScreen from './launch/ServiceAgreementScreen';
 import BackupMnemonicScreen from './launch/BackupMnemonicScreen';
 import BackupWalletScreen from './launch/BackupWalletScreen';
 import CreateWalletScreen from './launch/CreateWalletScreen';
@@ -29,6 +30,7 @@ export {
     HomeScreen,
     Transaction,
     FirstLaunchScreen,
+    ServiceAgreementScreen,
     BackupMnemonicScreen,
     BackupWalletScreen,
     CreateWalletScreen,

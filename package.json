@@ -42,6 +42,7 @@
     "react-native-smart-barcode": "^1.0.6",
     "react-native-splash-screen": "^3.1.1",
     "react-native-storage": "^0.2.2",
+    "react-native-touch-id": "^4.1.0",
     "react-native-uuid": "^1.4.9",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.14.2",

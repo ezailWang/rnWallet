@@ -16,18 +16,18 @@ const styles = StyleSheet.create({
         height:8,
         borderRadius: 4,
         borderWidth:1,
-        borderColor:'blue',
+        borderColor:Colors.fontBlueColor,
         
     },
     pointBoxUnchecked:{
         backgroundColor:'transparent',
     },
     pointBoxChecked:{
-        backgroundColor: Colors.bgGrayColor_e5,
+        backgroundColor: Colors.fontBlueColor,
     }
 })
 
-export default class PingPoint extends PureComponent{
+export default class PinPoint extends PureComponent{
     constructor(props){
         super(props);
     }

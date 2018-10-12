@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions, Text, PermissionsAndroid, Platform, Alert,ImageBackground } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient'
+import { View, StyleSheet, Image, Dimensions, DeviceEventEmitter, PermissionsAndroid, Platform, Alert,ImageBackground } from 'react-native';
 import { WhiteButtonBig, WhiteBorderButton } from '../../components/Button'
-import { Colors } from '../../config/GlobalConfig'
+import { Colors ,StorageKey} from '../../config/GlobalConfig'
 import SplashScreen from 'react-native-splash-screen'
+import PinModalSet from '../../components/PinModalSet'
+import PinModalConfirm from '../../components/PinModalConfirm'
+import StorageManage from '../../utils/StorageManage'
+import RemindDialog from '../../components/RemindDialog'
 import Layout from '../../config/LayoutConstants'
 import { androidPermission } from '../../utils/permissionsAndroid';
 import networkManage from '../../utils/networkManage'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
-import PingModal from '../../components/PingModal'
 
-
-let ScreenWidth = Dimensions.get('window').width;
-let ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
@@ -41,7 +40,13 @@ export default class FirstLaunchScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
+            isShowSetPin:false,
+            isShowConfirmPin:false,
+            isShowRemind:false,
+            remindContent:'',
         }
+        this.routeTo = ''
+        this.pinPassword = '';
         this._setStatusBarStyleLight()
     }
 
@@ -68,64 +73,128 @@ export default class FirstLaunchScreen extends BaseComponent {
     }
 
     nextRoute(isCreateWallet) {
-        if (isCreateWallet) {
+        if(isCreateWallet){
+            this.routeTo = 'createWallet'
+        }else{
+            this.routeTo = 'importWallet'
+        }
+        let _this = this;
+        this.props.navigation.navigate('ServiceAgreement', {
+            callback: function (data) {
+                let isShowPin = data.isShowPin;
+                _this.setState({
+                    isShowSetPin:isShowPin
+                })
+            }
+        })
+    }
+
+    _pinIsShowEmitter = (data) => {
+        let pinType = data.pinObject.pinType
+        let isVisible =  data.pinObject.visible
+        this.pinPassword = data.pinObject.pinPassword
+        
+        if(pinType == 'PinModalSet' && !isVisible ){
+            this.setState({
+                isShowSetPin: false,
+                isShowConfirmPin: true
+            })
+        }
+
+        if(pinType == 'PinModalConfirm' && !isVisible){
+            let isMatchPassword =   data.pinObject.isMatchPassword
+            if(isMatchPassword){
+                this.setState({
+                    isShowSetPin: false,
+                    isShowConfirmPin: false
+                })
+                this._touchIdIsSupported()
+
+            }else{
+                //不匹配重新设置密码
+                this.pinPassword = ''
+                this.setState({
+                    isShowSetPin: true,
+                    isShowConfirmPin: false
+                })
+            }
+        }
+    }
+
+    _supportTouchId(){
+        this.setState({
+            isShowRemind:true,
+            remindContent:I18n.t('modal.open_face_id'),
+        })
+    }
+
+    _supportFaceId(){
+        this.setState({
+            isShowRemind:true,
+            remindContent:I18n.t('modal.open_touch_id'),
+        })
+    }
+
+    _notSupportTouchId(error){
+        this.savePinInfo(false)
+    }
+
+    onConfirmUse(){
+        this.setState({
+            isShowRemind:false
+        })
+        this.savePinInfo(true)
+        this._touchIdAuthenticate()
+    }
+    onCancelUse(){
+        this.setState({
+            isShowRemind:false,
+        })
+        this.savePinInfo(false)
+        this._toRute()
+    }
+
+    _touchIdAuthenticateSuccess(){
+        this._toRute()
+    }
+
+    _touchIdAuthenticateFail(error){
+
+    }
+
+    _toRute(){
+        if (this.routeTo == 'createWallet') {
             this.props.navigation.navigate('CreateWallet')
         } else {
             this.props.navigation.navigate('ImportWallet')
         }
     }
 
-    createNew = async () => {
-        let web3 = networkManage.getWeb3Instance();
-        let number = await web3.eth.getBlockNumber();
-        alert('current blockNumber' + number);
-
-        let account = await web3.eth.accounts.create();
-        alert('account info' + JSON.stringify(account, 3));
-
-        let keystore = await web3.eth.accounts.encrypt(account.privateKey, 'password');
-        alert('keystore info' + JSON.stringify(keystore, 3))
+    savePinInfo(isUseTouchId){
+        let object = {
+            password: this.pinPassword,
+            isUseTouchId: isUseTouchId
+        }
+        StorageManage.save(StorageKey.PinInfo, object)
     }
 
-    importKeyStore = async () => {
-
-        let web3 = networkManage.getWeb3Instance();
-        let account = await web3.eth.accounts.decrypt({ "version": 3, "id": "a28d87a2-5527-4395-a30c-af7a3fe24ade", "address": "ffd74e5e87dbb1c3632c457547db7236a3b99af4", "crypto": { "ciphertext": "f976e49400a50020fd24f6aed37cf9ed3617b0a0028da55adcfcd0507b9ce8de", "cipherparams": { "iv": "daed75bedc31de69b944123ebbec67fe" }, "cipher": "aes-128-ctr", "kdf": "scrypt", "kdfparams": { "dklen": 32, "salt": "ea2f455cc3bd0f69ed117ada26a4f830fe6fb43d39262fa1048778cc35a341c9", "n": 8192, "r": 8, "p": 1 }, "mac": "d288cc0c1f5ae40ac6bad4335c9d25f37fed71e2f9ab431be8885a663a5f332d" } }, 'password');
-        alert('decyypt account' + JSON.stringify(account, 3));
-    }
-
-    testFunc = async () => {
-
-        //生成助记词
-        // let mnemonic = bip39.generateMnemonic()
-        // alert(mnemonic)
-
-        // let seed = bip39.mnemonicToSeed(mnemonic)
-        // let hdWallet = hdkey.fromMasterSeed(seed)
-
-        // let key1 = hdWallet.derivePath("m/44'/60'/0'/0/0")
-        // alert("私钥："+util.bufferToHex(key1._hdkey._privateKey))
-
-        // let address1 = util.pubToAddress(key1._hdkey._publicKey, true)
-        // alert("地址："+util.bufferToHex(address1))
-
-        // address1 = util.toChecksumAddress(address1.toString('hex'))
-        // alert("Encoding Address 地址："+ address1)
-    }
-
-    /*
-    <PingModal
-                    visible = {true}    
-                />
-    */
     renderComponent() {
         return (
             //<LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
             //    style={styles.contentContainer}>
             <ImageBackground style={styles.contentContainer}
                              source={require('../../assets/launch/splash_bg.png')}>
-
-                             
+                <PinModalSet 
+                        ref="pinModalSet"
+                        visible={this.state.isShowSetPin}/>    
+                <PinModalConfirm 
+                        ref="pinModalConfirm"
+                        visible={this.state.isShowConfirmPin}
+                        password={this.pinPassword}/> 
+                <RemindDialog   content={this.state.remindContent}    
+                                modalVisible={this.state.isShowRemind}
+                                leftPress={() => this.onCancelUse()}
+                                rightPress = {()=> this.onConfirmUse()}/>                  
                 <Image style={styles.logoImg} source={require('../../assets/launch/splash_logo.png')} resizeMode={'center'} />
                 <View style={styles.btnBox}>
                         <WhiteButtonBig
@@ -135,7 +204,7 @@ export default class FirstLaunchScreen extends BaseComponent {
                         <WhiteBorderButton
                              onPress={() => this.vertifyAndroidPermissions(false)}
                              text={I18n.t('launch.import_wallet')} />
-                        </View>
+                </View>
             </ImageBackground>   
             //</LinearGradient>
         )

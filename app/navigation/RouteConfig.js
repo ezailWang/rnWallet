@@ -50,6 +50,7 @@ import {
     Wallet,
     Transaction,
     FirstLaunchScreen,
+    ServiceAgreementScreen,
     BackupMnemonicScreen,
     BackupWalletScreen,
     CreateWalletScreen,
@@ -93,6 +94,9 @@ const FirstLaunchRouteConfig =
                 // gesturesEnabled: false
             }
         })
+    },
+    ServiceAgreement:{
+        screen:ServiceAgreementScreen
     },
     BackupMnemonic: {
         screen: BackupMnemonicScreen,

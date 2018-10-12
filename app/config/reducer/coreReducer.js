@@ -14,7 +14,8 @@ import {
     REMOVE_TOKEN,
     SET_MONETARY_UNIT,
     SET_NEW_TRANSACTION,
-    SET_FIRST_QR
+    SET_FIRST_QR,
+    SET_PIN_INFO,
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -36,6 +37,7 @@ const defaultState = {
     recoders: [],
     monetaryUnit:null,
     firstQR:true,
+    pinInfo:null,
 }
 
 function coreReducer(state = defaultState, action) {
@@ -137,6 +139,11 @@ function coreReducer(state = defaultState, action) {
                 firstQR:false
             }   
             break;
+        case SET_PIN_INFO:
+             return {
+                 ...state,
+                 pinInfo:action.pinInfo
+             }    
         default: return state;
     }
 }

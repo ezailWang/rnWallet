@@ -84,6 +84,7 @@ const StorageKey = {
     Language:'language',
     Contact:'contact',//保存联系人的key
     MonetaryUnit:'monetaryUnit',//货币单位
+    PinInfo:'pin',//存储pin密码
 }
 
 const Network = {

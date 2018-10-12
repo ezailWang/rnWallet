@@ -118,6 +118,12 @@ function setFirstQR(){
     }
 }
 
+function setPinInfo(){
+    return{
+        type:types.SET_PIN_INFO,
+    }
+}
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -133,5 +139,6 @@ export {
     removeToken,
     setMonetaryUnit,
     setNewTransaction,
-    setFirstQR
+    setFirstQR,
+    setPinInfo
 }

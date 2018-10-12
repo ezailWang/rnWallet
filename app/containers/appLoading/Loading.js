@@ -6,7 +6,8 @@ import {
     setWalletAddress,
     setWalletName,
     setNetWork,
-    setMonetaryUnit
+    setMonetaryUnit,
+    setPinInfo
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n, getLanguages } from '../../config/language/i18n'
@@ -43,15 +44,14 @@ class Loading extends Component {
         var net = await StorageManage.load(StorageKey.Network)
         var language = await StorageManage.load(StorageKey.Language)
         var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
+        let pinInfo = await StorageManage.load(StorageKey.PinInfo)
         if (net) {
             this.props.dispatch(setNetWork(net))
         }
         if (language) {
             I18n.locale = language.lang
-            console.log('L_lang1',I18n.locale)
         }else{
             //let localeLanguage = DeviceInfo.getDeviceLocale();
-            console.log('L_lang2',I18n.locale)
             let localeLanguage = I18n.locale;
             let lang = localeLanguage.substring(0,2).toLowerCase()
             if(lang == 'zh'){
@@ -65,7 +65,6 @@ class Loading extends Component {
             }else{
                 I18n.locale = 'en';
             }
-
         }
         
         if (monetaryUnit) {
@@ -73,6 +72,13 @@ class Loading extends Component {
         } else {
             this.byLanguageSetMonetaryUnit()
         }
+
+        if(pinInfo){
+            this.props.dispatch(setPinInfo(pinInfo))
+        }
+
+
+
         if (data) {
             if (data['address']) {
                 this.props.dispatch(setWalletAddress(data['address']))
@@ -88,7 +94,6 @@ class Loading extends Component {
     byLanguageSetMonetaryUnit() {
         let lang = I18n.locale
         let monetaryUnit = null;
-        console.log('L_lang',lang)
         if (lang == 'zh') {
             monetaryUnit = {
                 monetaryUnitType: 'CNY',

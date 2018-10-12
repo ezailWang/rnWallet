@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-touch-id')
     compile project(':react-native-image-picker')
     implementation project(':react-native-device-info')
     implementation project(':react-native-blur')

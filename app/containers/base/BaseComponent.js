@@ -6,18 +6,32 @@ import {
     AppState,
     Platform,
     DeviceEventEmitter,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 //import Loading from '../../components/LoadingComponent';
 import Loading from '../../components/Loading';
 import { showToast } from '../../utils/Toast';
+import PinModal from '../../components/PinModal'
+
 import { I18n } from '../../config/language/i18n';
 import { BlurView } from 'react-native-blur';
 import layoutConstants from '../../config/LayoutConstants';
 import Toast from 'react-native-root-toast';
 import RootSiblings from 'react-native-root-siblings';
+import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
 let lastBackPressed = 0;
+
+
+const touchIdOptionalConfig = {
+    title:'Authentication Required',//android 确认对话框的标题
+    color: "#e00606", // Android 确认对话框的颜色
+    sensorDescription: "Touch sensor", // Android 指纹图像旁边显示的文字
+    cancelText: "Cancel", // Android 取消按钮文字
+    fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)   默认情况下指定“显示密码”标签。 如果设置为空，则字符串标签不可见。
+    unifiedErrors: true // use unified error messages (default false) 返回统一错误消息（默认= false）
+}
 
 //所有继承该组件的组件，重写该组件方法请先运行super.funcName()
 export default class BaseComponent extends PureComponent {
@@ -27,6 +41,7 @@ export default class BaseComponent extends PureComponent {
         this.renderComponent = this.renderComponent.bind(this);
         this.state = {
             isShowLoading: false,
+            isShowPin:false,
             showBlur: false,
         }
 
@@ -67,6 +82,7 @@ export default class BaseComponent extends PureComponent {
     _addEventListener() {
         this.netRequestErrHandler = DeviceEventEmitter.addListener('netRequestErr', this._netRequestErr);//网络异常情况监听
         this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
+        this.pinIsShowHandler = DeviceEventEmitter.addListener('pinIsShow', this._pinIsShowEmitter);//监听pin是否显示
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
         AppState.addEventListener('change', this._handleAppStateChange);
     }
@@ -75,6 +91,7 @@ export default class BaseComponent extends PureComponent {
     _removeEventListener() {
         this.monetaryUnitChangeHandler && this.monetaryUnitChangeHandler.remove();
         this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
+        this.pinIsShowHandler && this.pinIsShowHandler.remove();
         AppState.removeEventListener('change', this._handleAppStateChange);
     }
 
@@ -89,6 +106,20 @@ export default class BaseComponent extends PureComponent {
     _hideLoading() {
         this.setState({
             isShowLoading: false,
+        })
+    }
+
+    //显示Loading
+    _showPin() {
+        this.setState({
+            isShowPin: true,
+        })
+    }
+
+    //隐藏Loading
+    _hidePin() {
+        this.setState({
+            isShowPin: false,
         })
     }
 
@@ -123,6 +154,8 @@ export default class BaseComponent extends PureComponent {
                     blurType='light'
                     blurAmount={10}
                 />}
+                {/*<PinModal visible = {this.state.isShowPin}/>*/}
+                {/*<PinModal visible = {this.state.isShowPin}/>*/}
                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
             </ScrollView>
         )
@@ -132,6 +165,67 @@ export default class BaseComponent extends PureComponent {
     _monetaryUnitChange = (data) => {
 
     }
+
+    //接收到Pin显示隐藏的监听所需要的操作
+    _pinIsShowEmitter = (data) => {
+
+    }
+    
+    //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
+    _touchIdAuthenticate = () => {
+        TouchID.authenticate('身份验证',touchIdOptionalConfig)
+               .then(
+                   success=>{
+                       //身份验证成功
+                       console.log('L_Authenticate','身份验证成功')
+                       this._touchIdAuthenticateSuccess()
+                }).catch(error =>{
+                       //身份验证失败
+                       console.log('L_Authenticate',error)
+                       this._touchIdAuthenticateFail(error)
+                })
+    }
+
+    //是否支持Face ID / Touch ID
+    _touchIdIsSupported = () => {
+        //如果不支持TouchID，则返回拒绝的Promise。 在iOS上解析为具有FaceID或TouchID的biometryType字符串。
+        TouchID.isSupported(touchIdOptionalConfig)
+               .then(type => {
+                   if(type == 'FaceID'){
+                       //FaceID is supported
+                       console.log('L_isSupported','FaceID')
+                       this._supportTouchId()
+                   }else{
+                       //TouchID is supported
+                       console.log('L_isSupported','TouchID')
+                       this._supportFaceId()
+                   }
+               }).catch(error => {
+                       console.log('L_isSupported',error)
+                       this._notSupportTouchId(error)
+               })
+    }
+
+    _supportTouchId(){
+
+    }
+
+    _supportFaceId(){
+
+    }
+
+    _notSupportTouchId(error){
+
+    }
+
+    _touchIdAuthenticateSuccess(){
+
+    }
+
+    _touchIdAuthenticateFail(error){
+
+    }
+        
 
     //网络请假错误回调
     _netRequestErr = (err) => {
