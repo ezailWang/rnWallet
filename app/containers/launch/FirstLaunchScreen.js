@@ -178,12 +178,12 @@ class FirstLaunchScreen extends BaseComponent {
         
     }
 
-    _notSupportTouchId(error){
+    _notSupportTouchId(err){
         if(this.isNeedSetPin){
             this.savePinInfo(false)
             this._toRute()
         }else{
-            super._notSupportTouchId()
+            super._notSupportTouchId(err)
         }
         
     }
@@ -214,8 +214,9 @@ class FirstLaunchScreen extends BaseComponent {
 
     _touchIdAuthenticateFail(err){
         if(this.isNeedSetPin){
+            this._touchIdAuthenticate()
         }else{
-            super._touchIdAuthenticateFail()
+            super._touchIdAuthenticateFail(err)
         }
     }
 

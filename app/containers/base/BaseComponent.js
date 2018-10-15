@@ -47,7 +47,6 @@ export default class BaseComponent extends PureComponent {
 
 
         this._openAppVerifyIdentidy = true;
-        this.isShowPin = false;
         this.backgroundTimer = 0;//在后台的时间
 
         this._addEventListener = this._addEventListener.bind(this);
@@ -205,7 +204,8 @@ export default class BaseComponent extends PureComponent {
                 }).catch((err) =>{
                        //身份验证失败
                        console.log('L_Authenticate',err)
-                       this._touchIdAuthenticateFail(err)
+                       let error = err
+                       this._touchIdAuthenticateFail(error)
                 })
     }
 
@@ -224,8 +224,9 @@ export default class BaseComponent extends PureComponent {
                        this._supportFaceId()
                    }
                    
-               }).catch(error => {
-                       console.log('L_error',error)
+               }).catch(err => {
+                       console.log('L_error',err)
+                       let error = err
                        this._notSupportTouchId(error)
                })
     }
@@ -243,19 +244,22 @@ export default class BaseComponent extends PureComponent {
 
     _notSupportTouchId(err){
         console.log('L_error1',err)
-        this.isShowPin = true
     }
 
     _touchIdAuthenticateSuccess(){
     }
 
     _touchIdAuthenticateFail(err){
-        //用户点击了取消按钮
-        //[TouchIDError: User canceled authentication]
-        this.isShowPin = true;
+        
+        if(err == 'TouchIDError: User canceled authentication'){
+            //用户点击了取消按钮
+            //[TouchIDError: User canceled authentication]
             this.setState({
                 isShowPin:true
-        })  
+            }) 
+        }else{
+            this._touchIdAuthenticate()
+        }
     }
         
 
@@ -305,10 +309,8 @@ export default class BaseComponent extends PureComponent {
         isUseTouchId:*/
         if(pinInfo != null && pinInfo != undefined){
             if(pinInfo.isUseTouchId){
-                this.isShowPin = false;
                 this._touchIdIsSupported()
             }else{
-                this.isShowPin = true;
                 this._showPin()
             }     
         }else{
