@@ -102,18 +102,14 @@ class SystemSetScreen extends BaseComponent {
     }
 
     _supportTouchId(){
-        console.log('L__notSupportTouchId','_supportTouchId')
         this._initState(true)
     }
 
     _supportFaceId(){
-        console.log('L__notSupportTouchId','_supportFaceId')
         this._initState(true)
     }
 
     _notSupportTouchId(err){
-        console.log('L__notSupportTouchId','_notSupportTouchId')
-        console.log('L__notSupportTouchId1',err)
         this._initState(false)
     }
 

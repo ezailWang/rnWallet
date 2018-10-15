@@ -56,7 +56,7 @@ class FirstLaunchScreen extends BaseComponent {
 
     _initData(){
         SplashScreen.hide()
-        console.log('L_initData','_initData')
+        
         if(this.props.pinInfo == null){
             this.isNeedSetPin = true
         }else{

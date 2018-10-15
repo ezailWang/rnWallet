@@ -140,7 +140,6 @@ export default class BaseComponent extends PureComponent {
             let isNeedVerify  = (Date.now()-this.backgroundTimer) >= 60000   
             this.backgroundTimer = 0;
             if(isNeedVerify){
-                console.log('L_isNeedVerify','isNeedVerify')
                 this._verifyIdentidy()
             }
             this.setState({
@@ -156,7 +155,6 @@ export default class BaseComponent extends PureComponent {
 
     render() {
         const { pinInfo } = store.getState().Core
-        console.log('Base_pinInfo',pinInfo)
         return (
             <ScrollView contentContainerStyle={styles.container}
                 keyboardShouldPersistTaps='handled'
@@ -199,11 +197,9 @@ export default class BaseComponent extends PureComponent {
                .then(
                    success=>{
                        //身份验证成功
-                       //console.log('L_Authenticate','身份验证成功')
                        this._touchIdAuthenticateSuccess()
                 }).catch((err) =>{
                        //身份验证失败
-                       console.log('L_Authenticate',err)
                        let error = err
                        this._touchIdAuthenticateFail(error)
                 })
@@ -216,16 +212,14 @@ export default class BaseComponent extends PureComponent {
                .then(type => {
                    if(type == 'FaceID'){
                        //FaceID is supported
-                       //console.log('L_isSupported','FaceID')
                        this._supportTouchId()
                    }else{
                        //TouchID is supported
-                       //console.log('L_isSupported','TouchID')
                        this._supportFaceId()
                    }
                    
                }).catch(err => {
-                       console.log('L_error',err)
+                       //console.log('L_error',err)
                        let error = err
                        this._notSupportTouchId(error)
                })
@@ -243,7 +237,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     _notSupportTouchId(err){
-        console.log('L_error1',err)
+        
     }
 
     _touchIdAuthenticateSuccess(){
@@ -304,7 +298,6 @@ export default class BaseComponent extends PureComponent {
 
     _verifyIdentidy(){
         const { pinInfo } = store.getState().Core
-        //console.log('L_pinInfo',pinInfo)
         /*pinInfo.password
         isUseTouchId:*/
         if(pinInfo != null && pinInfo != undefined){
