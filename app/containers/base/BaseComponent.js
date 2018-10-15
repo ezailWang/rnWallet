@@ -160,16 +160,17 @@ export default class BaseComponent extends PureComponent {
                 keyboardShouldPersistTaps='handled'
                 scrollEnabled={false}>
                 <StatusBarComponent barStyle={this._barStyle} />
-                {this.state.isShowPin == undefined ? null :
-                     <PinModal visible = {this.state.isShowPin}
-                               password = {pinInfo == null ? '' : pinInfo.password}/>}
+                
                 {this.renderComponent()}
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
                     blurType='light'
                     blurAmount={10}
                 />}
-                
+                {this.state.isShowPin == undefined ? null :
+                     <PinModal visible = {this.state.isShowPin}
+                               password = {pinInfo == null ? '' : pinInfo.password}
+                />}
                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
             </ScrollView>
         )

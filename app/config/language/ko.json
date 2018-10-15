@@ -91,7 +91,7 @@
         "balance":"잔액",
         "enter":"입력",
         "collection_address":"입금 주소",
-        "enter_transfer_address":"输入收款地址",
+        "enter_transfer_address":"입금 주소를 입력해주세요",
         "remarks":"메모",
         "enter_remarks":"메모를 입력하기",
         "next_step":"다음",
@@ -131,7 +131,7 @@
         "set":"지갑 도구",
         "enter_wallet_name_hint":"지갑 이름을 입력해주세요",
         "enter_passowrd_hint":"비밀번호 입력해주세요",
-        "modify_wallet_name":"修改钱包名称",
+        "modify_wallet_name":"월렛  이름을 수정하기",
         "export_keystore":"키스토어를 내보내기",
         "export_private_key":"개인 키를 내보내기",
 
@@ -148,7 +148,7 @@
         "collection_code":"수령 코드",
         "copy_payment_address":"수령 주소 복사하기",
 
-        "scan_qrcode":"扫描二维码",
+        "scan_qrcode":"QR 코드 스캔하기",
         "scan_qrcode_prompt":"QR코드를 박스 안에 넣으면 자동으로 스캔할 수 있습니다.",
 
         "about":"회사 소개",
@@ -178,7 +178,7 @@
         "system_settings":"시스템 설정",
         "language":"언어",
 
-        "terms_use_and_privacy_policy":"使用协议与隐私条款"
+        "terms_use_and_privacy_policy":"이용 약관 및 개인 정보 보호 정책"
         
     },
     "toast":{
@@ -206,12 +206,12 @@
         "email_format_incorrect":"올바른 이메일 주소를 입력하세요.",
 
         "net_request_err":"네트워크 이상이 발생하였습니다",
-        "net_request_token_unable_resolve":"잘못된 토큰",
-        "net_request_timeout":"요청 제한 시간",
+        "net_request_token_unable_resolve":"무효한 자산이 있습니다.",
+        "net_request_timeout":"요청 시간이 초과되었습니다.",
 
-        "pwd_inconsistent_reset":"密码不一致，请重新设置",
-        "submitted_successfully":"提交成功",
-        "submission_failed":"提交失败"
+        "pwd_inconsistent_reset":"비밀번호가 일치하지 않습니다. 다시 설정해주세요",
+        "submitted_successfully":"제출 완료",
+        "submission_failed":"제출 실패"
     },
     "modal":{
         "permission_storage":"저장 공간을 읽기 쓰기 권한을 부여해주세요.",
@@ -236,9 +236,9 @@
         "enter_valid_transfer_amount":"유효한 이체 금액을 입력해주세요",
         "insufficient_balance":"잔액이 부족합니다.",
 
-        "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
-        "ping_id_warn2":"请务必记牢您的登录密码。",
-        "open_face_id":"是否开启Face ID?",
-        "open_touch_id":"是否开启Touch ID?"
+        "ping_id_warn1":"로그인 비밀번호가  성공적으로 설정되면 수정하거나  찾을 수 없습니다.",
+        "ping_id_warn2":"로그인 비밀번호를 꼭 기억해주세요.",
+        "open_face_id":"Face ID를 사용하시겠습니까?",
+        "open_touch_id":"Touch ID를 사용하시겠습니까?"
     }
 }

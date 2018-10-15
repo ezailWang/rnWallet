@@ -180,13 +180,6 @@ export default class PinModalSet extends PureComponent{
             >
                 <View style={styles.modeBox}>
                       <StatusBarComponent barStyle={'dark-content'} /> 
-                      {/*<ScreenshotWarn
-                           content = {I18n.t('modal.ping_id_warn1')}
-                           content1 = {I18n.t('modal.ping_id_warn2')}
-                           btnText = {I18n.t('modal.i_know')}
-                           modalVisible = {this.state.isShowWarn}
-                           onPress = {()=> this.onCloseWarn()}
-                      />*/}
                       <PinComponent title={I18n.t('launch.set_login_password')}
                            pointsCkeckedCount={this.state.pointsCkeckedCount}
                            circlePressed={this.onCirclePressed}

@@ -377,6 +377,7 @@ class ImportWalletScreen extends BaseComponent {
             this.props.generateMnemonic(this.mnemonictxt);
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName(this.nametxt);//保存默认的钱包名称
+            this.props.setIsNewWallet(true);
             var object = {
                 name: this.nametxt,
                 address: checksumAddress,
@@ -521,6 +522,7 @@ const mapDispatchToProps = dispatch => ({
     generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
     setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
     setWalletName: (name) => dispatch(Actions.setWalletName(name)),
+    setIsNewWallet : (isNewWallet)=>dispatch(Actions.setIsNewWallet(isNewWallet)),
 
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)

@@ -32,12 +32,12 @@
         "confirm_mnemonic_prompt":"Bitte wählen sie die mnemonischen Phrasen in der richtige Reihenfolge.",
         "complete":"Erledigt",
 
-        "service_agreement":"服务协议",
-        "agree_service_agreement":"我已仔细阅读并同意以上服务及隐私条款",
-        "agree_and_set_login_password":"同意并设置登录密码",
-        "set_login_password":"请设置登录密码",
-        "repeat_new_password":"重复新密码",
-        "enter_password":"请输入密码",
+        "service_agreement":"Dienstleistungsvertrag",
+        "agree_service_agreement":"Ich habe die Service- und Datenschutzrichtlinie gelesen und bin damit einverstanden.",
+        "agree_and_set_login_password":"Login Passwort zustimmen und festlegen",
+        "set_login_password":"Login Passwort festlegen",
+        "repeat_new_password":"Neues Passwort wiederholen",
+        "enter_password":"Bitte geben Sie ihr Passwort ein",
 
         "password_warn":"Passwörter müssen mindestens 8 Zeichen lang sein und mindestens 3 von 4 der folgenden Zeichen enthalten: ein Groß- und ein Kleinbuchstabe, eine Ziffer und ein Symbol.",
         "password_warn_least_8":"Passwörter müssen mindestens 8 Zeichen lang sein.",
@@ -52,7 +52,7 @@
         "password_warn_9":"Passwörter sollten mindestens einen Großbuchstaben oder eine Ziffer enthalten.",
         "password_warn_10":"Passwörter sollten mindestens einen Großbuchstaben oder einen Kleinbuchstaben enthalten.",
 
-        "enter_same_password":"请输入一致的密码",
+        "enter_same_password":"Bitte geben Sie ein konsistentes Passwort ein",
         "enter_normative_wallet_name":"Bitte geben Sie einen Walletnamen ein (1-12 Zeichen)"
     },
     "home":{
@@ -66,7 +66,7 @@
         "contract_address":"Vertragsadresse",
         "token_symbol":"Währungssymbol",
         "token_decimals":"Dezimalgenauigkeit",
-        "delete":"删除",
+        "delete":"Löschen",
         "address_check":"42 Zeichen lang, beginnend mit 0x",
         "symbol_check":"1 bis 9 Zeichen. Beispielsweise ETH oder ITC",
         "decimals_check":"Die Dezimalgenauigkeit von erc20 Token ist 0 ~ 36, meist 18 Ziffern.",
@@ -82,14 +82,14 @@
     },
     "transaction":{
         "miner_fee":"Transaktionsgebühr",
-        "fast":"快",
+        "fast":" Schnell",
         "slow":"Langsam",
         "transfer":"Transfer",
         "amount":"Menge",
         "balance":"Guthaben",
         "enter":"Menge",
         "collection_address":"Empfangsadresse",
-        "enter_transfer_address":"输入收款地址",
+        "enter_transfer_address":"Empfangsadresse eingeben",
         "remarks":"Notiz",
         "enter_remarks":"Notiz eingeben",
         "next_step":"Weiter",
@@ -126,10 +126,10 @@
         "alert_5":"Bitte Öffnen Sie zuerst den Kamerazugriff."
     },
     "settings":{
-        "set":"钱包工具",
+        "set":"Walletwerkzeuge",
         "enter_wallet_name_hint":"Walletname",
         "enter_passowrd_hint":"Walletpasswort eingeben",
-        "modify_wallet_name":"修改钱包名称",
+        "modify_wallet_name":"Walletname ändern",
         "export_keystore":"Keystore exportieren",
         "export_private_key":"Privater Schlüssel exportieren",
 
@@ -146,7 +146,7 @@
         "collection_code":"Zahlungscode",
         "copy_payment_address":"Empfängeradresse kopieren",
 
-        "scan_qrcode":"扫描二维码",
+        "scan_qrcode":"QR code scannen",
         "scan_qrcode_prompt":"Der QR code wird automatisch gescannt wenn Sie ihn innerhalb des Rahmens führen.",
 
         "about":"Über",
@@ -176,7 +176,7 @@
         "system_settings":"Einstellungen",
         "language":"Sprache",
 
-        "terms_use_and_privacy_policy":"使用协议与隐私条款"
+        "terms_use_and_privacy_policy":"Nutzungs- und Datenschutzbestimmungen"
     },
     "toast":{
         "exit_app":"Klicken Sie nochmals um die App zu schließen.",
@@ -185,9 +185,9 @@
         "enter_repassword":"Bitte geben Sie Passwort nochmals ein.",
         "enter_same_password":"Bitte bestätigen Sie Ihr Passwort.",
 
-        "enter_wallet_name":"请输入钱包名称",
-        "enter_mnemonic":"请输入助记词",
-        "enter_password":"请输入密码",
+        "enter_wallet_name":"Bitte geben Sie einen Walletnamen ein.",
+        "enter_mnemonic":"Bitte geben Sie die mnemonischen Ausdrücke ein",
+        "enter_password":"Bitte geben Sie das Walletpasswort ein",
         
         
         "check_mnemonic_is_correct":"Bitte überprüfen Sie die mnemonischen Phrasen.",
@@ -203,12 +203,12 @@
         "email_format_incorrect":"Falsches E-Mail Format",
 
         "net_request_err":"Netzwerkanomalie",
-        "net_request_token_unable_resolve":"资产中存在无效资产",
-        "net_request_timeout":"请求超时",
+        "net_request_token_unable_resolve":"Ungültige Vermögenswerte",
+        "net_request_timeout":"Zeitüberschreitung der Anforderung",
 
-        "pwd_inconsistent_reset":"密码不一致，请重新设置",
-        "submitted_successfully":"提交成功",
-        "submission_failed":"提交失败"
+        "pwd_inconsistent_reset":"Die Passwörter unterscheiden sich. Bitte zurücksetzen.",
+        "submitted_successfully":"Einreichung erfolgreich",
+        "submission_failed":"Einreichung fehlgeschlagen"
     },
     "modal":{
         "permission_storage":"Bitte erlauben Sie, Speicherplatz zu lesen und zu schreiben.",
@@ -233,9 +233,9 @@
         "enter_valid_transfer_amount":"Bitte geben Sie einen korrekten Transferbetrag an.",
         "insufficient_balance":"Unzureichende Mittel",
 
-        "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
-        "ping_id_warn2":"请务必记牢您的登录密码。",
-        "open_face_id":"是否开启Face ID?",
-        "open_touch_id":"是否开启Touch ID?"
+        "ping_id_warn1":"Sobald das Loginpasswort erfolgereich festgelegt wurde, kann es nicht mehr geändert oder wiederhergestellt werden.",
+        "ping_id_warn2":"Stellen Sie sicher, dass Sie sich an das Loginpasswort erinnern.",
+        "open_face_id":"Möchten Sie Gesichtsidentifikation verwenden?",
+        "open_touch_id":"Möchten Sie Berührungsidentifikation verwenden?"
     }
 }

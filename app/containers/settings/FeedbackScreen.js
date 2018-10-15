@@ -7,7 +7,8 @@ import {
     Text,
     Keyboard,
     KeyboardAvoidingView,
-    Image
+    Image,
+    PermissionsAndroid
 } from 'react-native';
 import { BlueButtonBig } from '../../components/Button'
 import { Colors } from '../../config/GlobalConfig'
@@ -22,6 +23,7 @@ import ImagePicker from 'react-native-image-picker';
 import ImageButton from '../../components/ImageButton'
 import DeviceInfo from 'react-native-device-info'
 import networkManage from '../../utils/networkManage';
+import { androidPermission } from '../../utils/permissionsAndroid';
 
 const styles = StyleSheet.create({
     container: {
@@ -89,6 +91,8 @@ export default class FeedbackScreen extends BaseComponent {
     _initData() {
 
     }
+
+    
 
     _addEventListener() {
         super._addEventListener()

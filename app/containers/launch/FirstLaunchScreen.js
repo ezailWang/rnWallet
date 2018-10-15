@@ -95,7 +95,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     nextRoute(isCreateWallet) {
-        if(isCreateWallet){
+        /*if(isCreateWallet){
             this.routeTo = 'createWallet'
         }else{
             this.routeTo = 'importWallet'
@@ -114,7 +114,21 @@ class FirstLaunchScreen extends BaseComponent {
         }else{
             this.isNeedSetPin = false
             this._toRute()
+        }*/
+        if(isCreateWallet){
+            this.routeTo = 'createWallet'
+        }else{
+            this.routeTo = 'importWallet'
         }
+        if(this.props.pinInfo == null){
+            this.setState({
+                isShowSetPin:true
+            })
+        }else{
+            this.isNeedSetPin = false
+            this._toRute()
+        }
+        
         
     }
 

@@ -201,6 +201,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
             this.props.setWalletAddress(checksumAddress);
             this.props.setWalletName(this.props.walletName);
+            this.props.setIsNewWallet(true);
 
             var object = {
                 name: this.props.walletName,
@@ -280,7 +281,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
-    setWalletName: (name) => dispatch(Actions.setWalletName(name))
+    setWalletName: (name) => dispatch(Actions.setWalletName(name)),
+    setIsNewWallet : (isNewWallet)=>dispatch(Actions.setIsNewWallet(isNewWallet)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonicScreen)

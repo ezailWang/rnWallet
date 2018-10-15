@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         // justifyContent:'center',
         alignItems:'center',
         backgroundColor:Colors.blackOpacityColor,
+        justifyContent:'center',
     },
     contentBox:{
         flexDirection:'column',
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
         paddingRight:25,
         paddingTop:40,
         paddingBottom:30,
-        marginTop:Layout.WINDOW_HEIGHT*0.23,
+        //marginTop:Layout.WINDOW_HEIGHT*0.23,
         marginLeft:20,
         marginRight:20,
         //borderRadius:5,

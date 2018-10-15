@@ -7,7 +7,8 @@ import {
     setWalletName,
     setNetWork,
     setMonetaryUnit,
-    setPinInfo
+    setPinInfo,
+    setIsNewWallet
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n, getLanguages } from '../../config/language/i18n'
@@ -78,7 +79,8 @@ class Loading extends Component {
         if(pinInfo){
             this.props.dispatch(setPinInfo(pinInfo))
         }
-
+        
+        this.props.dispatch(setIsNewWallet(false))
 
 
         if (data) {
