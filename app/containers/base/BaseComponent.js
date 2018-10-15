@@ -138,7 +138,7 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            let isNeedVerify  = (Date.now()-this.backgroundTimer) >= 60000
+            let isNeedVerify  = (Date.now()-this.backgroundTimer) >= 60000   
             this.backgroundTimer = 0;
             if(isNeedVerify){
                 console.log('L_isNeedVerify','isNeedVerify')
@@ -225,7 +225,7 @@ export default class BaseComponent extends PureComponent {
                    }
                    
                }).catch(error => {
-                       //console.log('L_isSupported',error)
+                       console.log('L_error',error)
                        this._notSupportTouchId(error)
                })
     }
@@ -242,6 +242,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     _notSupportTouchId(err){
+        console.log('L_error1',err)
         this.isShowPin = true
     }
 
@@ -311,7 +312,7 @@ export default class BaseComponent extends PureComponent {
                 this._showPin()
             }     
         }else{
-            this._showPin()
+            //this._showPin()
         }
 
     }
