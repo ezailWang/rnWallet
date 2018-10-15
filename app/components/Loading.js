@@ -92,7 +92,6 @@ export default class Loading extends PureComponent{
             this.isAnimation = false;//停止动画
         }
 
-        console.log('L_ReceiveProps','preVisible:'+this.props.visible + ' curVisible:'+visible)
         if(visible == true && this.props.visible == visible){
             //visible为true && preVisible与nextProps相同时不再再次启动动画
         }else{
@@ -106,7 +105,6 @@ export default class Loading extends PureComponent{
         /*if(!visible){
             return null;
         }*/
-        console.log('L_render:',visible)
         const animatedTransform = {
             transform:[
                 {rotateY: this.rotateValue.interpolate(

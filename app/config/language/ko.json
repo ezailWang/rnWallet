@@ -211,7 +211,7 @@
 
         "pwd_inconsistent_reset":"密码不一致，请重新设置",
         "submitted_successfully":"提交成功",
-        "submission_ailed":"提交失败"
+        "submission_failed":"提交失败"
     },
     "modal":{
         "permission_storage":"저장 공간을 읽기 쓰기 권한을 부여해주세요.",
