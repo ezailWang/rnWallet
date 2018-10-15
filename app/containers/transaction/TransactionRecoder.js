@@ -242,7 +242,6 @@ class Cell extends Component{
         
         let cellHeight = this.props.item.item.sureBlock <= 12 ? 80 : 60;
         let transcationStatus = this.props.item.item.isError
-
         if (transcationStatus == "1"){
             image = require('../../assets/transfer/transaction_fail.png');
         }
@@ -446,19 +445,19 @@ export default class TransactionRecoder extends BaseComponent{
         let {symbol} = store.getState().Core.balance;
         let recoders = store.getState().Core.recoders;
         let recoder = recoders[index];
-
         let currentBlock = await networkManage.getCurrentBlockNumber()
 
         // "0"--已确认 "1"--错误  "2"--确认中
         let state = recoder.isError
+        
         if(state == "0"){
-
             let sureBlock = currentBlock - recoder.blockNumber ;
             if(sureBlock<12){
                 state = "2"
             }
         }
-    
+        
+        let gas = recoder.gasPrice
         let transactionDetail={
             amount:parseFloat(recoder.value),
             transactionType:symbol,
@@ -469,7 +468,7 @@ export default class TransactionRecoder extends BaseComponent{
             transactionHash:recoder.hash,
             blockNumber:recoder.blockNumber,
             transactionTime:timestampToTime(recoder.timeStamp)+" +0800",
-            state:state
+            tranStatus:state
         };
 
         store.dispatch(setTransactionDetailParams(transactionDetail));

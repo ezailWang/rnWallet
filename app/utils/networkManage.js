@@ -153,7 +153,7 @@ export default class networkManage {
                 timeStamp: t.timeStamp,
                 hash: t.hash,
                 value: web3.utils.fromWei(t.value, 'ether'),
-                gasPrice: t.gasPrice,
+                gasPrice: web3.utils.fromWei(t.gasPrice, 'gwei'),
                 blockNumber: t.blockNumber,
                 isError: t.isError,
             }))

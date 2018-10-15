@@ -60,6 +60,8 @@ class Loading extends Component {
                 I18n.locale = 'ko';
             }else if(lang == 'de'){                
                 I18n.locale = 'de';
+            }else if(lang == 'es'){                
+                I18n.locale = 'es';
             }else if(lang == 'nl'){                
                 I18n.locale = 'nl';
             }else{
@@ -109,7 +111,7 @@ class Loading extends Component {
                 monetaryUnitType: 'KRW',
                 symbol: '₩'
             }
-        }else if (lang == 'de' || lang == 'nl'){
+        }else if (lang == 'de' || lang == 'es' ||lang == 'nl'){
             monetaryUnit = {
                 monetaryUnitType: 'EUR',
                 symbol: '€'

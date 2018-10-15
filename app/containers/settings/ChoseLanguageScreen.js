@@ -34,6 +34,7 @@ class ChoseLanguageScreen extends BaseComponent {
             isCheckEn:false,
             isCheckKo:false,
             isCheckDe:false,
+            isCheckEs:false,
             isCheckNl:false,
         }
         this.lang = '';
@@ -48,44 +49,51 @@ class ChoseLanguageScreen extends BaseComponent {
         this._checkLanguage()
     }
 
-    _checkState(isZh,isEn,isKo,isDe,isNl){
+    _checkState(isZh,isEn,isKo,isDe,isEs,isNl){
         this.setState({
             isCheckZh:isZh,
             isCheckEn:isEn,
             isCheckKo:isKo,
-            isCheckDe:isDe,
-            isCheckNl:isNl
+            isCheckDe:isDe,//德语
+            isCheckEs:isEs,//西班牙语
+            isCheckNl:isNl,//荷兰语
         }) 
     }
 
     _checkLanguage(){
         if(this.lang == 'zh'){
             this.langStr = '简体中文'
-            this._checkState(true,false,false,false,false)
+            this._checkState(true,false,false,false,false,false)
 
             this.monetaryUnitType = 'CNY'
             this.monetaryUnitSymbol = '¥'
         }else if(this.lang == 'en'){
             this.langStr = 'English'
-            this._checkState(false,true,false,false,false)
+            this._checkState(false,true,false,false,false,false)
 
             this.monetaryUnitType = 'USD'
             this.monetaryUnitSymbol = '$'
         }else if(this.lang == 'ko'){
             this.langStr = '한국어'
-            this._checkState(false,false,true,false,false)
+            this._checkState(false,false,true,false,false,false)
 
             this.monetaryUnitType = 'KRW'
             this.monetaryUnitSymbol = '₩'
         }else if(this.lang == 'de'){
             this.langStr = 'Deutsch'
-            this._checkState(false,false,false,true,false)
+            this._checkState(false,false,false,true,false,false)
+
+            this.monetaryUnitType = 'EUR'
+            this.monetaryUnitSymbol = '€'
+        }else if(this.lang == 'es'){
+            this.langStr = 'Español'
+            this._checkState(false,false,false,false,true,false)
 
             this.monetaryUnitType = 'EUR'
             this.monetaryUnitSymbol = '€'
         }else if(this.lang == 'nl'){
             this.langStr = 'Nederlands'
-            this._checkState(false,false,false,false,true)
+            this._checkState(false,false,false,false,false,true)
 
             this.monetaryUnitType = 'EUR'
             this.monetaryUnitSymbol = '€'
@@ -106,6 +114,10 @@ class ChoseLanguageScreen extends BaseComponent {
     }
     _onPressDe(){
         this.lang = 'de'
+        this._saveLanguage()
+    }
+    _onPressEs(){
+        this.lang = 'es'
         this._saveLanguage()
     }
     _onPressNl(){
@@ -148,8 +160,10 @@ class ChoseLanguageScreen extends BaseComponent {
                                 choseItemContentStyle={styles.choseItemContent}></ChoseItem>
                      <ChoseItem content={'Deutsch'} isCheck={this.state.isCheckDe} itemPress= {()=> this._onPressDe()}
                                 choseItemContentStyle={styles.choseItemContent}></ChoseItem>
-                     <ChoseItem content={'Nederlands'} isCheck={this.state.isCheckNl} itemPress= {()=> this._onPressNl()}
-                                choseItemContentStyle={styles.choseItemContent}></ChoseItem>
+                     <ChoseItem content={'Español'} isCheck={this.state.isCheckEs} itemPress= {()=> this._onPressEs()}
+                                choseItemContentStyle={styles.choseItemContent}></ChoseItem>           
+                    {/*<ChoseItem content={'Nederlands'} isCheck={this.state.isCheckNl} itemPress= {()=> this._onPressNl()}
+                                choseItemContentStyle={styles.choseItemContent}></ChoseItem>*/}
                 </View>
                 
             </View>    

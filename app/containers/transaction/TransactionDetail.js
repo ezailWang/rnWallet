@@ -132,7 +132,7 @@ export default class TransactionDetail extends BaseComponent {
         this.copyUrl = this.copyUrl.bind(this);
 
         let params = store.getState().Core.transactionDetail;
-
+        console.log('L_state1',params)
         this.state = {
             amount: params.amount,
             transactionType: params.transactionType,
@@ -196,7 +196,7 @@ export default class TransactionDetail extends BaseComponent {
                         <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.toAddress}</Text>
 
                         <Text style={[styles.fontGray, styles.marginTop10]}>{I18n.t('transaction.miner_cost')}</Text>
-                        <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.gasPrice + " gwei"}</Text>
+                        <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.gasPrice + " eth"}</Text>
 
                         <View style={styles.bottomBox}>
                             <View style={styles.infoLeftBox}>

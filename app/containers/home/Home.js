@@ -95,7 +95,6 @@ class HomeScreen extends BaseComponent {
             contractAddress: contractAddress,
             decimals: decimals
         }
-
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
     }

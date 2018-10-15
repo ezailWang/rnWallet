@@ -32,12 +32,12 @@
         "confirm_mnemonic_prompt":"순서대로 니모닉 코드 문구를 클릭하여 정확히 백업하셨는지 확인합니다.",
         "complete":"완료",
 
-        "service_agreement":"服务协议",
-        "agree_service_agreement":"我已仔细阅读并同意以上服务及隐私条款",
-        "agree_and_set_login_password":"同意并设置登录密码",
-        "set_login_password":"请设置登录密码",
-        "repeat_new_password":"重复新密码",
-        "enter_password":"请输入密码",
+        "service_agreement":"서비스 계약서",
+        "agree_service_agreement":"서비스 및 개인 정보 보호 정책을 읽고 이에 동의합니다.",
+        "agree_and_set_login_password":"로그인 비밀번호를 동의 및 설정합니다.",
+        "set_login_password":"로그인 비밀번호를 설정해주세요",
+        "repeat_new_password":"새 비밀번호를 다시 입력해주세요",
+        "enter_password":"비밀번호를 입력해주세요",
 
     
         "password_warn":"비밀번호는 최소 8자리, 대문자/소문자/숫자/기호 중 3가지 이상을 포함해야 합니다.",
