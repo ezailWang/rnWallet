@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     title:{
         fontSize:18,
         color:Colors.fontBlackColor_43,
-        marginTop:100,
+        marginTop:80,
         marginBottom:20,
     },
     pointBox:{

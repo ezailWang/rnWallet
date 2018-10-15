@@ -181,6 +181,7 @@ class FirstLaunchScreen extends BaseComponent {
     _notSupportTouchId(error){
         if(this.isNeedSetPin){
             this.savePinInfo(false)
+            this._toRute()
         }else{
             super._notSupportTouchId()
         }

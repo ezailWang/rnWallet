@@ -46,10 +46,6 @@ export default class BaseComponent extends PureComponent {
         }
 
 
-        this.pinPassowrd = '';
-        this.isUseTouchId = false;
-
-
         this._openAppVerifyIdentidy = true;
         this.isShowPin = false;
         this.backgroundTimer = 0;//在后台的时间
@@ -161,6 +157,7 @@ export default class BaseComponent extends PureComponent {
 
     render() {
         const { pinInfo } = store.getState().Core
+        console.log('Base_pinInfo',pinInfo)
         return (
             <ScrollView contentContainerStyle={styles.container}
                 keyboardShouldPersistTaps='handled'
@@ -226,12 +223,16 @@ export default class BaseComponent extends PureComponent {
                        //console.log('L_isSupported','TouchID')
                        this._supportFaceId()
                    }
+                   
                }).catch(error => {
                        //console.log('L_isSupported',error)
                        this._notSupportTouchId(error)
                })
     }
 
+    _supportTouchIdOrFaceId(){
+
+    }
     _supportTouchId(){
         this._touchIdAuthenticate()
     }
@@ -314,6 +315,9 @@ export default class BaseComponent extends PureComponent {
         }
 
     }
+
+  
+    
 }
 
 

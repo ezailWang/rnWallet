@@ -6,12 +6,14 @@ import {
     TouchableOpacity,
     Text,
     Image,
-    Linking 
+    DeviceEventEmitter,
+    Switch,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
 import {Colors,StorageKey} from '../../config/GlobalConfig'
+import StorageManage from '../../utils/StorageManage'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
@@ -89,11 +91,32 @@ class SystemSetScreen extends BaseComponent {
         super(props);
         this.state = {
             langStr:'',
-            monetaryUnitType:''
+            monetaryUnitType:'',
+            isHaveTouchId:false,
+            isUserTouchID:false,
         }
     }
 
     _initData() { 
+        this._touchIdIsSupported()
+    }
+
+    _supportTouchId(){
+        console.log('L__notSupportTouchId','_supportTouchId')
+        this._initState(true)
+    }
+
+    _supportFaceId(){
+        console.log('L__notSupportTouchId','_supportFaceId')
+        this._initState(true)
+    }
+
+    _notSupportTouchId(err){
+        console.log('L__notSupportTouchId','_notSupportTouchId')
+        this._initState(false)
+    }
+
+    _initState(isSupportTouchID){
         let lang = I18n.locale
         let str;
         if(lang == 'zh'){
@@ -111,9 +134,10 @@ class SystemSetScreen extends BaseComponent {
         this.setState({
             langStr:str,
             monetaryUnitType:mUnitStr,
+            isUserTouchID: this.props.pinInfo.isUseTouchId,
+            isHaveTouchId: isSupportTouchID
         })
     }
-
 
     _choseLanguage= () =>{
         let _this = this;
@@ -127,7 +151,7 @@ class SystemSetScreen extends BaseComponent {
         })
     }
 
-    _choseMonetaryUnit= () =>{
+    _choseMonetaryUnit = () =>{
         let _this = this;
         this.props.navigation.navigate('ChoseMonetaryUnit', {
             callback: function (data) {
@@ -139,6 +163,38 @@ class SystemSetScreen extends BaseComponent {
     }
 
 
+    isUseTouchIdChange = async(value) => {
+        this.setState({
+            isUserTouchID:value
+        })
+        //DeviceEventEmitter.emit('isUseTouchId', {isUseTouchId: value});
+
+        let object = {
+            password: this.props.pinInfo.password,
+            isUseTouchId: value
+        }
+        this.props.setPinInfo(object);
+
+
+        var key = StorageKey.PinInfo;
+        var pinInfo = await StorageManage.load(key);
+        if (pinInfo == null) {
+            pinInfo = {
+                password:this.props.pinInfo.password,
+                isUseTouchId: value,
+            }
+        } else {
+            pinInfo.isUseTouchId = value;//修改name值
+        }
+        StorageManage.save(key, pinInfo)
+
+        var user = await StorageManage.load(key);
+        console.log('L_pinInfo',user)
+        
+    }
+
+
+   
 
     renderComponent() {
         return (
@@ -147,6 +203,19 @@ class SystemSetScreen extends BaseComponent {
                 <View  style={styles.itemContainer}>
                     <Item title={I18n.t('settings.language')} content = {this.state.langStr} onPressed= {this._choseLanguage}></Item> 
                     <Item title={I18n.t('settings.currency_unit')} content = {this.state.monetaryUnitType} onPressed= {this._choseMonetaryUnit}></Item>
+                    {
+                        this.state.isHaveTouchId ? 
+                        <View style={styles.itemTouchable}>
+                          <Text style={styles.itemTitle}>Face ID/Touch ID</Text>
+                          <Switch
+                                 value={this.state.isUserTouchID}
+                                 onTintColor={Colors.themeColor}
+                                 thumbTintColor={this.state.isUserTouchID ?  Colors.themeColor  : Colors.bgGrayColor_ed}
+                                 tintColor={Colors.bgGrayColor_ed}
+                                 onValueChange={this.isUseTouchIdChange}></Switch>
+                        </View> : null
+                    }
+                    
                 </View>
                
             </View>    
@@ -192,6 +261,10 @@ class Item extends PureComponent{
 
 const mapStateToProps = state => ({
     monetaryUnit:state.Core.monetaryUnit,
+    pinInfo: state.Core.pinInfo,
+});
+const mapDispatchToProps = dispatch => ({
+    setPinInfo: (pinInfo) => dispatch(Actions.setPinInfo(pinInfo)),
 });
 
-export default connect(mapStateToProps, {})(SystemSetScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SystemSetScreen)
