@@ -16,6 +16,8 @@
     "etherscan-api": "^8.1.2",
     "events": "^1.1.1",
     "hdkey": "^1.0.0",
+    "jcore-react-native": "^1.2.10",
+    "jpush-react-native": "^2.2.11",
     "keccak": "^1.4.0",
     "keythereum": "^1.0.4",
     "path-browserify": "0.0.0",

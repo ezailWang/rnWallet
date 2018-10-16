@@ -22,7 +22,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setNewTransaction, setCoinBalance, setNetWork, removeToken } from '../../config/action/Actions'
+import { addToken, setNewTransaction, setCoinBalance, setNetWork, removeToken ,setIsNewWallet} from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -155,10 +155,14 @@ class HomeScreen extends BaseComponent {
 
     async _initData() {
         SplashScreen.hide()
-        if(this._openAppVerifyIdentidy == true){
+        if(this.props.isNewWallet == false){
             this._verifyIdentidy();
+        }else{
+            this.props.setIsNewWallet(false)
+            this._showLoding()
         }
-        this._showLoding()
+
+        
         this.setState({
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
         })
@@ -173,6 +177,8 @@ class HomeScreen extends BaseComponent {
         this._hideLoading()
         
     }
+
+    
 
     async saveTokenToStorage(token) {
         let localTokens = await StorageManage.load(StorageKey.Tokens)
@@ -378,13 +384,15 @@ const mapStateToProps = state => ({
     walletAddress: state.Core.walletAddress,
     totalAssets: state.Core.totalAssets,
     walletName: state.Core.walletName,
-    monetaryUnit: state.Core.monetaryUnit
+    monetaryUnit: state.Core.monetaryUnit,
+    isNewWallet : state.Core.isNewWallet,
 })
 
 const mapDispatchToProps = dispatch => ({
     setNetWork: (network) => dispatch(setNetWork(network)),
     removeToken: (token) => dispatch(removeToken(token)),
     setTotalAssets: (totalAssets) => dispatch(setTotalAssets(totalAssets)),
+    setIsNewWallet : (isNewWallet)=>dispatch(setIsNewWallet(isNewWallet)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

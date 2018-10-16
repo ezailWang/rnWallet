@@ -4,7 +4,6 @@ import { WhiteButtonBig, WhiteBorderButton } from '../../components/Button'
 import { Colors ,StorageKey} from '../../config/GlobalConfig'
 import SplashScreen from 'react-native-splash-screen'
 import PinModalSet from '../../components/PinModalSet'
-import PinModalConfirm from '../../components/PinModalConfirm'
 import StorageManage from '../../utils/StorageManage'
 import RemindDialog from '../../components/RemindDialog'
 import { connect } from 'react-redux'
@@ -44,7 +43,6 @@ class FirstLaunchScreen extends BaseComponent {
         super(props);
         this.state = {
             isShowSetPin:false,
-            isShowConfirmPin:false,
             isShowRemind:false,
             remindContent:'',
         }
@@ -95,7 +93,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     nextRoute(isCreateWallet) {
-        if(isCreateWallet){
+        /*if(isCreateWallet){
             this.routeTo = 'createWallet'
         }else{
             this.routeTo = 'importWallet'
@@ -114,7 +112,22 @@ class FirstLaunchScreen extends BaseComponent {
         }else{
             this.isNeedSetPin = false
             this._toRute()
+        }*/
+        if(isCreateWallet){
+            this.routeTo = 'createWallet'
+        }else{
+            this.routeTo = 'importWallet'
         }
+        if(this.props.pinInfo == null){
+            this.isNeedSetPin = true
+            this.setState({
+                isShowSetPin:true
+            })
+        }else{
+            this.isNeedSetPin = false
+            this._toRute()
+        }
+        
         
     }
 
@@ -130,27 +143,8 @@ class FirstLaunchScreen extends BaseComponent {
         if(pinType == 'PinModalSet' && !isVisible ){
             this.setState({
                 isShowSetPin: false,
-                isShowConfirmPin: true
             })
-        }
-
-        if(pinType == 'PinModalConfirm' && !isVisible){
-            let isMatchPassword =   data.pinObject.isMatchPassword
-            if(isMatchPassword){
-                this.setState({
-                    isShowSetPin: false,
-                    isShowConfirmPin: false
-                })
-                this._touchIdIsSupported()
-
-            }else{
-                //不匹配重新设置密码
-                this.pinPassword = ''
-                this.setState({
-                    isShowSetPin: true,
-                    isShowConfirmPin: false
-                })
-            }
+            this._touchIdIsSupported()
         }
     }
 
@@ -246,10 +240,6 @@ class FirstLaunchScreen extends BaseComponent {
                 <PinModalSet 
                         ref="pinModalSet"
                         visible={this.state.isShowSetPin}/>    
-                <PinModalConfirm 
-                        ref="pinModalConfirm"
-                        visible={this.state.isShowConfirmPin}
-                        password={this.pinPassword}/> 
                 <RemindDialog   content={this.state.remindContent}    
                                 modalVisible={this.state.isShowRemind}
                                 leftPress={() => this.onCancelUse()}

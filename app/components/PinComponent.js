@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     pinBox:{
         flex:1,
         backgroundColor:'transparent',
+        justifyContent:'center',
         alignItems:'center',
     },
     title:{

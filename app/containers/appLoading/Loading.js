@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Platform } from 'react-native'
 import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -7,11 +8,15 @@ import {
     setWalletName,
     setNetWork,
     setMonetaryUnit,
-    setPinInfo
+    setPinInfo,
+    setIsNewWallet
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n, getLanguages } from '../../config/language/i18n'
 import { showToast } from '../../utils/Toast'
+import JPushModule from 'jpush-react-native'
+import networkManage from '../../utils/networkManage'
+import DeviceInfo from 'react-native-device-info'
 class Loading extends Component {
 
     static propTypes = {
@@ -27,6 +32,26 @@ class Loading extends Component {
     }
 
     async componentDidMount() {
+        JPushModule.getRegistrationID(registrationId => {
+            let params = {
+                'system': Platform.OS,
+                'systemVersion': DeviceInfo.getSystemVersion(),
+                'deviceModel': DeviceInfo.getModel(),
+                'deviceToken': registrationId,
+                'deviceId': DeviceInfo.getUniqueID(),
+            }
+            networkManage.deviceRegister(params)
+                .then((response) => {
+                    if (response.code === 200) {
+                        StorageManage.save(StorageKey.UserId, { 'userId': response.data.userId })
+                    } else {
+                       console.log('err msg:',response.msg)
+                    }
+                })
+                .catch((err) => {
+                    console.log('err:', err)
+                })
+        })
         if (!this.props.walletAddress) {
             await this.loadFromStorege()
         }
@@ -50,35 +75,36 @@ class Loading extends Component {
         }
         if (language) {
             I18n.locale = language.lang
-        }else{
+        } else {
             //let localeLanguage = DeviceInfo.getDeviceLocale();
             let localeLanguage = I18n.locale;
-            let lang = localeLanguage.substring(0,2).toLowerCase()
-            if(lang == 'zh'){
+            let lang = localeLanguage.substring(0, 2).toLowerCase()
+            if (lang == 'zh') {
                 I18n.locale = 'zh';
-            }else if(lang == 'ko'){
+            } else if (lang == 'ko') {
                 I18n.locale = 'ko';
-            }else if(lang == 'de'){                
+            } else if (lang == 'de') {
                 I18n.locale = 'de';
-            }else if(lang == 'es'){                
+            } else if (lang == 'es') {
                 I18n.locale = 'es';
-            }else if(lang == 'nl'){                
+            } else if (lang == 'nl') {
                 I18n.locale = 'nl';
-            }else{
+            } else {
                 I18n.locale = 'en';
             }
         }
-        
+
         if (monetaryUnit) {
             this.props.dispatch(setMonetaryUnit(monetaryUnit))
         } else {
             this.byLanguageSetMonetaryUnit()
         }
 
-        if(pinInfo){
+        if (pinInfo) {
             this.props.dispatch(setPinInfo(pinInfo))
         }
 
+        this.props.dispatch(setIsNewWallet(false))
 
 
         if (data) {
@@ -111,7 +137,7 @@ class Loading extends Component {
                 monetaryUnitType: 'KRW',
                 symbol: '₩'
             }
-        }else if (lang == 'de' || lang == 'es' ||lang == 'nl'){
+        } else if (lang == 'de' || lang == 'es' || lang == 'nl') {
             monetaryUnit = {
                 monetaryUnitType: 'EUR',
                 symbol: '€'

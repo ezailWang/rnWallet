@@ -20,7 +20,8 @@ import {
 const styles = StyleSheet.create({
     modeBox:{
         flex:1,
-        backgroundColor:'rgba(256,256,256,0.9)',
+        //backgroundColor:'rgba(256,256,256,0.9)',
+        backgroundColor:'white',
         alignItems:'center',
     },
 })

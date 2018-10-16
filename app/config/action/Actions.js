@@ -125,6 +125,13 @@ function setPinInfo(value){
     }
 }
 
+function setIsNewWallet(value){
+    return{
+        type:types.IS_NEW_WALLET,
+        isNewWallet:value
+    }
+}
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -141,5 +148,6 @@ export {
     setMonetaryUnit,
     setNewTransaction,
     setFirstQR,
-    setPinInfo
+    setPinInfo,
+    setIsNewWallet
 }
