@@ -143,7 +143,7 @@ export default class TransactionDetail extends BaseComponent {
             transactionHash: params.transactionHash,
             blockNumber: params.blockNumber,
             transactionTime: params.transactionTime,
-            tranStatus:params.state
+            tranStatus:params.tranStatus
         };
         this._setStatusBarStyleLight()
     }

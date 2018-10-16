@@ -490,8 +490,10 @@ export default class Transaction extends BaseComponent {
         let totalValue = this.params.balance;
         let amountIsNotValid = this.inputTransferValue == 0 || this.inputTransferValue  > totalValue
         let addressIsNotValid = this.inputToAddress=='' || !NetworkManager.isValidAddress(this.inputToAddress) 
+        let addressIsSame = this.inputToAddress == this.state.fromAddress
+
         this.setState({
-            isDisabled: amountIsNotValid||addressIsNotValid
+            isDisabled: amountIsNotValid||addressIsNotValid||addressIsSame
         });
     }
 
