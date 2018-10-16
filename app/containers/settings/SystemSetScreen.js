@@ -206,8 +206,8 @@ class SystemSetScreen extends BaseComponent {
                           <Text style={styles.itemTitle}>Face ID/Touch ID</Text>
                           <Switch
                                  value={this.state.isUserTouchID}
-                                 onTintColor={Colors.themeColor}
-                                 thumbTintColor={this.state.isUserTouchID ?  Colors.themeColor  : Colors.bgGrayColor_ed}
+                                 onTintColor={Colors.bgGrayColor_ed}
+                                 thumbTintColor={this.state.isUserTouchID ?  Colors.fontBlueColor  : Colors.bgGrayColor_e5}
                                  tintColor={Colors.bgGrayColor_ed}
                                  onValueChange={this.isUseTouchIdChange}></Switch>
                         </View> : null

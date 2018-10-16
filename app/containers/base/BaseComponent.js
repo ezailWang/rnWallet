@@ -139,14 +139,22 @@ export default class BaseComponent extends PureComponent {
         if (nextAppState != null && nextAppState === 'active') {
             let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000  
             this.backgroundTimer = 0;
+            console.log('L_isneedVertify',isNeedVerify)
             if(isNeedVerify){
                 this._verifyIdentidy()
             }
             this.setState({
                 showBlur: false,
             })
-        }else {
+        }else if(nextAppState != null && nextAppState === 'background'){
+            console.log('L_background','background')
             this.backgroundTimer = Date.now();
+            this.setState({
+                showBlur: true,
+            })
+        }else {
+            console.log('L_background1','background1')
+            this.backgroundTimer = 0;
             this.setState({
                 showBlur: true,
             })

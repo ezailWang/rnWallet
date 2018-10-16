@@ -32,7 +32,7 @@ class Loading extends Component {
     }
 
     async componentDidMount() {
-        JPushModule.getRegistrationID(registrationId => {
+        /*JPushModule.getRegistrationID(registrationId => {
             let params = {
                 'system': Platform.OS,
                 'systemVersion': DeviceInfo.getSystemVersion(),
@@ -51,7 +51,7 @@ class Loading extends Component {
                 .catch((err) => {
                     console.log('err:', err)
                 })
-        })
+        })*/
         if (!this.props.walletAddress) {
             await this.loadFromStorege()
         }
