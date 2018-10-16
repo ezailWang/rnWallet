@@ -6,13 +6,21 @@ const defaultTokens = [
         id: uuid.v4(),
         symbol: 'ETH',
     },
+    // {
+    //     contractAddress: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940',
+    //     decimals: 18,
+    //     id: uuid.v4(),
+    //     name: 'IOT on Chain',
+    //     symbol: 'ITC',
+    // },
+    //test net ERC20Token
     {
-        contractAddress: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940',
+        contractAddress: '0x930AF2f13Ba3Bde29723Bdf67eB23a930baB6Bb1',
         decimals: 18,
         id: uuid.v4(),
-        name: 'IOT on Chain',
+        name: 'itc-test',
         symbol: 'ITC',
-    },
+    }
 ];
 
 const erc20Abi = [

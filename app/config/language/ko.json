@@ -178,7 +178,10 @@
         "system_settings":"시스템 설정",
         "language":"언어",
 
-        "terms_use_and_privacy_policy":"이용 약관 및 개인 정보 보호 정책"
+        "terms_use_and_privacy_policy":"이용 약관 및 개인 정보 보호 정책",
+
+        "feedback_eth_address_prompt":"주소가 잘못되었습니다. 확인하고 입력하십시오",
+        "feedback_address_title":"Eth Address"
         
     },
     "toast":{
