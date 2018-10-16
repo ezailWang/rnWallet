@@ -137,7 +137,7 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            let isNeedVerify  = (Date.now()-this.backgroundTimer) >= 60000   
+            let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000  
             this.backgroundTimer = 0;
             if(isNeedVerify){
                 this._verifyIdentidy()
@@ -299,9 +299,11 @@ export default class BaseComponent extends PureComponent {
 
     _verifyIdentidy(){
         const { pinInfo } = store.getState().Core
-        /*pinInfo.password
-        isUseTouchId:*/
-        if(pinInfo != null && pinInfo != undefined){
+        /*
+        pinInfo.password
+        isUseTouchId:
+        */
+        if(pinInfo != null){
             if(pinInfo.isUseTouchId){
                 this._touchIdIsSupported()
             }else{
@@ -311,10 +313,7 @@ export default class BaseComponent extends PureComponent {
             //this._showPin()
         }
 
-    }
-
-  
-    
+    }  
 }
 
 

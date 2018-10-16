@@ -256,7 +256,7 @@ export default class FeedbackScreen extends BaseComponent {
                                         imageStyle={{ width: 56, height: 56 }}
                                         backgroundImageSource={require('../../assets/home/kuang.png')}
                                         onClick={() => {
-                                            ImagePicker.launchImageLibrary(photoOptions, (response) => {
+                                            ImagePicker.launchImageLibrary({}, (response) => {
                                                 if (response.didCancel) {
                                                     console.log('User cancelled image picker');
                                                 } else if (response.error) {
