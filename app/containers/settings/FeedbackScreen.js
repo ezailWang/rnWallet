@@ -24,6 +24,8 @@ import ImageButton from '../../components/ImageButton'
 import DeviceInfo from 'react-native-device-info'
 import networkManage from '../../utils/networkManage';
 import { androidPermission } from '../../utils/permissionsAndroid';
+import { StorageKey } from '../../config/GlobalConfig'
+import StorageManage from '../../utils/StorageManage'
 
 const styles = StyleSheet.create({
     container: {
@@ -92,7 +94,7 @@ export default class FeedbackScreen extends BaseComponent {
 
     }
 
-    
+
 
     _addEventListener() {
         super._addEventListener()
@@ -163,10 +165,15 @@ export default class FeedbackScreen extends BaseComponent {
         this.btnIsEnableClick()
     };
 
-    submit() {
+    async submit() {
         Keyboard.dismiss();
+        this._showLoding()
+        let userId = await StorageManage.load(StorageKey.UserId)
+        if (!userId) {
+            userId['userId'] = 0
+        }
         let params = {
-            'userId': '1',
+            'userId': userId['userId'],
             'name': this.name,
             'mailAddress': this.email,
             'system': Platform.OS,
@@ -174,7 +181,6 @@ export default class FeedbackScreen extends BaseComponent {
             'deviceModel': DeviceInfo.getModel(),
             'content': this.description
         }
-        this._showLoding()
         networkManage.uploadFeedback(params, this.state.photoArray)
             .then(res => {
                 this._hideLoading()
@@ -208,7 +214,7 @@ export default class FeedbackScreen extends BaseComponent {
                         onClick={() => {
                             this.setState(previousState => {
                                 let newArray = previousState.photoArray.concat()
-                                newArray.splice(index,1)
+                                newArray.splice(index, 1)
                                 return { photoArray: newArray }
                             })
                         }}
@@ -252,7 +258,7 @@ export default class FeedbackScreen extends BaseComponent {
                             {
                                 this.state.photoArray.length < 9 ?
                                     <ImageButton
-                                        btnStyle={{ width: 56, height: 56 ,marginTop:5}}
+                                        btnStyle={{ width: 56, height: 56, marginTop: 5 }}
                                         imageStyle={{ width: 56, height: 56 }}
                                         backgroundImageSource={require('../../assets/home/kuang.png')}
                                         onClick={() => {
@@ -280,7 +286,6 @@ export default class FeedbackScreen extends BaseComponent {
                             buttonStyle={styles.button}
                             isDisabled={this.state.isDisabled}
                             onPress={() => {
-                                console.log('submit11')
                                 this.submit()
                             }}
                             text={I18n.t('settings.submit')}
