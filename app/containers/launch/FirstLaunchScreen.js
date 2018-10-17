@@ -77,7 +77,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     nextRoute(isCreateWallet) {
-        if(isCreateWallet){
+        /*if(isCreateWallet){
             this.routeTo = 'createWallet'
         }else{
             this.routeTo = 'importWallet'
@@ -94,8 +94,8 @@ class FirstLaunchScreen extends BaseComponent {
             })
         }else{
             this._toRute()
-        }
-        /*if(isCreateWallet){
+        }*/
+        if(isCreateWallet){
             this.routeTo = 'createWallet'
         }else{
             this.routeTo = 'importWallet'
@@ -106,7 +106,7 @@ class FirstLaunchScreen extends BaseComponent {
             })
         }else{
             this._toRute()
-        }*/
+        }
         
         
     }
