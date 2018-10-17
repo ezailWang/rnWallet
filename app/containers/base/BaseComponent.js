@@ -139,9 +139,8 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            console.log('B_active',"this.backgroundTimer: " + this.backgroundTimer)
             let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000 && !this.touchIDVertifing 
-            console.log('B_isNeedVerify',isNeedVerify)
+            console.log('B_active',isNeedVerify)
             this.backgroundTimer = 0;
             if(isNeedVerify){
                 this._verifyIdentidy()
@@ -264,7 +263,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     _touchIdAuthenticateFail(err){
-        console.log('L_err',err)
+        console.log('B_err',err)
        
         if(err == 'TouchIDError: User canceled authentication'){
             console.log('B_AuthenticateFail','用户点击cancel取消验证');
@@ -362,7 +361,6 @@ export default class BaseComponent extends PureComponent {
                 this._showPin()
             }     
         }
-
     }  
 }
 

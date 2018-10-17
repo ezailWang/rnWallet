@@ -167,7 +167,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
     completeClickFun() {
         if (this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic) {
-            this. _showLoding();
+            this._showLoding();
             setTimeout(() => {
                 this.startCreateWallet();//创建钱包
             }, 2000);
