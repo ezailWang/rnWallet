@@ -15,7 +15,7 @@ const defaultTokens = [
     // },
     //test net ERC20Token
     {
-        contractAddress: '0xC1c42e9807BDf6a744376D77Cb3D1fE9a0b23aD5',
+        contractAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
         decimals: 18,
         id: uuid.v4(),
         name: 'IotChain',

@@ -122,7 +122,7 @@ export default class networkManage {
                 hash: t.hash,
                 value: web3.utils.fromWei(t.value, 'ether'),
                 isError: t.isError,
-                gasPrice: t.gasPrice,
+                gasPrice: web3.utils.fromWei(t.gasUsed, 'gwei'),
                 blockNumber: t.blockNumber
             }))
         } catch (err) {
@@ -153,7 +153,7 @@ export default class networkManage {
                 timeStamp: t.timeStamp,
                 hash: t.hash,
                 value: web3.utils.fromWei(t.value, 'ether'),
-                gasPrice: web3.utils.fromWei(t.gasPrice, 'gwei'),
+                gasPrice: web3.utils.fromWei(t.gasUsed, 'gwei'),
                 blockNumber: t.blockNumber,
                 isError: t.isError,
             }))
