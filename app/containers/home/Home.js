@@ -174,8 +174,7 @@ class HomeScreen extends BaseComponent {
             })
         }
         await networkManage.loadTokenList()
-        this._hideLoading()
-        
+        this._hideLoading() 
     }
 
     

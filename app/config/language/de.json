@@ -236,6 +236,9 @@
         "ping_id_warn1":"Sobald das Loginpasswort erfolgereich festgelegt wurde, kann es nicht mehr geändert oder wiederhergestellt werden.",
         "ping_id_warn2":"Stellen Sie sicher, dass Sie sich an das Loginpasswort erinnern.",
         "open_face_id":"Möchten Sie Gesichtsidentifikation verwenden?",
-        "open_touch_id":"Möchten Sie Berührungsidentifikation verwenden?"
+        "open_touch_id":"Möchten Sie Berührungsidentifikation verwenden?",
+
+        "vertify_self":"身份验证",
+        "authentication_required":"Autorizacion Requerida"
     }
 }

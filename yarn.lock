@@ -3367,6 +3367,10 @@ image-size@^0.6.0:
   version "0.6.2"
   resolved "http://registry.npm.taobao.org/image-size/download/image-size-0.6.2.tgz#8ee316d4298b028b965091b673d5f1537adee5b4"
 
+immutable@^3.8.1:
+  version "3.8.2"
+  resolved "http://registry.npm.taobao.org/immutable/download/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+
 import-local@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/import-local/download/import-local-1.0.0.tgz#5e4ffdc03f4fe6c009c6729beb29631c2f8227bc"
@@ -5591,6 +5595,13 @@ react-is@^16.3.1:
 react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "http://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+
+react-native-autoheight-webview@^0.10.3:
+  version "0.10.3"
+  resolved "http://registry.npm.taobao.org/react-native-autoheight-webview/download/react-native-autoheight-webview-0.10.3.tgz#bf57e130800f7dfae6354f2e488c2b6e9500c59b"
+  dependencies:
+    immutable "^3.8.1"
+    prop-types "^15.6.2"
 
 react-native-blur@^3.2.2:
   version "3.2.2"

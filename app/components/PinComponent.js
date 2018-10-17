@@ -196,7 +196,8 @@ export default class PinComponent extends PureComponent{
                           <PinCircle circleStyle={styles.circleStyle}
                                       text1 = {0}
                                       text2 = {''}
-                                      onPress = {this.onCirclePressed}></PinCircle>
+                                      onPress = {this.onCirclePressed}
+                                      isNeedLetter = {false}></PinCircle>
                       </View>
                       {
                           this.props.isShowDeleteBtn ?  

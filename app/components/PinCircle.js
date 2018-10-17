@@ -45,9 +45,11 @@ export default class PinCircle extends PureComponent{
         onPress: PropTypes.func.isRequired,
         isDisabled : PropTypes.bool,
         circleStyle: PropTypes.object,
+        isNeedLetter : PropTypes.bool,
     };
     static defaultProps = {
-        isDisabled:false
+        isDisabled:false,
+        isNeedLetter: true
     }
 
     onPressed=()=>{
@@ -61,7 +63,7 @@ export default class PinCircle extends PureComponent{
                               disabled={this.props.isDisabled}
                               onPress = {this.onPressed}> 
                     <Text style={styles.text1}>{this.props.text1}</Text>
-                    <Text style={styles.text2}>{this.props.text2}</Text>
+                    {this.props.isNeedLetter ? <Text style={styles.text2}>{this.props.text2}</Text> : null}
                 </TouchableOpacity>
             </View>
             

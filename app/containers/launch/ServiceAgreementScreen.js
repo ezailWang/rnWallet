@@ -6,6 +6,7 @@ import { Colors } from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
+import AutoHeightWebView from 'react-native-autoheight-webview'
 
 const styles = StyleSheet.create({
     container: {
@@ -57,7 +58,7 @@ export default class ServiceAgreementScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('launch.service_agreement')}/>
                 <WebView
-                     source={{uri:'https://www.baidu.com/',method: 'GET'}}
+                     source={{uri:'http://47.75.16.97:9000/ServiceAgreement.html',method: 'GET'}}
                      startInLoadingState={true}
                      javaScriptEnabled={true}
                      style={styles.webview}

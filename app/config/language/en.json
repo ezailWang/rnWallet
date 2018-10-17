@@ -238,6 +238,9 @@
         "ping_id_warn1":"Once the login password is set successfully, it cannot be modified or retrieved.",
         "ping_id_warn2":"Make sure to remember your login password.",
         "open_face_id":"Do you want to use Face ID?",
-        "open_touch_id":"Do you want to use Touch ID?"
+        "open_touch_id":"Do you want to use Touch ID?",
+
+        "vertify_self":"身份验证",
+        "authentication_required":"Authentication required"
     }
 }

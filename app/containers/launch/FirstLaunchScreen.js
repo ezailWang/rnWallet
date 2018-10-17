@@ -46,33 +46,17 @@ class FirstLaunchScreen extends BaseComponent {
             isShowRemind:false,
             remindContent:'',
         }
-        this.isNeedSetPin = false
         this.routeTo = ''
         this.pinPassword = '';
+        this.touchIdVeryifyFailCount = 0;//touchId验证失败的次数
         this._setStatusBarStyleLight()
     }
 
     _initData(){
         SplashScreen.hide()
-        
-        if(this.props.pinInfo == null){
-            this.isNeedSetPin = true
-        }else{
-            this.isNeedSetPin = false
-            this._verifyIdentidy();
-            /*if(this.props.navigation.state.params.isVerifyIdentidy){
-                this._verifyIdentidy();
-            }*/
-        }
     }
 
-    componentWillUpdate(){
-        if(this.props.pinInfo == null){
-            this.isNeedSetPin = true
-        }else{
-            this.isNeedSetPin = false
-        }
-    }
+    
     
     //验证android读写权限
     async vertifyAndroidPermissions(isCreateWallet) {
@@ -93,14 +77,13 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     nextRoute(isCreateWallet) {
-        /*if(isCreateWallet){
+        if(isCreateWallet){
             this.routeTo = 'createWallet'
         }else{
             this.routeTo = 'importWallet'
         }
         let _this = this;
         if(this.props.pinInfo == null){
-            this.isNeedSetPin = true
             this.props.navigation.navigate('ServiceAgreement', {
                 callback: function (data) {
                     let isShowPin = data.isShowPin;
@@ -110,23 +93,20 @@ class FirstLaunchScreen extends BaseComponent {
                 }
             })
         }else{
-            this.isNeedSetPin = false
             this._toRute()
-        }*/
-        if(isCreateWallet){
+        }
+        /*if(isCreateWallet){
             this.routeTo = 'createWallet'
         }else{
             this.routeTo = 'importWallet'
         }
         if(this.props.pinInfo == null){
-            this.isNeedSetPin = true
             this.setState({
                 isShowSetPin:true
             })
         }else{
-            this.isNeedSetPin = false
             this._toRute()
-        }
+        }*/
         
         
     }
@@ -149,7 +129,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _supportTouchId(){
-        if(this.isNeedSetPin){
+        if(this.props.pinInfo == null){
             this.setState({
                 isShowRemind:true,
                 remindContent:I18n.t('modal.open_face_id'),
@@ -161,7 +141,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _supportFaceId(){
-        if(this.isNeedSetPin){
+        if(this.props.pinInfo == null){
             this.setState({
                 isShowRemind:true,
                 remindContent:I18n.t('modal.open_touch_id'),
@@ -173,7 +153,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _notSupportTouchId(err){
-        if(this.isNeedSetPin){
+        if(this.props.pinInfo == null){
             this.savePinInfo(false)
             this._toRute()
         }else{
@@ -186,8 +166,11 @@ class FirstLaunchScreen extends BaseComponent {
         this.setState({
             isShowRemind:false
         })
-        this.savePinInfo(true)
-        this._touchIdAuthenticate()
+        setTimeout(()=>{
+            this._touchIdAuthenticate()
+        }, 200);
+        
+        
     }
     onCancelUse(){
         this.setState({
@@ -198,7 +181,10 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _touchIdAuthenticateSuccess(){
-        if(this.isNeedSetPin){
+        console.log('AuthenticateFail_1','验证成功');
+        if(this.props.pinInfo == null){
+            console.log('AuthenticateFail_2','验证成功');
+            this.savePinInfo(true)
             this._toRute()
         }else{
             super._touchIdAuthenticateSuccess()
@@ -207,8 +193,26 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _touchIdAuthenticateFail(err){
-        if(this.isNeedSetPin){
-            this._touchIdAuthenticate()
+        if(this.props.pinInfo == null){
+            if(err == 'TouchIDError: User canceled authentication'){
+                console.log('F_AuthenticateFail','用户点击cancel取消验证');
+                this.savePinInfo(false)
+                this._toRute()
+            }else if(err == 'TouchIDError: Authentication failed'){
+                console.log('F_AuthenticateFail','TouchID验证失败：' + this.touchIdVeryifyFailCount + 1);
+                this.touchIdVeryifyFailCount = this.touchIdVeryifyFailCount + 1;
+                if(this.touchIdVeryifyFailCount >=3){
+                    this.touchIdVeryifyFailCount = 0;
+                    this.savePinInfo(false)
+                    this._toRute()
+                }else{
+                    this._touchIdAuthenticate()
+                }
+            }else{
+                //其他原因造成的验证touchID失败，则认为不设置touchid
+                this.savePinInfo(false)
+                this._toRute()
+            }
         }else{
             super._touchIdAuthenticateFail(err)
         }

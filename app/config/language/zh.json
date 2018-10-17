@@ -238,6 +238,9 @@
         "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
         "ping_id_warn2":"请务必记牢您的登录密码。",
         "open_face_id":"是否开启Face ID?",
-        "open_touch_id":"是否开启Touch ID?"
+        "open_touch_id":"是否开启Touch ID?",
+
+        "vertify_self":"身份验证",
+        "authentication_required":"Autorizacion Requerida"
     }
 }

@@ -3,7 +3,7 @@
         "creact_wallet":"Crear Monedero",
         "import_wallet":"Importar Monedero",
 
-        "input_mnemonic_hint":"Por favor, introduce frases mnemotécnicas y sepáralas por espacios",
+        "input_mnemonic_hint":"Por favor, introduce las frases mnemotécnicas de tu monedero y sepáralas por espacios",
         "set_password_hint":"Contraseña",
         "re_password_hint":"Confirmar Contraseña",
         "import":"Importar",
@@ -13,23 +13,23 @@
         "create":"Crear",
 
         "create_wallet_warn1":"La contraseña será usada como protección de tu información y para autorizar transacciones",
-        "create_wallet_warn2":"NO almacenamos tu contraseña, ni podemos recuperarla en ningún caso. Por favor haz una copia de seguridad y mantenla en un lugar seguro.",
+        "create_wallet_warn2":"No almacenamos tu contraseña, ni podemos recuperarla en ningún caso. Por favor guárdala y mantenla en un lugar seguro.",
 
-        "backup_wallet":"Haz una copia de seguridad de tu monedero",
-        "why_backup_wallet":"¿Por qué necesitas hacer una copia de seguridad de las frases mnemotécnicas?",
+        "backup_wallet":"Copia de seguridad de tu monedero",
+        "why_backup_wallet":"¿Por qué necesitas hacer una copia de seguridad de tus frases mnemotécnicas?",
         "reason_backup_wallet1":"Las frases mnemotécnicas pueden ayudar a recuperar tu monedero. Cualquier persona que la sepa puede robar tus activos. ",
-        "reason_backup_wallet2":"NO almacenamos tus frases mnemotécnicas, ni podemos recuperarla en ningún caso. Por favor haz una copia de seguridad y mantenla en un lugar seguro.",
-        "how_backup_wallet":"¿Como hacer una copia de seguridad?",
-        "reason_backup_wallet3":"Por favor escribe tus frases mnemotécnicas en un papel y guárdalo en un lugar seguro.",
-        "reason_backup_wallet4":"No guardes tus frases mnemotécnicas en ningún correo o almacenamiento de red. No uses la red para transmitirla.",
-        "readed":"Lo entiendo. Y ya tengo preparado mi papel y lapiz.",
+        "reason_backup_wallet2":"No almacenamos tus frases, ni podemos recuperarlas en ningún caso. Por favor haz una copia de seguridad y mantenlas en un lugar seguro.",
+        "how_backup_wallet":"¿Cual es la mejor forma para hacer la copia de seguridad?",
+        "reason_backup_wallet3":"Escribe tus frases en un papel y guárdalo en un lugar seguro.",
+        "reason_backup_wallet4":"No guardes tus frases en ningún correo o almacenamiento de red. No uses la red para transmitirlas.",
+        "readed":"Lo entiendo, y ya tengo preparado mi papel y lapiz.",
 
         "backup_mnemonic":"Haz una copia de seguridad de tus frases mnemotécnicas.",
-        "backup_mnemonic_prompt":"Por favor escribe a continuación tus frases mnemotécnicas. Se necesitarán para proceso de verificación posterior.",
+        "backup_mnemonic_prompt":"Copia las frases que aparecen a continuación en un papel. Se necesitarán para el proceso de verificación posterior.",
         "backup_mnemonic_complete":"Las frases mnemotécnicas han sido copiadas.",
 
         "confirm_mnemonic":"Confirmar",
-        "confirm_mnemonic_prompt":"Por favor, seleciona las frases mnemotécnicas en el orden correcto.",
+        "confirm_mnemonic_prompt":"Seleciona las frases mnemotécnicas en el orden correcto.",
         "complete":"Hecho",
 
         "service_agreement":"Acuerdo de servicio.",
@@ -40,7 +40,7 @@
         "enter_password":"Por favor introduce tu contraseña",
 
        
-        "password_warn":"Las contraseñas tienen que tener una longitud de al menos 8 caracteres, además de contener 3 de las 4 reglas siguientes: Una mayúscula, una minúscula, un número y un símbolo.",
+        "password_warn":"Las contraseñas tienen que tener una longitud de al menos 8 caracteres, además de contener 3 de las 4 normas siguientes: Una mayúscula, una minúscula, un número y un símbolo.",
         "password_warn_least_8":"La contraseña tiene que estar compuesta al menos por una longitud de 8 caracteres",
         "password_warn_1":"Las contraseñas tienen que contener al menos una minúscula, un número y un símbolo.",
         "password_warn_2":"Las contraseñas deberían contener al menos una minúscula, un número y un símbolo.",
@@ -63,14 +63,14 @@
         "QRCode":"Dirección código QR",
         "no_assets":"Sin saldo",
         "add":"Agregar",
-        "add_token":"Añadir Crédito",
+        "add_token":"Añadir Activo",
         "contract_address":"Dirección de contrato",
-        "token_symbol":"Símbolos de los activos",
+        "token_symbol":"Símbolo del activo",
         "token_decimals":"Precisión Decimal",
         "delete":"Eliminar",
         "address_check":"Longitud de 42 caracteres, empieza por 0x",
         "symbol_check":"1 a 9 caracteres, por ejemplo ETH y ITC",
-        "decimals_check":"La precisión decimal de los erc20 token es 0-36, mayormente 18 dígitos.",
+        "decimals_check":"La precisión decimal de los erc20 token suele ser de 0-36 dígitos, 18 en su mayoría.",
         "wallet_tool":"Administrar monedero",
         "contact":"Contactos",
         "system_settings":"Ajustes",
@@ -89,10 +89,10 @@
         "amount":"Cantidad",
         "balance":"Saldo",
         "enter":"Cantidad",
-        "collection_address":"Dirección del receptor",
+        "collection_address":"Dirección de envío",
         "enter_transfer_address":"Introduce la dirección del receptor",
-        "remarks":"备注",
-        "enter_remarks":"输入备注",
+        "remarks":"Memo",
+        "enter_remarks":"Agregar Memo",
         "next_step":"Siguiente",
         
         "address_list":"Contactos",
@@ -105,7 +105,7 @@
         "transaction_time":"Tiempo de transacción",
         "copy_address":"Copiar URL",
 
-        "no_transaction_history_found":"Registro de transacciones no encontrado",
+        "no_transaction_history_found":"Transacciones no encontradas",
         "no":"Ninguno",
         "receipt":"Recibir",
 
@@ -130,25 +130,25 @@
         "set":"Herramientas del monedero",
         "enter_wallet_name_hint":"Nombre del monedero",
         "enter_passowrd_hint":"Introduce la contraseña del monedero",
-        "modify_wallet_name":"Modificar el nombre del monedero",
+        "modify_wallet_name":"Modificar nombre del monedero",
         "export_keystore":"Exportar Keystore",
         "export_private_key":"Exportar la clave privada",
 
-        "export_keystore_modal_prompt":"Cualquiera que posea el keystore puede acceder a tus activos.",
-        "export_keystore_modal_prompt1":"Por favor, mantenga el Keystore a salvo",
-        "export_keystore_prompt":"¡Cualquiera que posea el keystore puede acceder a tus activos! No guardes tu Keystore en el email o en cualquier almacenamiento de red. No uses la red para transmitirlo.",
+        "export_keystore_modal_prompt":"Cualquiera con acceso a tu keystore puede controlar tus activos.",
+        "export_keystore_modal_prompt1":"Por favor, mantengalo en un lugar seguro.",
+        "export_keystore_prompt":"¡Cualquiera con acceso a tu keystore puede controlar tus activos! No lo guardes en ningún email o almacenamiento de red. No uses la red para transmitirlo.",
         "copy_keystore":"Copiar Keystore",
 
-        "export_private_key_modal_prompt":"¡Cualquiera que tenga tu clave privada puede acceder a tus activos!",
+        "export_private_key_modal_prompt":"¡Cualquiera con acceso a tu clave privada puede controlar tus activos!",
         "export_private_key_modal_prompt1":"Por favor consérvela en papel y guárdela en un sitio seguro",
         "export_private_key_prompt":"No guardes tu clave privado en correos electrónicos o almacenamiento de red. No uses la red para transmitirla.",
         "copy_private_key":"Copiar clave privada",
 
-        "collection_code":"Codigo de pago",
-        "copy_payment_address":"Copiar dirección del receptor",
+        "collection_code":"Codigo QR",
+        "copy_payment_address":"Copiar dirección del monedero",
 
         "scan_qrcode":"Escanear código QR",
-        "scan_qrcode_prompt":"El código QR puede escanearse automáticamente si lo sitúas dentro del marco.",
+        "scan_qrcode_prompt":"Scanea el código QR situándolo dentro del marco",
 
         "about":"About",
         "currency_unit":"Moneda",
@@ -157,8 +157,8 @@
         "make_sure_delete_contact":"¿Estás seguro que deseas eliminarlo?",
         "no_contact":"No hay contactos",
         "create_contact":"Crear nuevo contacto",
-        "name":"Nombre del monedero",
-        "remarks":"备注(选填)",
+        "name":"Nombre contacto",
+        "remarks":"Memo (Opcional)",
         "wallet_address":"Dirección del monedero",
         "save_changes":"Guardar",
         "delete_contact":"Eliminar Contacto",
@@ -215,7 +215,7 @@
     "modal":{
         "permission_storage":"Por favor habilita el permiso para lectura y escritura de almacenamiento",
         "screenshot_warn":"No hagas una captura de pantalla",
-        "screenshot_warn_content":"¡Cualquiera con acceso a tus frases mnemotécnicas puede recuperar tu monedero y controlar todos tus activos! Por favor escribe tus frases mnemotécnicas en un papel y guárdalo en un sitio seguro.",
+        "screenshot_warn_content":"¡Cualquiera que tenga tus frases mnemotécnicas puede acceder a tu monedero y controlar todos tus activos! Por favor escribe tus frases en un papel y guárdalo en un sitio seguro.",
         "i_know":"Entendido",
 
         "backup_fail":"Copia de seguridad fallida.",
@@ -236,8 +236,14 @@
         "insufficient_balance":"Saldo insuficiente",
 
         "ping_id_warn1":"Una vez establecida la contraseña de inicio, no puede ser modificada o recuperada.",
-        "ping_id_warn2":"Asegúrate de recordar tu contraseña de inicio.",
+        "ping_id_warn2":"Asegúrate de no perderla.",
         "open_face_id":"¿Quieres usar Face ID?",
-        "open_touch_id":"¿Quieres usar Touch ID?"
+        "open_touch_id":"¿Quieres usar el Sensor de huella?",
+
+        "vertify_self":"身份验证",
+        "authentication_required":"Autorizacion Requerida"
+
+
+
     }
 }

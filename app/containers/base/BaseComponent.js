@@ -25,9 +25,9 @@ let lastBackPressed = 0;
 
 
 const touchIdOptionalConfig = {
-    title:'Authentication Required',//android 确认对话框的标题
+    title:I18n.t('modal.authentication_required'),//android 确认对话框的标题
     color: "#e00606", // Android 确认对话框的颜色
-    sensorDescription: "Touch sensor", // Android 指纹图像旁边显示的文字
+    sensorDescription: "", // Android 指纹图像旁边显示的文字
     cancelText: "Cancel", // Android 取消按钮文字
     fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)   默认情况下指定“显示密码”标签。 如果设置为空，则字符串标签不可见。
     unifiedErrors: true // use unified error messages (default false) 返回统一错误消息（默认= false）
@@ -46,8 +46,10 @@ export default class BaseComponent extends PureComponent {
         }
 
 
-        this._openAppVerifyIdentidy = true;
+        this.touchIDVeryifyFailCount = 0;//touchId验证失败的次数
+        this.touchIDVertifing = false;//touchId是否正在验证中
         this.backgroundTimer = 0;//在后台的时间
+        
 
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);
@@ -137,9 +139,9 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000  
+            console.log('L_isvertifing_active',this.touchIDVertifing)
+            let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000 && !this.touchIDVertifing 
             this.backgroundTimer = 0;
-            console.log('L_isneedVertify',isNeedVerify)
             if(isNeedVerify){
                 this._verifyIdentidy()
             }
@@ -147,13 +149,13 @@ export default class BaseComponent extends PureComponent {
                 showBlur: false,
             })
         }else if(nextAppState != null && nextAppState === 'background'){
-            console.log('L_background','background')
+            console.log('L_isvertifing_background',this.touchIDVertifing)
             this.backgroundTimer = Date.now();
             this.setState({
                 showBlur: true,
             })
+            
         }else {
-            console.log('L_background1','background1')
             this.backgroundTimer = 0;
             this.setState({
                 showBlur: true,
@@ -202,13 +204,16 @@ export default class BaseComponent extends PureComponent {
     
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
     _touchIdAuthenticate = () => {
-        TouchID.authenticate('身份验证',touchIdOptionalConfig)
+        this.touchIDVertifing = true
+        TouchID.authenticate(I18n.t('modal.vertify_self'),touchIdOptionalConfig)
                .then(
                    success=>{
                        //身份验证成功
+                       this.touchIDVertifing = false
                        this._touchIdAuthenticateSuccess()
                 }).catch((err) =>{
                        //身份验证失败
+                       this.touchIDVertifing = false
                        let error = err
                        this._touchIdAuthenticateFail(error)
                 })
@@ -234,9 +239,6 @@ export default class BaseComponent extends PureComponent {
                })
     }
 
-    _supportTouchIdOrFaceId(){
-
-    }
     _supportTouchId(){
         this._touchIdAuthenticate()
     }
@@ -246,22 +248,36 @@ export default class BaseComponent extends PureComponent {
     }
 
     _notSupportTouchId(err){
-        
+        this.setState({
+            isShowPin:true
+        })
     }
 
     _touchIdAuthenticateSuccess(){
     }
 
     _touchIdAuthenticateFail(err){
-        
         if(err == 'TouchIDError: User canceled authentication'){
-            //用户点击了取消按钮
-            //[TouchIDError: User canceled authentication]
+            console.log('B_AuthenticateFail','用户点击cancel取消验证');
             this.setState({
                 isShowPin:true
             }) 
+        }else if(err == 'TouchIDError: Authentication failed'){
+            console.log('B_AuthenticateFail','TouchID验证失败：' + this.touchIDVeryifyFailCount + 1);
+            this.touchIDVeryifyFailCount = this.touchIDVeryifyFailCount + 1;
+            if(this.touchIDVeryifyFailCount >=3){
+                this.touchIDVeryifyFailCount = 0;
+                this.setState({
+                    isShowPin:true
+                })
+            }else{
+                this._touchIdAuthenticate()
+            }
         }else{
-            this._touchIdAuthenticate()
+            //其他原因造成的验证touchID失败，则弹起pinCode验证
+            this.setState({
+                isShowPin:true
+            })
         }
     }
         
@@ -308,8 +324,8 @@ export default class BaseComponent extends PureComponent {
     _verifyIdentidy(){
         const { pinInfo } = store.getState().Core
         /*
-        pinInfo.password
-        isUseTouchId:
+          pinInfo.password 
+          isUseTouchId:true/false
         */
         if(pinInfo != null){
             if(pinInfo.isUseTouchId){
@@ -317,8 +333,6 @@ export default class BaseComponent extends PureComponent {
             }else{
                 this._showPin()
             }     
-        }else{
-            //this._showPin()
         }
 
     }  
