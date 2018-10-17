@@ -141,6 +141,7 @@ export default class BaseComponent extends PureComponent {
         if (nextAppState != null && nextAppState === 'active') {
             let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000 && !this.touchIDVertifing 
             console.log('B_active',isNeedVerify)
+            console.log('B_touchIDVertifing',this.touchIDVertifing)
             this.backgroundTimer = 0;
             if(isNeedVerify){
                 this._verifyIdentidy()
@@ -163,7 +164,6 @@ export default class BaseComponent extends PureComponent {
                 showBlur: true,
             })
         }else {
-            //ios 首次进入app的时候会进入 unknown状态
             console.log('B_nextAppState_unknown',nextAppState)
             this.backgroundTimer = 0
         }
@@ -210,6 +210,7 @@ export default class BaseComponent extends PureComponent {
     
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
     _touchIdAuthenticate = () => {
+        console.log('B_touchIdAuthenticate','开始验证touchID')
         this.touchIDVertifing = true
         TouchID.authenticate(I18n.t('modal.vertify_self'),touchIdOptionalConfig)
                .then(
