@@ -75,7 +75,6 @@
 		E1DFFB10842F43BAA2B31AFA /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A2A9AE02D7420991151317 /* CoreFoundation.framework */; };
 		E37C2C30216F288400C74DCE /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37C2C2F216F288400C74DCE /* GameKit.framework */; };
 		E37C2C32216F289000C74DCE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37C2C31216F289000C74DCE /* StoreKit.framework */; };
-		E37C2C34216F343E00C74DCE /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = E37C2C33216F343E00C74DCE /* bundle */; };
 		E7E11282614241CAA634EA51 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CDA5CA793D643368136A876 /* CoreTelephony.framework */; };
 		E97F7CA58514437588A93774 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAAF656D10456281CEA891 /* Zocial.ttf */; };
 		F1FBF48B2E62447D91840872 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 687471F5CB2B4A69AA8B9EEF /* MaterialIcons.ttf */; };
