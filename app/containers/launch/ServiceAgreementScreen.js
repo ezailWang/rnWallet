@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, WebView,TouchableOpacity,Image,Text} from 'react-native';
+import { View, StyleSheet, Dimensions, WebView,TouchableOpacity,Image,Text,Platform,Easing} from 'react-native';
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import { BlueButtonBig} from '../../components/Button'
 import { Colors } from '../../config/GlobalConfig'

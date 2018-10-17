@@ -7,7 +7,7 @@ import {
     Platform,
     DeviceEventEmitter,
     ScrollView,
-    Alert
+    Alert,
 } from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 //import Loading from '../../components/LoadingComponent';
@@ -139,8 +139,9 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            console.log('L_isvertifing_active',this.touchIDVertifing)
+            console.log('B_active',"this.backgroundTimer: " + this.backgroundTimer)
             let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000 && !this.touchIDVertifing 
+            console.log('B_isNeedVerify',isNeedVerify)
             this.backgroundTimer = 0;
             if(isNeedVerify){
                 this._verifyIdentidy()
@@ -149,17 +150,23 @@ export default class BaseComponent extends PureComponent {
                 showBlur: false,
             })
         }else if(nextAppState != null && nextAppState === 'background'){
-            console.log('L_isvertifing_background',this.touchIDVertifing)
-            this.backgroundTimer = Date.now();
+            console.log('B_background',this.touchIDVertifing)
+            this.backgroundTimer = this.touchIDVertifing ? 0 : Date.now();
             this.setState({
                 showBlur: true,
             })
-            
-        }else {
+        }else if(nextAppState != null && nextAppState === 'inactive'){
+            //过渡状态  ios 在进入后台的时候会进入 active->inactive->background  从后台回到前台时不会进入 background->active
+            //iOS 在弹起touchID/faceID验证的时候 处于的状态是inactive 
+            console.log('B_inactive',this.touchIDVertifing)
             this.backgroundTimer = 0;
             this.setState({
                 showBlur: true,
             })
+        }else {
+            //ios 首次进入app的时候会进入 unknown状态
+            console.log('B_nextAppState_unknown',nextAppState)
+            this.backgroundTimer = 0
         }
     }
 
@@ -257,27 +264,48 @@ export default class BaseComponent extends PureComponent {
     }
 
     _touchIdAuthenticateFail(err){
+        console.log('L_err',err)
+       
         if(err == 'TouchIDError: User canceled authentication'){
             console.log('B_AuthenticateFail','用户点击cancel取消验证');
             this.setState({
                 isShowPin:true
             }) 
         }else if(err == 'TouchIDError: Authentication failed'){
-            console.log('B_AuthenticateFail','TouchID验证失败：' + this.touchIDVeryifyFailCount + 1);
-            this.touchIDVeryifyFailCount = this.touchIDVeryifyFailCount + 1;
-            if(this.touchIDVeryifyFailCount >=3){
+            //ios 验证失败后系统会再试一次(共三次)  
+            //三次验证失败才会进入_touchIdAuthenticateFail()   err == 'TouchIDError: Authentication failed'
+            //超过三次验证失败 系统则会锁住
+
+            //android 验证失败后再调起touchIdAuthenticate 三次验证失败则会弹起pinCode页面
+            console.log('B_AuthenticateFail','TouchID验证失败：' + this.touchIDVeryifyFailCount);
+            if(Platform.OS == 'ios'){
                 this.touchIDVeryifyFailCount = 0;
                 this.setState({
                     isShowPin:true
                 })
             }else{
-                this._touchIdAuthenticate()
+                this.touchIDVeryifyFailCount = this.touchIDVeryifyFailCount + 1;
+                if(this.touchIDVeryifyFailCount >=3){
+                    this.touchIDVeryifyFailCount = 0;
+                    this.setState({
+                        isShowPin:true
+                    })
+                }else{
+                    this._touchIdAuthenticate()
+                }
             }
-        }else{
-            //其他原因造成的验证touchID失败，则弹起pinCode验证
-            this.setState({
-                isShowPin:true
-            })
+            
+        }else{ 
+            if(Platform.OS == 'ios'  && err == 'TouchIDError: System canceled authentication'){
+                //ios每次验证faceID/toucgID时都会走到这里～
+                console.log('B_ios_vertifyfail','')
+            }else{
+                //其他原因造成的验证touchID失败，则弹起pinCode验证
+                this.setState({
+                     isShowPin:true
+                })
+            }
+            
         }
     }
         
