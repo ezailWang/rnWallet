@@ -176,7 +176,10 @@
         "system_settings":"Einstellungen",
         "language":"Sprache",
 
-        "terms_use_and_privacy_policy":"Nutzungs- und Datenschutzbestimmungen"
+        "terms_use_and_privacy_policy":"Nutzungs- und Datenschutzbestimmungen",
+
+        "feedback_eth_address_prompt":"The address is invalid, please check and input",
+        "feedback_address_title":"Eth Address"
     },
     "toast":{
         "exit_app":"Klicken Sie nochmals um die App zu schließen.",

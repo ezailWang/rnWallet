@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     keyboardAwareScrollView: {
         alignSelf: 'stretch',
         alignItems: 'center',
-        paddingTop: 40,
+        paddingTop: 20,
     },
     contentBox: {
         alignSelf: 'center',
@@ -79,13 +79,16 @@ export default class FeedbackScreen extends BaseComponent {
         this.state = {
             isDisabled: true,
             isShowEmailWarn: false,
+            isShowAddressWarn: false,
             emailWarn: I18n.t('toast.email_format_incorrect'),
+            addressWarn: I18n.t('settings.feedback_eth_address_prompt'),
             photoArray: [],
         }
 
         this.name = '';
         this.email = '';
         this.description = '';
+        this.address = '';
         this.keyBoardIsShow = false;
         this.isEmailFocus = false
     }
@@ -152,9 +155,29 @@ export default class FeedbackScreen extends BaseComponent {
         }
     }
 
+    vertifyAddress() {
+        if (this.address != '') {
+            let validAddress = networkManage.isValidAddress(this.address)
+            this.setState({
+                isShowAddressWarn: !validAddress,
+                isDisabled: this.name == '' || this.description == '' || this.state.isShowEmailWarn || !validAddress
+            })
+        } else {
+            if (!this.state.isDisabled) {
+                this.setState({
+                    isDisabled: true
+                })
+            }
+        }
+    }
+
     nameOnChangeText = (text) => {
         this.name = text;
         this.btnIsEnableClick()
+    };
+    addressOnChangeText = (text) => {
+        this.address = text;
+        this.vertifyAddress()
     };
     emailOnChangeText = (text) => {
         this.email = text;
@@ -169,8 +192,8 @@ export default class FeedbackScreen extends BaseComponent {
         Keyboard.dismiss();
         this._showLoding()
         let userId = await StorageManage.load(StorageKey.UserId)
-        if (!userId) {
-            userId['userId'] = 0
+        if (!userId || userId === null) {
+            userId = { 'userId': 1 }
         }
         let params = {
             'userId': userId['userId'],
@@ -179,7 +202,8 @@ export default class FeedbackScreen extends BaseComponent {
             'system': Platform.OS,
             'systemVersion': DeviceInfo.getSystemVersion(),
             'deviceModel': DeviceInfo.getModel(),
-            'content': this.description
+            'content': this.description,
+            'ethAddress': this.address
         }
         networkManage.uploadFeedback(params, this.state.photoArray)
             .then(res => {
@@ -247,6 +271,11 @@ export default class FeedbackScreen extends BaseComponent {
                             onFocus={() => { this.isEmailFocus = true; }}
                             onBlur={() => { this.isEmailFocus = false; }} />
                         <Text style={this.state.isShowEmailWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.emailWarn}</Text>
+                        <Text style={styles.text}>{I18n.t('settings.feedback_address_title')}</Text>
+                        <CommonTextInput
+                            textInputStyle={styles.textInput}
+                            onChangeText={this.addressOnChangeText} />
+                        <Text style={this.state.isShowAddressWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.addressWarn}</Text>
                         <Text style={styles.text}>{I18n.t('settings.problem_description')}</Text>
                         <CommonTextInput
                             textInputStyle={styles.desTextInput}

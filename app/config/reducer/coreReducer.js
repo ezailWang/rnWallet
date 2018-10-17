@@ -28,7 +28,7 @@ const defaultState = {
     // testPrikey: '0x4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318',
     //walletAddress: '0xb8CE9ab6943e0eCED004cDe8e3bBed6568B2Fa01',
     // prikey: '0x348ce564d427a3311b6536bbcff9390d69395b06ed6c486954e971d960fe8709',
-    network: Network.main,
+    network: Network.rinkeby,
     walletAddress: null,
     walletName: 'wallet',
     walletPasswordPrompt: '',

@@ -177,7 +177,10 @@
         "system_settings":"Ajustes",
         "language":"Lenguaje",
         
-        "terms_use_and_privacy_policy":"Términos y uso de la política de privacidad"
+        "terms_use_and_privacy_policy":"Términos y uso de la política de privacidad",
+
+        "feedback_eth_address_prompt":"The address is invalid, please check and input",
+        "feedback_address_title":"Eth Address"
 
     },
     "toast":{
