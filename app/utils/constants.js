@@ -15,10 +15,10 @@ const defaultTokens = [
     // },
     //test net ERC20Token
     {
-        contractAddress: '0x930AF2f13Ba3Bde29723Bdf67eB23a930baB6Bb1',
+        contractAddress: '0xC1c42e9807BDf6a744376D77Cb3D1fE9a0b23aD5',
         decimals: 18,
         id: uuid.v4(),
-        name: 'itc-test',
+        name: 'IotChain',
         symbol: 'ITC',
     }
 ];

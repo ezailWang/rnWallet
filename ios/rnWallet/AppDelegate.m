@@ -15,12 +15,22 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
+#import "JPUSHService.h"
+
+@interface AppDelegate()
+@end
+
 
 @implementation AppDelegate
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
   [JPUSHService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  //Optional
+  NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -63,6 +73,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  if ([[UIDevice currentDevice].systemVersion floatValue]>= 10.0) { 
+      JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];  
+      entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound; 
+      [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];  
+  }else if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) { 
+    //categories 可自定义
+      [JPUSHService registerForRemoteNotificationTypes:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound |  UNAuthorizationOptionAlert)  categories:nil]; 
+  }else {
+    //categories 必须为nil
+      [JPUSHService registerForRemoteNotificationTypes:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound |  UNAuthorizationOptionAlert)  categories:nil];  
+  }
+
   [JPUSHService setupWithOption:launchOptions appKey:@"865b586edec68f5b84d167ce"
                         channel:nil apsForProduction:nil];
 

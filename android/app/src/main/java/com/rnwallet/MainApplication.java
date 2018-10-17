@@ -21,8 +21,12 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
+import cn.jpush.reactnativejpush.JPushPackage;
 
 public class MainApplication extends Application implements ReactApplication {
+
+  private boolean SHUTDOWN_TOAST = false;
+  private boolean SHUTDOWN_LOG = false;
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
@@ -46,7 +50,8 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new RandomBytesPackage(),
             new LinearGradientPackage(),
-            new RNFSPackage()
+            new RNFSPackage(),
+            new JPushPackage(SHUTDOWN_TOAST,SHUTDOWN_LOG)
 
       
       );
