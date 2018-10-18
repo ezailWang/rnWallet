@@ -494,7 +494,7 @@ export default class Transaction extends BaseComponent {
     judgeCanSendInfoCorrect (){
         let totalValue = this.params.balance;
         let amountIsNotValid = this.inputTransferValue == 0 || this.inputTransferValue  > totalValue
-        let addressIsNotValid = this.inputToAddress=='' || !NetworkManager.isValidAddress(this.inputToAddress) 
+        let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
 
         this.setState({
@@ -556,7 +556,7 @@ export default class Transaction extends BaseComponent {
 
         let params = store.getState().Core.walletTransfer;
         let title = /*params.transferType + ' ' + */I18n.t('transaction.transfer');
-        let alertHeight = NetworkManager.isValidAddress(this.state.toAddress) ? 0 : 15
+        let alertHeight =(this.state.toAddress.length == 42 &&  this.state.toAddress != this.state.fromAddress) ? 0 : 15
 
         return (
             <View   style={styles.container} 
