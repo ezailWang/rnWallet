@@ -132,7 +132,6 @@ export default class TransactionDetail extends BaseComponent {
         this.copyUrl = this.copyUrl.bind(this);
 
         let params = store.getState().Core.transactionDetail;
-        console.log('L_state1',params)
         this.state = {
             amount: params.amount,
             transactionType: params.transactionType,

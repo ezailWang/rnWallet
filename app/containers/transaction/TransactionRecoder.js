@@ -424,7 +424,6 @@ export default class TransactionRecoder extends BaseComponent {
         };
 
         this._hideLoading()
-        console.log('111:', this._isMounted)
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
             onGoBack: () => {
@@ -471,7 +470,6 @@ export default class TransactionRecoder extends BaseComponent {
             transactionTime: timestampToTime(recoder.timeStamp) + " +0800",
             tranStatus: state
         };
-        console.log('222:', this._isMounted)
         store.dispatch(setTransactionDetailParams(transactionDetail));
         this.props.navigation.navigate('TransactionDetail');
     };
