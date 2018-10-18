@@ -107,7 +107,7 @@ export default class AboutUsScreen extends BaseComponent {
                 <Text style={styles.title}>ITC Wallet</Text>
                 <Text style={styles.version}>{this.state.version}</Text>
 
-                <TouchableOpacity  style={styles.item}
+                {/*<TouchableOpacity  style={styles.item}
                                    activeOpacity={0.6}
                                    onPress={()=>this._toPrivacyPolicyPage()}>
                     <Text style={styles.itemTitle}>{I18n.t('settings.terms_use_and_privacy_policy')}</Text>
@@ -115,7 +115,7 @@ export default class AboutUsScreen extends BaseComponent {
                 </TouchableOpacity>
                 <View style={styles.itemLine10}>
 
-                </View>
+                  </View>*/}
 
                 <Item title={'Website'} url={'iotchain.io'} isDisabled={false}></Item> 
                 <Item title={'Email'} url={'support@iotchain.io'} isDisabled={true}></Item>

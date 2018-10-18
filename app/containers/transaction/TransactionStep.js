@@ -288,6 +288,12 @@ export default class TransactionStep extends Component {
         }
     }
 
+    closeStepView(){
+        this.setState({
+            show: false,
+        })
+    }
+
     changeStepPage() {
         let currentPage = !this.state.step;
 

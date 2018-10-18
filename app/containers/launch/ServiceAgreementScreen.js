@@ -36,12 +36,23 @@ const styles = StyleSheet.create({
     }
 });
 
+/*const GetWebviewHeight = (function(){
+    var height = 0;
+    function changeHeight(){
+        if(document.body.scrollHeight != height){
+            height = document.body.scrollHeight;
+
+        }
+    }
+})*/
+
 export default class ServiceAgreementScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            isAgree:false
+            isAgree:false,
+            webviewHeight:Layout.WINDOW_HEIGHT + 30
         }
     }
 
@@ -59,9 +70,11 @@ export default class ServiceAgreementScreen extends BaseComponent {
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('launch.service_agreement')}/>
                 <WebView
                      source={{uri:'http://47.75.16.97:9000/ServiceAgreement.html',method: 'GET'}}
+                     //injectedJavaScript={GetWebviewHeight}
                      startInLoadingState={true}
                      javaScriptEnabled={true}
-                     style={styles.webview}
+                     style={[styles.webview,{height:this.state.webviewHeight}]}
+                     automaticallyAdjustContentInsets = {true}
                      onLoad={() => { }}
                      onLoadEnd={() => { }}/>
                 <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isAgreePress()}>

@@ -75,17 +75,19 @@ const styles = StyleSheet.create({
         backgroundColor:'rgb(85,146,246)'
     },
     text:{
+        alignSelf:'center',
         textAlign:'center',
         fontSize:15,
         color:'#fff',
         paddingTop:12,
         paddingLeft:20,
         paddingRight:20,
-        backgroundColor:'rgba(0,0,0,0.6)',
+        //backgroundColor:'rgba(0,0,0,0.6)'
     },
     tranView:{
         flex:1,
         backgroundColor:'rgba(0,0,0,0.6)',
+
     },
     
 });
@@ -187,8 +189,9 @@ class ScanQRCodeScreen extends BaseComponent{
                                 {this._renderQRScanView()}
                                 <View style={styles.tranView}></View>
                             </View>
-                            <Text style={styles.text}>{I18n.t('settings.scan_qrcode_prompt')}</Text>
-                            <View style={styles.tranView}></View>
+                            <View style={styles.tranView}>
+                                 <Text style={styles.text}>{I18n.t('settings.scan_qrcode_prompt')}</Text>
+                            </View>
                      </View>      
                  </Camera>     
             </View>

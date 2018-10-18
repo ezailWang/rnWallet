@@ -56,7 +56,17 @@ class FirstLaunchScreen extends BaseComponent {
         SplashScreen.hide()
     }
 
-    
+    componentWillMount() {
+        this._addEventListener();
+        this._addChangeListener()
+    }
+
+    componentWillUnmount() {
+        this._removeEventListener();
+        this._removeChangeListener()
+    }
+
+   // _handleAppStateChange = (nextAppState) => {}
     
     //验证android读写权限
     async vertifyAndroidPermissions(isCreateWallet) {
@@ -111,6 +121,8 @@ class FirstLaunchScreen extends BaseComponent {
         
     }
 
+    
+
     _pinIsShowEmitter = (data) => {
         let pinType = data.pinObject.pinType
         let isVisible =  data.pinObject.visible
@@ -137,7 +149,6 @@ class FirstLaunchScreen extends BaseComponent {
         }else{
             super._supportTouchId()
         }
-        
     }
 
     _supportFaceId(){
@@ -153,7 +164,6 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _notSupportTouchId(err){
-        console.log('F_notsupport',err)
         if(this.props.pinInfo == null){
             this.savePinInfo(false)
             this._toRute()
@@ -182,22 +192,17 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _touchIdAuthenticateSuccess(){
-        console.log('AuthenticateFail_1','验证成功');
         if(this.props.pinInfo == null){
-            console.log('AuthenticateFail_2','验证成功');
             this.savePinInfo(true)
             this._toRute()
         }else{
             super._touchIdAuthenticateSuccess()
         }
-        
     }
 
     _touchIdAuthenticateFail(err){
-        console.log('F_err',err)
         if(this.props.pinInfo == null){
             if(err == 'TouchIDError: User canceled authentication'){
-                console.log('F_AuthenticateFail','用户点击cancel取消验证');
                 this.savePinInfo(false)
                 this._toRute()
             }else if(err == 'TouchIDError: Authentication failed'){
@@ -206,7 +211,6 @@ class FirstLaunchScreen extends BaseComponent {
                 //超过三次验证失败 系统则会锁住
 
                 //android 验证失败后再调起touchIdAuthenticate 三次验证失败则会弹起pinCode页面
-                console.log('F_AuthenticateFail','TouchID验证失败：' + this.touchIdVeryifyFailCount);
                 if(Platform.OS == 'ios'){
                     this.touchIdVeryifyFailCount = 0;
                     this.savePinInfo(false)
@@ -223,17 +227,11 @@ class FirstLaunchScreen extends BaseComponent {
                 }
                 
             }else{
-                if(Platform.OS == 'ios'  &&  err == 'TouchIDError: System canceled authentication'){
-                    //ios每次验证faceID/toucgID时都会走到这里～
-                    console.log('B_ios_vertifyfail','')
-                }else{
-                    //其他原因造成的验证touchID失败，则认为不设置touchid
-                    this.savePinInfo(false)
-                    this._toRute()
-                }
+                //其他原因造成的验证touchID失败，则认为不设置touchid
+                this.savePinInfo(false)
+                this._toRute()
             }
         }else{
-            console.log('F_AuthenticateFail',err);
             super._touchIdAuthenticateFail(err)
         }
     }

@@ -124,6 +124,10 @@ class VerifyMnemonicScreen extends BaseComponent {
         })
     }
 
+    _stateBackground(){
+        
+    }
+
 
 
 
@@ -167,7 +171,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
     completeClickFun() {
         if (this.state.sortMnemonicDatas.join(' ') == this.props.mnemonic) {
-            this. _showLoding();
+            this._showLoding();
             setTimeout(() => {
                 this.startCreateWallet();//创建钱包
             }, 2000);
@@ -217,7 +221,6 @@ class VerifyMnemonicScreen extends BaseComponent {
         } catch (err) {
             this._hideLoading()
             showToast(I18n.t('toast.create_wallet_error'));
-            console.log('createWalletErr1:', err)
         }
     }
     renderComponent() {
