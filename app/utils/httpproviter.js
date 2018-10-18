@@ -28,7 +28,6 @@ export default class HttpProviter {
         var request = this._prepareRequest();
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.timeout !== 1) {
-                console.log('response--:', result);
                 var result = request.responseText;
                 var error = null;
                 try {

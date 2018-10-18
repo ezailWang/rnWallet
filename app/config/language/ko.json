@@ -121,7 +121,7 @@
         "transaction_fail":"거래가 실패했습니다.",
 
         "alert_0":"개인 키 획득에 실패했습니다.",
-        "alert_1":"거래 발송이 실패했습니다. 매개 변수를 확인해주세요",
+        "alert_1":"거래 발송이 실패했습니다. 네트워크 상태나 매개 변수를 확인해주세요",
         "alert_2":"유효한 이체 주소를 입력해주세요",
         "alert_3":"유효한 이체 금액을 입력해주세요",
         "alert_4":"수속비가 부족하다.",
@@ -244,7 +244,7 @@
         "open_face_id":"Face ID를 사용하시겠습니까?",
         "open_touch_id":"Touch ID를 사용하시겠습니까?",
 
-        "vertify_self":"身份验证",
+        "vertify_self":"지문 인증",
         "authentication_required":"Autorizacion Requerida"
     }
 }

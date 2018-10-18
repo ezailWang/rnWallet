@@ -51,7 +51,6 @@ export default class FetchUtils {
             }))
                 .then(response => response.json())
                 .then(responseJson => {
-                    console.log('responsJson:', responseJson)
                     resolve(responseJson)
                 })
                 .catch((err) => {
@@ -85,7 +84,6 @@ export default class FetchUtils {
                 }))
                     .then((response) => response.json())
                     .then((responseJson) => {
-                        console.log('responsJson:', responseJson)
                         resolve(responseJson)
                     })
                     .catch((err) => {
@@ -104,7 +102,6 @@ export default class FetchUtils {
                 }))
                     .then((response) => response.json())
                     .then((responseJson) => {
-                        console.log('responsJson:', responseJson)
                         resolve(responseJson)
                     })
                     .catch((err) => {

@@ -183,7 +183,6 @@ class SetScreen extends BaseComponent {
                 //alert(I18n.t('modal.export_private_key_error'));
                 showToast(I18n.t('modal.export_private_key_error'))
            } else {
-                console.log('L_keyprivate','跳转')
                 this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
            }
            
