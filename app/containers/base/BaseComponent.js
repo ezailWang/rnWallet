@@ -21,12 +21,12 @@ import layoutConstants from '../../config/LayoutConstants';
 import Toast from 'react-native-root-toast';
 import RootSiblings from 'react-native-root-siblings';
 import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
-import {Common} from '../../config/GlobalConfig'
+import { Common } from '../../config/GlobalConfig'
 let lastBackPressed = 0;
 
 
 const touchIdOptionalConfig = {
-    title:I18n.t('modal.authentication_required'),//android 确认对话框的标题
+    title: I18n.t('modal.authentication_required'),//android 确认对话框的标题
     color: "#e00606", // Android 确认对话框的颜色
     sensorDescription: "", // Android 指纹图像旁边显示的文字
     cancelText: "Cancel", // Android 取消按钮文字
@@ -42,7 +42,7 @@ export default class BaseComponent extends PureComponent {
         this.renderComponent = this.renderComponent.bind(this);
         this.state = {
             isShowLoading: false,
-            isShowPin:false,
+            isShowPin: false,
             showBlur: false,
         }
 
@@ -50,17 +50,18 @@ export default class BaseComponent extends PureComponent {
 
         this.touchIDVeryifyFailCount = 0;//touchId验证失败的次数
         this.backgroundTimer = 0;//在后台的时间
-        
+
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);
         this._showLoding = this._showLoding.bind(this);
         this._hideLoading = this._hideLoading.bind(this);
         this._setStatusBarStyleLight = this._setStatusBarStyleLight.bind(this);
         this._initData = this._initData.bind(this);
-      //  this._handleAppStateChange = this._handleAppStateChange.bind(this);
+        //  this._handleAppStateChange = this._handleAppStateChange.bind(this);
         this._barStyle = 'dark-content';
+        this._isMounted = false
 
-        
+
     }
     //设置StatusBar的barStyle为light-content,默认为dark-content
     _setStatusBarStyleLight() {
@@ -72,6 +73,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     componentWillMount() {
+        this._isMounted = true
         this._addEventListener();
     }
 
@@ -81,6 +83,7 @@ export default class BaseComponent extends PureComponent {
 
     componentWillUnmount() {
         this._removeEventListener();
+        this._isMounted = false
     }
 
 
@@ -94,48 +97,52 @@ export default class BaseComponent extends PureComponent {
         this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
         this.pinIsShowHandler = DeviceEventEmitter.addListener('pinIsShow', this._pinIsShowEmitter);//监听pin是否显示
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
-        this.backgroundStateHandler = DeviceEventEmitter.addListener('backgroundState', this._backgroundStateEmitter);  
+        this.backgroundStateHandler = DeviceEventEmitter.addListener('backgroundState', this._backgroundStateEmitter);
     }
 
-    
+
 
     //移除事件监听
     _removeEventListener() {
         this.monetaryUnitChangeHandler && this.monetaryUnitChangeHandler.remove();
         this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
         this.pinIsShowHandler && this.pinIsShowHandler.remove();
-        this.backgroundStateHandler  &&  this.backgroundStateHandler.remove(); 
+        this.backgroundStateHandler && this.backgroundStateHandler.remove();
     }
 
-    _addChangeListener(){
+    _addChangeListener() {
         AppState.addEventListener('change', this._handleAppStateChange);
     }
 
-    _removeChangeListener(){
+    _removeChangeListener() {
         AppState.removeEventListener('change', this._handleAppStateChange);
     }
 
     //显示Loading
     _showLoding() {
-        this.setState({
-            isShowLoading: true,
-        })
+        if (this._isMounted) {
+            this.setState({
+                isShowLoading: true,
+            })
+        }
     }
 
     //隐藏Loading
     _hideLoading() {
-        this.setState({
-            isShowLoading: false,
-        })
+        if (this._isMounted) {
+            this.setState({
+                isShowLoading: false,
+            })
+        }
     }
 
     //显示Loading
     _showPin() {
-       
+
         this.setState({
             isShowPin: true,
         })
-        
+
     }
 
     //隐藏Loading
@@ -147,7 +154,7 @@ export default class BaseComponent extends PureComponent {
 
 
     //pin显示的时候，其他的modal必须关系，否则pin显示不出来 
-    _closeModal(){
+    _closeModal() {
     }
 
     //渲染子组件
@@ -158,18 +165,18 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 10000 && !Common.touchIDVertifing 
+            let isNeedVerify = this.backgroundTimer != 0 && (Date.now() - this.backgroundTimer) >= 10000 && !Common.touchIDVertifing
             this.backgroundTimer = 0;
-            DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:isNeedVerify});
+            DeviceEventEmitter.emit('backgroundState', { nextAppState: nextAppState, isNeedVerify: isNeedVerify });
 
-            if(isNeedVerify){
-                this._verifyIdentidy() 
+            if (isNeedVerify) {
+                this._verifyIdentidy()
             }
-            
-            
-        }else{
-            DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:false});
-            this.backgroundTimer = !Common.touchIDVertifing && nextAppState=='background' ? Date.now() : 0;
+
+
+        } else {
+            DeviceEventEmitter.emit('backgroundState', { nextAppState: nextAppState, isNeedVerify: false });
+            this.backgroundTimer = !Common.touchIDVertifing && nextAppState == 'background' ? Date.now() : 0;
         }/*else if(nextAppState != null && nextAppState === 'background'){
             this.backgroundTimer = Common.touchIDVertifing ? 0 : Date.now();
             DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState});
@@ -191,7 +198,7 @@ export default class BaseComponent extends PureComponent {
                 keyboardShouldPersistTaps='handled'
                 scrollEnabled={false}>
                 <StatusBarComponent barStyle={this._barStyle} />
-                
+
                 {this.renderComponent()}
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
@@ -200,25 +207,25 @@ export default class BaseComponent extends PureComponent {
                 />}
                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
                 {this.state.isShowPin == undefined ? null :
-                     <PinModal visible = {this.state.isShowPin}
-                               password = {pinInfo == null ? '' : pinInfo.password}
-                />}
+                    <PinModal visible={this.state.isShowPin}
+                        password={pinInfo == null ? '' : pinInfo.password}
+                    />}
             </ScrollView>
         )
     }
 
     //接收到货币单位改变的监听所需要的操作
     _monetaryUnitChange = (data) => {
-        
+
     }
 
     //接收到Pin显示隐藏的监听所需要的操作
     _pinIsShowEmitter = (data) => {
         let pinType = data.pinObject.pinType
-        let isVisible =  data.pinObject.visible
-        if(pinType == 'PinModal'){
+        let isVisible = data.pinObject.visible
+        if (pinType == 'PinModal') {
             this.setState({
-                isShowPin:isVisible,
+                isShowPin: isVisible,
             })
         }
     }
@@ -228,41 +235,41 @@ export default class BaseComponent extends PureComponent {
     _backgroundStateEmitter = (data) => {
         let state = data.nextAppState;
         let isNeedVerify = data.isNeedVerify;
-        if(isNeedVerify){
-             this._closeModal()
-             setTimeout(()=>{
-                  this._showPin()
+        if (isNeedVerify) {
+            this._closeModal()
+            setTimeout(() => {
+                this._showPin()
             }, 200);
-             
+
         }
-        if(state != null && state === 'active'){
+        if (state != null && state === 'active') {
             this.setState({
                 showBlur: false,
             })
-        }else{
+        } else {
             this.setState({
                 showBlur: true,
             })
-       }
-       
+        }
+
     }
 
-    
-    
+
+
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
     _touchIdAuthenticate = () => {
         Common.touchIDVertifing = true
-        TouchID.authenticate(I18n.t('modal.vertify_self'),touchIdOptionalConfig)
-               .then(
-                   success=>{
-                       //身份验证成功
-                       Common.touchIDVertifing = false
-                       this._touchIdAuthenticateSuccess()
-                }).catch((err) =>{
-                       //身份验证失败
-                       Common.touchIDVertifing = false
-                       let error = err
-                       this._touchIdAuthenticateFail(error)
+        TouchID.authenticate(I18n.t('modal.vertify_self'), touchIdOptionalConfig)
+            .then(
+                success => {
+                    //身份验证成功
+                    Common.touchIDVertifing = false
+                    this._touchIdAuthenticateSuccess()
+                }).catch((err) => {
+                    //身份验证失败
+                    Common.touchIDVertifing = false
+                    let error = err
+                    this._touchIdAuthenticateFail(error)
                 })
     }
 
@@ -270,65 +277,65 @@ export default class BaseComponent extends PureComponent {
     _touchIdIsSupported = () => {
         //如果不支持TouchID，则返回拒绝的Promise。 在iOS上解析为具有FaceID或TouchID的biometryType字符串。
         TouchID.isSupported(touchIdOptionalConfig)
-               .then(type => {
-                   if(type == 'FaceID'){
-                       //FaceID is supported
-                       this._supportTouchId()
-                   }else{
-                       //TouchID is supported
-                       this._supportFaceId()
-                   }
-                   
-               }).catch(err => {
-                       let error = err
-                       this._notSupportTouchId(error)
-               })
+            .then(type => {
+                if (type == 'FaceID') {
+                    //FaceID is supported
+                    this._supportTouchId()
+                } else {
+                    //TouchID is supported
+                    this._supportFaceId()
+                }
+
+            }).catch(err => {
+                let error = err
+                this._notSupportTouchId(error)
+            })
     }
 
-    _supportTouchId(){
+    _supportTouchId() {
         this._touchIdAuthenticate()
     }
 
-    _supportFaceId(){
+    _supportFaceId() {
         this._touchIdAuthenticate()
     }
 
-    _notSupportTouchId(err){
+    _notSupportTouchId(err) {
         this._showPin()
     }
 
-    _touchIdAuthenticateSuccess(){
+    _touchIdAuthenticateSuccess() {
         this._hidePin()
     }
 
-    _touchIdAuthenticateFail(err){
-        if(err == 'TouchIDError: User canceled authentication'){
+    _touchIdAuthenticateFail(err) {
+        if (err == 'TouchIDError: User canceled authentication') {
             this._showPin()
-        }else if(err == 'TouchIDError: Authentication failed'){
+        } else if (err == 'TouchIDError: Authentication failed') {
             //ios 验证失败后系统会再试一次(共三次)  
             //三次验证失败才会进入_touchIdAuthenticateFail()   err == 'TouchIDError: Authentication failed'
             //超过三次验证失败 系统则会锁住
 
             //android 验证失败后再调起touchIdAuthenticate 三次验证失败则会弹起pinCode页面
-            if(Platform.OS == 'ios'){
+            if (Platform.OS == 'ios') {
                 this.touchIDVeryifyFailCount = 0;
                 this._showPin()
-            }else{
+            } else {
                 this.touchIDVeryifyFailCount = this.touchIDVeryifyFailCount + 1;
-                if(this.touchIDVeryifyFailCount >=3){
+                if (this.touchIDVeryifyFailCount >= 3) {
                     this.touchIDVeryifyFailCount = 0;
                     this._showPin()
-                }else{
+                } else {
                     this._touchIdAuthenticate()
                 }
             }
-            
-        }else{ 
+
+        } else {
             //其他原因造成的验证touchID失败，则弹起pinCode验证
             this._showPin()
         }
     }
-        
+
 
     //网络请假错误回调
     _netRequestErr = (err) => {
@@ -344,9 +351,9 @@ export default class BaseComponent extends PureComponent {
             this.toast = showToast(I18n.t('toast.net_request_token_unable_resolve'), Toast.positions.TOP + 10)
         } else if (err.message === 'timeout of 10000ms exceeded') {
             this.toast = showToast(I18n.t('net_request_timeout'))
-        } else if(err === 'No transactions found' || err.message === 'No transactions found'){
+        } else if (err === 'No transactions found' || err.message === 'No transactions found') {
             return
-        }else {
+        } else {
             let errMessage = err.message === undefined ? err : err.message
             this.toast = showToast(errMessage, Toast.positions.TOP + 10);
         }
@@ -371,18 +378,18 @@ export default class BaseComponent extends PureComponent {
     }
 
 
-    _verifyIdentidy(){
+    _verifyIdentidy() {
         const { pinInfo } = store.getState().Core
         /*
           pinInfo.password 
           isUseTouchId:true/false
         */
-        if(pinInfo != null){
-            this._showPin() 
-            if(pinInfo.isUseTouchId){
+        if (pinInfo != null) {
+            this._showPin()
+            if (pinInfo.isUseTouchId) {
                 this._touchIdIsSupported()
-            } 
- 
+            }
+
         }
         /*if(pinInfo != null){
             if(pinInfo.isUseTouchId){
@@ -391,7 +398,7 @@ export default class BaseComponent extends PureComponent {
                 this._showPin()
             }     
         }*/
-    }  
+    }
 }
 
 
