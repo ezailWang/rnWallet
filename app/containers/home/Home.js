@@ -51,6 +51,7 @@ class HomeScreen extends BaseComponent {
         }
     }
 
+   
     renderItem = (item) => {
         item.item['isTotalAssetsHidden'] = this.state.isTotalAssetsHidden
         return (

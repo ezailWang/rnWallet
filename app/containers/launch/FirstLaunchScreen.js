@@ -56,7 +56,9 @@ class FirstLaunchScreen extends BaseComponent {
         SplashScreen.hide()
     }
 
-    _handleAppStateChange = (nextAppState) => {}
+   
+
+   // _handleAppStateChange = (nextAppState) => {}
     
     //验证android读写权限
     async vertifyAndroidPermissions(isCreateWallet) {

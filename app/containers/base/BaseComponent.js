@@ -45,18 +45,19 @@ export default class BaseComponent extends PureComponent {
             showBlur: false,
         }
 
+        
 
         this.touchIDVeryifyFailCount = 0;//touchId验证失败的次数
         this.touchIDVertifing = false;//touchId是否正在验证中
         this.backgroundTimer = 0;//在后台的时间
         
-
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);
         this._showLoding = this._showLoding.bind(this);
         this._hideLoading = this._hideLoading.bind(this);
         this._setStatusBarStyleLight = this._setStatusBarStyleLight.bind(this);
         this._initData = this._initData.bind(this);
+      //  this._handleAppStateChange = this._handleAppStateChange.bind(this);
         this._barStyle = 'dark-content';
 
         
@@ -138,14 +139,15 @@ export default class BaseComponent extends PureComponent {
 
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
+        
         if (nextAppState != null && nextAppState === 'active') {
             let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 60000 && !this.touchIDVertifing 
             console.log('B_active',isNeedVerify)
             console.log('B_touchIDVertifing',this.touchIDVertifing)
             this.backgroundTimer = 0;
-            if(isNeedVerify){
+            /*if(isNeedVerify){
                 this._verifyIdentidy()
-            }
+            }*/
             this.setState({
                 showBlur: false,
             })
@@ -353,6 +355,7 @@ export default class BaseComponent extends PureComponent {
 
     _verifyIdentidy(){
         const { pinInfo } = store.getState().Core
+
         /*
           pinInfo.password 
           isUseTouchId:true/false
