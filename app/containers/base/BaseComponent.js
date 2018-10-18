@@ -131,7 +131,7 @@ export default class BaseComponent extends PureComponent {
 
     //显示Loading
     _showPin() {
-        //this._closeModal()
+       
         this.setState({
             isShowPin: true,
         })
@@ -157,15 +157,15 @@ export default class BaseComponent extends PureComponent {
 
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
-        let routeName = this.props.navigation.state.routeName;
-        console.log('L_routeName',routeName)
         if (nextAppState != null && nextAppState === 'active') {
             let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 10000 && !Common.touchIDVertifing 
             this.backgroundTimer = 0;
+            DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:isNeedVerify});
+
             if(isNeedVerify){
                 this._verifyIdentidy() 
             }
-            DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:isNeedVerify});
+            
             
         }else{
             DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:false});
@@ -228,7 +228,13 @@ export default class BaseComponent extends PureComponent {
     _backgroundStateEmitter = (data) => {
         let state = data.nextAppState;
         let isNeedVerify = data.isNeedVerify;
-        
+        if(isNeedVerify){
+             this._closeModal()
+             setTimeout(()=>{
+                  this._showPin()
+            }, 200);
+             
+        }
         if(state != null && state === 'active'){
             this.setState({
                 showBlur: false,
@@ -245,7 +251,6 @@ export default class BaseComponent extends PureComponent {
     
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
     _touchIdAuthenticate = () => {
-        console.log('B_touchIdAuthenticate','开始验证touchID')
         Common.touchIDVertifing = true
         TouchID.authenticate(I18n.t('modal.vertify_self'),touchIdOptionalConfig)
                .then(
@@ -275,7 +280,6 @@ export default class BaseComponent extends PureComponent {
                    }
                    
                }).catch(err => {
-                       //console.log('L_error',err)
                        let error = err
                        this._notSupportTouchId(error)
                })
@@ -298,10 +302,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     _touchIdAuthenticateFail(err){
-        console.log('B_err',err)
-       
         if(err == 'TouchIDError: User canceled authentication'){
-            console.log('B_AuthenticateFail','用户点击cancel取消验证');
             this._showPin()
         }else if(err == 'TouchIDError: Authentication failed'){
             //ios 验证失败后系统会再试一次(共三次)  
@@ -309,7 +310,6 @@ export default class BaseComponent extends PureComponent {
             //超过三次验证失败 系统则会锁住
 
             //android 验证失败后再调起touchIdAuthenticate 三次验证失败则会弹起pinCode页面
-            console.log('B_AuthenticateFail','TouchID验证失败：' + this.touchIDVeryifyFailCount);
             if(Platform.OS == 'ios'){
                 this.touchIDVeryifyFailCount = 0;
                 this._showPin()
@@ -373,16 +373,16 @@ export default class BaseComponent extends PureComponent {
 
     _verifyIdentidy(){
         const { pinInfo } = store.getState().Core
-        console.log('L_','开始验证')
         /*
           pinInfo.password 
           isUseTouchId:true/false
         */
         if(pinInfo != null){
-            this._showPin()
+            this._showPin() 
             if(pinInfo.isUseTouchId){
                 this._touchIdIsSupported()
-            }   
+            } 
+ 
         }
         /*if(pinInfo != null){
             if(pinInfo.isUseTouchId){
