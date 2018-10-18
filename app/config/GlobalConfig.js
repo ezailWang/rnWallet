@@ -95,6 +95,11 @@ const Network = {
     main:'main',
 }
 
+
+const Common = {
+    touchIDVertifing : false,//touchId是否正在验证中
+}
+
 module.exports = {
     Colors,
     FontSize,
@@ -102,4 +107,5 @@ module.exports = {
     TransferGasLimit,
     StorageKey,
     Network,
+    Common,
 };

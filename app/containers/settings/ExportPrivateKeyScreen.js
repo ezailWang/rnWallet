@@ -94,7 +94,9 @@ export default class ExportPrivateKeyScreen extends BaseComponent {
                screenshotWarnVisible:true
             });
     }
-
+    _closeModal(){
+        this.onCloseModal()
+    }
 
     onCloseModal() {
         requestAnimationFrame(() => {//下一帧就立即执行回调,可以异步来提高组件的响应速度

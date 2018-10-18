@@ -124,6 +124,10 @@ class VerifyMnemonicScreen extends BaseComponent {
         })
     }
 
+    _stateBackground(){
+        
+    }
+
 
 
 
@@ -217,7 +221,6 @@ class VerifyMnemonicScreen extends BaseComponent {
         } catch (err) {
             this._hideLoading()
             showToast(I18n.t('toast.create_wallet_error'));
-            console.log('createWalletErr1:', err)
         }
     }
     renderComponent() {

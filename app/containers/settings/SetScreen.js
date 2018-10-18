@@ -76,6 +76,12 @@ class SetScreen extends BaseComponent {
         this.inputPwd = '';
     }
 
+
+    _closeModal(){
+        this.closeNameModal()
+        this.closePasswordModal()
+    }
+
     openNameModal() {
         this.setState({
             nameModalVisible: true,

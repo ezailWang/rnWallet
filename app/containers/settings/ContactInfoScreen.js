@@ -227,6 +227,12 @@ export default class ContactInfoScreen extends BaseComponent {
             isShowDialog:false
         })
     }
+
+    _closeModal(){
+        this.setState({
+            isShowDialog:false
+        })
+    }
     
     renderComponent() {
         return (

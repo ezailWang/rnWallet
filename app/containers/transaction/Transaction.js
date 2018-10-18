@@ -459,6 +459,11 @@ export default class Transaction extends BaseComponent {
 
         this.dialog.showStepView(params);
     };
+
+
+    _closeModal(){
+        this.dialog.closeStepView();
+    }
     //----视图的事件方法
     sliderValueChanged = (value) => {
 

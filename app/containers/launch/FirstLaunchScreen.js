@@ -56,7 +56,15 @@ class FirstLaunchScreen extends BaseComponent {
         SplashScreen.hide()
     }
 
-   
+    componentWillMount() {
+        this._addEventListener();
+        this._addChangeListener()
+    }
+
+    componentWillUnmount() {
+        this._removeEventListener();
+        this._removeChangeListener()
+    }
 
    // _handleAppStateChange = (nextAppState) => {}
     
@@ -138,6 +146,8 @@ class FirstLaunchScreen extends BaseComponent {
                 isShowRemind:true,
                 remindContent:I18n.t('modal.open_face_id'),
             })
+        }else{
+            super._supportTouchId()
         }
     }
 
@@ -147,6 +157,8 @@ class FirstLaunchScreen extends BaseComponent {
                 isShowRemind:true,
                 remindContent:I18n.t('modal.open_touch_id'),
             })
+        }else{
+            super._supportFaceId()
         }
         
     }
@@ -156,6 +168,8 @@ class FirstLaunchScreen extends BaseComponent {
         if(this.props.pinInfo == null){
             this.savePinInfo(false)
             this._toRute()
+        }else{
+            super._notSupportTouchId(err)
         }
         
     }
@@ -182,6 +196,8 @@ class FirstLaunchScreen extends BaseComponent {
         if(this.props.pinInfo == null){
             this.savePinInfo(true)
             this._toRute()
+        }else{
+            super._touchIdAuthenticateSuccess()
         }
     }
 
@@ -215,15 +231,12 @@ class FirstLaunchScreen extends BaseComponent {
                 }
                 
             }else{
-                if(Platform.OS == 'ios'  &&  err == 'TouchIDError: System canceled authentication'){
-                    //ios每次验证faceID/toucgID时都会走到这里～
-                    console.log('F_ios_vertifyfail','')
-                }else{
-                    //其他原因造成的验证touchID失败，则认为不设置touchid
-                    this.savePinInfo(false)
-                    this._toRute()
-                }
+                //其他原因造成的验证touchID失败，则认为不设置touchid
+                this.savePinInfo(false)
+                this._toRute()
             }
+        }else{
+            super._touchIdAuthenticateFail(err)
         }
     }
 

@@ -51,7 +51,16 @@ class HomeScreen extends BaseComponent {
         }
     }
 
-   
+    componentWillMount() {
+        this._addEventListener();
+        this._addChangeListener()
+    }
+
+    componentWillUnmount() {
+        this._removeEventListener();
+        this._removeChangeListener()
+    }
+    
     renderItem = (item) => {
         item.item['isTotalAssetsHidden'] = this.state.isTotalAssetsHidden
         return (

@@ -93,6 +93,10 @@ export default class ExportKeystoreScreen extends BaseComponent {
                 screenshotWarnVisible:true
             });
     }
+
+    _closeModal(){
+        this.onCloseModal()
+    }
     /**async exportKeystore(){
         try{
               //this.refs.loading.show();

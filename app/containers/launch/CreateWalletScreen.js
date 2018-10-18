@@ -184,8 +184,6 @@ class CreateWalletScreen extends BaseComponent {
     layout(ref){
         const handle = findNodeHandle(ref)
         UIManager.measure(handle,(x,y,width,height,pageX,pageY)=>{
-            console.log('L_Layout.WINDOW_HEIGHT',Layout.WINDOW_HEIGHT) 
-            console.log('L_pageY',pageY) 
             if(this.keyBoardIsShow){
                 this.textInputMarginBottom = Layout.WINDOW_HEIGHT-pageY - 40;
             }else{
@@ -195,7 +193,6 @@ class CreateWalletScreen extends BaseComponent {
     }
 
     keyboardWillShowHandler=(event)=>{
-        console.log('L_willShow','willShow')
         this.keyBoardIsShow = true;
         let duration = event.duration;
         this.keyboardHeight = event.endCoordinates.height;//软键盘高度
@@ -205,7 +202,6 @@ class CreateWalletScreen extends BaseComponent {
     }
 
     keyboardWillHideHandler=(event)=>{
-        console.log('L_willHide','willHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
         let duration = event.duration;
@@ -214,16 +210,12 @@ class CreateWalletScreen extends BaseComponent {
     }
 
     keyboardDidShowHandler=(event)=>{
-        console.log('L_didShow','didShow')
         this.keyBoardIsShow = true;
         //'event', 
         let duration = 100;
         this.keyboardHeight = event.endCoordinates.height;
 
         let t = this.textInputMarginBottom - this.keyboardHeight;
-        console.log('L_textInputMarginBottom',this.textInputMarginBottom) 
-        console.log('L_keyboardHeight',this.keyboardHeight) 
-        console.log('L_I',t)
         if(this.isRePwdFocus && t < 0 ){       
             this.titleBoxAnimated(duration,t,0,0,0)
         }else{
@@ -232,7 +224,6 @@ class CreateWalletScreen extends BaseComponent {
     }
 
     keyboardDidHideHandler=(event)=>{
-        console.log('L_didHide','didHide')
         this.keyBoardIsShow = false;
         this._isShowRePwdWarn();
         let duration = 100;
@@ -426,7 +417,6 @@ class CreateWalletScreen extends BaseComponent {
                                 selectionColor='#00bfff'
                                 secureTextEntry={!this.state.isShowPassword}
                                 onChange={(event) => {
-                                    console.log('L_onChange','onChange')
                                     this.pwdtxt = event.nativeEvent.text;
                                     this._isShowPwdWarn()
                                 }}
