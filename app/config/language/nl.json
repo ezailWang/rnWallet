@@ -122,7 +122,7 @@
         "alert_1":"Transactie mislukt. Controleer de parameters.",
         "alert_2":"Voer een correct overdrachtsadres in.",
         "alert_3":"Geef een correct bedrag aan.",
-        "alert_4":"Onvoldoende fondsen",
+        "alert_4":"Onvoldoende Vergoedingen",
         "alert_5":"Open eerst de cameratoegang."
     },
     "settings":{

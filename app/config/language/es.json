@@ -123,7 +123,7 @@
         "alert_1":"Error de transacción. Por favor comprueba los parámetros",
         "alert_2":"Por favor, introduce una dirección valida de transferencia.",
         "alert_3":"Por favor introduce una cantidad de transferencia válida.",
-        "alert_4":"Saldo insuficiente",
+        "alert_4":"Cargos insuficiente",
         "alert_5":"Por favor, permita el acceso a la cámara"
     },
     "settings":{

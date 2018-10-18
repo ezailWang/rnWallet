@@ -112,9 +112,11 @@ class ReceiptCodeScreen extends BaseComponent {
     componentDidMount() {
         super.componentDidMount()
         InteractionManager.runAfterInteractions(() => {
-            this.setState({ qrcodeLoading: false })
-            if (this.props.firstQR) {
-                store.dispatch(setFirstQR())
+            if (this._isMounted) {
+                this.setState({ qrcodeLoading: false })
+                if (this.props.firstQR) {
+                    store.dispatch(setFirstQR())
+                }
             }
         })
     }

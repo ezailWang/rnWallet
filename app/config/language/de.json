@@ -122,7 +122,7 @@
         "alert_1":"Transaktion fehlgeschlagen. Bitte überprüfen Sie die Parameter.",
         "alert_2":"Bitte geben Sie eine korrekte Transferadresse an.",
         "alert_3":"Bitte geben Sie einen korrekten Transferbetrag an.",
-        "alert_4":"Unzureichende Mittel",
+        "alert_4":"Gebühren Mittel",
         "alert_5":"Bitte Öffnen Sie zuerst den Kamerazugriff."
     },
     "settings":{
