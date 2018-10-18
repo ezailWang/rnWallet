@@ -164,7 +164,6 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _notSupportTouchId(err){
-        console.log('F_notsupport',err)
         if(this.props.pinInfo == null){
             this.savePinInfo(false)
             this._toRute()
@@ -202,10 +201,8 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _touchIdAuthenticateFail(err){
-        console.log('F_err',err)
         if(this.props.pinInfo == null){
             if(err == 'TouchIDError: User canceled authentication'){
-                console.log('F_AuthenticateFail1','用户点击cancel取消验证');
                 this.savePinInfo(false)
                 this._toRute()
             }else if(err == 'TouchIDError: Authentication failed'){
@@ -214,7 +211,6 @@ class FirstLaunchScreen extends BaseComponent {
                 //超过三次验证失败 系统则会锁住
 
                 //android 验证失败后再调起touchIdAuthenticate 三次验证失败则会弹起pinCode页面
-                console.log('F_AuthenticateFail2','TouchID验证失败：' + this.touchIdVeryifyFailCount);
                 if(Platform.OS == 'ios'){
                     this.touchIdVeryifyFailCount = 0;
                     this.savePinInfo(false)
