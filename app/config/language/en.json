@@ -123,7 +123,7 @@
         "alert_1":"Transaction failed. Please check the parameters.",
         "alert_2":"Please enter a valid transfer address.",
         "alert_3":"Please enter a valid transfer amount.",
-        "alert_4":"Insufficient Balance",
+        "alert_4":"Insufficient service charge",
         "alert_5":"Please allow camera access."
     },
     "settings":{
