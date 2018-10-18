@@ -129,16 +129,14 @@ export default class BaseComponent extends PureComponent {
         })
     }
 
-    //显示Loading
+    //显示PinCode
     _showPin() {
-       
         this.setState({
             isShowPin: true,
         })
-        
     }
 
-    //隐藏Loading
+    //隐藏PinCode
     _hidePin() {
         this.setState({
             isShowPin: false,
@@ -161,12 +159,10 @@ export default class BaseComponent extends PureComponent {
             let isNeedVerify  = this.backgroundTimer !=0 && (Date.now()-this.backgroundTimer) >= 10000 && !Common.touchIDVertifing 
             this.backgroundTimer = 0;
             DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:isNeedVerify});
-
             if(isNeedVerify){
+
                 this._verifyIdentidy() 
             }
-            
-            
         }else{
             DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:false});
             this.backgroundTimer = !Common.touchIDVertifing && nextAppState=='background' ? Date.now() : 0;
@@ -224,28 +220,7 @@ export default class BaseComponent extends PureComponent {
     }
 
 
-    //接收前台后台切换的监听
-    _backgroundStateEmitter = (data) => {
-        let state = data.nextAppState;
-        let isNeedVerify = data.isNeedVerify;
-        if(isNeedVerify){
-             this._closeModal()
-             setTimeout(()=>{
-                  this._showPin()
-            }, 200);
-             
-        }
-        if(state != null && state === 'active'){
-            this.setState({
-                showBlur: false,
-            })
-        }else{
-            this.setState({
-                showBlur: true,
-            })
-       }
-       
-    }
+    
 
     
     
@@ -257,6 +232,7 @@ export default class BaseComponent extends PureComponent {
                    success=>{
                        //身份验证成功
                        Common.touchIDVertifing = false
+                       this._hidePin()
                        this._touchIdAuthenticateSuccess()
                 }).catch((err) =>{
                        //身份验证失败
@@ -298,7 +274,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     _touchIdAuthenticateSuccess(){
-        this._hidePin()
+        
     }
 
     _touchIdAuthenticateFail(err){
@@ -370,6 +346,28 @@ export default class BaseComponent extends PureComponent {
         }
     }
 
+    //接收前台后台切换的监听
+    _backgroundStateEmitter = (data) => {
+        let state = data.nextAppState;
+        let isNeedVerify = data.isNeedVerify;
+        if(isNeedVerify){
+             this._closeModal()
+             /*setTimeout(()=>{
+                this._showPin() 
+             }, 200);*/
+        }
+        if(state != null && state === 'active'){
+            this.setState({
+                showBlur: false,
+            })
+        }else{
+            this.setState({
+                showBlur: true,
+            })
+       }
+       
+    }
+
 
     _verifyIdentidy(){
         const { pinInfo } = store.getState().Core
@@ -378,11 +376,14 @@ export default class BaseComponent extends PureComponent {
           isUseTouchId:true/false
         */
         if(pinInfo != null){
-            this._showPin() 
-            if(pinInfo.isUseTouchId){
-                this._touchIdIsSupported()
-            } 
- 
+            setTimeout(()=>{
+                this._showPin() 
+                if(pinInfo.isUseTouchId){
+                    Platform.OS=='ios' ?
+                    setTimeout(()=>{this._touchIdIsSupported()}, 100) 
+                    : this._touchIdIsSupported();  
+                } 
+            },100)
         }
         /*if(pinInfo != null){
             if(pinInfo.isUseTouchId){

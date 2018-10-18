@@ -243,7 +243,7 @@
         "open_face_id":"Do you want to use Face ID?",
         "open_touch_id":"Do you want to use Touch ID?",
 
-        "vertify_self":"身份验证",
+        "vertify_self":"Fingerprint authentication",
         "authentication_required":"Authentication required"
     }
 }
