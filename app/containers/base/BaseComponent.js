@@ -131,7 +131,7 @@ export default class BaseComponent extends PureComponent {
 
     //显示Loading
     _showPin() {
-        this._closeModal()
+        //this._closeModal()
         this.setState({
             isShowPin: true,
         })
