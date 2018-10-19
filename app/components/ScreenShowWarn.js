@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:'rgba(179,179,179,0.8)',
-        zIndex:1000,
     },
     contentBox:{
         flexDirection:'column',
@@ -31,21 +30,21 @@ const styles = StyleSheet.create({
         paddingLeft:25,
         paddingRight:25,
         paddingTop:40,
-        paddingBottom:40,
-        marginLeft:40,
-        marginRight:40,
+        paddingBottom:30,
+        marginLeft:30,
+        marginRight:30,
         
     },
     icon:{
         width:80,
         height:80,
+        marginTop:15,
     },
     titleTxt:{
         fontSize:18,
         fontWeight:'bold',
         color:Colors.fontBlackColor_31,
-        marginTop:15,
-        marginBottom:20,
+        marginBottom:15,
     },
     contentTxt:{
         fontSize:16,
@@ -73,6 +72,22 @@ const styles = StyleSheet.create({
         lineHeight:40,
         textAlign:'center',
         fontWeight:'bold',   
+    },
+
+    notRemindOpacity:{
+        paddingTop:12,
+        paddingBottom:10,
+        alignItems:'center',
+        flexDirection:'row'
+    },
+    notRemindIcon:{
+        width:18,
+        height:18,
+    },
+    notRemindText:{
+        marginLeft:6,
+        color:Colors.fontBlackColor_43,
+        fontSize:14,
     }
 });
 export default class ScreenshotWarn extends Component{
@@ -82,16 +97,22 @@ export default class ScreenshotWarn extends Component{
         modalVisible: PropTypes.bool.isRequired,
         btnText: PropTypes.string.isRequired,  
         title:PropTypes.string,
-        content1:PropTypes.string,       
+        content1:PropTypes.string,     
+        isShowNotRemindBtn:  PropTypes.bool, 
+        notRemindPress:PropTypes.func,
+        isNotRemind:PropTypes.bool
     }
 
     static defaultProps = {
         title:'',
         content1:'',
+        isShowNotRemindBtn:false,
+        isNotRemind:false,
     }
     
     
    render(){
+        let choseIcon = this.props.isNotRemind ? require('../assets/set/chose_off.png') : require('../assets/set/chose.png');
         return(
             <Modal
                   onStartShouldSetResponder={() => false}
@@ -109,7 +130,7 @@ export default class ScreenshotWarn extends Component{
                 <View style={styles.modeBox}>
                   <View style={styles.contentBox}>
                      <Image style={styles.icon} source={require('../assets/common/warningIcon.png')}/>
-                     <Text style={styles.titleTxt}>{this.props.title}</Text>
+                     {this.props.title !='' ? <Text style={styles.titleTxt}>{this.props.title}</Text> : null}
                      <Text style={styles.contentTxt}>{this.props.content}</Text>
                      <Text style={styles.contentTxt}>{this.props.content1}</Text>
                      <TouchableOpacity style={styles.btnOpacity} activeOpacity={0.6} onPress = {this.props.onPress}>
@@ -120,6 +141,15 @@ export default class ScreenshotWarn extends Component{
                                       <Text style={styles.txt}>{this.props.btnText}</Text>
                             </LinearGradient>    
                      </TouchableOpacity>
+                     {
+                        this.props.isShowNotRemindBtn ? 
+                        <TouchableOpacity style={styles.notRemindOpacity} activeOpacity={0.6} onPress = {this.props.notRemindPress}>
+                            <Image style={styles.notRemindIcon}
+                                   source={choseIcon} resizeMode='contain'/>
+                            <Text style={styles.notRemindText}>{I18n.t('modal.not_remind_again')}</Text> 
+                        </TouchableOpacity> : null
+                     }
+                     
                   </View> 
                 </View>     
             </Modal>      

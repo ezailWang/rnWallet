@@ -41,7 +41,7 @@
 
     
         "password_warn":"비밀번호는 최소 8자리, 대문자/소문자/숫자/기호 중 3가지 이상을 포함해야 합니다.",
-        "password_warn_least_8":"비밀번호는 8 자리 이상이어야 합니다.",
+        "password_warn_least_8":"비밀번호는 8 자리 이상이어야 합니다. ",
         "password_warn_1":"소문자, 숫자 및 기호 중 2가지가 더 필요합니다.",
         "password_warn_2":"대문자, 숫자 및 기호 중 2가지가 더 필요합니다.",
         "password_warn_3":"대문자, 소문자 및 기호 중 2가지가 더 필요합니다.",
@@ -245,6 +245,10 @@
         "open_touch_id":"Touch ID를 사용하시겠습니까?",
 
         "vertify_self":"지문 인증",
-        "authentication_required":"Autorizacion Requerida"
+        "authentication_required":"Autorizacion Requerida",
+
+        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
+        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
+        "not_remind_again":"不再提示"
     }
 }

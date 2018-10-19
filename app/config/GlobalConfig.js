@@ -86,6 +86,7 @@ const StorageKey = {
     MonetaryUnit:'monetaryUnit',//货币单位
     PinInfo:'pinInfo',//存储pin密码
     UserId:'userId',//存储userId
+    NotRemindAgainTestITC:'notRemindAgainTestITC',//不再提示
 }
 
 const Network = {

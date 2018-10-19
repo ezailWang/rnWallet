@@ -41,7 +41,7 @@
 
     
         "password_warn":"Passwords must be at least 8 characters in length, contain at least 3 out of 4 of the following: one uppercase, one lowercase, one digit and one symbol.",
-        "password_warn_least_8":"The password must be at lease 8 characters in length,",
+        "password_warn_least_8":"The password must be at lease 8 characters in length, ",
         "password_warn_1":"passwords must contain at least one lowercase, one digit and one symbol.",
         "password_warn_2":"passwords should contain at least one uppercase, one digit and one symbol.",
         "password_warn_3":"passwords should contain at least one uppercase, one lowercase and one symbol.",
@@ -244,6 +244,10 @@
         "open_touch_id":"Do you want to use Touch ID?",
 
         "vertify_self":"Fingerprint authentication",
-        "authentication_required":"Authentication required"
+        "authentication_required":"Authentication required",
+
+        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
+        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
+        "not_remind_again":"不再提示"
     }
 }

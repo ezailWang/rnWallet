@@ -40,7 +40,7 @@
         "enter_password":"Bitte geben Sie Ihr Passwort ein",
 
         "password_warn":"Passwörter müssen mindestens 8 Zeichen lang sein und mindestens 3 von 4 der folgenden Zeichen enthalten: ein Groß- und ein Kleinbuchstabe, eine Ziffer und ein Symbol.",
-        "password_warn_least_8":"Passwörter müssen mindestens 8 Zeichen lang sein.",
+        "password_warn_least_8":"Passwörter müssen mindestens 8 Zeichen lang sein. ",
         "password_warn_1":"Passwörter müssen mindestens ein Kleinbuchstabe, eine Ziffer und ein Symbol enthalten.",
         "password_warn_2":"Passwörter müssen mindestens ein Großbuchstabe, eine Ziffer und ein Symbol enthalten.",
         "password_warn_3":"Passwörter müssen mindestens ein Groß- und ein Kleinbuchstabe und ein Symbol enthalten.",
@@ -242,6 +242,10 @@
         "open_touch_id":"Möchten Sie Berührungsidentifikation verwenden?",
 
         "vertify_self":"身份验证",
-        "authentication_required":"Authentifizierung erforderlich"
+        "authentication_required":"Authentifizierung erforderlich",
+
+        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
+        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
+        "not_remind_again":"不再提示"
     }
 }

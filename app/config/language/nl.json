@@ -40,7 +40,7 @@
         "enter_password":"请输入密码",
 
         "password_warn":"Wachtwoorden moeten minimaal 8 tekens lang zijn en minimaal 3 van de 4 volgende tekens bevatten: hoofdletters en kleine letters, cijfers en symbolen.",
-        "password_warn_least_8":"Wachtwoorden moeten minimaal 8 tekens lang zijn.",
+        "password_warn_least_8":"Wachtwoorden moeten minimaal 8 tekens lang zijn. ",
         "password_warn_1":"Wachtwoorden moeten minstens 2 van de volgende bevatten: een hoofdletter, een cijfer en een symbool.",
         "password_warn_2":"Wachtwoorden moeten minstens 2 van de volgende bevatten: een hoofdletter, een cijfer en een symbool.",
         "password_warn_3":"Wachtwoorden zouden minstens 2 van de volgende moeten bevatten: een hoofdletter, een kleine letter en een symbool.",
@@ -243,6 +243,10 @@
         "open_touch_id":"是否开启Touch ID?",
 
         "vertify_self":"身份验证",
-        "authentication_required":"Autorizacion Requerida"
+        "authentication_required":"Autorizacion Requerida",
+
+        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
+        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
+        "not_remind_again":"不再提示"
     }
 }
