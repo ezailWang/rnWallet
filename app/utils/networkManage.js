@@ -114,8 +114,19 @@ export default class networkManage {
             if (data.message !== 'OK') {
                 return []
             }
+
+            let dataArr = []
+
+            for (const index in data.result) {
+
+                let transaction = data.result[index];
+                if(transaction.isError != 0 || transaction.value != 0){
+                    dataArr.push(transaction)
+                }
+            }
+
             const web3 = this.getWeb3Instance();
-            return data.result.map(t => ({
+            return dataArr.map(t => ({
                 from: t.from,
                 to: t.to,
                 timeStamp: t.timeStamp,
@@ -226,16 +237,17 @@ export default class networkManage {
             web3.eth.accounts.wallet.add(privateKey)
             const price = web3.utils.toWei(gasPrice.toString(), 'gwei');
             const contract = new web3.eth.Contract(erc20Abi, contractAddress)
-            var data = contract.methods.transfer(toAddress, amout * Math.pow(10, decimals)).encodeABI()
+            const BNAmout = new BigNumber(amout * Math.pow(10, decimals))
+            var data = contract.methods.transfer(toAddress, BNAmout).encodeABI()
             var tx = {
                 from: store.getState().Core.walletAddress,
                 to: contractAddress,
                 value: "0x0",
                 data: data,
-                gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
+                //   gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
                 gasPrice: web3.utils.toHex(price),
             }
-            // tx['gas'] = await web3.eth.estimateGas(tx)
+            tx['gasLimit'] = await web3.eth.estimateGas(tx)
             var cb = await web3.eth.sendTransaction(tx).on('transactionHash', (hash) => {
                 callBackHash(hash)
             })
@@ -290,7 +302,7 @@ export default class networkManage {
      */
     static async getPrice(symbol) {
         try {
-            const result = await fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`)
+            const result = await FetchUtils.timeoutFetch(fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`))
             const resJson = await result.json()
             if (resJson.code === 200) {
                 //优先判断货币 如果货币本地没有再使用语言
@@ -405,17 +417,17 @@ export default class networkManage {
      * feedback 
      */
 
-    static uploadFeedback(params,images){
-        return FetchUtils.requestPost(NetAddr.feedback,params,images.length > 0 ? images : null)
+    static uploadFeedback(params, images) {
+        return FetchUtils.requestPost(NetAddr.feedback, params, images.length > 0 ? images : null)
     }
-    
+
     /**
      * register
      */
 
-    static deviceRegister(params){
-        return FetchUtils.requestPost(NetAddr.registerDevice,params)
-    } 
+    static deviceRegister(params) {
+        return FetchUtils.requestPost(NetAddr.registerDevice, params)
+    }
 
 
 }

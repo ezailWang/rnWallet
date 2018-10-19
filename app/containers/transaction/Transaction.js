@@ -353,7 +353,7 @@ export default class Transaction extends BaseComponent {
 
         let { contractAddress, symbol, decimals } = store.getState().Core.balance;
 
-        console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
+        // console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
 
         let currentBlock = await NetworkManager.getCurrentBlockNumber();
         let res = await NetworkManager.sendTransaction(
@@ -367,7 +367,7 @@ export default class Transaction extends BaseComponent {
             this.state.currentGas,
             privateKey,
             (hash) => {
-                console.warn('hash', hash)
+                // console.warn('hash', hash)
 
                 let { walletAddress } = store.getState().Core
                 let timestamp=new Date().getTime()
@@ -391,7 +391,7 @@ export default class Transaction extends BaseComponent {
             },
         )
 
-        console.warn('交易发送完毕'+res);
+        // console.warn('交易发送完毕'+res);
 
         this._hideLoading();
 
@@ -487,7 +487,10 @@ export default class Transaction extends BaseComponent {
 
     judgeCanSendInfoCorrect (){
         let totalValue = this.params.balance;
-        let amountIsNotValid = parseFloat(this.inputTransferValue) == 0 || parseFloat(this.inputTransferValue)  > totalValue
+
+        // console.log('######'+this.inputTransferValue)
+
+        let amountIsNotValid = this.inputTransferValue === undefined || this.inputTransferValue === NaN || parseFloat(this.inputTransferValue) == 0 || parseFloat(this.inputTransferValue)  > totalValue
         let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
 
