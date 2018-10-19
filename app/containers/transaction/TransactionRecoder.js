@@ -329,7 +329,7 @@ export default class TransactionRecoder extends BaseComponent {
         let newTr = recoders[recoders.length - 1]
         let currentBlock = await networkManage.getCurrentBlockNumber()
 
-        if (lastTransaction && newTr.hash != lastTransaction.hash) {
+        if (lastTransaction && lastTransaction.symbol == symbol && newTr.hash != lastTransaction.hash ) {
             lastTransaction.blockNumber = currentBlock
             recoders.push(lastTransaction)
         }

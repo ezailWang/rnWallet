@@ -65,7 +65,7 @@ const TransferType = {
 
 const TransferGasLimit = {
     ethGasLimit: 25200,
-    tokenGasLimit: 60000
+    tokenGasLimit: 110000
 };
 
 const FontSize = {
