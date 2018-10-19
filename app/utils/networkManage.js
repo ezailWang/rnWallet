@@ -244,10 +244,10 @@ export default class networkManage {
                 to: contractAddress,
                 value: "0x0",
                 data: data,
-                //   gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
+                gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
                 gasPrice: web3.utils.toHex(price),
             }
-            tx['gasLimit'] = await web3.eth.estimateGas(tx)
+           // tx['gasLimit'] = await web3.eth.estimateGas(tx)
             var cb = await web3.eth.sendTransaction(tx).on('transactionHash', (hash) => {
                 callBackHash(hash)
             })

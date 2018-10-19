@@ -384,7 +384,7 @@ export default class Transaction extends BaseComponent {
                     symbol:symbol
                 }
                 store.dispatch(setNewTransaction(newTransaction));
-
+                this._hideLoading();
                 //回调刷新
                 this.props.navigation.state.params.onGoBack();
                 this.props.navigation.goBack();
@@ -392,8 +392,6 @@ export default class Transaction extends BaseComponent {
         )
 
         // console.warn('交易发送完毕'+res);
-
-        this._hideLoading();
 
         if (!res){
             setTimeout(() => {
