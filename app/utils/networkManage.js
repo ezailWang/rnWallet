@@ -114,8 +114,19 @@ export default class networkManage {
             if (data.message !== 'OK') {
                 return []
             }
+
+            let dataArr = []
+
+            for (const index in data.result) {
+
+                let transaction = data.result[index];
+                if(transaction.isError != 0 || transaction.value != 0){
+                    dataArr.push(transaction)
+                }
+            }
+
             const web3 = this.getWeb3Instance();
-            return data.result.map(t => ({
+            return dataArr.map(t => ({
                 from: t.from,
                 to: t.to,
                 timeStamp: t.timeStamp,

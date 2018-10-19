@@ -345,6 +345,8 @@ export default class TransactionRecoder extends BaseComponent {
             //     item.isError="1"
             // }
 
+            
+
             let data = {
                 key: i.toString(),
                 address: item.to.toLowerCase() == walletAddress.toLowerCase() ? item.from : item.to,

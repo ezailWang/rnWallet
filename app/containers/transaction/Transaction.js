@@ -487,7 +487,10 @@ export default class Transaction extends BaseComponent {
 
     judgeCanSendInfoCorrect (){
         let totalValue = this.params.balance;
-        let amountIsNotValid = parseFloat(this.inputTransferValue) == 0 || parseFloat(this.inputTransferValue)  > totalValue
+
+        // console.log('######'+this.inputTransferValue)
+
+        let amountIsNotValid = this.inputTransferValue === undefined || this.inputTransferValue === NaN || parseFloat(this.inputTransferValue) == 0 || parseFloat(this.inputTransferValue)  > totalValue
         let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
 
