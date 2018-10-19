@@ -384,6 +384,10 @@ export default class Transaction extends BaseComponent {
                     symbol:symbol
                 }
                 store.dispatch(setNewTransaction(newTransaction));
+
+                //回调刷新
+                this.props.navigation.state.params.onGoBack();
+                this.props.navigation.goBack();
             },
         )
 
@@ -391,13 +395,7 @@ export default class Transaction extends BaseComponent {
 
         this._hideLoading();
 
-        if (res) {
-            //回调刷新
-            this.props.navigation.state.params.onGoBack();
-            this.props.navigation.goBack();
-        }
-        else {
-
+        if (!res){
             setTimeout(() => {
                 alert(I18n.t('transaction.alert_1'));
             }, 100);
