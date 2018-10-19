@@ -312,7 +312,7 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            //toAddress: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
+            // toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
             toAddress: '',
             fromAddress: params.fromAddress,
             detailData: "",
@@ -367,7 +367,7 @@ export default class Transaction extends BaseComponent {
             this.state.currentGas,
             privateKey,
             (hash) => {
-                // console.log('hash', hash)
+                console.warn('hash', hash)
 
                 let { walletAddress } = store.getState().Core
                 let timestamp=new Date().getTime()
@@ -380,13 +380,16 @@ export default class Transaction extends BaseComponent {
                     value: this.state.transferValue,
                     isError: "0",
                     gasPrice: this.state.currentGas,
-                    blockNumber: currentBlock
+                    blockNumber: currentBlock,
+                    symbol:symbol
                 }
                 store.dispatch(setNewTransaction(newTransaction));
             },
         )
 
-        // console.warn('交易发送完毕'+res);
+        console.warn('交易发送完毕'+res);
+
+        this._hideLoading();
 
         if (res) {
             //回调刷新
@@ -394,9 +397,10 @@ export default class Transaction extends BaseComponent {
             this.props.navigation.goBack();
         }
         else {
-            // setTimeout(() => {
+
+            setTimeout(() => {
                 alert(I18n.t('transaction.alert_1'));
-            // }, 100);
+            }, 100);
         }
     }
 
@@ -413,13 +417,15 @@ export default class Transaction extends BaseComponent {
                 privateKey = await keystoreUtils.getPrivateKey(password)
                 if (privateKey == null) {
                     showToast(I18n.t('modal.password_error'))
+
+                    this._hideLoading();
                 } else {
-                    await this.startSendTransaction(privateKey)
+                    this.startSendTransaction(privateKey)
                 } 
             }catch(err){
                 // console.log('exportKeyPrivateErr:', err)
             }finally{
-                this._hideLoading();
+                
             } 
         },2000)
      };
