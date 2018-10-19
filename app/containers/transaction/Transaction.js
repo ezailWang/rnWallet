@@ -353,7 +353,7 @@ export default class Transaction extends BaseComponent {
 
         let { contractAddress, symbol, decimals } = store.getState().Core.balance;
 
-        // console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
+        console.warn('交易参数：',contractAddress,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
 
         let currentBlock = await NetworkManager.getCurrentBlockNumber();
         let res = await NetworkManager.sendTransaction(
@@ -427,15 +427,6 @@ export default class Transaction extends BaseComponent {
 
     didTapNextBtn = () => {
         // console.log('L_next_address', this.state.toAddress)
-        if (NetworkManager.isValidAddress(this.state.toAddress) === false) {
-            alert(I18n.t('transaction.alert_2'));
-            return;
-        }
-
-        if (parseFloat(this.state.transferValue) < 0 || parseFloat(this.state.transferValue) > this.params.balance) {
-            alert(I18n.t('transaction.alert_3'));
-            return;
-        }
 
         //计算gas消耗
         let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
@@ -475,10 +466,9 @@ export default class Transaction extends BaseComponent {
     };
 
     valueTextInputChangeText = (text) => {
-
-        let value = this.inputTransferValue
+        let value = parseFloat(this.inputTransferValue)
         this.setState({
-            transferValue: parseFloat(value),
+            transferValue: value,
         });
         this.judgeCanSendInfoCorrect()
     };
@@ -493,7 +483,7 @@ export default class Transaction extends BaseComponent {
 
     judgeCanSendInfoCorrect (){
         let totalValue = this.params.balance;
-        let amountIsNotValid = this.inputTransferValue == 0 || this.inputTransferValue  > totalValue
+        let amountIsNotValid = parseFloat(this.inputTransferValue) == 0 || parseFloat(this.inputTransferValue)  > totalValue
         let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
 
@@ -580,7 +570,7 @@ export default class Transaction extends BaseComponent {
                         placeholder={I18n.t('transaction.enter') /*+ this.params.transferType + I18n.t('transaction.amount')*/}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
-                        onChangeText={(txt)=>{this.inputTransferValue = txt;this.valueTextInputChangeText()}}/>
+                        onChangeText={(txt)=>{this.inputTransferValue = parseFloat(txt);this.valueTextInputChangeText()}}/>
                     {/*转账地址栏*/}
                     <InfoView title={I18n.t('transaction.collection_address')}
                         detailTitle={I18n.t('transaction.address_list')}
