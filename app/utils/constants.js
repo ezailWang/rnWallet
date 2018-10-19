@@ -20,7 +20,15 @@ const defaultTokens = [
         id: uuid.v4(),
         name: 'IotChain',
         symbol: 'ITC',
-    }
+    },
+    // {
+    //     contractAddress: '0xb4f8192668d8f2ee3b5b82bdb98f68848ba39ece',
+    //     decimals: 18,
+    //     id: uuid.v4(),
+    //     name: 'wsdtest',
+    //     symbol: 'DSW',
+    // }
+
 ];
 
 const erc20Abi = [

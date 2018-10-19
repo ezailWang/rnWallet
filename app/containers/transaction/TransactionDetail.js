@@ -3,11 +3,11 @@ import { View, StyleSheet, Text, TouchableOpacity, Clipboard, Image, Linking, Im
 import QRCode from 'react-native-qrcode';
 import Layout from '../../config/LayoutConstants'
 import { TransparentBgHeader } from '../../components/NavigaionHeader'
-import { Colors } from '../../config/GlobalConfig';
+import { Colors, Network } from '../../config/GlobalConfig';
 import { store } from '../../config/store/ConfigureStore'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
-import BaseComponent from '../base/BaseComponent'; 
+import BaseComponent from '../base/BaseComponent';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     countBox: {
         flexDirection: 'row',
         marginTop: Layout.WINDOW_HEIGHT * 0.03,
-        marginBottom:Layout.WINDOW_HEIGHT * 0.1,
+        marginBottom: Layout.WINDOW_HEIGHT * 0.1,
         justifyContent: 'center',
         //alignItems:'flex-end',
     },
@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
         fontSize: 39,
         color: 'white',
         fontWeight: '700',
-        lineHeight:39,
-        height:39,
+        lineHeight: 39,
+        height: 39,
         //alignItems: 'flex-end',
-       
+
         //textAlignVertical:'bottom',
         //textAlign:'center'
     },
@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
         marginLeft: 6,
         //marginBottom: 2,
         color: 'white',
-        lineHeight:15,
+        lineHeight: 15,
         //fontWeight: '700',
         alignSelf: 'flex-end',
-        height:15,
-        marginBottom:7
+        height: 15,
+        marginBottom: 7
     },
 
     contentBox: {
@@ -52,21 +52,21 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingLeft: 20,
         paddingRight: 20,
-       // paddingTop: Layout.WINDOW_HEIGHT * 0.08,
-       // paddingBottom: Layout.WINDOW_HEIGHT * 0.07,
+        // paddingTop: Layout.WINDOW_HEIGHT * 0.08,
+        // paddingBottom: Layout.WINDOW_HEIGHT * 0.07,
         paddingTop: Layout.WINDOW_HEIGHT * 0.07,
         paddingBottom: Layout.WINDOW_HEIGHT * 0.06,
     },
-    
+
     statusIcon: {
         position: 'absolute',
         width: 120,
         height: 120,
         alignSelf: 'center',
         marginTop: -60,
-        zIndex:10,
+        zIndex: 10,
     },
-   
+
     fontBlue: {
         fontSize: 13,
         color: Colors.fontBlueColor
@@ -142,16 +142,19 @@ export default class TransactionDetail extends BaseComponent {
             transactionHash: params.transactionHash,
             blockNumber: params.blockNumber,
             transactionTime: params.transactionTime,
-            tranStatus:params.tranStatus
+            tranStatus: params.tranStatus
         };
         this._setStatusBarStyleLight()
     }
 
 
     didTapTransactionNumber = () => {
-
-        var baiduURL = 'https://rinkeby.etherscan.io/tx/' + this.state.transactionHash;
-        //  var baiduURL = 'https://etherscan.io/tx/'+ this.state.transactionHash;
+        const { network } = store.getState().Core
+        if (network === Network.rinkeby) {
+            var baiduURL = 'https://rinkeby.etherscan.io/tx/' + this.state.transactionHash;
+        } else {
+            var baiduURL = 'https://etherscan.io/tx/' + this.state.transactionHash;
+        }
 
         Linking.canOpenURL(baiduURL).then(supported => {
             if (!supported) {
