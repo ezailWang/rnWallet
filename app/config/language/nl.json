@@ -32,12 +32,12 @@
         "confirm_mnemonic_prompt":"Kies de mnemonic phrases in de juiste volgorde.",
         "complete":"Gedaan",
 
-        "service_agreement":"服务协议",
-        "agree_service_agreement":"我已仔细阅读并同意以上服务及隐私条款",
-        "agree_and_set_login_password":"同意并设置登录密码",
-        "set_login_password":"请设置登录密码",
-        "repeat_new_password":"重复新密码",
-        "enter_password":"请输入密码",
+        "service_agreement":"Serviceovereenkomst",
+        "agree_service_agreement":"Ik heb de service en het privacybeleid gelezen en ga ermee akkoord.",
+        "agree_and_set_login_password":"Akkoord en stel het login wachtwoord in",
+        "set_login_password":"Stel het login wachtwoord in",
+        "repeat_new_password":"Herhaal nieuw wachtwoord",
+        "enter_password":"Voer uw wachtwoord in",
 
         "password_warn":"Wachtwoorden moeten minimaal 8 tekens lang zijn en minimaal 3 van de 4 volgende tekens bevatten: hoofdletters en kleine letters, cijfers en symbolen.",
         "password_warn_least_8":"Wachtwoorden moeten minimaal 8 tekens lang zijn. ",
@@ -52,7 +52,7 @@
         "password_warn_9":"Wachtwoorden moeten minstens één hoofdletter of één cijfer bevatten.",
         "password_warn_10":"Wachtwoorden moeten minstens één hoofdletter of één kleine letter bevatten.",
 
-        "enter_same_password":"请输入一致的密码",
+        "enter_same_password":"Voer een consistent wachtwoord in",
         "enter_normative_wallet_name":"Voer een portefeuillaam in (1-12 tekens)"
     },
     "home":{
@@ -66,7 +66,7 @@
         "contract_address":"Contract adres",
         "token_symbol":"Valutasymbool",
         "token_decimals":"Decimale precisie",
-        "delete":"删除",
+        "delete":"Verwijder",
         "address_check":"42 tekens lang, beginnend met 0x",
         "symbol_check":"1 tot 9 tekens. Bijvoorbeeld ETH of ITC",
         "decimals_check":"De decimale nauwkeurigheid van erc20 tokens is 0 ~ 36, meestal 18 cijfers.",
@@ -89,7 +89,7 @@
         "balance":"Bedrag",
         "enter":"Credit",
         "collection_address":"Adres van de ontvanger",
-        "enter_transfer_address":"输入收款地址",
+        "enter_transfer_address":"Voer ontvangend adres in",
         "remarks":"Memo",
         "enter_remarks":"Voer Memo in",
         "next_step":"Volgende",
@@ -129,7 +129,7 @@
         "set":"Portemonnee-tools",
         "enter_wallet_name_hint":"Portemonneenaam",
         "enter_passowrd_hint":"Voer het wachtwoord voor de portemonnee in",
-        "modify_wallet_name":"修改钱包名称",
+        "modify_wallet_name":"Wijzig de naam van de portemonnee",
         "export_keystore":"Keystore exporteren",
         "export_private_key":"Exporteer privésleutel",
 
@@ -146,7 +146,7 @@
         "collection_code":"Betalingscode",
         "copy_payment_address":"Kopieer het ontvangadres",
 
-        "scan_qrcode":"扫描二维码",
+        "scan_qrcode":"Scan QR-code",
         "scan_qrcode_prompt":"De QR-code kan automatisch worden gescand door deze in het frame te plaatsen.",
 
         "about":"Over",
@@ -178,7 +178,7 @@
 
         "terms_use_and_privacy_policy":"Gebruiksvoorwaarden en privacybeleid",
 
-        "feedback_eth_address_prompt":"Gebruiksvoorwaarden en privacybeleid",
+        "feedback_eth_address_prompt":"Ongeldig adres, controleer nogmaals",
         "feedback_address_title":"ETH portemonnee adres"
 
     },
@@ -207,12 +207,12 @@
         "email_format_incorrect":"Verkeerd E-mailformaat",
 
         "net_request_err":"Network anomalie",
-        "net_request_token_unable_resolve":"资产中存在无效资产",
-        "net_request_timeout":"请求超时",
+        "net_request_token_unable_resolve":"Ongeldige items",
+        "net_request_timeout":"Verzoek om een time-out",
 
-        "pwd_inconsistent_reset":"密码不一致，请重新设置",
-        "submitted_successfully":"提交成功",
-        "submission_failed":"提交失败"
+        "pwd_inconsistent_reset":"De wachtwoorden zijn niet consistent, gelieve opnieuw in te stellen",
+        "submitted_successfully":"Met succes ingediend",
+        "submission_failed":"Inzending mislukt"
     },
     "modal":{
         "permission_storage":"Sta alsjeblieft toe om te lezen en te schrijven.",
@@ -237,18 +237,18 @@
         "enter_valid_transfer_amount":"Geef een correct bedrag aan.",
         "insufficient_balance":"Onvoldoende saldo",
 
-        "ping_id_warn1":"登录密码一旦设置成功，将无法修改或找回。",
-        "ping_id_warn2":"请务必记牢您的登录密码。",
-        "open_face_id":"是否开启Face ID?",
-        "open_touch_id":"是否开启Touch ID?",
+        "ping_id_warn1":"Als het inlogwachtwoord eenmaal is ingesteld, kan het niet worden gewijzigd of opgehaald.",
+        "ping_id_warn2":"Vergeet niet je login-wachtwoord te onthouden.",
+        "open_face_id":"Wilt u Face ID gebruiken?",
+        "open_touch_id":"Wilt u Touch ID gebruiken?",
 
-        "vertify_self":"身份验证",
+        "vertify_self":"Vingerafdrukverificatie",
         "authentication_required":"Autorizacion Requerida",
 
-        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
-        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示",
+        "itc_test_warn1":"Bewaar uw bezittingen niet in uw portemonnee gedurende de testperiode",
+        "itc_test_warn2":"ITC-munt is alleen voor het testnet en mag niet worden gebruikt als een echte cryptocurrency!",
+        "not_remind_again":"Laat dit niet nog een keer zien",
 
-        "prompt":"提示"
+        "prompt":"Notitie"
     }
 }

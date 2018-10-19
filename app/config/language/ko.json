@@ -180,8 +180,8 @@
 
         "terms_use_and_privacy_policy":"이용 약관 및 개인 정보 보호 정책",
 
-        "feedback_eth_address_prompt":"주소가 잘못되었습니다. 확인하고 입력하십시오",
-        "feedback_address_title":"Eth Address"
+        "feedback_eth_address_prompt":"무효한 주소입니다. 확인하여 재입력해주세요",
+        "feedback_address_title":"ETH 월렛 주소"
         
     },
     "toast":{
@@ -247,10 +247,10 @@
         "vertify_self":"지문 인증",
         "authentication_required":"Autorizacion Requerida",
 
-        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
-        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示",
+        "itc_test_warn1":"테스트 기간에 월렛에 자산을 저장하지 마십시오.",
+        "itc_test_warn2":"월렛에 있는 ITC 코인은 테스트만을 위한 것이니 암화화폐로 사용할 수 없습니다.",
+        "not_remind_again":" 이 메시지를 다시 표시 안 함",
 
-        "prompt":"提示"
+        "prompt":"노트"
     }
 }
