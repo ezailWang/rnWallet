@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, Clipboard, Alert, Platform, PermissionsAndroid, ImageBackground, TouchableOpacity, InteractionManager } from 'react-native';
+import { View, StyleSheet, Image, Text, Clipboard, Platform, PermissionsAndroid, ImageBackground, TouchableOpacity, InteractionManager } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
 import Layout from '../../config/LayoutConstants'
@@ -147,10 +147,7 @@ class ReceiptCodeScreen extends BaseComponent {
         if (isAgree) {
             this.props.navigation.navigate('ScanQRCode')
         } else {
-            Alert.alert(
-                'warn',
-                I18n.t('modal.permission_camera'),
-            )
+            this._showAlert(I18n.t('modal.permission_camera'))
         }
     }
 

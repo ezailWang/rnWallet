@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TextInput, Alert, ScrollView, TouchableOpacity,BackHandler } from 'react-native';
+import { View, StyleSheet, Image, TextInput, , ScrollView, TouchableOpacity,BackHandler } from 'react-native';
 
 import StorageManage from '../../utils/StorageManage'
 import { BlueButtonBig } from '../../components/Button'
@@ -78,13 +78,7 @@ export default class PasswordPrompInfoScreen extends Component {
     async save() {
         var key = StorageKey.User
         var extra = this.state.passwordPrompInfo;
-        if (extra === '') {
-            Alert.alert(
-                'warn',
-                '请输入密码提示',
-            )
-            return
-        }
+        
         var loadUser = await StorageManage.load(key);
         if (loadUser == null) {
             loadUser = {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions, DeviceEventEmitter, PermissionsAndroid, Platform, Alert,ImageBackground } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, DeviceEventEmitter, PermissionsAndroid, Platform,ImageBackground } from 'react-native';
 import { WhiteButtonBig, WhiteBorderButton } from '../../components/Button'
 import { Colors ,StorageKey} from '../../config/GlobalConfig'
 import SplashScreen from 'react-native-splash-screen'
@@ -76,10 +76,7 @@ class FirstLaunchScreen extends BaseComponent {
             if (readWritePermission) {
                 this.nextRoute(isCreateWallet)
             } else {
-                Alert.alert(
-                    'warn',
-                    I18n.t('modal.permission_storage'),
-                )
+                this._showAlert(I18n.t('modal.permission_storage'))
             }
         } else {
             this.nextRoute(isCreateWallet)

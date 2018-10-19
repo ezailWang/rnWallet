@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, Alert, Dimensions, BackHandler } from 'react-native';
+import { View, StyleSheet, Image, Text, Dimensions, BackHandler } from 'react-native';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
@@ -176,10 +176,7 @@ class VerifyMnemonicScreen extends BaseComponent {
                 this.startCreateWallet();//创建钱包
             }, 2000);
         } else {
-            Alert.alert(
-                I18n.t('modal.backup_fail'),
-                I18n.t('modal.check_mnemonic_is_correct'),
-            )
+            this._showAlert(I18n.t('modal.check_mnemonic_is_correct'),I18n.t('modal.backup_fail'))
         }
 
     }

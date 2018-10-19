@@ -540,10 +540,7 @@ export default class Transaction extends BaseComponent {
                 }
             })
         } else {
-            Alert.alert(
-                'warn',
-                I18n.t('transaction.alert_2'),
-            )
+            this._showAlert(I18n.t('transaction.alert_2'))
         }
     }
     renderComponent() {

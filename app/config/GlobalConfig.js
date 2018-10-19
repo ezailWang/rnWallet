@@ -23,7 +23,6 @@ const Colors = {
     fontGrayColor_a0: '#a0a0a0',
     fontGrayColor_a1: '#a1a1a1',
     fontBlackColor_31: '#313131',
-    fontBlackColor_43: '#434343',
     //警告框颜色
     RedColor: '#ff3636',
     //主题颜色

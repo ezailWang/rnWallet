@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, Alert, ScrollView, TouchableOpacity, BackHandler, DeviceEventEmitter } from 'react-native';
+import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity, BackHandler, DeviceEventEmitter } from 'react-native';
 
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
@@ -96,6 +96,7 @@ class SetScreen extends BaseComponent {
             passwordModalVisible: true ,
             pwdRightBtnDisabled:true,
         });
+        
     }
     closeNameModal() {
         this.setState({ nameModalVisible: false });

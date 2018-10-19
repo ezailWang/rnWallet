@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,TextInput,Alert,ScrollView,TouchableOpacity,BackHandler} from 'react-native';
+import { View,StyleSheet,Image,Text,TextInput,ScrollView,TouchableOpacity,BackHandler} from 'react-native';
 
 import {connect} from 'react-redux';
 import {BlueButtonBig} from '../../components/Button'

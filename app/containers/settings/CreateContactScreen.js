@@ -5,7 +5,7 @@ import {
     Platform,
     PermissionsAndroid,
     Text,
-    Keyboard
+    Keyboard,
 } from 'react-native';
 import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
@@ -132,10 +132,7 @@ export default class CreateContactScreen extends BaseComponent {
                 }
             })
         } else {
-            Alert.alert(
-                'warn',
-                I18n.t('modal.modal'),
-            )
+            this._showAlert(I18n.t('modal.permission_camera'))
         }
     }
 

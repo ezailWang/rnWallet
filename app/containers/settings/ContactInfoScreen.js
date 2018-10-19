@@ -6,7 +6,7 @@ import {
     PermissionsAndroid,
     Text,
     Keyboard,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
@@ -166,10 +166,7 @@ export default class ContactInfoScreen extends BaseComponent {
                 }
             })
         } else {
-            Alert.alert(
-                'warn',
-                I18n.t('modal.permission_camera')
-            )
+            this._showAlert(I18n.t('modal.permission_camera'))
         }
     }
 

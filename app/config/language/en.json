@@ -248,6 +248,8 @@
 
         "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
         "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示"
+        "not_remind_again":"不再提示",
+
+        "prompt":"提示"
     }
 }

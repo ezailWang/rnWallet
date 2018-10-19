@@ -6,10 +6,7 @@ import {StyleSheet,
     InteractionManager,
     Animated,
     Easing,
-    Platform,
-    Image,
-    Alert,
-    BackHandler} from 'react-native'
+    } from 'react-native'
 import Camera from 'react-native-camera';
 var Dimensions = require('Dimensions');
 var {width, height} = Dimensions.get('window');

@@ -7,7 +7,6 @@ import {
     Platform,
     DeviceEventEmitter,
     ScrollView,
-    Alert,
 } from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 //import Loading from '../../components/LoadingComponent';
@@ -22,6 +21,7 @@ import Toast from 'react-native-root-toast';
 import RootSiblings from 'react-native-root-siblings';
 import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
 import { Common } from '../../config/GlobalConfig'
+import MyAlert from '../../components/MyAlert';
 let lastBackPressed = 0;
 
 
@@ -44,6 +44,9 @@ export default class BaseComponent extends PureComponent {
             isShowLoading: false,
             isShowPin: false,
             showBlur: false,
+            isShowAlert: false,
+            alertTitle:'',
+            alertContent : '',
         }
 
         this.currentRouteName = '';
@@ -163,7 +166,7 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            let isNeedVerify = this.backgroundTimer != 0 && (Date.now() - this.backgroundTimer) >= 60000 && !Common.touchIDVertifing
+            let isNeedVerify = this.backgroundTimer != 0 && (Date.now() - this.backgroundTimer) >= 10000 && !Common.touchIDVertifing
             this.backgroundTimer = 0;
             DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:isNeedVerify});
             if(isNeedVerify){
@@ -186,6 +189,23 @@ export default class BaseComponent extends PureComponent {
         }*/
     }
 
+    _showAlert(conntent,title){
+        this.setState({
+            isShowAlert:true,
+            alertTitle:title,
+            alertContent:conntent
+        })
+    }
+
+    _hideAlert(){
+        if(this.state.isShowAlert){
+            this.setState({
+                isShowAlert:false,
+            })
+        }
+    }
+
+
     render() {
         const { pinInfo } = store.getState().Core
         return (
@@ -195,6 +215,13 @@ export default class BaseComponent extends PureComponent {
                 <StatusBarComponent barStyle={this._barStyle} />
 
                 {this.renderComponent()}
+                {this.state.isShowAlert == undefined ? null :
+                    <MyAlert modalVisible = {this.state.isShowAlert}
+                             title = {this.state.alertTitle}
+                             content = {this.state.alertContent}
+                             okPress = {()=>this._hideAlert()}
+                              
+                    />}
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
                     blurType='light'
@@ -359,6 +386,7 @@ export default class BaseComponent extends PureComponent {
         let state = data.nextAppState;
         let isNeedVerify = data.isNeedVerify;
         if(isNeedVerify){
+             this._hideAlert()
              this._closeModal()
              /*setTimeout(()=>{
                 this._showPin() 
