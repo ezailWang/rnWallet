@@ -6,6 +6,8 @@ import ko from './ko.json'
 import de from './de.json'
 import es from './es.json'
 import nl from './nl.json'
+import fr from './fr.json'
+import ru from './ru.json'
 
 
 I18n.fallbacks = true
@@ -18,7 +20,9 @@ I18n.translations = {
     ko,
     de,
     es,
-    nl
+    nl,
+    fr,
+    ru
 }
 
 export { I18n, getLanguages }

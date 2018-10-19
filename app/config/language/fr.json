@@ -1,0 +1,254 @@
+{
+    "launch":{
+        "creact_wallet":"Créer portefeuille",
+        "import_wallet":"Importer portefeuille",
+
+        "input_mnemonic_hint":"Veuillez entrer des phrases mnémoniques et séparer par espace.",
+        "set_password_hint":"Mot de passe",
+        "re_password_hint":"Confirmez mot de passe",
+        "import":"Importer",
+
+        "wallet_name_hint":"Nom du portefeuille",
+        "password_hint":"Mot de passe",
+        "create":"Créer",
+
+        "create_wallet_warn1":"Mot de passe est utilisé pour la protection de la clé privée et l'autorisation de la transaction.",
+        "create_wallet_warn2":"Nous ne stockons pas votre mot de passe, nous ne pouvons pas les récupérer. S'il vous plaît sauvegarder avec prudence.",
+
+        "backup_wallet":"Back up portefeuille.",
+        "why_backup_wallet":"Pourquoi faut-il sauvegarder les phrases mnémoniques?",
+        "reason_backup_wallet1":"Les phrases mnémoniques peuvent restaurer votre portefeuille. Quiconque connaît vos phrases mnémoniques peut vous enlever vos avoirs.",
+        "reason_backup_wallet2":"Nous NE stockons PAS vos phrases mnémoniques, nous ne pouvons pas les récupérer. S'il vous plaît sauvegarder avec prudence.",
+        "how_backup_wallet":"Comment back-up ?",
+        "reason_backup_wallet3":"S'il vous plaît écrivez les phrases mnémoniques sur du papier et rangez-les en toute sécurité.",
+        "reason_backup_wallet4":"Ne sauvegardez pas de phrases mnémoniques dans Mail ou un lecteur réseau. N'utilisez pas le réseau pour gérer une transmission.",
+        "readed":"Je comprends. J'ai déjà un papier et un crayon sous la main.",
+
+        "backup_mnemonic":"Back-up les phrases mnémoniques.",
+        "backup_mnemonic_prompt":"S'il vous plaît écrivez les phrases mnémoniques avec soin. Il sera nécessaire pour le processus de vérification ultérieur.",
+        "backup_mnemonic_complete":"Les phrases mnémoniques ont été copiées.",
+
+        "confirm_mnemonic":"Confirmer",
+        "confirm_mnemonic_prompt":"Veuillez sélectionner les phrases mnémoniques dans le bon ordre.",
+        "complete":"Terminé",
+
+        "service_agreement":"Contrat de service",
+        "agree_service_agreement":"J'ai lu et accepte la politique de service et de confidentialité",
+        "agree_and_set_login_password":"Accepter et définir le mot de passe de connexion",
+        "set_login_password":"Configurer le mot de passe de connexion",
+        "repeat_new_password":"Répété le nouveau mot de passe",
+        "enter_password":"S'il vous plait entrez votre mot de passe",
+
+       
+        "password_warn":"Les mots de passe doivent comporter au moins 8 caractères, dont au moins 3 sur 4: une majuscule, une minuscule, un chiffre et un symbole.",
+        "password_warn_least_8":"Le mot de passe doit comporter au moins 8 caractères., ",
+        "password_warn_1":"Les mots de passe doivent contenir au moins une minuscule, un chiffre et un symbole.",
+        "password_warn_2":"Les mots de passe doivent contenir au moins une lettre majuscule, un chiffre et un symbole.",
+        "password_warn_3":"Les mots de passe doivent contenir au moins une majuscule, une minuscule et un symbole.",
+        "password_warn_4":"Les mots de passe doivent contenir au moins une majuscule, une minuscule et un chiffre.",
+        "password_warn_5":"Les mots de passe doivent contenir au moins un chiffre ou un symbole.",
+        "password_warn_6":"Les mots de passe doivent contenir au moins une minuscule ou un symbole.",
+        "password_warn_7":"Les mots de passe doivent contenir au moins une lettre minuscule ou un chiffre.",
+        "password_warn_8":"Les mots de passe doivent contenir au moins une lettre majuscule ou un symbole.",
+        "password_warn_9":"Les mots de passe doivent contenir au moins une lettre majuscule ou un chiffre.",
+        "password_warn_10":"Les mots de passe doivent contenir au moins une majuscule ou une minuscule.",
+
+        "enter_same_password":"S'il vous plaît entrer un mot de passe compatible",
+        "enter_normative_wallet_name":"Veuillez entrer un nom de portefeuille (1-12 caractères)"
+    },
+    "home":{
+        "total_assets":"Total des actifs",
+        "assets":"Liste des actifs",
+        "settings":"Réglages",
+        "QRCode":"Adresse QR code",
+        "no_assets":"Aucun actif",
+        "add":"Ajouter",
+        "add_token":"Ajouter des actifs",
+        "contract_address":"Adresse du contrat",
+        "token_symbol":"Symbole des actifs",
+        "token_decimals":"Précision décimale",
+        "delete":"Effacer",
+        "address_check":"42 caractères d'une longueur commençant par 0x",
+        "symbol_check":"1 à 9 caractères, par exemple ETH et ITC",
+        "decimals_check":"La précision décimale du jeton erc20 est comprise entre 0 et 36, principalement 18 chiffres.",
+        "wallet_tool":"Gérer le portefeuille",
+        "contact":"Contacts",
+        "system_settings":"Réglages",
+        "feedback":"Retour d'information",
+        "about":"Sur",
+        "address_repeat":"L'adresse du contrat a été ajoutée",
+        "delete_main_token":"Cette devise ne peut pas être supprimée",
+
+        "currency_symbol":"¥"
+    },
+    "transaction":{
+        "miner_fee":"Frais de paiement",
+        "fast":"Vite",
+        "slow":"Lent",
+        "transfer":"Transfert",
+        "amount":"Montant",
+        "balance":"Balance",
+        "enter":"Amount",
+        "collection_address":"Adresse de réception",
+        "enter_transfer_address":"Entrez l'adresse de réception",
+        "remarks":"Mémo",
+        "enter_remarks":"Entrer le mémo",
+        "next_step":"Suivant",
+        
+        "address_list":"Contacts",
+        "transaction_details":"Détails de la transaction",
+        "sending_party":"De",
+        "beneficiary":"À",
+        "miner_cost":"Frais de paiement",
+        "transaction_number":"Transaction #",
+        "block":"Bloc #",
+        "transaction_time":"Temps de transaction",
+        "copy_address":"Copier URL",
+
+        "no_transaction_history_found":"Journal des transactions non trouvé",
+        "no":"Aucun",
+        "receipt":"Recevoir",
+
+        "payment_information":"Titre",
+        "payment_address":"Payer par",
+        "pay_to":"Payer à",
+        "payment_details":"Demande de paiement",
+        "wallet_password":"Mot de passe",
+        "enter_password_hint":"Entrez le mot de passe du portefeuille",
+        "determine":"Confirmer",
+        
+        "transaction_fail":"La transaction a échoué",
+
+        "alert_0":"Échec de l'acquisition de la clé privée.",
+        "alert_1":"La transaction a échoué. S'il vous plaît vérifier les paramètres.",
+        "alert_2":"Veuillez entrer une adresse de transfert valide.",
+        "alert_3":"Veuillez entrer un montant de transfert valide.",
+        "alert_4":"Solde insuffisant",
+        "alert_5":"Veuillez autoriser l'accès à la caméra."
+    },
+    "settings":{
+        "set":"Outils de portefeuille",
+        "enter_wallet_name_hint":"Nom du portefeuille",
+        "enter_passowrd_hint":"Entrez le mot de passe du portefeuille",
+        "modify_wallet_name":"Modifier le nom du portefeuille",
+        "export_keystore":"Exporter le magasin de clés",
+        "export_private_key":"Exporter la clé privée",
+
+        "export_keystore_modal_prompt":"Toute personne possédant le magasin de clés peut accéder à vos ressources!",
+        "export_keystore_modal_prompt1":"Veuillez conserver le magasin de clés correctement.",
+        "export_keystore_prompt":"Toute personne possédant le magasin de clés peut accéder à vos actifs! Ne sauvegardez pas le magasin de clés dans Mail ou sur un lecteur réseau. N'utilisez pas le réseau pour gérer une transmission.",
+        "copy_keystore":"Copier le magasin de clés",
+
+        "export_private_key_modal_prompt":"Toute personne disposant de la clé privée peut accéder à vos actifs!!",
+        "export_private_key_modal_prompt1":"Veuillez ne conserver que des copies papier et le garder en sécurité.",
+        "export_private_key_prompt":"Ne sauvegarde pas la clé privée sur la boîte aux lettres ou le disque réseau. N'utilisez pas d'outils réseau pour la transmission.",
+        "copy_private_key":"Copier la clé privée",
+
+        "collection_code":"Code de paiement",
+        "copy_payment_address":"Copier l'adresse de réception",
+
+        "scan_qrcode":"Scannez le code QR",
+        "scan_qrcode_prompt":"Le code QR peut être automatiquement scanné en le mettant dans le cadre.",
+
+        "about":"Sur",
+        "currency_unit":"Unité monétaire",
+        "multi_language":"La langue",
+
+        "make_sure_delete_contact":"Êtes-vous sûr de vouloir supprimer?",
+        "no_contact":"Pas de contacts",
+        "create_contact":"Créer un nouveau contact",
+        "name":"Nom",
+        "remarks":"Mémo (facultatif)",
+        "wallet_address":"Adresse du portefeuille",
+        "save_changes":"Sauvegarder",
+        "delete_contact":"Supprimer le contact",
+        "save":"Sauvegarder",
+        
+        "enter_normative_contact_name":"Veuillez entrer un nom de contact (1-12 caractères)",
+ 
+        "address_book":"Contacts",
+
+        "feedback":"Retour d'information",
+        "nickname":"Nom",
+        "contact_email":"Email",
+        "problem_description":"Description du problème",
+        "submit":"Soumettre",
+
+        "system_settings":"Réglages",
+        "language":"La langue",
+        
+        "terms_use_and_privacy_policy":"Conditions d'utilisation et politique de confidentialité",
+
+        "feedback_eth_address_prompt":"地址无效，请检查后输入",
+        "feedback_address_title":"ETH钱包地址"
+    },
+    "toast":{
+        "exit_app":"Cliquez à nouveau pour quitter l'application.",
+        "copy_wallet":"Copié",
+        "space_separate_mnemonic":"Veuillez utiliser un espace pour séparer les phrases mnémoniques.",
+        "enter_repassword":"Veuillez entrer le mot de passe à nouveau.",
+        "enter_same_password":"Merci de confirmer votre mot de passe.",
+
+        "enter_wallet_name":"S'il vous plaît entrer le nom du portefeuille",
+        "enter_mnemonic":"S'il vous plaît entrer les mots mnémoniques.",
+        "enter_password":"Entrez le mot de passe du portefeuille",
+        
+        
+        "check_mnemonic_is_correct":"S'il vous plaît vérifier les phrases mnémoniques.",
+
+        "import_mnemonic_error":"Erreur d'importation du portefeuille",
+        "create_wallet_error":"Erreur lors de la création du portefeuille",
+
+        "not_modified_wallet_name":"Vous n'avez pas changé le nom du portefeuille.",
+        "copied_keystore":"Keystore copié",
+        "copied":"Copié",
+
+        "enter_valid_transfer_address":"Veuillez entrer une adresse de transfert valide.",
+        "email_format_incorrect":"Format de courrier électronique incorrect",
+
+        "net_request_err":"Anomalie de réseau",
+        "net_request_token_unable_resolve":"Actifs invalides",
+        "net_request_timeout":"Demande expirée",
+
+        "pwd_inconsistent_reset":"Les mots de passe sont incorrects, veuillez réinitialiser",
+        "submitted_successfully":"Soumis avec succès",
+        "submission_failed":"Échec de la soumission"
+    },
+    "modal":{
+        "permission_storage":"Veuillez autoriser la lecture et l'écriture de l'espace de stockage.",
+        "screenshot_warn":"Ne pas capturer",
+        "screenshot_warn_content":"Toute personne ayant accès à vos phrases mnémoniques peut récupérer votre portefeuille et contrôler tous vos actifs! Veuillez écrire les phrases mnémoniques sur du papier et les garder en sécurité.",
+        "i_know":"Compris",
+
+        "backup_fail":"Back up a échoué.",
+        "check_mnemonic_is_correct":"S'il vous plaît vérifier les phrases mnémoniques.",
+
+        "export_private_key_error":"Erreur! Impossible d'exporter une clé privée.",
+        "password_error":"Mot de passe incorrect. Veuillez réessayer.",
+
+        "cancel":"Annuler",
+        "confirm":"Confirmer",
+
+        "permission_camera":"Veuillez autoriser l'accès à la caméra.",
+
+        "get_private_key_fail":"Échec de l'acquisition de la clé privée.",
+        "transaction_failed":"La transaction a échoué. Veuillez vérifier les paramètres ou l'état du réseau.",
+        "enter_valid_transfer_address":"Veuillez entrer une adresse de transfert valide.",
+        "enter_valid_transfer_amount":"Veuillez entrer un montant de transfert valide.",
+        "insufficient_balance":"Solde insuffisant",
+
+        "ping_id_warn1":"Une fois que le mot de passe de connexion a été défini avec succès, il ne peut être ni modifié ni récupéré.",
+        "ping_id_warn2":"Assurez-vous de retenir votre mot de passe de connexion.",
+        "open_face_id":"Voulez-vous utiliser FACE ID?",
+        "open_touch_id":"Voulez-vous utiliser Touch ID?",
+
+        "vertify_self":"Authentification par empreinte digitale",
+        "authentication_required":"Authentification requise",
+
+        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
+        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
+        "not_remind_again":"不再提示",
+
+        "prompt":"提示"
+    }
+}

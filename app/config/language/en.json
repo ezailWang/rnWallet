@@ -179,8 +179,8 @@
 
         "terms_use_and_privacy_policy":"Terms of use and privacy policy",
 
-        "feedback_eth_address_prompt":"The address is invalid, please check and input",
-        "feedback_address_title":"Eth Address"
+        "feedback_eth_address_prompt":"Invalid address, please check again",
+        "feedback_address_title":"ETH wallet address"
 
     },
     "toast":{
@@ -246,10 +246,10 @@
         "vertify_self":"Fingerprint authentication",
         "authentication_required":"Authentication required",
 
-        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
-        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示",
+        "itc_test_warn1":"Do not store your assets on your wallet during the test period!",
+        "itc_test_warn2":"ITC coin is testnet-only and should not be used as an actual cryptocurrency!",
+        "not_remind_again":"Don't show this again",
 
-        "prompt":"提示"
+        "prompt":"Note"
     }
 }

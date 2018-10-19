@@ -36,6 +36,7 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
             isCheckUSD:false,
             isCheckKRW:false,
             isCheckEUR:false,
+            isCheckRUB:false,//卢布 饿语
         }  
         this.monetaryUnitType = ''
         this.monetaryUnitSymbol = ''
@@ -46,28 +47,32 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
         this._checkMonetaryUnit()
     }
 
-    _checkState(isCNY,isUSD,isKRW,isEUR){
+    _checkState(isCNY,isUSD,isKRW,isEUR,isRUB){
         this.setState({
             isCheckCNY:isCNY,
             isCheckUSD:isUSD,
             isCheckKRW:isKRW,
             isCheckEUR:isEUR,
+            isCheckRUB:isRUB,
         }) 
     }
 
     _checkMonetaryUnit(){
         if(this.monetaryUnitType == 'CNY'){
             this.monetaryUnitSymbol = '¥'
-            this._checkState(true,false,false,false)
+            this._checkState(true,false,false,false,false)
         }else if(this.monetaryUnitType == 'USD'){
             this.monetaryUnitSymbol = '$'
-            this._checkState(false,true,false,false)
+            this._checkState(false,true,false,false,false)
         }else if(this.monetaryUnitType == 'KRW'){
             this.monetaryUnitSymbol = '₩'
-            this._checkState(false,false,true,false)
+            this._checkState(false,false,true,false,false)
         }else if(this.monetaryUnitType == 'EUR'){
             this.monetaryUnitSymbol = '€'
-            this._checkState(false,false,false,true)
+            this._checkState(false,false,false,true,false)
+        }else if(this.monetaryUnitType == 'RUB'){
+            this.monetaryUnitSymbol = '₽'
+            this._checkState(false,false,false,false,true)
         }
     }
     _onPressCNY = () =>{
@@ -86,6 +91,11 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
 
     _onPressEUR = () =>{
         this.monetaryUnitType = 'EUR'
+        this._saveMonetaryUnit()
+    }
+
+    _onPressRUB = () =>{
+        this.monetaryUnitType = 'RUB'
         this._saveMonetaryUnit()
     }
 
@@ -117,6 +127,8 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
                      <ChoseItem content={'KRW'} isCheck={this.state.isCheckKRW} itemPress= {this._onPressKRW}
                                 choseItemContentStyle={styles.choseItemContent}></ChoseItem>
                      <ChoseItem content={'EUR'} isCheck={this.state.isCheckEUR} itemPress= {this._onPressEUR}
+                                choseItemContentStyle={styles.choseItemContent}></ChoseItem>
+                     <ChoseItem content={'RUB'} isCheck={this.state.isCheckRUB} itemPress= {this._onPressRUB}
                                 choseItemContentStyle={styles.choseItemContent}
                                 isShowLine={false}></ChoseItem>           
                 </View>

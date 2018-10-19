@@ -278,9 +278,9 @@ class SliderView extends Component {
                     />
                 </View>
                 <View style={styles.sliderAlertView}>
-                    <Text>{I18n.t('transaction.fast')}</Text>
+                    <Text>{I18n.t('transaction.slow')}</Text>
                     <Text style={styles.transferPrice}>{this.props.gasStr}</Text>
-                    <Text style={{ alignSelf: 'flex-end' }}>{I18n.t('transaction.slow')}</Text>
+                    <Text style={{ alignSelf: 'flex-end' }}>{I18n.t('transaction.fast')}</Text>
                 </View>
             </View>
         )

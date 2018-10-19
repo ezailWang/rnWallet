@@ -176,10 +176,10 @@
         "system_settings":"Instellingen",
         "language":"Taal",
 
-        "terms_use_and_privacy_policy":"使用协议与隐私条款",
+        "terms_use_and_privacy_policy":"Gebruiksvoorwaarden en privacybeleid",
 
-        "feedback_eth_address_prompt":"The address is invalid, please check and input",
-        "feedback_address_title":"Eth Address"
+        "feedback_eth_address_prompt":"Gebruiksvoorwaarden en privacybeleid",
+        "feedback_address_title":"ETH portemonnee adres"
 
     },
     "toast":{

@@ -4,10 +4,11 @@ import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
 import Layout from '../../config/LayoutConstants'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
+import networkManage from '../../utils/networkManage'
 import { HeaderButton, BlueButtonBig } from '../../components/Button';
 import { androidPermission } from '../../utils/permissionsAndroid';
 import { TransparentBgHeader } from '../../components/NavigaionHeader'
-import { Colors, FontSize ,StorageKey} from '../../config/GlobalConfig'
+import { Colors, StorageKey ,Network} from '../../config/GlobalConfig'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent';
@@ -90,12 +91,14 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         marginTop: 20,
     },
+    itcBox:{
+        width: Layout.WINDOW_WIDTH * 0.82,
+        alignSelf: 'center',
+    },
     itcTextWarn:{
         width: Layout.WINDOW_WIDTH * 0.82,
         color:'white',
         fontSize:13,
-        alignSelf: 'center',
-
     }
 })
 
@@ -119,13 +122,29 @@ class ReceiptCodeScreen extends BaseComponent {
         this.state = {
             qrcodeLoading: true,
             modalVisible:false,
-            isNotRemind:false
+            isNotRemind:false,
+            isMainNetwork:true,
         }
+
     }
 
     
     _initData(){
-        this.getIsRemindAgain()
+
+        const { network } = store.getState().Core;
+        if(network == Network.main){
+            this.setState({
+                isMainNetwork:true,
+                modalVisible:false,
+            })
+        }else{
+            this.setState({
+                isMainNetwork:false,
+            })
+            this.getIsRemindAgain()
+        }
+
+        
         InteractionManager.runAfterInteractions(() => {
             if (this._isMounted) {
                 this.setState({ qrcodeLoading: false })
@@ -239,8 +258,14 @@ class ReceiptCodeScreen extends BaseComponent {
                         </TouchableOpacity>
                     </ImageBackground>
 
-                    <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>  
-                    <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text> 
+                    {
+                        this.state.isMainNetwork ? null : 
+                        <View style={styles.itcBox}>
+                             <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>  
+                             <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text> 
+                        </View>
+                    }
+                    
                 </View>    
                 </View>
 

@@ -89,6 +89,10 @@ class Loading extends Component {
                 I18n.locale = 'es';
             } else if (lang == 'nl') {
                 I18n.locale = 'nl';
+            } else if(lang =='fr'){
+                I18n.locale = 'fr';
+            } else if(lang == 'ru'){
+                I18n.locale = 'ru';
             } else {
                 I18n.locale = 'en';
             }
@@ -137,7 +141,12 @@ class Loading extends Component {
                 monetaryUnitType: 'KRW',
                 symbol: '₩'
             }
-        } else if (lang == 'de' || lang == 'es' || lang == 'nl') {
+        } else if(lang == 'ru'){
+            monetaryUnit = {
+                monetaryUnitType: 'RUB',
+                symbol: '₽'
+            }
+        } else if (lang == 'de' || lang == 'es' || lang == 'nl' || lang == 'fr') {
             monetaryUnit = {
                 monetaryUnitType: 'EUR',
                 symbol: '€'

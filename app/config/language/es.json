@@ -135,12 +135,12 @@
         "export_private_key":"Exportar la clave privada",
 
         "export_keystore_modal_prompt":"Cualquiera con acceso a tu keystore puede controlar tus activos.",
-        "export_keystore_modal_prompt1":"Por favor, mantengalo en un lugar seguro.",
+        "export_keystore_modal_prompt1":"PPor favor, mantenlo en un lugar seguro.",
         "export_keystore_prompt":"¡Cualquiera con acceso a tu keystore puede controlar tus activos! No lo guardes en ningún email o almacenamiento de red. No uses la red para transmitirlo.",
         "copy_keystore":"Copiar Keystore",
 
         "export_private_key_modal_prompt":"¡Cualquiera con acceso a tu clave privada puede controlar tus activos!",
-        "export_private_key_modal_prompt1":"Por favor consérvela en papel y guárdela en un sitio seguro",
+        "export_private_key_modal_prompt1":"Por favor guárdela en papel en un sitio seguro",
         "export_private_key_prompt":"No guardes tu clave privado en correos electrónicos o almacenamiento de red. No uses la red para transmitirla.",
         "copy_private_key":"Copiar clave privada",
 
