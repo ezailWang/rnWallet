@@ -71,12 +71,12 @@ class SetScreen extends BaseComponent {
             pwdRightBtnDisabled:true,
             nameWarnText : ' '
         }
-
         this.inputName = '';
         this.inputPwd = '';
     }
 
 
+    
     _closeModal(){
         this.closeNameModal()
         this.closePasswordModal()

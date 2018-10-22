@@ -64,7 +64,7 @@ const GetWebviewHeight = `(function(){
     setInterval(changeHeight,300);
 } ())
 `
-export default class ServiceAgreementScreen extends BaseComponent {
+export default class UseAndPrivacyPolicyScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -100,7 +100,7 @@ export default class ServiceAgreementScreen extends BaseComponent {
         let checkIcon = this.state.isAgree ? require('../../assets/launch/check_on.png') : require('../../assets/launch/check_off.png');
         return (
             <View style={styles.container} >
-                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('launch.service_agreement')}/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.terms_use_and_privacy_policy')}/>
                 <ScrollView style={[styles.contentBox]}>
                 <WebView
                      style={[styles.webview,{height:this.state.webviewHeight}]}
@@ -117,18 +117,7 @@ export default class ServiceAgreementScreen extends BaseComponent {
                      onMessage={this.onMessage.bind(this)}
                      domStorageEnabled={true}
                     />
-                <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isAgreePress()}>
-                      <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
-                      <Text style={styles.checkText}>{I18n.t('launch.agree_service_agreement')}</Text>
-                </TouchableOpacity>
-                <BlueButtonBig
-                      buttonStyle={styles.button}
-                      isDisabled = {!this.state.isAgree}
-                      onPress = {() => this.agreeBtn()}
-                      text = {I18n.t('launch.agree_and_set_login_password')}
-                />    
                 </ScrollView>
-                 
             </View>
         )
     }

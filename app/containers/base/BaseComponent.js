@@ -29,8 +29,8 @@ const touchIdOptionalConfig = {
     title: I18n.t('modal.authentication_required'),//android 确认对话框的标题
     color: "#e00606", // Android 确认对话框的颜色
     sensorDescription: "", // Android 指纹图像旁边显示的文字
-    cancelText: "Cancel", // Android 取消按钮文字
-    fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)   默认情况下指定“显示密码”标签。 如果设置为空，则字符串标签不可见。
+    cancelText: I18n.t('modal.cancel'), // Android 取消按钮文字
+    fallbackLabel: "", // iOS (if empty, then label is hidden)   默认情况下指定“显示密码”标签。 如果设置为空，则字符串标签不可见。
     unifiedErrors: true // use unified error messages (default false) 返回统一错误消息（默认= false）
 }
 

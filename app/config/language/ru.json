@@ -179,8 +179,8 @@
         
         "terms_use_and_privacy_policy":"Условия использования и политика конфиденциальности",
 
-        "feedback_eth_address_prompt":"Invalid address, please check again",
-        "feedback_address_title":"ETH wallet address"
+        "feedback_eth_address_prompt":"Неправильный адрес, проверьте еще раз",
+        "feedback_address_title":"ETH адрес кошелька"
     },
     "toast":{
         "exit_app":"Нажмите еще раз, чтобы выйти из приложения",
@@ -245,10 +245,10 @@
         "vertify_self":"Авторизация по отпечаткам пальцев",
         "authentication_required":"Авторизация обязательно",
 
-        "itc_test_warn1":"Do not store your assets on your wallet during the test period!",
-        "itc_test_warn2":"ITC coin is testnet-only and should not be used as an actual cryptocurrency!",
-        "not_remind_again":"Don't show this again",
+        "itc_test_warn1":"Не отправляйте и не храните ваши активы в кошельке во время тестового периода!",
+        "itc_test_warn2":"ITC валюта только для тестовой сети и не должна использоваться как настоящая криптовалюта!",
+        "not_remind_again":"Не показывать это снова",
 
-        "prompt":"Note"
+        "prompt":"Заметка"
     }
 }

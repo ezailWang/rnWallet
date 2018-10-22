@@ -25,6 +25,7 @@ import FeedbackScreen from './settings/FeedbackScreen';
 import ChoseLanguageScreen from './settings/ChoseLanguageScreen';
 import ChoseMonetaryUnitScreen from './settings/ChoseMonetaryUnitScreen';
 import SystemSetScreen from './settings/SystemSetScreen';
+import UseAndPrivacyPolicyScreen from './settings/UseAndPrivacyPolicyScreen';
 import AddAssets from './home/AddAssets'
 export {
     HomeScreen,
@@ -54,5 +55,6 @@ export {
     ChoseLanguageScreen,
     ChoseMonetaryUnitScreen,
     SystemSetScreen,
+    UseAndPrivacyPolicyScreen,
     AddAssets
 }

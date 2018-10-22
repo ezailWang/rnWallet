@@ -96,7 +96,7 @@ export default class AboutUsScreen extends BaseComponent {
     }
 
     _toPrivacyPolicyPage(){
-
+        this.props.navigation.navigate('UseAndPrivacyPolicy')
     }
 
     renderComponent() {
@@ -113,9 +113,7 @@ export default class AboutUsScreen extends BaseComponent {
                     <Text style={styles.itemTitle}>{I18n.t('settings.terms_use_and_privacy_policy')}</Text>
                     <Image style={styles.itemIcon} source={require('../../assets/set/next.png')} resizeMode='contain'/>
                 </TouchableOpacity>
-                <View style={styles.itemLine10}>
-
-                  </View>*/}
+        <View style={styles.itemLine10}></View> */}
 
                 <Item title={'Website'} url={'iotchain.io'} isDisabled={false}></Item> 
                 <Item title={'Email'} url={'support@iotchain.io'} isDisabled={true}></Item>
