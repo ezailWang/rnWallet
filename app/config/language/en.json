@@ -182,8 +182,8 @@
         "feedback_eth_address_prompt":"Invalid address, please check again",
         "feedback_address_title":"ETH wallet address",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Wallet delete",
+        "confirm_delete_wallet":"Are you sure you want to delete the wallet?"
 
     },
     "toast":{

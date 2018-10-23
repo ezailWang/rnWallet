@@ -15,7 +15,7 @@
         "create_wallet_warn1":"Das Passwort wird für die Sicherung privater Schlüssel und zur Autorisierung von Transaktionen verwendet.",
         "create_wallet_warn2":"Weil wir diese nicht speichern uns somit auch nicht wiederherstellen können. Bitte sichern Sie die Passphrasen sorgfältig.",
 
-        "backup_wallet":"Wallet Sicherungskopie ",
+        "backup_wallet":"Sie dienen als Sicherungskopie und somit als Wiederherstellungsoption für Ihr Wallet.",
         "why_backup_wallet":"Warum müssen mnemonische Phrasen gesichert werden?",
         "reason_backup_wallet1":"Mnemonische Phrasen können ihre Wallet wiederherstellen. Jeder der über diese Passphrase verfügt hat die Kontrolle über ihr gesamtes Guthaben!",
         "reason_backup_wallet2":"Wir speichern weder Ihr Passwort, noch können wir es wiederherstellen. Bitte sichern Sie dieses sorgfältig!",
@@ -181,8 +181,8 @@
         "feedback_eth_address_prompt":"Ungültige Adresse, bitte überprüfen.",
         "feedback_address_title":"ETH Walletadresse",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Löschung der Wallet",
+        "confirm_delete_wallet":"Sind Sie sicher, dass Sie die Wallet löschen wollen?"
     },
     "toast":{
         "exit_app":"Drücken Sie nochmals um die App zu schließen.",

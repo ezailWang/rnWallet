@@ -182,8 +182,8 @@
         "feedback_eth_address_prompt":"Adresse invalide, veuillez vérifier à nouveau",
         "feedback_address_title":"Adresse du portefeuille ETH",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Retirer le portefeuille",
+        "confirm_delete_wallet":"Êtes-vous sûr de vouloir supprimer le portefeuille?"
     },
     "toast":{
         "exit_app":"Cliquez à nouveau pour quitter l'application.",

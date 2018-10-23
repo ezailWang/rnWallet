@@ -131,11 +131,6 @@ class Loading extends Component {
                 monetaryUnitType: 'CNY',
                 symbol: '¥'
             }
-        } else if (lang == 'en') {
-            monetaryUnit = {
-                monetaryUnitType: 'USD',
-                symbol: '$'
-            }
         } else if (lang == 'ko') {
             monetaryUnit = {
                 monetaryUnitType: 'KRW',
@@ -150,6 +145,11 @@ class Loading extends Component {
             monetaryUnit = {
                 monetaryUnitType: 'EUR',
                 symbol: '€'
+            }
+        } else {
+            monetaryUnit = {
+                monetaryUnitType: 'USD',
+                symbol: '$'
             }
         }
         StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit)

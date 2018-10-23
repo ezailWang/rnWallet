@@ -113,6 +113,7 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
         DeviceEventEmitter.emit('monetaryUnitChange', {monetaryUnit: object});
         this.props.navigation.state.params.callback({monetaryUnit: object});
         this.props.navigation.goBack()
+
     }
    
     renderComponent() {
@@ -130,7 +131,7 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
                                 choseItemContentStyle={styles.choseItemContent}></ChoseItem>
                      <ChoseItem content={'RUB'} isCheck={this.state.isCheckRUB} itemPress= {this._onPressRUB}
                                 choseItemContentStyle={styles.choseItemContent}
-                                isShowLine={false}></ChoseItem>           
+                                isShowLine={false}></ChoseItem>       
                 </View>
                 
             </View>    

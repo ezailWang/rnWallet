@@ -315,6 +315,10 @@ export default class networkManage {
                         return resJson.data.cny
                     } else if (monetaryUnitType == 'KRW') {
                         return resJson.data.krw
+                    } else if(monetaryUnitType == 'EUR'){
+                        return resJson.data.eur
+                    } else if(monetaryUnitType == 'RUB'){
+                        return resJson.data.rub
                     } else {
                         return resJson.data.usd
                     }
@@ -324,6 +328,10 @@ export default class networkManage {
                         return resJson.data.cny
                     } else if (currentLocale.includes('ko')) {
                         return resJson.data.krw
+                    } else if (currentLocale.includes('ru')) {
+                        return resJson.data.rub
+                    } else if (currentLocale.includes('de') || currentLocale.includes('es') || currentLocale.includes('nl') || currentLocale.includes('fr') ) {
+                        return resJson.data.eur
                     } else {
                         //默认美元
                         return resJson.data.usd

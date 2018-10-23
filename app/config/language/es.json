@@ -182,8 +182,8 @@
         "feedback_eth_address_prompt":"Dirección incorrecta, compruébala de nuevo",
         "feedback_address_title":"Dirección monedero ETH",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Eliminar monedero",
+        "confirm_delete_wallet":"¿Estás seguro de que deseas eliminar el monedero?"
 
     },
     "toast":{

@@ -181,8 +181,8 @@
         "feedback_eth_address_prompt":"Ongeldig adres, controleer nogmaals",
         "feedback_address_title":"ETH portemonnee adres",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Portemonnee verwijderen",
+        "confirm_delete_wallet":"Weet je zeker dat je de portemonnee wilt verwijderen?"
 
     },
     "toast":{

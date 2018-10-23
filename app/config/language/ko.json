@@ -183,8 +183,8 @@
         "feedback_eth_address_prompt":"무효한 주소입니다. 확인하여 재입력해주세요",
         "feedback_address_title":"ETH 월렛 주소",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"월렛을 삭제합니다",
+        "confirm_delete_wallet":"월렛을 삭제하십니까?"
         
     },
     "toast":{
