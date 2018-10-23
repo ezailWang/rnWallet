@@ -216,7 +216,10 @@
 
         "pwd_inconsistent_reset":"The passwords are inconsistent, please reset",
         "submitted_successfully":"Submitted successfully",
-        "submission_failed":"Submission failed"
+        "submission_failed":"Submission failed",
+       
+        "update_tip":"Update Tip",
+        "go_update":"go update"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",

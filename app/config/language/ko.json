@@ -217,7 +217,10 @@
 
         "pwd_inconsistent_reset":"비밀번호가 일치하지 않습니다. 다시 설정해주세요",
         "submitted_successfully":"제출 완료",
-        "submission_failed":"제출 실패"
+        "submission_failed":"제출 실패",
+
+        "update_tip":"프롬프트 업데이트",
+        "go_update":"업데이트로 이동"
     },
     "modal":{
         "permission_storage":"저장 공간을 읽기 쓰기 권한을 부여해주세요.",

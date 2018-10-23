@@ -216,7 +216,10 @@
 
         "pwd_inconsistent_reset":"Las contraseñas son inconsistentes. por favor resetealas.",
         "submitted_successfully":"Envío realizado",
-        "submission_failed":"Envío fallido"
+        "submission_failed":"Envío fallido",
+
+        "update_tip":"Update Tip",
+        "go_update":"go update"
     },
     "modal":{
         "permission_storage":"Por favor habilita el permiso para lectura y escritura de almacenamiento",

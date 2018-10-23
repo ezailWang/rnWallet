@@ -214,7 +214,10 @@
 
         "pwd_inconsistent_reset":"Die Passwörter unterscheiden sich. Bitte erneut eingeben.",
         "submitted_successfully":"Einreichung erfolgreich",
-        "submission_failed":"Einreichung fehlgeschlagen"
+        "submission_failed":"Einreichung fehlgeschlagen",
+        
+        "update_tip":"Update Tip",
+        "go_update":"go update"
     },
     "modal":{
         "permission_storage":"Bitte erlauben Sie, Speicherplatz zu lesen und zu schreiben.",

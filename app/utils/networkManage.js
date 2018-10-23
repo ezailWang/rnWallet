@@ -302,8 +302,9 @@ export default class networkManage {
      */
     static async getPrice(symbol) {
         try {
-            const result = await FetchUtils.timeoutFetch(fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`))
-            const resJson = await result.json()
+           const result = await FetchUtils.timeoutFetch(fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`))
+           //const result = await FetchUtils.timeoutFetch(fetch(`http://47.75.16.97:3001/tokenPrice?symbol=${symbol}`))
+           const resJson = await result.json()
             if (resJson.code === 200) {
                 //优先判断货币 如果货币本地没有再使用语言
                 //const currentLocale = I18n.currentLocale()
@@ -437,6 +438,13 @@ export default class networkManage {
         return FetchUtils.requestPost(NetAddr.registerDevice, params)
     }
 
+    /**
+     * version update info
+     */
+    
+    static getVersionUpdateInfo(params){
+        return FetchUtils.requestGet(NetAddr.getVersionUpdateInfo,params)
+    }
 
 }
 

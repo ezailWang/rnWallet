@@ -215,7 +215,10 @@
 
         "pwd_inconsistent_reset":"Les mots de passe sont incorrects, veuillez réinitialiser",
         "submitted_successfully":"Soumis avec succès",
-        "submission_failed":"Échec de la soumission"
+        "submission_failed":"Échec de la soumission",
+        
+        "update_tip":"Update Tip",
+        "go_update":"go update"
     },
     "modal":{
         "permission_storage":"Veuillez autoriser la lecture et l'écriture de l'espace de stockage.",

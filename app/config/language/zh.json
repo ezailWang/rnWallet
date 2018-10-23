@@ -215,7 +215,10 @@
 
         "pwd_inconsistent_reset":"密码不一致，请重新设置",
         "submitted_successfully":"提交成功",
-        "submission_failed":"提交失败"
+        "submission_failed":"提交失败",
+
+        "update_tip":"更新提示",
+        "go_update":"前往更新"
     },
     "modal":{
         "permission_storage":"请允许读写存储空间的权限",
