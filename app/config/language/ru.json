@@ -179,8 +179,11 @@
         
         "terms_use_and_privacy_policy":"Условия использования и политика конфиденциальности",
 
-        "feedback_eth_address_prompt":"地址无效，请检查后输入",
-        "feedback_address_title":"ETH钱包地址"
+        "feedback_eth_address_prompt":"Неправильный адрес, проверьте еще раз",
+        "feedback_address_title":"ETH адрес кошелька",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
     },
     "toast":{
         "exit_app":"Нажмите еще раз, чтобы выйти из приложения",
@@ -245,10 +248,10 @@
         "vertify_self":"Авторизация по отпечаткам пальцев",
         "authentication_required":"Авторизация обязательно",
 
-        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
-        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示",
+        "itc_test_warn1":"Не отправляйте и не храните ваши активы в кошельке во время тестового периода!",
+        "itc_test_warn2":"ITC валюта только для тестовой сети и не должна использоваться как настоящая криптовалюта!",
+        "not_remind_again":"Не показывать это снова",
 
-        "prompt":"提示"
+        "prompt":"Заметка"
     }
 }

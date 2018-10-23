@@ -4,7 +4,7 @@ import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity,
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
-import { NextButton } from '../../components/Button';
+import { NextButton ,GreyButtonBig} from '../../components/Button';
 import InputTextDialog from '../../components/InputTextDialog';
 import InputPasswordDialog from '../../components/InputPasswordDialog';
 import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig'
@@ -14,6 +14,9 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
+import RemindDialog from '../../components/RemindDialog'
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -55,6 +58,14 @@ const styles = StyleSheet.create({
     },
     marginBottom20: {
         marginBottom: 20,
+    },
+    delButtonBox:{
+        flex:1,
+        justifyContent:'flex-end',
+    },
+    button:{
+        marginBottom:20,
+        alignSelf:'center'
     }
 
 })
@@ -69,17 +80,22 @@ class SetScreen extends BaseComponent {
             //isShowNameWarn: false,
             rightBtnDisabled : true,
             pwdRightBtnDisabled:true,
-            nameWarnText : ' '
+            nameWarnText : ' ',
+            isShowRemindDialog: false,
         }
-
+        this.isDeleteWallet = false;
         this.inputName = '';
         this.inputPwd = '';
     }
 
 
+    
     _closeModal(){
-        this.closeNameModal()
-        this.closePasswordModal()
+        this.setState({
+            nameModalVisible: false,
+            passwordModalVisible: false,
+            isShowRemindDialog: false,
+        })
     }
 
     openNameModal() {
@@ -182,9 +198,15 @@ class SetScreen extends BaseComponent {
             this._hideLoading();//关闭Loading
             if (privateKey == null) {
                 //alert(I18n.t('modal.export_private_key_error'));
-                showToast(I18n.t('modal.export_private_key_error'))
+                showToast(this.isDeleteWallet ? I18n.t('modal.password_error') : I18n.t('modal.export_private_key_error'))
            } else {
-                this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
+               if(this.isDeleteWallet){
+                   this.setState({
+                       isShowRemindDialog : true
+                   })
+               }else{
+                    this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
+               }   
            }
            
         }catch(e){
@@ -218,6 +240,38 @@ class SetScreen extends BaseComponent {
 
 
 
+    deleteWallet(){
+        this.isDeleteWallet = true;
+        this.openPasswordModal()
+    }
+    cancelDeleteClick(){
+        this.setState({
+            isShowRemindDialog : false
+        })
+    }
+
+    async confirmDeleteClick(){
+        this.setState({
+            isShowRemindDialog : false
+        })
+        this._showLoding()
+
+        this.props.setWalletAddress(null);
+        //删除所有本地的数据
+        StorageManage.remove(StorageKey.User)
+        StorageManage.remove(StorageKey.Tokens)
+        StorageManage.remove(StorageKey.Network)
+        StorageManage.remove(StorageKey.Language)
+        StorageManage.remove(StorageKey.PinInfo)
+        StorageManage.remove(StorageKey.UserId)
+        StorageManage.remove(StorageKey.MonetaryUnit)
+        StorageManage.remove(StorageKey.NotRemindAgainTestITC)//
+        StorageManage.clearMapForkey(StorageKey.Contact)// id
+        
+       
+        this._hideLoading();
+        this.props.navigation.navigate('Apploading')
+    }
 
     renderComponent() {
         return (
@@ -248,9 +302,16 @@ class SetScreen extends BaseComponent {
                     rightBtnDisabled = {this.state.pwdRightBtnDisabled}
                     onChangeText = {this.pwdOnChangeText}
                 />
+                <RemindDialog   content={I18n.t('settings.confirm_delete_wallet')}    
+                                modalVisible={this.state.isShowRemindDialog}
+                                leftPress={() => this.cancelDeleteClick()}
+                                rightPress = {()=> this.confirmDeleteClick()}/>
+
+
+
                 <TouchableOpacity style={[styles.btnOpacity]}
                     activeOpacity={0.6}
-                    onPress={() => this.openNameModal()}>
+                    onPress={() => {this.isDeleteWallet = false;this.openNameModal()}}>
                     <Text style={styles.btnTxt}>{I18n.t('settings.modify_wallet_name')}</Text>
                     <Text style={styles.walletName}>{this.props.walletName}</Text>
                 </TouchableOpacity>
@@ -259,16 +320,27 @@ class SetScreen extends BaseComponent {
 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress={() => this.exportKeystore()}
+                        onPress={() => {this.isDeleteWallet = false;this.exportKeystore()}}
                         text={I18n.t('settings.export_keystore')}
                     />
                 </View>
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress={() => this.openPasswordModal()}
+                        onPress={() => {this.isDeleteWallet = false; this.openPasswordModal()}}
                         text={I18n.t('settings.export_private_key')}
                     />
                 </View>
+
+
+
+               <View style={styles.delButtonBox}>
+                    <GreyButtonBig
+                         buttonStyle = {styles.button}
+                         onPress={() => {this.isDeleteWallet = true; this.openPasswordModal()}}
+                         text = {I18n.t('settings.delete_wallet')}
+                    /> 
+               </View>
+                
             </View>
         );
     }
@@ -279,6 +351,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     modifyWalletName: (walletName) => dispatch(Actions.setWalletName(walletName)),
+    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SetScreen)
 

@@ -179,8 +179,11 @@
         
         "terms_use_and_privacy_policy":"Conditions d'utilisation et politique de confidentialité",
 
-        "feedback_eth_address_prompt":"地址无效，请检查后输入",
-        "feedback_address_title":"ETH钱包地址"
+        "feedback_eth_address_prompt":"Adresse invalide, veuillez vérifier à nouveau",
+        "feedback_address_title":"Adresse du portefeuille ETH",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
     },
     "toast":{
         "exit_app":"Cliquez à nouveau pour quitter l'application.",
@@ -245,10 +248,10 @@
         "vertify_self":"Authentification par empreinte digitale",
         "authentication_required":"Authentification requise",
 
-        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
-        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示",
+        "itc_test_warn1":"Ne gardez pas vos affaires dans votre portefeuille pendant la période de test",
+        "itc_test_warn2":"La devise ITC est uniquement destinée au testnet et ne doit pas être utilisée comme une véritable crypto-monnaie!",
+        "not_remind_again":"Ne plus montrer ça",
 
-        "prompt":"提示"
+        "prompt":"Note"
     }
 }

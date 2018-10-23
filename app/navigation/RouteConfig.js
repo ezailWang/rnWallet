@@ -76,6 +76,7 @@ import {
     ChoseLanguageScreen,
     ChoseMonetaryUnitScreen,
     SystemSetScreen,
+    UseAndPrivacyPolicyScreen,
     AddAssets,
 } from '../containers/containers';
 
@@ -216,6 +217,9 @@ const HomeRouteConfig =
     },
     SystemSet: {
         screen: SystemSetScreen,
+    },
+    UseAndPrivacyPolicy:{
+        screen:UseAndPrivacyPolicyScreen,
     }
 };
 

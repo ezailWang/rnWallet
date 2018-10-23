@@ -179,8 +179,11 @@
         
         "terms_use_and_privacy_policy":"Términos y uso de la política de privacidad",
 
-        "feedback_eth_address_prompt":"The address is invalid, please check and input",
-        "feedback_address_title":"Eth Address"
+        "feedback_eth_address_prompt":"Dirección incorrecta, compruébala de nuevo",
+        "feedback_address_title":"Dirección monedero ETH",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
 
     },
     "toast":{
@@ -243,14 +246,14 @@
         "open_face_id":"¿Quieres usar Face ID?",
         "open_touch_id":"¿Quieres usar el Sensor de huella?",
 
-        "vertify_self":"身份验证",
-        "authentication_required":"Autorizacion Requerida",
+        "vertify_self":"Shortest Autenticación por huella",
+        "authentication_required":"Autenticación requerida",
 
-        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
-        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示",
+        "itc_test_warn1":"No almacenes tus activos en el monedero durante el tiempo de prueba",
+        "itc_test_warn2":"ITC coin es una moneda de prueba, no se puede usar como criptomoneda",
+        "not_remind_again":"No volver a mostrar este mensaje.",
 
-        "prompt":"提示"
+        "prompt":"Observación"
 
 
 

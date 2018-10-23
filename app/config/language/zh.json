@@ -180,7 +180,10 @@
         "terms_use_and_privacy_policy":"使用协议与隐私条款",
 
         "feedback_eth_address_prompt":"地址无效，请检查后输入",
-        "feedback_address_title":"ETH钱包地址"
+        "feedback_address_title":"ETH钱包地址",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
     },
     "toast":{
         "exit_app":"再按一次退出应用",

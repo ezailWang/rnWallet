@@ -176,10 +176,13 @@
         "system_settings":"Einstellungen",
         "language":"Sprache",
 
-        "terms_use_and_privacy_policy":"Nutzungs- und Datenschutzbestimmungen",
+        "terms_use_and_privacy_policy":"Ungültige Adresse, bitte überprüfen.",
 
-        "feedback_eth_address_prompt":"The address is invalid, please check and input",
-        "feedback_address_title":"Eth Address"
+        "feedback_eth_address_prompt":"Ungültige Adresse, bitte überprüfen.",
+        "feedback_address_title":"ETH Walletadresse",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
     },
     "toast":{
         "exit_app":"Drücken Sie nochmals um die App zu schließen.",
@@ -241,13 +244,13 @@
         "open_face_id":"Möchten Sie Gesichtsidentifikation verwenden?",
         "open_touch_id":"Möchten Sie Berührungsidentifikation verwenden?",
 
-        "vertify_self":"身份验证",
+        "vertify_self":"Authentifizierung über Fingerabdruck",
         "authentication_required":"Authentifizierung erforderlich",
 
-        "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
-        "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
-        "not_remind_again":"不再提示",
+        "itc_test_warn1":"Speichern Sie während der Testphase kein Guthaben auf Ihrer Wallet",
+        "itc_test_warn2":"Die ITC Währung ist nur für das Testnetzwerk und somit keine richtige Kryptowährung",
+        "not_remind_again":"Nicht noch einmal anzeigen",
 
-        "prompt":"提示"
+        "prompt":"Notiz"
     }
 }

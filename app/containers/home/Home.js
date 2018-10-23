@@ -248,7 +248,7 @@ class HomeScreen extends BaseComponent {
         })
         const headerBgImageScale = this.state.scroollY.interpolate({
             inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
-            outputRange: [layoutConstants.WINDOW_HEIGHT/layoutConstants.TRANSFER_HEADER_MAX_HEIGHT + 1.5, 1, 1],
+            outputRange: [layoutConstants.WINDOW_HEIGHT/layoutConstants.TRANSFER_HEADER_MAX_HEIGHT + 1.6, 1, 1],
             extrapolate: 'clamp'
         })
 

@@ -22,15 +22,17 @@ import RootSiblings from 'react-native-root-siblings';
 import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
 import { Common } from '../../config/GlobalConfig'
 import MyAlert from '../../components/MyAlert';
+
 let lastBackPressed = 0;
+
 
 
 const touchIdOptionalConfig = {
     title: I18n.t('modal.authentication_required'),//android 确认对话框的标题
     color: "#e00606", // Android 确认对话框的颜色
     sensorDescription: "", // Android 指纹图像旁边显示的文字
-    cancelText: "Cancel", // Android 取消按钮文字
-    fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)   默认情况下指定“显示密码”标签。 如果设置为空，则字符串标签不可见。
+    cancelText: I18n.t('modal.cancel'), // Android 取消按钮文字
+    fallbackLabel: "", // iOS (if empty, then label is hidden)   默认情况下指定“显示密码”标签。 如果设置为空，则字符串标签不可见。
     unifiedErrors: true // use unified error messages (default false) 返回统一错误消息（默认= false）
 }
 
@@ -45,8 +47,8 @@ export default class BaseComponent extends PureComponent {
             isShowPin: false,
             showBlur: false,
             isShowAlert: false,
-            alertTitle:'',
-            alertContent : '',
+            alertTitle: '',
+            alertContent: '',
         }
 
         this.currentRouteName = '';
@@ -168,13 +170,13 @@ export default class BaseComponent extends PureComponent {
         if (nextAppState != null && nextAppState === 'active') {
             let isNeedVerify = this.backgroundTimer != 0 && (Date.now() - this.backgroundTimer) >= 10000 && !Common.touchIDVertifing
             this.backgroundTimer = 0;
-            DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:isNeedVerify});
-            if(isNeedVerify){
-                this._verifyIdentidy() 
+            DeviceEventEmitter.emit('backgroundState', { nextAppState: nextAppState, isNeedVerify: isNeedVerify });
+            if (isNeedVerify) {
+                this._verifyIdentidy()
             }
-        }else{
-            DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState,isNeedVerify:false});
-            this.backgroundTimer = !Common.touchIDVertifing && nextAppState=='background' ? Date.now() : 0;
+        } else {
+            DeviceEventEmitter.emit('backgroundState', { nextAppState: nextAppState, isNeedVerify: false });
+            this.backgroundTimer = !Common.touchIDVertifing && nextAppState == 'background' ? Date.now() : 0;
         }/*else if(nextAppState != null && nextAppState === 'background'){
             this.backgroundTimer = Common.touchIDVertifing ? 0 : Date.now();
             DeviceEventEmitter.emit('backgroundState', {nextAppState: nextAppState});
@@ -189,18 +191,18 @@ export default class BaseComponent extends PureComponent {
         }*/
     }
 
-    _showAlert(conntent,title){
+    _showAlert(conntent, title) {
         this.setState({
-            isShowAlert:true,
-            alertTitle:title,
-            alertContent:conntent
+            isShowAlert: true,
+            alertTitle: title,
+            alertContent: conntent
         })
     }
 
-    _hideAlert(){
-        if(this.state.isShowAlert){
+    _hideAlert() {
+        if (this.state.isShowAlert) {
             this.setState({
-                isShowAlert:false,
+                isShowAlert: false,
             })
         }
     }
@@ -216,11 +218,11 @@ export default class BaseComponent extends PureComponent {
 
                 {this.renderComponent()}
                 {this.state.isShowAlert == undefined ? null :
-                    <MyAlert modalVisible = {this.state.isShowAlert}
-                             title = {this.state.alertTitle}
-                             content = {this.state.alertContent}
-                             okPress = {()=>this._hideAlert()}
-                              
+                    <MyAlert modalVisible={this.state.isShowAlert}
+                        title={this.state.alertTitle}
+                        content={this.state.alertContent}
+                        okPress={() => this._hideAlert()}
+
                     />}
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
@@ -254,25 +256,25 @@ export default class BaseComponent extends PureComponent {
 
 
 
-    
+
 
 
 
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
     _touchIdAuthenticate = () => {
         Common.touchIDVertifing = true
-        TouchID.authenticate(I18n.t('modal.vertify_self'),touchIdOptionalConfig)
-               .then(
-                   success=>{
-                       //身份验证成功
-                       Common.touchIDVertifing = false
-                       this._hidePin()
-                       this._touchIdAuthenticateSuccess()
-                }).catch((err) =>{
-                       //身份验证失败
-                       Common.touchIDVertifing = false
-                       let error = err
-                       this._touchIdAuthenticateFail(error)
+        TouchID.authenticate(I18n.t('modal.vertify_self'), touchIdOptionalConfig)
+            .then(
+                success => {
+                    //身份验证成功
+                    Common.touchIDVertifing = false
+                    this._hidePin()
+                    this._touchIdAuthenticateSuccess()
+                }).catch((err) => {
+                    //身份验证失败
+                    Common.touchIDVertifing = false
+                    let error = err
+                    this._touchIdAuthenticateFail(error)
 
                 })
     }
@@ -309,7 +311,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     _touchIdAuthenticateSuccess() {
- 
+
     }
 
     _touchIdAuthenticateFail(err) {
@@ -350,11 +352,11 @@ export default class BaseComponent extends PureComponent {
         if (err.message === 'Network request failed'
             || err.message === 'Invalid JSON RPC response: \"The Internet connection appears to be offline.\"'
             || err.message === 'Error: Network Error') {
-            this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP);
+            this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP + 10);
         } else if (err.message === 'Couldn\'t decode uint256 from ABI: 0x') {
             this.toast = showToast(I18n.t('toast.net_request_token_unable_resolve'), Toast.positions.TOP + 10)
-        } else if (err.message === 'timeout of 10000ms exceeded' || err === 'timeout promise') {
-            this.toast = showToast(I18n.t('net_request_timeout'))
+        } else if (err.message === 'timeout of 10000ms exceeded' || err === 'timeout promise' || err.message === 'Error: timeout of 10000ms exceeded') {
+            this.toast = showToast(I18n.t('toast.net_request_timeout'), Toast.positions.TOP + 10)
         } else if (err === 'No transactions found' || err.message === 'No transactions found') {
             return
         } else {
@@ -385,23 +387,28 @@ export default class BaseComponent extends PureComponent {
     _backgroundStateEmitter = (data) => {
         let state = data.nextAppState;
         let isNeedVerify = data.isNeedVerify;
-        if(isNeedVerify){
-             this._hideAlert()
-             this._closeModal()
-             /*setTimeout(()=>{
-                this._showPin() 
-             }, 200);*/
+        if (isNeedVerify) {
+            //this._hideLoading()
+            //this._hideAlert()
+            this.setState({
+                isShowLoading: false,
+                isShowAlert:false,
+            })
+            this._closeModal()
+            /*setTimeout(()=>{
+               this._showPin() 
+            }, 200);*/
         }
-        if(state != null && state === 'active'){
+        if (state != null && state === 'active') {
             this.setState({
                 showBlur: false,
             })
-        }else{
+        } else {
             this.setState({
                 showBlur: true,
             })
-       }
-       
+        }
+
     }
 
 
@@ -411,15 +418,15 @@ export default class BaseComponent extends PureComponent {
           pinInfo.password 
           isUseTouchId:true/false
         */
-        if(pinInfo != null){
-            setTimeout(()=>{
-                this._showPin() 
-                if(pinInfo.isUseTouchId){
-                    Platform.OS=='ios' ?
-                    setTimeout(()=>{this._touchIdIsSupported()}, 100) 
-                    : this._touchIdIsSupported();  
-                } 
-            },100)
+        if (pinInfo != null) {
+            setTimeout(() => {
+                this._showPin()
+                if (pinInfo.isUseTouchId) {
+                    Platform.OS == 'ios' ?
+                        setTimeout(() => { this._touchIdIsSupported() }, 100)
+                        : this._touchIdIsSupported();
+                }
+            }, 100)
 
         }
         /*if(pinInfo != null){

@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
     blueBtnTitle:{
         color:Colors.fontWhiteColor
     },
+    GreyBtnText:{
+        color:"white"
+    },
     whiteBtn:{
         backgroundColor:Colors.fontWhiteColor,
         borderColor:Colors.fontWhiteColor
@@ -243,6 +246,33 @@ class BlueButtonBig extends Component {
     }
 }
 
+
+class GreyButtonBig extends Component {
+    static propTypes = {
+        onPress: PropTypes.func.isRequired,
+        text: PropTypes.string.isRequired,
+        isDisabled : PropTypes.bool,
+        buttonStyle: PropTypes.object,
+    };
+    render() {
+        return (
+            //<TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
+            <TouchableOpacity style={[styles.normalBtn,this.props.buttonStyle]}
+                              activeOpacity={0.6}
+                              disabled={this.props.isDisabled}
+                              onPress = {this.props.onPress}>
+                    <LinearGradient colors={['#a0a0a0','#a0a0a0']}
+                                start={{x:0,y:1}}
+                                end={{x:1,y:1}}
+                                style={[styles.normalBtnGradient,{flex:1}]}>
+                            <Text style={[styles.GreyBtnText,styles.normalBtnTitle]}>{this.props.text}</Text>
+                    </LinearGradient>          
+                
+            </TouchableOpacity>
+        )
+    }
+}
+
 class WhiteButtonBig extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
@@ -405,6 +435,7 @@ export {
     BackButton,             //蓝色返回按钮
     BackWhiteButton,        //白色返回按钮
     BlueButtonBig,          //大号蓝色按钮
+    GreyButtonBig,          //大号灰色按钮 
     ClarityWhiteButtonBig,  //大号透明白色按钮
     WhiteButtonBig,         //大号白色按钮
     WhiteButtonMiddle,      //中号白色按钮
