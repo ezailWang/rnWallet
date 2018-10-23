@@ -40,17 +40,35 @@ class AddAssets extends BaseComponent {
 
     checkAddress(addrees) {
         const { tokens } = store.getState().Core
-        let isValidAddress = true
         let checkStr = I18n.t('home.address_check')
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.contractAddress)
         if (tokensAddresses.includes(addrees)) {
-            isValidAddress = false
             checkStr = I18n.t('home.address_repeat')
+        } else {
+            networkManage.getContractAddressInfo(addrees)
+                .then((data) => {
+                    this.setState({
+                        isValidAddress: true,
+                        AddressCheckStr: checkStr,
+                        tokenAddress: addrees,
+                        tokenSymbol:data[0],
+                        tokenDecimals:data[1],
+                        isValidSymbol: true,
+                        isValidDecimals: true,
+                    })
+                })
+                .catch((err) => {
+                    this.setState({
+                        isValidAddress: false,
+                        AddressCheckStr: I18n.t('home.address_invalid'),
+                        tokenAddress: addrees
+                    })
+                })
         }
         this.setState({
-            isValidAddress: isValidAddress,
+            isValidAddress: false,
             AddressCheckStr: checkStr,
             tokenAddress: addrees
         })
@@ -99,6 +117,7 @@ class AddAssets extends BaseComponent {
                         keyboardType='email-address'
                         checkTextColor={this.state.tokenAddress !== '' && !this.state.isValidAddress ? Colors.RedColor : (!this.state.isFocusAddress ? Colors.clearColor : Colors.addTokenCheckTextColor)}
                         checkText={this.state.AddressCheckStr}
+                        editable={true}
                     />
                     <AddTokenInput
                         title={I18n.t('home.token_symbol')}
@@ -117,6 +136,8 @@ class AddAssets extends BaseComponent {
                         }}
                         checkTextColor={this.state.tokenSymbol !== '' && !this.state.isValidSymbol ? Colors.RedColor : (!this.state.isFocusSymbol ? Colors.clearColor : Colors.addTokenCheckTextColor)}
                         checkText={this.state.SymbolCheckStr}
+                        editable={this.state.isValidAddress ? false : true}
+                        defaultValue={this.state.isValidAddress ? this.state.tokenSymbol : ''}
                     />
                     <AddTokenInput
                         title={I18n.t('home.token_decimals')}
@@ -136,6 +157,8 @@ class AddAssets extends BaseComponent {
                         keyboardType='numeric'
                         checkTextColor={this.state.tokenDecimals !== '' && this.state.tokenDecimals !== 0 && !this.state.isValidDecimals ? Colors.RedColor : (!this.state.isFocusDecimals ? Colors.clearColor : Colors.addTokenCheckTextColor)}
                         checkText={this.state.DecimalsCheckStr}
+                        editable={this.state.isValidAddress ? false : true}
+                        defaultValue={this.state.isValidAddress ? this.state.tokenDecimals : '0'}
                     />
                     <View style={{ paddingTop: 20, alignItems: 'center' }}>
                         <BlueButtonBig

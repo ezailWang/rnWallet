@@ -75,8 +75,9 @@
         "system_settings":"Einstellungen",
         "feedback":"Feedback",
         "about":"Über",
-        "address_repeat":"Die Vertragsadresse wurde hinzugefügt.",
-        "delete_main_token":"Diese Währung kann nicht gelöscht werden.",
+        "address_repeat":"Die Vertragsadresse wurde hinzugefügt",
+        "address_invalid":"Invalid contract address",
+        "delete_main_token":"Diese Währung kann nicht gelöscht werden",
 
         "currency_symbol":"€"
     },

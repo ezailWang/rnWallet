@@ -77,6 +77,7 @@
         "feedback":"Feedback",
         "about":"About",
         "address_repeat":"The contract address has been added",
+        "address_invalid":"Invalid contract address",
         "delete_main_token":"This currency cannot be deleted",
 
         "currency_symbol":"$"

@@ -75,8 +75,9 @@
         "system_settings":"Instellingen",
         "feedback":"Feedback",
         "about":"Over",
-        "address_repeat":"Het contractadres is toegevoegd.",
-        "delete_main_token":"Deze valuta kan niet worden verwijderd.",
+        "address_repeat":"Het contractadres is toegevoegd",
+        "address_invalid":"Invalid contract address",
+        "delete_main_token":"Deze valuta kan niet worden verwijderd",
 
         "currency_symbol":"€"
     },
