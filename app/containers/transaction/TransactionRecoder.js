@@ -324,15 +324,28 @@ export default class TransactionRecoder extends BaseComponent {
         }
 
         let lastTransaction = store.getState().Core.newTransaction
-        // console.warn(lastTransaction)
-
-        let newTr = recoders[recoders.length - 1]
         let currentBlock = await networkManage.getCurrentBlockNumber()
 
-        if (lastTransaction && lastTransaction.symbol == symbol && newTr.hash != lastTransaction.hash ) {
-            lastTransaction.blockNumber = currentBlock
-            recoders.push(lastTransaction)
+        if(lastTransaction){
+
+            // console.warn(lastTransaction)
+            let didContainNewTransaction = false
+            for (const index in recoders) {
+                
+                let recoder = recoders[index];
+                
+                if(lastTransaction.hash.toLowerCase() == recoder.hash.toLowerCase()){
+                    didContainNewTransaction = true;
+                    break;
+                }
+            }
+
+            if (lastTransaction && lastTransaction.symbol == symbol && didContainNewTransaction == false) {
+                lastTransaction.blockNumber = currentBlock
+                recoders.push(lastTransaction)
+            }
         }
+        
 
         var itemList = []
         recoders.map((item, i) => {
@@ -344,9 +357,6 @@ export default class TransactionRecoder extends BaseComponent {
             // if(i == recoders.length - 3){
             //     item.isError="1"
             // }
-
-            
-
             let data = {
                 key: i.toString(),
                 address: item.to.toLowerCase() == walletAddress.toLowerCase() ? item.from : item.to,
@@ -572,7 +582,8 @@ export default class TransactionRecoder extends BaseComponent {
         let pr = this.state.balance * this.state.price
 
         //价格
-        let priceStr = isNaN(pr) || (pr) === 0 ? '--' : '≈' + I18n.t('home.currency_symbol') + (pr).toFixed(2)
+        let sign = store.getState().Core.monetaryUnit.symbol;
+        let priceStr = isNaN(pr) || (pr) === 0 ? '--' : '≈' + sign + (pr).toFixed(2)
         let TouchView = Animated.createAnimatedComponent(TouchableOpacity)
         return (
             <View style={styles.container}>

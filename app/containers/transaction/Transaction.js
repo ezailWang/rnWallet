@@ -312,8 +312,8 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            // toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
-            toAddress: '',
+            toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
+            // toAddress: '',
             fromAddress: params.fromAddress,
             detailData: "",
             defaultTransferValue: '',
@@ -550,8 +550,8 @@ export default class Transaction extends BaseComponent {
 
         let params = store.getState().Core.walletTransfer;
         let title = /*params.transferType + ' ' + */I18n.t('transaction.transfer');
-        let alertHeight =(this.state.toAddress.length == 42 &&  this.state.toAddress != this.state.fromAddress) ? 0 : 15
-
+        let alertHeight =(this.state.toAddress.length == 42 &&  this.state.toAddress != this.state.fromAddress) ? 0 : 18
+    
         return (
             <View   style={styles.container} 
                     onResponderGrant={() => {
@@ -589,7 +589,10 @@ export default class Transaction extends BaseComponent {
                         returnKeyType={"done"}
                         onChangeText={this.detailTextInputChangeText} />*/}
                     {/*滑竿视图*/}
-                    <Text style={{height:alertHeight,color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}}>{I18n.t('modal.enter_valid_transfer_address')}</Text>
+                    <Text style={{height:alertHeight,color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}} 
+                                adjustsFontSizeToFit = {true}>
+                                {I18n.t('modal.enter_valid_transfer_address')}
+                    </Text>
                     <SliderView gasStr={this.state.gasStr}
                         minGasPrice={this.state.minGasPrice}
                         maxGasPrice={this.state.maxGasPrice}
