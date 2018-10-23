@@ -180,7 +180,10 @@
         "terms_use_and_privacy_policy":"Términos y uso de la política de privacidad",
 
         "feedback_eth_address_prompt":"Dirección incorrecta, compruébala de nuevo",
-        "feedback_address_title":"Dirección monedero ETH"
+        "feedback_address_title":"Dirección monedero ETH",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
 
     },
     "toast":{

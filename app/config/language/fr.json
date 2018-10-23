@@ -180,7 +180,10 @@
         "terms_use_and_privacy_policy":"Conditions d'utilisation et politique de confidentialité",
 
         "feedback_eth_address_prompt":"Adresse invalide, veuillez vérifier à nouveau",
-        "feedback_address_title":"Adresse du portefeuille ETH"
+        "feedback_address_title":"Adresse du portefeuille ETH",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
     },
     "toast":{
         "exit_app":"Cliquez à nouveau pour quitter l'application.",

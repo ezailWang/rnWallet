@@ -181,7 +181,10 @@
         "terms_use_and_privacy_policy":"이용 약관 및 개인 정보 보호 정책",
 
         "feedback_eth_address_prompt":"무효한 주소입니다. 확인하여 재입력해주세요",
-        "feedback_address_title":"ETH 월렛 주소"
+        "feedback_address_title":"ETH 월렛 주소",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
         
     },
     "toast":{

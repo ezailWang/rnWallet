@@ -179,7 +179,10 @@
         "terms_use_and_privacy_policy":"Gebruiksvoorwaarden en privacybeleid",
 
         "feedback_eth_address_prompt":"Ongeldig adres, controleer nogmaals",
-        "feedback_address_title":"ETH portemonnee adres"
+        "feedback_address_title":"ETH portemonnee adres",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
 
     },
     "toast":{

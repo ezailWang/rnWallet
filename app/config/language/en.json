@@ -180,7 +180,10 @@
         "terms_use_and_privacy_policy":"Terms of use and privacy policy",
 
         "feedback_eth_address_prompt":"Invalid address, please check again",
-        "feedback_address_title":"ETH wallet address"
+        "feedback_address_title":"ETH wallet address",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
 
     },
     "toast":{

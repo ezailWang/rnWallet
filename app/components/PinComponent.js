@@ -185,7 +185,7 @@ export default class PinComponent extends PureComponent{
                                       onPress = {this.onCirclePressed}></PinCircle>
                           <PinCircle circleStyle={styles.circleStyle}
                                       text1 = {8}
-                                      text2 = {'R U V'}
+                                      text2 = {'T U V'}
                                       onPress = {this.onCirclePressed}></PinCircle>
                           <PinCircle circleStyle={styles.circleStyle}
                                       text1 = {9}

@@ -22,7 +22,9 @@ import RootSiblings from 'react-native-root-siblings';
 import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
 import { Common } from '../../config/GlobalConfig'
 import MyAlert from '../../components/MyAlert';
+
 let lastBackPressed = 0;
+
 
 
 const touchIdOptionalConfig = {
@@ -386,7 +388,12 @@ export default class BaseComponent extends PureComponent {
         let state = data.nextAppState;
         let isNeedVerify = data.isNeedVerify;
         if (isNeedVerify) {
-            this._hideAlert()
+            //this._hideLoading()
+            //this._hideAlert()
+            this.setState({
+                isShowLoading: false,
+                isShowAlert:false,
+            })
             this._closeModal()
             /*setTimeout(()=>{
                this._showPin() 

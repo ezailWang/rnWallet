@@ -179,7 +179,10 @@
         "terms_use_and_privacy_policy":"Ungültige Adresse, bitte überprüfen.",
 
         "feedback_eth_address_prompt":"Ungültige Adresse, bitte überprüfen.",
-        "feedback_address_title":"ETH Walletadresse"
+        "feedback_address_title":"ETH Walletadresse",
+
+        "delete_wallet":"删除钱包",
+        "confirm_delete_wallet":"确认删除钱包"
     },
     "toast":{
         "exit_app":"Drücken Sie nochmals um die App zu schließen.",
