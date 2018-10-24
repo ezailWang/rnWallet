@@ -9,7 +9,8 @@ import {
     setNetWork,
     setMonetaryUnit,
     setPinInfo,
-    setIsNewWallet
+    setIsNewWallet,
+    setContactList
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
@@ -103,6 +104,8 @@ class Loading extends Component {
         var language = await StorageManage.load(StorageKey.Language)
         var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
         let pinInfo = await StorageManage.load(StorageKey.PinInfo)
+        let contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+
         if (net) {
             this.props.dispatch(setNetWork(net))
         }
@@ -139,6 +142,10 @@ class Loading extends Component {
 
         if (pinInfo) {
             this.props.dispatch(setPinInfo(pinInfo))
+        }
+
+        if(contacts){
+            this.props.dispatch(setContactList(contacts))
         }
 
         this.props.dispatch(setIsNewWallet(false))

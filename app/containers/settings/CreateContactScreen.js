@@ -7,6 +7,8 @@ import {
     Text,
     Keyboard,
 } from 'react-native';
+import { connect } from 'react-redux';
+import * as Actions from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,StorageKey} from '../../config/GlobalConfig'
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class CreateContactScreen extends BaseComponent {
+class CreateContactScreen extends BaseComponent {
    
     constructor(props){
         super(props);
@@ -165,6 +167,8 @@ export default class CreateContactScreen extends BaseComponent {
             remark: this.remark,
         }
         StorageManage.save(StorageKey.Contact, object, id)
+        let contactData = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+        this.props.setContactList(contactData)
         //console.log('L_contact','保存完成')
         //var loadRet = await StorageManage.loadAllDataForKey(StorageKey.Contact)
         //var ids = await StorageManage.loadIdsForKey(StorageKey.Contact)
@@ -216,5 +220,14 @@ export default class CreateContactScreen extends BaseComponent {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    contactList: state.Core.contactList,
+});
+const mapDispatchToProps = dispatch => ({
+    setContactList: (contacts) => dispatch(Actions.setContactList(contacts)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CreateContactScreen)
 
 

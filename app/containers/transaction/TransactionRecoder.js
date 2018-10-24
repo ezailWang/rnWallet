@@ -23,7 +23,7 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import LinearGradient from 'react-native-linear-gradient'
-
+import { addressToName } from '../../utils/commonUtil'
 const tokenIcon = {
     'ETH': require('../../assets/transfer/ethIcon.png'),
     'ITC': require('../../assets/transfer/itcIcon.png'),
@@ -228,7 +228,7 @@ class Cell extends Component {
     }
 
     render() {
-        const { key, address, time, income, amount, type } = this.props.item.item || {}
+        const { key, address, time, income, amount, type,name } = this.props.item.item || {}
         let image = require('../../assets/transfer/recoder/direction_left.png');
         let showText = "-" + amount + " " + type;
         let colorStyle = { color: Colors.fontRedColor };
@@ -256,7 +256,7 @@ class Cell extends Component {
                             <Text style={{ fontSize: FontSize.TitleSize, color: Colors.fontBlackColor }}
                                 numberOfLines={1}
                                 ellipsizeMode={"middle"}>
-                                {address}
+                                {name == '' ? address : name}
                             </Text>
                             <Text style={{ fontSize: FontSize.alertTitleSize, color: Colors.fontDarkGrayColor }}>
                                 {time}
@@ -311,6 +311,8 @@ export default class TransactionRecoder extends BaseComponent {
     getRecoder = async () => {
 
         let { contractAddress, symbol, decimals, price } = store.getState().Core.balance;
+        let {contactList} = store.getState().Core;
+
 
         const { walletAddress } = store.getState().Core
         let recoders = await networkManage.getTransations({
@@ -357,15 +359,17 @@ export default class TransactionRecoder extends BaseComponent {
             // if(i == recoders.length - 3){
             //     item.isError="1"
             // }
+            let address = item.to.toLowerCase() == walletAddress.toLowerCase() ? item.from : item.to
             let data = {
                 key: i.toString(),
-                address: item.to.toLowerCase() == walletAddress.toLowerCase() ? item.from : item.to,
+                address: address,
                 time: timestampToTime(item.timeStamp),
                 income: item.to.toLowerCase() == walletAddress.toLowerCase(),
                 amount: item.value,
                 type: symbol.toLowerCase(),
                 sureBlock: currentBlock - item.blockNumber,
-                isError: item.isError
+                isError: item.isError,
+                name : addressToName(address ,contactList)
             }
             itemList.push(data)
         });

@@ -16,7 +16,8 @@ import {
     SET_NEW_TRANSACTION,
     SET_FIRST_QR,
     SET_PIN_INFO,
-    IS_NEW_WALLET
+    IS_NEW_WALLET,
+    SET_CONTACT_LIST
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -39,7 +40,8 @@ const defaultState = {
     monetaryUnit:null,
     firstQR:true,
     pinInfo:null,
-    isNewWallet:false
+    isNewWallet:false,
+    contactList:[],
 }
 
 function coreReducer(state = defaultState, action) {
@@ -153,6 +155,11 @@ function coreReducer(state = defaultState, action) {
                  isNewWallet:action.isNewWallet
             } 
             break;
+        case SET_CONTACT_LIST:
+             return{
+                 ...state,
+                 contactList:action.contactList
+             }    
         default: return state;
     }
 }
