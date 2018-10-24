@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 export default class ImageButton extends Component {
     static propTypes = {
-        onClick: PropTypes.func.isRequired,
+        onClick: PropTypes.func,
         backgroundImageSource: PropTypes.number.isRequired,
     }
     render() {

@@ -75,8 +75,9 @@
         "system_settings":"Instellingen",
         "feedback":"Feedback",
         "about":"Over",
-        "address_repeat":"Het contractadres is toegevoegd.",
-        "delete_main_token":"Deze valuta kan niet worden verwijderd.",
+        "address_repeat":"Het contractadres is toegevoegd",
+        "address_invalid":"Invalid contract address",
+        "delete_main_token":"Deze valuta kan niet worden verwijderd",
 
         "currency_symbol":"€"
     },
@@ -181,8 +182,8 @@
         "feedback_eth_address_prompt":"Ongeldig adres, controleer nogmaals",
         "feedback_address_title":"ETH portemonnee adres",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Portemonnee verwijderen",
+        "confirm_delete_wallet":"Weet je zeker dat je de portemonnee wilt verwijderen?"
 
     },
     "toast":{
@@ -215,7 +216,10 @@
 
         "pwd_inconsistent_reset":"De wachtwoorden zijn niet consistent, gelieve opnieuw in te stellen",
         "submitted_successfully":"Met succes ingediend",
-        "submission_failed":"Inzending mislukt"
+        "submission_failed":"Inzending mislukt",
+
+        "update_tip":"Update Tip",
+        "go_update":"go update"
     },
     "modal":{
         "permission_storage":"Sta alsjeblieft toe om te lezen en te schrijven.",

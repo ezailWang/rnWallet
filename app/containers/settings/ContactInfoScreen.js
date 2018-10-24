@@ -8,6 +8,8 @@ import {
     Keyboard,
     TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
+import * as Actions from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,StorageKey} from '../../config/GlobalConfig'
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
     
 })
 
-export default class ContactInfoScreen extends BaseComponent {
+class ContactInfoScreen extends BaseComponent {
    
     constructor(props){
         super(props);
@@ -200,7 +202,8 @@ export default class ContactInfoScreen extends BaseComponent {
             remark: this.remark,
         }
         StorageManage.save(StorageKey.Contact, object, this.storageId)
-        //var loadRet = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+        let contactData = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+        this.props.setContactList(contactData)
         
         this.props.navigation.state.params.callback({});
         this.props.navigation.goBack()
@@ -211,11 +214,15 @@ export default class ContactInfoScreen extends BaseComponent {
             isShowDialog:true
         })
     }
-    onConfirmDelete(){
+    async onConfirmDelete(){
         this.setState({
             isShowDialog:false
         })
         StorageManage.remove(StorageKey.Contact, this.storageId)
+
+        let contactData = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+        this.props.setContactList(contactData)
+
         this.props.navigation.state.params.callback({});
         this.props.navigation.goBack()
     }
@@ -286,5 +293,14 @@ export default class ContactInfoScreen extends BaseComponent {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    contactList: state.Core.contactList,
+});
+const mapDispatchToProps = dispatch => ({
+    setContactList: (contacts) => dispatch(Actions.setContactList(contacts)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ContactInfoScreen)
 
 

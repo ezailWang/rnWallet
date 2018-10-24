@@ -159,9 +159,10 @@ class CreateWalletScreen extends BaseComponent {
     _addEventListener(){
         super._addEventListener()
         if(Platform.OS == 'ios'){
-            this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',this.keyboardWillShowHandler);//android不监听keyboardWillShow和keyboardWillHide
+            this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow',this.keyboardWillShowHandler);
             this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide',this.keyboardWillHideHandler);
-        }else{
+        }else{    
+            //如果你把android:windowSoftInputMode设置为adjustResize或是adjustNothing，则在 Android 上只有keyboardDidShow和keyboardDidHide事件有效
             this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',this.keyboardDidShowHandler);
             this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',this.keyboardDidHideHandler);
         }

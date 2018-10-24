@@ -93,14 +93,15 @@ const styles = StyleSheet.create({
     infoViewDetailTitleTouchable:{
         alignSelf:'center',
         // textAlign: "right",
-        marginTop: 18,
-        height:20,
+        height:42,
         marginLeft: 0,
-        marginRight: 20,
-        // backgroundColor:'red',
+        paddingRight: 20,
+        justifyContent:'flex-end'
     },
     blueText: {
         color: Colors.fontBlueColor,
+        height:20,
+        textAlign:'center'
         //width: 2 * ScreenWidth / 3 - 40,
     },
     sectionViewTextInput: {
@@ -312,8 +313,8 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
-            // toAddress: '',
+            //toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
+            toAddress: '',
             fromAddress: params.fromAddress,
             detailData: "",
             defaultTransferValue: '',
@@ -392,7 +393,8 @@ export default class Transaction extends BaseComponent {
         )
 
         // console.warn('交易发送完毕'+res);
-
+        // 刷新首页list
+        NetworkManager.loadTokenList()
         if (!res){
             setTimeout(() => {
                 alert(I18n.t('transaction.alert_1'));
@@ -587,10 +589,10 @@ export default class Transaction extends BaseComponent {
                         returnKeyType={"done"}
                         onChangeText={this.detailTextInputChangeText} />*/}
                     {/*滑竿视图*/}
-                    <Text style={{height:alertHeight,color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}} 
+                    {alertHeight == 0 ? null : <Text style={{color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}} 
                                 adjustsFontSizeToFit = {true}>
                                 {I18n.t('modal.enter_valid_transfer_address')}
-                    </Text>
+                    </Text>}
                     <SliderView gasStr={this.state.gasStr}
                         minGasPrice={this.state.minGasPrice}
                         maxGasPrice={this.state.maxGasPrice}

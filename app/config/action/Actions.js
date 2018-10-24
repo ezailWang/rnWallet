@@ -132,6 +132,13 @@ function setIsNewWallet(value){
     }
 }
 
+function setContactList(value){
+    return{
+        type : types.SET_CONTACT_LIST,
+        contactList : value
+    }
+}
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -149,5 +156,6 @@ export {
     setNewTransaction,
     setFirstQR,
     setPinInfo,
-    setIsNewWallet
+    setIsNewWallet,
+    setContactList
 }

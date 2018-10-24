@@ -120,7 +120,7 @@ export default class networkManage {
             for (const index in data.result) {
 
                 let transaction = data.result[index];
-                if(transaction.isError != 0 || transaction.value != 0){
+                if (transaction.isError != 0 || transaction.value != 0) {
                     dataArr.push(transaction)
                 }
             }
@@ -247,7 +247,7 @@ export default class networkManage {
                 gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
                 gasPrice: web3.utils.toHex(price),
             }
-           // tx['gasLimit'] = await web3.eth.estimateGas(tx)
+            // tx['gasLimit'] = await web3.eth.estimateGas(tx)
             var cb = await web3.eth.sendTransaction(tx).on('transactionHash', (hash) => {
                 callBackHash(hash)
             })
@@ -281,6 +281,18 @@ export default class networkManage {
         }
     }
 
+    static getContractAddressInfo(address) {
+        try {
+            let contract = new web3.eth.Contract(erc20Abi, address)
+            return Promise.all([contract.methods.symbol().call(),
+            contract.methods.decimals().call()])
+        } catch (err) {
+            DeviceEventEmitter.emit('netRequestErr', err)
+            console.log('getContractAddressInfo err:', err)
+            return Promise.reject(err)
+        }
+    }
+
     /**
      * Get ETH price (abandoned)
      */
@@ -303,6 +315,7 @@ export default class networkManage {
     static async getPrice(symbol) {
         try {
             const result = await FetchUtils.timeoutFetch(fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`))
+            //const result = await FetchUtils.timeoutFetch(fetch(`http://47.75.16.97:3001/tokenPrice?symbol=${symbol}`))
             const resJson = await result.json()
             if (resJson.code === 200) {
                 //优先判断货币 如果货币本地没有再使用语言
@@ -315,6 +328,10 @@ export default class networkManage {
                         return resJson.data.cny
                     } else if (monetaryUnitType == 'KRW') {
                         return resJson.data.krw
+                    } else if (monetaryUnitType == 'EUR') {
+                        return resJson.data.eur
+                    } else if (monetaryUnitType == 'RUB') {
+                        return resJson.data.rub
                     } else {
                         return resJson.data.usd
                     }
@@ -324,6 +341,10 @@ export default class networkManage {
                         return resJson.data.cny
                     } else if (currentLocale.includes('ko')) {
                         return resJson.data.krw
+                    } else if (currentLocale.includes('ru')) {
+                        return resJson.data.rub
+                    } else if (currentLocale.includes('de') || currentLocale.includes('es') || currentLocale.includes('nl') || currentLocale.includes('fr')) {
+                        return resJson.data.eur
                     } else {
                         //默认美元
                         return resJson.data.usd
@@ -429,6 +450,13 @@ export default class networkManage {
         return FetchUtils.requestPost(NetAddr.registerDevice, params)
     }
 
+    /**
+     * version update info
+     */
+
+    static getVersionUpdateInfo(params) {
+        return FetchUtils.requestGet(NetAddr.getVersionUpdateInfo, params)
+    }
 
 }
 

@@ -77,6 +77,7 @@
         "feedback":"Retour d'information",
         "about":"Sur",
         "address_repeat":"L'adresse du contrat a été ajoutée",
+        "address_invalid":"Invalid contract address",
         "delete_main_token":"Cette devise ne peut pas être supprimée",
 
         "currency_symbol":"¥"
@@ -182,8 +183,8 @@
         "feedback_eth_address_prompt":"Adresse invalide, veuillez vérifier à nouveau",
         "feedback_address_title":"Adresse du portefeuille ETH",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Retirer le portefeuille",
+        "confirm_delete_wallet":"Êtes-vous sûr de vouloir supprimer le portefeuille?"
     },
     "toast":{
         "exit_app":"Cliquez à nouveau pour quitter l'application.",
@@ -215,7 +216,10 @@
 
         "pwd_inconsistent_reset":"Les mots de passe sont incorrects, veuillez réinitialiser",
         "submitted_successfully":"Soumis avec succès",
-        "submission_failed":"Échec de la soumission"
+        "submission_failed":"Échec de la soumission",
+        
+        "update_tip":"Update Tip",
+        "go_update":"go update"
     },
     "modal":{
         "permission_storage":"Veuillez autoriser la lecture et l'écriture de l'espace de stockage.",

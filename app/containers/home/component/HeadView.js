@@ -37,25 +37,27 @@ export default class HeadView extends Component {
                 {/* <View style={styles.topViewContainer}>
                 </View> */}
                 <View style={styles.assetsContainer}>
+                    <TouchableOpacity style={styles.assetsBox} onPress = {this.props.onHideAssets} activeOpacity={1}>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ fontSize: 14, color: 'white' ,}}> {I18n.t('home.total_assets')} </Text>
                         <ImageButton
                             btnStyle={{ marginLeft: 5 }}
                             imageStyle={{ width: 17, height: 11 }}
-                            onClick={this.props.onHideAssets}
+                            //onClick={this.props.onHideAssets}
                             backgroundImageSource={this.props.hideAssetsIcon}
                         />
                     </View>
                     <Text style={{ fontSize: 39, color: 'white', fontWeight:'700' ,marginLeft:-3,paddingLeft:0}}> {this.props.totalAssets} </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.addressContainer}>
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17.3 }}> {this.props.walletName} </Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 5 }}>
-                        <Text style={{ color: 'white', fontSize: 12, marginTop: 2 }}> {this.props.address} </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center',}}>
+                        <Text style={{ color: 'white', fontSize: 12,}}> {this.props.address} </Text>
                         <ImageButton
-                            btnStyle={{ marginLeft: 8 }}
+                            btnStyle={{width: 30, height:22,paddingRight:10,}}
                             imageStyle={{ width: 13, height: 13 }}
                             onClick={this.props.onQRCode}
                             backgroundImageSource={this.props.QRCodeIcon}
@@ -87,6 +89,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
         marginLeft: 21,
+    },
+    assetsBox:{
+        backgroundColor: 'transparent',
     },
     addressContainer: {
         backgroundColor: 'transparent',

@@ -191,11 +191,11 @@ export default class BaseComponent extends PureComponent {
         }*/
     }
 
-    _showAlert(conntent, title) {
+    _showAlert(content, title) {
         this.setState({
             isShowAlert: true,
             alertTitle: title,
-            alertContent: conntent
+            alertContent: content
         })
     }
 
@@ -388,12 +388,8 @@ export default class BaseComponent extends PureComponent {
         let state = data.nextAppState;
         let isNeedVerify = data.isNeedVerify;
         if (isNeedVerify) {
-            //this._hideLoading()
-            //this._hideAlert()
-            this.setState({
-                isShowLoading: false,
-                isShowAlert:false,
-            })
+            this._hideLoading()
+            this._hideAlert()
             this._closeModal()
             /*setTimeout(()=>{
                this._showPin() 

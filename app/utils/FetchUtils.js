@@ -54,7 +54,6 @@ export default class FetchUtils {
                     resolve(responseJson)
                 })
                 .catch((err) => {
-                    console.log('err:', err)
                     reject(err)
                 })
 
@@ -68,12 +67,12 @@ export default class FetchUtils {
         params['time'] = currentTime
         if (images) {
             let formData = new FormData()
-            Object.keys(params).forEach((key)=>{
-                formData.append(key,params[key])
+            Object.keys(params).forEach((key) => {
+                formData.append(key, params[key])
             })
             for (let i = 0; i < images.length; i++) {
                 let uri = images[i]['uri']
-                let name = params['userId'] + new Date().getTime() + i + '.png'
+                let name = params['userId'] + '_' + new Date().getTime() + '_' + i + '.png'
                 let imagefile = { uri: uri, type: 'multipart/form-data', name: name }
                 formData.append('feedbackImage', imagefile)
             }
@@ -87,7 +86,6 @@ export default class FetchUtils {
                         resolve(responseJson)
                     })
                     .catch((err) => {
-                        console.log('err:', err)
                         reject(err)
                     })
             })
@@ -105,7 +103,6 @@ export default class FetchUtils {
                         resolve(responseJson)
                     })
                     .catch((err) => {
-                        console.log('err:', err)
                         reject(err)
                     })
             })

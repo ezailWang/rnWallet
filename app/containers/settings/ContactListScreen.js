@@ -10,11 +10,15 @@ import {
 import LinearGradient from 'react-native-linear-gradient'
 import PropTypes from 'prop-types'
 import StorageManage from '../../utils/StorageManage'
+import { connect } from 'react-redux';
+import * as Actions from '../../config/action/Actions'
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
+import { addressToName } from '../../utils/commonUtil'
+
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default class ContactListScreen extends BaseComponent {
+class ContactListScreen extends BaseComponent {
    
     constructor(props){
         super(props);
@@ -99,15 +103,19 @@ export default class ContactListScreen extends BaseComponent {
 
     _initData() { 
         this.from = this.props.navigation.state.params.from;
-        this.loadContactData();
+        this.loadContactData()
     }
 
-    async loadContactData(){
-        let contactData = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+    loadContactData(){
+        //let contactData = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+        let contactData = this.props.contactList;
+        console.log('L_contactData',contactData)
         this.setState({
             data:contactData,
         })
-        //var ids = await StorageManage.loadIdsForKey(StorageKey.Contact)
+
+        let name = addressToName('0xb4c5baf0450af948debbe8aa8a20b9a05a3475c0' ,contactData)
+        console.log('L_result_name',name)
     }
 
     _onPressItem = (item) => {
@@ -225,4 +233,12 @@ class FlatListItem extends PureComponent{
     }
 }
 
+
+const mapStateToProps = state => ({
+    contactList: state.Core.contactList,
+});
+const mapDispatchToProps = dispatch => ({
+    setContactList: (contacts) => dispatch(Actions.setContactList(contacts)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ContactListScreen)
 

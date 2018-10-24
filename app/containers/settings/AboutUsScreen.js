@@ -91,7 +91,7 @@ export default class AboutUsScreen extends BaseComponent {
 
     _initData() { 
         this.setState({
-            version:DeviceInfo.getVersion()
+            version:DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')'
         })
     }
 

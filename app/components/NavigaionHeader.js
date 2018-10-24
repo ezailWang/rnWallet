@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
         width:40,
         justifyContent:'center',
         alignItems:'center',
-        marginLeft:10,
-        marginRight:10,
+        paddingLeft:12,
+        paddingRight:12,
     },
     headerTitleBox:{
         flex:1,

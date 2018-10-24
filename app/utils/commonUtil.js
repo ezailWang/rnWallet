@@ -10,4 +10,16 @@ function validateEmail(email) {
     }
 }
 
-module.exports = {validateEmail}
+function addressToName(address,contacts){
+    let name = '';
+    let length = contacts.length;
+    for(let i=0;i<length;i++){
+        if(contacts[i].address == address){
+            name = contacts[i].name;
+            break;
+        }
+    }
+    return name;
+}
+
+module.exports = {validateEmail,addressToName}

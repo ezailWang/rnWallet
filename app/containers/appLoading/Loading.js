@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Platform } from 'react-native'
+import { Platform, Alert, Linking } from 'react-native'
 import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -9,10 +9,11 @@ import {
     setNetWork,
     setMonetaryUnit,
     setPinInfo,
-    setIsNewWallet
+    setIsNewWallet,
+    setContactList
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
-import { I18n, getLanguages } from '../../config/language/i18n'
+import { I18n } from '../../config/language/i18n'
 import { showToast } from '../../utils/Toast'
 import JPushModule from 'jpush-react-native'
 import networkManage from '../../utils/networkManage'
@@ -45,13 +46,46 @@ class Loading extends Component {
                     if (response.code === 200) {
                         StorageManage.save(StorageKey.UserId, { 'userId': response.data.userId })
                     } else {
-                       console.log('err msg:',response.msg)
+                        console.log('deviceRegister err msg:', response.msg)
                     }
                 })
                 .catch((err) => {
-                    console.log('err:', err)
+                    console.log('deviceRegister err:', err)
                 })
         })
+        let params = {
+            'system': Platform.OS,
+            'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
+            'language': I18n.locale
+        }
+        networkManage.getVersionUpdateInfo(params)
+            .then((response) => {
+                if (response.code === 200) {
+                    Alert.alert(
+                        I18n.t('toast.update_tip'),
+                        response.data.content,
+                        [
+                            {
+                                text: I18n.t('toast.go_update'), onPress: () => {
+                                    const baseUrl = response.data.updateUrl
+                                    Linking.canOpenURL(baseUrl)
+                                        .then((supported) => {
+                                            if (supported) {
+                                                Linking.openURL(baseUrl)
+                                            }
+                                        })
+                                }
+                            },
+                            { text: I18n.t('modal.cancel'), onPress: () => { }, style: 'cancel' },
+                        ],
+                    )
+                } else {
+                    console.log('getVersionUpdateInfo err msg:', response.msg)
+                }
+            })
+            .catch((err) => {
+                console.log('getVersionUpdateInfo err:', err)
+            })
         if (!this.props.walletAddress) {
             await this.loadFromStorege()
         }
@@ -70,6 +104,8 @@ class Loading extends Component {
         var language = await StorageManage.load(StorageKey.Language)
         var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
         let pinInfo = await StorageManage.load(StorageKey.PinInfo)
+        let contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+
         if (net) {
             this.props.dispatch(setNetWork(net))
         }
@@ -89,9 +125,9 @@ class Loading extends Component {
                 I18n.locale = 'es';
             } else if (lang == 'nl') {
                 I18n.locale = 'nl';
-            } else if(lang =='fr'){
+            } else if (lang == 'fr') {
                 I18n.locale = 'fr';
-            } else if(lang == 'ru'){
+            } else if (lang == 'ru') {
                 I18n.locale = 'ru';
             } else {
                 I18n.locale = 'en';
@@ -106,6 +142,10 @@ class Loading extends Component {
 
         if (pinInfo) {
             this.props.dispatch(setPinInfo(pinInfo))
+        }
+
+        if(contacts){
+            this.props.dispatch(setContactList(contacts))
         }
 
         this.props.dispatch(setIsNewWallet(false))
@@ -131,17 +171,12 @@ class Loading extends Component {
                 monetaryUnitType: 'CNY',
                 symbol: '¥'
             }
-        } else if (lang == 'en') {
-            monetaryUnit = {
-                monetaryUnitType: 'USD',
-                symbol: '$'
-            }
         } else if (lang == 'ko') {
             monetaryUnit = {
                 monetaryUnitType: 'KRW',
                 symbol: '₩'
             }
-        } else if(lang == 'ru'){
+        } else if (lang == 'ru') {
             monetaryUnit = {
                 monetaryUnitType: 'RUB',
                 symbol: '₽'
@@ -150,6 +185,11 @@ class Loading extends Component {
             monetaryUnit = {
                 monetaryUnitType: 'EUR',
                 symbol: '€'
+            }
+        } else {
+            monetaryUnit = {
+                monetaryUnitType: 'USD',
+                symbol: '$'
             }
         }
         StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit)

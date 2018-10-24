@@ -77,6 +77,7 @@
         "feedback":"Feedback",
         "about":"About",
         "address_repeat":"The contract address has been added",
+        "address_invalid":"Invalid contract address",
         "delete_main_token":"This currency cannot be deleted",
 
         "currency_symbol":"$"
@@ -182,8 +183,8 @@
         "feedback_eth_address_prompt":"Invalid address, please check again",
         "feedback_address_title":"ETH wallet address",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Wallet delete",
+        "confirm_delete_wallet":"Are you sure you want to delete the wallet?"
 
     },
     "toast":{
@@ -216,7 +217,10 @@
 
         "pwd_inconsistent_reset":"The passwords are inconsistent, please reset",
         "submitted_successfully":"Submitted successfully",
-        "submission_failed":"Submission failed"
+        "submission_failed":"Submission failed",
+       
+        "update_tip":"Update Tip",
+        "go_update":"go update"
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",
