@@ -166,7 +166,7 @@ export default class networkManage {
                 value: web3.utils.fromWei(t.value, 'ether'),
                 gasPrice: web3.utils.fromWei(t.gasUsed, 'gwei'),
                 blockNumber: t.blockNumber,
-                isError: t.isError,
+                isError: '0',
             }))
         } catch (err) {
             DeviceEventEmitter.emit('netRequestErr', err)
