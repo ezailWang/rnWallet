@@ -117,8 +117,9 @@
         "enter_password_hint":"Walletpasswort eingeben",
         "determine":"Bestätigen",
         
-        "transaction_fail":"Transaktion fehlgeschlagen",
+        "add_contact":"添加联系人",
 
+        "transaction_fail":"Transaktion fehlgeschlagen",
         "alert_0":"Der private Schlüssel wurde nicht erhalten.",
         "alert_1":"Transaktion fehlgeschlagen. Bitte überprüfen Sie die Parameter.",
         "alert_2":"Bitte geben Sie eine korrekte Transferadresse an.",
@@ -217,8 +218,9 @@
         "submitted_successfully":"Einreichung erfolgreich",
         "submission_failed":"Einreichung fehlgeschlagen",
         
-        "update_tip":"Update Tip",
-        "go_update":"go update"
+        "update_tip":"Update Hinweis",
+        "go_update":"Jetzt updaten",
+        "ignore":"Hinweis ignorieren"
     },
     "modal":{
         "permission_storage":"Bitte erlauben Sie, Speicherplatz zu lesen und zu schreiben.",

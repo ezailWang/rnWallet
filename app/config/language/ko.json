@@ -118,9 +118,10 @@
         "wallet_password":"지갑 비밀번호",
         "enter_password_hint":"비밀번호를 입력해주세요",
         "determine":"확인",
+
+        "add_contact":"添加联系人",
         
         "transaction_fail":"거래가 실패했습니다.",
-
         "alert_0":"개인 키 획득에 실패했습니다.",
         "alert_1":"거래 발송이 실패했습니다. 네트워크 상태나 매개 변수를 확인해주세요",
         "alert_2":"유효한 이체 주소를 입력해주세요",
@@ -221,7 +222,8 @@
         "submission_failed":"제출 실패",
 
         "update_tip":"프롬프트 업데이트",
-        "go_update":"업데이트로 이동"
+        "go_update":"업데이트로 이동",
+        "ignore":"忽略"
     },
     "modal":{
         "permission_storage":"저장 공간을 읽기 쓰기 권한을 부여해주세요.",
