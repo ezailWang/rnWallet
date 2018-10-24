@@ -392,7 +392,8 @@ export default class Transaction extends BaseComponent {
         )
 
         // console.warn('交易发送完毕'+res);
-
+        // 刷新首页list
+        NetworkManager.loadTokenList()
         if (!res){
             setTimeout(() => {
                 alert(I18n.t('transaction.alert_1'));
