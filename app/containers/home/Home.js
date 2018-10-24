@@ -188,7 +188,6 @@ class HomeScreen extends BaseComponent {
     }
 
     
-
     async saveTokenToStorage(token) {
         let localTokens = await StorageManage.load(StorageKey.Tokens)
         if (!localTokens) {
