@@ -183,8 +183,8 @@
         "feedback_eth_address_prompt":"Неправильный адрес, проверьте еще раз",
         "feedback_address_title":"ETH адрес кошелька",
 
-        "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "delete_wallet":"Удалить кошелек",
+        "confirm_delete_wallet":"Вы уверены, что хотите удалить кошелек?"
     },
     "toast":{
         "exit_app":"Нажмите еще раз, чтобы выйти из приложения",

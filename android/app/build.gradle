@@ -101,7 +101,7 @@ android {
         applicationId "com.rnwallet"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 4
         versionName "1.0.1"
         manifestPlaceholders = [
                 JPUSH_APPKEY: "865b586edec68f5b84d167ce",
