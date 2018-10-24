@@ -93,14 +93,15 @@ const styles = StyleSheet.create({
     infoViewDetailTitleTouchable:{
         alignSelf:'center',
         // textAlign: "right",
-        marginTop: 18,
-        height:20,
+        height:42,
         marginLeft: 0,
-        marginRight: 20,
-        // backgroundColor:'red',
+        paddingRight: 20,
+        justifyContent:'flex-end'
     },
     blueText: {
         color: Colors.fontBlueColor,
+        height:20,
+        textAlign:'center'
         //width: 2 * ScreenWidth / 3 - 40,
     },
     sectionViewTextInput: {
