@@ -53,8 +53,8 @@ class AddAssets extends BaseComponent {
                         isValidAddress: true,
                         AddressCheckStr: checkStr,
                         tokenAddress: addrees,
-                        tokenSymbol:data[0],
-                        tokenDecimals:data[1],
+                        tokenSymbol: data[0],
+                        tokenDecimals: data[1],
                         isValidSymbol: true,
                         isValidDecimals: true,
                     })
@@ -94,7 +94,7 @@ class AddAssets extends BaseComponent {
                     behavior='padding'
                     style={{ paddingTop: 20, width: layoutConstants.WINDOW_WIDTH }} enabled>
                     <AddTokenInput
-                        title={I18n.t('home.contract_address')}
+                        title={I18n.t('home.contract_address') + '(' + store.getState().Core.network + ')'}
                         onChange={(event) => {
                             const isValidAddressLet = networkManage.isValidAddress(event.nativeEvent.text)
                             if (isValidAddressLet) {
