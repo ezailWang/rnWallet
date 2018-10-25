@@ -118,7 +118,7 @@
         "enter_password_hint":"Entrez le mot de passe du portefeuille",
         "determine":"Confirmer",
 
-        "add_contact":"添加联系人",
+        "add_contact":"Add contacts",
 
         "transaction_fail":"La transaction a échoué",
         "alert_0":"Échec de l'acquisition de la clé privée.",

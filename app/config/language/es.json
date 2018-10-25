@@ -118,7 +118,7 @@
         "enter_password_hint":"Introduce la contraseña del monedero",
         "determine":"Confirmar",
 
-        "add_contact":"添加联系人",
+        "add_contact":"Add contacts",
         
         "transaction_fail":"Error en la transacción",
         "alert_0":"Error al obtener la clave privada",

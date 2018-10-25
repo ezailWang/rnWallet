@@ -118,7 +118,7 @@
         "enter_password_hint":"Ввести пароль кошелька",
         "determine":"Подтвердить",
         
-        "add_contact":"添加联系人",
+        "add_contact":"Add contacts",
 
         "transaction_fail":"Транзакция не прошла",
         "alert_0":"Не получилось прочитать приватный ключ",

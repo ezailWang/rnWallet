@@ -228,7 +228,7 @@ export default class TransactionDetail extends BaseComponent {
                     <View style={styles.content}>
                         <View style={[styles.fromAddressTitleBox]}>
                              <Text style={[styles.fontGray,{paddingTop:10}]}>{I18n.t('transaction.sending_party')}</Text>
-                             <Text style={[styles.fontGray,styles.fromAddressName,{paddingTop:10}]}>{!this.isFrom ? this.state.name : ''}</Text>
+                             <Text style={[styles.fontGray,styles.fromAddressName,{paddingTop:10}]}>{!this.isFrom ? '('+this.state.name+')' : ''}</Text>
                              {!this.isFrom   &&  this.state.name == '' ?
                              <TouchableOpacity style={[styles.addContact]} activeOpacity={0.6} onPress={this.addContact}>
                                     <Text style={[styles.fontBlue]}
@@ -241,7 +241,7 @@ export default class TransactionDetail extends BaseComponent {
 
                         <View style={[styles.fromAddressTitleBox]}>
                              <Text style={[styles.fontGray,{paddingTop:10}]}>{I18n.t('transaction.beneficiary')}</Text>
-                             <Text style={[styles.fontGray,styles.fromAddressName,{paddingTop:10}]}>{this.isFrom ? this.state.name : ''}</Text>
+                             <Text style={[styles.fontGray,styles.fromAddressName,{paddingTop:10}]}>{this.isFrom ? '('+this.state.name+')' : ''}</Text>
                              {this.isFrom  &&  this.state.name == '' ?
                              <TouchableOpacity style={[styles.addContact]} activeOpacity={0.6} onPress={this.addContact}>
                                     <Text style={[styles.fontBlue]}

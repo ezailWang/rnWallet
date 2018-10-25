@@ -118,7 +118,7 @@
         "enter_password_hint":"Input the wallet password",
         "determine":"Confirm",
 
-        "add_contact":"添加联系人",
+        "add_contact":"Add contacts",
         
         "transaction_fail":"Transaction Failed",
         "alert_0":"Failed to acquire the private key.",
