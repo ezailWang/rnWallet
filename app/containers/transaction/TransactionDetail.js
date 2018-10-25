@@ -13,10 +13,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backgroundColor,
     },
+    containerBox:{
+        justifyContent: 'center',
+        alignSelf: 'center',
+    },
     countBox: {
         flexDirection: 'row',
-        marginTop: Layout.WINDOW_HEIGHT * 0.03,
-        marginBottom: Layout.WINDOW_HEIGHT * 0.1,
+        //marginTop: Layout.WINDOW_HEIGHT * 0.03,
+        marginBottom: Layout.WINDOW_HEIGHT * 0.08,
         justifyContent: 'center',
         //alignItems:'flex-end',
     },
@@ -27,17 +31,14 @@ const styles = StyleSheet.create({
         lineHeight: 39,
         height: 39,
         //alignItems: 'flex-end',
-
         //textAlignVertical:'bottom',
         //textAlign:'center'
     },
     coinTypeTxt: {
         fontSize: 15,
         marginLeft: 6,
-        //marginBottom: 2,
         color: 'white',
         lineHeight: 15,
-        //fontWeight: '700',
         alignSelf: 'flex-end',
         height: 15,
         marginBottom: 7
@@ -217,6 +218,8 @@ export default class TransactionDetail extends BaseComponent {
         return (
             <ImageBackground style={styles.container} source={require('../../assets/launch/splash_bg.png')}>
                 <TransparentBgHeader navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')} />
+                <View style={[{flex:1,justifyContent:'center'}]}>
+                <View style={styles.containerBox}>
                 <View style={styles.countBox}>
                     <Text style={styles.countTxt}>{this.state.amount}</Text>
                     <Text style={styles.coinTypeTxt}>{this.state.transactionType}</Text>
@@ -281,7 +284,8 @@ export default class TransactionDetail extends BaseComponent {
                     </View>
                     <Image style={styles.statusIcon} source={statusIcon} resizeMode={'center'}></Image>
                 </View>
-
+                </View>
+                </View>
             </ImageBackground>
         );
     }
