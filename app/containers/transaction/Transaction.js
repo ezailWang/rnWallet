@@ -313,7 +313,7 @@ export default class Transaction extends BaseComponent {
             currentGas: params.suggestGasPrice,
             gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
             transferValue: -1,
-            //toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
+            // toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
             toAddress: '',
             fromAddress: params.fromAddress,
             detailData: "",
@@ -373,14 +373,18 @@ export default class Transaction extends BaseComponent {
                 let { walletAddress } = store.getState().Core
                 let timestamp=new Date().getTime()
 
+                let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+                let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
+                totalGas = totalGas.toFixed(8);
+
                 let newTransaction = {
                     from: walletAddress,
                     to: this.state.toAddress,
-                    timeStamp: timestamp,
+                    timeStamp: timestamp/1000,
                     hash: hash,
                     value: this.state.transferValue,
                     isError: "0",
-                    gasPrice: this.state.currentGas,
+                    gasPrice: totalGas,
                     blockNumber: currentBlock,
                     symbol:symbol
                 }
