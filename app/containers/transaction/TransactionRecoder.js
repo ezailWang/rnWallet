@@ -228,7 +228,7 @@ class Cell extends Component {
     }
 
     render() {
-        const { key, address, time, income, amount, type,name } = this.props.item.item || {}
+        const { key, address, time, income, amount, type, name } = this.props.item.item || {}
         let image = require('../../assets/transfer/recoder/direction_left.png');
         let showText = "-" + amount + " " + type;
         let colorStyle = { color: Colors.fontRedColor };
