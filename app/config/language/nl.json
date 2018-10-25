@@ -116,9 +116,10 @@
         "wallet_password":"Wachtwoord",
         "enter_password_hint":"Voer het wachtwoord voor de portefeuille in",
         "determine":"Bevestig",
+
+        "add_contact":"Add contacts",
         
         "transaction_fail":"Transactie mislukt",
-
         "alert_0":"De privésleutel is niet ontvangen.",
         "alert_1":"Transactie mislukt. Controleer de parameters.",
         "alert_2":"Voer een correct overdrachtsadres in.",
@@ -218,8 +219,9 @@
         "submitted_successfully":"Met succes ingediend",
         "submission_failed":"Inzending mislukt",
 
-        "update_tip":"Update Tip",
-        "go_update":"go update"
+        "update_tip":"Update melding",
+        "go_update":"Update nu",
+        "ignore":"Negeer berichten"
     },
     "modal":{
         "permission_storage":"Sta alsjeblieft toe om te lezen en te schrijven.",

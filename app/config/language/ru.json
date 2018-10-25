@@ -118,8 +118,9 @@
         "enter_password_hint":"Ввести пароль кошелька",
         "determine":"Подтвердить",
         
-        "transaction_fail":"Транзакция не прошла",
+        "add_contact":"Add contacts",
 
+        "transaction_fail":"Транзакция не прошла",
         "alert_0":"Не получилось прочитать приватный ключ",
         "alert_1":"Транзакция не прошла. Проверьте параметры",
         "alert_2":"Введите правильный адрес транзакции",
@@ -218,8 +219,9 @@
         "submitted_successfully":"Успешно отправлено",
         "submission_failed":"Ошибка отправления",
 
-        "update_tip":"Update Tip",
-        "go_update":"go update"
+        "update_tip":"Уведомление об обновлении",
+        "go_update":"Обновить сейчас",
+        "ignore":"Игнорировать сообщения"
     },
     "modal":{
         "permission_storage":"Разрешите считывать и записывать в память устройства",

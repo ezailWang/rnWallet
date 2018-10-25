@@ -92,8 +92,8 @@
         "enter":"Cantidad",
         "collection_address":"Dirección de envío",
         "enter_transfer_address":"Introduce la dirección del receptor",
-        "remarks":"Memo",
-        "enter_remarks":"Agregar Memo",
+        "remarks":"Nota",
+        "enter_remarks":"Agregar Nota",
         "next_step":"Siguiente",
         
         "address_list":"Contactos",
@@ -117,9 +117,10 @@
         "wallet_password":"Contraseña",
         "enter_password_hint":"Introduce la contraseña del monedero",
         "determine":"Confirmar",
+
+        "add_contact":"Add contacts",
         
         "transaction_fail":"Error en la transacción",
-
         "alert_0":"Error al obtener la clave privada",
         "alert_1":"Error de transacción. Por favor comprueba los parámetros",
         "alert_2":"Por favor, introduce una dirección valida de transferencia.",
@@ -149,7 +150,7 @@
         "copy_payment_address":"Copiar dirección del monedero",
 
         "scan_qrcode":"Escanear código QR",
-        "scan_qrcode_prompt":"Scanea el código QR situándolo dentro del marco",
+        "scan_qrcode_prompt":"Escanea el código QR. Sitúalo dentro del marco",
 
         "about":"About",
         "currency_unit":"Moneda",
@@ -219,8 +220,9 @@
         "submitted_successfully":"Envío realizado",
         "submission_failed":"Envío fallido",
 
-        "update_tip":"Update Tip",
-        "go_update":"go update"
+        "update_tip":"Notificación de actualización",
+        "go_update":"Actualizar ahora",
+        "ignore":"Ignorar mensajes"
     },
     "modal":{
         "permission_storage":"Por favor habilita el permiso para lectura y escritura de almacenamiento",
@@ -250,10 +252,10 @@
         "open_face_id":"¿Quieres usar Face ID?",
         "open_touch_id":"¿Quieres usar el Sensor de huella?",
 
-        "vertify_self":"Shortest Autenticación por huella",
+        "vertify_self":"Autenticación por huella",
         "authentication_required":"Autenticación requerida",
 
-        "itc_test_warn1":"No almacenes tus activos en el monedero durante el tiempo de prueba",
+        "itc_test_warn1":"No almacenes tus activos en el monedero durante el periodo de prueba",
         "itc_test_warn2":"ITC coin es una moneda de prueba, no se puede usar como criptomoneda",
         "not_remind_again":"No volver a mostrar este mensaje.",
 

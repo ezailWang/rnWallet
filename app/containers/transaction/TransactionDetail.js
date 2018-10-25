@@ -13,10 +13,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backgroundColor,
     },
+    containerBox:{
+        justifyContent: 'center',
+        alignSelf: 'center',
+    },
     countBox: {
         flexDirection: 'row',
-        marginTop: Layout.WINDOW_HEIGHT * 0.03,
-        marginBottom: Layout.WINDOW_HEIGHT * 0.1,
+        //marginTop: Layout.WINDOW_HEIGHT * 0.03,
+        marginBottom: Layout.WINDOW_HEIGHT * 0.08,
         justifyContent: 'center',
         //alignItems:'flex-end',
     },
@@ -27,22 +31,33 @@ const styles = StyleSheet.create({
         lineHeight: 39,
         height: 39,
         //alignItems: 'flex-end',
-
         //textAlignVertical:'bottom',
         //textAlign:'center'
     },
     coinTypeTxt: {
         fontSize: 15,
         marginLeft: 6,
-        //marginBottom: 2,
         color: 'white',
         lineHeight: 15,
-        //fontWeight: '700',
         alignSelf: 'flex-end',
         height: 15,
         marginBottom: 7
     },
-
+    fromAddressTitleBox:{
+        flexDirection:'row',
+    },
+    fromAddressName:{
+        flex:1,
+        marginLeft:8
+    },
+    fromAddressBox:{
+        flexDirection:'row'
+    },
+    addContact:{
+        alignSelf:'flex-end',
+        paddingLeft:20,
+        paddingTop:10,
+    },
     contentBox: {
         width: Layout.WINDOW_WIDTH * 0.9,
         alignSelf: 'center',
@@ -132,6 +147,7 @@ export default class TransactionDetail extends BaseComponent {
         this.copyUrl = this.copyUrl.bind(this);
 
         let params = store.getState().Core.transactionDetail;
+        let { walletAddress } = store.getState().Core
         this.state = {
             amount: params.amount,
             transactionType: params.transactionType,
@@ -142,8 +158,13 @@ export default class TransactionDetail extends BaseComponent {
             transactionHash: params.transactionHash,
             blockNumber: params.blockNumber,
             transactionTime: params.transactionTime,
-            tranStatus: params.tranStatus
+            tranStatus: params.tranStatus,
+            name : params.name,
         };
+        this.myAddress = walletAddress;
+        this.isFrom = params.fromAddress.toLowerCase() == walletAddress.toLowerCase()  ? true : false
+        this.otherAddress = this.isFrom ? this.state.toAddress : this.state.fromAddress,
+        
         this._setStatusBarStyleLight()
     }
 
@@ -170,6 +191,20 @@ export default class TransactionDetail extends BaseComponent {
         showToast(I18n.t('toast.copied'));
     }
 
+    addContact = () => {
+        var _this = this;
+        this.props.navigation.navigate('CreateContact', {
+            address:_this.otherAddress,
+            callback: function (data) {
+                if(_this.otherAddress == data.contactInfo.address){
+                    _this.setState({
+                        name : data.contactInfo.name
+                    });
+                }
+            }
+        })
+    }
+
     renderComponent() {
         let statusIcon
         if (this.state.tranStatus == "0") {
@@ -180,21 +215,40 @@ export default class TransactionDetail extends BaseComponent {
             statusIcon = require('../../assets/transfer/trans_fail.png')
         }
 
-        // console.log(this.state.tranStatus)
         return (
             <ImageBackground style={styles.container} source={require('../../assets/launch/splash_bg.png')}>
                 <TransparentBgHeader navigation={this.props.navigation} text={I18n.t('transaction.transaction_details')} />
+                <View style={[{flex:1,justifyContent:'center'}]}>
+                <View style={styles.containerBox}>
                 <View style={styles.countBox}>
                     <Text style={styles.countTxt}>{this.state.amount}</Text>
                     <Text style={styles.coinTypeTxt}>{this.state.transactionType}</Text>
                 </View>
                 <View style={styles.contentBox}>
                     <View style={styles.content}>
-
-                        <Text style={[styles.fontGray]}>{I18n.t('transaction.sending_party')}</Text>
+                        <View style={[styles.fromAddressTitleBox]}>
+                             <Text style={[styles.fontGray,{paddingTop:10}]}>{I18n.t('transaction.sending_party')}</Text>
+                             <Text style={[styles.fontGray,styles.fromAddressName,{paddingTop:10}]}>{!this.isFrom ? '('+this.state.name+')' : ''}</Text>
+                             {!this.isFrom   &&  this.state.name == '' ?
+                             <TouchableOpacity style={[styles.addContact]} activeOpacity={0.6} onPress={this.addContact}>
+                                    <Text style={[styles.fontBlue]}
+                                        numberOfLines={1}
+                                        ellipsizeMode={"middle"}>{I18n.t('transaction.add_contact')}</Text>
+                             </TouchableOpacity> : null}
+                        </View>
                         <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.fromAddress}</Text>
 
-                        <Text style={[styles.fontGray, styles.marginTop10]}>{I18n.t('transaction.beneficiary')}</Text>
+
+                        <View style={[styles.fromAddressTitleBox]}>
+                             <Text style={[styles.fontGray,{paddingTop:10}]}>{I18n.t('transaction.beneficiary')}</Text>
+                             <Text style={[styles.fontGray,styles.fromAddressName,{paddingTop:10}]}>{this.isFrom ? '('+this.state.name+')' : ''}</Text>
+                             {this.isFrom  &&  this.state.name == '' ?
+                             <TouchableOpacity style={[styles.addContact]} activeOpacity={0.6} onPress={this.addContact}>
+                                    <Text style={[styles.fontBlue]}
+                                        numberOfLines={1}
+                                        ellipsizeMode={"middle"}>{I18n.t('transaction.add_contact')}</Text>
+                             </TouchableOpacity> : null}
+                        </View>
                         <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.toAddress}</Text>
 
                         <Text style={[styles.fontGray, styles.marginTop10]}>{I18n.t('transaction.miner_cost')}</Text>
@@ -230,7 +284,8 @@ export default class TransactionDetail extends BaseComponent {
                     </View>
                     <Image style={styles.statusIcon} source={statusIcon} resizeMode={'center'}></Image>
                 </View>
-
+                </View>
+                </View>
             </ImageBackground>
         );
     }

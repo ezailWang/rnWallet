@@ -183,10 +183,11 @@ class EmptyComponent extends Component {
 
     render() {
         return (
+            this.props.show ?
             <View style={styles.emptyListContainer}>
                 <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'} />
-                <Text style={styles.emptyListText}>{this.props.show ? I18n.t('transaction.no_transaction_history_found') : ''}</Text>
-            </View>
+                <Text style={styles.emptyListText}>{ I18n.t('transaction.no_transaction_history_found')}</Text>
+            </View> : null
         )
     }
 }
@@ -228,7 +229,7 @@ class Cell extends Component {
     }
 
     render() {
-        const { key, address, time, income, amount, type,name } = this.props.item.item || {}
+        const { key, address, time, income, amount, type, name } = this.props.item.item || {}
         let image = require('../../assets/transfer/recoder/direction_left.png');
         let showText = "-" + amount + " " + type;
         let colorStyle = { color: Colors.fontRedColor };
@@ -423,7 +424,7 @@ export default class TransactionRecoder extends BaseComponent {
 
     didTapTransactionButton = async () => {
 
-        this._showLoding()
+        this.showLoading()
 
         let { amount, price, symbol } = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
@@ -439,7 +440,7 @@ export default class TransactionRecoder extends BaseComponent {
             fromAddress: walletAddress,
         };
 
-        this._hideLoading()
+        this.hideLoading()
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
             onGoBack: () => {
@@ -484,7 +485,8 @@ export default class TransactionRecoder extends BaseComponent {
             transactionHash: recoder.hash,
             blockNumber: recoder.blockNumber,
             transactionTime: timestampToTime(recoder.timeStamp) + " +0800",
-            tranStatus: state
+            tranStatus: state,
+            name:this.state.itemList[index].name
         };
         store.dispatch(setTransactionDetailParams(transactionDetail));
         this.props.navigation.navigate('TransactionDetail');
@@ -503,9 +505,27 @@ export default class TransactionRecoder extends BaseComponent {
     }
 
     async _initData() {
-        this._showLoding()
+        this.showLoading()
         await this.getRecoder()
+        this.hideLoading()
+    }
+
+    showLoading(){
+        this._showLoding()
+        if(this.state.showNoData){
+            this.setState({
+                showNoData:false
+            })
+        }
+    }
+
+    hideLoading(){
         this._hideLoading()
+        if(this.state.itemList.length == [] && !this.state.showNoData ){
+            this.setState({
+                showNoData:true
+            }) 
+        }
     }
 
     getIconImage(symbol) {

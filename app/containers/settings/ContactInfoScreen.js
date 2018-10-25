@@ -198,7 +198,7 @@ class ContactInfoScreen extends BaseComponent {
         }
         var object = {
             name: this.name,
-            address: this.address,
+            address: this.address.toLowerCase(),
             remark: this.remark,
         }
         StorageManage.save(StorageKey.Contact, object, this.storageId)
@@ -252,7 +252,9 @@ class ContactInfoScreen extends BaseComponent {
                 <RemindDialog   content={I18n.t('settings.make_sure_delete_contact')}    
                                 modalVisible={this.state.isShowDialog}
                                 leftPress={() => this.onCancelClick()}
-                                rightPress = {()=> this.onConfirmDelete()}/>
+                                rightPress = {()=> this.onConfirmDelete()}
+                                leftTxt = {I18n.t('modal.cancel')}
+                                rightTxt = {I18n.t('modal.confirm')}/>
 
                 <View style={styles.contentBox}>
                     <Text style={styles.text}>{I18n.t('settings.name')} </Text>

@@ -304,6 +304,8 @@ class SetScreen extends BaseComponent {
                 />
                 <RemindDialog   content={I18n.t('settings.confirm_delete_wallet')}    
                                 modalVisible={this.state.isShowRemindDialog}
+                                leftTxt = {I18n.t('modal.cancel')}
+                                rightTxt = {I18n.t('modal.confirm')}
                                 leftPress={() => this.cancelDeleteClick()}
                                 rightPress = {()=> this.confirmDeleteClick()}/>
 

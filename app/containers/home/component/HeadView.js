@@ -43,7 +43,7 @@ export default class HeadView extends Component {
                         <ImageButton
                             btnStyle={{ marginLeft: 5 }}
                             imageStyle={{ width: 17, height: 11 }}
-                            //onClick={this.props.onHideAssets}
+                            onClick={this.props.onHideAssets}
                             backgroundImageSource={this.props.hideAssetsIcon}
                         />
                     </View>
