@@ -14,7 +14,7 @@ function addressToName(address,contacts){
     let name = '';
     let length = contacts.length;
     for(let i=0;i<length;i++){
-        if(contacts[i].address == address){
+        if(contacts[i].address.toLowerCase() == address.toLowerCase()){
             name = contacts[i].name;
             break;
         }

@@ -219,9 +219,9 @@
         "submitted_successfully":"Met succes ingediend",
         "submission_failed":"Inzending mislukt",
 
-        "update_tip":"Update notice",
-        "go_update":"Update now",
-        "ignore":"Ignoring messages"
+        "update_tip":"Update melding",
+        "go_update":"Update nu",
+        "ignore":"Negeer berichten"
     },
     "modal":{
         "permission_storage":"Sta alsjeblieft toe om te lezen en te schrijven.",

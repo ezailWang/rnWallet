@@ -219,9 +219,9 @@
         "submitted_successfully":"Успешно отправлено",
         "submission_failed":"Ошибка отправления",
 
-        "update_tip":"Update notice",
-        "go_update":"Update now",
-        "ignore":"Ignoring messages"
+        "update_tip":"Уведомление об обновлении",
+        "go_update":"Обновить сейчас",
+        "ignore":"Игнорировать сообщения"
     },
     "modal":{
         "permission_storage":"Разрешите считывать и записывать в память устройства",

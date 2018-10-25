@@ -92,8 +92,8 @@
         "enter":"Cantidad",
         "collection_address":"Dirección de envío",
         "enter_transfer_address":"Introduce la dirección del receptor",
-        "remarks":"Memo",
-        "enter_remarks":"Agregar Memo",
+        "remarks":"Nota",
+        "enter_remarks":"Agregar Nota",
         "next_step":"Siguiente",
         
         "address_list":"Contactos",
@@ -150,7 +150,7 @@
         "copy_payment_address":"Copiar dirección del monedero",
 
         "scan_qrcode":"Escanear código QR",
-        "scan_qrcode_prompt":"Scanea el código QR situándolo dentro del marco",
+        "scan_qrcode_prompt":"Escanea el código QR. Sitúalo dentro del marco",
 
         "about":"About",
         "currency_unit":"Moneda",
@@ -255,7 +255,7 @@
         "vertify_self":"Autenticación por huella",
         "authentication_required":"Autenticación requerida",
 
-        "itc_test_warn1":"No almacenes tus activos en el monedero durante el tiempo de prueba",
+        "itc_test_warn1":"No almacenes tus activos en el monedero durante el periodo de prueba",
         "itc_test_warn2":"ITC coin es una moneda de prueba, no se puede usar como criptomoneda",
         "not_remind_again":"No volver a mostrar este mensaje.",
 

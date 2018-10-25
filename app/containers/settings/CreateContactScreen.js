@@ -77,7 +77,13 @@ class CreateContactScreen extends BaseComponent {
     }
 
     _initData() { 
-
+        let addAddress = this.props.navigation.state.params.address;
+        if(addAddress != undefined){
+            this.setState({
+                address: addAddress
+            })
+            this.address = addAddress;
+        }
     }
 
 
@@ -163,7 +169,7 @@ class CreateContactScreen extends BaseComponent {
         var id = new Date().getTime();
         var object = {
             name: this.name,
-            address: this.address,
+            address: this.address.toLowerCase(),
             remark: this.remark,
         }
         StorageManage.save(StorageKey.Contact, object, id)
@@ -172,7 +178,7 @@ class CreateContactScreen extends BaseComponent {
         //console.log('L_contact','保存完成')
         //var loadRet = await StorageManage.loadAllDataForKey(StorageKey.Contact)
         //var ids = await StorageManage.loadIdsForKey(StorageKey.Contact)
-        this.props.navigation.state.params.callback({});
+        this.props.navigation.state.params.callback({contactInfo: object});
         this.props.navigation.goBack()
     }
     

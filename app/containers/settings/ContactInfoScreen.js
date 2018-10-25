@@ -198,7 +198,7 @@ class ContactInfoScreen extends BaseComponent {
         }
         var object = {
             name: this.name,
-            address: this.address,
+            address: this.address.toLowerCase(),
             remark: this.remark,
         }
         StorageManage.save(StorageKey.Contact, object, this.storageId)
