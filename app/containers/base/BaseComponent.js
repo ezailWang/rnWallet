@@ -168,7 +168,7 @@ export default class BaseComponent extends PureComponent {
     //进入后台模糊（仅支持ios）
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            let isNeedVerify = this.backgroundTimer != 0 && (Date.now() - this.backgroundTimer) >= 10000 && !Common.touchIDVertifing
+            let isNeedVerify = this.backgroundTimer != 0 && (Date.now() - this.backgroundTimer) >= 60000 && !Common.touchIDVertifing
             this.backgroundTimer = 0;
             DeviceEventEmitter.emit('backgroundState', { nextAppState: nextAppState, isNeedVerify: isNeedVerify });
             if (isNeedVerify) {
