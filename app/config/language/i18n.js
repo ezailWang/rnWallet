@@ -8,6 +8,7 @@ import es from './es.json'
 import nl from './nl.json'
 import fr from './fr.json'
 import ru from './ru.json'
+import uk from './uk.json'
 
 
 I18n.fallbacks = true
@@ -22,7 +23,8 @@ I18n.translations = {
     es,
     nl,
     fr,
-    ru
+    ru,
+    uk
 }
 
 export { I18n, getLanguages }

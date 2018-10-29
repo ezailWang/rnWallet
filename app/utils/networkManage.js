@@ -332,6 +332,8 @@ export default class networkManage {
                         return resJson.data.eur
                     } else if (monetaryUnitType == 'RUB') {
                         return resJson.data.rub
+                    } else if (monetaryUnitType == 'UAH') {
+                        return resJson.data.uah
                     } else {
                         return resJson.data.usd
                     }
@@ -343,6 +345,8 @@ export default class networkManage {
                         return resJson.data.krw
                     } else if (currentLocale.includes('ru')) {
                         return resJson.data.rub
+                    } else if (currentLocale.includes('uk')) {
+                        return resJson.data.uah
                     } else if (currentLocale.includes('de') || currentLocale.includes('es') || currentLocale.includes('nl') || currentLocale.includes('fr')) {
                         return resJson.data.eur
                     } else {

@@ -12,12 +12,13 @@ import {
     SET_COIN_BALANCE,
     SET_WALLET_PASSWORD_PROMPT,
     REMOVE_TOKEN,
+    SET_LANGUAGE,
     SET_MONETARY_UNIT,
     SET_NEW_TRANSACTION,
     SET_FIRST_QR,
     SET_PIN_INFO,
     IS_NEW_WALLET,
-    SET_CONTACT_LIST
+    SET_CONTACT_LIST,
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -37,6 +38,7 @@ const defaultState = {
     tokens: defaultTokens,
     totalAssets: '0.00',
     recoders: [],
+    myLanguage: null,
     monetaryUnit:null,
     firstQR:true,
     pinInfo:null,
@@ -117,6 +119,13 @@ function coreReducer(state = defaultState, action) {
                 balance: action.balance
             }
             break;
+
+        case SET_LANGUAGE:
+            return{
+                ...state,
+                myLanguage : action.myLanguage
+            }   
+            break; 
         case SET_MONETARY_UNIT:
             return {
                 ...state,

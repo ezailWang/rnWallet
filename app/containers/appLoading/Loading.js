@@ -7,6 +7,7 @@ import {
     setWalletAddress,
     setWalletName,
     setNetWork,
+    setLanguage,
     setMonetaryUnit,
     setPinInfo,
     setIsNewWallet,
@@ -129,6 +130,8 @@ class Loading extends Component {
                 I18n.locale = 'fr';
             } else if (lang == 'ru') {
                 I18n.locale = 'ru';
+            } else if(lang == 'uk'){
+                I18n.locale = 'uk';
             } else {
                 I18n.locale = 'en';
             }
@@ -180,6 +183,11 @@ class Loading extends Component {
             monetaryUnit = {
                 monetaryUnitType: 'RUB',
                 symbol: '₽'
+            }
+        } else if (lang == 'uk') {
+            monetaryUnit = {
+                monetaryUnitType: 'UAH',
+                symbol: '₴'
             }
         } else if (lang == 'de' || lang == 'es' || lang == 'nl' || lang == 'fr') {
             monetaryUnit = {

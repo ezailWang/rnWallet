@@ -118,8 +118,6 @@ class SystemSetScreen extends BaseComponent {
         let str;
         if(lang == 'zh'){
             str = '简体中文'
-        }else if(lang == 'en'){
-            str = 'English'
         }else if(lang == 'ko'){
             str = '한국어'
         }else if(lang == 'de'){
@@ -132,6 +130,10 @@ class SystemSetScreen extends BaseComponent {
             str = 'Pусский'
         }else if(lang == 'es'){
             str = 'Español'
+        }else if(lang == 'uk'){
+            str = 'УКРАЇНА'
+        }else{
+            str = 'English'
         }
         let mUnitStr = this.props.monetaryUnit.monetaryUnitType
         this.setState({
@@ -192,8 +194,7 @@ class SystemSetScreen extends BaseComponent {
         StorageManage.save(key, pinInfo)
 
         var user = await StorageManage.load(key);
-        console.log('L_pinInfo',user)
-        
+        console.log('L_pinInfo',user) 
     }
 
 

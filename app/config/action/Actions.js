@@ -98,6 +98,13 @@ function setNetWork(value) {
     }
 }
 
+function setLanguage(value){
+    return{
+        type : types.SET_LANGUAGE,
+        myLanguage : value
+    }
+}
+
 function setMonetaryUnit(value){
     return{
         type: types.SET_MONETARY_UNIT,
@@ -152,6 +159,7 @@ export {
     setCoinBalance,
     setNetWork,
     removeToken,
+    setLanguage,
     setMonetaryUnit,
     setNewTransaction,
     setFirstQR,
