@@ -41,17 +41,19 @@ function addToken(token) {
     return {
         type: types.ADD_TOKEN,
         token: {
-            contractAddress: token.contractAddress,
+            iconLarge: token.iconLarge,
             symbol: token.symbol,
-            decimals: parseInt(token.decimals, 10)
+            name: token.name,
+            decimal: parseInt(token.decimals, 10),
+            address: token.address,
         }
     }
 }
 
-function removeToken(contractAddress){
+function removeToken(address){
     return {
         type:types.REMOVE_TOKEN,
-        contractAddress:contractAddress
+        address:address
     }
 }
 
@@ -146,6 +148,14 @@ function setContactList(value){
     }
 }
 
+function addTokens(tokens){
+    return{
+        type : types.ADD_TOKENS,
+        tokens : tokens
+    }
+}
+
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -165,5 +175,6 @@ export {
     setFirstQR,
     setPinInfo,
     setIsNewWallet,
-    setContactList
+    setContactList,
+    addTokens
 }

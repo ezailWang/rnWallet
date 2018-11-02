@@ -27,6 +27,8 @@ import ChoseMonetaryUnitScreen from './settings/ChoseMonetaryUnitScreen';
 import SystemSetScreen from './settings/SystemSetScreen';
 import UseAndPrivacyPolicyScreen from './settings/UseAndPrivacyPolicyScreen';
 import AddAssets from './home/AddAssets'
+import AddTokenScreen from './settings/AddTokenScreen'
+import SearchTokenScreen from './settings/SearchTokenScreen'
 export {
     HomeScreen,
     Transaction,
@@ -56,5 +58,7 @@ export {
     ChoseMonetaryUnitScreen,
     SystemSetScreen,
     UseAndPrivacyPolicyScreen,
-    AddAssets
+    AddAssets,
+    AddTokenScreen,
+    SearchTokenScreen
 }

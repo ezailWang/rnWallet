@@ -311,13 +311,13 @@ export default class TransactionRecoder extends BaseComponent {
 
     getRecoder = async () => {
 
-        let { contractAddress, symbol, decimals, price } = store.getState().Core.balance;
+        let { address, symbol, decimals, price } = store.getState().Core.balance;
         let {contactList} = store.getState().Core;
 
 
         const { walletAddress } = store.getState().Core
         let recoders = await networkManage.getTransations({
-            contractAddress: contractAddress,
+            address: address,
             symbol: symbol,
             decimals: decimals
         });
@@ -383,7 +383,7 @@ export default class TransactionRecoder extends BaseComponent {
         let balanceAmount = '';
 
         if (symbol != 'ETH') {
-            balanceAmount = await networkManage.getERC20Balance(contractAddress, decimals);
+            balanceAmount = await networkManage.getERC20Balance(address, decimals);
         }
         else {
             balanceAmount = await networkManage.getEthBalance();
@@ -393,7 +393,7 @@ export default class TransactionRecoder extends BaseComponent {
             amount: balanceAmount,
             price: price,
             symbol: symbol,
-            contractAddress: contractAddress,
+            address: address,
             decimals: decimals
         }
         if (this._isMounted) {

@@ -75,4 +75,6 @@ function matchFormat(iscontainUpper,iscontainLower,iscontainNum,iscontainSymbol)
     }
 }
 
+
+
 module.exports = {upsetArrayOrder,stringTrim,resetStringBlank,vertifyPassword}

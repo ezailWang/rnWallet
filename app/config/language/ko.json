@@ -77,7 +77,7 @@
         "feedback":"피드백",
         "about":"회사 소개",
         "address_repeat":"해당 컨트렉트 주소 추가되었습니다",
-        "address_invalid":"계약서 주소가 잘못되었습니다",
+        "address_invalid":"무효한 컨트랙트 주소입니다.",
         "delete_main_token":"해당 암호화폐는 삭제할 수 없습니다",
 
 
@@ -186,7 +186,13 @@
         "feedback_address_title":"ETH 월렛 주소",
 
         "delete_wallet":"월렛을 삭제합니다",
-        "confirm_delete_wallet":"월렛을 삭제하십니까?"
+        "confirm_delete_wallet":"월렛을 삭제하십니까?",
+
+        "input_token_name":"화폐 명칭을 입력해서 검색해주세요",
+        "add":"추가",
+        "remove":"제거",
+        "no_related_currency_found":"해당 화폐는 없습니다.",
+        "cancel":"취소"
         
     },
     "toast":{
@@ -254,12 +260,12 @@
         "open_touch_id":"Touch ID를 사용하시겠습니까?",
 
         "vertify_self":"지문 인증",
-        "authentication_required":"Autorizacion Requerida",
+        "authentication_required":"인증",
 
         "itc_test_warn1":"테스트 기간에 월렛에 자산을 저장하지 마십시오.",
         "itc_test_warn2":"월렛에 있는 ITC 코인은 테스트만을 위한 것이니 암화화폐로 사용할 수 없습니다.",
         "not_remind_again":" 이 메시지를 다시 표시 안 함",
 
-        "prompt":"노트"
+        "prompt":"참고"
     }
 }

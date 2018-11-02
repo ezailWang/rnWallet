@@ -19,6 +19,8 @@ import { showToast } from '../../utils/Toast'
 import JPushModule from 'jpush-react-native'
 import networkManage from '../../utils/networkManage'
 import DeviceInfo from 'react-native-device-info'
+import {addDefaultTokens} from  '../../utils/commonUtil'
+import { __await } from 'tslib';
 class Loading extends Component {
 
     static propTypes = {
@@ -106,7 +108,7 @@ class Loading extends Component {
         var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
         let pinInfo = await StorageManage.load(StorageKey.PinInfo)
         let contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact)
-
+        //addDefaultTokens();
         if (net) {
             this.props.dispatch(setNetWork(net))
         }

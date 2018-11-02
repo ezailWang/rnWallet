@@ -48,12 +48,12 @@ export default class networkManage {
      * 
      * @param {Object} token 
      */
-    static getBalance({ contractAddress, symbol, decimals }) {
+    static getBalance({ address, symbol, decimals }) {
         //token数据结构 
         if (symbol === 'ETH') {
             return this.getEthBalance()
         }
-        return this.getERC20Balance(contractAddress, decimals)
+        return this.getERC20Balance(address, decimals)
     }
 
     /**
@@ -75,14 +75,14 @@ export default class networkManage {
     /**
      * Get the user's wallet balance of a specific ERC20 token
      * 
-     * @param {String} contractAddress 
+     * @param {String} address 
      * @param {Number} decimals 
      */
-    static async getERC20Balance(contractAddress, decimals) {
+    static async getERC20Balance(address, decimals) {
         try {
             const { walletAddress } = store.getState().Core
             web3 = this.getWeb3Instance()
-            const contract = new web3.eth.Contract(erc20Abi, contractAddress)
+            const contract = new web3.eth.Contract(erc20Abi, address)
             const bigBalance = new BigNumber(await contract.methods.balanceOf(walletAddress).call())
             return parseFloat(bigBalance.dividedBy(Ether)).toFixed(2);
         } catch (err) {
@@ -97,11 +97,11 @@ export default class networkManage {
      * 
      * @param {object} token 
      */
-    static getTransations({ contractAddress, symbol, decimals }) {
+    static getTransations({ address, symbol, decimals }) {
         if (symbol == 'ETH') {
             return this.getEthTransations()
         }
-        return this.getERC20Transations(contractAddress, decimals)
+        return this.getERC20Transations(address, decimals)
     }
 
     /**
@@ -146,13 +146,13 @@ export default class networkManage {
     /**
      * Get a list of ERC20Token transactions for the user's wallet
      * 
-     * @param {String} contractAddress 
+     * @param {String} address 
      * @param {Number} decimals 
      */
-    static async getERC20Transations(contractAddress, decimals) {
+    static async getERC20Transations(address, decimals) {
         try {
             const { walletAddress } = store.getState().Core
-            var data = await api.account.tokentx(walletAddress, contractAddress)
+            var data = await api.account.tokentx(walletAddress, address)
             if (data.message !== 'OK') {
                 return []
             }
@@ -183,11 +183,11 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice  
      */
-    static sendTransaction({ contractAddress, symbol, decimals }, toAddress, amout, gasPrice, privateKey, callBackHash) {
+    static sendTransaction({ address, symbol, decimals }, toAddress, amout, gasPrice, privateKey, callBackHash) {
         if (symbol === 'ETH') {
             return this.sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash)
         }
-        return this.sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey, callBackHash)
+        return this.sendERC20Transaction(address, decimals, toAddress, amout, gasPrice, privateKey, callBackHash)
     }
 
     /**
@@ -226,22 +226,22 @@ export default class networkManage {
     /**
      * Send an ERC20Token transaction to the given address with the given amout
      * 
-     * @param {Streing} contractAddress 
+     * @param {Streing} address 
      * @param {Number} decimals 
      * @param {String} toAddress 
      * @param {String} amout 
      */
-    static async sendERC20Transaction(contractAddress, decimals, toAddress, amout, gasPrice, privateKey, callBackHash) {
+    static async sendERC20Transaction(address, decimals, toAddress, amout, gasPrice, privateKey, callBackHash) {
         try {
             const web3 = this.getWeb3Instance();
             web3.eth.accounts.wallet.add(privateKey)
             const price = web3.utils.toWei(gasPrice.toString(), 'gwei');
-            const contract = new web3.eth.Contract(erc20Abi, contractAddress)
+            const contract = new web3.eth.Contract(erc20Abi, address)
             const BNAmout = new BigNumber(amout * Math.pow(10, decimals))
             var data = contract.methods.transfer(toAddress, BNAmout).encodeABI()
             var tx = {
                 from: store.getState().Core.walletAddress,
-                to: contractAddress,
+                to: address,
                 value: "0x0",
                 data: data,
                 gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
@@ -381,12 +381,14 @@ export default class networkManage {
         const { tokens, walletAddress } = store.getState().Core
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
-            .map(token => token.contractAddress)
+            .map(token => token.address)
+
+            console.log('L_token1',tokensAddresses)
         var localTokens = await StorageManage.load(StorageKey.Tokens)
         if (localTokens) {
             localTokens.filter(
                 token =>
-                    !tokensAddresses.includes(token.contractAddress)
+                    !tokensAddresses.includes(token.address)
             )
                 .forEach(
                     token => {
@@ -394,6 +396,7 @@ export default class networkManage {
                     }
                 )
         }
+        
     }
 
     static async getTokensBalance() {
@@ -402,7 +405,7 @@ export default class networkManage {
         var totalAssets = 0.00
         await Promise.all(completeTokens.map(async (token) => {
             const balance = await this.getBalance({
-                contractAddress: token.contractAddress,
+                address: token.address,
                 symbol: token.symbol,
                 decimals: token.decimals,
             })
@@ -410,17 +413,24 @@ export default class networkManage {
             token["price"] = 0
             const ethPrice = await this.getPrice('eth')
             token["ethPrice"] = ethPrice
+
+
             if (token.symbol === 'ETH') {
                 const ethTotal = balance * ethPrice
                 token["price"] = ethPrice
                 totalAssets = totalAssets + ethTotal
+            }else{
+                const price = await this.getPrice(token.symbol.toLowerCase())
+                const total = balance * price
+                token["price"] = price
+                totalAssets = totalAssets + total
             }
-            if (token.symbol === 'ITC') {
+            /*if (token.symbol === 'ITC') {
                 const itcPrice = await this.getPrice('itc')
                 const itcTotal = balance * itcPrice
                 token["price"] = itcPrice
                 totalAssets = totalAssets + itcTotal
-            }
+            }*/
         }))
         store.dispatch(setTotalAssets(totalAssets))
         store.dispatch(loadTokenBalance(completeTokens))
@@ -436,6 +446,15 @@ export default class networkManage {
             console.log('getSuggestGasPrice err:', err)
             return 0
         }
+    }
+
+
+     /**
+     * feedback 
+     */
+
+    static getAllTokens(params) {
+        return FetchUtils.requestGet(NetAddr.getAllTokens,params)
     }
 
     /**

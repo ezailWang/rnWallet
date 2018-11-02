@@ -19,6 +19,7 @@ import {
     SET_PIN_INFO,
     IS_NEW_WALLET,
     SET_CONTACT_LIST,
+    ADD_TOKENS
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -44,6 +45,8 @@ const defaultState = {
     pinInfo:null,
     isNewWallet:false,
     contactList:[],
+    allTokens:[],
+    //addedTokens:[],
 }
 
 function coreReducer(state = defaultState, action) {
@@ -87,6 +90,7 @@ function coreReducer(state = defaultState, action) {
                         { id: uuid.v4() }
                     ),
                 ]),
+                //tokens: state.tokens.splice(2,0,action.token),
             }
             break;
         case SET_WALLET_NAME:
@@ -140,7 +144,7 @@ function coreReducer(state = defaultState, action) {
             break;
         case REMOVE_TOKEN:
             const copyToken = lodash.cloneDeep(state.tokens)
-            copyToken.splice(state.tokens.findIndex(item => item.contractAddress === action.contractAddress),1)   
+            copyToken.splice(state.tokens.findIndex(item => item.address === action.address),1)   
             return {
                 ...state,
                 tokens: copyToken
@@ -168,7 +172,14 @@ function coreReducer(state = defaultState, action) {
              return{
                  ...state,
                  contactList:action.contactList
-             }    
+             } 
+             break;
+        case ADD_TOKENS:
+             return{
+                 ...state,
+                 tokens:action.tokens
+             }
+             break;
         default: return state;
     }
 }

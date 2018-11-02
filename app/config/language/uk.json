@@ -185,7 +185,13 @@
         "feedback_address_title":"ETH адреса гаманця",
 
         "delete_wallet":"Видалити гаманець",
-        "confirm_delete_wallet":"Ви впевнені, що хочете видалити гаманець?"
+        "confirm_delete_wallet":"Ви впевнені, що хочете видалити гаманець?",
+
+        "input_token_name":"请输入币种名称搜索",
+        "add":"添加",
+        "remove":"移除",
+        "no_related_currency_found":"未找到相关币种",
+        "cancel":"取消"
     },
     "toast":{
         "exit_app":"Натисніть ще раз, щоб вийти з програми",

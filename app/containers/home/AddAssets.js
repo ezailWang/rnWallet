@@ -43,7 +43,7 @@ class AddAssets extends BaseComponent {
         let checkStr = I18n.t('home.address_check')
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
-            .map(token => token.contractAddress)
+            .map(token => token.address)
         if (tokensAddresses.includes(addrees)) {
             checkStr = I18n.t('home.address_repeat')
         } else {

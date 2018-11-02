@@ -86,6 +86,7 @@ const StorageKey = {
     PinInfo:'pinInfo',//存储pin密码
     UserId:'userId',//存储userId
     NotRemindAgainTestITC:'notRemindAgainTestITC',//不再提示
+    AddedTokens:'addedTokens',//已经添加的Tokens
 }
 
 const Network = {

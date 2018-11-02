@@ -185,7 +185,14 @@
         "feedback_address_title":"Dirección monedero ETH",
 
         "delete_wallet":"Eliminar monedero",
-        "confirm_delete_wallet":"¿Estás seguro de que deseas eliminar el monedero?"
+        "confirm_delete_wallet":"¿Estás seguro de que deseas eliminar el monedero?",
+
+
+        "input_token_name":"请输入币种名称搜索",
+        "add":"添加",
+        "remove":"移除",
+        "no_related_currency_found":"未找到相关币种",
+        "cancel":"取消"
 
     },
     "toast":{

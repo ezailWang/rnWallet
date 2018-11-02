@@ -78,6 +78,8 @@ import {
     SystemSetScreen,
     UseAndPrivacyPolicyScreen,
     AddAssets,
+    AddTokenScreen,
+    SearchTokenScreen
 } from '../containers/containers';
 
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
@@ -220,6 +222,12 @@ const HomeRouteConfig =
     },
     UseAndPrivacyPolicy:{
         screen:UseAndPrivacyPolicyScreen,
+    },
+    AddToken:{
+        screen:AddTokenScreen,
+    },
+    SearchToken:{
+        screen:SearchTokenScreen
     }
 };
 

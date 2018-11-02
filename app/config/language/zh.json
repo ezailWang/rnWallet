@@ -185,7 +185,13 @@
         "feedback_address_title":"ETH钱包地址",
 
         "delete_wallet":"删除钱包",
-        "confirm_delete_wallet":"确认删除钱包"
+        "confirm_delete_wallet":"确认删除钱包",
+
+        "input_token_name":"请输入币种名称搜索",
+        "add":"添加",
+        "remove":"移除",
+        "no_related_currency_found":"未找到相关币种",
+        "cancel":"取消"
     },
     "toast":{
         "exit_app":"再按一次退出应用",

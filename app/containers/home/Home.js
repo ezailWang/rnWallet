@@ -90,19 +90,19 @@ class HomeScreen extends BaseComponent {
             showToast(I18n.t('home.delete_main_token'))
             return
         }
-        this.props.removeToken(item.item.contractAddress)
-        this.removeTokenFromStorage(item.item.contractAddress)
+        this.props.removeToken(item.item.address)
+        this.removeTokenFromStorage(item.item.address)
     }
 
     onClickCell = async (item) => {
 
-        let { contractAddress, symbol, decimals, price, balance } = item.item;
+        let { address, symbol, decimals, price, balance } = item.item;
 
         let balanceInfo = {
             amount: balance,
             price: price,
             symbol: symbol,
-            contractAddress: contractAddress,
+            address: address,
             decimals: decimals
         }
         store.dispatch(setCoinBalance(balanceInfo));
@@ -118,6 +118,14 @@ class HomeScreen extends BaseComponent {
                 this._hideLoading()  
             }
         });
+        /*this.props.navigation.navigate('AddToken', {
+            callback: async (token) => {
+                console.log('L_a','cdjsbvjdsblav')
+                this._showLoding()
+                await networkManage.loadTokenList()
+                this._hideLoading()
+            }
+        });*/
     }
    
     onClickAdd = async (token) => {
@@ -195,20 +203,20 @@ class HomeScreen extends BaseComponent {
         }
 
         localTokens.push({
-            contractAddress: token.tokenAddress,
+            address: token.tokenAddress,
             symbol: token.tokenSymbol,
             decimals: token.tokenDecimals,
         })
         StorageManage.save(StorageKey.Tokens, localTokens)
     }
 
-    async removeTokenFromStorage(contractAddress) {
+    async removeTokenFromStorage(address) {
         let localTokens = await StorageManage.load(StorageKey.Tokens)
         if (!localTokens) {
             console.error('localTokens is null')
             return
         }
-        localTokens.splice(localTokens.findIndex(item => item.contractAddress === contractAddress), 1)
+        localTokens.splice(localTokens.findIndex(item => item.address === address), 1)
         StorageManage.save(StorageKey.Tokens, localTokens)
     }
 

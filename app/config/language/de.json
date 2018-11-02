@@ -184,7 +184,13 @@
         "feedback_address_title":"ETH Walletadresse",
 
         "delete_wallet":"Löschung der Wallet",
-        "confirm_delete_wallet":"Sind Sie sicher, dass Sie die Wallet löschen wollen?"
+        "confirm_delete_wallet":"Sind Sie sicher, dass Sie die Wallet löschen wollen?",
+
+        "input_token_name":"请输入币种名称搜索",
+        "add":"添加",
+        "remove":"移除",
+        "no_related_currency_found":"未找到相关币种",
+        "cancel":"取消"
     },
     "toast":{
         "exit_app":"Drücken Sie nochmals um die App zu schließen.",
