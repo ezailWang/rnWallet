@@ -96,14 +96,14 @@ class HomeScreen extends BaseComponent {
 
     onClickCell = async (item) => {
 
-        let { address, symbol, decimals, price, balance } = item.item;
+        let { address, symbol, decimal, price, balance } = item.item;
 
         let balanceInfo = {
             amount: balance,
             price: price,
             symbol: symbol,
             address: address,
-            decimals: decimals
+            decimal: decimal
         }
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder');
@@ -205,7 +205,7 @@ class HomeScreen extends BaseComponent {
         localTokens.push({
             address: token.tokenAddress,
             symbol: token.tokenSymbol,
-            decimals: token.tokenDecimals,
+            decimal: token.tokenDecimals,
         })
         StorageManage.save(StorageKey.Tokens, localTokens)
     }

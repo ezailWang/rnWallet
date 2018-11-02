@@ -352,16 +352,16 @@ export default class Transaction extends BaseComponent {
 
         // console.warn("开始转账，已验证私钥");
 
-        let { address, symbol, decimals } = store.getState().Core.balance;
+        let { address, symbol, decimal } = store.getState().Core.balance;
 
-        // console.warn('交易参数：',address,symbol,decimals,this.state.toAddress,this.state.transferValue,this.state.currentGas)
+        // console.warn('交易参数：',address,symbol,decimal,this.state.toAddress,this.state.transferValue,this.state.currentGas)
 
         let currentBlock = await NetworkManager.getCurrentBlockNumber();
         let res = await NetworkManager.sendTransaction(
             {
                 "address": address,
                 "symbol": symbol,
-                "decimals": decimals
+                "decimal": decimal
             },
             this.state.toAddress,
             this.state.transferValue,

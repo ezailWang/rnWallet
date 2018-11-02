@@ -11,7 +11,7 @@ const defaultTokens = [
     },
     // {
     //     address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940',//主网
-    //     decimals: 18,
+    //     decimal: 18,
     //     id: uuid.v4(),
     //     name: 'IOT on Chain',
     //     symbol: 'ITC',
@@ -28,7 +28,7 @@ const defaultTokens = [
     },
     // {
     //     address: '0xb4f8192668d8f2ee3b5b82bdb98f68848ba39ece',
-    //     decimals: 18,
+    //     decimal: 18,
     //     id: uuid.v4(),
     //     name: 'wsdtest',
     //     symbol: 'DSW',
@@ -98,7 +98,7 @@ const erc20Abi = [
         "inputs": [
 
         ],
-        "name": "decimals",
+        "name": "decimal",
         "outputs": [
             {
                 "name": "",

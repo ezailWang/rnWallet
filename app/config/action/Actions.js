@@ -44,7 +44,7 @@ function addToken(token) {
             iconLarge: token.iconLarge,
             symbol: token.symbol,
             name: token.name,
-            decimal: parseInt(token.decimals, 10),
+            decimal: parseInt(token.decimal, 10),
             address: token.address,
         }
     }

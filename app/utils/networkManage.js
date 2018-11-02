@@ -48,12 +48,12 @@ export default class networkManage {
      * 
      * @param {Object} token 
      */
-    static getBalance({ address, symbol, decimals }) {
+    static getBalance({ address, symbol, decimal }) {
         //token数据结构 
         if (symbol === 'ETH') {
             return this.getEthBalance()
         }
-        return this.getERC20Balance(address, decimals)
+        return this.getERC20Balance(address, decimal)
     }
 
     /**
@@ -76,9 +76,9 @@ export default class networkManage {
      * Get the user's wallet balance of a specific ERC20 token
      * 
      * @param {String} address 
-     * @param {Number} decimals 
+     * @param {Number} decimal 
      */
-    static async getERC20Balance(address, decimals) {
+    static async getERC20Balance(address, decimal) {
         try {
             const { walletAddress } = store.getState().Core
             web3 = this.getWeb3Instance()
@@ -97,11 +97,11 @@ export default class networkManage {
      * 
      * @param {object} token 
      */
-    static getTransations({ address, symbol, decimals }) {
+    static getTransations({ address, symbol, decimal }) {
         if (symbol == 'ETH') {
             return this.getEthTransations()
         }
-        return this.getERC20Transations(address, decimals)
+        return this.getERC20Transations(address, decimal)
     }
 
     /**
@@ -147,9 +147,9 @@ export default class networkManage {
      * Get a list of ERC20Token transactions for the user's wallet
      * 
      * @param {String} address 
-     * @param {Number} decimals 
+     * @param {Number} decimal 
      */
-    static async getERC20Transations(address, decimals) {
+    static async getERC20Transations(address, decimal) {
         try {
             const { walletAddress } = store.getState().Core
             var data = await api.account.tokentx(walletAddress, address)
@@ -183,11 +183,11 @@ export default class networkManage {
      * @param {String} amout 
      * @param {Number} gasPrice  
      */
-    static sendTransaction({ address, symbol, decimals }, toAddress, amout, gasPrice, privateKey, callBackHash) {
+    static sendTransaction({ address, symbol, decimal }, toAddress, amout, gasPrice, privateKey, callBackHash) {
         if (symbol === 'ETH') {
             return this.sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash)
         }
-        return this.sendERC20Transaction(address, decimals, toAddress, amout, gasPrice, privateKey, callBackHash)
+        return this.sendERC20Transaction(address, decimal, toAddress, amout, gasPrice, privateKey, callBackHash)
     }
 
     /**
@@ -227,17 +227,17 @@ export default class networkManage {
      * Send an ERC20Token transaction to the given address with the given amout
      * 
      * @param {Streing} address 
-     * @param {Number} decimals 
+     * @param {Number} decimal 
      * @param {String} toAddress 
      * @param {String} amout 
      */
-    static async sendERC20Transaction(address, decimals, toAddress, amout, gasPrice, privateKey, callBackHash) {
+    static async sendERC20Transaction(address, decimal, toAddress, amout, gasPrice, privateKey, callBackHash) {
         try {
             const web3 = this.getWeb3Instance();
             web3.eth.accounts.wallet.add(privateKey)
             const price = web3.utils.toWei(gasPrice.toString(), 'gwei');
             const contract = new web3.eth.Contract(erc20Abi, address)
-            const BNAmout = new BigNumber(amout * Math.pow(10, decimals))
+            const BNAmout = new BigNumber(amout * Math.pow(10, decimal))
             var data = contract.methods.transfer(toAddress, BNAmout).encodeABI()
             var tx = {
                 from: store.getState().Core.walletAddress,
@@ -285,7 +285,7 @@ export default class networkManage {
         try {
             let contract = new web3.eth.Contract(erc20Abi, address)
             return Promise.all([contract.methods.symbol().call(),
-            contract.methods.decimals().call()])
+            contract.methods.decimal().call()])
         } catch (err) {
             DeviceEventEmitter.emit('netRequestErr', err)
             console.log('getContractAddressInfo err:', err)
@@ -407,7 +407,7 @@ export default class networkManage {
             const balance = await this.getBalance({
                 address: token.address,
                 symbol: token.symbol,
-                decimals: token.decimals,
+                decimal: token.decimal,
             })
             token["balance"] = balance
             token["price"] = 0

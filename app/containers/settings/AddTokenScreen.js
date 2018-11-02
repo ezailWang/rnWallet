@@ -244,7 +244,7 @@ class AddTokenScreen extends BaseComponent {
                             iconLarge: value.iconLarge,
                             symbol: value.symbol,
                             name: value.name,
-                            decimal: parseInt(value.decimals, 10),
+                            decimal: parseInt(value.decimal, 10),
                             address: value.address,
                         })
                     } 
@@ -276,7 +276,7 @@ class AddTokenScreen extends BaseComponent {
                     iconLarge: value.iconLarge,
                     symbol: value.symbol,
                     name: value.name,
-                    decimal: parseInt(value.decimals, 10),
+                    decimal: parseInt(value.decimal, 10),
                     address: value.address,
                 })
             } 
