@@ -380,11 +380,9 @@ class ItemView extends PureComponent{
 
 
 const mapStateToProps = state => ({
-    allTokens: state.Core.allTokens,
     tokens: state.Core.tokens,
 });
 const mapDispatchToProps = dispatch => ({
-    addTokens : () => dispatch(Actions.addTokens(tokens)),
     addToken : (token) => dispatch(Actions.addToken(token)),
     removeToken: (token) => dispatch(Actions.removeToken(token)),
 });

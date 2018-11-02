@@ -148,12 +148,7 @@ function setContactList(value){
     }
 }
 
-function addTokens(tokens){
-    return{
-        type : types.ADD_TOKENS,
-        tokens : tokens
-    }
-}
+
 
 
 export {
@@ -176,5 +171,4 @@ export {
     setPinInfo,
     setIsNewWallet,
     setContactList,
-    addTokens
 }
