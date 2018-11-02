@@ -66,7 +66,7 @@ class Loading extends Component {
                 if (response.code === 200) {
                     Alert.alert(
                         I18n.t('toast.update_tip'),
-                        response.data.content,
+                        response.data.content.split('&').join('\n'),
                         [
                             {
                                 text: I18n.t('toast.go_update'), onPress: () => {
