@@ -110,22 +110,21 @@ class HomeScreen extends BaseComponent {
     }
 
     pushAddtoken = () => {
-        this.props.navigation.navigate('AddAssets', {
+        /*this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
                 this._showLoding()
                 await this.saveTokenToStorage(token)
                 await networkManage.loadTokenList()
                 this._hideLoading()  
             }
-        });
-        /*this.props.navigation.navigate('AddToken', {
+        });*/
+        this.props.navigation.navigate('AddToken', {
             callback: async (token) => {
-                console.log('L_a','cdjsbvjdsblav')
                 this._showLoding()
                 await networkManage.loadTokenList()
                 this._hideLoading()
             }
-        });*/
+        });
     }
    
     onClickAdd = async (token) => {
@@ -205,7 +204,7 @@ class HomeScreen extends BaseComponent {
         localTokens.push({
             address: token.tokenAddress,
             symbol: token.tokenSymbol,
-            decimal: token.tokenDecimals,
+            decimal: token.tokenDecimal,
         })
         StorageManage.save(StorageKey.Tokens, localTokens)
     }

@@ -24,16 +24,16 @@ class AddAssets extends BaseComponent {
         this.state = {
             tokenAddress: '',
             tokenSymbol: '',
-            tokenDecimals: 0,
+            tokenDecimal: 0,
             isValidAddress: false,
             isValidSymbol: false,
-            isValidDecimals: false,
+            isValidDecimal: false,
             AddressCheckStr: I18n.t('home.address_check'),
             SymbolCheckStr: I18n.t('home.symbol_check'),
-            DecimalsCheckStr: I18n.t('home.decimals_check'),
+            DecimalCheckStr: I18n.t('home.decimal_check'),
             isFocusAddress: false,
             isFocusSymbol: false,
-            isFocusDecimals: false,
+            isFocusDecimal: false,
         }
 
     }
@@ -54,9 +54,9 @@ class AddAssets extends BaseComponent {
                         AddressCheckStr: checkStr,
                         tokenAddress: addrees,
                         tokenSymbol: data[0],
-                        tokenDecimals: data[1],
+                        tokenDecimal: data[1],
                         isValidSymbol: true,
-                        isValidDecimals: true,
+                        isValidDecimal: true,
                     })
                 })
                 .catch((err) => {
@@ -83,7 +83,7 @@ class AddAssets extends BaseComponent {
                     this.setState({
                         isFocusAddress: false,
                         isFocusSymbol: false,
-                        isFocusDecimals: false,
+                        isFocusDecimal: false,
                     })
 
                 }}
@@ -111,7 +111,7 @@ class AddAssets extends BaseComponent {
                             this.setState({
                                 isFocusAddress: true,
                                 isFocusSymbol: false,
-                                isFocusDecimals: false,
+                                isFocusDecimal: false,
                             })
                         }}
                         keyboardType='email-address'
@@ -131,7 +131,7 @@ class AddAssets extends BaseComponent {
                             this.setState({
                                 isFocusAddress: false,
                                 isFocusSymbol: true,
-                                isFocusDecimals: false,
+                                isFocusDecimal: false,
                             })
                         }}
                         checkTextColor={this.state.tokenSymbol !== '' && !this.state.isValidSymbol ? Colors.RedColor : (!this.state.isFocusSymbol ? Colors.clearColor : Colors.addTokenCheckTextColor)}
@@ -140,37 +140,37 @@ class AddAssets extends BaseComponent {
                         defaultValue={this.state.isValidAddress ? this.state.tokenSymbol : ''}
                     />
                     <AddTokenInput
-                        title={I18n.t('home.token_decimals')}
+                        title={I18n.t('home.token_decimal')}
                         onChange={(event) => {
                             this.setState({
-                                isValidDecimals: event.nativeEvent.text > 0 && event.nativeEvent.text < 36 ? true : false,
-                                tokenDecimals: event.nativeEvent.text
+                                isValidDecimal: event.nativeEvent.text > 0 && event.nativeEvent.text < 36 ? true : false,
+                                tokenDecimal: event.nativeEvent.text
                             })
                         }}
                         onFocus={() => {
                             this.setState({
                                 isFocusAddress: false,
                                 isFocusSymbol: false,
-                                isFocusDecimals: true,
+                                isFocusDecimal: true,
                             })
                         }}
                         keyboardType='numeric'
-                        checkTextColor={this.state.tokenDecimals !== '' && this.state.tokenDecimals !== 0 && !this.state.isValidDecimals ? Colors.RedColor : (!this.state.isFocusDecimals ? Colors.clearColor : Colors.addTokenCheckTextColor)}
-                        checkText={this.state.DecimalsCheckStr}
+                        checkTextColor={this.state.tokenDecimal !== '' && this.state.tokenDecimal !== 0 && !this.state.isValidDecimal ? Colors.RedColor : (!this.state.isFocusDecimal ? Colors.clearColor : Colors.addTokenCheckTextColor)}
+                        checkText={this.state.DecimalCheckStr}
                         editable={this.state.isValidAddress ? false : true}
-                        defaultValue={this.state.isValidAddress ? this.state.tokenDecimals : '0'}
+                        defaultValue={this.state.isValidAddress ? this.state.tokenDecimal : '0'}
                     />
                     <View style={{ paddingTop: 20, alignItems: 'center' }}>
                         <BlueButtonBig
                             text={I18n.t('home.add')}
-                            isDisabled={!(this.state.isValidAddress && this.state.isValidDecimals && this.state.isValidSymbol)}
+                            isDisabled={!(this.state.isValidAddress && this.state.isValidDecimal && this.state.isValidSymbol)}
                             buttonStyle={{ marginTop: 0 }}
                             onPress={() => {
                                 Keyboard.dismiss()
                                 this.props.navigation.state.params.callback({
                                     tokenAddress: this.state.tokenAddress,
                                     tokenSymbol: this.state.tokenSymbol,
-                                    tokenDecimals: this.state.tokenDecimals,
+                                    tokenDecimal: this.state.tokenDecimal,
                                 })
                                 this.props.navigation.goBack()
                             }}
