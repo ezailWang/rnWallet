@@ -98,7 +98,7 @@ const erc20Abi = [
         "inputs": [
 
         ],
-        "name": "decimal",
+        "name": "decimals",
         "outputs": [
             {
                 "name": "",

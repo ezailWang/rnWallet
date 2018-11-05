@@ -117,10 +117,10 @@ const styles = StyleSheet.create({
         color:Colors.fontGrayColor_a,
     },
     itemRightBox:{
-        height:36,
+        height:30,
         justifyContent:'center',
     },
-    itemAddOrRemoveText:{
+    itemAddOrRemoveBtn:{
         height:30,
         lineHeight:30,
         fontSize:14,
@@ -130,15 +130,19 @@ const styles = StyleSheet.create({
         paddingRight:20,
         
     },
-    itemAddText:{
-        color:'white',
+    itemAddBtn:{
         borderColor:Colors.fontBlueColor,
         backgroundColor:Colors.fontBlueColor
     },
-    itemRemoveText:{
-        color:Colors.fontBlueColor,
+    itemRemoveBtn:{
         borderColor:Colors.fontBlueColor,
         backgroundColor:'transparent'
+    },
+    itemAddText:{
+        color:'white',
+    },
+    itemRemoveText:{
+        color:Colors.fontBlueColor,
     },
     itemSeparator:{
         height:2,
@@ -220,8 +224,6 @@ class AddTokenScreen extends BaseComponent {
             this.props.removeToken(token.address)
             this.addedTokens.splice(addedIndex, 1)
         }
-        console.log('L_list',this.tokenList);
-        console.log('L_addedTokens',this.addedTokens);
         let list = this.tokenList
         this.setState({
             datas: list,
@@ -321,6 +323,13 @@ class AddTokenScreen extends BaseComponent {
 
 class ItemView extends PureComponent{
 
+    constructor(props){
+        super(props);
+        this.state = {
+            loadIconError: false,
+        }
+    }
+
     _itemAddOrRemovePress = () =>{
         let preTokenIsAdded = this.props.item.item.isAdded;
         let nowToken = (preTokenIsAdded == undefined || preTokenIsAdded == false)  ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
@@ -340,6 +349,10 @@ class ItemView extends PureComponent{
             }else{
                 return require('../../assets/home/null.png');
             }
+        }else {
+            if(this.state.loadIconError){
+                return require('../../assets/home/null.png');
+            }
         }
     }
 
@@ -347,26 +360,29 @@ class ItemView extends PureComponent{
         const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
         let icon = this._getLogo(symbol,iconLarge)
 
-        let _address = address.substr(0,6) + '...' + address.substr(36,42);
+        let _address = address.substr(0,6) + '---' + address.substr(36,42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
+        let fullName = name=='' || name ==undefined ? '---' : name;
         return(
             <TouchableOpacity activeOpacity={1}
                 {...this.props}
                 style={styles.item}
                 onPress={this._onItemPress}
                 disabled={true}>
-                <Image style={styles.itemIcon} source={ iconLarge==''? icon  : {uri:iconLarge}} resizeMode='contain'/>
+                <Image style={styles.itemIcon}  
+                       source={ iconLarge=='' ||  this.state.loadIconError == true ? icon  : {uri:iconLarge}} 
+                       resizeMode='contain'/>
                
                 <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
-                    <Text style={styles.itemFullName}>{name}</Text>
+                    <Text style={styles.itemFullName}>{fullName}</Text>
                     <Text style={styles.itemAddress}>{_address}</Text>
                 </View>
                 {
                     isHideBtn ? null :
                     <TouchableOpacity activeOpacity={0.6}
-                                  style={styles.itemRightBox}
+                                  style={[styles.itemRightBox,styles.itemAddOrRemoveBtn,isAdded ? styles.itemRemoveBtn : styles.itemAddBtn]}
                                   onPress={this._itemAddOrRemovePress}>
                         <Text style={[styles.itemAddOrRemoveText,isAdded ? styles.itemRemoveText : styles.itemAddText]}>{btnTxt}
                         </Text>          

@@ -119,29 +119,33 @@ const styles = StyleSheet.create({
         color:Colors.fontGrayColor_a,
     },
     itemRightBox:{
-        height:36,
+        height:30,
         justifyContent:'center',
     },
-    itemAddOrRemoveText:{
+   
+    itemAddOrRemoveBtn:{
         height:30,
         lineHeight:30,
         fontSize:14,
-        color:Colors.fontBlueColor,
-        borderColor:Colors.fontBlueColor,
         borderWidth:1,
         borderRadius:5,
         paddingLeft:20,
         paddingRight:20,
+        
     },
-    itemAddText:{
-        color:'white',
+    itemAddBtn:{
         borderColor:Colors.fontBlueColor,
         backgroundColor:Colors.fontBlueColor
     },
-    itemRemoveText:{
-        color:Colors.fontBlueColor,
+    itemRemoveBtn:{
         borderColor:Colors.fontBlueColor,
         backgroundColor:'transparent'
+    },
+    itemAddText:{
+        color:'white',
+    },
+    itemRemoveText:{
+        color:Colors.fontBlueColor,
     },
     itemSeparator:{
         height:2,
@@ -214,9 +218,9 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _getAllTokens(){
-        console.log('L_network',this.props.network)
         let params = {
-            'network': this.props.network,
+            //'network': this.props.network,
+            'network': 'main',
         }
         networkManage.getAllTokens(params).then((response)=>{
             if(response.code === 200){
@@ -311,7 +315,6 @@ class SearchTokenScreen extends BaseComponent {
 
     _onChangeText=(text)=>{
         this.searchText = text.trim();
-        console.log('L_text',this.searchText)
         if(this.searchText == ''){
             this.searchTokens=[];
             this.setState({
@@ -335,7 +338,6 @@ class SearchTokenScreen extends BaseComponent {
                 this.searchTokens.push(token)
             }
         }
-        console.log('L_searchTokens',this.searchTokens)
         this.refreshDatas(); 
     }
     refreshDatas = () =>{
@@ -418,6 +420,9 @@ class ItemView extends PureComponent{
 
     constructor(props){
         super(props);
+        this.state = {
+            loadIconError: false,
+        }
     }
 
     _itemAddOrRemovePress = () =>{
@@ -439,16 +444,20 @@ class ItemView extends PureComponent{
             }else{
                 return require('../../assets/home/null.png');
             }
+        }else {
+            if(this.state.loadIconError){
+                return require('../../assets/home/null.png');
+            }
         }
     }
 
     render(){
         const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
-        let icon = this._getLogo(symbol,iconLarge)
-        let _address = address.substr(0,6) + '...' + address.substr(36,42);
+        let icon =  this._getLogo(symbol,iconLarge)
+        let _address = address.substr(0,6) + '---' + address.substr(36,42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
-
+        let fullName = name=='' || name ==undefined ? '---' : name;
 
         return(
             <TouchableOpacity activeOpacity={1}
@@ -456,22 +465,28 @@ class ItemView extends PureComponent{
                 style={styles.item}
                 onPress={this._onItemPress}
                 disabled={true}>
-                 <Image style={styles.itemIcon} source={ iconLarge==''? icon  : {uri:iconLarge}} resizeMode='contain'
-                        onLoadEnd = {()=>{
-
+                 <Image style={styles.itemIcon} 
+                        //defaultSource={require('../../assets/home/null.png')}
+                        //source={ icon=='uri' ? icon  : {uri:iconLarge}} 
+                        source={ iconLarge=='' ||  this.state.loadIconError == true ? icon  : {uri:iconLarge}} 
+                        resizeMode='contain'
+                        onError = {()=>{
+                            this.setState({
+                                loadIconError:true,
+                            })
                         }}/>
                  
                  <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
-                    <Text style={styles.itemFullName}>{name}</Text>
+                    <Text style={styles.itemFullName}>{fullName}</Text>
                     <Text style={styles.itemAddress}>{_address}</Text>
                  </View>
                  {
                     isHideBtn ? null :
                     <TouchableOpacity activeOpacity={0.6}
-                                  style={styles.itemRightBox}
+                                  style={[styles.itemRightBox,styles.itemAddOrRemoveBtn,isAdded ? styles.itemRemoveBtn : styles.itemAddBtn]}
                                   onPress={this._itemAddOrRemovePress}>
-                        <Text style={[styles.itemAddOrRemoveText,isAdded ? styles.itemRemoveText : styles.itemAddText]}>{btnTxt}
+                        <Text style={[isAdded ? styles.itemRemoveText : styles.itemAddText]}>{btnTxt}
                         </Text>          
                     </TouchableOpacity>
                  }

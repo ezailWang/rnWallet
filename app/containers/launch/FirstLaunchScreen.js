@@ -178,7 +178,7 @@ class FirstLaunchScreen extends BaseComponent {
         })
         setTimeout(()=>{
             this._touchIdAuthenticate()
-        }, 200);
+        }, 300);
         
         
     }
