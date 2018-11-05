@@ -341,6 +341,9 @@ class ItemView extends PureComponent{
     }
 
     _getLogo = (symbol,iconLarge) =>{
+        if(symbol == 'ITC'){
+            return require('../../assets/home/ITC.png');
+        }
         if(iconLarge == ''){
             if(symbol == 'ETH'){
                 return require('../../assets/home/ETH.png');
@@ -371,8 +374,9 @@ class ItemView extends PureComponent{
                 onPress={this._onItemPress}
                 disabled={true}>
                 <Image style={styles.itemIcon}  
-                       source={ iconLarge=='' ||  this.state.loadIconError == true ? icon  : {uri:iconLarge}} 
+                        source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
                        resizeMode='contain'
+                       iosdefaultSource = {{uri:require('../../assets/home/null.png'),width:30,height:30,}}
                        onError = {()=>{
                          this.setState({
                             loadIconError:true,

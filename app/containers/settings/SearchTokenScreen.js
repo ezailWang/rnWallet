@@ -436,6 +436,9 @@ class ItemView extends PureComponent{
     }
 
     _getLogo = (symbol,iconLarge) =>{
+        if(symbol == 'ITC'){
+            return require('../../assets/home/ITC.png');
+        }
         if(iconLarge == ''){
             if(symbol == 'ETH'){
                 return require('../../assets/home/ETH.png');
@@ -468,13 +471,14 @@ class ItemView extends PureComponent{
                  <Image style={styles.itemIcon} 
                         //defaultSource={require('../../assets/home/null.png')}
                         //source={ icon=='uri' ? icon  : {uri:iconLarge}} 
-                        source={ iconLarge=='' ||  this.state.loadIconError == true ? icon  : {uri:iconLarge}} 
+                        source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
                         resizeMode='contain'
                         onError = {()=>{
                             this.setState({
                                 loadIconError:true,
                             })
-                        }}/>
+                        }}
+                        onLoad = {(event)=>{}}/>
                  
                  <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
