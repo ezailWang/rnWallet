@@ -372,7 +372,12 @@ class ItemView extends PureComponent{
                 disabled={true}>
                 <Image style={styles.itemIcon}  
                        source={ iconLarge=='' ||  this.state.loadIconError == true ? icon  : {uri:iconLarge}} 
-                       resizeMode='contain'/>
+                       resizeMode='contain'
+                       onError = {()=>{
+                         this.setState({
+                            loadIconError:true,
+                         })
+                       }}/>
                
                 <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>

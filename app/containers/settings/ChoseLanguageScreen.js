@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     choseItemContent:{
     
     },
-    
 })
 
 class ChoseLanguageScreen extends BaseComponent {
