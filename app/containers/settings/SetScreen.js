@@ -4,7 +4,7 @@ import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity,
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
 import keystoreUtils from '../../utils/keystoreUtils'
-import { NextButton ,GreyButtonBig} from '../../components/Button';
+import { NextButton, GreyButtonBig } from '../../components/Button';
 import InputTextDialog from '../../components/InputTextDialog';
 import InputPasswordDialog from '../../components/InputPasswordDialog';
 import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig'
@@ -15,6 +15,7 @@ import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 import RemindDialog from '../../components/RemindDialog'
+import networkManage from '../../utils/networkManage'
 
 
 const styles = StyleSheet.create({
@@ -59,13 +60,13 @@ const styles = StyleSheet.create({
     marginBottom20: {
         marginBottom: 20,
     },
-    delButtonBox:{
-        flex:1,
-        justifyContent:'flex-end',
+    delButtonBox: {
+        flex: 1,
+        justifyContent: 'flex-end',
     },
-    button:{
-        marginBottom:20,
-        alignSelf:'center'
+    button: {
+        marginBottom: 20,
+        alignSelf: 'center'
     }
 
 })
@@ -78,9 +79,9 @@ class SetScreen extends BaseComponent {
             nameModalVisible: false,
             passwordModalVisible: false,
             //isShowNameWarn: false,
-            rightBtnDisabled : true,
-            pwdRightBtnDisabled:true,
-            nameWarnText : ' ',
+            rightBtnDisabled: true,
+            pwdRightBtnDisabled: true,
+            nameWarnText: ' ',
             isShowRemindDialog: false,
         }
         this.isDeleteWallet = false;
@@ -89,8 +90,8 @@ class SetScreen extends BaseComponent {
     }
 
 
-    
-    _closeModal(){
+
+    _closeModal() {
         this.setState({
             nameModalVisible: false,
             passwordModalVisible: false,
@@ -102,17 +103,17 @@ class SetScreen extends BaseComponent {
         this.setState({
             nameModalVisible: true,
             //isShowNameWarn: false,
-            rightBtnDisabled : true,
-            nameWarnText : ' '
+            rightBtnDisabled: true,
+            nameWarnText: ' '
         });
     }
 
     openPasswordModal() {
-        this.setState({ 
-            passwordModalVisible: true ,
-            pwdRightBtnDisabled:true,
+        this.setState({
+            passwordModalVisible: true,
+            pwdRightBtnDisabled: true,
         });
-        
+
     }
     closeNameModal() {
         this.setState({ nameModalVisible: false });
@@ -139,21 +140,21 @@ class SetScreen extends BaseComponent {
         //let isShowWarn = (text == '' || text.length > 12) ? true : false
         let isDisabled = (text == '' || text.length > 12 || text == this.props.walletName) ? true : false
         let warnText = '';
-        if(text == '' || text.length > 12){
+        if (text == '' || text.length > 12) {
             warnText = I18n.t('launch.enter_normative_wallet_name')
         }
         this.setState({
             //isShowNameWarn: isShowWarn,
-            rightBtnDisabled : isDisabled,
+            rightBtnDisabled: isDisabled,
             nameWarnText: warnText
-        })  
+        })
     };
 
     pwdOnChangeText = (text) => {
         this.inputPwd = text
         let isDisabled = (text == '' || text.length < 8) ? true : false
         this.setState({
-            pwdRightBtnDisabled : isDisabled,
+            pwdRightBtnDisabled: isDisabled,
         })
     }
 
@@ -163,12 +164,12 @@ class SetScreen extends BaseComponent {
         this.closePasswordModal();
         if (password == '' || password == undefined) {
             showToast(I18n.t('toast.enter_password'))
-        } else { 
+        } else {
             this._showLoding()
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.exportKeyPrivate(password);
             }, 2000);
-           
+
         }
     }
     async  modifyWalletName(name) {
@@ -192,32 +193,32 @@ class SetScreen extends BaseComponent {
 
 
     async exportKeyPrivate(password) {
-        let  privateKey
-        try{
+        let privateKey
+        try {
             privateKey = await keystoreUtils.getPrivateKey(password)
             this._hideLoading();//关闭Loading
             if (privateKey == null) {
                 //alert(I18n.t('modal.export_private_key_error'));
                 showToast(this.isDeleteWallet ? I18n.t('modal.password_error') : I18n.t('modal.export_private_key_error'))
-           } else {
-               if(this.isDeleteWallet){
-                   this.setState({
-                       isShowRemindDialog : true
-                   })
-               }else{
+            } else {
+                if (this.isDeleteWallet) {
+                    this.setState({
+                        isShowRemindDialog: true
+                    })
+                } else {
                     this.props.navigation.navigate('ExportPrivateKey', { privateKey: privateKey })
-               }   
-           }
-           
-        }catch(e){
+                }
+            }
+
+        } catch (e) {
             console.log('exportKeyPrivateErr:', err)
-        }finally{
+        } finally {
             this._hideLoading();
         }
-        
 
-        
-        
+
+
+
     }
 
     async exportKeystore() {
@@ -238,24 +239,30 @@ class SetScreen extends BaseComponent {
         var newKeyObject = JSON.parse(str)
     }
 
-
-
-    deleteWallet(){
+    deleteWallet() {
         this.isDeleteWallet = true;
         this.openPasswordModal()
     }
-    cancelDeleteClick(){
+    
+    cancelDeleteClick() {
         this.setState({
-            isShowRemindDialog : false
+            isShowRemindDialog: false
         })
     }
 
-    async confirmDeleteClick(){
+    async confirmDeleteClick() {
         this.setState({
-            isShowRemindDialog : false
+            isShowRemindDialog: false
         })
         this._showLoding()
+        setTimeout(() => {
+            this.deleteLocalData();
+        }, 2000);
 
+    }
+
+    async deleteLocalData(){
+        await keystoreUtils.removeKeyFile(this.props.walletAddress)
         this.props.setWalletAddress(null);
         //删除所有本地的数据
         StorageManage.remove(StorageKey.User)
@@ -267,8 +274,21 @@ class SetScreen extends BaseComponent {
         StorageManage.remove(StorageKey.MonetaryUnit)
         StorageManage.remove(StorageKey.NotRemindAgainTestITC)//
         StorageManage.clearMapForkey(StorageKey.Contact)// id
-        
-       
+
+        let params = {
+            walletAddress: ''
+        }
+        networkManage.userInfoUpdate(params)
+            .then((response) => {
+                if (response.code === 200) {
+                } else {
+                    console.log('userInfoUpdate err msg:', response.msg)
+                }
+            })
+            .catch((err) => {
+                console.log('userInfoUpdate err:', err)
+            })
+
         this._hideLoading();
         this.props.navigation.navigate('Apploading')
     }
@@ -285,11 +305,11 @@ class SetScreen extends BaseComponent {
                     leftPress={() => this.closeNameModal()}
                     rightPress={() => this.nameConfirmClick()}
                     modalVisible={this.state.nameModalVisible}
-                    onChangeText = {this.nameOnChangeText}
+                    onChangeText={this.nameOnChangeText}
                     defaultValue={this.props.walletName}
                     warnText={this.state.nameWarnText}
-                    isShowWarn = {true}
-                    rightBtnDisabled = {this.state.rightBtnDisabled}
+                    isShowWarn={true}
+                    rightBtnDisabled={this.state.rightBtnDisabled}
                 />
                 <InputPasswordDialog
                     ref="inputPasswordDialog"
@@ -299,21 +319,21 @@ class SetScreen extends BaseComponent {
                     leftPress={() => this.closePasswordModal()}
                     rightPress={() => this.passwordConfirmClick()}
                     modalVisible={this.state.passwordModalVisible}
-                    rightBtnDisabled = {this.state.pwdRightBtnDisabled}
-                    onChangeText = {this.pwdOnChangeText}
+                    rightBtnDisabled={this.state.pwdRightBtnDisabled}
+                    onChangeText={this.pwdOnChangeText}
                 />
-                <RemindDialog   content={I18n.t('settings.confirm_delete_wallet')}    
-                                modalVisible={this.state.isShowRemindDialog}
-                                leftTxt = {I18n.t('modal.cancel')}
-                                rightTxt = {I18n.t('modal.confirm')}
-                                leftPress={() => this.cancelDeleteClick()}
-                                rightPress = {()=> this.confirmDeleteClick()}/>
+                <RemindDialog content={I18n.t('settings.confirm_delete_wallet')}
+                    modalVisible={this.state.isShowRemindDialog}
+                    leftTxt={I18n.t('modal.cancel')}
+                    rightTxt={I18n.t('modal.confirm')}
+                    leftPress={() => this.cancelDeleteClick()}
+                    rightPress={() => this.confirmDeleteClick()} />
 
 
 
                 <TouchableOpacity style={[styles.btnOpacity]}
                     activeOpacity={0.6}
-                    onPress={() => {this.isDeleteWallet = false;this.openNameModal()}}>
+                    onPress={() => { this.isDeleteWallet = false; this.openNameModal() }}>
                     <Text style={styles.btnTxt}>{I18n.t('settings.modify_wallet_name')}</Text>
                     <Text style={styles.walletName}>{this.props.walletName}</Text>
                 </TouchableOpacity>
@@ -322,27 +342,27 @@ class SetScreen extends BaseComponent {
 
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress={() => {this.isDeleteWallet = false;this.exportKeystore()}}
+                        onPress={() => { this.isDeleteWallet = false; this.exportKeystore() }}
                         text={I18n.t('settings.export_keystore')}
                     />
                 </View>
                 <View style={styles.buttonBox}>
                     <NextButton
-                        onPress={() => {this.isDeleteWallet = false; this.openPasswordModal()}}
+                        onPress={() => { this.isDeleteWallet = false; this.openPasswordModal() }}
                         text={I18n.t('settings.export_private_key')}
                     />
                 </View>
 
 
 
-               <View style={styles.delButtonBox}>
+                <View style={styles.delButtonBox}>
                     <GreyButtonBig
-                         buttonStyle = {styles.button}
-                         onPress={() => {this.isDeleteWallet = true; this.openPasswordModal()}}
-                         text = {I18n.t('settings.delete_wallet')}
-                    /> 
-               </View>
-                
+                        buttonStyle={styles.button}
+                        onPress={() => { this.isDeleteWallet = true; this.openPasswordModal() }}
+                        text={I18n.t('settings.delete_wallet')}
+                    />
+                </View>
+
             </View>
         );
     }

@@ -44,6 +44,9 @@ class Loading extends Component {
                 'deviceToken': registrationId,
                 'deviceId': DeviceInfo.getUniqueID(),
             }
+            //设置别名
+            JPushModule.setAlias(registrationId,(alias)=>{
+            })
             networkManage.deviceRegister(params)
                 .then((response) => {
                     if (response.code === 200) {
@@ -61,6 +64,9 @@ class Loading extends Component {
             'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
             'language': I18n.locale
         }
+        //清除小标
+        JPushModule.setBadge(0,(result)=>{
+        })
         networkManage.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
