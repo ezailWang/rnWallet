@@ -488,7 +488,7 @@ export default class networkManage {
     static async userInfoUpdate(params){
         let userId = await StorageManage.load(StorageKey.UserId)
         if (!userId || userId === null) {
-            userId = { 'userId': 1 }
+            return;
         }
         params['userId'] = userId['userId']
         return FetchUtils.requestPost(NetAddr.userInfoUpdate,params)
