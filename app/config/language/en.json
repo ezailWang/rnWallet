@@ -200,7 +200,8 @@
         "successful_transfer":"转账成功",
         "transfer_failed":"转账失败",
         "receiver":"接收方",
-        "sender":"发送方"
+        "sender":"发送方",
+        "no_message":"暂无消息"
 
     },
     "toast":{
