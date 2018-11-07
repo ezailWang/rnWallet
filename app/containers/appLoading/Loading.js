@@ -19,7 +19,7 @@ import { showToast } from '../../utils/Toast'
 import JPushModule from 'jpush-react-native'
 import networkManage from '../../utils/networkManage'
 import DeviceInfo from 'react-native-device-info'
-import {addDefaultTokens} from  '../../utils/commonUtil'
+import { addDefaultTokens } from '../../utils/commonUtil'
 import { __await } from 'tslib';
 class Loading extends Component {
 
@@ -45,7 +45,7 @@ class Loading extends Component {
                 'deviceId': DeviceInfo.getUniqueID(),
             }
             //设置别名
-            JPushModule.setAlias(registrationId,(alias)=>{
+            JPushModule.setAlias(registrationId, (alias) => {
             })
             networkManage.deviceRegister(params)
                 .then((response) => {
@@ -65,8 +65,11 @@ class Loading extends Component {
             'language': I18n.locale
         }
         //清除小标
-        JPushModule.setBadge(0,(result)=>{
-        })
+        if (Platform.OS === 'ios') {
+            JPushModule.setBadge(0, (result) => {
+            })
+        }
+
         networkManage.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
@@ -138,7 +141,7 @@ class Loading extends Component {
                 I18n.locale = 'fr';
             } else if (lang == 'ru') {
                 I18n.locale = 'ru';
-            } else if(lang == 'uk'){
+            } else if (lang == 'uk') {
                 I18n.locale = 'uk';
             } else {
                 I18n.locale = 'en';
@@ -155,7 +158,7 @@ class Loading extends Component {
             this.props.dispatch(setPinInfo(pinInfo))
         }
 
-        if(contacts){
+        if (contacts) {
             this.props.dispatch(setContactList(contacts))
         }
 
