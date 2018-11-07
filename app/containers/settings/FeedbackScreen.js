@@ -203,7 +203,8 @@ export default class FeedbackScreen extends BaseComponent {
             'systemVersion': DeviceInfo.getSystemVersion(),
             'deviceModel': DeviceInfo.getModel(),
             'content': this.description,
-            'ethAddress': this.address
+            'ethAddress': this.address,
+            'appversion': DeviceInfo.getVersion()
         }
         networkManage.uploadFeedback(params, this.state.photoArray)
             .then(res => {

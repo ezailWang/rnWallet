@@ -383,7 +383,7 @@ export default class networkManage {
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.address)
 
-            console.log('L_token1',tokensAddresses)
+            //console.log('L_token1',tokensAddresses)
         var localTokens = await StorageManage.load(StorageKey.Tokens)
         if (localTokens) {
             localTokens.filter(
@@ -450,7 +450,7 @@ export default class networkManage {
 
 
      /**
-     * feedback 
+     * getAllTokens 
      */
 
     static getAllTokens(params) {
@@ -479,6 +479,19 @@ export default class networkManage {
 
     static getVersionUpdateInfo(params) {
         return FetchUtils.requestGet(NetAddr.getVersionUpdateInfo, params)
+    }
+
+    /**
+     * user info update
+     */
+
+    static async userInfoUpdate(params){
+        let userId = await StorageManage.load(StorageKey.UserId)
+        if (!userId || userId === null) {
+            userId = { 'userId': 1 }
+        }
+        params['userId'] = userId['userId']
+        return FetchUtils.requestPost(NetAddr.userInfoUpdate,params)
     }
 
 }

@@ -10,6 +10,7 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import {ChoseItem}  from '../../components/ChoseComponent'
 import BaseComponent from '../base/BaseComponent';
+import networkManage from '../../utils/networkManage'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -177,8 +178,20 @@ class ChoseLanguageScreen extends BaseComponent {
         this.props.setMonetaryUnit(monetaryObject)
         StorageManage.save(StorageKey.MonetaryUnit, monetaryObject)
         DeviceEventEmitter.emit('monetaryUnitChange', {monetaryUnit: monetaryObject});
-
-
+        
+        let params = {
+            language:this.lang
+        }
+        networkManage.userInfoUpdate(params)
+        .then((response)=>{
+            if (response.code === 200) {
+            } else {
+                console.log('userInfoUpdate err msg:', response.msg)
+            }
+        })
+        .catch((err)=>{
+            console.log('userInfoUpdate err:', err)
+        })
         this.props.navigation.state.params.callback({language: langObject,monetaryUnit:monetaryObject});
         this.props.navigation.goBack()
     }

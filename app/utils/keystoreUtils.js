@@ -8,7 +8,7 @@ import createKeccakHash from 'keccak/js'
 
 function keccak256(buffer) {
     return createKeccakHash("keccak256").update(buffer).digest();
-  }
+}
 const rootPath = RNFS.DocumentDirectoryPath;
 export default class keystoreUtils {
     static async exportToFile(keyObject, dirName) {
@@ -37,14 +37,29 @@ export default class keystoreUtils {
             dirName = dirName || "keystore"
             dirPath = path.join(rootPath, dirName);
             dirItems = await RNFS.readDir(dirPath)
-            filepath = this.findKeyfile(dirPath, address, dirItems)
+            filepath = this.findKeyFile(dirPath, address, dirItems)
             return RNFS.readFile(filepath, "utf8")
         } catch (err) {
             console.log('importFromFileErr:', err)
         }
     }
 
-    static findKeyfile(dirPath, address, files) {
+    static async removeKeyFile(address,dirName) {
+        try {
+            var dirPath, dirItems, filepath
+            address = address.replace("0x", "");
+            address = address.toLowerCase();
+            dirName = dirName || "keystore"
+            dirPath = path.join(rootPath, dirName);
+            dirItems = await RNFS.readDir(dirPath)
+            filepath = this.findKeyFile(dirPath, address, dirItems)
+            RNFS.unlink(filepath)
+        } catch (err) {
+            console.log('removeKeyFile:', err)
+        }
+    }
+
+    static findKeyFile(dirPath, address, files) {
         var i, len, filepath = null;
         for (i = 0, len = files.length; i < len; ++i) {
             if (files[i].name.indexOf(address) > -1) {
