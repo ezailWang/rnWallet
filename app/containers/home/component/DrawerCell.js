@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
 import layoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
+import RedCircleReminder from '../../../components/RedCircleReminder'
 
 class DrawerCell extends Component {
     static propTypes = {
@@ -31,7 +32,45 @@ class DrawerCell extends Component {
     }
 }
 
-export default DrawerCell
+class DrawerCellReminder extends Component {
+    static propTypes = {
+        onClick: PropTypes.func.isRequired,
+        isShowReminder :PropTypes.bool.isRequired,
+        noticeNumber : PropTypes.number,
+    }
+
+    static defaultProps = {
+        imageSource: layoutConstants.DEFAULT_IAMGE,
+        noticeNumber:0
+    }
+
+    render() {
+        return (
+            <TouchableOpacity
+                style={styles.container}
+                onPress={this.props.onClick}
+            >
+                <Image
+                    style={styles.image}
+                    source={this.props.imageSource}
+                />
+                <Text
+                    style={styles.text}
+                >{this.props.text}</Text>
+
+                <View style={[{flex:1,height: 50,justifyContent:"center",marginRight:40}]}>
+                    <RedCircleReminder 
+                        isShow={this.props.isShowReminder}
+                        number={this.props.noticeNumber}
+                        circleStyle = {{alignSelf:'flex-end'}}/>
+                </View>
+                
+            </TouchableOpacity>
+        )
+    }
+}
+
+export {DrawerCell,DrawerCellReminder}
 
 const styles = StyleSheet.create({
     container: {

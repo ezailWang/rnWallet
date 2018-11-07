@@ -192,7 +192,16 @@
         "add":"添加",
         "remove":"移除",
         "no_related_currency_found":"未找到相关币种",
-        "cancel":"取消"
+        "cancel":"取消",
+
+        "message_center":"消息中心",
+        "receipt_notice":"收款通知",
+        "transfer_notice":"转账通知",
+        "successful_payment":"收款成功",
+        "successful_transfer":"转账成功",
+        "transfer_failed":"转账失败",
+        "receiver":"接收方",
+        "sender":"发送方"
 
     },
     "toast":{

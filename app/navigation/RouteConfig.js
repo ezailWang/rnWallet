@@ -79,7 +79,8 @@ import {
     UseAndPrivacyPolicyScreen,
     AddAssets,
     AddTokenScreen,
-    SearchTokenScreen
+    SearchTokenScreen,
+    MessageCenterScreen
 } from '../containers/containers';
 
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
@@ -228,6 +229,9 @@ const HomeRouteConfig =
     },
     SearchToken:{
         screen:SearchTokenScreen
+    },
+    MessageCenter:{
+        screen:MessageCenterScreen,
     }
 };
 

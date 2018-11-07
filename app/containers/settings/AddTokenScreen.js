@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundColor,
     },
     searchIcon:{
-        width:20,
-        height:20,
+        width:18,
+        height:18,
         marginRight:10,
         marginLeft:10,
     },
@@ -302,7 +302,7 @@ class AddTokenScreen extends BaseComponent {
                      <TouchableOpacity activeOpacity={0.6}
                                        style={styles.searchBox}
                                        onPress={this._search}>
-                            <Image style={styles.searchIcon} source={require('../../assets/set/add.png')} resizeMode='contain'/>  
+                            <Image style={styles.searchIcon} source={require('../../assets/common/search.png')} resizeMode='contain'/>  
                             <Text  style={styles.searchInput} >{I18n.t('settings.input_token_name')}</Text>      
                      </TouchableOpacity>
                 </View>

@@ -29,6 +29,7 @@ import UseAndPrivacyPolicyScreen from './settings/UseAndPrivacyPolicyScreen';
 import AddAssets from './home/AddAssets'
 import AddTokenScreen from './settings/AddTokenScreen'
 import SearchTokenScreen from './settings/SearchTokenScreen'
+import MessageCenterScreen from './settings/MessageCenterScreen'
 export {
     HomeScreen,
     Transaction,
@@ -60,5 +61,6 @@ export {
     UseAndPrivacyPolicyScreen,
     AddAssets,
     AddTokenScreen,
-    SearchTokenScreen
+    SearchTokenScreen,
+    MessageCenterScreen
 }

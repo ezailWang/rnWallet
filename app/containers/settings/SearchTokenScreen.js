@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundColor,
     },
     searchIcon:{
-        width:20,
-        height:20,
+        width:18,
+        height:18,
         marginLeft:10,
         marginRight:10,
     },
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     cancelIcon:{
-        width:20,
-        height:20,
+        width:18,
+        height:18,
     },
     line:{
         backgroundColor:Colors.backgroundColor,
@@ -391,7 +391,7 @@ class SearchTokenScreen extends BaseComponent {
                           <Image style={styles.backIcon} source={require('../../assets/common/common_back.png')} resizeMode='contain'/>          
                      </TouchableOpacity>
                      <View style={styles.searchBox}>
-                         <Image style={styles.searchIcon} source={require('../../assets/set/add.png')} resizeMode='contain'/>  
+                         <Image style={styles.searchIcon} source={require('../../assets/common/search.png')} resizeMode='contain'/>  
                          <TextInput style={styles.searchInput} 
                                     ref="searchInput"
                                     autoFocus={true}
@@ -401,7 +401,7 @@ class SearchTokenScreen extends BaseComponent {
                          <TouchableOpacity activeOpacity={0.6}
                                               style={styles.cancelBox}
                                               onPress={this._cancelPress}>
-                                 <Image style={styles.cancelIcon} source={require('../../assets/set/add.png')} resizeMode='contain'/>         
+                                 <Image style={styles.cancelIcon} source={require('../../assets/common/delete.png')} resizeMode='contain'/>         
                          </TouchableOpacity>           
                      </View>
                 </View>

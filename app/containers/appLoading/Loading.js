@@ -46,6 +46,7 @@ class Loading extends Component {
             }
             //设置别名
             JPushModule.setAlias(registrationId, (alias) => {
+                
             })
             networkManage.deviceRegister(params)
                 .then((response) => {

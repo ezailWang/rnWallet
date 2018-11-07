@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native'
 import React, { Component } from 'react';
 import { store } from '../../config/store/ConfigureStore'
-import DrawerCell from './component/DrawerCell'
+import {DrawerCell,DrawerCellReminder} from './component/DrawerCell'
 import { Colors } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 import { NavigationActions, DrawerActions } from 'react-navigation'
@@ -23,6 +23,14 @@ class DrawerComponent extends BaseComponent {
         this._barStyle = 'light-content'
     }
 
+    constructor(props){
+        super(props);
+        this.state = {
+            isShowReminder:false,
+            noticeNumber:0,
+        }
+    }
+
     render() {
         //这个地方直接render，防止把其他页面的状态栏颜色改了
         if (this.props.navigation.state.isDrawerOpen) {
@@ -38,6 +46,16 @@ class DrawerComponent extends BaseComponent {
                     <Text style={{ fontSize: 15, marginLeft: 10, color: Colors.fontBlackColor_31, fontWeight: '400' }}>{store.getState().Core.walletName}</Text>
                 </View>
                 <ScrollView style={{ marginTop: 50 }}>
+                    <DrawerCellReminder
+                        onClick={this.navigateToScreen('MessageCenter')}
+                        text={I18n.t('settings.message_center')}
+                        imageSource={require('../../assets/home/menu/menu_notice.png')}
+                        isShowReminder = {this.state.isShowReminder}
+                        noticeNumber = {this.state.noticeNumber}
+                    />
+                    <View
+                        style={{ backgroundColor: Colors.bgGrayColor, height: 1, marginHorizontal: 5 }}
+                    />
                     <DrawerCell
                         onClick={this.navigateToScreen('Set')}
                         text={I18n.t('home.wallet_tool')}
