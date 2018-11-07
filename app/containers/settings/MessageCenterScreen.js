@@ -108,7 +108,7 @@ class MessageCenterScreen extends BaseComponent {
     }
 
     loadData(){
-        let a = []
+        /*let a = []
        for(let i=0;i<20;i++){
            let obj = {
                title:'收款通知'+i,
@@ -119,11 +119,11 @@ class MessageCenterScreen extends BaseComponent {
        }
        this.setState({
              data:a
-       })
+       })*/
     }
 
     _onPressItem = (item) => {
-        this.props.navigation.navigate('TransactionRecoder');
+        //this.props.navigation.navigate('TransactionRecoder');
     }
     
     //自定义分割线

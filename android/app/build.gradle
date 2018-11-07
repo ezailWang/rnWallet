@@ -155,7 +155,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-fetch-blob')
     compile project(':jcore-react-native')
     compile project(':jpush-react-native')
     compile project(':react-native-touch-id')
