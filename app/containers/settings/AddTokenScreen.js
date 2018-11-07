@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     FlatList,
     Text,
-    TextInput,
+    Platform,
     Image
 } from 'react-native';
 
@@ -171,6 +171,7 @@ class AddTokenScreen extends BaseComponent {
         let allTokens = [];
         let defaultTokens = [];//默认的
         let addTokens = [];//添加的
+        console.log('L_tokens',this.props.tokens)
         this.props.tokens.forEach(function (token, index, b) {
             token.isAdded = true
             if(index == 0 || index == 1){
@@ -360,13 +361,16 @@ class ItemView extends PureComponent{
     }
 
     render(){
-        const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
+        const { iconLarge, symbol, name,decimal,address,isAdded,imgCache} = this.props.item.item || {}
         let icon = this._getLogo(symbol,iconLarge)
 
         let _address = address.substr(0,6) + '---' + address.substr(36,42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
         let fullName = name=='' || name ==undefined ? '---' : name;
+///data/user/0/com.rnwallet/cache/react-native-img-cache/ced8560c-5927-bb9b-05b5-87c1efd7d849.png
+        let imgUri = imgCache == '' || imgCache == undefined ? '' : 'file://' +  imgCache ;
+        
         return(
             <TouchableOpacity activeOpacity={1}
                 {...this.props}
@@ -374,7 +378,7 @@ class ItemView extends PureComponent{
                 onPress={this._onItemPress}
                 disabled={true}>
                 <Image style={styles.itemIcon}  
-                        source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
+                       source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
                        resizeMode='contain'
                        iosdefaultSource = {{uri:require('../../assets/home/null.png'),width:30,height:30,}}
                        onError = {()=>{
@@ -382,7 +386,15 @@ class ItemView extends PureComponent{
                             loadIconError:true,
                          })
                        }}/>
-               
+                {/*<Image style={styles.itemIcon}  
+                       source={imgCache == '' || imgCache == undefined ? icon : {uri:imgUri}} 
+                       resizeMode='contain'
+                       iosdefaultSource = {{uri:require('../../assets/home/null.png'),width:30,height:30,}}
+                       onError = {()=>{
+                            this.setState({
+                               loadIconError:true,
+                            })
+                       }}/>*/}
                 <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
                     <Text style={styles.itemFullName}>{fullName}</Text>

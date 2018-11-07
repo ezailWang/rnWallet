@@ -6,7 +6,8 @@ import {
     FlatList,
     Text,
     TextInput,
-    Image
+    Image,
+    Platform
 } from 'react-native';
 
 import PropTypes from 'prop-types'
@@ -18,7 +19,8 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import networkManage from '../../utils/networkManage';
-
+//import {CachedImage,ImageCache} from 'react-native-img-cache'
+//import {Image as CacheImage,CacheManager} from "react-native-expo-image-cache";
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -276,11 +278,12 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _addOrRemoveItem = async(item) => {
+        
         let token = item.item;
         let index = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
         let isAdd = token.isAdded;
 
-
+        console.log('L_add_remove',token)
         if(isAdd){
             if(index >=0){
                 //this.addedTokens.splice(index, 1,token)
@@ -345,9 +348,11 @@ class SearchTokenScreen extends BaseComponent {
         let addedTokens = this.addedTokens;
         this.searchTokens.forEach(function (data, index) {
             let isAdded = false;//是否已添加
+            let imgCache = '';
             for(let i=0;i<addedTokens.length;i++){
                 if(data.address == addedTokens[i].address){
                     isAdded = true;
+                    imgCache = addedTokens[i].imgCache
                     break;
                 }
             }
@@ -358,6 +363,7 @@ class SearchTokenScreen extends BaseComponent {
                 decimal: data.decimal,
                 address: data.address,
                 isAdded:isAdded,
+                imgCache : imgCache,
             }
             datas.push(obj)
         })
@@ -423,12 +429,16 @@ class ItemView extends PureComponent{
         this.state = {
             loadIconError: false,
         }
+        this.imgCache = '' 
     }
 
     _itemAddOrRemovePress = () =>{
         let preTokenIsAdded = this.props.item.item.isAdded;
         let nowToken = (preTokenIsAdded == undefined || preTokenIsAdded == false)  ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
-        this.props.addOrRemoveItem(nowToken)
+        this.props.item.item.isAdded = nowToken
+        this.props.item.item.imgCache = this.imgCache
+        console.log("LLLLLLLL",this.props.item.item)
+        this.props.addOrRemoveItem(this.props.item.item)
     }
 
     _onItemPress = () =>{
@@ -456,11 +466,22 @@ class ItemView extends PureComponent{
 
     render(){
         const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
-        let icon =  this._getLogo(symbol,iconLarge)
+        let icon = this._getLogo(symbol,iconLarge);
         let _address = address.substr(0,6) + '---' + address.substr(36,42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
         let fullName = name=='' || name ==undefined ? '---' : name;
+
+        /*if(iconLarge != ''){
+            let imgCache = ImageCache.get().getPath(iconLarge)
+            console.log('L_cache',imgCache)
+            if(imgCache != '' && imgCache != undefined){
+                //iconUri =  Platform.OS == 'android' ? 'file://' +  imgCache : imgCache
+                this.props.item.item.imgCache = imgCache
+            }
+            console.log('Litem',this.props.item.item)
+        }*/
+       
 
         return(
             <TouchableOpacity activeOpacity={1}
@@ -468,17 +489,44 @@ class ItemView extends PureComponent{
                 style={styles.item}
                 onPress={this._onItemPress}
                 disabled={true}>
-                 <Image style={styles.itemIcon} 
+                <Image style={styles.itemIcon} 
                         //defaultSource={require('../../assets/home/null.png')}
                         //source={ icon=='uri' ? icon  : {uri:iconLarge}} 
                         source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
+                        cache='force-cache'
                         resizeMode='contain'
                         onError = {()=>{
                             this.setState({
                                 loadIconError:true,
                             })
                         }}
-                        onLoad = {(event)=>{}}/>
+                        onLoad = {(event)=>{
+                            console.log('L_load',event.nativeEvent)
+                        }}/>
+
+                  {/*<CachedImage style = {styles.itemIcon} 
+                              source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
+                              resizeMode='contain'
+                              onLoad = {(event)=>{
+                                    if(iconLarge !='' && this.state.loadIconError == false ){
+                                        let imgCache = ImageCache.get().getPath(iconLarge)
+                                        //console.log('LimgCache',symbol +  '-------'+ imgCache)
+                                        if(imgCache != '' &&  imgCache != undefined){
+                                            this.imgCache = imgCache
+                                        }else{
+                                            this.imgCache = ''
+                                        }
+                                    }
+                                    
+                              }}
+                              onError = {()=>{
+                                     //console.log('Litem2',symbol +  '-------'+ '失败')
+                                     this.imgCache = ''
+                                     this.setState({
+                                         loadIconError:true,
+                                     })
+                                    
+                              }} />  */}
                  
                  <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
