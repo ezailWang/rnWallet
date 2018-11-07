@@ -60,7 +60,7 @@ class HomeScreen extends BaseComponent {
         this._removeEventListener();
         this._removeChangeListener()
     }
-    
+
     renderItem = (item) => {
         item.item['isTotalAssetsHidden'] = this.state.isTotalAssetsHidden
         return (
@@ -179,7 +179,21 @@ class HomeScreen extends BaseComponent {
             this._showLoding()
         }
 
-        
+        let params = {
+            language:I18n.locale,
+            walletAddress:this.props.walletAddress
+        }
+        networkManage.userInfoUpdate(params)
+        .then((response)=>{
+            if (response.code === 200) {
+            } else {
+                console.log('userInfoUpdate err msg:', response.msg)
+            }
+        })
+        .catch((err)=>{
+            console.log('userInfoUpdate err:', err)
+        })
+
         this.setState({
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
         })
@@ -237,6 +251,9 @@ class HomeScreen extends BaseComponent {
     }
 
     renderComponent() {
+        if(!this.props.walletAddress){
+            return null
+        }
         const headerHeight = this.state.scroollY.interpolate({
             inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
             outputRange: [layoutConstants.WINDOW_HEIGHT, layoutConstants.HOME_HEADER_MAX_HEIGHT, layoutConstants.HOME_HEADER_MIN_HEIGHT],
@@ -263,7 +280,6 @@ class HomeScreen extends BaseComponent {
             outputRange: [0, 0, -(layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT)],
             extrapolate: 'clamp'
         })
-
 
         return (
             <View style={styles.container}>
