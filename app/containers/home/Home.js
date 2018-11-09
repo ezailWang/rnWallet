@@ -49,8 +49,6 @@ class HomeScreen extends BaseComponent {
             monetaryUnitSymbol: '',//货币单位符号
             headBgImageRef: null
         }
-
-        this.userToken = {}
     }
 
     componentWillMount() {
@@ -182,12 +180,7 @@ class HomeScreen extends BaseComponent {
             this.props.setIsNewWallet(false)
             this._showLoding()
         }
-        let userToken = await StorageManage.load(StorageKey.UserToken)
-        if (!userToken || userToken === null) {
-            userToken = { 'userToken': 1 }
-        }
-        this.userToken = userToken;
-
+        
         let params = {
             language:I18n.locale,
             walletAddress:this.props.walletAddress
@@ -262,8 +255,13 @@ class HomeScreen extends BaseComponent {
 
 
     async _getMessageCount(){
+        
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            userToken = { 'userToken': 1 }
+        }
         let params = {
-            'userToken': this.userToken['userToken'],
+            'userToken': userToken['userToken'],
         }
         networkManage.getUnReadMessageCount(params)
             .then(response => {
