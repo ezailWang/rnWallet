@@ -109,7 +109,6 @@ class MessageCenterScreen extends BaseComponent {
             isLoadMoreing:false,
         }
 
-        this.userToken = {};
         this.page = 1;
         this.pageCount = 20;//每页显示的10条数据
         this.haveNextPage = true;//是否还有下一页
@@ -117,18 +116,17 @@ class MessageCenterScreen extends BaseComponent {
     }
 
     async _initData() { 
-        let userToken = await StorageManage.load(StorageKey.UserToken)
-        if (!userToken || userToken === null) {
-            userToken = { 'userToken': 1 }
-        }
-        this.userToken = userToken;
         this.loadData()
     }
 
     async loadData(){
         this._showLoding()
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            userToken = { 'userToken': 1 }
+        }
         let params = {
-            'userToken': this.userToken['userToken'],
+            'userToken': userToken['userToken'],
             'page': this.page,
             'size': this.pageCount,
         }
@@ -226,9 +224,13 @@ class MessageCenterScreen extends BaseComponent {
         }
     }
 
-    _readMessage=(msgId)=>{
+    _readMessage= async(msgId)=>{
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            userToken = { 'userToken': 1 }
+        }
         let params = {
-            //'userToken': userToken['userToken'],
+            'userToken': userToken['userToken'],
             'userToken': '123456',
             'msgId': msgId,
         }
@@ -310,14 +312,7 @@ class MessageCenterScreen extends BaseComponent {
                 }
 
                 this.props.setCoinBalance(balanceInfo);
-                this.props.navigation.navigate('TransactionRecoder', {
-                    callback: function (data) { 
-                        if(_this.callBackIsNeedRefresh){
-                            _this._onRefresh()
-                        }
-                       
-                    } 
-                })
+                this.props.navigation.navigate('TransactionRecoder');
                 break;
             }
         }
