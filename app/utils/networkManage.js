@@ -458,6 +458,38 @@ export default class networkManage {
     }
 
     /**
+     * getAllTokens 
+     */
+
+    static getTokensVersion(params) {
+        return FetchUtils.requestGet(NetAddr.getTokensVersion,params)
+    }
+
+    /**
+     * getMessage消息中心列表
+     */
+
+    static getMessageList(params) {
+        return FetchUtils.requestGet(NetAddr.getMessageList,params)
+    }
+
+    /**
+     * readMessage 更新消息已读未读状态
+     */
+
+    static readMessage(params) {
+        return FetchUtils.requestPost(NetAddr.readMessage,params)
+    }
+
+    /**
+     *  获取未读消息个数
+     */
+
+    static getUnReadMessageCount(params) {
+        return FetchUtils.requestGet(NetAddr.getUnReadMessageCount,params)
+    }
+
+    /**
      * feedback 
      */
 
@@ -486,11 +518,11 @@ export default class networkManage {
      */
 
     static async userInfoUpdate(params){
-        let userId = await StorageManage.load(StorageKey.UserId)
-        if (!userId || userId === null) {
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
             return;
         }
-        params['userId'] = userId['userId']
+        params['userToken'] = userToken['userToken']
         return FetchUtils.requestPost(NetAddr.userInfoUpdate,params)
     }
 

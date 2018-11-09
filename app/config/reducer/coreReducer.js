@@ -19,6 +19,7 @@ import {
     SET_PIN_INFO,
     IS_NEW_WALLET,
     SET_CONTACT_LIST,
+    SET_ALL_TOKENS
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/constants'
 import uuid from 'react-native-uuid';
@@ -173,7 +174,12 @@ function coreReducer(state = defaultState, action) {
                  contactList:action.contactList
              } 
              break;
-        
+        case SET_ALL_TOKENS:
+             return{
+                 ...state,
+                 allTokens:action.allTokens
+             }     
+             break;
         default: return state;
     }
 }

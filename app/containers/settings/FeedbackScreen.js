@@ -191,12 +191,12 @@ export default class FeedbackScreen extends BaseComponent {
     async submit() {
         Keyboard.dismiss();
         this._showLoding()
-        let userId = await StorageManage.load(StorageKey.UserId)
-        if (!userId || userId === null) {
-            userId = { 'userId': 1 }
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            userToken = { 'userToken': 1 }
         }
         let params = {
-            'userId': userId['userId'],
+            'userToken': userToken['userToken'],
             'name': this.name,
             'mailAddress': this.email,
             'system': Platform.OS,

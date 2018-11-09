@@ -194,15 +194,18 @@
         "cancel":"取消",
 
         "message_center":"消息中心",
-        "receipt_notice":"收款通知",
-        "transfer_notice":"转账通知",
+        "receipt_notice":"收款通知: ",
+        "transfer_notice":"转账通知: ",
         "successful_payment":"收款成功",
         "successful_transfer":"转账成功",
         "transfer_failed":"转账失败",
-        "receiver":"接收方",
-        "sender":"发送方",
-        "no_message":"暂无消息"
-        
+        "receiver":"接收方: ",
+        "sender":"发送方: ",
+        "no_message":"暂无消息",
+        "transaction_notification":"交易通知",
+        "announcement":"公告",
+        "official_team":"Tot Chain 官方团队"
+
     },
     "toast":{
         "exit_app":"再按一次退出应用",

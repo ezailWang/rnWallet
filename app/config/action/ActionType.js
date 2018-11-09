@@ -18,4 +18,5 @@ export const SET_FIRST_QR = 'SET_FIRST_QR';//设置第一次展示QR
 export const SET_PIN_INFO = 'SET_PIN_INFO';//设置pin的信息
 export const IS_NEW_WALLET = 'IS_NEW_WALLET';//是否刚导入/创建的钱包，用于home页判断是导入/创建进入Home页面还是直接进入Home的
 export const SET_CONTACT_LIST = 'SET_CONTACT_LIST';//联系人列表
+export const SET_ALL_TOKENS = 'SET_ALL_TOKENS';//获取所有的列表token
 

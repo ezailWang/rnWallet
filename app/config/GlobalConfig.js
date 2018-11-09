@@ -44,7 +44,7 @@ const Colors = {
     bgBlue_drawer_top:'rgb(241,250,254)',
     //按钮颜色
     btn_bg_blue:'rgb(1,176,245)',
-    
+    bg_blue:'#EBF8FF',
     borderColor_e:'#eee',
     
     //Home
@@ -84,7 +84,7 @@ const StorageKey = {
     Contact:'contact',//保存联系人的key
     MonetaryUnit:'monetaryUnit',//货币单位
     PinInfo:'pinInfo',//存储pin密码
-    UserId:'userId',//存储userId
+    UserToken:'userToken',//存储userToken
     NotRemindAgainTestITC:'notRemindAgainTestITC',//不再提示
 }
 

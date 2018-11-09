@@ -64,7 +64,8 @@ export default class BaseComponent extends PureComponent {
         this._initData = this._initData.bind(this);
         //  this._handleAppStateChange = this._handleAppStateChange.bind(this);
         this._barStyle = 'dark-content';
-        this._isMounted = false
+        this._isMounted = false;
+    
 
 
     }
@@ -79,15 +80,29 @@ export default class BaseComponent extends PureComponent {
 
     componentWillMount() {
         this._isMounted = true
+        /*JPushModule.notifyJSDidLoad((resultCode)=>{
+            if(resultCode === 0){
+
+            }
+        })
+        JPushModule.addReceiveOpenNotificationListener((map)=>{
+            this.props.navigation.navigate('MessageCenter');
+        })*/
+
         this._addEventListener();
     }
 
     componentDidMount() {
+       
         this._initData();
     }
 
     componentWillUnmount() {
+        
         this._removeEventListener();
+
+        //JPushModule.removeReceiveOpenNotificationListener()
+
         this._isMounted = false
     }
 
@@ -98,9 +113,11 @@ export default class BaseComponent extends PureComponent {
 
     //添加事件监听
     _addEventListener() {
+        
         this.netRequestErrHandler = DeviceEventEmitter.addListener('netRequestErr', this._netRequestErr);//网络异常情况监听
         this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
         this.pinIsShowHandler = DeviceEventEmitter.addListener('pinIsShow', this._pinIsShowEmitter);//监听pin是否显示
+        this.messageCountHandler = DeviceEventEmitter.addListener('messageCount', this._messageCountEmitter);//messageCount
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
         this.backgroundStateHandler = DeviceEventEmitter.addListener('backgroundState', this._backgroundStateEmitter);
     }
@@ -112,6 +129,7 @@ export default class BaseComponent extends PureComponent {
         this.monetaryUnitChangeHandler && this.monetaryUnitChangeHandler.remove();
         this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
         this.pinIsShowHandler && this.pinIsShowHandler.remove();
+        this.messageCountHandler && this.messageCountHandler.remove();
         this.backgroundStateHandler && this.backgroundStateHandler.remove();
     }
 
@@ -255,7 +273,9 @@ export default class BaseComponent extends PureComponent {
     }
 
 
+    _messageCountEmitter = (data) =>{
 
+    }
 
 
 
@@ -433,6 +453,7 @@ export default class BaseComponent extends PureComponent {
             }     
         }*/
     }
+
 }
 
 

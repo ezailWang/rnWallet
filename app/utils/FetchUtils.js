@@ -72,7 +72,7 @@ export default class FetchUtils {
             })
             for (let i = 0; i < images.length; i++) {
                 let uri = images[i]['uri']
-                let name = params['userId'] + '_' + new Date().getTime() + '_' + i + '.png'
+                let name = params['userToken'] + '_' + new Date().getTime() + '_' + i + '.png'
                 let imagefile = { uri: uri, type: 'multipart/form-data', name: name }
                 formData.append('feedbackImage', imagefile)
             }

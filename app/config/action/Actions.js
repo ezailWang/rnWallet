@@ -38,7 +38,6 @@ function setWalletName(name) {
 }
 
 function addToken(token) {
-    console.log('L_addTokene',token)
     return {
         type: types.ADD_TOKEN,
         token: {
@@ -47,7 +46,6 @@ function addToken(token) {
             name: token.name,
             decimal: parseInt(token.decimal, 10),
             address: token.address,
-            imgCache : token.imgCache,
         }
     }
 }
@@ -150,6 +148,13 @@ function setContactList(value){
     }
 }
 
+function setAllTokens(allTokens){
+    return{
+        type:types.SET_ALL_TOKENS,
+        allTokens : allTokens
+    }
+}
+
 
 
 
@@ -173,4 +178,5 @@ export {
     setPinInfo,
     setIsNewWallet,
     setContactList,
+    setAllTokens
 }

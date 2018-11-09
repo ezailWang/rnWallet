@@ -270,7 +270,7 @@ class SetScreen extends BaseComponent {
         StorageManage.remove(StorageKey.Network)
         StorageManage.remove(StorageKey.Language)
         StorageManage.remove(StorageKey.PinInfo)
-        StorageManage.remove(StorageKey.UserId)
+        StorageManage.remove(StorageKey.UserToken)
         StorageManage.remove(StorageKey.MonetaryUnit)
         StorageManage.remove(StorageKey.NotRemindAgainTestITC)//
         StorageManage.clearMapForkey(StorageKey.Contact)// id

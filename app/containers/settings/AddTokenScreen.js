@@ -124,17 +124,16 @@ const styles = StyleSheet.create({
         height:30,
         lineHeight:30,
         fontSize:14,
-        borderWidth:1,
         borderRadius:5,
         paddingLeft:20,
-        paddingRight:20,
-        
+        paddingRight:20,  
     },
     itemAddBtn:{
         borderColor:Colors.fontBlueColor,
         backgroundColor:Colors.fontBlueColor
     },
     itemRemoveBtn:{
+        borderWidth:1,
         borderColor:Colors.fontBlueColor,
         backgroundColor:'transparent'
     },
@@ -200,13 +199,9 @@ class AddTokenScreen extends BaseComponent {
         return(
             <ItemView
                  item = {item}
-                 onPressItem = {this._onPressItem.bind(this, item)}
                  addOrRemoveItem = {this._addOrRemoveItem.bind(this,item)} 
             />     
         )
-    }
-
-    _onPressItem = (item) => {
     }
 
     _addOrRemoveItem = async(item) => {
@@ -337,10 +332,7 @@ class ItemView extends PureComponent{
         this.props.addOrRemoveItem(nowToken)
     }
 
-    _onItemPress = () =>{
-        this.props.onPressItem(this.props.item.item)
-    }
-
+   
     _getLogo = (symbol,iconLarge) =>{
         if(symbol == 'ITC'){
             return require('../../assets/home/ITC.png');
@@ -361,40 +353,25 @@ class ItemView extends PureComponent{
     }
 
     render(){
-        const { iconLarge, symbol, name,decimal,address,isAdded,imgCache} = this.props.item.item || {}
+        const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
         let icon = this._getLogo(symbol,iconLarge)
 
         let _address = address.substr(0,6) + '---' + address.substr(36,42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
         let fullName = name=='' || name ==undefined ? '---' : name;
-///data/user/0/com.rnwallet/cache/react-native-img-cache/ced8560c-5927-bb9b-05b5-87c1efd7d849.png
-        let imgUri = imgCache == '' || imgCache == undefined ? '' : 'file://' +  imgCache ;
-        
+ 
         return(
-            <TouchableOpacity activeOpacity={1}
-                {...this.props}
-                style={styles.item}
-                onPress={this._onItemPress}
-                disabled={true}>
+            <View style={styles.item}>
                 <Image style={styles.itemIcon}  
                        source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
                        resizeMode='contain'
-                       iosdefaultSource = {{uri:require('../../assets/home/null.png'),width:30,height:30,}}
-                       onError = {()=>{
-                         this.setState({
-                            loadIconError:true,
-                         })
-                       }}/>
-                {/*<Image style={styles.itemIcon}  
-                       source={imgCache == '' || imgCache == undefined ? icon : {uri:imgUri}} 
-                       resizeMode='contain'
-                       iosdefaultSource = {{uri:require('../../assets/home/null.png'),width:30,height:30,}}
+                       iosdefaultSource={require('../../assets/home/null.png')}
                        onError = {()=>{
                             this.setState({
                                loadIconError:true,
                             })
-                       }}/>*/}
+                       }}/>
                 <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
                     <Text style={styles.itemFullName}>{fullName}</Text>
@@ -410,7 +387,7 @@ class ItemView extends PureComponent{
                     </TouchableOpacity>
                 }
                 
-            </TouchableOpacity>
+            </View>
         )
     }
 }

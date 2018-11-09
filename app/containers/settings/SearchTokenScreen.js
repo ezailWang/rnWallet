@@ -129,17 +129,16 @@ const styles = StyleSheet.create({
         height:30,
         lineHeight:30,
         fontSize:14,
-        borderWidth:1,
         borderRadius:5,
         paddingLeft:20,
-        paddingRight:20,
-        
+        paddingRight:20,  
     },
     itemAddBtn:{
         borderColor:Colors.fontBlueColor,
         backgroundColor:Colors.fontBlueColor
     },
     itemRemoveBtn:{
+        borderWidth:1,
         borderColor:Colors.fontBlueColor,
         backgroundColor:'transparent'
     },
@@ -209,7 +208,8 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _initData() { 
-        this._getAllTokens()   
+        //this._getAllTokens()   
+        this.allTokens = this.props.allTokens
         let addTokens = [];
         this.props.tokens.forEach(function (token, index, b) {
             token.isAdded = true
@@ -227,6 +227,7 @@ class SearchTokenScreen extends BaseComponent {
         networkManage.getAllTokens(params).then((response)=>{
             if(response.code === 200){
                 this.allTokens = response.data
+                console.log('L_response',response)
             }else{
                 console.log('getAllTokens err msg:', response.msg)
             }
@@ -268,13 +269,9 @@ class SearchTokenScreen extends BaseComponent {
         return(
             <ItemView
                  item = {item}
-                 onPressItem = {this._onPressItem.bind(this, item)}
                  addOrRemoveItem = {this._addOrRemoveItem.bind(this,item)} 
             />     
         )
-    }
-
-    _onPressItem = (item) => {
     }
 
     _addOrRemoveItem = async(item) => {
@@ -282,8 +279,6 @@ class SearchTokenScreen extends BaseComponent {
         let token = item.item;
         let index = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
         let isAdd = token.isAdded;
-
-        console.log('L_add_remove',token)
         if(isAdd){
             if(index >=0){
                 //this.addedTokens.splice(index, 1,token)
@@ -331,16 +326,24 @@ class SearchTokenScreen extends BaseComponent {
     }
     
     _matchToken=()=>{
+        let _this = this
         this.searchTokens=[];
         let allTokens = this.allTokens;
         let searchContent = this.searchText;
-        for(let i=0;i<allTokens.length;i++){
+        /*for(let i=0;i<allTokens.length;i++){
             let token = allTokens[i];
             let symbol  = token.symbol.trim().toLowerCase()
             if(symbol.indexOf(searchContent.trim().toLowerCase())>=0){
                 this.searchTokens.push(token)
             }
-        }
+        }*/
+
+        allTokens.forEach(function(token,index){
+            let symbol  = token.symbol.trim().toLowerCase()
+            if(symbol.indexOf(searchContent.trim().toLowerCase())>=0){
+                _this.searchTokens.push(token)
+            }
+        })
         this.refreshDatas(); 
     }
     refreshDatas = () =>{
@@ -348,11 +351,9 @@ class SearchTokenScreen extends BaseComponent {
         let addedTokens = this.addedTokens;
         this.searchTokens.forEach(function (data, index) {
             let isAdded = false;//是否已添加
-            let imgCache = '';
             for(let i=0;i<addedTokens.length;i++){
                 if(data.address == addedTokens[i].address){
                     isAdded = true;
-                    imgCache = addedTokens[i].imgCache
                     break;
                 }
             }
@@ -363,7 +364,6 @@ class SearchTokenScreen extends BaseComponent {
                 decimal: data.decimal,
                 address: data.address,
                 isAdded:isAdded,
-                imgCache : imgCache,
             }
             datas.push(obj)
         })
@@ -428,21 +428,27 @@ class ItemView extends PureComponent{
         super(props);
         this.state = {
             loadIconError: false,
-        }
-        this.imgCache = '' 
+            //isAdded : false,
+        } 
     }
+
+    /*componentWillReceiveProps(nextProps){
+        let nextIsAdded = nextProps.item.item.isAdded
+        if(nextIsAdded == '' ||  nextIsAdded == undefined || !nextIsAdded){
+            this.setState({
+                isAdded : false,
+            })
+        }else{
+            this.setState({
+                isAdded : true,
+            })
+        }
+    }*/
 
     _itemAddOrRemovePress = () =>{
         let preTokenIsAdded = this.props.item.item.isAdded;
-        let nowToken = (preTokenIsAdded == undefined || preTokenIsAdded == false)  ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
-        this.props.item.item.isAdded = nowToken
-        this.props.item.item.imgCache = this.imgCache
-        console.log("LLLLLLLL",this.props.item.item)
+        this.props.item.item.isAdded = (preTokenIsAdded == undefined || preTokenIsAdded == false)  ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
         this.props.addOrRemoveItem(this.props.item.item)
-    }
-
-    _onItemPress = () =>{
-        this.props.onPressItem(this.props.item.item)
     }
 
     _getLogo = (symbol,iconLarge) =>{
@@ -465,33 +471,17 @@ class ItemView extends PureComponent{
     }
 
     render(){
-        const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
+        const { iconLarge, symbol, name,address,isAdded} = this.props.item.item || {}
         let icon = this._getLogo(symbol,iconLarge);
         let _address = address.substr(0,6) + '---' + address.substr(36,42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
         let fullName = name=='' || name ==undefined ? '---' : name;
-
-        /*if(iconLarge != ''){
-            let imgCache = ImageCache.get().getPath(iconLarge)
-            console.log('L_cache',imgCache)
-            if(imgCache != '' && imgCache != undefined){
-                //iconUri =  Platform.OS == 'android' ? 'file://' +  imgCache : imgCache
-                this.props.item.item.imgCache = imgCache
-            }
-            console.log('Litem',this.props.item.item)
-        }*/
        
-
         return(
-            <TouchableOpacity activeOpacity={1}
-                {...this.props}
-                style={styles.item}
-                onPress={this._onItemPress}
-                disabled={true}>
+            <View style={styles.item}>
                 <Image style={styles.itemIcon} 
-                        //defaultSource={require('../../assets/home/null.png')}
-                        //source={ icon=='uri' ? icon  : {uri:iconLarge}} 
+                        iosdefaultSource={require('../../assets/home/null.png')}
                         source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
                         cache='force-cache'
                         resizeMode='contain'
@@ -499,35 +489,7 @@ class ItemView extends PureComponent{
                             this.setState({
                                 loadIconError:true,
                             })
-                        }}
-                        onLoad = {(event)=>{
-                            console.log('L_load',event.nativeEvent)
                         }}/>
-
-                  {/*<CachedImage style = {styles.itemIcon} 
-                              source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
-                              resizeMode='contain'
-                              onLoad = {(event)=>{
-                                    if(iconLarge !='' && this.state.loadIconError == false ){
-                                        let imgCache = ImageCache.get().getPath(iconLarge)
-                                        //console.log('LimgCache',symbol +  '-------'+ imgCache)
-                                        if(imgCache != '' &&  imgCache != undefined){
-                                            this.imgCache = imgCache
-                                        }else{
-                                            this.imgCache = ''
-                                        }
-                                    }
-                                    
-                              }}
-                              onError = {()=>{
-                                     //console.log('Litem2',symbol +  '-------'+ '失败')
-                                     this.imgCache = ''
-                                     this.setState({
-                                         loadIconError:true,
-                                     })
-                                    
-                              }} />  */}
-                 
                  <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
                     <Text style={styles.itemFullName}>{fullName}</Text>
@@ -543,13 +505,14 @@ class ItemView extends PureComponent{
                     </TouchableOpacity>
                  }
                 
-            </TouchableOpacity>
+            </View>
         )
     }
 }
 
 
 const mapStateToProps = state => ({
+    allTokens : state.Core.allTokens,
     tokens: state.Core.tokens,
     network : state.Core.network,
 });

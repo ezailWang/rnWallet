@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native'
 import React, { Component } from 'react';
 import { store } from '../../config/store/ConfigureStore'
-import {DrawerCell,DrawerCellReminder} from './component/DrawerCell'
+import { DrawerCell, DrawerCellReminder } from './component/DrawerCell'
 import { Colors } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 import { NavigationActions, DrawerActions } from 'react-navigation'
@@ -23,12 +23,23 @@ class DrawerComponent extends BaseComponent {
         this._barStyle = 'light-content'
     }
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            isShowReminder:false,
-            noticeNumber:0,
+            isShowReminder: false,
+            noticeNumber: 0,
         }
+
+        this.messageCount = 0;
+    }
+
+
+    _messageCountEmitter = (data) =>{
+        let messageCount =  data.messageCount;
+        this.setState({
+            isShowReminder:messageCount > 0 ? true : false,
+            noticeNumber:messageCount
+        })
     }
 
     render() {
@@ -50,8 +61,8 @@ class DrawerComponent extends BaseComponent {
                         onClick={this.navigateToScreen('MessageCenter')}
                         text={I18n.t('settings.message_center')}
                         imageSource={require('../../assets/home/menu/menu_notice.png')}
-                        isShowReminder = {this.state.isShowReminder}
-                        noticeNumber = {this.state.noticeNumber}
+                        isShowReminder={this.state.isShowReminder}
+                        noticeNumber={this.state.noticeNumber}
                     />
                     <View
                         style={{ backgroundColor: Colors.bgGrayColor, height: 1, marginHorizontal: 5 }}

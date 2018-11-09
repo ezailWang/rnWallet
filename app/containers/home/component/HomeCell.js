@@ -38,13 +38,37 @@ class EmptyComponent extends Component {
 }
 
 class HomeCell extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            loadIconError: false,
+        }
+    }
     static propTypes = {
         monetaryUnitSymbol: PropTypes.string.isRequired,
     };
+    _getLogo = (symbol,iconLarge) =>{
+        if(symbol == 'ITC'){
+            return require('../../../assets/home/ITC.png');
+        }
+        if(iconLarge == ''){
+            if(symbol == 'ETH'){
+                return require('../../../assets/home/ETH.png');
+            }else if(symbol == 'ITC'){
+                return require('../../../assets/home/ITC.png');
+            }else{
+                return require('../../../assets/home/null.png');
+            }
+        }else {
+            if(this.state.loadIconError){
+                return require('../../../assets/home/null.png');
+            }
+        }
+    }
 
     render() {
-        const { symbol, balance, price, isTotalAssetsHidden } = this.props.item.item || {}
-        let imageSource = require('../../../assets/home/null.png')
+        const { symbol, balance, price, isTotalAssetsHidden, iconLarge,} = this.props.item.item || {}
+        let icon = this._getLogo(symbol,iconLarge);
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
             imageSource = tokeniCon[symbol]
         }
@@ -60,9 +84,18 @@ class HomeCell extends Component {
             >
                 <View style={styles.container}>
                     <View style={styles.leftView}>
-                        <Image style={styles.icon}
+                        {/*<Image style={styles.icon}
                             source={imageSource}
-                        ></Image>
+                         ></Image>*/}
+                        <Image style={styles.icon}  
+                             source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
+                             resizeMode='contain'
+                             iosdefaultSource={require('../../../assets/home/null.png')}
+                             onError = {()=>{
+                             this.setState({
+                                  loadIconError:true,
+                             })
+                        }}/>
                         <Text style={{ fontSize: 15, color: Colors.fontBlackColor_43, fontWeight: '500' }}>{symbol}</Text>
                     </View>
                     <View style={styles.rightView}>
@@ -106,7 +139,8 @@ const styles = StyleSheet.create({
         width: 26,
         height: 26,
         backgroundColor: 'transparent',
-        marginRight: 10
+        marginRight: 10,
+        borderRadius:15,
     },
     emptyView: {
         flex: 1,

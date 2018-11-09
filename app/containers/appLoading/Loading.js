@@ -7,11 +7,11 @@ import {
     setWalletAddress,
     setWalletName,
     setNetWork,
-    setLanguage,
     setMonetaryUnit,
     setPinInfo,
     setIsNewWallet,
-    setContactList
+    setContactList,
+    setAllTokens
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
@@ -19,8 +19,8 @@ import { showToast } from '../../utils/Toast'
 import JPushModule from 'jpush-react-native'
 import networkManage from '../../utils/networkManage'
 import DeviceInfo from 'react-native-device-info'
-import { addDefaultTokens } from '../../utils/commonUtil'
 import { __await } from 'tslib';
+import JPush from 'jpush-react-native';
 class Loading extends Component {
 
     static propTypes = {
@@ -46,12 +46,12 @@ class Loading extends Component {
             }
             //设置别名
             JPushModule.setAlias(registrationId, (alias) => {
-                
+
             })
             networkManage.deviceRegister(params)
                 .then((response) => {
                     if (response.code === 200) {
-                        StorageManage.save(StorageKey.UserId, { 'userId': response.data.userId })
+                        StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
                     } else {
                         console.log('deviceRegister err msg:', response.msg)
                     }
@@ -60,6 +60,9 @@ class Loading extends Component {
                     console.log('deviceRegister err:', err)
                 })
         })
+        /*JPushModule.addReceiveOpenNotificationListener((map)=>{
+            this.props.navigation.navigate('MessageCenter')
+        })*/
         let params = {
             'system': Platform.OS,
             'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
@@ -99,6 +102,9 @@ class Loading extends Component {
             .catch((err) => {
                 console.log('getVersionUpdateInfo err:', err)
             })
+
+
+
         if (!this.props.walletAddress) {
             await this.loadFromStorege()
         }
@@ -109,6 +115,8 @@ class Loading extends Component {
                 migrationMode: true
             })
         }
+
+        
     }
 
     loadFromStorege = async () => {
@@ -164,7 +172,7 @@ class Loading extends Component {
         }
 
         this.props.dispatch(setIsNewWallet(false))
-
+        this.getAllTokens()
 
         if (data) {
             if (data['address']) {
@@ -216,6 +224,22 @@ class Loading extends Component {
         this.props.dispatch(setMonetaryUnit(monetaryUnit))
     }
 
+    async getAllTokens() {
+        let allTokensParams = {
+            //'network': this.props.network,
+            'network': 'main',
+        }
+        networkManage.getAllTokens(allTokensParams).then((response) => {
+            if (response.code === 200) {
+                this.props.dispatch(setAllTokens(response.data))
+            } else {
+                console.log('getAllTokens err msg:', response.msg)
+            }
+        }).catch((err) => {
+            console.log('getAllTokens err:', err)
+        })
+    }
+
     render() {
         return null
     }
@@ -223,7 +247,8 @@ class Loading extends Component {
 
 const mapStateToProps = state => ({
     walletAddress: state.Core.walletAddress,
-    monetaryUnit: state.Core.monetaryUnit
+    monetaryUnit: state.Core.monetaryUnit,
+    network: state.Core.network,
 });
 
 export default connect(mapStateToProps)(Loading);

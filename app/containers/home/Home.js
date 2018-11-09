@@ -49,6 +49,8 @@ class HomeScreen extends BaseComponent {
             monetaryUnitSymbol: '',//货币单位符号
             headBgImageRef: null
         }
+
+        this.userToken = {}
     }
 
     componentWillMount() {
@@ -110,21 +112,21 @@ class HomeScreen extends BaseComponent {
     }
 
     pushAddtoken = () => {
-        /*this.props.navigation.navigate('AddAssets', {
+        this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
                 this._showLoding()
                 await this.saveTokenToStorage(token)
                 await networkManage.loadTokenList()
                 this._hideLoading()  
             }
-        });*/
-        this.props.navigation.navigate('AddToken', {
+        });
+        /*this.props.navigation.navigate('AddToken', {
             callback: async (token) => {
                 this._showLoding()
                 await networkManage.loadTokenList()
                 this._hideLoading()
             }
-        });
+        });*/
     }
    
     onClickAdd = async (token) => {
@@ -144,6 +146,8 @@ class HomeScreen extends BaseComponent {
     }
 
     showDrawer = () => {
+
+        this._getMessageCount();
         this.props.navigation.openDrawer()
     }
 
@@ -178,6 +182,11 @@ class HomeScreen extends BaseComponent {
             this.props.setIsNewWallet(false)
             this._showLoding()
         }
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            userToken = { 'userToken': 1 }
+        }
+        this.userToken = userToken;
 
         let params = {
             language:I18n.locale,
@@ -248,6 +257,26 @@ class HomeScreen extends BaseComponent {
         this.setState({
             monetaryUnitSymbol: data.monetaryUnit.symbol
         })
+    }
+
+
+
+    async _getMessageCount(){
+        let params = {
+            'userToken': this.userToken['userToken'],
+        }
+        networkManage.getUnReadMessageCount(params)
+            .then(response => {
+                console.log('L-response',response)
+                if (response.code === 200) {
+                    let messageCount = response.data.account;
+                    DeviceEventEmitter.emit('messageCount', {messageCount: messageCount});
+                } else {
+                     //console.log('getMessageList err msg:', response.msg)
+                }
+            }).catch(err => {
+                //console.log('getMessageList err:', err)
+            })
     }
 
     renderComponent() {
