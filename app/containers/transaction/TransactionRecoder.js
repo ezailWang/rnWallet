@@ -361,12 +361,13 @@ export default class TransactionRecoder extends BaseComponent {
             //     item.isError="1"
             // }
             let address = item.to.toLowerCase() == walletAddress.toLowerCase() ? item.from : item.to
+            let fValue = parseFloat(item.value);
             let data = {
                 key: i.toString(),
                 address: address,
                 time: timestampToTime(item.timeStamp),
                 income: item.to.toLowerCase() == walletAddress.toLowerCase(),
-                amount: item.value,
+                amount: fValue.toFixed(4),
                 type: symbol.toLowerCase(),
                 sureBlock: currentBlock - item.blockNumber,
                 isError: item.isError,
