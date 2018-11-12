@@ -265,7 +265,6 @@ class HomeScreen extends BaseComponent {
         }
         networkManage.getUnReadMessageCount(params)
             .then(response => {
-                console.log('L-response',response)
                 if (response.code === 200) {
                     let messageCount = response.data.account;
                     DeviceEventEmitter.emit('messageCount', {messageCount: messageCount});

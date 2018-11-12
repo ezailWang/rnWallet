@@ -231,7 +231,6 @@ class MessageCenterScreen extends BaseComponent {
         }
         let params = {
             'userToken': userToken['userToken'],
-            //'userToken': '123456',
             'msgId': msgId,
         }
         networkManage.readMessage(params)
