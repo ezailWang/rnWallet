@@ -346,7 +346,7 @@ class MessageCenterScreen extends BaseComponent {
     _renderEmptyView = () => (
         <View style={styles.emptyListContainer}>
             <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'}/>
-            <Text style={styles.emptyListText}>{I18n.t('settings.no_contact')}</Text>
+            <Text style={styles.emptyListText}>{I18n.t('settings.no_message')}</Text>
         </View>
     )
 
