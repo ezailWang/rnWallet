@@ -231,7 +231,7 @@ class MessageCenterScreen extends BaseComponent {
         }
         let params = {
             'userToken': userToken['userToken'],
-            'userToken': '123456',
+            //'userToken': '123456',
             'msgId': msgId,
         }
         networkManage.readMessage(params)
@@ -352,7 +352,7 @@ class MessageCenterScreen extends BaseComponent {
 
     _listFooterView = () =>(
         <View style={styles.listFooter}>
-            <Text style={styles.listFooterText}>{'123456'}</Text>
+            <Text style={styles.listFooterText}></Text>
         </View>
     )
 
