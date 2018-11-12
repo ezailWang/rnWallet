@@ -66,16 +66,16 @@
 		B8EB4D85B9D04AAEA35849A9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD62F3CA24194DEBAAD0CD6E /* CoreGraphics.framework */; };
 		BB4F99BE48EA4F80A9DF14D5 /* libRNRandomBytes-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FBC16CEF44463895C787F /* libRNRandomBytes-tvOS.a */; };
 		C45528076AF34280BA74DE3D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 703B454F14CF44F287693EA8 /* CFNetwork.framework */; };
+		C926E6C6219913A4007CADB1 /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = C926E6C5219913A4007CADB1 /* bundle */; };
+		C944DDB421995C2A0085B8BB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944DDB321995C2A0085B8BB /* StoreKit.framework */; };
 		C9996D6F213E377A00112CD3 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		C9EC2BDA2195A7D900085D96 /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = C9EC2B9F2195A7D900085D96 /* bundle */; };
+		C9B54F2D21995D2400B182A0 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B54F2C21995D2400B182A0 /* GameKit.framework */; };
 		C9FE19E2213E3CD600369242 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FE19E1213E3CD600369242 /* Entitlements.plist */; };
 		D70DE96B8CB443D790859E38 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8613548D0023455D86EB58BE /* SimpleLineIcons.ttf */; };
 		DB8B2AA63C3B4401960A050A /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E89EB009AAE4E8298A31DEE /* libBVLinearGradient.a */; };
 		DEAF37CF3DC747E8ADF4542D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6079F9BA287D46D5B95966AB /* Foundation.framework */; };
 		E0DA8B49CB7F4EDCB619BFA4 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C3FF77F8EEC4503B211B331 /* libRCTJCoreModule.a */; };
 		E1DFFB10842F43BAA2B31AFA /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A2A9AE02D7420991151317 /* CoreFoundation.framework */; };
-		E37C2C30216F288400C74DCE /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37C2C2F216F288400C74DCE /* GameKit.framework */; };
-		E37C2C32216F289000C74DCE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37C2C31216F289000C74DCE /* StoreKit.framework */; };
 		E7E11282614241CAA634EA51 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CDA5CA793D643368136A876 /* CoreTelephony.framework */; };
 		E97F7CA58514437588A93774 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BEAAF656D10456281CEA891 /* Zocial.ttf */; };
 		F1FBF48B2E62447D91840872 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 687471F5CB2B4A69AA8B9EEF /* MaterialIcons.ttf */; };
@@ -575,12 +575,12 @@
 		BEFC0E56B22B4CFC91813F0A /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		C41C2A5B7D184E08AF2D9214 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		C6FBDDEC27B14AC4A642E78D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		C9EC2B9F2195A7D900085D96 /* bundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundle; sourceTree = "<group>"; };
+		C926E6C5219913A4007CADB1 /* bundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundle; sourceTree = "<group>"; };
+		C944DDB321995C2A0085B8BB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		C9B54F2C21995D2400B182A0 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		C9FE19E1213E3CD600369242 /* Entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		CD62F3CA24194DEBAAD0CD6E /* CoreGraphics.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DFD576D1C5C24A5898C4D1BD /* Security.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		E37C2C2F216F288400C74DCE /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		E37C2C31216F289000C74DCE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E96D503F93B344159AEE4D09 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		EDE2473FE9C14AABA7583C68 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		F149B424AB5648F3B01FEEF9 /* libRNRandomBytes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNRandomBytes.a; sourceTree = "<group>"; };
@@ -606,6 +606,7 @@
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				C9996D6F213E377A00112CD3 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				C944DDB421995C2A0085B8BB /* StoreKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -618,9 +619,7 @@
 				F3165C6D89444BA4A9BC2458 /* libRNFS.a in Frameworks */,
 				DB8B2AA63C3B4401960A050A /* libBVLinearGradient.a in Frameworks */,
 				612FB2F5EC2D448D97DF9407 /* libRNRandomBytes.a in Frameworks */,
-				E37C2C30216F288400C74DCE /* GameKit.framework in Frameworks */,
 				234687265D5C4C24AA0B1DA0 /* libRNVectorIcons.a in Frameworks */,
-				E37C2C32216F289000C74DCE /* StoreKit.framework in Frameworks */,
 				2D91873A6D5144D2AD3823F0 /* libRNCamera.a in Frameworks */,
 				018E4DBC949A4EBCBC4E36B7 /* libSplashScreen.a in Frameworks */,
 				ACEBE29F2DB5439B870275BA /* libRNFastCrypto.a in Frameworks */,
@@ -634,6 +633,7 @@
 				1DB70CD9738C4546973719F8 /* UserNotifications.framework in Frameworks */,
 				E7E11282614241CAA634EA51 /* CoreTelephony.framework in Frameworks */,
 				0AA827A1243943E4AFFFF5FE /* Security.framework in Frameworks */,
+				C9B54F2D21995D2400B182A0 /* GameKit.framework in Frameworks */,
 				C45528076AF34280BA74DE3D /* CFNetwork.framework in Frameworks */,
 				E1DFFB10842F43BAA2B31AFA /* CoreFoundation.framework in Frameworks */,
 				6FAAA0AC09614EFE95CEDCBB /* SystemConfiguration.framework in Frameworks */,
@@ -756,7 +756,7 @@
 		13B07FAE1A68108700A75B9A /* rnWallet */ = {
 			isa = PBXGroup;
 			children = (
-				C9EC2B9F2195A7D900085D96 /* bundle */,
+				C926E6C5219913A4007CADB1 /* bundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -792,8 +792,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E37C2C31216F289000C74DCE /* StoreKit.framework */,
-				E37C2C2F216F288400C74DCE /* GameKit.framework */,
+				C9B54F2C21995D2400B182A0 /* GameKit.framework */,
+				C944DDB321995C2A0085B8BB /* StoreKit.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				715C5ED85DBB4060A772A606 /* libz.tbd */,
 				62042A7B1C8648059ED6441B /* UserNotifications.framework */,
@@ -1167,7 +1167,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 32G7Q95878;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter.iOS = {
 								enabled = 1;
@@ -1751,7 +1751,7 @@
 				0CFE93CB236C495A9E1847C7 /* FontAwesome.ttf in Resources */,
 				1F2C34E3DF1B4B2BA34A3020 /* Foundation.ttf in Resources */,
 				551E51BA3B6F4470A586E565 /* Ionicons.ttf in Resources */,
-				C9EC2BDA2195A7D900085D96 /* bundle in Resources */,
+				C926E6C6219913A4007CADB1 /* bundle in Resources */,
 				85684319642549589D5D54CD /* MaterialCommunityIcons.ttf in Resources */,
 				F1FBF48B2E62447D91840872 /* MaterialIcons.ttf in Resources */,
 				AB0791AF3F0C4C0A92052773 /* Octicons.ttf in Resources */,
@@ -1980,10 +1980,10 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 32G7Q95878;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2026,8 +2026,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 32G7Q95878;
 				ENABLE_BITCODE = NO;
@@ -2059,8 +2059,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wallet.itc.adhoc;
 				PRODUCT_NAME = rnWallet;
-				PROVISIONING_PROFILE = "923074b8-16f0-4196-8553-703c28e901a5";
-				PROVISIONING_PROFILE_SPECIFIER = Profile_wallet_testflight;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
