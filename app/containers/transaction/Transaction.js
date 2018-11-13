@@ -332,7 +332,7 @@ export default class Transaction extends BaseComponent {
         let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
 
         let totalGas = gasPrice * 0.001 * 0.001 * 0.001 * gasLimit;
-        totalGas = totalGas.toFixed(8);
+        totalGas = Number(totalGas.toFixed(8))
         // let totalGasPrice = totalGas * ethPrice;
         // totalGasPrice = totalGasPrice.toFixed(8);
         // return totalGas + "ether≈" + totalGasPrice + "$";
@@ -343,7 +343,7 @@ export default class Transaction extends BaseComponent {
     getDetailPriceTitle = () => {
         let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
         let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
-        totalGas = totalGas.toFixed(8);
+        totalGas = Number(totalGas.toFixed(8));
 
         return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
     };
@@ -494,7 +494,7 @@ export default class Transaction extends BaseComponent {
 
         // console.log('######'+this.inputTransferValue)
 
-        let amountIsNotValid = this.inputTransferValue === undefined || this.inputTransferValue === NaN || parseFloat(this.inputTransferValue) == 0 || parseFloat(this.inputTransferValue)  > totalValue
+        let amountIsNotValid = this.inputTransferValue === undefined || Number.isNaN(this.inputTransferValue) || Number(this.inputTransferValue.toFixed(8)) == 0 || parseFloat(this.inputTransferValue)  > totalValue
         let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
 
@@ -574,7 +574,7 @@ export default class Transaction extends BaseComponent {
                         }}
                         ref={(dialog) => { this.dialog = dialog; }} />
                     <InfoView title={I18n.t('transaction.amount')}
-                        detailTitle={I18n.t('transaction.balance') + ':' + parseFloat(this.params.balance).toFixed(4) + this.params.transferType}
+                        detailTitle={I18n.t('transaction.balance') + ':' + Number(parseFloat(this.params.balance).toFixed(4))+ this.params.transferType}
                         placeholder={I18n.t('transaction.enter') /*+ this.params.transferType + I18n.t('transaction.amount')*/}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}

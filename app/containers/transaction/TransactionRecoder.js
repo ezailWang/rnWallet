@@ -361,12 +361,13 @@ export default class TransactionRecoder extends BaseComponent {
             //     item.isError="1"
             // }
             let address = item.to.toLowerCase() == walletAddress.toLowerCase() ? item.from : item.to
+            let fValue = parseFloat(item.value);
             let data = {
                 key: i.toString(),
                 address: address,
                 time: timestampToTime(item.timeStamp),
                 income: item.to.toLowerCase() == walletAddress.toLowerCase(),
-                amount: item.value,
+                amount: Number(fValue.toFixed(8)),
                 type: symbol.toLowerCase(),
                 sureBlock: currentBlock - item.blockNumber,
                 isError: item.isError,
@@ -559,7 +560,7 @@ export default class TransactionRecoder extends BaseComponent {
 
         let { amount, price, symbol } = store.getState().Core.balance;
         let value = parseFloat(amount) * parseFloat(price);
-        value = value.toFixed(2);
+        value = Number(value.toFixed(8));
 
         if (amount == null) {
             amount = 0;
@@ -724,7 +725,7 @@ export default class TransactionRecoder extends BaseComponent {
                     >{priceStr}</Animated.Text>
                 </Animated.View>
                 <FlatList style={[styles.flatList]}
-                    ListHeaderComponent={<Header balance={parseFloat(amount).toFixed(4)}
+                    ListHeaderComponent={<Header balance={Number(parseFloat(amount).toFixed(4))}
                         value={value}
                         style={{ height: headerHeight }} />}
                     ListEmptyComponent={<EmptyComponent show={this.state.showNoData} />}
