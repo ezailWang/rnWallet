@@ -518,7 +518,7 @@ export default class networkManage {
     static async userInfoUpdate(params) {
         let userToken = await StorageManage.load(StorageKey.UserToken)
         if (!userToken || userToken === null) {
-            return;
+            return new Promise.reject('userToken not found');
         }
         params['userToken'] = userToken['userToken']
         return FetchUtils.requestPost(NetAddr.userInfoUpdate, params)
