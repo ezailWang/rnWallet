@@ -22,7 +22,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import networkManage from '../../utils/networkManage'
-import { addToken, setNewTransaction, setCoinBalance, setNetWork, removeToken ,setIsNewWallet} from '../../config/action/Actions'
+import { addToken, setNewTransaction, setCoinBalance, setNetWork, removeToken, setIsNewWallet } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -106,7 +106,10 @@ class HomeScreen extends BaseComponent {
             decimal: decimal
         }
         store.dispatch(setCoinBalance(balanceInfo));
-        this.props.navigation.navigate('TransactionRecoder');
+        this.props.navigation.navigate('TransactionRecoder', {
+            callback: function (data) {
+            }
+        })
     }
 
     pushAddtoken = () => {
@@ -115,7 +118,7 @@ class HomeScreen extends BaseComponent {
                 this._showLoding()
                 await this.saveTokenToStorage(token)
                 await networkManage.loadTokenList()
-                this._hideLoading()  
+                this._hideLoading()
             }
         });
         /*this.props.navigation.navigate('AddToken', {
@@ -126,7 +129,7 @@ class HomeScreen extends BaseComponent {
             }
         });*/
     }
-   
+
     onClickAdd = async (token) => {
         await this.saveTokenToStorage(token)
         this.setState({
@@ -174,27 +177,27 @@ class HomeScreen extends BaseComponent {
 
     async _initData() {
         SplashScreen.hide()
-        if(this.props.isNewWallet == false){
+        if (this.props.isNewWallet == false) {
             this._verifyIdentidy();
-        }else{
+        } else {
             this.props.setIsNewWallet(false)
             this._showLoding()
         }
-        
+
         let params = {
-            language:I18n.locale,
-            walletAddress:this.props.walletAddress
+            language: I18n.locale,
+            walletAddress: this.props.walletAddress
         }
         networkManage.userInfoUpdate(params)
-        .then((response)=>{
-            if (response.code === 200) {
-            } else {
-                console.log('userInfoUpdate err msg:', response.msg)
-            }
-        })
-        .catch((err)=>{
-            console.log('userInfoUpdate err:', err)
-        })
+            .then((response) => {
+                if (response.code === 200) {
+                } else {
+                    console.log('userInfoUpdate err msg:', response.msg)
+                }
+            })
+            .catch((err) => {
+                console.log('userInfoUpdate err:', err)
+            })
 
         this.setState({
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
@@ -207,10 +210,10 @@ class HomeScreen extends BaseComponent {
             })
         }
         await networkManage.loadTokenList()
-        this._hideLoading() 
+        this._hideLoading()
     }
 
-    
+
     async saveTokenToStorage(token) {
         let localTokens = await StorageManage.load(StorageKey.Tokens)
         if (!localTokens) {
@@ -254,11 +257,11 @@ class HomeScreen extends BaseComponent {
 
 
 
-    async _getMessageCount(){
-        
+    async _getMessageCount() {
+
         let userToken = await StorageManage.load(StorageKey.UserToken)
         if (!userToken || userToken === null) {
-            userToken = { 'userToken': 1 }
+            return;
         }
         let params = {
             'userToken': userToken['userToken'],
@@ -267,17 +270,17 @@ class HomeScreen extends BaseComponent {
             .then(response => {
                 if (response.code === 200) {
                     let messageCount = response.data.account;
-                    DeviceEventEmitter.emit('messageCount', {messageCount: messageCount});
+                    DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
                 } else {
-                     //console.log('getMessageList err msg:', response.msg)
+                    console.log('getMessageCount err msg:', response.msg)
                 }
             }).catch(err => {
-                //console.log('getMessageList err:', err)
+                console.log('getMessageCount err:', err)
             })
     }
 
     renderComponent() {
-        if(!this.props.walletAddress){
+        if (!this.props.walletAddress) {
             return null
         }
         const headerHeight = this.state.scroollY.interpolate({
@@ -297,7 +300,7 @@ class HomeScreen extends BaseComponent {
         })
         const headerBgImageScale = this.state.scroollY.interpolate({
             inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
-            outputRange: [layoutConstants.WINDOW_HEIGHT/layoutConstants.TRANSFER_HEADER_MAX_HEIGHT + 1.6, 1, 1],
+            outputRange: [layoutConstants.WINDOW_HEIGHT / layoutConstants.TRANSFER_HEADER_MAX_HEIGHT + 1.6, 1, 1],
             extrapolate: 'clamp'
         })
 
@@ -337,7 +340,7 @@ class HomeScreen extends BaseComponent {
                             opacity: headerTextOpacity,
                             flexDirection: 'row',
                             justifyContent: 'center',
-                            alignItems:'center',
+                            alignItems: 'center',
                         }}
                     >
                         <Text
@@ -345,17 +348,17 @@ class HomeScreen extends BaseComponent {
                                 color: 'white',
                                 //marginTop: 3,
                                 fontSize: 16,
-                                lineHeight:16
+                                lineHeight: 16
                             }}
                         >{I18n.t('home.total_assets')}</Text>
                         <Text
                             style={{
-                                marginTop:3,
+                                marginTop: 3,
                                 marginLeft: 8,
                                 color: 'white',
                                 fontWeight: '400',
                                 fontSize: 18,
-                                lineHeight:18
+                                lineHeight: 18
                             }}
                         >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Text>
                     </Animated.View>
@@ -405,8 +408,8 @@ class HomeScreen extends BaseComponent {
                     }
                 />
                 <ImageButton
-                    btnStyle={{ right:17,width: 33, height: 23/16*13+10, top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35, position: 'absolute', zIndex: 2,}}
-                    imageStyle={{ width: 23, height: 23/16*13 }}
+                    btnStyle={{ right: 17, width: 33, height: 23 / 16 * 13 + 10, top: Layout.DEVICE_IS_IPHONE_X() ? 55 : 35, position: 'absolute', zIndex: 2, }}
+                    imageStyle={{ width: 23, height: 23 / 16 * 13 }}
                     onClick={() => {
                         this.showDrawer()
                     }}
@@ -442,14 +445,14 @@ const mapStateToProps = state => ({
     totalAssets: state.Core.totalAssets,
     walletName: state.Core.walletName,
     monetaryUnit: state.Core.monetaryUnit,
-    isNewWallet : state.Core.isNewWallet,
+    isNewWallet: state.Core.isNewWallet,
 })
 
 const mapDispatchToProps = dispatch => ({
     setNetWork: (network) => dispatch(setNetWork(network)),
     removeToken: (token) => dispatch(removeToken(token)),
     setTotalAssets: (totalAssets) => dispatch(setTotalAssets(totalAssets)),
-    setIsNewWallet : (isNewWallet)=>dispatch(setIsNewWallet(isNewWallet)),
+    setIsNewWallet: (isNewWallet) => dispatch(setIsNewWallet(isNewWallet)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

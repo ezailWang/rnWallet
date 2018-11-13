@@ -204,7 +204,8 @@
         "no_message":"暂无消息",
         "transaction_notification":"交易通知",
         "announcement":"公告",
-        "official_team":"Tot Chain 官方团队"
+        "official_team":"Tot Chain 官方团队",
+        "no_more_data":"无更多数据"
 
     },
     "toast":{

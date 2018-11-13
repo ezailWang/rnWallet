@@ -36,6 +36,10 @@ class Loading extends Component {
     }
 
     async componentDidMount() {
+
+        if (!this.props.walletAddress) {
+            await this.loadFromStorege()
+        }
         JPushModule.getRegistrationID(registrationId => {
             let params = {
                 'system': Platform.OS,
@@ -43,6 +47,7 @@ class Loading extends Component {
                 'deviceModel': DeviceInfo.getModel(),
                 'deviceToken': registrationId,
                 'deviceId': DeviceInfo.getUniqueID(),
+                'walletAddress':this.props.walletAddress ? this.props.walletAddress : 0,
             }
             //设置别名
             JPushModule.setAlias(registrationId, (alias) => {
@@ -60,6 +65,8 @@ class Loading extends Component {
                     console.log('deviceRegister err:', err)
                 })
         })
+
+
         /*JPushModule.addReceiveOpenNotificationListener((map)=>{
             this.props.navigation.navigate('MessageCenter')
         })*/
@@ -105,9 +112,9 @@ class Loading extends Component {
 
 
 
-        if (!this.props.walletAddress) {
+        /*if (!this.props.walletAddress) {
             await this.loadFromStorege()
-        }
+        }*/
         if (this.props.walletAddress) {
             return this.props.navigation.navigate('Home')
         } else {
@@ -116,7 +123,7 @@ class Loading extends Component {
             })
         }
 
-        
+
     }
 
     loadFromStorege = async () => {
@@ -226,8 +233,8 @@ class Loading extends Component {
 
     async getAllTokens() {
         let allTokensParams = {
-            //'network': this.props.network,
-            'network': 'main',
+            'network': this.props.network,
+            //'network': 'main',
         }
         networkManage.getAllTokens(allTokensParams).then((response) => {
             if (response.code === 200) {

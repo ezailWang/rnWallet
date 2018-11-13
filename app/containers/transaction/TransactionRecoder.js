@@ -549,7 +549,11 @@ export default class TransactionRecoder extends BaseComponent {
         clearInterval(timer)
     }
 
-    
+    _onBackPressed = () => {
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack()
+        return true;
+    }
     
     renderComponent() {
 
@@ -617,6 +621,7 @@ export default class TransactionRecoder extends BaseComponent {
 
                 <TouchableOpacity style={styles.backImage}
                     onPress={() => {
+                        this.props.navigation.state.params.callback();
                         this.props.navigation.goBack()
                     }}>
                     <Image

@@ -382,8 +382,6 @@ export default class networkManage {
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.address)
-
-            //console.log('L_token1',tokensAddresses)
         var localTokens = await StorageManage.load(StorageKey.Tokens)
         if (localTokens) {
             localTokens.filter(
@@ -396,7 +394,7 @@ export default class networkManage {
                     }
                 )
         }
-        
+
     }
 
     static async getTokensBalance() {
@@ -419,7 +417,7 @@ export default class networkManage {
                 const ethTotal = balance * ethPrice
                 token["price"] = ethPrice
                 totalAssets = totalAssets + ethTotal
-            }else{
+            } else {
                 const price = await this.getPrice(token.symbol.toLowerCase())
                 const total = balance * price
                 token["price"] = price
@@ -449,12 +447,12 @@ export default class networkManage {
     }
 
 
-     /**
-     * getAllTokens 
-     */
+    /**
+    * getAllTokens 
+    */
 
     static getAllTokens(params) {
-        return FetchUtils.requestGet(NetAddr.getAllTokens,params)
+        return FetchUtils.requestGet(NetAddr.getAllTokens, params)
     }
 
     /**
@@ -462,7 +460,7 @@ export default class networkManage {
      */
 
     static getTokensVersion(params) {
-        return FetchUtils.requestGet(NetAddr.getTokensVersion,params)
+        return FetchUtils.requestGet(NetAddr.getTokensVersion, params)
     }
 
     /**
@@ -470,7 +468,7 @@ export default class networkManage {
      */
 
     static getMessageList(params) {
-        return FetchUtils.requestGet(NetAddr.getMessageList,params)
+        return FetchUtils.requestGet(NetAddr.getMessageList, params)
     }
 
     /**
@@ -478,7 +476,7 @@ export default class networkManage {
      */
 
     static readMessage(params) {
-        return FetchUtils.requestPost(NetAddr.readMessage,params)
+        return FetchUtils.requestPost(NetAddr.readMessage, params)
     }
 
     /**
@@ -486,7 +484,7 @@ export default class networkManage {
      */
 
     static getUnReadMessageCount(params) {
-        return FetchUtils.requestGet(NetAddr.getUnReadMessageCount,params)
+        return FetchUtils.requestGet(NetAddr.getUnReadMessageCount, params)
     }
 
     /**
@@ -517,13 +515,13 @@ export default class networkManage {
      * user info update
      */
 
-    static async userInfoUpdate(params){
+    static async userInfoUpdate(params) {
         let userToken = await StorageManage.load(StorageKey.UserToken)
         if (!userToken || userToken === null) {
             return;
         }
         params['userToken'] = userToken['userToken']
-        return FetchUtils.requestPost(NetAddr.userInfoUpdate,params)
+        return FetchUtils.requestPost(NetAddr.userInfoUpdate, params)
     }
 
 }
