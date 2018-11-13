@@ -30,6 +30,7 @@ import AddAssets from './home/AddAssets'
 import AddTokenScreen from './settings/AddTokenScreen'
 import SearchTokenScreen from './settings/SearchTokenScreen'
 import MessageCenterScreen from './settings/MessageCenterScreen'
+import MessageWebViewScreen from './settings/MessageWebViewScreen'
 export {
     HomeScreen,
     Transaction,
@@ -44,7 +45,7 @@ export {
     ModifyPasswordScreen,
     ExportPrivateKeyScreen,
     ExportKeystoreScreen,
-   // PasswordPrompInfoScreen,
+    // PasswordPrompInfoScreen,
     ReceiptCodeScreen,
     ScanQRCodeScreen,
     TransactionDetail,
@@ -62,5 +63,6 @@ export {
     AddAssets,
     AddTokenScreen,
     SearchTokenScreen,
-    MessageCenterScreen
+    MessageCenterScreen,
+    MessageWebViewScreen
 }

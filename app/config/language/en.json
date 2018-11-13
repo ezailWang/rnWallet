@@ -203,7 +203,7 @@
         "sender":"Sender",
         "no_message":"No updates available",
         "transaction_notification":"Transaction notification",
-        "announcement":"Announcement",
+        "announcement":"Announcement: ",
         "official_team":"IoT Chain official team",
         "no_more_data":"No more data"
 

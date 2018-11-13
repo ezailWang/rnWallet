@@ -204,7 +204,7 @@
         "sender":"Emisor",
         "no_message":"No hay actualizaciones disponibles",
         "transaction_notification":"Informe de transacción",
-        "announcement":"Anuncio",
+        "announcement":"Anuncio: ",
         "official_team":"IoT Chain Equipo oficial",
         "no_more_data":"No more data"
     },

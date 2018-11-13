@@ -140,26 +140,28 @@ class MessageCenterScreen extends BaseComponent {
                     let list = response.data.messages;
                     //console.log("L_message_list", list.length + '   haveNextPage: ' + this.haveNextPage)
                     let meaasges = [];
-
                     list.forEach(function (data, index) {
-                        let messageType = data.messageType;//(消息类型)  1-消息通知、2-公告
                         let message = {}
                         message.msgId = data.msgId;
-                        message.messageType == messageType;
+                        message.messageType = data.messageType;//(消息类型)  1-消息通知、2-公告
                         message.readStatus = data.readStatus;//（消息状态） 1-未读、2-已读
-                        if (messageType == 1) {
+                        message.updateTime = data.updateTime;
+                        message.deviceToken = data.deviceToken;
+                        if (data.messageType == 1) {
                             message.transactionType = data.transactionType;//（交易类型） 1-收款、2-转账
                             message.status = data.status;//1-成功、2失败
                             message.symbol = data.symbol;
                             message.fromAddress = data.fromAddress;
                             message.toAddress = data.toAddress;
-                            message.updateTime = data.updateTime;
                             message.transactionValue = data.transactionValue;
-                        } else {
+                        } else if (data.messageType == 2) {
+                            message.alertTitle = data.alertTitle;
+                            message.alertSubTitle = data.alertSubTitle;
+                            message.contentUrl = data.contentUrl;
+                            message.sender = data.sender;
                         }
                         meaasges.push(message)
                     })
-
                     if (this.page === 1) {
                         this.setState({
                             data: meaasges
@@ -227,11 +229,10 @@ class MessageCenterScreen extends BaseComponent {
             this.callBackIsNeedRefresh = false;
         }
 
-
-        if (item.item.messageType == 2) {
-            //this.announcement(item.item)
-        } else {
+        if (item.item.messageType == 1) {
             this.transactionNotification(item.item)
+        } else if (item.item.messageType == 2) {
+            this.announcement(item.item)
         }
     }
 
@@ -253,25 +254,6 @@ class MessageCenterScreen extends BaseComponent {
             .catch((err) => {
                 //console.log('_readMessage err:', err)
             })
-    }
-
-
-    //公告
-    announcement(item) {
-        let url;
-        if (this.props.url.substr(0, 5) == 'https') {
-            url = this.props.url;
-        } else {
-            url = 'https://' + this.props.url;
-        }
-
-        Linking.canOpenURL(url).then(supported => {
-            if (supported) {
-                Linking.openURL(url)
-            } else {
-                //showToast('打不开')
-            }
-        }).catch(err => console.log('openURLError', err))
     }
 
     //交易通知
@@ -305,6 +287,23 @@ class MessageCenterScreen extends BaseComponent {
 
         }
     }
+
+
+    //公告
+    announcement(item) {
+        let _this = this;
+        this.props.navigation.navigate('MessageWebView', {
+            url: item.contentUrl,
+            title: item.alertTitle,
+            callback: function (data) {
+                console.log("messageCenterCallback")
+                if (_this.callBackIsNeedRefresh) {
+                    _this._onRefresh()
+                }
+            }
+        })
+    }
+
 
     routeToTransactionRecoder(item) {
         let _this = this;
@@ -408,10 +407,8 @@ class MessageCenterScreen extends BaseComponent {
                     />}
                     onEndReachedThreshold={0.1}
                     onEndReached={this._onLoadMore} //加载更多
-
-                // ListFooterComponent={this._listFooterView}
+                //ListFooterComponent={this._listFooterView}
                 >
-
                 </FlatList>
             </View>
         );
@@ -426,11 +423,12 @@ class Item extends PureComponent {
     }
 
     render() {
-        const { transactionType, status, symbol, fromAddress, toAddress, updateTime, transactionValue, readStatus } = this.props.item.item || {}
+        const { messageType, updateTime, readStatus } = this.props.item.item || {}
         let title = ''
         let content = '';
 
-        if (transactionType) {
+        if (messageType == 1) {
+            const { transactionType, status, symbol, fromAddress, toAddress, transactionValue } = this.props.item.item || {}
             let title1 = transactionType == 1 ? I18n.t('settings.receipt_notice') : I18n.t('settings.transfer_notice');
             let title2 = transactionValue + symbol.toUpperCase() + ' ';
             let title3 = transactionType == 2 ? (status == 1 ? I18n.t('settings.successful_transfer') : I18n.t('settings.transfer_failed')) : I18n.t('settings.successful_payment')
@@ -439,8 +437,10 @@ class Item extends PureComponent {
             let address = transactionType == 1 ? fromAddress : toAddress;
             let content1 = transactionType == 1 ? I18n.t('settings.sender') : I18n.t('settings.receiver');
             content = content1 + address.substr(0, 8) + '......' + address.substr(34, 42)
-        } else {
-
+        } else if (messageType == 2) {
+            const { alertTitle, alertSubTitle, contentUrl, sender } = this.props.item.item || {}
+            title = I18n.t('settings.announcement') + alertSubTitle;
+            content = sender
         }
 
 

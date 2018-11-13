@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, WebView, TouchableOpacity, Image, Text, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, Dimensions, WebView, TouchableOpacity, Image, Text, Platform, ScrollView } from 'react-native';
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import { BlueButtonBig } from '../../components/Button'
 import { Colors } from '../../config/GlobalConfig'
@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
     },
     contentBox: {
         width: Layout.WINDOW_WIDTH,
-        marginBottom: 20,
     },
     webview: {
         width: Layout.WINDOW_WIDTH * 0.9,
         alignSelf: 'center',
+        marginBottom: 20,
     },
     checkBox: {
         flexDirection: 'row',
@@ -64,28 +64,30 @@ const GetWebviewHeight = `(function(){
     setInterval(changeHeight,300);
 } ())
 `
-export default class UseAndPrivacyPolicyScreen extends BaseComponent {
+export default class MessageWebViewScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            isAgree: false,
+            title:'',
+            url:'',
             webviewHeight: Layout.WINDOW_HEIGHT,
         }
     }
 
-    isAgreePress() {
-        this.setState({ isAgree: !this.state.isAgree });
+    _initData() {
+        let title =  this.props.navigation.state.params.title
+        let url = this.props.navigation.state.params.url
+        this.setState({
+            title : title, 
+            url : url
+        })
     }
-    agreeBtn() {
-        this.props.navigation.state.params.callback({ isShowPin: true });
-        this.props.navigation.goBack()
-    }
+
 
     onMessage(event) {
         try {
             const action = JSON.parse(event.nativeEvent.data)
-            console.log('L_action', action)
             if (action.type == 'setHeight' && action.height > 0) {
                 this.setState({
                     webviewHeight: action.height
@@ -96,26 +98,37 @@ export default class UseAndPrivacyPolicyScreen extends BaseComponent {
         }
     }
 
+    backPressed() {
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack()
+    }
+
+    _onBackPressed = () => {
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack()
+        return true;
+    }
+
     renderComponent() {
-        let checkIcon = this.state.isAgree ? require('../../assets/launch/check_on.png') : require('../../assets/launch/check_off.png');
+        let contentUrl = this.state.url;
         return (
             <View style={styles.container} >
-                <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.terms_use_and_privacy_policy')} />
+                <WhiteBgHeader navigation={this.props.navigation} text={this.state.title} leftPress={() => this.backPressed()} />
                 <ScrollView style={[styles.contentBox]}>
                     <WebView
                         style={[styles.webview, { height: this.state.webviewHeight }]}
-                        source={{ uri: 'http://47.75.16.97:9000/ServiceAgreement.html', method: 'GET' }}
-                        injectedJavaScript={GetWebviewHeight} //当网页加载之前注入一段 js 代码。其值是字符串形式。
-                        scalesPageToFit={true} //ios 用于设置网页是否缩放自适应到整个屏幕视图，以及用户是否可以改变缩放页面
-                        javaScriptEnabled={true} //android  是否开启 JavaScript，在ios中的WebView是默认开启的
+                        source={{html: contentUrl}}
+                        //injectedJavaScript={GetWebviewHeight}
+                        scalesPageToFit={true}
+                        javaScriptEnabled={true}
                         decelerationState='normal'
-                        startInLoadingState={true} //是否开启页面加载的状态，其值为 true 或者 false。
-                        bounces={false} //ios 回弹特性。默认为 true。如果设置为 false，则内容拉到底部或者头部都不回弹。
-                        scrollEnabled={false} //ios 用于设置是否开启页面滚动
-                        automaticallyAdjustContentInsets={true} //设置是否自动调整内容
-                        contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}//设置内容所占的尺寸大小。格式：{top:number,left:number,bottom:number,right:number}
-                        domStorageEnabled={true} //android 用于控制是否开启 DOM Storage（存储）
-                        onMessage={this.onMessage.bind(this)}
+                        startInLoadingState={true}
+                        bounces={false}
+                        scrollEnabled={false}
+                        automaticallyAdjustContentInsets={true}
+                        contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
+                        //onMessage={this.onMessage.bind(this)}
+                        domStorageEnabled={true}
                     />
                 </ScrollView>
             </View>

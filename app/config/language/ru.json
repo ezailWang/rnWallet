@@ -203,7 +203,7 @@
         "sender":"Отправитель",
         "no_message":"Нет доступных обновлений",
         "transaction_notification":"Уведомление о транзакции",
-        "announcement":"Объявление",
+        "announcement":"Объявление: ",
         "official_team":"Официальная команда IoT Chain",
         "no_more_data":"No more data"
     },

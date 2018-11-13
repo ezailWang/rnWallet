@@ -202,7 +202,7 @@
         "sender":"Sender",
         "no_message":"Keine Updates verfügbar",
         "transaction_notification":"Transaktionsbenachrichtigung",
-        "announcement":"Ankündigung",
+        "announcement":"Ankündigung: ",
         "official_team":"IoT Chain offizielles Team",
         "no_more_data":"No more data"
     },

@@ -80,7 +80,8 @@ import {
     AddAssets,
     AddTokenScreen,
     SearchTokenScreen,
-    MessageCenterScreen
+    MessageCenterScreen,
+    MessageWebViewScreen
 } from '../containers/containers';
 
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
@@ -99,8 +100,8 @@ const FirstLaunchRouteConfig =
             }
         })
     },
-    ServiceAgreement:{
-        screen:ServiceAgreementScreen
+    ServiceAgreement: {
+        screen: ServiceAgreementScreen
     },
     BackupMnemonic: {
         screen: BackupMnemonicScreen,
@@ -221,17 +222,20 @@ const HomeRouteConfig =
     SystemSet: {
         screen: SystemSetScreen,
     },
-    UseAndPrivacyPolicy:{
-        screen:UseAndPrivacyPolicyScreen,
+    UseAndPrivacyPolicy: {
+        screen: UseAndPrivacyPolicyScreen,
     },
-    AddToken:{
-        screen:AddTokenScreen,
+    AddToken: {
+        screen: AddTokenScreen,
     },
-    SearchToken:{
-        screen:SearchTokenScreen
+    SearchToken: {
+        screen: SearchTokenScreen
     },
-    MessageCenter:{
-        screen:MessageCenterScreen,
+    MessageCenter: {
+        screen: MessageCenterScreen,
+    },
+    MessageWebView: {
+        screen: MessageWebViewScreen,
     }
 };
 
