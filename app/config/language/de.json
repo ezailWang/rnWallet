@@ -76,7 +76,7 @@
         "feedback":"Feedback",
         "about":"Über",
         "address_repeat":"Die Vertragsadresse wurde hinzugefügt",
-        "address_invalid":"Invalid contract address",
+        "address_invalid":"Ungültige Vertragsadresse",
         "delete_main_token":"Diese Währung kann nicht gelöscht werden",
 
         "currency_symbol":"€"
@@ -117,7 +117,7 @@
         "enter_password_hint":"Walletpasswort eingeben",
         "determine":"Bestätigen",
         
-        "add_contact":"Add contacts",
+        "add_contact":"Kontakt hinzufügen",
 
         "transaction_fail":"Transaktion fehlgeschlagen",
         "alert_0":"Der private Schlüssel wurde nicht erhalten.",
@@ -186,24 +186,24 @@
         "delete_wallet":"Löschung der Wallet",
         "confirm_delete_wallet":"Sind Sie sicher, dass Sie die Wallet löschen wollen?",
 
-        "input_token_name":"Please enter a currency name ",
-        "add":"Add",
-        "remove":"Remove",
-        "no_related_currency_found":"No related currency found",
-        "cancel":"Cancel",
+        "input_token_name":"Bitte geben Sie einen Währungsnamen ein.",
+        "add":"Hinzufügen",
+        "remove":"Entfernen",
+        "no_related_currency_found":"Keine zugehörige Währung gefunden",
+        "cancel":"Abbrechen",
 
-        "message_center":"Message",
-        "receipt_notice":"Receipt notice",
-        "transfer_notice":"Transfer notice",
-        "successful_payment":"Payment Successful",
-        "successful_transfer":"Transfer Successful ",
-        "transfer_failed":"Transfer failed",
-        "receiver":"Receiver",
+        "message_center":"Nachricht",
+        "receipt_notice":"Empfangsbestätigung",
+        "transfer_notice":"Überweisungsnotitz",
+        "successful_payment":"Zahlung erfolgreich",
+        "successful_transfer":"Übertragung erfolgreich",
+        "transfer_failed":"Übertragung fehlgeschlagen",
+        "receiver":"Empfänger ",
         "sender":"Sender",
-        "no_message":"No updates available",
-        "transaction_notification":"Transaction notification",
-        "announcement":"Announcement",
-        "official_team":"IoT Chain official team",
+        "no_message":"Keine Updates verfügbar",
+        "transaction_notification":"Transaktionsbenachrichtigung",
+        "announcement":"Ankündigung",
+        "official_team":"IoT Chain offizielles Team",
         "no_more_data":"No more data"
     },
     "toast":{

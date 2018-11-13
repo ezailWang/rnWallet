@@ -77,7 +77,7 @@
         "feedback":"Feedback",
         "about":"About",
         "address_repeat":"La dirección de contrato ha sido añadida",
-        "address_invalid":"Invalid contract address",
+        "address_invalid":"Dirección de contrato incorrecta",
         "delete_main_token":"Esta moneda no puede ser eliminada",
 
         "currency_symbol":"¥"
@@ -118,7 +118,7 @@
         "enter_password_hint":"Introduce la contraseña del monedero",
         "determine":"Confirmar",
 
-        "add_contact":"Add contacts",
+        "add_contact":"Agregar contactos",
         
         "transaction_fail":"Error en la transacción",
         "alert_0":"Error al obtener la clave privada",
@@ -188,24 +188,24 @@
         "confirm_delete_wallet":"¿Estás seguro de que deseas eliminar el monedero?",
 
 
-        "input_token_name":"Please enter a currency name ",
-        "add":"Add",
-        "remove":"Remove",
-        "no_related_currency_found":"No related currency found",
-        "cancel":"Cancel",
+        "input_token_name":"Introduzca el nombre del activo",
+        "add":"Añadir",
+        "remove":"Eliminar",
+        "no_related_currency_found":"No se encontró el activo",
+        "cancel":"Cancelar",
 
-        "message_center":"Message",
-        "receipt_notice":"Receipt notice",
-        "transfer_notice":"Transfer notice",
-        "successful_payment":"Payment Successful",
-        "successful_transfer":"Transfer Successful ",
-        "transfer_failed":"Transfer failed",
-        "receiver":"Receiver",
-        "sender":"Sender",
-        "no_message":"No updates available",
-        "transaction_notification":"Transaction notification",
-        "announcement":"Announcement",
-        "official_team":"IoT Chain official team",
+        "message_center":"Mensaje",
+        "receipt_notice":"Aviso de depósito",
+        "transfer_notice":"Notificación de transferencia",
+        "successful_payment":"Pago realizado",
+        "successful_transfer":"Transferencia finalizada",
+        "transfer_failed":"Error en la transferencia",
+        "receiver":"Receptor",
+        "sender":"Emisor",
+        "no_message":"No hay actualizaciones disponibles",
+        "transaction_notification":"Informe de transacción",
+        "announcement":"Anuncio",
+        "official_team":"IoT Chain Equipo oficial",
         "no_more_data":"No more data"
     },
     "toast":{

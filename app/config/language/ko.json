@@ -194,19 +194,19 @@
         "no_related_currency_found":"해당 화폐는 없습니다.",
         "cancel":"취소",
 
-        "message_center":"Message",
-        "receipt_notice":"Receipt notice",
-        "transfer_notice":"Transfer notice",
-        "successful_payment":"Payment Successful",
-        "successful_transfer":"Transfer Successful ",
-        "transfer_failed":"Transfer failed",
-        "receiver":"Receiver",
-        "sender":"Sender",
-        "no_message":"No updates available",
-        "transaction_notification":"Transaction notification",
-        "announcement":"Announcement",
-        "official_team":"IoT Chain official team",
-        "no_more_data":"No more data"
+        "message_center":"메세지",
+        "receipt_notice":"수금 통지",
+        "transfer_notice":"이체 알림",
+        "successful_payment":"결제 성공",
+        "successful_transfer":"이체 성공",
+        "transfer_failed":"이체 실패",
+        "receiver":"수령인",
+        "sender":"입금자",
+        "no_message":"사용 가능한 업데이트가 없습니다.",
+        "transaction_notification":"거래 알림",
+        "announcement":"공지",
+        "official_team":"IoT Chain 공식팀",
+        "no_more_data":"더 이상의 데이터가 없습니다."
         
     },
     "toast":{
