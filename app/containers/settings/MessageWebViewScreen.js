@@ -121,7 +121,7 @@ export default class MessageWebViewScreen extends BaseComponent {
                         //injectedJavaScript={GetWebviewHeight}
                         scalesPageToFit={true}
                         javaScriptEnabled={true}
-                        decelerationState='normal'
+                        decelerationRate='normal'
                         startInLoadingState={true}
                         bounces={false}
                         scrollEnabled={false}

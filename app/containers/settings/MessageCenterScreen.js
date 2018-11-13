@@ -296,7 +296,6 @@ class MessageCenterScreen extends BaseComponent {
             url: item.contentUrl,
             title: item.alertTitle,
             callback: function (data) {
-                console.log("messageCenterCallback")
                 if (_this.callBackIsNeedRefresh) {
                     _this._onRefresh()
                 }

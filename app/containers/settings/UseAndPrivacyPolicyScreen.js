@@ -108,7 +108,7 @@ export default class UseAndPrivacyPolicyScreen extends BaseComponent {
                         injectedJavaScript={GetWebviewHeight} //当网页加载之前注入一段 js 代码。其值是字符串形式。
                         scalesPageToFit={true} //ios 用于设置网页是否缩放自适应到整个屏幕视图，以及用户是否可以改变缩放页面
                         javaScriptEnabled={true} //android  是否开启 JavaScript，在ios中的WebView是默认开启的
-                        decelerationState='normal'
+                        decelerationRate='normal'
                         startInLoadingState={true} //是否开启页面加载的状态，其值为 true 或者 false。
                         bounces={false} //ios 回弹特性。默认为 true。如果设置为 false，则内容拉到底部或者头部都不回弹。
                         scrollEnabled={false} //ios 用于设置是否开启页面滚动
