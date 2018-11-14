@@ -12,13 +12,13 @@ import {
 import PropTypes from 'prop-types'
 import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux';
-import networkManage from '../../utils/networkManage';
+import NetworkManager from '../../utils/NetworkManager';
 import * as Actions from '../../config/action/Actions'
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
-import { addressToName } from '../../utils/commonUtil'
+import { addressToName } from '../../utils/CommonUtil'
 
 const styles = StyleSheet.create({
     container:{
@@ -248,7 +248,7 @@ class AddTokenScreen extends BaseComponent {
                     } 
                 })
                 StorageManage.save(StorageKey.Tokens, localTokens)
-                //await networkManage.loadTokenList()
+                //await NetworkManager.loadTokenList()
                 _this._loadData()
                 _this._hideLoading()*/
             }

@@ -10,7 +10,7 @@ function keccak256(buffer) {
     return createKeccakHash("keccak256").update(buffer).digest();
 }
 const rootPath = RNFS.DocumentDirectoryPath;
-export default class keystoreUtils {
+export default class KeystoreUtils {
     static async exportToFile(keyObject, dirName) {
         try {
             var outfile, outpath, json, dirPath
@@ -82,7 +82,7 @@ export default class keystoreUtils {
     static async getPrivateKey(password) {
         try {
             const { walletAddress } = store.getState().Core
-            var keyStoreStr = await keystoreUtils.importFromFile(walletAddress)
+            var keyStoreStr = await KeystoreUtils.importFromFile(walletAddress)
             var keyStoreObject = JSON.parse(keyStoreStr)
             var privateKey = await this.recover(password, keyStoreObject);
             return '0x' + privateKey.toString('hex')

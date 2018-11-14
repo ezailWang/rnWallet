@@ -17,13 +17,13 @@ import { WhiteButtonMiddle, BackButton, BackWhiteButton } from '../../components
 import PropTypes from 'prop-types'
 import { store } from '../../config/store/ConfigureStore'
 import { setTransactionDetailParams, setWalletTransferParams, setTransactionRecoders, setCoinBalance } from "../../config/action/Actions";
-import networkManage from '../../utils/networkManage'
+import NetworkManager from '../../utils/NetworkManager'
 import StatusBarComponent from '../../components/StatusBarComponent'
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import LinearGradient from 'react-native-linear-gradient'
-import { addressToName } from '../../utils/commonUtil'
+import { addressToName } from '../../utils/CommonUtil'
 const tokenIcon = {
     'ETH': require('../../assets/transfer/ethIcon.png'),
     'ITC': require('../../assets/transfer/itcIcon.png'),
@@ -316,7 +316,7 @@ export default class TransactionRecoder extends BaseComponent {
 
 
         const { walletAddress } = store.getState().Core
-        let recoders = await networkManage.getTransations({
+        let recoders = await NetworkManager.getTransations({
             address: address,
             symbol: symbol,
             decimal: decimal
@@ -327,7 +327,7 @@ export default class TransactionRecoder extends BaseComponent {
         }
 
         let lastTransaction = store.getState().Core.newTransaction
-        let currentBlock = await networkManage.getCurrentBlockNumber()
+        let currentBlock = await NetworkManager.getCurrentBlockNumber()
 
         if(lastTransaction){
 
@@ -384,10 +384,10 @@ export default class TransactionRecoder extends BaseComponent {
         let balanceAmount = '';
 
         if (symbol != 'ETH') {
-            balanceAmount = await networkManage.getERC20Balance(address, decimal);
+            balanceAmount = await NetworkManager.getERC20Balance(address, decimal);
         }
         else {
-            balanceAmount = await networkManage.getEthBalance();
+            balanceAmount = await NetworkManager.getEthBalance();
         }
 
         let balanceInfo = {
@@ -429,8 +429,8 @@ export default class TransactionRecoder extends BaseComponent {
 
         let { amount, price, symbol } = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
-        let suggestGas = await networkManage.getSuggestGasPrice();
-        let ethBalance = await networkManage.getEthBalance();
+        let suggestGas = await NetworkManager.getSuggestGasPrice();
+        let ethBalance = await NetworkManager.getEthBalance();
 
         transferProps = {
             transferType: symbol,
@@ -462,7 +462,7 @@ export default class TransactionRecoder extends BaseComponent {
         let { symbol } = store.getState().Core.balance;
         let recoders = store.getState().Core.recoders;
         let recoder = recoders[index];
-        let currentBlock = await networkManage.getCurrentBlockNumber()
+        let currentBlock = await NetworkManager.getCurrentBlockNumber()
 
         // "0"--已确认 "1"--错误  "2"--确认中
         let state = recoder.isError

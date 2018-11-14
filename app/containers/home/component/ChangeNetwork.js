@@ -7,8 +7,8 @@ import {
     StyleSheet,
 } from 'react-native'
 import { Colors, Network } from '../../../config/GlobalConfig'
-import layoutConstants from '../../../config/LayoutConstants'
-import networkManage from '../../../utils/networkManage'
+import LayoutConstants from '../../../config/LayoutConstants'
+import NetworkManager from '../../../utils/NetworkManager'
 import { store } from '../../../config/store/ConfigureStore'
 
 export default class ChangeNetwork extends Component {

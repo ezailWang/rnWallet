@@ -17,11 +17,11 @@ import {
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
 import ImageButton from '../../components/ImageButton'
-import layoutConstants from '../../config/LayoutConstants';
+import LayoutConstants from '../../config/LayoutConstants';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
-import networkManage from '../../utils/networkManage'
+import NetworkManager from '../../utils/NetworkManager'
 import { addToken, setNewTransaction, setCoinBalance, setNetWork, removeToken, setIsNewWallet } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
@@ -117,14 +117,14 @@ class HomeScreen extends BaseComponent {
             callback: async (token) => {
                 this._showLoding()
                 await this.saveTokenToStorage(token)
-                await networkManage.loadTokenList()
+                await NetworkManager.loadTokenList()
                 this._hideLoading()
             }
         });
         /*this.props.navigation.navigate('AddToken', {
             callback: async (token) => {
                 this._showLoding()
-                await networkManage.loadTokenList()
+                await NetworkManager.loadTokenList()
                 this._hideLoading()
             }
         });*/
@@ -136,7 +136,7 @@ class HomeScreen extends BaseComponent {
             addTokenShow: false
         })
         this._showLoding()
-        await networkManage.loadTokenList()
+        await NetworkManager.loadTokenList()
         this._hideLoading()
     }
 
@@ -157,7 +157,7 @@ class HomeScreen extends BaseComponent {
             changeNetworkShow: false
         })
         this._showLoding()
-        await networkManage.loadTokenList()
+        await NetworkManager.loadTokenList()
         this._hideLoading()
     }
 
@@ -165,7 +165,7 @@ class HomeScreen extends BaseComponent {
         this.setState({
             isRefreshing: true
         })
-        await networkManage.loadTokenList()
+        await NetworkManager.loadTokenList()
         this.setState({
             isRefreshing: false
         })
@@ -188,7 +188,7 @@ class HomeScreen extends BaseComponent {
             language: I18n.locale,
             walletAddress: this.props.walletAddress
         }
-        networkManage.userInfoUpdate(params)
+        NetworkManager.userInfoUpdate(params)
             .then((response) => {
                 if (response.code === 200) {
                 } else {
@@ -209,7 +209,7 @@ class HomeScreen extends BaseComponent {
                 isTotalAssetsHidden: localUser['isTotalAssetsHidden']
             })
         }
-        await networkManage.loadTokenList()
+        await NetworkManager.loadTokenList()
         this._hideLoading()
     }
 
@@ -249,7 +249,7 @@ class HomeScreen extends BaseComponent {
     }
 
     _monetaryUnitChange = async (data) => {
-        await networkManage.loadTokenList()
+        await NetworkManager.loadTokenList()
         this.setState({
             monetaryUnitSymbol: data.monetaryUnit.symbol
         })
@@ -266,7 +266,7 @@ class HomeScreen extends BaseComponent {
         let params = {
             'userToken': userToken['userToken'],
         }
-        networkManage.getUnReadMessageCount(params)
+        NetworkManager.getUnReadMessageCount(params)
             .then(response => {
                 if (response.code === 200) {
                     let messageCount = response.data.account;
@@ -284,29 +284,29 @@ class HomeScreen extends BaseComponent {
             return null
         }
         const headerHeight = this.state.scroollY.interpolate({
-            inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
-            outputRange: [layoutConstants.WINDOW_HEIGHT, layoutConstants.HOME_HEADER_MAX_HEIGHT, layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            inputRange: [-LayoutConstants.WINDOW_HEIGHT + LayoutConstants.HOME_HEADER_MAX_HEIGHT, 0, LayoutConstants.HOME_HEADER_MAX_HEIGHT - LayoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [LayoutConstants.WINDOW_HEIGHT, LayoutConstants.HOME_HEADER_MAX_HEIGHT, LayoutConstants.HOME_HEADER_MIN_HEIGHT],
             extrapolate: 'clamp'
         })
         const headerZindex = this.state.scroollY.interpolate({
-            inputRange: [0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            inputRange: [0, LayoutConstants.HOME_HEADER_MAX_HEIGHT - LayoutConstants.HOME_HEADER_MIN_HEIGHT],
             outputRange: [0, 1],
             extrapolate: 'clamp'
         })
         const headerTextOpacity = this.state.scroollY.interpolate({
-            inputRange: [layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT - 20, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
+            inputRange: [LayoutConstants.HOME_HEADER_MAX_HEIGHT - LayoutConstants.HOME_HEADER_MIN_HEIGHT - 20, LayoutConstants.HOME_HEADER_MAX_HEIGHT - LayoutConstants.HOME_HEADER_MIN_HEIGHT],
             outputRange: [0, 1],
             extrapolate: 'clamp'
         })
         const headerBgImageScale = this.state.scroollY.interpolate({
-            inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
-            outputRange: [layoutConstants.WINDOW_HEIGHT / layoutConstants.TRANSFER_HEADER_MAX_HEIGHT + 1.6, 1, 1],
+            inputRange: [-LayoutConstants.WINDOW_HEIGHT + LayoutConstants.HOME_HEADER_MAX_HEIGHT, 0, LayoutConstants.HOME_HEADER_MAX_HEIGHT - LayoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [LayoutConstants.WINDOW_HEIGHT / LayoutConstants.TRANSFER_HEADER_MAX_HEIGHT + 1.6, 1, 1],
             extrapolate: 'clamp'
         })
 
         const headerBgImageTranslateY = this.state.scroollY.interpolate({
-            inputRange: [-layoutConstants.WINDOW_HEIGHT + layoutConstants.HOME_HEADER_MAX_HEIGHT, 0, layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT],
-            outputRange: [0, 0, -(layoutConstants.HOME_HEADER_MAX_HEIGHT - layoutConstants.HOME_HEADER_MIN_HEIGHT)],
+            inputRange: [-LayoutConstants.WINDOW_HEIGHT + LayoutConstants.HOME_HEADER_MAX_HEIGHT, 0, LayoutConstants.HOME_HEADER_MAX_HEIGHT - LayoutConstants.HOME_HEADER_MIN_HEIGHT],
+            outputRange: [0, 0, -(LayoutConstants.HOME_HEADER_MAX_HEIGHT - LayoutConstants.HOME_HEADER_MIN_HEIGHT)],
             extrapolate: 'clamp'
         })
 
@@ -326,8 +326,8 @@ class HomeScreen extends BaseComponent {
                         onLoad={() => this.setState({ headBgImageRef: findNodeHandle(this.refs.headBackgroundImage) })}
                         ref='headBackgroundImage'
                         style={{
-                            height: layoutConstants.HOME_HEADER_MAX_HEIGHT,
-                            width: layoutConstants.WINDOW_WIDTH,
+                            height: LayoutConstants.HOME_HEADER_MAX_HEIGHT,
+                            width: LayoutConstants.WINDOW_WIDTH,
                             transform: [{ translateY: headerBgImageTranslateY }, { scale: headerBgImageScale }],
                         }}
                         source={require('../../assets/home/hp_bg.png')}

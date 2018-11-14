@@ -16,7 +16,7 @@ import PinModal from '../../components/PinModal'
 import { store } from '../../config/store/ConfigureStore'
 import { I18n } from '../../config/language/i18n';
 import { BlurView } from 'react-native-blur';
-import layoutConstants from '../../config/LayoutConstants';
+import LayoutConstants from '../../config/LayoutConstants';
 import Toast from 'react-native-root-toast';
 import RootSiblings from 'react-native-root-siblings';
 import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
@@ -65,7 +65,7 @@ export default class BaseComponent extends PureComponent {
         //  this._handleAppStateChange = this._handleAppStateChange.bind(this);
         this._barStyle = 'dark-content';
         this._isMounted = false;
-    
+
 
 
     }
@@ -93,12 +93,12 @@ export default class BaseComponent extends PureComponent {
     }
 
     componentDidMount() {
-       
+
         this._initData();
     }
 
     componentWillUnmount() {
-        
+
         this._removeEventListener();
 
         //JPushModule.removeReceiveOpenNotificationListener()
@@ -113,7 +113,7 @@ export default class BaseComponent extends PureComponent {
 
     //添加事件监听
     _addEventListener() {
-        
+
         this.netRequestErrHandler = DeviceEventEmitter.addListener('netRequestErr', this._netRequestErr);//网络异常情况监听
         this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
         this.pinIsShowHandler = DeviceEventEmitter.addListener('pinIsShow', this._pinIsShowEmitter);//监听pin是否显示
@@ -210,11 +210,13 @@ export default class BaseComponent extends PureComponent {
     }
 
     _showAlert(content, title) {
-        this.setState({
-            isShowAlert: true,
-            alertTitle: title,
-            alertContent: content
-        })
+        if (this._isMounted) {
+            this.setState({
+                isShowAlert: true,
+                alertTitle: title,
+                alertContent: content
+            })
+        }
     }
 
     _hideAlert() {
@@ -273,7 +275,7 @@ export default class BaseComponent extends PureComponent {
     }
 
 
-    _messageCountEmitter = (data) =>{
+    _messageCountEmitter = (data) => {
 
     }
 
@@ -467,7 +469,7 @@ const styles = StyleSheet.create({
     blurStyle: {
         position: "absolute",
         top: 0, left: 0, bottom: 0, right: 0,
-        height: layoutConstants.WINDOW_HEIGHT,
+        height: LayoutConstants.WINDOW_HEIGHT,
         zIndex: 1000,
     }
 })

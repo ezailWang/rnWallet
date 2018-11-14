@@ -23,7 +23,7 @@ import { StyleSheet } from 'react-native';
 import { Colors } from '../config/GlobalConfig';
 import PropType from 'prop-types'
 import DrawerComponent from '../containers/home/DrawerComponent'
-import layoutConstants from '../config/LayoutConstants'
+import LayoutConstants from '../config/LayoutConstants'
 
 
 const StackNavigationConfig = {
@@ -60,7 +60,7 @@ const HomeDrawerConfig = {
     initialRouteName: 'HomeNav',
     drawerPosition: 'right',
     contentComponent: DrawerComponent,
-    drawerWidth: layoutConstants.HOME_DRAWER_WIDTH
+    drawerWidth: LayoutConstants.HOME_DRAWER_WIDTH
 
 }
 

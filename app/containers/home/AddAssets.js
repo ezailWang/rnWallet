@@ -11,8 +11,8 @@ import BaseComponent from '../base/BaseComponent'
 import AddTokenInput from './component/AddTokenInput'
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import { Colors } from '../../config/GlobalConfig'
-import networkManage from '../../utils/networkManage'
-import layoutConstants from '../../config/LayoutConstants'
+import NetworkManager from '../../utils/NetworkManager'
+import LayoutConstants from '../../config/LayoutConstants'
 import { I18n } from '../../config//language/i18n'
 import { store } from '../../config/store/ConfigureStore'
 import { BlueButtonBig } from '../../components/Button'
@@ -47,7 +47,7 @@ class AddAssets extends BaseComponent {
         if (tokensAddresses.includes(addrees)) {
             checkStr = I18n.t('home.address_repeat')
         } else {
-            networkManage.getContractAddressInfo(addrees)
+            NetworkManager.getContractAddressInfo(addrees)
                 .then((data) => {
                     this.setState({
                         isValidAddress: true,
@@ -92,11 +92,11 @@ class AddAssets extends BaseComponent {
                 <View style={{ height: 1, backgroundColor: Colors.bgGrayColor }} />
                 <KeyboardAvoidingView
                     behavior='padding'
-                    style={{ paddingTop: 20, width: layoutConstants.WINDOW_WIDTH }} enabled>
+                    style={{ paddingTop: 20, width: LayoutConstants.WINDOW_WIDTH }} enabled>
                     <AddTokenInput
                         title={I18n.t('home.contract_address') + '(' + store.getState().Core.network + ')'}
                         onChange={(event) => {
-                            const isValidAddressLet = networkManage.isValidAddress(event.nativeEvent.text)
+                            const isValidAddressLet = NetworkManager.isValidAddress(event.nativeEvent.text)
                             if (isValidAddressLet) {
                                 this.checkAddress(event.nativeEvent.text)
                             } else {

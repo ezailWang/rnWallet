@@ -17,7 +17,7 @@ import {WhiteBgHeader} from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
-import { addressToName } from '../../utils/commonUtil'
+import { addressToName } from '../../utils/CommonUtil'
 
 const styles = StyleSheet.create({
     container:{

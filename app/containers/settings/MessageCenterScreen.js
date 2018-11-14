@@ -19,7 +19,7 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import { showToast } from '../../utils/Toast';
-import networkManage from '../../utils/networkManage'
+import NetworkManager from '../../utils/NetworkManager'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -132,7 +132,7 @@ class MessageCenterScreen extends BaseComponent {
             'page': this.page,
             'size': this.pageCount,
         }
-        networkManage.getMessageList(params)
+        NetworkManager.getMessageList(params)
             .then(response => {
                 if (response.code === 200) {
 
@@ -244,7 +244,7 @@ class MessageCenterScreen extends BaseComponent {
             'userToken': this.userToken['userToken'],
             'msgId': msgId,
         }
-        networkManage.readMessage(params)
+        NetworkManager.readMessage(params)
             .then((response) => {
                 if (response.code === 200) {
                 } else {
@@ -276,7 +276,7 @@ class MessageCenterScreen extends BaseComponent {
                         address: token.address,
                     }
                     await this.saveTokenToStorage(tokenInfo)
-                    await networkManage.loadTokenList()
+                    await NetworkManager.loadTokenList()
                     break;
                 }
             }

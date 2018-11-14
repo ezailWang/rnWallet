@@ -9,8 +9,8 @@ import RemindDialog from '../../components/RemindDialog'
 import { connect } from 'react-redux'
 import * as Actions from '../../config/action/Actions';
 import Layout from '../../config/LayoutConstants'
-import { androidPermission } from '../../utils/permissionsAndroid';
-import networkManage from '../../utils/networkManage'
+import { androidPermission } from '../../utils/PermissionsAndroid';
+import NetworkManager from '../../utils/NetworkManager'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
 

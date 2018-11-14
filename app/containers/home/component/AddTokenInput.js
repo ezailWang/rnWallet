@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Animated
 } from 'react-native'
-import layoutConstants from '../../../config/LayoutConstants'
+import LayoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
 
 MIN_HEIGHT = 65
@@ -39,7 +39,7 @@ export default AddTokenInput
 
 const styles = StyleSheet.create({
     container: {
-        width: layoutConstants.WINDOW_WIDTH,
+        width: LayoutConstants.WINDOW_WIDTH,
         backgroundColor: 'white',
         // justifyContent: 'center',
         alignItems: 'flex-start',
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.addTokenBorderColor,
         borderRadius: 5,
         height: 38,
-        width: layoutConstants.WINDOW_WIDTH - 40,
+        width: LayoutConstants.WINDOW_WIDTH - 40,
         marginLeft: 20,
         paddingHorizontal: 10,
         paddingVertical: 0

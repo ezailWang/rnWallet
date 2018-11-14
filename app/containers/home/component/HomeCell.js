@@ -7,7 +7,7 @@ import {
     TouchableHighlight,
 } from 'react-native'
 import PropTypes from 'prop-types';
-import layoutConstants from '../../../config/LayoutConstants'
+import LayoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
 import { I18n } from '../../../config/language/i18n'
 
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     },
     emptyView: {
         flex: 1,
-        height: layoutConstants.WINDOW_HEIGHT - layoutConstants.HOME_HEADER_HEIGHT,
+        height: LayoutConstants.WINDOW_HEIGHT - LayoutConstants.HOME_HEADER_HEIGHT,
         alignItems: 'center',
         justifyContent: 'center'
     }

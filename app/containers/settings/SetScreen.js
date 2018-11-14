@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Text, TextInput, ScrollView, TouchableOpacity,
 
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage'
-import keystoreUtils from '../../utils/keystoreUtils'
+import KeystoreUtils from '../../utils/KeystoreUtils'
 import { NextButton, GreyButtonBig } from '../../components/Button';
 import InputTextDialog from '../../components/InputTextDialog';
 import InputPasswordDialog from '../../components/InputPasswordDialog';
@@ -15,7 +15,7 @@ import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 import RemindDialog from '../../components/RemindDialog'
-import networkManage from '../../utils/networkManage'
+import NetworkManager from '../../utils/NetworkManager'
 
 
 const styles = StyleSheet.create({
@@ -195,7 +195,7 @@ class SetScreen extends BaseComponent {
     async exportKeyPrivate(password) {
         let privateKey
         try {
-            privateKey = await keystoreUtils.getPrivateKey(password)
+            privateKey = await KeystoreUtils.getPrivateKey(password)
             this._hideLoading();//关闭Loading
             if (privateKey == null) {
                 //alert(I18n.t('modal.export_private_key_error'));
@@ -224,7 +224,7 @@ class SetScreen extends BaseComponent {
     async exportKeystore() {
         try {
             var address = this.props.walletAddress;
-            var keystore = await keystoreUtils.importFromFile(address)
+            var keystore = await KeystoreUtils.importFromFile(address)
             this.props.navigation.navigate('ExportKeystore', { keystore: keystore });
         } catch (err) {
             alert(I18n.t('modal.password_error'));
@@ -235,7 +235,7 @@ class SetScreen extends BaseComponent {
     async exportWallet() {
         var key = 'uesr'
         var user = await StorageManage.load(key);
-        var str = await keystoreUtils.importFromFile(user.address)
+        var str = await KeystoreUtils.importFromFile(user.address)
         var newKeyObject = JSON.parse(str)
     }
 
@@ -262,7 +262,7 @@ class SetScreen extends BaseComponent {
     }
 
     async deleteLocalData(){
-        await keystoreUtils.removeKeyFile(this.props.walletAddress)
+        await KeystoreUtils.removeKeyFile(this.props.walletAddress)
         this.props.setWalletAddress(null);
         //删除所有本地的数据
         StorageManage.remove(StorageKey.User)
@@ -278,7 +278,7 @@ class SetScreen extends BaseComponent {
         let params = {
             walletAddress: ''
         }
-        networkManage.userInfoUpdate(params)
+        NetworkManager.userInfoUpdate(params)
             .then((response) => {
                 if (response.code === 200) {
                 } else {

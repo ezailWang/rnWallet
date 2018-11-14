@@ -16,14 +16,14 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
-import { validateEmail } from '../../utils/commonUtil'
+import { validateEmail } from '../../utils/CommonUtil'
 import { CommonTextInput } from '../../components/TextInputComponent'
 import BaseComponent from '../base/BaseComponent';
 import ImagePicker from 'react-native-image-picker';
 import ImageButton from '../../components/ImageButton'
 import DeviceInfo from 'react-native-device-info'
-import networkManage from '../../utils/networkManage';
-import { androidPermission } from '../../utils/permissionsAndroid';
+import NetworkManager from '../../utils/NetworkManager';
+import { androidPermission } from '../../utils/PermissionsAndroid';
 import { StorageKey } from '../../config/GlobalConfig'
 import StorageManage from '../../utils/StorageManage'
 
@@ -157,7 +157,7 @@ export default class FeedbackScreen extends BaseComponent {
 
     vertifyAddress() {
         if (this.address != '') {
-            let validAddress = networkManage.isValidAddress(this.address)
+            let validAddress = NetworkManager.isValidAddress(this.address)
             this.setState({
                 isShowAddressWarn: !validAddress,
                 isDisabled: this.name == '' || this.description == '' || this.state.isShowEmailWarn || !validAddress
@@ -206,7 +206,7 @@ export default class FeedbackScreen extends BaseComponent {
             'ethAddress': this.address,
             'appversion': DeviceInfo.getVersion()
         }
-        networkManage.uploadFeedback(params, this.state.photoArray)
+        NetworkManager.uploadFeedback(params, this.state.photoArray)
             .then(res => {
                 this._hideLoading()
                 if (res.code === 200) {

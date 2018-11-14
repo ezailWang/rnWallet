@@ -18,7 +18,7 @@ import { Colors, StorageKey } from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
-import networkManage from '../../utils/networkManage';
+import NetworkManager from '../../utils/NetworkManager';
 //import {CachedImage,ImageCache} from 'react-native-img-cache'
 //import {Image as CacheImage,CacheManager} from "react-native-expo-image-cache";
 const styles = StyleSheet.create({
@@ -224,7 +224,7 @@ class SearchTokenScreen extends BaseComponent {
             //'network': this.props.network,
             'network': 'main',
         }
-        networkManage.getAllTokens(params).then((response)=>{
+        NetworkManager.getAllTokens(params).then((response)=>{
             if(response.code === 200){
                 this.allTokens = response.data
                 console.log('L_response',response)

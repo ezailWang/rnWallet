@@ -85,13 +85,6 @@ function setCoinBalance(value) {
     }
 }
 
-// function setWalletPasswordPrompt(value) {
-//     return {
-//         type: types.SET_WALLET_PASSWORD_PROMPT,
-//         walletPasswordPrompt: value
-//     }
-// }
-
 function setNetWork(value) {
     StorageManage.save(StorageKey.Network,value)
     return {

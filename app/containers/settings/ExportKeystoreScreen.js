@@ -108,7 +108,7 @@ export default class ExportKeystoreScreen extends BaseComponent {
                   throw "请先创建或导入钱包"
               }
               try{
-                  var str = await keystoreUtils.importFromFile(user.address)
+                  var str = await KeystoreUtils.importFromFile(user.address)
               }catch(e){
                 throw "导出KeyStore出错"
               }

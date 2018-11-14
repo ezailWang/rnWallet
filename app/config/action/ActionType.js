@@ -13,7 +13,6 @@ export const SET_COIN_BALANCE = 'SET_COIN_BALANCE';          //获取查看的to
 export const SET_LANGUAGE = 'SET_LANGUAGE';//设置语言
 export const SET_MONETARY_UNIT = 'SET_MONETARY_UNIT'; //设置货币单位
 export const SET_NEW_TRANSACTION = 'SET_NEW_TRANSACTION'; //设置未确认的交易
-//export const SET_WALLET_PASSWORD_PROMPT = 'SET_WALLET_PASSWORD_PROMPT'; //设置钱包密码提示
 export const SET_FIRST_QR = 'SET_FIRST_QR';//设置第一次展示QR
 export const SET_PIN_INFO = 'SET_PIN_INFO';//设置pin的信息
 export const IS_NEW_WALLET = 'IS_NEW_WALLET';//是否刚导入/创建的钱包，用于home页判断是导入/创建进入Home页面还是直接进入Home的

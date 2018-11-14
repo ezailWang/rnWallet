@@ -1,5 +1,5 @@
 import { I18n } from '../config/language/i18n'
-import StorageManage from '../utils/StorageManage'
+import StorageManage from './StorageManage'
 import { StorageKey } from '../config/GlobalConfig'
 function validateEmail(email) {
     var mailRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;

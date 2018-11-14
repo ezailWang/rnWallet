@@ -4,9 +4,9 @@ import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
 import Layout from '../../config/LayoutConstants'
 import ScreenshotWarn from '../../components/ScreenShowWarn';
-import networkManage from '../../utils/networkManage'
+import NetworkManager from '../../utils/NetworkManager'
 import { HeaderButton, BlueButtonBig } from '../../components/Button';
-import { androidPermission } from '../../utils/permissionsAndroid';
+import { androidPermission } from '../../utils/PermissionsAndroid';
 import { TransparentBgHeader } from '../../components/NavigaionHeader'
 import { Colors, StorageKey ,Network} from '../../config/GlobalConfig'
 import { showToast } from '../../utils/Toast';

@@ -9,7 +9,7 @@ import {
 import PropTypes from 'prop-types'
 import OvalButton from './OvalButton'
 import ImageButton from '../../../components/ImageButton'
-import layoutConstants from '../../../config/LayoutConstants'
+import LayoutConstants from '../../../config/LayoutConstants'
 import { Colors } from '../../../config/GlobalConfig'
 import LinearGradient from 'react-native-linear-gradient'
 import { I18n } from '../../../config/language/i18n'
@@ -25,9 +25,9 @@ export default class HeadView extends Component {
     }
 
     static defaultProps = {
-        hideAssetsIcon: layoutConstants.DEFAULT_IAMGE,
-        QRCodeIcon: layoutConstants.DEFAULT_IAMGE,
-        addAssetsIcon: layoutConstants.DEFAULT_IAMGE
+        hideAssetsIcon: LayoutConstants.DEFAULT_IAMGE,
+        QRCodeIcon: LayoutConstants.DEFAULT_IAMGE,
+        addAssetsIcon: LayoutConstants.DEFAULT_IAMGE
     }
 
     render() {
@@ -80,14 +80,14 @@ export default class HeadView extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'transparent',
-        height: layoutConstants.HOME_HEADER_CONTENT_HEIGHT,
+        height: LayoutConstants.HOME_HEADER_CONTENT_HEIGHT,
     },
     assetsContainer: {
         backgroundColor: 'transparent',
-        height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
+        height: LayoutConstants.HOME_HEADER_LADDER_HEIGHT,
         alignItems: 'flex-start',
         justifyContent: 'center',
-        marginTop: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
+        marginTop: LayoutConstants.HOME_HEADER_LADDER_HEIGHT,
         marginLeft: 21,
     },
     assetsBox:{
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        height: layoutConstants.HOME_HEADER_LADDER_HEIGHT,
+        height: LayoutConstants.HOME_HEADER_LADDER_HEIGHT,
         marginLeft: 21,
 
     },

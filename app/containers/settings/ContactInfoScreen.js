@@ -14,11 +14,11 @@ import StorageManage from '../../utils/StorageManage'
 import {BlueButtonBig} from '../../components/Button'
 import {Colors,StorageKey} from '../../config/GlobalConfig'
 import {WhiteBgHeader} from '../../components/NavigaionHeader'
-import { androidPermission } from '../../utils/permissionsAndroid';
+import { androidPermission } from '../../utils/PermissionsAndroid';
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
-import NetworkManager from '../../utils/networkManage';
+import NetworkManager from '../../utils/NetworkManager';
 import {CommonTextInput} from '../../components/TextInputComponent'
 import RemindDialog from '../../components/RemindDialog'
 import BaseComponent from '../base/BaseComponent';

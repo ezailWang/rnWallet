@@ -17,7 +17,7 @@ import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 import { showToast } from '../../utils/Toast'
 import JPushModule from 'jpush-react-native'
-import networkManage from '../../utils/networkManage'
+import NetworkManager from '../../utils/NetworkManager'
 import DeviceInfo from 'react-native-device-info'
 import { __await } from 'tslib';
 import JPush from 'jpush-react-native';
@@ -53,7 +53,7 @@ class Loading extends Component {
             JPushModule.setAlias(registrationId, (alias) => {
 
             })
-            networkManage.deviceRegister(params)
+            NetworkManager.deviceRegister(params)
                 .then((response) => {
                     if (response.code === 200) {
                         StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
@@ -81,7 +81,7 @@ class Loading extends Component {
             })
         }
 
-        networkManage.getVersionUpdateInfo(params)
+        NetworkManager.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
                     Alert.alert(
@@ -236,7 +236,7 @@ class Loading extends Component {
             'network': this.props.network,
             //'network': 'main',
         }
-        networkManage.getAllTokens(allTokensParams).then((response) => {
+        NetworkManager.getAllTokens(allTokensParams).then((response) => {
             if (response.code === 200) {
                 this.props.dispatch(setAllTokens(response.data))
             } else {

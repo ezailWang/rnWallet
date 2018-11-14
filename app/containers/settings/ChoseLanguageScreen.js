@@ -10,7 +10,7 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import { ChoseItem } from '../../components/ChoseComponent'
 import BaseComponent from '../base/BaseComponent';
-import networkManage from '../../utils/networkManage'
+import NetworkManager from '../../utils/NetworkManager'
 import JPushModule from 'jpush-react-native'
 const styles = StyleSheet.create({
     container: {
@@ -153,7 +153,7 @@ class ChoseLanguageScreen extends BaseComponent {
         let params = {
             language: this.lang
         }
-        networkManage.userInfoUpdate(params)
+        NetworkManager.userInfoUpdate(params)
             .then((response) => {
                 if (response.code === 200) {
                 } else {
