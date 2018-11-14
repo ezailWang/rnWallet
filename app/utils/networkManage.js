@@ -524,5 +524,14 @@ export default class networkManage {
         return FetchUtils.requestPost(NetAddr.userInfoUpdate, params)
     }
 
+
+    /**
+     * get transaction detail with hashid 
+     */
+
+     static async getTransaction(hashId){
+        let web3 = this.getWeb3Instance();
+        return await web3.eth.getTransaction(hashId);
+     }
 }
 

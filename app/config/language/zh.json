@@ -205,7 +205,8 @@
         "transaction_notification":"交易通知",
         "announcement":"公告: ",
         "official_team":"Tot Chain 官方团队",
-        "no_more_data":"无更多数据"
+        "no_more_data":"无更多数据",
+        "read_all":"全部已读"
 
     },
     "toast":{

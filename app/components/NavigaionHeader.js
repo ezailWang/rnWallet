@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     headerButtonBox: {
         height: 40,
-        width: 40,
+        //width: 40,
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 12,
@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
     whiteTitle: {
         fontSize: FontSize.HeaderSize,
         color: 'white',
+    },
+    rightText:{
+        color:Colors.fontBlueColor,
+        fontSize:14,
     }
 })
 
@@ -174,6 +178,7 @@ class WhiteBgHeader extends PureComponent {
         text: PropTypes.string,
         rightPress: PropTypes.func,
         rightIcon: PropTypes.number,
+        rightText: PropTypes.string,
     }
 
     render() {
@@ -204,6 +209,9 @@ class WhiteBgHeader extends PureComponent {
                         resizeMode={'center'}
                         source={this.props.rightIcon}>
                     </Image>
+                    <Text style={styles.rightText}>
+                        {this.props.rightText}
+                    </Text>
                 </TouchableOpacity>
             </View>
         )

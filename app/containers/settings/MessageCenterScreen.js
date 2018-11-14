@@ -19,17 +19,16 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import { showToast } from '../../utils/Toast';
+import { addressToName } from '../../utils/commonUtil'
 import networkManage from '../../utils/networkManage'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //height: Layout.WINDOW_HEIGHT,
         backgroundColor: Colors.backgroundColor,
         alignItems: 'center',
     },
     listContainer: {
         flex: 1,
-        //height: Layout.WINDOW_HEIGHT - 12,
         width: Layout.WINDOW_WIDTH,
         marginTop: 12,
         backgroundColor: 'white'
@@ -122,11 +121,13 @@ class MessageCenterScreen extends BaseComponent {
         if (!this.userToken || this.userToken === null) {
             return;
         }
-        this.loadData()
+        this.loadData(true)
     }
 
-    async loadData() {
-        this._showLoding()
+    async loadData(isShowLoading) {
+        if(isShowLoading){
+            this._showLoding()
+        }
         let params = {
             'userToken': this.userToken['userToken'],
             'page': this.page,
@@ -135,10 +136,8 @@ class MessageCenterScreen extends BaseComponent {
         networkManage.getMessageList(params)
             .then(response => {
                 if (response.code === 200) {
-
                     this.haveNextPage = response.data.haveNextPage;
                     let list = response.data.messages;
-                    //console.log("L_message_list", list.length + '   haveNextPage: ' + this.haveNextPage)
                     let meaasges = [];
                     list.forEach(function (data, index) {
                         let message = {}
@@ -148,6 +147,7 @@ class MessageCenterScreen extends BaseComponent {
                         message.updateTime = data.updateTime;
                         message.deviceToken = data.deviceToken;
                         if (data.messageType == 1) {
+                            message.hashId = data.hashId;
                             message.transactionType = data.transactionType;//（交易类型） 1-收款、2-转账
                             message.status = data.status;//1-成功、2失败
                             message.symbol = data.symbol;
@@ -184,7 +184,8 @@ class MessageCenterScreen extends BaseComponent {
 
 
 
-    _onRefresh = () => {
+    _onRefresh = (isShowLoading) => {
+        let showLoading  =  isShowLoading == undefined || isShowLoading ? true : false
         if (!this.userToken || this.userToken === null) {
             return;
         }
@@ -194,7 +195,7 @@ class MessageCenterScreen extends BaseComponent {
             })
 
             this.page = 1;
-            this.loadData()
+            this.loadData(showLoading)
 
             this.setState({
                 isRefreshing: false
@@ -212,7 +213,7 @@ class MessageCenterScreen extends BaseComponent {
                 isLoadMoreing: true
             })
             this.page = this.page + 1
-            this.loadData()
+            this.loadData(true)
 
 
             this.setState({
@@ -228,8 +229,9 @@ class MessageCenterScreen extends BaseComponent {
         } else {
             this.callBackIsNeedRefresh = false;
         }
-
+    
         if (item.item.messageType == 1) {
+            this._showLoding()
             this.transactionNotification(item.item)
         } else if (item.item.messageType == 2) {
             this.announcement(item.item)
@@ -247,8 +249,8 @@ class MessageCenterScreen extends BaseComponent {
         networkManage.readMessage(params)
             .then((response) => {
                 if (response.code === 200) {
+                    this._onRefresh(false)
                 } else {
-                    //console.log('_readMessage err msg:', response.msg)
                 }
             })
             .catch((err) => {
@@ -261,7 +263,6 @@ class MessageCenterScreen extends BaseComponent {
         let itemSymbol = item.symbol.toUpperCase()
         let isHaveToken = this.routeToTransactionRecoder(item)
         if (!isHaveToken) {
-            this._showLoding()
             let allTokens = this.props.allTokens
             let isMatchToken = false;
             for (let i = 0; i < allTokens.length; i++) {
@@ -280,31 +281,16 @@ class MessageCenterScreen extends BaseComponent {
                     break;
                 }
             }
-            this._hideLoading()
             if (isMatchToken) {
                 this.routeToTransactionRecoder(item)
+            }else{
+                this._hideLoading()
             }
 
         }
     }
 
-
-    //公告
-    announcement(item) {
-        let _this = this;
-        this.props.navigation.navigate('MessageWebView', {
-            url: item.contentUrl,
-            title: item.alertTitle,
-            callback: function (data) {
-                if (_this.callBackIsNeedRefresh) {
-                    _this._onRefresh()
-                }
-            }
-        })
-    }
-
-
-    routeToTransactionRecoder(item) {
+    async routeToTransactionRecoder(item) {
         let _this = this;
         let itemSymbol = item.symbol.toUpperCase()
         let tokens = this.props.tokens;
@@ -320,21 +306,60 @@ class MessageCenterScreen extends BaseComponent {
                     address: token.address,
                     decimal: token.decimal
                 }
-
                 this.props.setCoinBalance(balanceInfo);
-                this.props.navigation.navigate('TransactionRecoder', {
-                    callback: function (data) {
-                        if (_this.callBackIsNeedRefresh) {
-                            _this._onRefresh()
-                        }
 
-                    }
-                })
+                let transation = await networkManage.getTransaction(item.hashId)
+                let status = 2;
+                if (transation.isError == undefined || transation.isError == false){
+                    status = 0;
+                } 
+                if (status == 0){
+                    let currentBlockNumber = await networkManage.getCurrentBlockNumber();
+                    if (currentBlockNumber - transation.blockNumber < 12){
+                        status = 1
+                    }                    
+                }
+
+                let address = transation.to.toLowerCase() == this.props.walletAddress.toLowerCase() ? transation.from : transation.to
+                let transactionDetail = {
+                    amount: parseFloat(item.transactionValue),
+                    transactionType: item.symbol.toUpperCase(),
+                    tranStatus: status,
+                    fromAddress: transation.from,
+                    toAddress: transation.to,
+                    gasPrice: '',
+                    transactionHash: transation.hash,
+                    blockNumber: transation.blockNumber,
+                    transactionTime: item.updateTime + " +0800",
+                    remark: I18n.t('transaction.no'),
+                    name: addressToName(address, this.props.contactList)
+                };
+                this._hideLoading()
+                this.props.setTransactionDetailParams(transactionDetail);
+                this.props.navigation.navigate('TransactionDetail');
+
                 break;
             }
         }
-
         return isHaveToken;
+    }
+
+
+    //公告
+    announcement(item) {
+        let _this = this;
+        this.props.navigation.navigate('MessageWebView', {
+            url: item.contentUrl,
+            title: item.alertTitle,
+            callback: function (data) {
+               
+            }
+        })
+    }
+
+    //read all
+    _readAll = async () => {
+
     }
 
     async saveTokenToStorage(token) {
@@ -388,7 +413,9 @@ class MessageCenterScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader navigation={this.props.navigation}
-                    text={I18n.t('settings.message_center')} />
+                    text={I18n.t('settings.message_center')}
+                    rightPress={this._onLoadMore}
+                    rightText={I18n.t('settings.read_all')} />
                 <FlatList
                     style={styles.listContainer}
                     ref={ref => this.flatList = ref}
@@ -406,7 +433,7 @@ class MessageCenterScreen extends BaseComponent {
                     />}
                     onEndReachedThreshold={0.1}
                     onEndReached={this._onLoadMore} //加载更多
-                //ListFooterComponent={this._listFooterView}
+                    //ListFooterComponent={this._listFooterView}
                 >
                 </FlatList>
             </View>
@@ -464,10 +491,12 @@ const mapStateToProps = state => ({
     allTokens: state.Core.allTokens,
     tokens: state.Core.tokens,
     contactList: state.Core.contactList,
+    walletAddress: state.Core.walletAddress,
 });
 const mapDispatchToProps = dispatch => ({
     addToken: (token) => dispatch(Actions.addToken(token)),
     setCoinBalance: (balanceInfo) => dispatch(Actions.setCoinBalance(balanceInfo)),
+    setTransactionDetailParams: (transactionDetail) => dispatch(Actions.setTransactionDetailParams(transactionDetail)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MessageCenterScreen)
 

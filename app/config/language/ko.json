@@ -195,7 +195,7 @@
         "cancel":"취소",
 
         "message_center":"메세지",
-        "receipt_notice":"수금 통지",
+        "receipt_notice":"입금 통지",
         "transfer_notice":"이체 알림",
         "successful_payment":"결제 성공",
         "successful_transfer":"이체 성공",
@@ -206,7 +206,8 @@
         "transaction_notification":"거래 알림",
         "announcement":"공지: ",
         "official_team":"IoT Chain 공식팀",
-        "no_more_data":"더 이상의 데이터가 없습니다."
+        "no_more_data":"더 이상의 데이터가 없습니다.",
+        "read_all":"Read All"
         
     },
     "toast":{

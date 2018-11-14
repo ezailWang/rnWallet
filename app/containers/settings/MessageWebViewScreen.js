@@ -84,7 +84,6 @@ export default class MessageWebViewScreen extends BaseComponent {
         })
     }
 
-
     onMessage(event) {
         try {
             const action = JSON.parse(event.nativeEvent.data)

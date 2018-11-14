@@ -15,12 +15,10 @@ import {
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
-import { showToast } from '../../utils/Toast'
 import JPushModule from 'jpush-react-native'
 import networkManage from '../../utils/networkManage'
 import DeviceInfo from 'react-native-device-info'
 import { __await } from 'tslib';
-import JPush from 'jpush-react-native';
 class Loading extends Component {
 
     static propTypes = {
@@ -233,8 +231,8 @@ class Loading extends Component {
 
     async getAllTokens() {
         let allTokensParams = {
-            'network': this.props.network,
-            //'network': 'main',
+            //'network': this.props.network,
+            'network': 'main',
         }
         networkManage.getAllTokens(allTokensParams).then((response) => {
             if (response.code === 200) {

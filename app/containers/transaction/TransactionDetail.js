@@ -254,7 +254,7 @@ export default class TransactionDetail extends BaseComponent {
                         <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.toAddress}</Text>
 
                         <Text style={[styles.fontGray, styles.marginTop10]}>{I18n.t('transaction.miner_cost')}</Text>
-                        <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.gasPrice + " eth"}</Text>
+                        <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.gasPrice=='' ? '~' : this.state.gasPrice + " eth"}</Text>
 
                         <View style={styles.bottomBox}>
                             <View style={styles.infoLeftBox}>

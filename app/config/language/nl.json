@@ -204,7 +204,8 @@
         "transaction_notification":"Transactie kennisgeving",
         "announcement":"Aankondiging: ",
         "official_team":"IoT Chain officieel team",
-        "no_more_data":"No more data"
+        "no_more_data":"No more data",
+        "read_all":"Read All"
 
     },
     "toast":{
