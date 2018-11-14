@@ -19,7 +19,7 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import { showToast } from '../../utils/Toast';
-import { addressToName } from '../../utils/commonUtil'
+import { addressToName } from '../../utils/CommonUtil'
 import NetworkManager from '../../utils/NetworkManager'
 
 const styles = StyleSheet.create({
@@ -309,13 +309,13 @@ class MessageCenterScreen extends BaseComponent {
                 }
                 this.props.setCoinBalance(balanceInfo);
 
-                let transation = await networkManage.getTransaction(item.hashId)
+                let transation = await NetworkManager.getTransaction(item.hashId)
                 let status = 2;
                 if (transation.isError == undefined || transation.isError == false){
                     status = 0;
                 } 
                 if (status == 0){
-                    let currentBlockNumber = await networkManage.getCurrentBlockNumber();
+                    let currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
                     if (currentBlockNumber - transation.blockNumber < 12){
                         status = 1
                     }                    
