@@ -82,7 +82,7 @@ import {
     SearchTokenScreen,
     MessageCenterScreen,
     MessageWebViewScreen
-} from '../containers/containers';
+} from '../containers/Containers';
 
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
 import { BackButton, HeaderButton } from '../components/Button'

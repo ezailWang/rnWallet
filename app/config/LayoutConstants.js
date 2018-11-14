@@ -31,7 +31,7 @@ function getNavigationHeight() {
     return 64;
 }
 
-const layoutConstants = {
+const LayoutConstants = {
 
     WINDOW_WIDTH: width,
     WINDOW_HEIGHT: height,
@@ -57,4 +57,4 @@ const layoutConstants = {
 
 }
 
-export default layoutConstants
+export default LayoutConstants

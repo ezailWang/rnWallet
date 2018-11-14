@@ -17,15 +17,15 @@ import {
 
 import { Colors, TransferGasLimit, TransferType } from "../../config/GlobalConfig";
 import TransactionStep from './TransactionStep'
-import NetworkManager from '../../utils/networkManage';
+import NetworkManager from '../../utils/NetworkManager';
 import { store } from '../../config/store/ConfigureStore'
 
 import PropTypes from 'prop-types';
 import { BlueButtonBig } from '../../components/Button'
 import Slider from '../../components/Slider'
-import { androidPermission } from '../../utils/permissionsAndroid';
+import { androidPermission } from '../../utils/PermissionsAndroid';
 import StorageManage from '../../utils/StorageManage'
-import keystoreUtils from '../../utils/keystoreUtils'
+import KeystoreUtils from '../../utils/KeystoreUtils'
 import keythereum from 'keythereum'
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
@@ -416,7 +416,7 @@ export default class Transaction extends BaseComponent {
 
             let  privateKey
             try{
-                privateKey = await keystoreUtils.getPrivateKey(password)
+                privateKey = await KeystoreUtils.getPrivateKey(password)
                 if (privateKey == null) {
                     showToast(I18n.t('modal.password_error'))
 

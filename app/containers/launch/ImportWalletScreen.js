@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
-import keystoreUtils from '../../utils/keystoreUtils'
+import KeystoreUtils from '../../utils/KeystoreUtils'
 import StorageManage from '../../utils/StorageManage'
 import * as Actions from '../../config/action/Actions'
 import { connect } from 'react-redux';
@@ -362,8 +362,8 @@ class ImportWalletScreen extends BaseComponent {
             var password = this.pwdtxt;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
-            var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv); 
-            await keystoreUtils.exportToFile(keyObject, "keystore")
+            var keyObject = await KeystoreUtils.dump(password, privateKey, dk.salt, dk.iv); 
+            await KeystoreUtils.exportToFile(keyObject, "keystore")
 
             this.props.generateMnemonic(this.mnemonictxt);
             this.props.setWalletAddress(checksumAddress);

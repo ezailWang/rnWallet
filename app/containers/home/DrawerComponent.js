@@ -10,7 +10,7 @@ import BaseComponent from '../base/BaseComponent'
 import StatusBarComponent from '../../components/StatusBarComponent';
 import { BlurView } from 'react-native-blur';
 import Loading from '../../components/Loading';
-import layoutConstants from '../../config/LayoutConstants'
+import LayoutConstants from '../../config/LayoutConstants'
 
 class DrawerComponent extends BaseComponent {
     navigateToScreen = (route, params) => () => {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     blurStyle: {
         position: "absolute",
         top: 0, left: 0, bottom: 0, right: 0,
-        height: layoutConstants.WINDOW_HEIGHT,
+        height: LayoutConstants.WINDOW_HEIGHT,
         zIndex: 1000,
     }
 })

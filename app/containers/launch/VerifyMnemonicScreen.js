@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Text, Dimensions, BackHandler } from 'react-na
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
-import keystoreUtils from '../../utils/keystoreUtils'
+import KeystoreUtils from '../../utils/KeystoreUtils'
 import StorageManage from '../../utils/StorageManage'
 import { BlueButtonBig } from '../../components/Button';
 import { connect } from 'react-redux';
@@ -195,9 +195,9 @@ class VerifyMnemonicScreen extends BaseComponent {
             var password = this.props.navigation.state.params.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
-            var keyObject = await keystoreUtils.dump(password, privateKey, dk.salt, dk.iv); 
-            await keystoreUtils.exportToFile(keyObject, "keystore")
-            //var str = await keystoreUtils.importFromFile(keyObject.address)
+            var keyObject = await KeystoreUtils.dump(password, privateKey, dk.salt, dk.iv); 
+            await KeystoreUtils.exportToFile(keyObject, "keystore")
+            //var str = await KeystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)
 
             this.props.setWalletAddress(checksumAddress);

@@ -1,9 +1,9 @@
 import Web3 from 'web3'
 import { store } from '../config/store/ConfigureStore'
-import { erc20Abi } from './constants'
+import { erc20Abi } from './Constants'
 import BigNumber from 'bignumber.js'
 import etherscan from 'etherscan-api'
-import layoutConstants from '../config/LayoutConstants'
+import LayoutConstants from '../config/LayoutConstants'
 import StorageManage from './StorageManage'
 import { StorageKey, Network } from '../config/GlobalConfig'
 import { addToken, loadTokenBalance, setTotalAssets } from '../config/action/Actions'
@@ -15,8 +15,8 @@ import FetchUtils from './FetchUtils'
 import NetAddr from './NetAddr'
 
 const Ether = new BigNumber(10e+17)
-var api = etherscan.init(layoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
-export default class networkManage {
+var api = etherscan.init(LayoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
+export default class NetworkManager {
 
     static getWeb3Instance() {
         return new Web3(this.getWeb3HTTPProvider())
@@ -26,19 +26,19 @@ export default class networkManage {
         switch (store.getState().Core.network) {
             case Network.ropsten:
                 return new Web3.providers.HttpProvider(
-                    `https://ropsten.infura.io/${layoutConstants.INFURA_API_KEY}`,
+                    `https://ropsten.infura.io/${LayoutConstants.INFURA_API_KEY}`,
                 );
             case Network.kovan:
                 return new Web3.providers.HttpProvider(
-                    `https://kovan.infura.io/${layoutConstants.INFURA_API_KEY}`,
+                    `https://kovan.infura.io/${LayoutConstants.INFURA_API_KEY}`,
                 );
             case Network.rinkeby:
                 return new Web3.providers.HttpProvider(
-                    `https://rinkeby.infura.io/${layoutConstants.INFURA_API_KEY}`,
+                    `https://rinkeby.infura.io/${LayoutConstants.INFURA_API_KEY}`,
                 );
             default:
                 return new Web3.providers.HttpProvider(
-                    `https://mainnet.infura.io/${layoutConstants.INFURA_API_KEY}`,
+                    `https://mainnet.infura.io/${LayoutConstants.INFURA_API_KEY}`,
                 );
         }
     }
@@ -518,7 +518,7 @@ export default class networkManage {
     static async userInfoUpdate(params) {
         let userToken = await StorageManage.load(StorageKey.UserToken)
         if (!userToken || userToken === null) {
-            return;
+            return new Promise.reject('userToken not found');
         }
         params['userToken'] = userToken['userToken']
         return FetchUtils.requestPost(NetAddr.userInfoUpdate, params)
