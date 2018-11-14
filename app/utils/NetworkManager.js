@@ -487,6 +487,14 @@ export default class NetworkManager {
         return FetchUtils.requestGet(NetAddr.getUnReadMessageCount, params)
     }
 
+
+    /**
+     *  将所有的消息标记为已读
+     */
+    static readAllMessage(params) {
+        return FetchUtils.requestPost(NetAddr.readAllMessage, params)
+    }
+
     /**
      * feedback 
      */
@@ -529,9 +537,9 @@ export default class NetworkManager {
      * get transaction detail with hashid 
      */
 
-     static async getTransaction(hashId){
+    static async getTransaction(hashId) {
         let web3 = this.getWeb3Instance();
         return await web3.eth.getTransaction(hashId);
-     }
+    }
 }
 

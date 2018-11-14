@@ -360,7 +360,23 @@ class MessageCenterScreen extends BaseComponent {
 
     //read all
     _readAll = async () => {
-
+        if (!this.userToken || this.userToken === null) {
+            return;
+        }
+        let params = {
+            'userToken': this.userToken['userToken'],
+        }
+        NetworkManager.readAllMessage(params)
+            .then((response) => {
+                if (response.code === 200) {
+                    this._onRefresh(false)
+                } else {
+                    //console.log('readAllMessage err msg:', response.msg)
+                }
+            })
+            .catch((err) => {
+                //console.log('readAllMessage err:', err)
+            })
     }
 
     async saveTokenToStorage(token) {
@@ -415,7 +431,7 @@ class MessageCenterScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgHeader navigation={this.props.navigation}
                     text={I18n.t('settings.message_center')}
-                    rightPress={this._onLoadMore}
+                    rightPress={() => this._readAll()}
                     rightText={I18n.t('settings.read_all')} />
                 <FlatList
                     style={styles.listContainer}
@@ -465,7 +481,7 @@ class Item extends PureComponent {
             let content1 = transactionType == 1 ? I18n.t('settings.sender') : I18n.t('settings.receiver');
             content = content1 + address.substr(0, 8) + '......' + address.substr(34, 42)
         } else if (messageType == 2) {
-            const { alertTitle, alertSubTitle, contentUrl, sender } = this.props.item.item || {}
+            const { alertTitle, alertSubTitle, sender } = this.props.item.item || {}
             title = I18n.t('settings.announcement') + alertSubTitle;
             content = sender
         }

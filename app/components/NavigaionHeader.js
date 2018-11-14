@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
 
     headerBgContainer: {
         flexDirection: 'row',
+        width:Layout.WINDOW_WIDTH,
         backgroundColor: Colors.whiteBackgroundColor,
         zIndex: 10,
     },
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     },
     headerButtonBox: {
         height: 40,
-        //width: 40,
+        width: 40,
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 12,
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf:'center',
     },
     headerTitle: {
         fontSize: FontSize.HeaderSize,
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
     rightText:{
         color:Colors.fontBlueColor,
         fontSize:14,
+        alignSelf:'flex-end'
     }
 })
 
@@ -189,7 +192,7 @@ class WhiteBgHeader extends PureComponent {
         }
         return (
             <View style={[styles.headerBgContainer, { height: height }]}>
-                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]}
+                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop,{marginRight:this.props.rightText ? 60 : 0}]}
                     onPress={this.props.leftPress == undefined ? () => { Keyboard.dismiss(); this.props.navigation.goBack() } : this.props.leftPress}
                 >
                     <Image style={styles.icon}
@@ -204,7 +207,7 @@ class WhiteBgHeader extends PureComponent {
                     </Text>
                 </View>
 
-                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]} onPress={this.props.rightPress}>
+                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop,{width:this.props.rightText ? 100 : 40}]} onPress={this.props.rightPress}>
                     <Image style={styles.icon}
                         resizeMode={'center'}
                         source={this.props.rightIcon}>

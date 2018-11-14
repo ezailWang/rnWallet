@@ -9,6 +9,7 @@ let NetAddr = {
     getTokensVersion : host + 'tokens/version',
     getMessageList : host + 'wallet/user/messages',
     readMessage : host + 'wallet/user/readMessage',
+    readAllMessage : host + 'wallet/user/readAllMessage',
     getUnReadMessageCount : host + 'wallet/user/newMessageAccount',
     userInfoUpdate:host + 'wallet/user/update'
 }
