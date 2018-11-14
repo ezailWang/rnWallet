@@ -126,7 +126,7 @@ class MessageCenterScreen extends BaseComponent {
     }
 
     async loadData(isShowLoading) {
-        if(isShowLoading){
+        if (isShowLoading) {
             this._showLoding()
         }
         let params = {
@@ -186,7 +186,7 @@ class MessageCenterScreen extends BaseComponent {
 
 
     _onRefresh = (isShowLoading) => {
-        let showLoading  =  isShowLoading == undefined || isShowLoading ? true : false
+        let showLoading = isShowLoading == undefined || isShowLoading ? true : false
         if (!this.userToken || this.userToken === null) {
             return;
         }
@@ -230,7 +230,7 @@ class MessageCenterScreen extends BaseComponent {
         } else {
             this.callBackIsNeedRefresh = false;
         }
-    
+
         if (item.item.messageType == 1) {
             this._showLoding()
             this.transactionNotification(item.item)
@@ -284,7 +284,7 @@ class MessageCenterScreen extends BaseComponent {
             }
             if (isMatchToken) {
                 this.routeToTransactionRecoder(item)
-            }else{
+            } else {
                 this._hideLoading()
             }
 
@@ -311,14 +311,14 @@ class MessageCenterScreen extends BaseComponent {
 
                 let transation = await NetworkManager.getTransaction(item.hashId)
                 let status = 2;
-                if (transation.isError == undefined || transation.isError == false){
+                if (transation.isError == undefined || transation.isError == false) {
                     status = 0;
-                } 
-                if (status == 0){
+                }
+                if (status == 0) {
                     let currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
-                    if (currentBlockNumber - transation.blockNumber < 12){
+                    if (currentBlockNumber - transation.blockNumber < 12) {
                         status = 1
-                    }                    
+                    }
                 }
 
                 let address = transation.to.toLowerCase() == this.props.walletAddress.toLowerCase() ? transation.from : transation.to
@@ -353,7 +353,7 @@ class MessageCenterScreen extends BaseComponent {
             url: item.contentUrl,
             title: item.alertTitle,
             callback: function (data) {
-               
+
             }
         })
     }
@@ -434,7 +434,7 @@ class MessageCenterScreen extends BaseComponent {
                     />}
                     onEndReachedThreshold={0.1}
                     onEndReached={this._onLoadMore} //加载更多
-                    //ListFooterComponent={this._listFooterView}
+                //ListFooterComponent={this._listFooterView}
                 >
                 </FlatList>
             </View>

@@ -184,10 +184,10 @@ class EmptyComponent extends Component {
     render() {
         return (
             this.props.show ?
-            <View style={styles.emptyListContainer}>
-                <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'} />
-                <Text style={styles.emptyListText}>{ I18n.t('transaction.no_transaction_history_found')}</Text>
-            </View> : null
+                <View style={styles.emptyListContainer}>
+                    <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'} />
+                    <Text style={styles.emptyListText}>{I18n.t('transaction.no_transaction_history_found')}</Text>
+                </View> : null
         )
     }
 }
@@ -312,7 +312,7 @@ export default class TransactionRecoder extends BaseComponent {
     getRecoder = async () => {
 
         let { address, symbol, decimal, price } = store.getState().Core.balance;
-        let {contactList} = store.getState().Core;
+        let { contactList } = store.getState().Core;
 
 
         const { walletAddress } = store.getState().Core
@@ -329,15 +329,13 @@ export default class TransactionRecoder extends BaseComponent {
         let lastTransaction = store.getState().Core.newTransaction
         let currentBlock = await NetworkManager.getCurrentBlockNumber()
 
-        if(lastTransaction){
-
-            // console.warn(lastTransaction)
+        if (lastTransaction) {
             let didContainNewTransaction = false
             for (const index in recoders) {
-                
+
                 let recoder = recoders[index];
-                
-                if(lastTransaction.hash.toLowerCase() == recoder.hash.toLowerCase()){
+
+                if (lastTransaction.hash.toLowerCase() == recoder.hash.toLowerCase()) {
                     didContainNewTransaction = true;
                     break;
                 }
@@ -348,7 +346,7 @@ export default class TransactionRecoder extends BaseComponent {
                 recoders.push(lastTransaction)
             }
         }
-        
+
 
         var itemList = []
         recoders.map((item, i) => {
@@ -371,7 +369,7 @@ export default class TransactionRecoder extends BaseComponent {
                 type: symbol.toLowerCase(),
                 sureBlock: currentBlock - item.blockNumber,
                 isError: item.isError,
-                name : addressToName(address ,contactList)
+                name: addressToName(address, contactList)
             }
             itemList.push(data)
         });
@@ -486,7 +484,7 @@ export default class TransactionRecoder extends BaseComponent {
             blockNumber: recoder.blockNumber,
             transactionTime: timestampToTime(recoder.timeStamp) + " +0800",
             tranStatus: state,
-            name:this.state.itemList[index].name
+            name: this.state.itemList[index].name
         };
         store.dispatch(setTransactionDetailParams(transactionDetail));
         this.props.navigation.navigate('TransactionDetail');
@@ -510,21 +508,21 @@ export default class TransactionRecoder extends BaseComponent {
         this.hideLoading()
     }
 
-    showLoading(){
+    showLoading() {
         this._showLoding()
-        if(this.state.showNoData){
+        if (this.state.showNoData) {
             this.setState({
-                showNoData:false
+                showNoData: false
             })
         }
     }
 
-    hideLoading(){
+    hideLoading() {
         this._hideLoading()
-        if(this.state.itemList.length == [] && !this.state.showNoData ){
+        if (this.state.itemList.length == [] && !this.state.showNoData) {
             this.setState({
-                showNoData:true
-            }) 
+                showNoData: true
+            })
         }
     }
 
@@ -555,7 +553,7 @@ export default class TransactionRecoder extends BaseComponent {
         this.props.navigation.goBack()
         return true;
     }
-    
+
     renderComponent() {
 
         let { amount, price, symbol } = store.getState().Core.balance;
