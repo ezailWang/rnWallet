@@ -191,12 +191,22 @@ class MessageCenterScreen extends BaseComponent {
             return;
         }
         if (!this.state.isRefreshing) {
+            this.page = 1;
+            this.loadData(showLoading)
+        }
+    }
+
+    _pulldownRefresh = () =>{
+        if (!this.userToken || this.userToken === null) {
+            return;
+        }
+        if (!this.state.isRefreshing) {
             this.setState({
                 isRefreshing: true
             })
 
             this.page = 1;
-            this.loadData(showLoading)
+            this.loadData(false)
 
             this.setState({
                 isRefreshing: false
@@ -363,6 +373,7 @@ class MessageCenterScreen extends BaseComponent {
         if (!this.userToken || this.userToken === null) {
             return;
         }
+        this._showLoding()
         let params = {
             'userToken': this.userToken['userToken'],
         }
@@ -373,9 +384,11 @@ class MessageCenterScreen extends BaseComponent {
                 } else {
                     //console.log('readAllMessage err msg:', response.msg)
                 }
+                this._hideLoading()
             })
             .catch((err) => {
                 //console.log('readAllMessage err:', err)
+                this._hideLoading()
             })
     }
 
@@ -443,14 +456,14 @@ class MessageCenterScreen extends BaseComponent {
                     ItemSeparatorComponent={this._renderItemSeparatorComponent}
                     getItemLayout={(data, index) => ({ length: 80, offset: (80 + 1) * index, index: index })}
                     refreshControl={<RefreshControl
-                        onRefresh={this._onRefresh} //下拉刷新
+                        onRefresh={this._pulldownRefresh} //下拉刷新
                         refreshing={this.state.isRefreshing}
                         colors={[Colors.themeColor]}
                         tintColor={Colors.whiteBackgroundColor}
                     />}
                     onEndReachedThreshold={0.1}
                     onEndReached={this._onLoadMore} //加载更多
-                //ListFooterComponent={this._listFooterView}
+                    //ListFooterComponent={this._listFooterView}
                 >
                 </FlatList>
             </View>
