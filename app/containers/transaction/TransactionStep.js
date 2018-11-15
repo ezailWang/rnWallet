@@ -14,8 +14,9 @@ import {
     StatusBar,
     Platform,
 } from 'react-native'
+import StorageManage from '../../utils/StorageManage'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Colors } from '../../config/GlobalConfig'
+import { Colors, StorageKey } from '../../config/GlobalConfig'
 import PropTypes from 'prop-types';
 import { store } from '../../config/store/ConfigureStore'
 import { I18n } from '../../config/language/i18n'
@@ -265,6 +266,56 @@ export default class TransactionStep extends Component {
 
     // }
 
+    //保存最近转账的地址
+    async saveRecentAddress() {
+        let address = this.state.toAddress;
+        let symbol = this.state.totalAmount.split(' ')[1];
+        let time = this.getCurrentTime()
+        let tokens = store.getState().Core.tokens;
+        let iconLarge = ''
+        for (let i = 0; i < tokens.length; i++) {
+            if (symbol.toUpperCase() == tokens[i].symbol.toUpperCase()) {
+                iconLarge = tokens[i].iconLarge;
+                break;
+            }
+        }
+
+        let recentTransferAddress = await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress)
+        let isSavedAddress = false;
+        for (let i = 0; i < recentTransferAddress.length; i++) {
+            if (recentTransferAddress[i].address.toUpperCase() == address.toUpperCase()) {
+                isSavedAddress = true;
+                break;
+            }
+        }
+
+
+        let id = address;//用地址作为存储的id
+        let object = {
+            address: address,
+            symbol: symbol,
+            time: time,
+            iconLarge: iconLarge,
+        }
+        if (isSavedAddress) {
+            StorageManage.remove(StorageKey.RecentTransferAddress, id)
+        }
+        StorageManage.save(StorageKey.RecentTransferAddress, object, id)
+        console.log('L_save', object)
+        let recentTransferAddressss = await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress)
+        console.log('L_recentTransferAddress', recentTransferAddressss)
+    }
+
+    getCurrentTime() {
+        let date = new Date();
+        let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        let hours = date.getHours() < 10  ? '0' + date.getHours() : date.getHours();
+        let minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+        let seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+    }
+
     showStepView(params) {
 
         let isShow = this.state.show;
@@ -288,7 +339,7 @@ export default class TransactionStep extends Component {
         }
     }
 
-    closeStepView(){
+    closeStepView() {
         this.setState({
             show: false,
         })
@@ -393,7 +444,7 @@ export default class TransactionStep extends Component {
                                 </View>
                                 <View style={styles.passwordFrameView}>
                                     <TextInput style={styles.passwordView}
-                                        placeholderTextColor = {Colors.fontGrayColor_a0}
+                                        placeholderTextColor={Colors.fontGrayColor_a0}
                                         placeholder={I18n.t('transaction.enter_password_hint')}
                                         returnKeyType={"done"}
                                         secureTextEntry={true}
@@ -414,7 +465,8 @@ export default class TransactionStep extends Component {
                             >密码提示: {walletPasswordPrompt}</Text> */}
                                 <TouchableOpacity style={styles.nextBtn} onPress={() => {
                                     let password = this.state.password;
-                                    // console.warn(password);
+
+                                    this.saveRecentAddress()
                                     this.showStepView();
                                     this.props.didTapSurePasswordBtn(password);
                                 }}>

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         height: 30,
         paddingTop: 5,
         paddingBottom: 5,
-        width: 100,
+        width: 110,
 
     },
     headerTitleRight: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         height: 30,
         paddingTop: 5,
         paddingBottom: 5,
-        width: 100,
+        width: 110,
     },
     headerTitleChecked: {
         backgroundColor: Colors.fontBlueColor,
