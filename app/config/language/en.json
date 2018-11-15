@@ -206,7 +206,9 @@
         "announcement":"Announcement: ",
         "official_team":"IoT Chain official team",
         "no_more_data":"No more data",
-        "read_all":"Read All"
+        "read_all":"Read All",
+        "recent_transfers":"Recent transfers",
+        "no_data":"No data"
 
     },
     "toast":{

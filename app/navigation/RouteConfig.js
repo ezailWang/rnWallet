@@ -81,7 +81,8 @@ import {
     AddTokenScreen,
     SearchTokenScreen,
     MessageCenterScreen,
-    MessageWebViewScreen
+    MessageWebViewScreen,
+    AddressListScreen
 } from '../containers/Containers';
 
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
@@ -236,6 +237,9 @@ const HomeRouteConfig =
     },
     MessageWebView: {
         screen: MessageWebViewScreen,
+    },
+    AddressList:{
+        screen:AddressListScreen,
     }
 };
 

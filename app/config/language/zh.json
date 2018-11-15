@@ -206,8 +206,9 @@
         "announcement":"公告: ",
         "official_team":"Tot Chain 官方团队",
         "no_more_data":"无更多数据",
-        "read_all":"全部已读"
-
+        "read_all":"全部已读",
+        "recent_transfers":"最近转账",
+        "no_data":"暂无数据"
     },
     "toast":{
         "exit_app":"再按一次退出应用",

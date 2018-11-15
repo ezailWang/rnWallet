@@ -206,7 +206,9 @@
         "announcement":"Annonce: ",
         "official_team":"Equipe officielle de la chaîne IoT",
         "no_more_data":"No more data",
-        "read_all":"Read All"
+        "read_all":"Read All",
+        "recent_transfers":"Recent transfers",
+        "no_data":"No data"
     },
     "toast":{
         "exit_app":"Cliquez à nouveau pour quitter l'application.",

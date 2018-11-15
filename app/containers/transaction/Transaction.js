@@ -505,12 +505,11 @@ export default class Transaction extends BaseComponent {
 
     routeContactList = () => {
         let _this = this;
-        this.props.navigation.navigate('ContactList', {
+        this.props.navigation.navigate('AddressList', {
             from: 'transaction',
             callback: function (data) {
                 var address = data.toAddress;
                 _this.inputToAddress = address;
-                // console.log('L_address', address);
                 _this.setState({
                     toAddress: address
                 })

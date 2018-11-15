@@ -31,6 +31,7 @@ import AddTokenScreen from './settings/AddTokenScreen'
 import SearchTokenScreen from './settings/SearchTokenScreen'
 import MessageCenterScreen from './settings/MessageCenterScreen'
 import MessageWebViewScreen from './settings/MessageWebViewScreen'
+import AddressListScreen from './settings/AddressListScreen'
 export {
     HomeScreen,
     Transaction,
@@ -64,5 +65,6 @@ export {
     AddTokenScreen,
     SearchTokenScreen,
     MessageCenterScreen,
-    MessageWebViewScreen
+    MessageWebViewScreen,
+    AddressListScreen
 }

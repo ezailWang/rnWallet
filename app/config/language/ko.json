@@ -207,7 +207,9 @@
         "announcement":"공지: ",
         "official_team":"IoT Chain 공식팀",
         "no_more_data":"더 이상의 데이터가 없습니다.",
-        "read_all":"Read All"
+        "read_all":"Read All",
+        "recent_transfers":"Recent transfers",
+        "no_data":"No data"
         
     },
     "toast":{

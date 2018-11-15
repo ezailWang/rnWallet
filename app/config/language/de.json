@@ -205,7 +205,9 @@
         "announcement":"Ankündigung: ",
         "official_team":"IoT Chain offizielles Team",
         "no_more_data":"No more data",
-        "read_all":"Read All"
+        "read_all":"Read All",
+        "recent_transfers":"Recent transfers",
+        "no_data":"No data"
     },
     "toast":{
         "exit_app":"Drücken Sie nochmals um die App zu schließen.",

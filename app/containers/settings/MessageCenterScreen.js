@@ -196,7 +196,7 @@ class MessageCenterScreen extends BaseComponent {
         }
     }
 
-    _pulldownRefresh = () =>{
+    _pulldownRefresh = () => {
         if (!this.userToken || this.userToken === null) {
             return;
         }
@@ -300,6 +300,7 @@ class MessageCenterScreen extends BaseComponent {
 
         }
     }
+
 
     async routeToTransactionRecoder(item) {
         let _this = this;
@@ -463,7 +464,7 @@ class MessageCenterScreen extends BaseComponent {
                     />}
                     onEndReachedThreshold={0.1}
                     onEndReached={this._onLoadMore} //加载更多
-                    //ListFooterComponent={this._listFooterView}
+                //ListFooterComponent={this._listFooterView}
                 >
                 </FlatList>
             </View>

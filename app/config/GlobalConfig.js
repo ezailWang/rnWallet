@@ -82,6 +82,7 @@ const StorageKey = {
     Network:'network',
     Language:'language',
     Contact:'contact',//保存联系人的key
+    RecentTransferAddress:'recentTransferAddress',//最近转账地址
     MonetaryUnit:'monetaryUnit',//货币单位
     PinInfo:'pinInfo',//存储pin密码
     UserToken:'userToken',//存储userToken

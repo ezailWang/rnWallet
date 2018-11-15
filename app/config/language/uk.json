@@ -206,7 +206,9 @@
         "announcement":"Оголошення: ",
         "official_team":"Офіційна команда IoT Chain",
         "no_more_data":"No more data",
-        "read_all":"Read All"
+        "read_all":"Read All",
+        "recent_transfers":"Recent transfers",
+        "no_data":"No data"
     },
     "toast":{
         "exit_app":"Натисніть ще раз, щоб вийти з програми",
