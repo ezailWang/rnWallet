@@ -133,10 +133,14 @@ export default class StorageManage {
     }
 
 
-    /**
-     * 删除单个数据
-     * @param key 删除key所对应的数据,必传
-     * @param id  删除id对应的数据，若删除的数据中有id,则必传
+    
+
+     /**
+     * 同步远程数据
+     * 
+     * @param key 必传
+     * @param syncsFun 请求方法
+     * @param id  可不传 
      */
     static async syncLoad(key, syncsFun, keyId) {
         let result;
@@ -146,10 +150,10 @@ export default class StorageManage {
                 key: key,
                 id: keyId,
                 //autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
-                autoSync: false,
+                autoSync: true,
                 //syncInBackground(默认为true)意味着如果数据过期，在调用sync方法的时同时先返回已经过期的数据
                 //设置为false，则始终强制返回sync方法提供的最新数据（则需要更多等待时间）
-                syncInBackground: false,
+                syncInBackground: true,
                 //给sync方法传递额外的参数
                 /*syncParams: {
                     extraFetchOptions: {
@@ -174,12 +178,11 @@ export default class StorageManage {
         } else {
             result = await storage.load({
                 key: key,
-                autoSync: false,
-                syncInBackground: false,
+                autoSync: true,
+                syncInBackground: true,
             }).then(ret => {
                 return ret;
             }).catch(err => {
-                //如果没有找到数据且没有sync方法，或者有其他异常，则在catch中返回
                 console.log('syncLoad_err', err.message)
                 switch (err.name) {
                     case 'NotFoundError':
