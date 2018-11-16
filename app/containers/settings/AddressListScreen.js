@@ -206,21 +206,35 @@ class AddressListScreen extends BaseComponent {
 
     async _initData() {
         this.from = this.props.navigation.state.params.from;
-        this.loadContactData()
+
+        let recentTransferAddress= await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress);
+        this.recentAddressList = recentTransferAddress.reverse()
+        this.refreshData()
+    }
+
+    refreshData(){
         let contactData = this.props.contactList;
-        this.recentAddressList = await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress);
+        this.recentAddressList.forEach(function (recentAddress, index, b) {
+            let address = recentAddress.address;
+            let isMathAddressName = '';
+            for(let i=0;i<contactData.length;i++){
+                if(address.toUpperCase() == contactData[i].address.toUpperCase()){
+                    isMathAddressName = contactData[i].name;
+                    break;
+                }
+            }
+            recentAddress.name = isMathAddressName;
+        })
+
         this.setState({
             contactDatas: contactData,
-            recentAddressDatas: this.recentAddressList.reverse(),
+            recentAddressDatas: this.recentAddressList
         })
     }
 
-
+    
     loadContactData() {
-        let contactData = this.props.contactList;
-        this.setState({
-            contactDatas: contactData,
-        })
+        this.refreshData();
     }
 
     _onContactPressItem = (item) => {
@@ -446,9 +460,10 @@ class RecentAddressItem extends PureComponent {
     }
 
     render() {
-        const { address, symbol, time, iconLarge } = this.props.item.item || {}
+        const { address, symbol, time, iconLarge ,name} = this.props.item.item || {}
         let icon = this._getLogo(symbol, iconLarge);
-        let _address = address.substr(0, 8) + '...' + address.substr(34, 42)
+        let _name = name == '' ? '' : ' ('+name.trim()+')'
+        let _address = address.substr(0, 8) + '...' + address.substr(34, 42) +  _name;
         let _time = time + ' +0800'
         return (
             <TouchableOpacity activeOpacity={0.6}

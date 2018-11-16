@@ -145,7 +145,7 @@ class CreateContactScreen extends BaseComponent {
     }
 
     nameOnChangeText = (text) => {
-        this.name = text;
+        this.name = text.trim();
         this.btnIsEnableClick()
     };
     remarkOnChangeText = (text) => {

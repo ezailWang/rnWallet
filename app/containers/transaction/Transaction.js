@@ -494,7 +494,7 @@ export default class Transaction extends BaseComponent {
 
         // console.log('######'+this.inputTransferValue)
 
-        let amountIsNotValid = this.inputTransferValue === undefined || Number.isNaN(this.inputTransferValue) || Number(this.inputTransferValue.toFixed(8)) == 0 || parseFloat(this.inputTransferValue)  > totalValue
+        let amountIsNotValid = this.inputTransferValue === undefined || Number.isNaN(this.inputTransferValue) || parseFloat(this.inputTransferValue)  > totalValue
         let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
 
