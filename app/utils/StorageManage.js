@@ -133,27 +133,27 @@ export default class StorageManage {
     }
 
 
-    
 
-     /**
-     * 同步远程数据
-     * 
-     * @param key 必传
-     * @param syncsFun 请求方法
-     * @param id  可不传 
-     */
-    static async syncLoad(key, syncsFun, keyId) {
+
+    /**
+    * 同步远程数据
+    * 
+    * @param key 必传
+    * @param syncsFun 请求
+    * @param id  可不传 
+    */
+    static async syncLoad(key, syncFun, keyId) {
         let result;
-        storage.sync = syncsFun
+        storage.sync = syncFun
         if (keyId) {
             result = await storage.load({
                 key: key,
                 id: keyId,
                 //autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
-                autoSync: true,
+                autoSync: false,
                 //syncInBackground(默认为true)意味着如果数据过期，在调用sync方法的时同时先返回已经过期的数据
                 //设置为false，则始终强制返回sync方法提供的最新数据（则需要更多等待时间）
-                syncInBackground: true,
+                syncInBackground: false,
                 //给sync方法传递额外的参数
                 /*syncParams: {
                     extraFetchOptions: {
@@ -161,6 +161,7 @@ export default class StorageManage {
                     },
                     someFlag:true,
                 }*/
+                expires: 1000
             }).then(ret => {
                 //如果找到数据，则在then方法返回
                 return ret;

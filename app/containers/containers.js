@@ -32,6 +32,7 @@ import SearchTokenScreen from './settings/SearchTokenScreen'
 import MessageCenterScreen from './settings/MessageCenterScreen'
 import MessageWebViewScreen from './settings/MessageWebViewScreen'
 import AddressListScreen from './settings/AddressListScreen'
+import SyncStorage from './settings/SyncStorage'
 export {
     HomeScreen,
     Transaction,
@@ -67,4 +68,5 @@ export {
     MessageCenterScreen,
     MessageWebViewScreen,
     AddressListScreen,
+    SyncStorage,
 }
