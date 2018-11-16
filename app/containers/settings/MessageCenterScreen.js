@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
         width: Layout.WINDOW_WIDTH,
-        marginTop: 12,
+        //marginTop: 12,
         backgroundColor: 'white'
     },
     emptyListContainer: {

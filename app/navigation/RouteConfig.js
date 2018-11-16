@@ -82,7 +82,8 @@ import {
     SearchTokenScreen,
     MessageCenterScreen,
     MessageWebViewScreen,
-    AddressListScreen
+    AddressListScreen,
+    SyncStorage
 } from '../containers/Containers';
 
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
@@ -240,6 +241,9 @@ const HomeRouteConfig =
     },
     AddressList:{
         screen:AddressListScreen,
+    },
+    SyncStorage:{
+        screen:SyncStorage,
     }
 };
 

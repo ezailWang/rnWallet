@@ -60,7 +60,10 @@ const styles = StyleSheet.create({
     rightText:{
         color:Colors.fontBlueColor,
         fontSize:14,
-        alignSelf:'flex-end'
+        alignSelf:'flex-end',
+        height:40,
+        lineHeight:40
+
     }
 })
 
@@ -208,13 +211,15 @@ class WhiteBgHeader extends PureComponent {
                 </View>
 
                 <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop,{width:this.props.rightText ? 100 : 40}]} onPress={this.props.rightPress}>
+                   {!this.props.rightText ? 
                     <Image style={styles.icon}
                         resizeMode={'center'}
                         source={this.props.rightIcon}>
                     </Image>
+                    :
                     <Text style={styles.rightText}>
                         {this.props.rightText}
-                    </Text>
+                    </Text>}
                 </TouchableOpacity>
             </View>
         )
