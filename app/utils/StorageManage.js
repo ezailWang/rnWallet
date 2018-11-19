@@ -13,6 +13,9 @@ var storage = new Storage({
 
 global.storage = storage
 
+
+
+
 export default class StorageManage {
 
 
@@ -49,6 +52,7 @@ export default class StorageManage {
      * @param id  可不传 
      */
     static async load(key, id) {
+        storage.sync = null;
         var ret;
         if (id) {
             try {
@@ -81,6 +85,7 @@ export default class StorageManage {
 
     //获取key下的所有数据(仅key-id数据)
     static async loadAllDataForKey(key) {
+        storage.sync = null;
         var ret;
         try {
             ret = await storage.getAllDataForKey(key);
@@ -94,6 +99,7 @@ export default class StorageManage {
 
     //获取key下的所有id(仅key-id数据)
     static async loadIdsForKey(key) {
+        storage.sync = null;
         var ids;
         try {
             ids = await storage.getIdsForKey(key);
@@ -143,25 +149,26 @@ export default class StorageManage {
     * @param id  可不传 
     */
     static async syncLoad(key, syncFun, keyId) {
-        let result;
         storage.sync = syncFun
+        
+        let result
         if (keyId) {
             result = await storage.load({
                 key: key,
                 id: keyId,
                 //autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
-                autoSync: false,
+                autoSync: true,
                 //syncInBackground(默认为true)意味着如果数据过期，在调用sync方法的时同时先返回已经过期的数据
                 //设置为false，则始终强制返回sync方法提供的最新数据（则需要更多等待时间）
-                syncInBackground: false,
+                syncInBackground: true,
                 //给sync方法传递额外的参数
-                /*syncParams: {
+                syncParams: {
                     extraFetchOptions: {
                         //各种参数
                     },
                     someFlag:true,
-                }*/
-                expires: 1000
+                }
+
             }).then(ret => {
                 //如果找到数据，则在then方法返回
                 return ret;
@@ -181,6 +188,11 @@ export default class StorageManage {
                 key: key,
                 autoSync: true,
                 syncInBackground: true,
+                syncParams: {
+                    extraFetchOptions: {
+                    },
+                    someFlag:true,
+                }
             }).then(ret => {
                 return ret;
             }).catch(err => {

@@ -86,9 +86,7 @@ class DrawerComponent extends BaseComponent {
                         style={{ backgroundColor: Colors.bgGrayColor, height: 1, marginHorizontal: 5 }}
                     />
                     <DrawerCell
-                        //todo
-                        //onClick={this.navigateToScreen('Feedback')}
-                        onClick={this.navigateToScreen('SyncStorage')}
+                        onClick={this.navigateToScreen('Feedback')}
                         text={I18n.t('home.feedback')}
                         imageSource={require('../../assets/home/menu/menu_feedback.png')}
                     />

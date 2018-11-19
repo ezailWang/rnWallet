@@ -454,7 +454,7 @@ export default class NetworkManager {
     static getAllTokens(params) {
         return FetchUtils.requestGet(NetAddr.getAllTokens, params)
     }
-
+    
     /**
      * getAllTokens 
      */
