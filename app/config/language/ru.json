@@ -29,7 +29,9 @@
         "backup_mnemonic_complete":"Мнемонические слова были скопированы",
 
         "confirm_mnemonic":"Подтвердить",
-        "confirm_mnemonic_prompt":"Выберите мнемонические слова в правильном порядке",
+        "confirm_mnemonic_prompt":"In order to ensure that the mnemonic has been correctly copied, please select the word corresponding to the serial number.",
+        "toast_verify_mnemonic_fail":"Select error, please start verification again",
+        "modal_mnemonic_success":"Verification is complete, wallet is being created",
         "complete":"Готово",
 
         "service_agreement":"Соглашение о пользовании сервисом",

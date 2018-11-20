@@ -29,7 +29,9 @@
         "backup_mnemonic_complete":"니모닉 코드 문구를 잘 적었습니다.",
 
         "confirm_mnemonic":"니모닉 코드 문구를 확인합니다.",
-        "confirm_mnemonic_prompt":"순서대로 니모닉 코드 문구를 클릭하여 정확히 백업하셨는지 확인합니다.",
+        "confirm_mnemonic_prompt":"In order to ensure that the mnemonic has been correctly copied, please select the word corresponding to the serial number.",
+        "toast_verify_mnemonic_fail":"Select error, please start verification again",
+        "modal_mnemonic_success":"Verification is complete, wallet is being created",
         "complete":"완료",
 
         "service_agreement":"서비스 계약서",

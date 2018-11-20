@@ -46,6 +46,9 @@ const Colors = {
     btn_bg_blue:'rgb(1,176,245)',
     bg_blue:'#EBF8FF',
     borderColor_e:'#eee',
+    bg_blue_e9:'#E9F7FE',
+    bg_blue_77:'#77BFFD',
+    bg_blue_55:'#5596DE',
     
     //Home
     homeAssetsTestColor:'#535353',

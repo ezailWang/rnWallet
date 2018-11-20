@@ -1,128 +1,216 @@
-import React, { Component } from 'react';
-import { View,StyleSheet,Image,Text,SnapshotViewIOS,TouchableOpacity ,Dimensions,BackHandler} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, StyleSheet, Image, Text, SnapshotViewIOS, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
-import {BlueButtonBig} from '../../components/Button';
-import {Colors,FontSize} from '../../config/GlobalConfig'
-import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
+import { BlueButtonBig } from '../../components/Button';
+import { Colors, FontSize } from '../../config/GlobalConfig'
+import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
-import {showToast} from '../../utils/Toast';
+import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../../containers/base/BaseComponent'
-let ScreenWidth = Dimensions.get('window').width;
-let ScreenHeight = Dimensions.get('window').height;
+import PropTypes from 'prop-types'
+
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:'#fff',
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
     },
-    contentBox:{
-        flex:1,
-        width:Layout.WINDOW_WIDTH*0.9,
-        alignItems:'center',
-        alignSelf:'center',
-        paddingTop:80,
+    contentBox: {
+        flex: 1,
+        width: Layout.WINDOW_WIDTH * 0.9,
+        alignItems: 'center',
+        alignSelf: 'center',
+        paddingTop: 3,
     },
-    icon:{
+    icon: {
         width: 72,
         height: 72,
-        marginBottom:10,
+        marginBottom: 10,
     },
 
-    titleTxt:{
-        fontSize:20,
-        fontWeight:'bold',
+    titleTxt: {
+        fontSize: 20,
+        fontWeight: 'bold',
         color: Colors.fontBlueColor,
-        marginBottom:30,
-        
+        marginBottom: 30,
+
     },
-    contentTxt:{
-        fontSize:FontSize.ContentSize,
-        color:Colors.fontGrayColor_a0,
+    contentTxt: {
+        fontSize: FontSize.ContentSize,
+        color: Colors.fontGrayColor_a0,
         //alignSelf:'flex-start',
-        textAlign:'left',
+        textAlign: 'left',
     },
-    mnemonicTxt:{
-        alignSelf:'stretch',
-        backgroundColor:Colors.bgColor_e,
-        fontSize:16,
-        color:'black',
+    mnemonicTxt: {
+        alignSelf: 'stretch',
+        backgroundColor: Colors.bgColor_e,
+        fontSize: 16,
+        color: 'black',
         borderRadius: 8,
-        marginTop:30,
-        paddingLeft:20,
-        paddingRight:20,
-        paddingTop:20,
-        paddingBottom:20,
-        textAlign:'left',
-        lineHeight:25,
+        marginTop: 30,
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
+        textAlign: 'left',
+        lineHeight: 25,
     },
-    buttonBox:{
-        flex:1,
-        justifyContent:'flex-end',
-        marginBottom:30,
-    }
+    buttonBox: {
+        marginTop: 30,
+    },
+
+    tableView: {
+        width: Layout.WINDOW_WIDTH * 0.9,
+        //height: 240,
+        borderWidth: 1,
+        borderColor: Colors.fontBlueColor,
+        borderRadius: 10,
+        marginTop: 30,
+        backgroundColor: Colors.bg_blue_e9
+    },
+    itemBox: {
+        flexDirection: 'row',
+        height: 40,
+        width: Layout.WINDOW_WIDTH * 0.9,
+    },
+    itemHLine: {
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.fontBlueColor,
+    },
+    itemVLine: {
+        height: 40,
+        width: 1,
+        backgroundColor: Colors.fontBlueColor,
+    },
+    itemCommon: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 40,
+    },
+    itemNum: {
+        width: 20,
+        paddingTop: 6,
+        fontSize: 11,
+        color: Colors.fontBlueColor,
+        marginLeft:10,
+    },
+    itemWord: {
+        flex: 1,
+        height: 40,
+        lineHeight: 40,
+        textAlign: 'center',
+        fontSize: 15,
+        marginLeft:-15,
+        color: Colors.fontBlueColor,
+    },
 })
 
 class BackupMnemonicScreen extends BaseComponent {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            modalVisible : true,
+            modalVisible: true,
+            mnemonic: [],
         }
+
+
+    }
+
+    _initData() {
+        let mnemonicArray = this.props.mnemonic.split(' ')
+        this.setState({
+            mnemonic: mnemonicArray
+        })
     }
     onCloseModal() {
-        this.setState({modalVisible: false});
+        this.setState({ modalVisible: false });
     }
-    
-    complete(){
+
+    complete() {
         let _this = this;
         //this.props.navigation.navigate('VerifyMnemonic',{password: this.props.navigation.state.params.password})
         this.props.navigation.navigate('VerifyMnemonic', {
             password: this.props.navigation.state.params.password,
             callback: function () {
                 _this.setState({
-                    modalVisible : true,
+                    modalVisible: true,
                 })
             }
         })
     }
 
-    _closeModal(){
+    _closeModal() {
         this.onCloseModal()
     }
 
     renderComponent() {
+        let mnemonics = this.state.mnemonic;
         return (
             <View style={styles.container}>
-                <WhiteBgNoTitleHeader navigation={this.props.navigation}/>
+                <WhiteBgNoTitleHeader navigation={this.props.navigation} />
                 <ScreenshotWarn
-                    content = {I18n.t('modal.screenshot_warn_content')}
-                    btnText = {I18n.t('modal.i_know')}
-                    modalVisible = {this.state.modalVisible}
-                    onPress = {()=> this.onCloseModal()}
+                    content={I18n.t('modal.screenshot_warn_content')}
+                    btnText={I18n.t('modal.i_know')}
+                    modalVisible={this.state.modalVisible}
+                    onPress={() => this.onCloseModal()}
                 />
-                <View style={styles.contentBox}>    
-                    <Image style={styles.icon} source={require('../../assets/launch/backupWordIcon.png')} resizeMode={'center'}/>
+                <View style={styles.contentBox}>
+                    <Image style={styles.icon} source={require('../../assets/launch/backupWordIcon.png')} resizeMode={'center'} />
                     <Text style={styles.titleTxt}>{I18n.t('launch.backup_mnemonic')}</Text>
                     <Text style={styles.contentTxt}>{I18n.t('launch.backup_mnemonic_prompt')}</Text>
-                    <Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text>    
+                    {/*<Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text> */}
+                    <View style={styles.tableView}>
+                        <Item num1={'#1'} word1={mnemonics[0]} num2={'#2'} word2={mnemonics[1]}></Item>
+                        <Item num1={'#3'} word1={mnemonics[2]} num2={'#4'} word2={mnemonics[3]}></Item>
+                        <Item num1={'#5'} word1={mnemonics[4]} num2={'#6'} word2={mnemonics[5]}></Item>
+                        <Item num1={'#7'} word1={mnemonics[6]} num2={'#8'} word2={mnemonics[7]}></Item>
+                        <Item num1={'#9'} word1={mnemonics[8]} num2={'#10'} word2={mnemonics[9]}></Item>
+                        <Item num1={'#11'} word1={mnemonics[10]} num2={'#12'} word2={mnemonics[11]} isLastLine={true}></Item>
+                    </View>
 
-                    <View style={styles.buttonBox}>
-                         <BlueButtonBig
-                             onPress = {()=> this.complete()}
-                             text = {I18n.t('launch.backup_mnemonic_complete')}
-                         />
-                    </View>          
+                    <BlueButtonBig
+                        buttonStyle={styles.buttonBox}
+                        onPress={() => this.complete()}
+                        text={I18n.t('launch.backup_mnemonic_complete')}
+                    />
                 </View>
             </View>
         );
     }
 }
 
+
+class Item extends PureComponent {
+
+    static propTypes = {
+    }
+
+    static defaultProps = {
+        isLastLine:false,
+    }
+
+    render() {
+        return (
+            <View style={[styles.itemBox, this.props.isLastLine ? null : styles.itemHLine]}>
+                <View style={[styles.itemCommon]}>
+                    <Text style={styles.itemNum}>{this.props.num1}</Text>
+                    <Text style={styles.itemWord}>{this.props.word1}</Text>
+                </View>
+                <View style={styles.itemVLine}></View>
+                <View style={[styles.itemCommon]}>
+                    <Text style={styles.itemNum}>{this.props.num2}</Text>
+                    <Text style={styles.itemWord}>{this.props.word2}</Text>
+                </View>
+            </View>
+        )
+    }
+}
+
 const mapStateToProps = state => ({
-    mnemonic:state.Core.mnemonic,
+    mnemonic: state.Core.mnemonic,
 });
 
-export default connect(mapStateToProps,{})(BackupMnemonicScreen)
+export default connect(mapStateToProps, {})(BackupMnemonicScreen)
 

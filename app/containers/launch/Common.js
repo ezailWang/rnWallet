@@ -1,5 +1,6 @@
 
 import { I18n } from '../../config/language/i18n'
+
 //打乱数组的顺序
 function upsetArrayOrder(array) {
     var len = array.length;
