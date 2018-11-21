@@ -426,7 +426,6 @@ export default class BaseComponent extends PureComponent {
                 showBlur: true,
             })
         }
-
     }
 
 
@@ -455,7 +454,6 @@ export default class BaseComponent extends PureComponent {
             }     
         }*/
     }
-
 }
 
 

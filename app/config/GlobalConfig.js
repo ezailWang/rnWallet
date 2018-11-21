@@ -90,6 +90,7 @@ const StorageKey = {
     PinInfo:'pinInfo',//存储pin密码
     UserToken:'userToken',//存储userToken
     NotRemindAgainTestITC:'notRemindAgainTestITC',//不再提示
+    TransactionRecoder:'TransactionRecoder',//存储交易记录
 }
 
 const Network = {

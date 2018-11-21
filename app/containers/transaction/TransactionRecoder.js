@@ -11,10 +11,11 @@ import {
     BackHandler,
     Animated
 } from 'react-native'
-import { Colors, FontSize } from '../../config/GlobalConfig'
+import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
 import { WhiteButtonMiddle, BackButton, BackWhiteButton } from '../../components/Button'
 import PropTypes from 'prop-types'
+import StorageManage from '../../utils/StorageManage'
 import { store } from '../../config/store/ConfigureStore'
 import { setTransactionDetailParams, setWalletTransferParams, setTransactionRecoders, setCoinBalance } from "../../config/action/Actions";
 import NetworkManager from '../../utils/NetworkManager'
@@ -293,7 +294,7 @@ export default class TransactionRecoder extends BaseComponent {
 
     constructor(props) {
         super(props);
-        this.onRefresh = this.onRefresh.bind(this);
+        // this.onRefresh = this.onRefresh.bind(this);
 
         let { amount, price } = store.getState().Core.balance;
 
@@ -307,6 +308,10 @@ export default class TransactionRecoder extends BaseComponent {
         }
 
         this.onRefresh = this.onRefresh.bind(this);
+    }
+
+    getRecoderFromStorage = async () => {
+
     }
 
     getRecoder = async () => {
@@ -405,6 +410,8 @@ export default class TransactionRecoder extends BaseComponent {
             });
             store.dispatch(setCoinBalance(balanceInfo));
         }
+
+        StorageManage.save(StorageKey.TransactionRecoder, recoders)
     }
 
     onRefresh = async () => {
@@ -538,7 +545,6 @@ export default class TransactionRecoder extends BaseComponent {
     componentWillMount() {
         super.componentWillMount()
         timer = setInterval(() => {
-
             this.getRecoder()
         }, 10 * 1000)
     }
