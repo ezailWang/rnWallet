@@ -96,21 +96,23 @@ export default class NetworkManager {
      * Get a list of trancsactions for the user's wallet concerning the given token
      * 
      * @param {object} token 
+     * @param {number} startBlock
+     * @param {number/string} endBlock   default 'latest'
      */
-    static getTransations({ address, symbol, decimal }) {
+    static getTransations({ address, symbol, decimal },startBlock,endBlock) {
         if (symbol == 'ETH') {
-            return this.getEthTransations()
+            return this.getEthTransations(startBlock,endBlock)
         }
-        return this.getERC20Transations(address, decimal)
+        return this.getERC20Transations(address, decimal,startBlock,endBlock)
     }
 
     /**
      * Get a list of ETH transactions for the user's wallet
      */
-    static async getEthTransations() {
+    static async getEthTransations(startBlock,endBlock) {
         try {
             const { walletAddress } = store.getState().Core
-            var data = await api.account.txlist(walletAddress)
+            var data = await api.account.txlist(walletAddress,startBlock,endBlock)
             if (data.message !== 'OK') {
                 return []
             }
@@ -149,10 +151,10 @@ export default class NetworkManager {
      * @param {String} address 
      * @param {Number} decimal 
      */
-    static async getERC20Transations(address, decimal) {
+    static async getERC20Transations(address, decimal,startBlock,endBlock) {
         try {
             const { walletAddress } = store.getState().Core
-            var data = await api.account.tokentx(walletAddress, address)
+            var data = await api.account.tokentx(walletAddress, address,startBlock,endBlock)
             if (data.message !== 'OK') {
                 return []
             }

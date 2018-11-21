@@ -319,7 +319,7 @@ export default class TransactionRecoder extends BaseComponent {
         let { address, symbol, decimal, price } = store.getState().Core.balance;
         let { contactList } = store.getState().Core;
 
-
+        //这个地方要获取本地存储的上次获取交易记录区块高度,如果是第一次获取,则不需要传区块高度
         const { walletAddress } = store.getState().Core
         let recoders = await NetworkManager.getTransations({
             address: address,
