@@ -288,7 +288,7 @@ function timestampToTime(timestamp) {
     Y = date.getFullYear() + '-';
     M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
     D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    h = date.getHours() < 10  ? '0' + date.getHours() : date.getHours();
+    h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
     m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
     return Y + M + D + ' ' + h + ':' + m + ':' + s
@@ -339,7 +339,7 @@ export default class TransactionRecoder extends BaseComponent {
             symbol: symbol,
             decimal: decimal
         }, startBlock);
-     
+
         let lastTransaction = store.getState().Core.newTransaction
         if (recoders.length == 0 && this.state.itemList.length == 0 && !lastTransaction) {
             this.isGetRecodering = false;
@@ -373,31 +373,31 @@ export default class TransactionRecoder extends BaseComponent {
 
                 }
             }
-            
+
 
             let recordList = [];
             let totalRecoderList = this.totalRecoders;
             recoders.forEach(function (data, index) {
                 let isExist = false;
-                for(let i=0;i<totalRecoderList.length;i++){
-                    if(data.hash.toLowerCase() == totalRecoderList[i].hash.toLowerCase()){
+                for (let i = 0; i < totalRecoderList.length; i++) {
+                    if (data.hash.toLowerCase() == totalRecoderList[i].hash.toLowerCase()) {
                         isExist = true;
-                        return;
+                        break;
                     }
                 }
-                if(!isExist){
+                if (!isExist) {
                     recordList.push(data)
                 }
             })
 
             recordList.reverse();
-         
+
             this.totalRecoders = recordList.concat(this.totalRecoders);
             totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
         }
 
         await this.refreshPage(this.totalRecoders, totalItemList)
-        await this.saveStorageTransactionRecoder(this.totalRecoders ,symbol)
+        await this.saveStorageTransactionRecoder(this.totalRecoders, symbol)
         this.isGetRecodering = false;
     }
 
@@ -465,8 +465,8 @@ export default class TransactionRecoder extends BaseComponent {
     }
 
     //存储最新的100条交易记录
-    saveStorageTransactionRecoder = async (recordList,symbol) => {
-        let records  = recordList;
+    saveStorageTransactionRecoder = async (recordList, symbol) => {
+        let records = recordList;
         this.topBlock = records[0].blockNumber;
         if (records.length > 0) {
             let transactionRecoderInfo = {
@@ -519,18 +519,18 @@ export default class TransactionRecoder extends BaseComponent {
 
             let { address, symbol, decimal, price } = store.getState().Core.balance;
             let endBlock = parseInt(this.endBlock) - 1
-           
+
             let recoders = await NetworkManager.getTransations({
                 address: address,
                 symbol: symbol,
                 decimal: decimal
             }, 0, endBlock);
-           
-            if(recoders.length == 0){
+
+            if (recoders.length == 0) {
                 this.isLoadMoreing = false;
                 return
             }
-           
+
 
             recoders.reverse();
             let currentBlock = await NetworkManager.getCurrentBlockNumber()
