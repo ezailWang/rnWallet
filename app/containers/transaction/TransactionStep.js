@@ -300,9 +300,7 @@ export default class TransactionStep extends Component {
             StorageManage.remove(StorageKey.RecentTransferAddress, id)
         }
         StorageManage.save(StorageKey.RecentTransferAddress, object, id)
-        console.log('L_save', object)
-        let recentTransferAddressss = await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress)
-        console.log('L_recentTransferAddress', recentTransferAddressss)
+       // let recentTransferAddressss = await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress)
     }
 
     getCurrentTime() {
