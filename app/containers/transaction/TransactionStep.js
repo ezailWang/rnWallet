@@ -289,7 +289,6 @@ export default class TransactionStep extends Component {
             }
         }
 
-
         let id = address;//用地址作为存储的id
         let object = {
             address: address,

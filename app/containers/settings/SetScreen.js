@@ -274,6 +274,7 @@ class SetScreen extends BaseComponent {
         StorageManage.remove(StorageKey.MonetaryUnit)
         StorageManage.remove(StorageKey.NotRemindAgainTestITC)//
         StorageManage.clearMapForkey(StorageKey.Contact)// id
+        StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)// id
 
         let params = {
             walletAddress: ''
