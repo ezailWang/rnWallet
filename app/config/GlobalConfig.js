@@ -85,12 +85,12 @@ const StorageKey = {
     Network:'network',
     Language:'language',
     Contact:'contact',//保存联系人的key
-    RecentTransferAddress:'recentTransferAddress',//最近转账地址
+    RecentTransferAddress:'recentTransferAddress',//最近转账地址 id为地址
     MonetaryUnit:'monetaryUnit',//货币单位
     PinInfo:'pinInfo',//存储pin密码
     UserToken:'userToken',//存储userToken
     NotRemindAgainTestITC:'notRemindAgainTestITC',//不再提示
-    TransactionRecoder:'TransactionRecoder',//存储交易记录
+    TransactionRecoderInfo:'TransactionRecoderInfo',//存储交易记录 id为symbol
 }
 
 const Network = {

@@ -3,9 +3,9 @@ import { View, StyleSheet, Image, Text, Dimensions, Vibration, TouchableOpacity 
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
+import bip39 from 'react-native-hdwallet/src/utils/bip39'
 import KeystoreUtils from '../../utils/KeystoreUtils'
 import StorageManage from '../../utils/StorageManage'
-import { BlueButtonBig } from '../../components/Button';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import { upsetArrayOrder } from './Common';
@@ -170,11 +170,12 @@ class VerifyMnemonicScreen extends BaseComponent {
         this.mnemonics = [];
         this.sectionMnemonics = [];//需要验证的4个
         this.matchCorrectNum = 0;
+        this.wordList = [];
     }
 
     _initData() {
         this.mnemonics = this.props.mnemonic.split(' ');
-        console.log('L_mnemonics', this.props.mnemonic)
+        this.wordList = upsetArrayOrder(bip39.wordlists.english).splice(0,100);
         this.sectionMnemonics = upsetArrayOrder(this.props.mnemonic.split(' ')).splice(0, 4);
         this.getRandomArray();
     }
@@ -184,15 +185,41 @@ class VerifyMnemonicScreen extends BaseComponent {
         let word = this.sectionMnemonics[this.matchCorrectNum].toLowerCase()
         let arr = [];
         arr.push(word)
-        let um = upsetArrayOrder(this.props.mnemonic.split(' '))
-        for (let i = 0; i < um.length; i++) {
-            if (arr.length >= 4) {
-                break
+
+       
+
+        do{
+            let i = Math.floor(Math.random()*(1 - 100) + 100);//获取1-100的随机数
+            let w = this.wordList[i-1].toLowerCase();
+            let isExist = false;
+            for(let j=0;j<arr.length;j++){
+                if(w == arr[j].toLowerCase()){
+                    isExist = true
+                    break
+                }
             }
-            if (word != um[i].toLowerCase()) {
-                arr.push(um[i])
+            if(!isExist){
+                arr.push(w)
             }
-        }
+
+        }while(arr.length<3)
+
+    
+        do{
+            let i = Math.floor(Math.random()*(1 - 12) + 12);//获取1-12的随机数
+            let w = upsetArrayOrder(this.props.mnemonic.split(' '))[i-1].toLowerCase();
+            let isExist = false;
+            for(let j=0;j<arr.length;j++){
+                if(w == arr[j].toLowerCase()){
+                    isExist = true
+                    break
+                }
+            }
+            if(!isExist){
+                arr.push(w)
+            }
+
+        }while(arr.length<4)
 
 
         let usm = upsetArrayOrder(arr)
@@ -276,6 +303,11 @@ class VerifyMnemonicScreen extends BaseComponent {
             this._openAppVerifyIdentidy = false
             this.props.navigation.navigate('Home')
         } catch (err) {
+            this.sectionMnemonics = upsetArrayOrder(this.props.mnemonic.split(' ')).splice(0, 4);
+            this.matchCorrectNum = 0
+            this.getRandomArray()
+
+
             this._hideLoading()
             showToast(I18n.t('toast.create_wallet_error'));
         }

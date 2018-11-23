@@ -140,7 +140,7 @@ export default class NetworkManager {
             }))
         } catch (err) {
             DeviceEventEmitter.emit('netRequestErr', err)
-            console.log('getEthTransations err:', err)
+            //console.log('getEthTransations err:', err)
             return []
         }
     }
