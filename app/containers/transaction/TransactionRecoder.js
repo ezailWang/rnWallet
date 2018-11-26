@@ -333,7 +333,7 @@ export default class TransactionRecoder extends BaseComponent {
         }
         this.isGetRecodering = true;
 
-      
+
 
         let { address, symbol, decimal, price } = store.getState().Core.balance;
         let startBlock = this.topBlock == -1 ? 0 : parseInt(this.topBlock) + 1;
@@ -398,7 +398,7 @@ export default class TransactionRecoder extends BaseComponent {
             //totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
         }
 
-       // await this.refreshPage(this.totalRecoders, totalItemList)
+        // await this.refreshPage(this.totalRecoders, totalItemList)
         await this.saveStorageTransactionRecoder(this.totalRecoders, symbol)
         await this.loadStoreTransactionRecoder(currentBlock);//从store上拉取记录并刷新列表
 
@@ -481,6 +481,8 @@ export default class TransactionRecoder extends BaseComponent {
         }
         let transferRecordList = [];
         transferRecordList = store.getState().Core.transferRecordList;
+
+        //console.log("LLL_transferRecordList",store.getState().Core);
         if (transferRecordList && transferRecordList.length > 0) {
             let pos = -1;
             for (let i = 0; i < transferRecordList.length; i++) {
@@ -495,6 +497,7 @@ export default class TransactionRecoder extends BaseComponent {
                 transferRecordList.splice(pos, 1, storeTransferRecords)
             }
         } else {
+            transferRecordList = [];
             transferRecordList.push(storeTransferRecords)
         }
         store.dispatch(setTransactionRecordList(transferRecordList));
@@ -514,24 +517,24 @@ export default class TransactionRecoder extends BaseComponent {
         let { symbol } = store.getState().Core.balance;
         let transferRecordList = [];
         let transactionRecoderInfo = await StorageManage.load(StorageKey.TransactionRecoderInfo, symbol.toLowerCase());
-       
+
         if (transactionRecoderInfo && transactionRecoderInfo.transactionRecoder.length > 0) {
             transferRecordList = transactionRecoderInfo.transactionRecoder
-            if(transferRecordList.length > 0){
+            if (transferRecordList.length > 0) {
                 this.topBlock = transferRecordList[0].blockNumber
                 this.endBlock = transferRecordList[transferRecordList.length - 1].blockNumber
                 this.totalRecoders = transferRecordList;
-    
+
                 //let totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
                 //await this.refreshPage(totalItemList)
-            }else{
+            } else {
                 this.totalRecoders = [];
             }
 
             await this.saveStorageTransactionRecoder(this.totalRecoders, symbol)
             await this.loadStoreTransactionRecoder(currentBlock);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -552,23 +555,25 @@ export default class TransactionRecoder extends BaseComponent {
                 }
             }
 
-            if(!isExist){
+            if (!isExist) {
                 transferRecordList = [];
                 return false
-            }else{
-                if(transferRecordList && transferRecordList.length > 0){
+            } else {
+                if (transferRecordList && transferRecordList.length > 0) {
                     this.topBlock = transferRecordList[0].blockNumber
                     this.endBlock = transferRecordList[transferRecordList.length - 1].blockNumber
                     this.totalRecoders = transferRecordList;
-    
+
                     let totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
                     await this.refreshPage(totalItemList)
-                }else{
+                } else {
                     this.totalRecoders = [];
                     await this.refreshPage(this.totalRecoders)
                 }
                 return true;
             }
+        } else {
+            return false;
         }
     }
 
@@ -590,9 +595,8 @@ export default class TransactionRecoder extends BaseComponent {
     }
 
     _onLoadMore = async () => {
-        
+
         if (this.state.itemList.length >= this.firstPage && this.isHaveMoreData && !this.isLoadMoreing && !this.isGetRecodering) {
-            console.log('loadmore——加载更多')
             this.isLoadMoreing = true;
             this.isHaveMoreData = false;
 
@@ -604,7 +608,6 @@ export default class TransactionRecoder extends BaseComponent {
                 symbol: symbol,
                 decimal: decimal
             }, 0, endBlock);
-            console.log('loadmore——recoders',recoders.length)
             if (recoders.length == 0) {
                 this.isLoadMoreing = false;
                 return
@@ -648,7 +651,6 @@ export default class TransactionRecoder extends BaseComponent {
                 this.refs.flatList.scrollToOffset(0)
                 this.getRecoder(false)
             },
-            // onGoBack: () => this.onRefresh(),
         });
     };
 
@@ -659,7 +661,7 @@ export default class TransactionRecoder extends BaseComponent {
     didTapTransactionCell = async (index) => {
 
         let { symbol } = store.getState().Core.balance;
-        let recoders = store.getState().Core.recoders;
+        let recoders = this.totalRecoders;
         let recoder = recoders[index];
         let currentBlock = await NetworkManager.getCurrentBlockNumber()
 
@@ -713,8 +715,8 @@ export default class TransactionRecoder extends BaseComponent {
         this.showLoading()
         let currentBlock = await NetworkManager.getCurrentBlockNumber()
         let isGetTRFromStore = await this.loadStoreTransactionRecoder(currentBlock);//从store获取
-        if(!isGetTRFromStore){
-            let isGetTRFromLocal= await this.loadLocalTransactionRecoder(currentBlock)//本地中获取
+        if (!isGetTRFromStore) {
+            let isGetTRFromLocal = await this.loadLocalTransactionRecoder(currentBlock)//本地中获取
             if (!isGetTRFromLocal) {
                 this.isHaveMoreData = false; //没有更多数据
                 await this.getRecoder(true) //从远端获取
