@@ -349,7 +349,7 @@ export default class TransactionRecoder extends BaseComponent {
             return;
         }*/
 
-        let totalItemList = []
+        //let totalItemList = []
         let currentBlock = await NetworkManager.getCurrentBlockNumber()
         if (isFirst) {
             if (recoders.length > 0) {
@@ -357,7 +357,7 @@ export default class TransactionRecoder extends BaseComponent {
                 this.totalRecoders = recoders;
                 this.topBlock = this.totalRecoders[0].blockNumber;
                 this.endBlock = -1;
-                totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
+                //totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
             }
         } else {
             if (lastTransaction) {
@@ -400,8 +400,7 @@ export default class TransactionRecoder extends BaseComponent {
 
        // await this.refreshPage(this.totalRecoders, totalItemList)
         await this.saveStorageTransactionRecoder(this.totalRecoders, symbol)
-
-        await this.loadStoreTransactionRecoder(currentBlock);//从store上拉去记录并刷新列表
+        await this.loadStoreTransactionRecoder(currentBlock);//从store上拉取记录并刷新列表
 
         this.isGetRecodering = false;
     }
@@ -523,15 +522,15 @@ export default class TransactionRecoder extends BaseComponent {
                 this.endBlock = transferRecordList[transferRecordList.length - 1].blockNumber
                 this.totalRecoders = transferRecordList;
     
-                //let currentBlock = await NetworkManager.getCurrentBlockNumber()
-                let totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
-                await this.refreshPage(totalItemList)
-                return true;
+                //let totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
+                //await this.refreshPage(totalItemList)
             }else{
                 this.totalRecoders = [];
-                await this.refreshPage(this.totalRecoders)
-                return true;
             }
+
+            await this.saveStorageTransactionRecoder(this.totalRecoders, symbol)
+            await this.loadStoreTransactionRecoder(currentBlock);
+            return true;
         }else{
             return false;
         }
@@ -593,7 +592,7 @@ export default class TransactionRecoder extends BaseComponent {
     _onLoadMore = async () => {
         
         if (this.state.itemList.length >= this.firstPage && this.isHaveMoreData && !this.isLoadMoreing && !this.isGetRecodering) {
-
+            console.log('loadmore——加载更多')
             this.isLoadMoreing = true;
             this.isHaveMoreData = false;
 
@@ -605,7 +604,7 @@ export default class TransactionRecoder extends BaseComponent {
                 symbol: symbol,
                 decimal: decimal
             }, 0, endBlock);
-
+            console.log('loadmore——recoders',recoders.length)
             if (recoders.length == 0) {
                 this.isLoadMoreing = false;
                 return
@@ -615,8 +614,10 @@ export default class TransactionRecoder extends BaseComponent {
             recoders.reverse();
             let currentBlock = await NetworkManager.getCurrentBlockNumber()
             this.totalRecoders = this.totalRecoders.concat(recoders)
-            let totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
-            await this.refreshPage(totalItemList)
+            //let totalItemList = await this.refreshItemList(this.totalRecoders, symbol, currentBlock);
+            //await this.refreshPage(totalItemList)
+            await this.saveStorageTransactionRecoder(this.totalRecoders, symbol)
+            await this.loadStoreTransactionRecoder(currentBlock);//从store上拉取记录并刷新列表
             this.isLoadMoreing = false;
         }
     }
