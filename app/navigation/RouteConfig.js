@@ -109,6 +109,7 @@ const FirstLaunchRouteConfig =
     },
     VerifyMnemonic: {
         screen: VerifyMnemonicScreen,
+        navigationOptions: { gesturesEnabled: false }
     },
     BackupWallet: {
         screen: BackupWalletScreen,
@@ -238,8 +239,8 @@ const HomeRouteConfig =
     MessageWebView: {
         screen: MessageWebViewScreen,
     },
-    AddressList:{
-        screen:AddressListScreen,
+    AddressList: {
+        screen: AddressListScreen,
     },
 };
 
