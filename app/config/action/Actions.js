@@ -148,6 +148,13 @@ function setAllTokens(allTokens){
     }
 }
 
+function setTransactionRecordList(transferRecordList){
+    return{
+        type:types.SET_TRANSFER_RECORD_LIST,
+        transferRecordList: transferRecordList
+    }
+}
+
 
 
 
@@ -171,5 +178,6 @@ export {
     setPinInfo,
     setIsNewWallet,
     setContactList,
-    setAllTokens
+    setAllTokens,
+    setTransactionRecordList
 }

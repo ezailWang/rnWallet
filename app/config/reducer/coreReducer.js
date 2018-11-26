@@ -19,7 +19,8 @@ import {
     SET_PIN_INFO,
     IS_NEW_WALLET,
     SET_CONTACT_LIST,
-    SET_ALL_TOKENS
+    SET_ALL_TOKENS,
+    SET_TRANSFER_RECORD_LIST,
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/Constants'
 import uuid from 'react-native-uuid';
@@ -36,12 +37,13 @@ const defaultState = {
     totalAssets: '0.00',
     recoders: [],
     myLanguage: null,
-    monetaryUnit:null,
-    firstQR:true,
-    pinInfo:null,
-    isNewWallet:false,
-    contactList:[],
-    allTokens:[],
+    monetaryUnit: null,
+    firstQR: true,
+    pinInfo: null,
+    isNewWallet: false,
+    contactList: [],
+    allTokens: [],
+    transferRecordList:[],
 }
 
 function coreReducer(state = defaultState, action) {
@@ -120,26 +122,26 @@ function coreReducer(state = defaultState, action) {
             break;
 
         case SET_LANGUAGE:
-            return{
+            return {
                 ...state,
-                myLanguage : action.myLanguage
-            }   
-            break; 
+                myLanguage: action.myLanguage
+            }
+            break;
         case SET_MONETARY_UNIT:
             return {
                 ...state,
-                monetaryUnit : action.monetaryUnit
-            }    
+                monetaryUnit: action.monetaryUnit
+            }
             break;
         case SET_NEW_TRANSACTION:
             return {
                 ...state,
-                newTransaction : action.newTransaction
-            }    
+                newTransaction: action.newTransaction
+            }
             break;
         case REMOVE_TOKEN:
             const copyToken = lodash.cloneDeep(state.tokens)
-            copyToken.splice(state.tokens.findIndex(item => item.address === action.address),1)   
+            copyToken.splice(state.tokens.findIndex(item => item.address === action.address), 1)
             return {
                 ...state,
                 tokens: copyToken
@@ -148,33 +150,39 @@ function coreReducer(state = defaultState, action) {
         case SET_FIRST_QR:
             return {
                 ...state,
-                firstQR:false
-            }   
+                firstQR: false
+            }
             break;
         case SET_PIN_INFO:
-             return {
-                 ...state,
-                 pinInfo:action.pinInfo
-             } 
-             break;
+            return {
+                ...state,
+                pinInfo: action.pinInfo
+            }
+            break;
         case IS_NEW_WALLET:
-             return {
-                 ...state,
-                 isNewWallet:action.isNewWallet
-            } 
+            return {
+                ...state,
+                isNewWallet: action.isNewWallet
+            }
             break;
         case SET_CONTACT_LIST:
-             return{
-                 ...state,
-                 contactList:action.contactList
-             } 
-             break;
+            return {
+                ...state,
+                contactList: action.contactList
+            }
+            break;
         case SET_ALL_TOKENS:
-             return{
-                 ...state,
-                 allTokens:action.allTokens
-             }     
-             break;
+            return {
+                ...state,
+                allTokens: action.allTokens
+            }
+            break;
+        case SET_TRANSFER_RECORD_LIST:
+            return {
+                ...state,
+                transferRecordList : action.transferRecordList
+            }
+            break;
         default: return state;
     }
 }
