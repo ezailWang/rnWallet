@@ -316,8 +316,8 @@ export default class TransactionRecoder extends BaseComponent {
 
         this.firstPage = 100;//第一页最多显示100条转账记录,如果加载更多就将之前的所有记录全都加载出来
         this.totalItemList = [];//加载的所有记录
-        this.topBlock = -1;//上次获取的区块高度
-        this.endBlock = -1;
+        this.topBlock = 0;//上次获取的区块高度
+        this.endBlock = 0;
         this.isHaveMoreData = true;//是否还有更多数据
         this.isGetRecodering = false;
         this.isLoadMoreing = false;
@@ -336,7 +336,7 @@ export default class TransactionRecoder extends BaseComponent {
 
 
         let { address, symbol, decimal, price } = store.getState().Core.balance;
-        let startBlock = this.topBlock == -1 ? 0 : parseInt(this.topBlock) + 1;
+        let startBlock = this.topBlock == 0 ? 0 : parseInt(this.topBlock) + 1;
         let recoders = await NetworkManager.getTransations({
             address: address,
             symbol: symbol,
@@ -355,7 +355,8 @@ export default class TransactionRecoder extends BaseComponent {
             if (recoders.length > 0) {
                 totalRecords = recoders.reverse();//获取symbol所有的转账记录，所以没有加载更多
                 this.topBlock = totalRecords[0].blockNumber;
-                this.endBlock = -1;
+                this.endBlock = 0;
+                this.isHaveMoreData = false;
                 this.totalItemList = await this.refreshItemList(totalRecords, symbol, currentBlock);
             }
         } else {
@@ -402,7 +403,6 @@ export default class TransactionRecoder extends BaseComponent {
 
         await this.refreshPage(this.totalItemList)
         await this.saveStorageTransactionRecoder(this.totalItemList, symbol)
-
 
         this.isGetRecodering = false;
     }
@@ -533,6 +533,7 @@ export default class TransactionRecoder extends BaseComponent {
                 this.totalItemList = transferRecordList;
 
             } else {
+                this.isHaveMoreData = false
                 this.totalItemList = [];
             }
             await this.refreshPage(this.totalItemList)
@@ -567,6 +568,7 @@ export default class TransactionRecoder extends BaseComponent {
                     this.totalItemList = transferRecordList;
 
                 } else {
+                    this.isHaveMoreData = false
                     this.totalItemList = [];
                 }
                 await this.refreshPage(this.totalItemList)
@@ -727,7 +729,6 @@ export default class TransactionRecoder extends BaseComponent {
             this.showLoading()
             let isGetTRFromLocal = await this.loadLocalTransactionRecoder()//本地中获取
             if (!isGetTRFromLocal) {
-                this.isHaveMoreData = false; //没有更多数据
                 await this.getRecoder(true) //从远端获取
             }
             this.hideLoading()
