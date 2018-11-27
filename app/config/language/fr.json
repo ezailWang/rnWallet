@@ -246,7 +246,9 @@
         
         "update_tip":"Update notice",
         "go_update":"Update now",
-        "ignore":"Ignoring messages"
+        "ignore":"Ignoring messages",
+
+        "please_wait":"Please wait..."
     },
     "modal":{
         "permission_storage":"Veuillez autoriser la lecture et l'écriture de l'espace de stockage.",

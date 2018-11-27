@@ -246,7 +246,9 @@
 
         "update_tip":"Update melding",
         "go_update":"Update nu",
-        "ignore":"Negeer berichten"
+        "ignore":"Negeer berichten",
+
+        "please_wait":"Please wait..."
     },
     "modal":{
         "permission_storage":"Sta alsjeblieft toe om te lezen en te schrijven.",

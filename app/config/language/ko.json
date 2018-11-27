@@ -248,7 +248,9 @@
 
         "update_tip":"업데이트 공지",
         "go_update":"업데이트로 이동",
-        "ignore":"메세지 무시"
+        "ignore":"메세지 무시",
+
+        "please_wait":"Please wait..."
     },
     "modal":{
         "permission_storage":"저장 공간을 읽기 쓰기 권한을 부여해주세요.",

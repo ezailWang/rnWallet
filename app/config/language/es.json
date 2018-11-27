@@ -247,7 +247,9 @@
 
         "update_tip":"Notificación de actualización",
         "go_update":"Actualizar ahora",
-        "ignore":"Ignorar mensajes"
+        "ignore":"Ignorar mensajes",
+
+        "please_wait":"Please wait..."
     },
     "modal":{
         "permission_storage":"Por favor habilita el permiso para lectura y escritura de almacenamiento",

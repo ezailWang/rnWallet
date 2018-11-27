@@ -11,7 +11,7 @@ import * as Actions from '../../config/action/Actions'
 import { upsetArrayOrder } from './Common';
 import { Colors, FontSize } from '../../config/GlobalConfig'
 import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader'
-import { showToast } from '../../utils/Toast';
+import { showToast ,hideToast} from '../../utils/Toast';
 import Layout from '../../config/LayoutConstants'
 import { StorageKey } from '../../config/GlobalConfig';
 import { store } from '../../config/store/ConfigureStore'
@@ -171,6 +171,8 @@ class VerifyMnemonicScreen extends BaseComponent {
         this.sectionMnemonics = [];//需要验证的4个
         this.matchCorrectNum = 0;
         this.wordList = [];
+
+        this.toast  = null;
     }
 
     _initData() {
@@ -261,7 +263,8 @@ class VerifyMnemonicScreen extends BaseComponent {
     }
 
     createWallet() {
-        this._showLoding();
+        //this._showLoding();
+        this.toast = showToast(I18n.t('toast.please_wait'),0,0)
         setTimeout(() => {
             this.startCreateWallet();//创建钱包
         }, 2000);
@@ -299,16 +302,17 @@ class VerifyMnemonicScreen extends BaseComponent {
             StorageManage.save(StorageKey.User, object)
             //var loadRet = await StorageManage.load(StorageKey.User)
 
-            this._hideLoading()
+            //this._hideLoading()
+            hideToast(this.toast)
             this._openAppVerifyIdentidy = false
             this.props.navigation.navigate('Home')
         } catch (err) {
             this.sectionMnemonics = upsetArrayOrder(this.props.mnemonic.split(' ')).splice(0, 4);
             this.matchCorrectNum = 0
             this.getRandomArray()
+            hideToast(this.toast)
 
-
-            this._hideLoading()
+            //this._hideLoading()
             showToast(I18n.t('toast.create_wallet_error'));
         }
     }

@@ -10,7 +10,7 @@ import * as Actions from '../../config/action/Actions'
 import { connect } from 'react-redux';
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import { BlueButtonBig } from '../../components/Button'
-import { showToast } from '../../utils/Toast';
+import { showToast,hideToast } from '../../utils/Toast';
 import Layout from '../../config/LayoutConstants'
 import {WhiteBgNoTitleHeader} from '../../components/NavigaionHeader'
 import {vertifyPassword,resetStringBlank ,stringTrim} from './Common'
@@ -150,6 +150,8 @@ class ImportWalletScreen extends BaseComponent {
         this.imageHeight = new Animated.Value(72)
         this.textFontSize = new Animated.Value(18)
         this.containerMarginTop = new Animated.Value(0)
+
+        this.toast = null;
 
        
     }
@@ -338,10 +340,13 @@ class ImportWalletScreen extends BaseComponent {
         }
 
        if(warnMessage!=''){
-            this._hideLoading()
+            hideToast(this.toast)
+            //this._hideLoading()
             showToast(warnMessage)
         }else{  
-            this._showLoding();
+            //todo
+            //this._showLoding();
+            this.toast = showToast(I18n.t('toast.please_wait'),0,0)
             setTimeout(()=>{
                 this.importWallet();
             }, 2000);
@@ -376,11 +381,14 @@ class ImportWalletScreen extends BaseComponent {
             }
             var key = StorageKey.User
             StorageManage.save(key, object)
-            this._hideLoading()
+           //this._hideLoading()
+            hideToast(this.toast)
             this._openAppVerifyIdentidy = false
             this.props.navigation.navigate('Home')
         } catch (err) {
-            this._hideLoading()
+            hideToast(this.toast)
+            //this._hideLoading()
+            
             showToast(I18n.t('toast.import_mnemonic_error'));
             console.log('createWalletErr:', err)
         }

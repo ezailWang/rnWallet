@@ -247,7 +247,9 @@
        
         "update_tip":"Update notice",
         "go_update":"Update now",
-        "ignore":"Ignoring messages"
+        "ignore":"Ignoring messages",
+
+        "please_wait":"Please wait..."
     },
     "modal":{
         "permission_storage":"Please allow permission to read and write storage space.",

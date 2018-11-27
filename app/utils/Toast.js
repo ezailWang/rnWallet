@@ -1,10 +1,10 @@
 import Toast from 'react-native-root-toast';
 import { StyleSheet } from 'react-native';
-function showToast(message, position) {
+function showToast(message, position,duration) {
     let toast = Toast.show(message, {
         visible: true,
-        duration: Toast.durations.Long,//显示时间
-        position: position || Toast.positions.BOTTOM,//吐司的位置显示在屏幕上（负数表示距离屏幕底部的距离。正数表示距屏幕顶部的距离.0将吐司定位到屏幕中间。）
+        duration: duration == undefined ? Toast.durations.Long : duration,//显示时间
+        position: position == undefined ? Toast.positions.BOTTOM : position,//吐司的位置显示在屏幕上（负数表示距离屏幕底部的距离。正数表示距屏幕顶部的距离.0将吐司定位到屏幕中间。）
         shadow: true,//Toast元素周围投下阴影
         animation: true,//动画
         backgroundColor: 'black',//背景颜色
@@ -30,6 +30,10 @@ function showToast(message, position) {
     //Toast.hide(toast);
 }
 
+function hideToast(toast){
+    Toast.hide(toast);
+}
+
 const styles = StyleSheet.create({
     containerStyle: {
         borderRadius: 20,
@@ -41,4 +45,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
-module.exports = { showToast }
+module.exports = { showToast,hideToast }

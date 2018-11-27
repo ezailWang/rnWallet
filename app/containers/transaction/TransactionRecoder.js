@@ -970,7 +970,7 @@ export default class TransactionRecoder extends BaseComponent {
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scroollY } } }]
                     )}
-                    // keyExtractor={(item)=>{item.key}}
+                    //keyExtractor={(item)=>{item.key}}
                     keyExtractor={(item, index) => index.toString()}
                     ref="flatList"
                     onEndReachedThreshold={1}

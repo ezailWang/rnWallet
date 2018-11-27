@@ -245,7 +245,9 @@
         
         "update_tip":"Update Hinweis",
         "go_update":"Jetzt updaten",
-        "ignore":"Hinweis ignorieren"
+        "ignore":"Hinweis ignorieren",
+
+        "please_wait":"Please wait..."
     },
     "modal":{
         "permission_storage":"Bitte erlauben Sie, Speicherplatz zu lesen und zu schreiben.",

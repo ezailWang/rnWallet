@@ -247,8 +247,9 @@
 
         "update_tip":"更新提示",
         "go_update":"前往更新",
-        "ignore":"忽略"
-        
+        "ignore":"忽略",
+
+        "please_wait":"请稍后..."
     },
     "modal":{
         "permission_storage":"请允许读写存储空间的权限",
