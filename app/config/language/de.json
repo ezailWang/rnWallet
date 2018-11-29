@@ -55,7 +55,12 @@
         "password_warn_10":"Passwörter müssen mindestens einen Großbuchstaben oder einen Kleinbuchstaben enthalten.",
 
         "enter_same_password":"Bitte geben Sie ein den Anforderungen entsprechendes Passwort ein",
-        "enter_normative_wallet_name":"Bitte geben Sie einen Walletnamen ein (1-12 Zeichen)"
+        "enter_normative_wallet_name":"Bitte geben Sie einen Walletnamen ein (1-12 Zeichen)",
+
+        "start_create_wallet":"开始创建钱包",
+        "start_import_wallet":"开始导入钱包",
+        "generating_key_pairs":"正在生成公私钥对",
+        "generating_keystore_file":"正在生成keystore文件"
     },
     "home":{
         "total_assets":"Gesamtguthaben",
@@ -209,7 +214,10 @@
         "no_more_data":"No more data",
         "read_all":"Read All",
         "recent_transfers":"Recent transfers",
-        "no_data":"No data"
+        "no_data":"No data",
+
+        "verifying_password":"正在验证密码",
+        "decrypting_keystore":"正在解密keystore"
     },
     "toast":{
         "exit_app":"Drücken Sie nochmals um die App zu schließen.",

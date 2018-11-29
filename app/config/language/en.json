@@ -56,7 +56,12 @@
         "password_warn_10":"passwords should contain at least one uppercase or one lowercase.",
 
         "enter_same_password":"Please enter a consistent password", 
-        "enter_normative_wallet_name":"Please enter a wallet name (1-12 characters)"
+        "enter_normative_wallet_name":"Please enter a wallet name (1-12 characters)",
+
+        "start_create_wallet":"开始创建钱包",
+        "start_import_wallet":"开始导入钱包",
+        "generating_key_pairs":"正在生成公私钥对",
+        "generating_keystore_file":"正在生成keystore文件"
     },
     "home":{
         "total_assets":"Total Assets",
@@ -210,7 +215,10 @@
         "no_more_data":"No more data",
         "read_all":"Read All",
         "recent_transfers":"Recent transfers",
-        "no_data":"No data"
+        "no_data":"No data",
+
+        "verifying_password":"正在验证密码",
+        "decrypting_keystore":"正在解密keystore"
 
     },
     "toast":{

@@ -23,6 +23,7 @@ import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import LinearGradient from 'react-native-linear-gradient'
 import { addressToName } from '../../utils/CommonUtil'
+import { showToast} from '../../utils/Toast';
 import { __await } from 'tslib';
 import { identity } from 'rxjs';
 const tokenIcon = {
@@ -130,7 +131,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 10,
         marginRight: 21,
-        // backgroundColor:"red",
         flexDirection: 'row'
     },
     progresView: {
@@ -322,6 +322,10 @@ export default class TransactionRecoder extends BaseComponent {
         this.isGetRecodering = false;
         this.isLoadMoreing = false;
 
+
+        this.suggestGas = 0;
+        this.ethBalance = 0;
+
         this.onRefresh = this.onRefresh.bind(this);
     }
 
@@ -401,7 +405,7 @@ export default class TransactionRecoder extends BaseComponent {
 
         }
 
-        await this.refreshPage(this.totalItemList)
+        await this.refreshPage(this.totalItemList,false)
         await this.saveStorageTransactionRecoder(this.totalItemList, symbol)
 
         this.isGetRecodering = false;
@@ -410,9 +414,9 @@ export default class TransactionRecoder extends BaseComponent {
 
 
     //刷新页面
-    refreshPage = async (itemList) => {
+    refreshPage = async (itemList,isFirst) => {
         if (this._isMounted) {
-            let balanceInfo = await this.loadBalanceInfo()
+            let balanceInfo = await this.loadBalanceInfo(isFirst)
             //store.dispatch(setTransactionRecoders(recoders));
             this.setState({
                 showNoData: true,
@@ -458,15 +462,19 @@ export default class TransactionRecoder extends BaseComponent {
 
 
     //获取余额信息
-    loadBalanceInfo = async () => {
-        let { address, symbol, decimal, price } = store.getState().Core.balance;
+    loadBalanceInfo = async (isFirst) => {
+        
+        let { address, symbol, decimal, price, amount } = store.getState().Core.balance;
         let balanceAmount = '';
-        if (symbol != 'ETH') {
-            balanceAmount = await NetworkManager.getERC20Balance(address, decimal);
-        } else {
-            balanceAmount = await NetworkManager.getEthBalance();
+        if(isFirst){
+            balanceAmount = amount;
+        }else{
+            if (symbol != 'ETH') {
+                balanceAmount = await NetworkManager.getERC20Balance(address, decimal);
+            } else {
+                balanceAmount = await NetworkManager.getEthBalance();
+            }
         }
-
         let balanceInfo = {
             amount: balanceAmount,
             price: price,
@@ -536,7 +544,7 @@ export default class TransactionRecoder extends BaseComponent {
                 this.isHaveMoreData = false
                 this.totalItemList = [];
             }
-            await this.refreshPage(this.totalItemList)
+            await this.refreshPage(this.totalItemList,true)
             await this.saveStorageTransactionRecoder(this.totalItemList, symbol)
 
             return true;
@@ -571,7 +579,7 @@ export default class TransactionRecoder extends BaseComponent {
                     this.isHaveMoreData = false
                     this.totalItemList = [];
                 }
-                await this.refreshPage(this.totalItemList)
+                await this.refreshPage(this.totalItemList,true)
                 await this.saveStorageTransactionRecoder(this.totalItemList, symbol)
 
                 return true;
@@ -627,7 +635,7 @@ export default class TransactionRecoder extends BaseComponent {
 
             let newTotalItemList = this.totalItemList.concat(recoders);
             this.totalItemList = await this.refreshItemList(newTotalItemList, symbol, currentBlock);
-            await this.refreshPage(this.totalItemList)
+            await this.refreshPage(this.totalItemList,false)
             await this.saveStorageTransactionRecoder(this.totalItemList, symbol)
 
 
@@ -637,23 +645,30 @@ export default class TransactionRecoder extends BaseComponent {
 
     didTapTransactionButton = async () => {
 
-        this.showLoading()
+        //this.showLoading()
 
         let { amount, price, symbol } = store.getState().Core.balance;
         let { walletAddress } = store.getState().Core
-        let suggestGas = await NetworkManager.getSuggestGasPrice();
-        let ethBalance = await NetworkManager.getEthBalance();
+        //let suggestGas = await NetworkManager.getSuggestGasPrice();
+        //let ethBalance = await NetworkManager.getEthBalance();
 
+        if(this.ethBalance <=0){
+            showToast(I18n.t('transaction.alert_4'))
+            return 
+        }
+
+        let suggestGas = this.suggestGas
         transferProps = {
             transferType: symbol,
-            ethBalance: ethBalance,
+            ethBalance: this.ethBalance,
             balance: amount,
             suggestGasPrice: parseFloat(suggestGas),
             ethPrice: price,
             fromAddress: walletAddress,
         };
 
-        this.hideLoading()
+       // this.hideLoading()
+
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
             onGoBack: () => {
@@ -737,6 +752,9 @@ export default class TransactionRecoder extends BaseComponent {
         timer = setInterval(() => {
             this.getRecoder(false)
         }, 10 * 1000)
+
+        this.suggestGas = await NetworkManager.getSuggestGasPrice();
+        this.ethBalance = await NetworkManager.getEthBalance();
     }
 
     showLoading() {

@@ -15,6 +15,7 @@ import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 import RemindDialog from '../../components/RemindDialog'
+import StaticLoading from '../../components/StaticLoading'
 import NetworkManager from '../../utils/NetworkManager'
 
 
@@ -83,10 +84,18 @@ class SetScreen extends BaseComponent {
             pwdRightBtnDisabled: true,
             nameWarnText: ' ',
             isShowRemindDialog: false,
+
+
+            isShowSLoading: false,
+            sLoadingContent: I18n.t('settings.verifying_password')
         }
         this.isDeleteWallet = false;
         this.inputName = '';
         this.inputPwd = '';
+
+
+        this.timeInterval = null;
+        this.timeIntervalCount = 0;
     }
 
 
@@ -165,13 +174,39 @@ class SetScreen extends BaseComponent {
         if (password == '' || password == undefined) {
             showToast(I18n.t('toast.enter_password'))
         } else {
-            this._showLoding()
+        
+            this.timeIntervalCount = 0;
+            this.timeInterval = setInterval(() => {
+                this.timeIntervalCount = this.timeIntervalCount + 1;
+                this.changeLoading(this.timeIntervalCount,password)
+            }, 500);
+        }
+    }
+
+    changeLoading(num,password) {
+        let content = '';
+        if (num == 1) {
+            content = I18n.t('settings.verifying_password')
+        } else if (num == 2) {
+            content = I18n.t('settings.decrypting_keystore')
+        }
+        this.setState({
+            isShowSLoading: true,
+            sLoadingContent: content
+        })
+        let n = this.isDeleteWallet ? 1 : 2
+        if (num == n) {
+            clearInterval(this.timeInterval)
             setTimeout(() => {
                 this.exportKeyPrivate(password);
-            }, 2000);
+            }, 0);
 
         }
     }
+
+
+
+
     async  modifyWalletName(name) {
         // var name = this.refs.inputTextDialog.state.text;
         var key = StorageKey.User;
@@ -196,7 +231,7 @@ class SetScreen extends BaseComponent {
         let privateKey
         try {
             privateKey = await KeystoreUtils.getPrivateKey(password)
-            this._hideLoading();//关闭Loading
+            this.hideStaticLoading();//关闭Loading
             if (privateKey == null) {
                 //alert(I18n.t('modal.export_private_key_error'));
                 showToast(this.isDeleteWallet ? I18n.t('modal.password_error') : I18n.t('modal.export_private_key_error'))
@@ -213,12 +248,15 @@ class SetScreen extends BaseComponent {
         } catch (e) {
             console.log('exportKeyPrivateErr:', err)
         } finally {
-            this._hideLoading();
+            this.hideStaticLoading();
         }
+    }
 
-
-
-
+    hideStaticLoading(){
+        this.setState({
+            isShowSLoading: false,
+            sLoadingContent: ''
+        })
     }
 
     async exportKeystore() {
@@ -232,18 +270,7 @@ class SetScreen extends BaseComponent {
         }
     }
 
-    async exportWallet() {
-        var key = 'uesr'
-        var user = await StorageManage.load(key);
-        var str = await KeystoreUtils.importFromFile(user.address)
-        var newKeyObject = JSON.parse(str)
-    }
 
-    deleteWallet() {
-        this.isDeleteWallet = true;
-        this.openPasswordModal()
-    }
-    
     cancelDeleteClick() {
         this.setState({
             isShowRemindDialog: false
@@ -261,7 +288,7 @@ class SetScreen extends BaseComponent {
 
     }
 
-    async deleteLocalData(){
+    async deleteLocalData() {
         await KeystoreUtils.removeKeyFile(this.props.walletAddress)
         this.props.setWalletAddress(null);
         //删除所有本地的数据
@@ -298,6 +325,12 @@ class SetScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.set')} />
+
+                <StaticLoading
+                    visible={this.state.isShowSLoading}
+                    content={this.state.sLoadingContent}
+                ></StaticLoading>
+
                 <InputTextDialog
                     ref="inputTextDialog"
                     placeholder={I18n.t('settings.enter_wallet_name_hint')}
@@ -379,34 +412,3 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps, mapDispatchToProps)(SetScreen)
 
 
-/*
-//第一版  先隐藏 【更换图标  导出助记词  修改密码】
-<TouchableOpacity style={[styles.btnOpacity]} 
-                                  activeOpacity={0.6} 
-                                  onPress={()=> this.isOpenModifyModal(true)}>
-                    <Text style={styles.btnTxt}>更换图标</Text>
-                    <Image style={styles.headIcon} source={require('../../assets/common/photoIcon.png')}/>
-                </TouchableOpacity> 
-<View style={styles.buttonBox}>
-                    <NextButton
-                        //onPress = {()=> this.props.navigation.navigate('ReceiptCode')}
-                        onPress = {()=> this.exportWallet()}
-                        text = '导出助记词'
-                    />
-                </View>                 
-
-<View style={styles.buttonBox}>
-                    <NextButton
-                        onPress = {()=> this.props.navigation.navigate('ModifyPassword')}
-                        text = '修改密码'
-                    />
-                </View>   
-
- <View style={[styles.buttonBox,styles.marginBottom20]}>
-                    <NextButton
-                        onPress = {()=> this.props.navigation.navigate('PasswordPrompInfo')}
-                        text = '密码提示信息'
-                    />
-                </View>                
- 
- */

@@ -56,7 +56,12 @@
         "password_warn_10":"Пароль должен как минимум содержать одну заглавную букву или одну строчную букву. ",
 
         "enter_same_password":"Введите пароль по всем требованиям",
-        "enter_normative_wallet_name":"Введите имя кошелька (1-12 символов)"
+        "enter_normative_wallet_name":"Введите имя кошелька (1-12 символов)",
+
+        "start_create_wallet":"开始创建钱包",
+        "start_import_wallet":"开始导入钱包",
+        "generating_key_pairs":"正在生成公私钥对",
+        "generating_keystore_file":"正在生成keystore文件"
     },
     "home":{
         "total_assets":"Всего активов",
@@ -210,7 +215,10 @@
         "no_more_data":"No more data",
         "read_all":"Read All",
         "recent_transfers":"Recent transfers",
-        "no_data":"No data"
+        "no_data":"No data",
+
+        "verifying_password":"正在验证密码",
+        "decrypting_keystore":"正在解密keystore"
     },
     "toast":{
         "exit_app":"Нажмите еще раз, чтобы выйти из приложения",

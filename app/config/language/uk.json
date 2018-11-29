@@ -56,7 +56,13 @@
         "password_warn_10":"Пароль повинен як мінімум містити одну велику літеру або одну малу літеру.",
 
         "enter_same_password":"Введіть пароль за всіма вимогами",
-        "enter_normative_wallet_name":"Введіть ім'я гаманця (1-12 символів)"
+        "enter_normative_wallet_name":"Введіть ім'я гаманця (1-12 символів)",
+
+
+        "start_create_wallet":"开始创建钱包",
+        "start_import_wallet":"开始导入钱包",
+        "generating_key_pairs":"正在生成公私钥对",
+        "generating_keystore_file":"正在生成keystore文件"
     },
     "home":{
         "total_assets":"Всього активів",
@@ -210,7 +216,11 @@
         "no_more_data":"No more data",
         "read_all":"Read All",
         "recent_transfers":"Recent transfers",
-        "no_data":"No data"
+        "no_data":"No data",
+
+
+        "verifying_password":"正在验证密码",
+        "decrypting_keystore":"正在解密keystore"
     },
     "toast":{
         "exit_app":"Натисніть ще раз, щоб вийти з програми",

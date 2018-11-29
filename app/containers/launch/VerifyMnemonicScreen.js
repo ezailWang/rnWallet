@@ -11,11 +11,12 @@ import * as Actions from '../../config/action/Actions'
 import { upsetArrayOrder } from './Common';
 import { Colors, FontSize } from '../../config/GlobalConfig'
 import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader'
-import { showToast ,hideToast} from '../../utils/Toast';
+import { showToast } from '../../utils/Toast';
 import Layout from '../../config/LayoutConstants'
 import { StorageKey } from '../../config/GlobalConfig';
 import { store } from '../../config/store/ConfigureStore'
 import { I18n } from '../../config/language/i18n'
+import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
 
 const styles = StyleSheet.create({
@@ -165,6 +166,9 @@ class VerifyMnemonicScreen extends BaseComponent {
             isCheckedNum: -1,
             isShowLeftView: false,
             isShowRightView: true,
+
+            isShowSLoading: false,
+            sLoadingContent: ''
         }
 
         this.mnemonics = [];
@@ -172,12 +176,13 @@ class VerifyMnemonicScreen extends BaseComponent {
         this.matchCorrectNum = 0;
         this.wordList = [];
 
-        this.toast  = null;
+        this.timeInterval = null;
+        this.timeIntervalCount = 0;
     }
 
     _initData() {
         this.mnemonics = this.props.mnemonic.split(' ');
-        this.wordList = upsetArrayOrder(bip39.wordlists.english).splice(0,100);
+        this.wordList = upsetArrayOrder(bip39.wordlists.english).splice(0, 100);
         this.sectionMnemonics = upsetArrayOrder(this.props.mnemonic.split(' ')).splice(0, 4);
         this.getRandomArray();
     }
@@ -188,40 +193,40 @@ class VerifyMnemonicScreen extends BaseComponent {
         let arr = [];
         arr.push(word)
 
-       
 
-        do{
-            let i = Math.floor(Math.random()*(1 - 100) + 100);//获取1-100的随机数
-            let w = this.wordList[i-1].toLowerCase();
+
+        do {
+            let i = Math.floor(Math.random() * (1 - 100) + 100);//获取1-100的随机数
+            let w = this.wordList[i - 1].toLowerCase();
             let isExist = false;
-            for(let j=0;j<arr.length;j++){
-                if(w == arr[j].toLowerCase()){
+            for (let j = 0; j < arr.length; j++) {
+                if (w == arr[j].toLowerCase()) {
                     isExist = true
                     break
                 }
             }
-            if(!isExist){
+            if (!isExist) {
                 arr.push(w)
             }
 
-        }while(arr.length<3)
+        } while (arr.length < 3)
 
-    
-        do{
-            let i = Math.floor(Math.random()*(1 - 12) + 12);//获取1-12的随机数
-            let w = upsetArrayOrder(this.props.mnemonic.split(' '))[i-1].toLowerCase();
+
+        do {
+            let i = Math.floor(Math.random() * (1 - 12) + 12);//获取1-12的随机数
+            let w = upsetArrayOrder(this.props.mnemonic.split(' '))[i - 1].toLowerCase();
             let isExist = false;
-            for(let j=0;j<arr.length;j++){
-                if(w == arr[j].toLowerCase()){
+            for (let j = 0; j < arr.length; j++) {
+                if (w == arr[j].toLowerCase()) {
                     isExist = true
                     break
                 }
             }
-            if(!isExist){
+            if (!isExist) {
                 arr.push(w)
             }
 
-        }while(arr.length<4)
+        } while (arr.length < 4)
 
 
         let usm = upsetArrayOrder(arr)
@@ -250,8 +255,12 @@ class VerifyMnemonicScreen extends BaseComponent {
             if (this.matchCorrectNum < 4) {
                 this.getRandomArray()
             } else {
-                showToast(I18n.t('launch.modal_mnemonic_success'))
-                this.createWallet()
+                //showToast(I18n.t('launch.modal_mnemonic_success'))
+                this.timeIntervalCount = 0;
+                this.timeInterval = setInterval(() => {
+                    this.timeIntervalCount = this.timeIntervalCount + 1;
+                    this.changeLoading(this.timeIntervalCount)
+                }, 500);
             }
         } else {
             this.sectionMnemonics = upsetArrayOrder(this.props.mnemonic.split(' ')).splice(0, 4);
@@ -262,12 +271,26 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
     }
 
-    createWallet() {
-        //this._showLoding();
-        this.toast = showToast(I18n.t('toast.please_wait'),0,0)
-        setTimeout(() => {
-            this.startCreateWallet();//创建钱包
-        }, 2000);
+    changeLoading(num) {
+        let content = '';
+        if (num == 1) {
+            content = I18n.t('launch.start_create_wallet')
+        } else if (num == 2) {
+            content = I18n.t('launch.generating_key_pairs')
+        } else {
+            content = I18n.t('launch.generating_keystore_file')
+        }
+        this.setState({
+            isShowSLoading: true,
+            sLoadingContent: content
+        })
+        if (num == 3) {
+            clearInterval(this.timeInterval)
+            setTimeout(() => {
+                this.startCreateWallet();
+            }, 0);
+
+        }
     }
 
 
@@ -290,29 +313,35 @@ class VerifyMnemonicScreen extends BaseComponent {
             //var str = await KeystoreUtils.importFromFile(keyObject.address)
             //var newKeyObject = JSON.parse(str)
 
+            
+
             this.props.setWalletAddress(checksumAddress);
-            this.props.setWalletName(this.props.walletName);
-            this.props.setIsNewWallet(true);
-
-            var object = {
-                name: this.props.walletName,
-                address: checksumAddress,
-                extra: '',
-            }
-            StorageManage.save(StorageKey.User, object)
-            //var loadRet = await StorageManage.load(StorageKey.User)
-
-            //this._hideLoading()
-            hideToast(this.toast)
-            this._openAppVerifyIdentidy = false
-            this.props.navigation.navigate('Home')
+             this.props.setWalletName(this.props.walletName);
+             this.props.setIsNewWallet(true);
+ 
+             var object = {
+                 name: this.props.walletName,
+                 address: checksumAddress,
+                 extra: '',
+             }
+             StorageManage.save(StorageKey.User, object)
+             //var loadRet = await StorageManage.load(StorageKey.User)
+ 
+             this.setState({
+                 isShowSLoading:false
+             })
+ 
+             this._openAppVerifyIdentidy = false
+             this.props.navigation.navigate('Home')
         } catch (err) {
             this.sectionMnemonics = upsetArrayOrder(this.props.mnemonic.split(' ')).splice(0, 4);
             this.matchCorrectNum = 0
             this.getRandomArray()
-            hideToast(this.toast)
 
-            //this._hideLoading()
+            this.setState({
+                isShowSLoading: false
+            })
+
             showToast(I18n.t('toast.create_wallet_error'));
         }
     }
@@ -336,6 +365,10 @@ class VerifyMnemonicScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgNoTitleHeader navigation={this.props.navigation} onPress={() => this.backPressed()} />
+                <StaticLoading
+                    visible={this.state.isShowSLoading}
+                    content={this.state.sLoadingContent}
+                ></StaticLoading>
                 <View style={styles.contentContainer}>
                     <Image style={styles.icon} source={require('../../assets/launch/confirmWordIcon.png')} resizeMode={'center'} />
                     <Text style={styles.titleTxt}>{I18n.t('launch.confirm_mnemonic')}</Text>
