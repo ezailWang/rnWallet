@@ -118,7 +118,7 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
         this.props.setMonetaryUnit(object)
         StorageManage.save(StorageKey.MonetaryUnit, object)
        // var loadRet = await StorageManage.load(StorageKey.MonetaryUnit)
-       // console.log('L_contact',loadRet)
+
         
         DeviceEventEmitter.emit('monetaryUnitChange', {monetaryUnit: object});
         this.props.navigation.state.params.callback({monetaryUnit: object});

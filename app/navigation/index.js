@@ -28,29 +28,6 @@ const FirstLaunchNavigation = createStackNavigator(FirstLaunchRouteConfig, First
 
 //主页导航栈
 const HomeNavigation = createStackNavigator(HomeRouteConfig, HomeStackNavigationConfig)
-/**const homeGetStateForAction = HomeNavigation.router.getStateForAction;
-HomeNavigation.router.getStateForAction = (action,state)=>{
-    console.log('L_index_state1',state)
-    if(state && state.routes.length === 1 && action.type == 'Navigation/BACK'){
-        //在首页按了物理键返回
-        if((lastBackPressed + 2000)  >=  Date.now()){
-            console.log('L_index1','退出')
-            BackHandler.exitApp;
-        }else{
-            console.log('L_index1','再按一次')
-            showToast('再按一次退出应用');
-            lastBackPressed = Date.now();
-            //return {...state};
-            const routes = [...state.routes];
-            return{
-                ...state,
-                ...state.routes,
-                index:routes.length -1,
-            }
-        }
-    }
-    return homeGetStateForAction(action,state);
-}**/
 
 //隐藏二级页面的侧滑菜单
 HomeNavigation.navigationOptions = ({ navigation }) => {

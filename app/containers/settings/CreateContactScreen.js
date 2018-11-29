@@ -175,7 +175,7 @@ class CreateContactScreen extends BaseComponent {
         StorageManage.save(StorageKey.Contact, object, id)
         let contactData = await StorageManage.loadAllDataForKey(StorageKey.Contact)
         this.props.setContactList(contactData)
-        //console.log('L_contact','保存完成')
+
         //var loadRet = await StorageManage.loadAllDataForKey(StorageKey.Contact)
         //var ids = await StorageManage.loadIdsForKey(StorageKey.Contact)
         this.props.navigation.state.params.callback({contactInfo: object});

@@ -194,7 +194,6 @@ class SystemSetScreen extends BaseComponent {
         StorageManage.save(key, pinInfo)
 
         var user = await StorageManage.load(key);
-        console.log('L_pinInfo',user) 
     }
 
 

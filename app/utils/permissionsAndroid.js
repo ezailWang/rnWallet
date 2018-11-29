@@ -37,10 +37,10 @@ function checkAndroidPermission(permission){
             //是否获取权限 data
             return data;
         }).catch((err)=>{
-            console.warn(exception)
+            //console.warn(exception)
         })
     }catch(exception){
-        console.warn(exception)
+        //console.warn(exception)
     }  
 }
 
@@ -62,7 +62,7 @@ async function requestAndroidPermission(permission){
             return false;
         }
     }catch(exception){
-        console.warn(exception)
+        //console.warn(exception)
     }
 };
 
@@ -80,7 +80,7 @@ async function requestMultipleAndroidPermission(permissions){
         });
         return agreePermissions;
     }catch(exception){
-        console.warn(exception);
+        //console.warn(exception);
     }
 }
 

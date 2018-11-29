@@ -77,15 +77,12 @@ export default class RemindDialog extends Component{
     }
 
     componentWillMount(){
-        console.log('L——componentWillMount',this.props.modalVisible) 
         this.setState({
             isVisible : this.props.modalVisible,
         })
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('L——componentWillReceiveProps',this.props.modalVisible) 
-        console.log('L——componentWillReceiveProps1',nextProps) 
         this.setState({
             isVisible : nextProps.modalVisible,
         })
@@ -108,7 +105,6 @@ export default class RemindDialog extends Component{
     }
     
     leftPressed=()=>{
-        console.log('LLLL',this.props.leftPress) 
         if(this.props.leftPress != undefined){
             this.props.leftPress
         }else{
@@ -117,7 +113,6 @@ export default class RemindDialog extends Component{
     }
     
     rightPressed=()=>{
-        console.log('LLLL1',this.props.rightPress) 
         this.props.rightPress
     }**/
 

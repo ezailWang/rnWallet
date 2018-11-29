@@ -85,7 +85,6 @@ export default class ServiceAgreementScreen extends BaseComponent {
    onMessage(event){
        try{
            const action  = JSON.parse(event.nativeEvent.data)
-           console.log('L_action',action)
            if(action.type == 'setHeight' && action.height > 0){
                this.setState({
                    webviewHeight: action.height

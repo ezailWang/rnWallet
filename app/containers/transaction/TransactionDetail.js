@@ -179,7 +179,7 @@ export default class TransactionDetail extends BaseComponent {
 
         Linking.canOpenURL(baiduURL).then(supported => {
             if (!supported) {
-                console.warn('Can\'t handle url: ' + baiduURL);
+                //console.warn('Can\'t handle url: ' + baiduURL);
             } else {
                 return Linking.openURL(baiduURL);
             }

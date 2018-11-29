@@ -227,7 +227,6 @@ class SearchTokenScreen extends BaseComponent {
         NetworkManager.getAllTokens(params).then((response)=>{
             if(response.code === 200){
                 this.allTokens = response.data
-                console.log('L_response',response)
             }else{
                 console.log('getAllTokens err msg:', response.msg)
             }

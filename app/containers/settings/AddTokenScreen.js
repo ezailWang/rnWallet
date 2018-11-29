@@ -170,7 +170,6 @@ class AddTokenScreen extends BaseComponent {
         let allTokens = [];
         let defaultTokens = [];//默认的
         let addTokens = [];//添加的
-        console.log('L_tokens',this.props.tokens)
         this.props.tokens.forEach(function (token, index, b) {
             token.isAdded = true
             if(index == 0 || index == 1){

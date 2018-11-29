@@ -17,8 +17,7 @@ import { vertifyPassword, resetStringBlank, stringTrim } from './Common'
 import { I18n } from '../../config/language/i18n'
 import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
-let ScreenWidth = Dimensions.get('window').width;
-let ScreenHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -373,7 +372,7 @@ class ImportWalletScreen extends BaseComponent {
             
         }
     }
-    
+
 
     async importWallet() {
         try {

@@ -132,10 +132,8 @@ export default class InputTextDialog extends Component{
                   visible={this.props.modalVisible}
                   onRequestClose={()=>{
                         //只有android点击物理返回键的时候才调用
-                        //console.log('L_modal_close','Modal has been closed.')
                   }}
                   onShow={()=>{
-                     //console.log('L_modal_show','Modal has been show.')
                   }}
             >
                 <View style={styles.modeBox}>

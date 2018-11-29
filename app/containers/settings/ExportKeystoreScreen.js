@@ -103,7 +103,6 @@ export default class ExportKeystoreScreen extends BaseComponent {
               
               var key = 'uesr'
               var user = await StorageManage.load(key);
-              console.log('user', user)
               if(user == null){
                   throw "请先创建或导入钱包"
               }
