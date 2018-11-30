@@ -23,6 +23,7 @@ class DrawerCell extends Component {
                 <Image
                     style={styles.image}
                     source={this.props.imageSource}
+                    resizeMode={'center'}
                 />
                 <Text
                     style={styles.text}
@@ -51,8 +52,9 @@ class DrawerCellReminder extends Component {
                 onPress={this.props.onClick}
             >
                 <Image
-                    style={styles.image}
+                    style={styles.imageMessage}
                     source={this.props.imageSource}
+                    resizeMode={'center'}
                 />
                 <Text
                     style={styles.text}
@@ -81,10 +83,15 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     image: {
-        width: 17,
-        height: 16,
+        width: 14,
+        height: 13,
         marginLeft: 25,
         //marginVertical: 15,
+    },
+    imageMessage: {
+        width: 14,
+        height: 15,
+        marginLeft: 25,
     },
     text: {
         fontSize: 15,

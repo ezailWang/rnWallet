@@ -125,10 +125,10 @@ class Loading extends Component {
     }
 
     loadFromStorege = async () => {
-        var data = await StorageManage.load(StorageKey.User)
-        var net = await StorageManage.load(StorageKey.Network)
-        var language = await StorageManage.load(StorageKey.Language)
-        var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
+        let data = await StorageManage.load(StorageKey.User)
+        let net = await StorageManage.load(StorageKey.Network)
+        let language = await StorageManage.load(StorageKey.Language)
+        let monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
         let pinInfo = await StorageManage.load(StorageKey.PinInfo)
         let contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact)
         //addDefaultTokens();

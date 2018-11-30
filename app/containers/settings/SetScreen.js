@@ -295,12 +295,14 @@ class SetScreen extends BaseComponent {
         StorageManage.remove(StorageKey.User)
         StorageManage.remove(StorageKey.Tokens)
         StorageManage.remove(StorageKey.Network)
-        StorageManage.remove(StorageKey.Language)
-        StorageManage.remove(StorageKey.PinInfo)
         StorageManage.remove(StorageKey.UserToken)
-        StorageManage.remove(StorageKey.MonetaryUnit)
+        //StorageManage.remove(StorageKey.Language)
+        //StorageManage.remove(StorageKey.MonetaryUnit)
+        //StorageManage.remove(StorageKey.PinInfo)
+        
+       
         StorageManage.remove(StorageKey.NotRemindAgainTestITC)//
-        StorageManage.clearMapForkey(StorageKey.Contact)// id
+        //StorageManage.clearMapForkey(StorageKey.Contact)// id
         StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)// id
 
         let params = {
