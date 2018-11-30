@@ -29,9 +29,9 @@
         "backup_mnemonic_complete":"Мнемонічні слова були скопійовані",
 
         "confirm_mnemonic":"Підтвердити",
-        "confirm_mnemonic_prompt":"In order to ensure that the mnemonic has been correctly copied, please select the word corresponding to the serial number.",
-        "toast_verify_mnemonic_fail":"Select error, please start verification again",
-        "modal_mnemonic_success":"Verification is complete, wallet is being created",
+        "confirm_mnemonic_prompt":"In order to ensure your mnemonic words have been copied correctly, please select the word corresponding to the serial number",
+        "toast_verify_mnemonic_fail":"Verification failed. Please restart again.",
+        "modal_mnemonic_success":"Verification done. Creating wallet.",
         "complete":"Готово",
 
         "service_agreement":"Угода про користування сервісом",
@@ -59,10 +59,10 @@
         "enter_normative_wallet_name":"Введіть ім'я гаманця (1-12 символів)",
 
 
-        "start_create_wallet":"开始创建钱包",
-        "start_import_wallet":"开始导入钱包",
-        "generating_key_pairs":"正在生成公私钥对",
-        "generating_keystore_file":"正在生成keystore文件"
+        "start_create_wallet":"Creating wallet",
+        "start_import_wallet":"Importing wallet",
+        "generating_key_pairs":"Generating public & private keys",
+        "generating_keystore_file":"Generating keystore"
     },
     "home":{
         "total_assets":"Всього активів",
@@ -213,14 +213,13 @@
         "transaction_notification":"Повідомлення про транзакцію",
         "announcement":"Оголошення: ",
         "official_team":"Офіційна команда IoT Chain",
-        "no_more_data":"No more data",
+        "no_more_data":"None",
         "read_all":"Read All",
-        "recent_transfers":"Recent transfers",
-        "no_data":"No data",
+        "recent_transfers":"Transaction records",
+        "no_data":"None",
 
-
-        "verifying_password":"正在验证密码",
-        "decrypting_keystore":"正在解密keystore"
+        "verifying_password":"Verifying password",
+        "decrypting_keystore":"Decrypting keystore"
     },
     "toast":{
         "exit_app":"Натисніть ще раз, щоб вийти з програми",

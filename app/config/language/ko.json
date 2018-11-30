@@ -29,9 +29,9 @@
         "backup_mnemonic_complete":"니모닉 코드 문구를 잘 적었습니다.",
 
         "confirm_mnemonic":"니모닉 코드 문구를 확인합니다.",
-        "confirm_mnemonic_prompt":"In order to ensure that the mnemonic has been correctly copied, please select the word corresponding to the serial number.",
-        "toast_verify_mnemonic_fail":"Select error, please start verification again",
-        "modal_mnemonic_success":"Verification is complete, wallet is being created",
+        "confirm_mnemonic_prompt":"In order to ensure your mnemonic words have been copied correctly, please select the word corresponding to the serial number",
+        "toast_verify_mnemonic_fail":"Verification failed. Please restart again.",
+        "modal_mnemonic_success":"Verification done. Creating wallet.",
         "complete":"완료",
 
         "service_agreement":"서비스 계약서",
@@ -58,10 +58,10 @@
         "enter_same_password":"일치한 비밀번호를 입력해주세요",
         "enter_normative_wallet_name":"1~12자리의 지갑 명칭을 입력해주세요",
 
-        "start_create_wallet":"开始创建钱包",
-        "start_import_wallet":"开始导入钱包",
-        "generating_key_pairs":"正在生成公私钥对",
-        "generating_keystore_file":"正在生成keystore文件"
+        "start_create_wallet":"Creating wallet",
+        "start_import_wallet":"Importing wallet",
+        "generating_key_pairs":"Generating public & private keys",
+        "generating_keystore_file":"Generating keystore"
     },
     "home":{
         "total_assets":"자산 총액",
@@ -213,13 +213,13 @@
         "transaction_notification":"거래 알림",
         "announcement":"공지: ",
         "official_team":"IoT Chain 공식팀",
-        "no_more_data":"더 이상의 데이터가 없습니다.",
+        "no_more_data":"None",
         "read_all":"Read All",
-        "recent_transfers":"Recent transfers",
-        "no_data":"No data",
+        "recent_transfers":"Transaction records",
+        "no_data":"None",
 
-        "verifying_password":"正在验证密码",
-        "decrypting_keystore":"正在解密keystore"
+        "verifying_password":"Verifying password",
+        "decrypting_keystore":"Decrypting keystore"
         
     },
     "toast":{
