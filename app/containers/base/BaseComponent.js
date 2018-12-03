@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent ,Component} from 'react';
 import {
     StyleSheet,
     View,
@@ -37,7 +37,7 @@ const touchIdOptionalConfig = {
 }
 
 //所有继承该组件的组件，重写该组件方法请先运行super.funcName()
-export default class BaseComponent extends PureComponent {
+export default class BaseComponent extends Component {
 
     constructor(props) {
         super(props);
