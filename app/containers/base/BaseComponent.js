@@ -37,7 +37,7 @@ const touchIdOptionalConfig = {
 }
 
 //所有继承该组件的组件，重写该组件方法请先运行super.funcName()
-export default class BaseComponent extends Component {
+export default class BaseComponent extends PureComponent {
 
     constructor(props) {
         super(props);

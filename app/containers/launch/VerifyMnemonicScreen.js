@@ -264,7 +264,7 @@ class VerifyMnemonicScreen extends BaseComponent {
             checkedNums : checkedNums
         }));*/
         this.setState({
-            checkedNums: checkedNums
+            checkedNums: [].concat(checkedNums)
         });
         
 
@@ -424,7 +424,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 }
 
 
-class Item extends Component {
+class Item extends PureComponent {
 
     static propTypes = {
         number: PropTypes.string.isRequired,
