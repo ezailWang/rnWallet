@@ -19,6 +19,7 @@ import { I18n } from '../../config/language/i18n'
 import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
 import PropTypes from 'prop-types';
+import lodash from 'lodash'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -167,7 +168,6 @@ class VerifyMnemonicScreen extends BaseComponent {
             checkedNums: [],
             isShowSLoading: false,
             sLoadingContent: '',
-            a: false,
 
         }
 
@@ -257,16 +257,16 @@ class VerifyMnemonicScreen extends BaseComponent {
 
         let word = this.sectionMnemonics[num].toLowerCase()
         let checkedNumIndex = this.state.randomSectionMnemonics[num].indexOf(text);
-        let checkedNums = this.state.checkedNums;
-        //checkedNum.splice(checkedNumIndex,1,checkedNumIndex);
+        let checkedNums = lodash.cloneDeep(this.state.checkedNums)
         checkedNums[num] = checkedNumIndex;
+        
         /*this.setState(Object.assign({}, this.state, {
             checkedNums : checkedNums
         }));*/
         this.setState({
-            checkedNums: [].concat(checkedNums)
+            checkedNums: checkedNums
         });
-        
+
 
         if (text.toLowerCase() == word) {
             this.matchCorrectNum = this.matchCorrectNum + 1;
@@ -287,7 +287,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         } else {
             //验证失败
             Vibration.vibrate([0, 100], false)
-            showToast(I18n.t('launch.toast_verify_mnemonic_fail'),0)
+            showToast(I18n.t('launch.toast_verify_mnemonic_fail'), 0)
 
             this.initAllData()
         }
@@ -356,12 +356,12 @@ class VerifyMnemonicScreen extends BaseComponent {
             this._openAppVerifyIdentidy = false
             this.props.navigation.navigate('Home')
         } catch (err) {
-        
+
             this.setState({
                 isShowSLoading: false
             })
 
-            showToast(I18n.t('toast.create_wallet_error'),0);
+            showToast(I18n.t('toast.create_wallet_error'), 0);
             this.initAllData()
         }
     }
@@ -457,7 +457,7 @@ class Item extends PureComponent {
         let isShowRightView = this.props.isShowRightView;
         let randomMnemonics = this.props.randomMnemonics;
         let checkedNum = this.props.checkedNum;
-   
+
 
 
         return (
