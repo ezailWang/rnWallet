@@ -158,6 +158,7 @@ function setTransactionRecordList(transferRecordList){
 
 
 
+
 export {
     generateMnemonic,
     setWalletTransferParams,
@@ -179,5 +180,5 @@ export {
     setIsNewWallet,
     setContactList,
     setAllTokens,
-    setTransactionRecordList
+    setTransactionRecordList,
 }

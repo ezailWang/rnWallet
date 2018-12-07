@@ -20,6 +20,7 @@ import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
 import PropTypes from 'prop-types';
 import lodash from 'lodash'
+import Toast from 'react-native-root-toast';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -184,7 +185,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
     _initData() {
         this.mnemonics = this.props.mnemonic.split(' ');
-        //console.log("L_mnemonics", this.mnemonics)
+        console.log("L_mnemonics", this.mnemonics)
         this.initAllData()
     }
 
@@ -270,7 +271,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
         if (text.toLowerCase() == word) {
             this.matchCorrectNum = this.matchCorrectNum + 1;
-            Vibration.vibrate([0, 20], false)
+            //Vibration.vibrate([0, 20], false)
             if (this.matchCorrectNum < 4) {
                 //滑动到下一块
                 this.scrollToX = this.scrollToX + Layout.WINDOW_WIDTH;
@@ -286,8 +287,8 @@ class VerifyMnemonicScreen extends BaseComponent {
             }
         } else {
             //验证失败
-            Vibration.vibrate([0, 100], false)
-            showToast(I18n.t('launch.toast_verify_mnemonic_fail'), 0)
+            Vibration.vibrate()
+            showToast(I18n.t('launch.toast_verify_mnemonic_fail'), Toast.positions.TOP + 10)
 
             this.initAllData()
         }
@@ -361,7 +362,7 @@ class VerifyMnemonicScreen extends BaseComponent {
                 isShowSLoading: false
             })
 
-            showToast(I18n.t('toast.create_wallet_error'), 0);
+            showToast(I18n.t('toast.create_wallet_error'), Toast.positions.TOP + 10);
             this.initAllData()
         }
     }

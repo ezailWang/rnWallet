@@ -83,6 +83,12 @@ import {
     MessageCenterScreen,
     MessageWebViewScreen,
     AddressListScreen,
+    MappingTermsScreen,
+    BindReplaceAddressScreen,
+    BindReplaceAddressErcScreen,
+    ItcMappingServiceScreen,
+    MappingRecordsScreen,
+    MappingRecordDetailScreen
 } from '../containers/Containers';
 
 import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
@@ -128,6 +134,25 @@ const FirstLaunchRouteConfig =
         screen: ImportWalletScreen,
     },
 
+
+    MappingTerms:{
+        screen:MappingTermsScreen,
+    },
+    BindReplaceAddress:{
+        screen:BindReplaceAddressScreen,
+    },
+    BindReplaceAddressErc:{
+        screen:BindReplaceAddressErcScreen,
+    },
+    ItcMappingService:{
+        screen:ItcMappingServiceScreen,
+    },
+    MappingRecords:{
+        screen:MappingRecordsScreen,
+    },
+    MappingRecordDetail:{
+        screen:MappingRecordDetailScreen
+    }
 
 
     /**UserRegulation: {
@@ -242,6 +267,7 @@ const HomeRouteConfig =
     AddressList: {
         screen: AddressListScreen,
     },
+    
 };
 
 export {

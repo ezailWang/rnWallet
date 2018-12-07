@@ -10,93 +10,143 @@ import {
     Linking
 } from 'react-native';
 import PropTypes from 'prop-types'
-import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
-import { Colors, StorageKey } from '../../config/GlobalConfig'
+import { Colors } from '../../config/GlobalConfig'
 import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
+import { BlueButtonBig } from '../../components/Button'
 import { showToast } from '../../utils/Toast';
-import { addressToName } from '../../utils/CommonUtil'
-import NetworkManager from '../../utils/NetworkManager'
+import LinearGradient from 'react-native-linear-gradient'
 
+const rightViewHeight = Layout.WINDOW_HEIGHT - 140 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
+const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20
+const stepItemHeight = rightViewHeight / 3
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.backgroundColor,
         alignItems: 'center',
     },
-    listContainer: {
+    contentBox: {
         flex: 1,
-        width: Layout.WINDOW_WIDTH,
-        //marginTop: 12,
-        backgroundColor: 'white'
+        marginTop: 20,
     },
-    emptyListContainer: {
-        marginTop: 150,
-        width: Layout.WINDOW_WIDTH * 0.9,
+    contentView: {
+        flexDirection: 'row',
+        backgroundColor: Colors.backgroundColor,
+    },
+    contentLeft: {
+        width: 50,
+        marginTop: 8,
+        //  backgroundColor: 'yellow'
+    },
+    contentRight: {
+        flex: 1,
+        marginRight: 20,
+    },
+    bottomBox: {
+        width: Layout.WINDOW_WIDTH,
+        alignItems: 'center',
+        backgroundColor: 'white',
+        height: Layout.DEVICE_IS_IPHONE_X() ? 130 : 120,
+        paddingBottom: Layout.DEVICE_IS_IPHONE_X() ? 20 : 0
+    },
+    checkBox: {
+        flexDirection: 'row',
         justifyContent: 'center',
+        width: Layout.WINDOW_WIDTH * 0.9 - 20,
         alignSelf: 'center',
+        marginTop: 15,
+    },
+    checkImage: {
+        width: 18,
+        height: 18,
+        borderRadius: 5,
+        marginRight: 8,
+    },
+    checkText: {
+        width: (Layout.WINDOW_WIDTH * 0.9 - 20) - 26,
+        color: Colors.fontBlueColor,
+        fontSize: 14,
+    },
+    button: {
+        //width:Layout.WINDOW_WIDTH*0.8,
+        marginTop: 10,
+        alignSelf: 'center',
+
+    },
+
+    stepItemBox: {
+        width: stepItemWidth,
+        height: stepItemHeight,
+        marginRight: 20,
         alignItems: 'center'
     },
-    emptyListIcon: {
-        width: 94,
-        height: 114,
-        marginBottom: 23,
-    },
-    emptyListText: {
-        fontSize: 16,
-        width: Layout.WINDOW_WIDTH * 0.9,
-        color: Colors.fontGrayColor_a,
-        textAlign: 'center',
-    },
-    item: {
-        height: 80,
+    stepItemTitleBox: {
+        width: stepItemWidth,
+        height: 36,
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'white',
-        paddingLeft: 25,
-        paddingRight: 25,
     },
-    itemContentBox: {
-        flex: 1,
-    },
-    itemTitle: {
-        color: Colors.fontBlackColor_43,
-        fontSize: 16,
-        marginBottom: 8,
-    },
-    itemAddress: {
-        color: Colors.fontGrayColor_a1,
-        fontSize: 13,
-    },
-    itemTime: {
-        color: Colors.fontGrayColor_a1,
-        fontSize: 13,
-    },
-    itemSeparator: {
-        height: 1,
-        // backgroundColor:'transparent',
-        backgroundColor: Colors.bgGrayColor_ed,
-        marginLeft: 15,
-        marginRight: 15,
-    },
-    listFooter: {
-        width: Layout.WINDOW_WIDTH * 0.9,
-        height: 40,
+    stepItemBgArrow: {
+        width: 15,
+        height: 27,
         alignSelf: 'center',
     },
-    listFooterText: {
-        height: 40,
-        lineHeight: 40,
+    stepItemTitleBg: {
+        width: stepItemWidth - 10,
+        height: 36,
+        borderRadius: 5,
+        marginLeft: -5,
+    },
+    stepItemTitle: {
+        width: stepItemWidth - 50,
+        lineHeight: 36,
+        fontSize: 18,
+        fontWeight: '600',
+        color: 'white',
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    stepItemBgDesc: {
+        color: Colors.fontBlackColor_43,
         fontSize: 14,
-        width: Layout.WINDOW_WIDTH * 0.9,
-        color: Colors.fontGrayColor_a,
-        textAlign: 'center',
+        width: stepItemWidth - 50,
+        marginTop: 10
+
+    },
+    stepItemImg: {
+        marginTop: 10,
+        width: stepItemWidth - 100,
+        height: (stepItemWidth - 100) / 212 * 54
+    },
+
+
+    liItemBox: {
+        width: 60,
+        height: stepItemHeight,
+        alignItems: 'center',
+    },
+    liItemNum: {
+        width: 20,
+        height: 20,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#3fc1ff'
+    },
+    liItemNumText: {
+        fontSize: 14,
+        color: 'white'
+    },
+    liItemLine: {
+        flex: 1,
+        width: 1.5,
+        backgroundColor: '#D7F0FF'
     }
+
 })
 
 export default class MappingTermsScreen extends BaseComponent {
@@ -104,25 +154,101 @@ export default class MappingTermsScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-           isAgree : false
+            isAgree: false
         }
-
     }
 
     _initData() {
-        
     }
 
-   
+    isAgreePress() {
+        this.setState({ isAgree: !this.state.isAgree });
+    }
+
+    startBtn() {
+        this.props.navigation.navigate('BindReplaceAddress')
+    }
+
     renderComponent() {
+        let checkIcon = this.state.isAgree ? require('../../assets/launch/check_on.png') : require('../../assets/launch/check_off.png');
         return (
             <View style={styles.container}>
                 <WhiteBgHeader navigation={this.props.navigation}
-                    text={I18n.t('settings.message_center')} />
-               
+                    text={I18n.t('mapping.itc_mapping_service')} />
+                <View style={styles.contentBox}>
+                    <View style={styles.contentView}>
+                        <View style={styles.contentLeft}>
+                            <LiItem num={'1'}></LiItem>
+                            <LiItem num={'2'}></LiItem>
+                            <LiItem num={'3'} isShowLine={false}></LiItem>
+                        </View>
+                        <View style={styles.contentRight}>
+                            <StepItem title={'STEP 1:' + I18n.t('mapping.bind_map_address')} desc={I18n.t('mapping.bind_map_address_des')} image={require('../../assets/mapping/mappingStep1.png')}></StepItem>
+                            <StepItem title={'STEP 2:' + I18n.t('mapping.application_mapping')} desc={I18n.t('mapping.application_mapping_des')} image={require('../../assets/mapping/mappingStep2.png')}></StepItem>
+                            <StepItem title={'STEP 3:' + I18n.t('mapping.native_issuance')} desc={I18n.t('mapping.native_issuance_des')} image={require('../../assets/mapping/mappingStep3.png')}></StepItem>
+                        </View>
+                    </View>
+                    <View style={styles.bottomBox}>
+                        <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isAgreePress()}>
+                            <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
+                            <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
+                        </TouchableOpacity>
+                        <BlueButtonBig
+                            buttonStyle={styles.button}
+                            isDisabled={!this.state.isAgree}
+                            onPress={() => this.startBtn()}
+                            text={I18n.t('mapping.start')}
+                        />
+                    </View>
+                </View>
+
             </View>
         );
     }
 }
+
+class LiItem extends PureComponent {
+    static defaultProps = {
+        isShowLine: true,
+    }
+    render() {
+
+        return (
+            <View style={styles.liItemBox}>
+                <View style={styles.liItemNum}>
+                    <Text style={styles.liItemNumText}>{this.props.num}</Text>
+                </View>
+                {
+                    this.props.isShowLine ?
+                        <View style={styles.liItemLine}>
+                        </View> : null
+                }
+
+            </View>
+        )
+    }
+}
+
+class StepItem extends PureComponent {
+    render() {
+        let image = this.props.image
+        return (
+            <View style={styles.stepItemBox}>
+                <View style={styles.stepItemTitleBox}>
+                    <Image style={styles.stepItemBgArrow} source={require('../../assets/mapping/leftTriangle.png')} resizeMode={'center'}></Image>
+                    <LinearGradient colors={['#3fc1ff', '#66ceff']}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1, y: 1 }}
+                        style={styles.stepItemTitleBg}>
+                        <Text style={styles.stepItemTitle}>{this.props.title}</Text>
+                    </LinearGradient>
+                </View>
+                <Text style={styles.stepItemBgDesc}>{this.props.desc}</Text>
+                <Image style={styles.stepItemImg} source={image} resizeMode={'center'}></Image>
+            </View>
+        )
+    }
+}
+
 
 

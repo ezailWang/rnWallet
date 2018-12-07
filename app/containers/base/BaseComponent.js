@@ -1,4 +1,4 @@
-import React, { PureComponent ,Component} from 'react';
+import React, { PureComponent, Component } from 'react';
 import {
     StyleSheet,
     View,
@@ -7,6 +7,7 @@ import {
     Platform,
     DeviceEventEmitter,
     ScrollView,
+    Linking,
 } from 'react-native';
 import StatusBarComponent from '../../components/StatusBarComponent';
 //import Loading from '../../components/LoadingComponent';
@@ -22,7 +23,7 @@ import RootSiblings from 'react-native-root-siblings';
 import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
 import { Common } from '../../config/GlobalConfig'
 import MyAlert from '../../components/MyAlert';
-
+import MyAlertComponent from '../../components/MyAlertComponent'
 let lastBackPressed = 0;
 
 
@@ -47,6 +48,7 @@ export default class BaseComponent extends PureComponent {
             isShowPin: false,
             showBlur: false,
             isShowAlert: false,
+            versionUpdateModalVisible: false,
             alertTitle: '',
             alertContent: '',
         }
@@ -65,6 +67,7 @@ export default class BaseComponent extends PureComponent {
         //  this._handleAppStateChange = this._handleAppStateChange.bind(this);
         this._barStyle = 'dark-content';
         this._isMounted = false;
+        this.versionUpdateInfo = null;
 
 
 
@@ -118,6 +121,7 @@ export default class BaseComponent extends PureComponent {
         this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
         this.pinIsShowHandler = DeviceEventEmitter.addListener('pinIsShow', this._pinIsShowEmitter);//监听pin是否显示
         this.messageCountHandler = DeviceEventEmitter.addListener('messageCount', this._messageCountEmitter);//messageCount
+        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
         this.backgroundStateHandler = DeviceEventEmitter.addListener('backgroundState', this._backgroundStateEmitter);
     }
@@ -130,6 +134,7 @@ export default class BaseComponent extends PureComponent {
         this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
         this.pinIsShowHandler && this.pinIsShowHandler.remove();
         this.messageCountHandler && this.messageCountHandler.remove();
+        this.versionUpdateHandler && this.versionUpdateHandler.remove();
         this.backgroundStateHandler && this.backgroundStateHandler.remove();
     }
 
@@ -227,6 +232,28 @@ export default class BaseComponent extends PureComponent {
         }
     }
 
+    versionUpdateLeftPress = () => {
+        this.setState({
+            versionUpdateModalVisible: false
+        })
+        this.versionUpdateInfo = null
+    }
+
+    versionUpdateRightPress = () => {
+
+        this.setState({
+            versionUpdateModalVisible: false
+        })
+        let updateUrl = this.versionUpdateInfo.updateUrl
+        Linking.canOpenURL(updateUrl)
+            .then((supported) => {
+                if (supported) {
+                    Linking.openURL(updateUrl)
+                }
+            })
+        this.versionUpdateInfo = null
+    }
+
 
     render() {
         const { pinInfo } = store.getState().Core
@@ -249,6 +276,18 @@ export default class BaseComponent extends PureComponent {
                     blurType='light'
                     blurAmount={10}
                 />}
+                {this.state.versionUpdateModalVisible ?
+                    <MyAlertComponent
+                        visible={this.state.versionUpdateModalVisible}
+                        title={I18n.t('toast.update_tip')}
+                        //content={'1234546daf升级提示'}
+                        contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
+                        leftBtnTxt={I18n.t('modal.cancel')}
+                        rightBtnTxt={I18n.t('toast.go_update')}
+                        leftPress={this.versionUpdateLeftPress}
+                        rightPress={this.versionUpdateRightPress}>
+
+                    </MyAlertComponent> : null}
                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
                 {this.state.isShowPin == undefined ? null :
                     <PinModal visible={this.state.isShowPin}
@@ -279,7 +318,14 @@ export default class BaseComponent extends PureComponent {
 
     }
 
-
+    _versionUpdateEmitter = (info) => {
+        if (info) {
+            this.versionUpdateInfo = info.updateInfo
+            this.setState({
+                versionUpdateModalVisible: true
+            })
+        }
+    }
 
 
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。

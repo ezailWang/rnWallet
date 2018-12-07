@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Platform, Alert, Linking } from 'react-native'
+import { Platform, Alert, Linking ,DeviceEventEmitter} from 'react-native'
 import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -11,7 +11,8 @@ import {
     setPinInfo,
     setIsNewWallet,
     setContactList,
-    setAllTokens
+    setAllTokens,
+    setVersionUpdateInfo
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
@@ -45,7 +46,7 @@ class Loading extends Component {
                 'deviceModel': DeviceInfo.getModel(),
                 'deviceToken': registrationId,
                 'deviceId': DeviceInfo.getUniqueID(),
-                'walletAddress':this.props.walletAddress ? this.props.walletAddress : 0,
+                'walletAddress': this.props.walletAddress ? this.props.walletAddress : 0,
             }
             //设置别名
             JPushModule.setAlias(registrationId, (alias) => {
@@ -79,10 +80,19 @@ class Loading extends Component {
             })
         }
 
+    
         NetworkManager.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
-                    Alert.alert(
+
+                    let contents = response.data.content.split('&')
+                    let updateInfo = {
+                        contents:contents,
+                        updateUrl:response.data.updateUrl
+                    }
+                    DeviceEventEmitter.emit('versionUpdate', {updateInfo: updateInfo});  
+                    
+                    /*Alert.alert(
                         I18n.t('toast.update_tip'),
                         response.data.content.split('&').join('\n'),
                         [
@@ -99,7 +109,8 @@ class Loading extends Component {
                             },
                             { text: I18n.t('modal.cancel'), onPress: () => { }, style: 'cancel' },
                         ],
-                    )
+                    )*/
+                   
                 } else {
                     console.log('getVersionUpdateInfo err msg:', response.msg)
                 }
@@ -117,7 +128,7 @@ class Loading extends Component {
             return this.props.navigation.navigate('Home')
         } else {
             return this.props.navigation.navigate('FirstLaunch', {
-                migrationMode: true
+                migrationMode: true,
             })
         }
 

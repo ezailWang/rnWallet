@@ -93,8 +93,9 @@ const styles = StyleSheet.create({
         width:Layout.WINDOW_WIDTH,
         height:Layout.WINDOW_HEIGHT,
         position: 'absolute',
-        justifyContent:'center',
+        //justifyContent:'center',
         alignItems:'center',
+        marginTop:50
     },
     toastText:{
         backgroundColor:'black',
@@ -141,7 +142,7 @@ export default class PinModalSet extends PureComponent{
                 this.isSet = false;
                 this.setPassword = password
                 this.isAnimation = false;
-                Vibration.vibrate([0,50],false)
+               // Vibration.vibrate()
                 this.setState({
                     pointsCkeckedCount : 0,
                     delDisabled: true,
@@ -160,7 +161,7 @@ export default class PinModalSet extends PureComponent{
                     this.reSetModal()
                     this.hidePinSet(password)
                 }else{
-                    
+                    //Vibration.vibrate()
                     this.setState({
                         pointsCkeckedCount : 0,
                         delDisabled: true,

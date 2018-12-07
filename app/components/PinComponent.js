@@ -109,7 +109,7 @@ export default class PinComponent extends PureComponent{
     }
 
     startAnimation(){
-        Vibration.vibrate([0,150],false)
+        Vibration.vibrate()
         Animated.sequence([
             Animated.timing(this.translateXValue,{
                 duration:50,

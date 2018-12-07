@@ -32,6 +32,12 @@ import SearchTokenScreen from './settings/SearchTokenScreen'
 import MessageCenterScreen from './settings/MessageCenterScreen'
 import MessageWebViewScreen from './settings/MessageWebViewScreen'
 import AddressListScreen from './settings/AddressListScreen'
+import MappingTermsScreen from './mapping/MappingTermsScreen'
+import BindReplaceAddressScreen from './mapping/BindReplaceAddressScreen'
+import BindReplaceAddressErcScreen from './mapping/BindReplaceAddressErcScreen'
+import ItcMappingServiceScreen from './mapping/ItcMappingServiceScreen'
+import MappingRecordsScreen from './mapping/MappingRecordsScreen'
+import MappingRecordDetailScreen from './mapping/MappingRecordDetailScreen'
 export {
     HomeScreen,
     Transaction,
@@ -67,4 +73,10 @@ export {
     MessageCenterScreen,
     MessageWebViewScreen,
     AddressListScreen,
+    MappingTermsScreen,
+    BindReplaceAddressScreen,
+    BindReplaceAddressErcScreen,
+    ItcMappingServiceScreen,
+    MappingRecordsScreen,
+    MappingRecordDetailScreen
 }

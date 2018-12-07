@@ -43,7 +43,7 @@ const defaultState = {
     isNewWallet: false,
     contactList: [],
     allTokens: [],
-    transferRecordList:[],
+    transferRecordList: [],
 }
 
 function coreReducer(state = defaultState, action) {
@@ -180,7 +180,7 @@ function coreReducer(state = defaultState, action) {
         case SET_TRANSFER_RECORD_LIST:
             return {
                 ...state,
-                transferRecordList : action.transferRecordList
+                transferRecordList: action.transferRecordList
             }
             break;
         default: return state;
