@@ -68,6 +68,7 @@ export default class BaseComponent extends PureComponent {
         this._barStyle = 'dark-content';
         this._isMounted = false;
         this.versionUpdateInfo = null;
+        this.showVersionUpdateModal = false
 
 
 
@@ -121,7 +122,6 @@ export default class BaseComponent extends PureComponent {
         this.monetaryUnitChangeHandler = DeviceEventEmitter.addListener('monetaryUnitChange', this._monetaryUnitChange);//监听货币单位改变
         this.pinIsShowHandler = DeviceEventEmitter.addListener('pinIsShow', this._pinIsShowEmitter);//监听pin是否显示
         this.messageCountHandler = DeviceEventEmitter.addListener('messageCount', this._messageCountEmitter);//messageCount
-        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
         this.backgroundStateHandler = DeviceEventEmitter.addListener('backgroundState', this._backgroundStateEmitter);
     }
@@ -133,17 +133,18 @@ export default class BaseComponent extends PureComponent {
         this.monetaryUnitChangeHandler && this.monetaryUnitChangeHandler.remove();
         this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
         this.pinIsShowHandler && this.pinIsShowHandler.remove();
-        this.messageCountHandler && this.messageCountHandler.remove();
-        this.versionUpdateHandler && this.versionUpdateHandler.remove();
+        this.messageCountHandler && this.messageCountHandler.remove();  
         this.backgroundStateHandler && this.backgroundStateHandler.remove();
     }
 
     _addChangeListener() {
         AppState.addEventListener('change', this._handleAppStateChange);
+        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
     }
 
     _removeChangeListener() {
         AppState.removeEventListener('change', this._handleAppStateChange);
+        this.versionUpdateHandler && this.versionUpdateHandler.remove();
     }
 
     //显示Loading
@@ -319,7 +320,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     _versionUpdateEmitter = (info) => {
-        if (info) {
+        if (!this.state.versionUpdateModalVisible) {
             this.versionUpdateInfo = info.updateInfo
             this.setState({
                 versionUpdateModalVisible: true

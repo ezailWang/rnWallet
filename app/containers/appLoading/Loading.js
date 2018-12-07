@@ -12,7 +12,6 @@ import {
     setIsNewWallet,
     setContactList,
     setAllTokens,
-    setVersionUpdateInfo
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
@@ -91,7 +90,6 @@ class Loading extends Component {
                         updateUrl:response.data.updateUrl
                     }
                     DeviceEventEmitter.emit('versionUpdate', {updateInfo: updateInfo});  
-                    
                     /*Alert.alert(
                         I18n.t('toast.update_tip'),
                         response.data.content.split('&').join('\n'),

@@ -3,7 +3,7 @@ import {
     View,
     StyleSheet,
     Platform,
-    PermissionsAndroid,
+    ScrollView,
     Text,
     ImageBackground,
     Image,
@@ -11,27 +11,28 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
-import StorageManage from '../../utils/StorageManage'
-import { BlueButtonBig } from '../../components/Button'
 import { Colors, StorageKey, FontSize } from '../../config/GlobalConfig'
-import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
-import NetworkManager from '../../utils/NetworkManager';
-import { CommonTextInput } from '../../components/TextInputComponent'
-import RemindDialog from '../../components/RemindDialog'
 import BaseComponent from '../base/BaseComponent';
 import LinearGradient from 'react-native-linear-gradient'
-import ProgressView from '../../components/ProgressView'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.backgroundColor,
+        backgroundColor: 'rgba(248,248,248,0.8)',
+    },
+    scrollView:{
+        flex: 1,
+        width: Layout.WINDOW_WIDTH,
+    },
+    boxView: {
+        flex: 1,
+        width: Layout.WINDOW_WIDTH,
     },
     headerBox: {
         width: Layout.WINDOW_WIDTH,
-        height: Layout.WINDOW_WIDTH / 320 * 211
+        height: 160,
     },
     headerTitleBox: {
         flexDirection: 'row',
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
-        marginTop: 40,
+        flex: 1,
+        justifyContent: 'center'
     },
     amountTxt: {
         fontSize: 30,
@@ -79,38 +81,39 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginBottom: 2,
     },
-
-
-    lineView: {
-        width: Layout.WINDOW_WIDTH - 40,
-        borderBottomLeftRadius: 5,
-        borderBottomRightRadius: 5,
+    whiteBox: {
+        flex: 1,
+        justifyContent: 'flex-end'
     },
+    whiteView: {
+        backgroundColor: 'white',
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        alignSelf: 'center',
+        width: Layout.WINDOW_WIDTH - 40,
+        height: 15,
+    },
+
+
     contentBox: {
         width: Layout.WINDOW_WIDTH,
-        flex:1,
+        flex: 1,
         alignItems: 'center',
         backgroundColor: Colors.backgroundColor,
+        marginBottom:20,
     },
-    contentView: {
-        position: 'absolute',
-        marginTop: -10,
-        width: Layout.WINDOW_WIDTH - 40,
-        alignItems: 'center',
-        backgroundColor: Colors.backgroundColor,
-        zIndex:10,
-    },
+
     infoView: {
         alignSelf: 'center',
         width: Layout.WINDOW_WIDTH - 40,
-        borderTopLeftRadius: 5,
-        borderTopRightRadius: 5,
-        padding: 15,
+        paddingLeft: 15,
+        paddingRight: 15,
         alignItems: 'center',
         backgroundColor: 'white'
     },
     infoContent: {
         width: Layout.WINDOW_WIDTH - 70,
+        paddingBottom: 15
         //height:100,
     },
     vLine: {
@@ -121,7 +124,8 @@ const styles = StyleSheet.create({
     titleView: {
         width: Layout.WINDOW_WIDTH - 70,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 5,
     },
     titleIcon: {
         width: 24,
@@ -134,7 +138,7 @@ const styles = StyleSheet.create({
     },
     itemView: {
         width: Layout.WINDOW_WIDTH - 70,
-        marginTop: 15,
+        marginTop: 10,
         alignItems: 'center',
         //height:50,
     },
@@ -144,11 +148,17 @@ const styles = StyleSheet.create({
         color: Colors.fontBlackColor_43,
     },
     itemContent: {
-        marginTop: 3,
+        marginTop: 2,
         color: Colors.fontGrayColor_a,
         width: Layout.WINDOW_WIDTH - 70,
         fontSize: 13,
-    }
+    },
+    lineView: {
+        width: Layout.WINDOW_WIDTH - 40,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        height: 5,
+    },
 
 })
 
@@ -162,6 +172,7 @@ class MappingRecordDetailScreen extends BaseComponent {
             time: ''
         }
         this.mappingDetail = null; // status 0 已申请 1 申请中  2 已完成
+        this._setStatusBarStyleLight()
     }
 
     _initData() {
@@ -192,29 +203,35 @@ class MappingRecordDetailScreen extends BaseComponent {
 
         return (
             <View style={styles.container}>
-                <ImageBackground style={styles.headerBox} source={headerBg}>
-                    <View style={styles.headerTitleBox}>
-                        <TouchableOpacity style={[styles.headerTitleTouch, headerMarginTop]}
-                            onPress={this.goBackBtn}
-                        >
-                            <Image style={styles.backIcon}
-                                resizeMode={'center'}
-                                source={require('../../assets/common/common_back_white.png')}>
-                            </Image>
-                        </TouchableOpacity>
-                        <View style={[styles.headerTitleView, headerMarginTop]}>
-                            <Text style={styles.headerTitle}>{I18n.t('mapping.mapping_record')}</Text>
+                <ScrollView
+                    style={styles.scrollView}
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    bounces={false}>
+                    <ImageBackground style={styles.headerBox} source={headerBg}>
+                        <View style={styles.headerTitleBox}>
+                            <TouchableOpacity style={[styles.headerTitleTouch, headerMarginTop]}
+                                onPress={this.goBackBtn}
+                            >
+                                <Image style={styles.backIcon}
+                                    resizeMode={'center'}
+                                    source={require('../../assets/common/common_back_white.png')}>
+                                </Image>
+                            </TouchableOpacity>
+                            <View style={[styles.headerTitleView, headerMarginTop]}>
+                                <Text style={styles.headerTitle}>{I18n.t('mapping.mapping_record')}</Text>
+                            </View>
+
                         </View>
-
-                    </View>
-                    <View style={styles.amountView}>
-                        <Text style={styles.amountTxt}>{this.state.amount}</Text>
-                        <Text style={styles.unitTxt}>ITC</Text>
-                    </View>
-
-                </ImageBackground>
-                <View style={[styles.contentBox]}>
-                    <View style={[styles.contentView]}>
+                        <View style={styles.amountView}>
+                            <Text style={styles.amountTxt}>{this.state.amount}</Text>
+                            <Text style={styles.unitTxt}>ITC</Text>
+                        </View>
+                        <View style={styles.whiteBox}>
+                            <View style={styles.whiteView}></View>
+                        </View>
+                    </ImageBackground>
+                    <View style={[styles.contentBox]}>
                         <View style={[styles.infoView]}>
                             <View style={[styles.infoContent]}>
                                 <TitleView isCompleted={info1IsDone} content={I18n.t('mapping.destroy_itc')}></TitleView>
@@ -224,9 +241,9 @@ class MappingRecordDetailScreen extends BaseComponent {
                                 <ItemView title={'TxHash'} content={'0xf6C9e322b688A434833dE530E4c23CFA4e579a78'}></ItemView>
                                 <ItemView title={I18n.t('mapping.transaction_hour')} content={'2018-11-06 18:18:06 +0800'}></ItemView>
                             </View>
-                            <Line isCompleted={info1IsDone}></Line>
+                            <Line type={this.state.status == 0 ? 1 : 2}></Line>
                         </View>
-                        <View style={[styles.infoView]}>
+                        <View style={[styles.infoView, { marginTop: 15, paddingTop: 15, borderTopLeftRadius: 5, borderTopRightRadius: 5 }]}>
                             <View style={[styles.infoContent]}>
                                 <TitleView isCompleted={info2IsDone} content={I18n.t('mapping.native_itc_issuance')}></TitleView>
                                 <View style={styles.vLine}></View>
@@ -240,14 +257,11 @@ class MappingRecordDetailScreen extends BaseComponent {
                                     </View>}
 
                             </View>
-                            {
-                                this.state.status == 0 ? null : <Line isCompleted={info2IsDone}></Line>
-                            }
+                            <Line type={this.state.status}></Line>
 
                         </View>
                     </View>
-                </View>
-
+                </ScrollView>
             </View>
         );
     }
@@ -281,13 +295,12 @@ class TitleView extends PureComponent {
 }
 
 class Line extends PureComponent {
-
     render() {
-        let isCompleted = this.props.isCompleted
+        let type = this.props.type
         return (
             <LinearGradient
                 style={styles.lineView}
-                colors={isCompleted ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#0094ff']}
+                colors={type == 2 ? ['#95C06D', '#6F9D44'] : type == 1 ? ['#0094ff', '#66ceff'] : ['#fff', '#fff']}
                 start={{ x: 0, y: 1 }}
                 end={{ x: 1, y: 1 }}>
             </LinearGradient>

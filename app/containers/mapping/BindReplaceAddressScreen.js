@@ -174,7 +174,6 @@ class BindReplaceAddressScreen extends BaseComponent {
     _onPressItem = (item) => {
         let choseWallet = item.item;
         this.selectedWallet = choseWallet
-        console.log('L_item', item)
 
         let wallets = this.state.walletList;
         let newWallets = [];
@@ -188,7 +187,6 @@ class BindReplaceAddressScreen extends BaseComponent {
             }
             newWallets.push(wallet)
         }
-        console.log('L_newWallets', newWallets)
         this.setState({
             walletList: newWallets,
             isDisabled: false

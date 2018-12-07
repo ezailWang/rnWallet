@@ -10,6 +10,7 @@ import {
     Modal,
     ScrollView,
     StatusBar,
+    Keyboard,
     KeyboardAvoidingView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -30,13 +31,20 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backgroundColor,
     },
+    keyboardAwareScrollView: {
+        flex: 1,
+    },
+    modalKeyboardAwareScrollView: {
+        height: 400,
+        //width: contentWidth,
+    },
 
     topImg: {
         width: contentWidth,
-        height: contentWidth * 0.16,
+        height: contentWidth / 288 * 76,
         alignSelf: 'center',
-        marginTop: 20,
-        marginBottom: 20,
+        marginTop: 16,
+        marginBottom: 16,
     },
     mAddressBox: {
         width: contentWidth,
@@ -88,29 +96,34 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: Colors.fontBlueColor,
         fontSize: 18,
-        marginTop: 25,
+        marginTop: 16,
     },
     mAmountInputView: {
         flexDirection: 'row',
         marginTop: 10,
         width: contentWidth,
         alignSelf: 'center',
-        //height: 50,
+        height: 40,
         alignItems: 'flex-end',
+        padding: 0,
 
     },
     mAmountInput: {
         flex: 1,
         fontSize: 26,
         fontWeight: '600',
-        // height: 50,
+        height: 40,
+        padding: 0,
+        margin: 0,
         //textAlignVertical: 'bottom',
+        alignItems: 'flex-end',
         color: Colors.fontBlueColor,
     },
     unit: {
         fontSize: 26,
-        color: Colors.fontBlueColor,
         fontWeight: '600',
+        color: Colors.fontBlueColor,
+
     },
     vLine: {
         width: contentWidth,
@@ -152,24 +165,28 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         backgroundColor: Colors.blackOpacityColor,
     },
-    modalContent:{
+    modalContent: {
         height: 400,
-        backgroundColor:'white',
+        backgroundColor: 'white',
         width: Layout.WINDOW_WIDTH,
     },
     modalKeyboardContainer: {
-        marginTop: Platform.OS === 'android' ? Layout.ScreenHeight - 400 - StatusBarHeight : Layout.ScreenHeight - 400,
-        height: 400,
+        //marginTop: Platform.OS === 'android' ? Layout.ScreenHeight - 400 - StatusBarHeight : Layout.ScreenHeight - 400,
+        width: Layout.WINDOW_WIDTH,
+        //height: 400,
+        flex: 1,
         marginBottom: 0,
         marginRight: 0,
         marginLeft: 0,
     },
     modalScrollView: {
+        marginTop: Platform.OS === 'android' ? Layout.ScreenHeight - 400 - StatusBarHeight : Layout.ScreenHeight - 400,
         flexDirection: 'row',
         flex: 1,
         width: Layout.WINDOW_WIDTH,
-        height: 400,
+        //height: 400,
         marginBottom: 0,
+        backgroundColor: 'white',
     },
     mDetailBox: {
         width: Layout.WINDOW_WIDTH,
@@ -183,7 +200,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     mDetailTitle: {
-        width: Layout.WINDOW_WIDTH-100,
+        width: Layout.WINDOW_WIDTH - 100,
         color: Colors.fontBlackColor_43,
         fontSize: 18,
         height: 50,
@@ -261,7 +278,7 @@ const styles = StyleSheet.create({
         height: 30,
     },
     mPwdTitle: {
-        width: Layout.WINDOW_WIDTH-100,
+        width: Layout.WINDOW_WIDTH - 100,
         color: Colors.fontBlackColor_43,
         fontSize: 18,
         height: 50,
@@ -274,7 +291,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     mPwdInput: {
-        marginTop: 20,
+        marginTop: 15,
         height: 40,
         borderColor: Colors.bgGrayColor_e5,
         borderRadius: 5,
@@ -286,6 +303,10 @@ const styles = StyleSheet.create({
     },
     modalNextBtn: {
         marginTop: 30,
+    },
+    modalConfirmBtnView: {
+        flex: 1,
+        justifyContent: 'flex-end',
     },
     modalConfirmBtn: {
         marginBottom: 30,
@@ -325,6 +346,7 @@ class ItcMappingServiceScreen extends BaseComponent {
 
 
     mappingRecord = () => {
+        Keyboard.dismiss()
         this.props.navigation.navigate('MappingRecords')
     }
 
@@ -350,7 +372,7 @@ class ItcMappingServiceScreen extends BaseComponent {
         }
     }
 
-   
+
 
     modalCancelBtn = () => {
         this.setState({
@@ -369,79 +391,89 @@ class ItcMappingServiceScreen extends BaseComponent {
     renderComponent() {
         let topImg = require('../../assets/mapping/mappingService.png')
         return (
-            <View style={styles.container}>
+            <View style={styles.container}
+                onResponderGrant={() => {
+                    Keyboard.dismiss()
+                }}>
                 <WhiteBgHeader navigation={this.props.navigation}
                     text={I18n.t('mapping.itc_mapping_service')}
                     rightPress={this.mappingRecord}
                     rightText={I18n.t('mapping.mapping_record')} />
-                <ConfirmMappingModal
-                    visible={this.state.isShowMappingDetail}
-                    amount={this.inputAmount}
-                    payAddress={this.state.mappingAddress}
-                    ethAmount={this.ethAmount}
-                    gasAmount={this.gasAmount}
-                    pwdInputChangeText={this.pwdInputChangeText}
-                    modalCancelBtn={this.modalCancelBtn}
-                    modalConfirmBtn={this.modalConfirmBtn}
-                ></ConfirmMappingModal>
-                <Image style={styles.topImg} source={topImg} resizeMode={'center'}></Image>
-                <View style={styles.mAddressBox}>
-                    <View style={styles.mAddressContent}>
-                        <View style={styles.mAddressTitleView}>
-                            <Text style={styles.mAddressTitle}>{I18n.t('mapping.dedicated_mapping_address')}</Text>
-                            <View style={styles.mAddressWarnView}>
-                                <TouchableOpacity activeOpacity={0.6}
-                                    style={styles.mAddressWarnTouch}
-                                    onPress={this.warnBtn}>
-                                    <Image style={styles.warnIcon} source={require('../../assets/mapping/sighIcon.png')} resizeMode={'center'} ></Image>
 
-                                </TouchableOpacity>
-                                {
-                                    this.state.isShowWarn ?
-                                        <Image style={styles.triangleIcon} source={require('../../assets/mapping/upTriangle.png')} resizeMode={'center'} ></Image> : null
-                                }
+                <KeyboardAvoidingView style={styles.keyboardAwareScrollView}
+                    keyboardShouldPersistTaps='handled'
+                    behavior="padding"
+                    keyboardVerticalOffset={-StatusBarHeight}>
+                    <ConfirmMappingModal
+                        visible={this.state.isShowMappingDetail}
+                        amount={this.inputAmount}
+                        payAddress={this.state.mappingAddress}
+                        ethAmount={this.ethAmount}
+                        gasAmount={this.gasAmount}
+                        pwdInputChangeText={this.pwdInputChangeText}
+                        modalCancelBtn={this.modalCancelBtn}
+                        modalConfirmBtn={this.modalConfirmBtn}
+                    ></ConfirmMappingModal>
+                    <Image style={styles.topImg} source={topImg} resizeMode={'center'}></Image>
+                    <View style={styles.mAddressBox}>
+                        <View style={styles.mAddressContent}>
+                            <View style={styles.mAddressTitleView}>
+                                <Text style={styles.mAddressTitle}>{I18n.t('mapping.dedicated_mapping_address')}</Text>
+                                <View style={styles.mAddressWarnView}>
+                                    <TouchableOpacity activeOpacity={0.6}
+                                        style={styles.mAddressWarnTouch}
+                                        onPress={this.warnBtn}>
+                                        <Image style={styles.warnIcon} source={require('../../assets/mapping/sighIcon.png')} resizeMode={'center'} ></Image>
+
+                                    </TouchableOpacity>
+                                    {
+                                        this.state.isShowWarn ?
+                                            <Image style={styles.triangleIcon} source={require('../../assets/mapping/upTriangle.png')} resizeMode={'center'} ></Image> : null
+                                    }
+
+                                </View>
 
                             </View>
+                            <Text style={styles.mAddressText}>{this.state.mappingAddress}</Text>
+
 
                         </View>
-                        <Text style={styles.mAddressText}>{this.state.mappingAddress}</Text>
-
+                        {this.state.isShowWarn ?
+                            <View style={styles.warnDescView}>
+                                <Text style={styles.warnDesc}>{I18n.t('mapping.dedicated_mapping_address_desc')}</Text>
+                            </View> : null}
 
                     </View>
-                    {this.state.isShowWarn ?
-                        <View style={styles.warnDescView}>
-                            <Text style={styles.warnDesc}>{I18n.t('mapping.dedicated_mapping_address_desc')}</Text>
-                        </View> : null}
+                    <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
+                    <View style={styles.mAmountInputView}>
 
-                </View>
-                <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
-                <View style={styles.mAmountInputView}>
-
-                    <TextInput style={[styles.mAmountInput]}
-                        ref={(input) => {
-                            this.inputText = input;
-                        }}
-                        placeholderTextColor={Colors.fontGrayColor_a0}
-                        placeholder={''}
-                        underlineColorAndroid='transparent'
-                        selectionColor='#00bfff'
-                        multiline={false}
-                        returnKeyType={"done"}
-                        keyboardType='numeric'
-                        onChangeText={this.onAmountChangeText}>
-                    </TextInput>
-                    <Text style={styles.unit}>ITC</Text>
-                </View>
-                <View style={styles.vLine} ></View>
-                <Text style={styles.commonText}>{I18n.t('mapping.initiation_address')}</Text>
-                <Text style={styles.commonText}>{this.state.initiationAddress}</Text>
-                <Text style={styles.commonText}>{this.state.gasCost}</Text>
-                <BlueButtonBig
-                    buttonStyle={styles.btn}
-                    isDisabled={this.state.isDisabled}
-                    onPress={this.confirmBtn}
-                    text={I18n.t('mapping.confirm_mapping')}
-                />
+                        <TextInput style={[styles.mAmountInput]}
+                            ref={(input) => {
+                                this.inputText = input;
+                            }}
+                            placeholderTextColor={Colors.fontGrayColor_a0}
+                            placeholder={''}
+                            underlineColorAndroid='transparent'
+                            selectionColor='#00bfff'
+                            multiline={false}
+                            returnKeyType={"done"}
+                            keyboardType='numeric'
+                            onChangeText={this.onAmountChangeText}
+                        >
+                        </TextInput>
+                        <Text style={styles.unit}>ITC</Text>
+                    </View>
+                    <View style={styles.vLine} ></View>
+                    <Text style={styles.commonText}>{I18n.t('mapping.initiation_address')}</Text>
+                    <Text style={styles.commonText}>{this.state.initiationAddress}</Text>
+                    <Text style={styles.commonText}>{this.state.gasCost}</Text>
+                    <BlueButtonBig
+                        buttonStyle={styles.btn}
+                        isDisabled={this.state.isDisabled}
+                        onPress={this.confirmBtn}
+                        text={I18n.t('mapping.confirm_mapping')}
+                    />
+                </KeyboardAvoidingView>
             </View>
         );
     }
@@ -459,11 +491,13 @@ class ConfirmMappingModal extends PureComponent {
         this.inputPwd = ''
     }
 
+
     toInputPwd = () => {
         this.scroll.scrollTo({ x: Layout.WINDOW_WIDTH, y: 0, animated: true });
     }
     toMappingDetail = () => {
         this.scroll.scrollTo({ x: 0, y: 0, animated: true });
+
     }
     pwdInputChangeText = (text) => {
         this.inputPwd = text
@@ -495,12 +529,15 @@ class ConfirmMappingModal extends PureComponent {
                     //Alert.alert("Modal has been show.");
                 }}
             >
+
                 <View style={styles.modalBox}>
 
                     <View style={styles.modalContent}>
-                        <KeyboardAwareScrollView
-                            style={styles.modalKeyboardContainer}
-                            keyboardShouldPersistTaps={'handled'}>
+                        <KeyboardAvoidingView style={styles.modalKeyboardContainer}
+                            keyboardShouldPersistTaps='handled'
+                            behavior="padding"
+                            keyboardVerticalOffset={-StatusBarHeight}
+                            >
                             <ScrollView
                                 ref={(scroll) => {
                                     this.scroll = scroll;
@@ -560,33 +597,32 @@ class ConfirmMappingModal extends PureComponent {
                                         </TouchableOpacity>
                                         <Text style={styles.mPwdTitle}>{I18n.t('transaction.wallet_password')}</Text>
                                     </View>
-                                    <View style={styles.mPwdContentBox}>
-                                        <TextInput style={styles.mPwdInput}
-                                            ref={(input) => {
-                                                this.inputPwdText = input;
-                                            }}
-                                            returnKeyType='done'
-                                            placeholderTextColor={Colors.fontGrayColor_a0}
-                                            placeholder={I18n.t('transaction.enter_password_hint')}
-                                            underlineColorAndroid='transparent'
-                                            selectionColor='#00bfff'
-                                            multiline={false}
-                                            secureTextEntry={true}
-                                            onChangeText={this.pwdInputChangeText}
-                                            >
-                                        </TextInput>
+                                    {/*<View style={styles.mPwdContentBox}>*/}
+                                    <TextInput style={styles.mPwdInput}
+                                        returnKeyType='done'
+                                        placeholderTextColor={Colors.fontGrayColor_a0}
+                                        placeholder={I18n.t('transaction.enter_password_hint')}
+                                        underlineColorAndroid='transparent'
+                                        selectionColor='#00bfff'
+                                        multiline={false}
+                                        secureTextEntry={true}
+                                        onChangeText={this.pwdInputChangeText}
+                                    >
+                                    </TextInput>
+                                    {/*</View>*/}
+                                    <View style={styles.modalConfirmBtnView}>
+                                        <BlueButtonBig
+                                            buttonStyle={styles.modalConfirmBtn}
+                                            onPress={this.confirmBtn}
+                                            isDisabled={this.state.confirmBtnIsDisabled}
+                                            text={I18n.t('mapping.next')}
+                                        />
                                     </View>
-                                    <BlueButtonBig
-                                        buttonStyle={styles.modalConfirmBtn}
-                                        onPress={this.confirmBtn}
-                                        isDisabled={this.state.confirmBtnIsDisabled}
-                                        text={I18n.t('mapping.next')}
-                                    />
                                 </View>
-                            </ScrollView>
-                        </KeyboardAwareScrollView>
-                    </View>
 
+                            </ScrollView>
+                        </KeyboardAvoidingView>
+                    </View>
                 </View>
             </Modal>
         )
