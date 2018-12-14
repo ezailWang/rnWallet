@@ -8,7 +8,7 @@ import {
     BackHandler,
     Clipboard,
     Animated,
-    Image,
+    Linking,
     Text,
     TouchableOpacity,
     DeviceEventEmitter,
@@ -30,6 +30,7 @@ import SplashScreen from 'react-native-splash-screen'
 import Layout from '../../config/LayoutConstants'
 import { showToast } from '../../utils/Toast'
 import { I18n } from '../../config/language/i18n'
+import MyAlertComponent from '../../components/MyAlertComponent'
 import BaseComponent from '../base/BaseComponent'
 
 
@@ -47,16 +48,19 @@ class HomeScreen extends BaseComponent {
             statusbarStyle: 'light-content',
             isTotalAssetsHidden: false,
             monetaryUnitSymbol: '',//货币单位符号
-            headBgImageRef: null
+            headBgImageRef: null,
+            versionUpdateModalVisible: false,
         }
     }
 
     componentWillMount() {
+        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this._addEventListener();
         this._addChangeListener()
     }
 
     componentWillUnmount() {
+        this.versionUpdateHandler && this.versionUpdateHandler.remove();
         this._removeEventListener();
         this._removeChangeListener()
     }
@@ -279,6 +283,40 @@ class HomeScreen extends BaseComponent {
             })
     }
 
+
+   
+    versionUpdateLeftPress = () => {
+        this.setState({
+            versionUpdateModalVisible: false
+        })
+        this.versionUpdateInfo = null
+    }
+
+    versionUpdateRightPress = () => {
+
+        this.setState({
+            versionUpdateModalVisible: false
+        })
+        let updateUrl = this.versionUpdateInfo.updateUrl
+        Linking.canOpenURL(updateUrl)
+            .then((supported) => {
+                if (supported) {
+                    Linking.openURL(updateUrl)
+                }
+            })
+        this.versionUpdateInfo = null
+    }
+
+    _versionUpdateEmitter = (info) => {
+        if (!this.state.versionUpdateModalVisible) {
+            this.versionUpdateInfo = info.updateInfo
+            this.setState({
+                versionUpdateModalVisible: true
+            })
+        }
+    }
+
+
     renderComponent() {
         if (!this.props.walletAddress) {
             return null
@@ -313,6 +351,17 @@ class HomeScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <StatusBarComponent barStyle={this.state.statusbarStyle} />
+                <MyAlertComponent
+                    visible={this.state.versionUpdateModalVisible}
+                    title={I18n.t('toast.update_tip')}
+                    //content={'1234546daf升级提示'}
+                    contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
+                    leftBtnTxt={I18n.t('modal.cancel')}
+                    rightBtnTxt={I18n.t('toast.go_update')}
+                    leftPress={this.versionUpdateLeftPress}
+                    rightPress={this.versionUpdateRightPress}>
+
+                </MyAlertComponent>
                 <Animated.View style={{
                     position: 'absolute',
                     top: 0,
@@ -415,6 +464,7 @@ class HomeScreen extends BaseComponent {
                     }}
                     backgroundImageSource={require('../../assets/home/hp_menu.png')}
                 />
+
                 {/* <ChangeNetwork
                     open={this.state.changeNetworkShow}
                     close={() => {

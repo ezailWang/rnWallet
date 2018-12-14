@@ -12,6 +12,7 @@ import Layout from '../../config/LayoutConstants'
 import { androidPermission } from '../../utils/PermissionsAndroid';
 import NetworkManager from '../../utils/NetworkManager'
 import { I18n } from '../../config/language/i18n'
+import MyAlertComponent from '../../components/MyAlertComponent'
 import BaseComponent from '../../containers/base/BaseComponent'
 
 const styles = StyleSheet.create({
@@ -44,6 +45,7 @@ class FirstLaunchScreen extends BaseComponent {
             isShowSetPin: false,
             isShowRemind: false,
             remindContent: '',
+            versionUpdateModalVisible: false,
         }
         this.routeTo = ''
         this.pinPassword = '';
@@ -56,11 +58,13 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     componentWillMount() {
+        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this._addEventListener();
         this._addChangeListener()
     }
 
     componentWillUnmount() {
+        this.versionUpdateHandler && this.versionUpdateHandler.remove();
         this._removeEventListener();
         this._removeChangeListener()
     }
@@ -238,10 +242,10 @@ class FirstLaunchScreen extends BaseComponent {
         //this.props.navigation.navigate('MappingTerms')
         //todo
         if (this.routeTo == 'createWallet') {
-             this.props.navigation.navigate('CreateWallet')
-         } else {
-             this.props.navigation.navigate('ImportWallet')
-         }
+            this.props.navigation.navigate('CreateWallet')
+        } else {
+            this.props.navigation.navigate('ImportWallet')
+        }
     }
 
     savePinInfo(isUseTouchId) {
@@ -253,6 +257,36 @@ class FirstLaunchScreen extends BaseComponent {
         StorageManage.save(StorageKey.PinInfo, object)
     }
 
+    versionUpdateLeftPress = () => {
+        this.setState({
+            versionUpdateModalVisible: false
+        })
+        this.versionUpdateInfo = null
+    }
+
+    versionUpdateRightPress = () => {
+
+        this.setState({
+            versionUpdateModalVisible: false
+        })
+        let updateUrl = this.versionUpdateInfo.updateUrl
+        Linking.canOpenURL(updateUrl)
+            .then((supported) => {
+                if (supported) {
+                    Linking.openURL(updateUrl)
+                }
+            })
+        this.versionUpdateInfo = null
+    }
+
+    _versionUpdateEmitter = (info) => {
+        if (!this.state.versionUpdateModalVisible) {
+            this.versionUpdateInfo = info.updateInfo
+            this.setState({
+                versionUpdateModalVisible: true
+            })
+        }
+    }
 
 
     renderComponent() {
@@ -261,7 +295,17 @@ class FirstLaunchScreen extends BaseComponent {
             //    style={styles.contentContainer}>
             <ImageBackground style={styles.contentContainer}
                 source={require('../../assets/launch/splash_bg.png')}>
+                <MyAlertComponent
+                    visible={this.state.versionUpdateModalVisible}
+                    title={I18n.t('toast.update_tip')}
+                    //content={'1234546daf升级提示'}
+                    contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
+                    leftBtnTxt={I18n.t('modal.cancel')}
+                    rightBtnTxt={I18n.t('toast.go_update')}
+                    leftPress={this.versionUpdateLeftPress}
+                    rightPress={this.versionUpdateRightPress}>
 
+                </MyAlertComponent>
                 <PinModalSet
                     ref="pinModalSet"
                     visible={this.state.isShowSetPin} />

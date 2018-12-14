@@ -48,7 +48,6 @@ export default class BaseComponent extends PureComponent {
             isShowPin: false,
             showBlur: false,
             isShowAlert: false,
-            versionUpdateModalVisible: false,
             alertTitle: '',
             alertContent: '',
         }
@@ -139,12 +138,12 @@ export default class BaseComponent extends PureComponent {
 
     _addChangeListener() {
         AppState.addEventListener('change', this._handleAppStateChange);
-        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
+       
     }
 
     _removeChangeListener() {
         AppState.removeEventListener('change', this._handleAppStateChange);
-        this.versionUpdateHandler && this.versionUpdateHandler.remove();
+       
     }
 
     //显示Loading
@@ -233,29 +232,6 @@ export default class BaseComponent extends PureComponent {
         }
     }
 
-    versionUpdateLeftPress = () => {
-        this.setState({
-            versionUpdateModalVisible: false
-        })
-        this.versionUpdateInfo = null
-    }
-
-    versionUpdateRightPress = () => {
-
-        this.setState({
-            versionUpdateModalVisible: false
-        })
-        let updateUrl = this.versionUpdateInfo.updateUrl
-        Linking.canOpenURL(updateUrl)
-            .then((supported) => {
-                if (supported) {
-                    Linking.openURL(updateUrl)
-                }
-            })
-        this.versionUpdateInfo = null
-    }
-
-
     render() {
         const { pinInfo } = store.getState().Core
         return (
@@ -277,18 +253,7 @@ export default class BaseComponent extends PureComponent {
                     blurType='light'
                     blurAmount={10}
                 />}
-                {this.state.versionUpdateModalVisible ?
-                    <MyAlertComponent
-                        visible={this.state.versionUpdateModalVisible}
-                        title={I18n.t('toast.update_tip')}
-                        //content={'1234546daf升级提示'}
-                        contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
-                        leftBtnTxt={I18n.t('modal.cancel')}
-                        rightBtnTxt={I18n.t('toast.go_update')}
-                        leftPress={this.versionUpdateLeftPress}
-                        rightPress={this.versionUpdateRightPress}>
-
-                    </MyAlertComponent> : null}
+                
                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
                 {this.state.isShowPin == undefined ? null :
                     <PinModal visible={this.state.isShowPin}
@@ -319,14 +284,7 @@ export default class BaseComponent extends PureComponent {
 
     }
 
-    _versionUpdateEmitter = (info) => {
-        if (!this.state.versionUpdateModalVisible) {
-            this.versionUpdateInfo = info.updateInfo
-            this.setState({
-                versionUpdateModalVisible: true
-            })
-        }
-    }
+   
 
 
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。

@@ -42,9 +42,7 @@ class DrawerComponent extends BaseComponent {
         })
     }
 
-    _versionUpdateEmitter = (info) => {
-        
-    }
+  
 
     render() {
         //这个地方直接render，防止把其他页面的状态栏颜色改了
