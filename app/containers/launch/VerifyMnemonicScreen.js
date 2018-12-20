@@ -1,5 +1,6 @@
 import React, { PureComponent, Component } from 'react';
 import { View, StyleSheet, Image, Text, ScrollView, Vibration, TouchableOpacity } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils'
@@ -170,8 +171,12 @@ class VerifyMnemonicScreen extends BaseComponent {
             isShowSLoading: false,
             sLoadingContent: '',
 
+
         }
 
+        this.isItc = false;
+        this.password = '';
+        this.name = '';
         this.mnemonics = [];
         this.sectionMnemonics = [];//需要验证的4个单词
         this.matchCorrectNum = 0;//已经验证正确的单词的个数
@@ -184,6 +189,8 @@ class VerifyMnemonicScreen extends BaseComponent {
     }
 
     _initData() {
+        this.password = this.props.navigation.state.params.password;
+        this.name = this.props.navigation.state.params.name;
         this.mnemonics = this.props.mnemonic.split(' ');
         console.log("L_mnemonics", this.mnemonics)
         this.initAllData()
@@ -260,7 +267,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         let checkedNumIndex = this.state.randomSectionMnemonics[num].indexOf(text);
         let checkedNums = lodash.cloneDeep(this.state.checkedNums)
         checkedNums[num] = checkedNumIndex;
-        
+
         /*this.setState(Object.assign({}, this.state, {
             checkedNums : checkedNums
         }));*/
@@ -310,14 +317,14 @@ class VerifyMnemonicScreen extends BaseComponent {
         if (num == 3) {
             clearInterval(this.timeInterval)
             setTimeout(() => {
-                this.startCreateWallet();
+                this.startCreateEthWallet();
             }, 0);
 
         }
     }
 
 
-    async startCreateWallet() {
+    async startCreateEthWallet() {
         try {
             var m = this.props.mnemonic;//助记词
             const seed = walletUtils.mnemonicToSeed(m)
@@ -328,7 +335,7 @@ class VerifyMnemonicScreen extends BaseComponent {
             const privateKey = hdwallet.getPrivateKey()
             const checksumAddress = hdwallet.getChecksumAddressString();
 
-            var password = this.props.navigation.state.params.password;
+            var password = this.password;
             var params = { keyBytes: 32, ivBytes: 16 }
             var dk = keythereum.create(params);
             var keyObject = await KeystoreUtils.dump(password, privateKey, dk.salt, dk.iv);
@@ -337,27 +344,56 @@ class VerifyMnemonicScreen extends BaseComponent {
             //var newKeyObject = JSON.parse(str)
 
 
+            let user = await StorageManage.load(StorageKey.User)
 
-            this.props.setWalletAddress(checksumAddress);
-            this.props.setWalletName(this.props.walletName);
-            this.props.setIsNewWallet(true);
-
-            var object = {
-                name: this.props.walletName,
+            let object = {
+                name: this.name,
                 address: checksumAddress,
                 extra: '',
             }
-            StorageManage.save(StorageKey.User, object)
-            //var loadRet = await StorageManage.load(StorageKey.User)
+            let wallets = [];
+            if (user) {
+                let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
+                if(!ethWalletList){
+                    ethWalletList = []
+                }
+                wallets = ethWalletList.concat(object)
+
+            } else {
+                wallets.push(object)
+                this.props.setIsNewWallet(true);
+                StorageManage.save(StorageKey.User, object)
+                this.props.setCurrentWallet(object)
+            }
+            StorageManage.save(StorageKey.EthWalletList, wallets)
+            this.props.setEthWalletList(wallets)
+
+            let users = await StorageManage.load(StorageKey.User)
+            let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
+            console.log('users', users)
+            console.log('ethWalletList', ethWalletList)
+            console.log('ethWalletList_1', this.props.ethWalletList)
+
+
 
             this.setState({
                 isShowSLoading: false
             })
+            if (user) {
+                /*let resetAction = NavigationActions.reset({
+                    index: 2,//打开actions中的第几个页面
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'WalletList' })
+                    ]
+                })
+                this.props.navigation.dispatch(resetAction)*/
+                this.props.navigation.navigate('WalletList')
+            } else {
+                this.props.navigation.navigate('Home')
+            }
 
-            this._openAppVerifyIdentidy = false
-            this.props.navigation.navigate('Home')
         } catch (err) {
-
+            console.log('L_err', err)
             this.setState({
                 isShowSLoading: false
             })
@@ -520,12 +556,14 @@ class ItemButtom extends PureComponent {
 
 const mapStateToProps = state => ({
     mnemonic: state.Core.mnemonic,
-    walletName: state.Core.walletName,
+    ethWalletList: state.Core.ethWalletList,
 });
 const mapDispatchToProps = dispatch => ({
-    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
-    setWalletName: (name) => dispatch(Actions.setWalletName(name)),
     setIsNewWallet: (isNewWallet) => dispatch(Actions.setIsNewWallet(isNewWallet)),
+
+    setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
+    setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
+    setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonicScreen)

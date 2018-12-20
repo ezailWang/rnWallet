@@ -7,6 +7,7 @@ import BackupWalletScreen from './launch/BackupWalletScreen';
 import CreateWalletScreen from './launch/CreateWalletScreen';
 import ImportWalletScreen from './launch/ImportWalletScreen';
 import VerifyMnemonicScreen from './launch/VerifyMnemonicScreen';
+import MyScreen from './settings/MyScreen';
 import SetScreen from './settings/SetScreen';
 import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
 //import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
@@ -38,6 +39,8 @@ import BindReplaceAddressErcScreen from './mapping/BindReplaceAddressErcScreen'
 import ItcMappingServiceScreen from './mapping/ItcMappingServiceScreen'
 import MappingRecordsScreen from './mapping/MappingRecordsScreen'
 import MappingRecordDetailScreen from './mapping/MappingRecordDetailScreen'
+import WalletListScreen from './settings/WalletListScreen'
+import CreateMoreWalletScreen from './settings/CreateMoreWalletScreen'
 export {
     HomeScreen,
     Transaction,
@@ -48,6 +51,7 @@ export {
     CreateWalletScreen,
     ImportWalletScreen,
     VerifyMnemonicScreen,
+    MyScreen,
     SetScreen,
     ModifyPasswordScreen,
     ExportPrivateKeyScreen,
@@ -78,5 +82,7 @@ export {
     BindReplaceAddressErcScreen,
     ItcMappingServiceScreen,
     MappingRecordsScreen,
-    MappingRecordDetailScreen
+    MappingRecordDetailScreen,
+    WalletListScreen,
+    CreateMoreWalletScreen
 }

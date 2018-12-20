@@ -370,7 +370,7 @@ export default class Transaction extends BaseComponent {
             (hash) => {
                 // console.warn('hash', hash)
 
-                let { walletAddress } = store.getState().Core
+                let { wallet } = store.getState().Core
                 let timestamp=new Date().getTime()
 
                 let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
@@ -378,7 +378,7 @@ export default class Transaction extends BaseComponent {
                 totalGas = totalGas.toFixed(8);
 
                 let newTransaction = {
-                    from: walletAddress,
+                    from: wallet.address,
                     to: this.state.toAddress,
                     timeStamp: timestamp/1000,
                     hash: hash,

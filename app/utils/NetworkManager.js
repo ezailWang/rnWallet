@@ -61,9 +61,9 @@ export default class NetworkManager {
      */
     static async getEthBalance() {
         try {
-            const { walletAddress } = store.getState().Core
+            const { wallet } = store.getState().Core
             web3 = this.getWeb3Instance()
-            var balance = await web3.eth.getBalance(walletAddress)
+            var balance = await web3.eth.getBalance(wallet.address)
             return parseFloat(balance / Math.pow(10, 18)).toFixed(4)
         } catch (err) {
             DeviceEventEmitter.emit('netRequestErr', err)
@@ -80,10 +80,10 @@ export default class NetworkManager {
      */
     static async getERC20Balance(address, decimal) {
         try {
-            const { walletAddress } = store.getState().Core
+            const { wallet } = store.getState().Core
             web3 = this.getWeb3Instance()
             const contract = new web3.eth.Contract(erc20Abi, address)
-            const bigBalance = new BigNumber(await contract.methods.balanceOf(walletAddress).call())
+            const bigBalance = new BigNumber(await contract.methods.balanceOf(wallet.address).call())
             return parseFloat(bigBalance.dividedBy(Ether)).toFixed(2);
         } catch (err) {
             DeviceEventEmitter.emit('netRequestErr', err)
@@ -111,8 +111,8 @@ export default class NetworkManager {
      */
     static async getEthTransations(startBlock,endBlock) {
         try {
-            const { walletAddress } = store.getState().Core
-            var data = await api.account.txlist(walletAddress,startBlock,endBlock)
+            const { wallet} = store.getState().Core
+            var data = await api.account.txlist(wallet.address,startBlock,endBlock)
             if (data.message !== 'OK') {
                 return []
             }
@@ -153,8 +153,8 @@ export default class NetworkManager {
      */
     static async getERC20Transations(address, decimal,startBlock,endBlock) {
         try {
-            const { walletAddress } = store.getState().Core
-            var data = await api.account.tokentx(walletAddress, address,startBlock,endBlock)
+            const { wallet } = store.getState().Core
+            var data = await api.account.tokentx(wallet.address, address,startBlock,endBlock)
             if (data.message !== 'OK') {
                 return []
             }
@@ -208,7 +208,7 @@ export default class NetworkManager {
             let gasLimit = web3.utils.toHex(TransferGasLimit.ethGasLimit);
             let transactionGasPrice = web3.utils.toHex(price);
             let transactionConfig = {
-                from: store.getState().Core.walletAddress,
+                from: store.getState().Core.wallet.address,
                 to: toAddress,
                 value: value,
                 gas: gasLimit,
@@ -242,7 +242,7 @@ export default class NetworkManager {
             const BNAmout = new BigNumber(amout * Math.pow(10, decimal))
             var data = contract.methods.transfer(toAddress, BNAmout).encodeABI()
             var tx = {
-                from: store.getState().Core.walletAddress,
+                from: store.getState().Core.wallet.address,
                 to: address,
                 value: "0x0",
                 data: data,
@@ -380,7 +380,7 @@ export default class NetworkManager {
     }
 
     static async loadTokensFromStorage() {
-        const { tokens, walletAddress } = store.getState().Core
+        const { tokens, wallet } = store.getState().Core
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.address)

@@ -17,7 +17,7 @@ import { vertifyPassword, resetStringBlank, stringTrim } from './Common'
 import { I18n } from '../../config/language/i18n'
 import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
-
+import { NavigationActions } from 'react-navigation';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -133,7 +133,8 @@ class ImportWalletScreen extends BaseComponent {
             rePwdWarn: I18n.t('launch.enter_same_password'),
 
             isShowSLoading: false,
-            sLoadingContent: ''
+            sLoadingContent: '',
+            isItc: false,
         }
         this.nametxt = '';
         this.mnemonictxt = '';
@@ -152,8 +153,21 @@ class ImportWalletScreen extends BaseComponent {
 
         this.timeInterval = null;
         this.timeIntervalCount = 0;
+
+
+        this.user = null
+        this.itcWalletList = null
+        this.ethWalletList = null
     }
 
+    _initData() {
+        let params = this.props.navigation.state.params;
+        if (params != undefined) {
+            this.setState({
+                isItc: params.isItc
+            })
+        }
+    }
 
 
     layout(ref) {
@@ -346,8 +360,8 @@ class ImportWalletScreen extends BaseComponent {
                 this.changeLoading(this.timeIntervalCount)
             }, 500);
 
-            
-            
+
+
         }
     }
 
@@ -367,14 +381,20 @@ class ImportWalletScreen extends BaseComponent {
         if (num == 3) {
             clearInterval(this.timeInterval)
             setTimeout(() => {
-                this.importWallet();
+                this.importEthWallet();
             }, 0);
-            
+
         }
     }
 
+    async getWalletData() {
+        this.user = await StorageManage.load(StorageKey.User)
+        this.itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
+        this.ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
 
-    async importWallet() {
+    }
+
+    async importEthWallet() {
         try {
             const seed = walletUtils.mnemonicToSeed(this.mnemonictxt)
             const seedHex = seed.toString('hex')
@@ -392,35 +412,71 @@ class ImportWalletScreen extends BaseComponent {
             var keyObject = await KeystoreUtils.dump(password, privateKey, dk.salt, dk.iv);
             await KeystoreUtils.exportToFile(keyObject, "keystore")
 
-           
 
-            this.props.generateMnemonic(this.mnemonictxt);
-             this.props.setWalletAddress(checksumAddress);
-             this.props.setWalletName(this.nametxt);//保存默认的钱包名称
-             this.props.setIsNewWallet(true);
-             var object = {
-                 name: this.nametxt,
-                 address: checksumAddress,
-                 extra: '',
-             }
-             var key = StorageKey.User
-             StorageManage.save(key, object)
-            
+            let user = await StorageManage.load(StorageKey.User)
+            let object = {
+                name: this.nametxt,
+                address: checksumAddress,
+                extra: '',
+            }
+            let isExist = false;
+            let wallets = [];
+            if (user) {
+                console.log('users', users)
+                let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
+                if(!ethWalletList){
+                    ethWalletList = []
+                }
+                for (let i = 0; i < ethWalletList.length; i++) {
+                    if (checksumAddress == ethWalletList) {
+                        isExist = true;
+                        break;
+                    }
+                }
+                if (!isExist) {
+                    wallets.push(ethWalletList.push(object))
+                }
+            } else {
+                wallets.push(object)
 
-             this.setState({
-                 isShowSLoading:false
-             })
-             
+                this.props.setIsNewWallet(true);
+                StorageManage.save(StorageKey.User, object)
+                this.props.setCurrentWallet(object)
+            }
+            StorageManage.save(StorageKey.EthWalletList, wallets)
+            this.props.setEthWalletList(wallets)
 
-             this._openAppVerifyIdentidy = false
-             this.props.navigation.navigate('Home')
-
-        } catch (err) {
+            let users = await StorageManage.load(StorageKey.User)
+            let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
+            console.log('users', users)
+            console.log('ethWalletList', ethWalletList)
+            console.log('ethWalletList_1', wallets)
 
             this.setState({
-                isShowSLoading:false
+                isShowSLoading: false
             })
-            
+            if (isExist) {
+                this._showAlert('您已经导入该钱包')
+            } else {
+                if (user) {
+                    let resetAction = NavigationActions.reset({
+                        index: 2,//打开actions中的第几个页面
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'WalletList' })
+                        ]
+                    })
+                    this.props.navigation.dispatch(resetAction)
+                } else {
+                    this.props.navigation.navigate('Home')
+                }
+            }
+
+
+        } catch (err) {
+            this.setState({
+                isShowSLoading: false
+            })
+
             showToast(I18n.t('toast.import_mnemonic_error'));
             console.log('createWalletErr:', err)
         }
@@ -442,8 +498,8 @@ class ImportWalletScreen extends BaseComponent {
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         //let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.import_wallet');
         //let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/importIcon.png');
+        let titleText = this.state.isItc ? I18n.t('settings.import_itc_wallet') : I18n.t('settings.import_eth_wallet');
 
-        let titleText = I18n.t('launch.import_wallet');
         let titleIcon = require('../../assets/launch/importIcon.png');
         return (
             <View style={styles.container}
@@ -550,16 +606,15 @@ class ImportWalletScreen extends BaseComponent {
         );
     }
 }
-//  <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'}> </ScrollView>
-/****/
+
 const mapStateToProps = state => ({
-    mnemonic: state.Core.mnemonic,
 });
 const mapDispatchToProps = dispatch => ({
-    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
-    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
-    setWalletName: (name) => dispatch(Actions.setWalletName(name)),
+
     setIsNewWallet: (isNewWallet) => dispatch(Actions.setIsNewWallet(isNewWallet)),
 
+    setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
+    setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
+    setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)

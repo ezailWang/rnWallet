@@ -23,7 +23,6 @@ import RootSiblings from 'react-native-root-siblings';
 import TouchID from 'react-native-touch-id'; //https://github.com/naoufal/react-native-touch-id
 import { Common } from '../../config/GlobalConfig'
 import MyAlert from '../../components/MyAlert';
-import MyAlertComponent from '../../components/MyAlertComponent'
 let lastBackPressed = 0;
 
 
@@ -394,7 +393,7 @@ export default class BaseComponent extends PureComponent {
     //点击android物理返回键的操作
     _onBackPressed = () => {
         let routeName = this.props.navigation.state.routeName;
-        if (routeName == 'FirstLaunch' || routeName == 'Home' || routeName == 'HomeScreen') {
+        if (routeName == 'FirstLaunch' || routeName == 'Home' || routeName == 'My' || routeName == 'Mapping') {
             //在首页按了物理键返回,Home、FirstLaunch
             if ((lastBackPressed + 2000) >= Date.now()) {
                 BackHandler.exitApp;

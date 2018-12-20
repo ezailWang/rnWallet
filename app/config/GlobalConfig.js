@@ -81,7 +81,7 @@ const FontSize = {
 }
 
 const StorageKey = {
-    User:'user',
+    User:'user',//当前钱包
     Tokens:'tokens',
     Network:'network',
     Language:'language',
@@ -91,7 +91,9 @@ const StorageKey = {
     PinInfo:'pinInfo',//存储pin密码
     UserToken:'userToken',//存储userToken
     NotRemindAgainTestITC:'notRemindAgainTestITC',//不再提示
-    TransactionRecoderInfo:'TransactionRecoderInfo',//存储交易记录 id为symbol
+    TransactionRecoderInfo:'TransactionRecoderInfo',//存储交易记录 id为symbol,
+    ItcWalletList:'ItcWalletList',//存储itc钱包列表
+    EthWalletList:'ItcWalletList',//存储eth钱包列表
 }
 
 const Network = {

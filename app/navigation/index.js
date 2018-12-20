@@ -2,7 +2,8 @@
 import {
     createStackNavigator,
     createSwitchNavigator,
-    createDrawerNavigator
+    createDrawerNavigator,
+    createBottomTabNavigator
 } from 'react-navigation'
 import { Provider, connect } from 'react-redux';
 import {
@@ -15,19 +16,17 @@ import {
     FirstLaunchStackNavigationConfig,
     HomeDrawerConfig
 } from './NavigatorConfig'
-import {
-    BackHandler
-} from 'react-native'
-import { showToast } from '../utils/Toast';
-let lastBackPressed = 0;
 /**
  * 导航结构不同模块功能分开放入不同的导航栈内，全部放入一个导航栈，容易内存泄露
  */
 //首次启动导航栈
 const FirstLaunchNavigation = createStackNavigator(FirstLaunchRouteConfig, FirstLaunchStackNavigationConfig)
 
+
+
 //主页导航栈
 const HomeNavigation = createStackNavigator(HomeRouteConfig, HomeStackNavigationConfig)
+
 
 //隐藏二级页面的侧滑菜单
 HomeNavigation.navigationOptions = ({ navigation }) => {

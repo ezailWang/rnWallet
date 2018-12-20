@@ -133,6 +133,7 @@ class BackupMnemonicScreen extends BaseComponent {
         //this.props.navigation.navigate('VerifyMnemonic',{password: this.props.navigation.state.params.password})
         this.props.navigation.navigate('VerifyMnemonic', {
             password: this.props.navigation.state.params.password,
+            name:this.props.navigation.state.params.name,
             callback: function () {
                 _this.setState({
                     modalVisible: true,

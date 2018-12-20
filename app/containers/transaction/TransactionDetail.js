@@ -147,7 +147,7 @@ export default class TransactionDetail extends BaseComponent {
         this.copyUrl = this.copyUrl.bind(this);
 
         let params = store.getState().Core.transactionDetail;
-        let { walletAddress } = store.getState().Core
+        let { wallet } = store.getState().Core
         this.state = {
             amount: params.amount,
             transactionType: params.transactionType,
@@ -161,8 +161,8 @@ export default class TransactionDetail extends BaseComponent {
             tranStatus: params.tranStatus,
             name : params.name,
         };
-        this.myAddress = walletAddress;
-        this.isFrom = params.fromAddress.toLowerCase() == walletAddress.toLowerCase()  ? true : false
+        this.myAddress = wallet.address;
+        this.isFrom = params.fromAddress.toLowerCase() == wallet.address.toLowerCase()  ? true : false
         this.otherAddress = this.isFrom ? this.state.toAddress : this.state.fromAddress,
         
         this._setStatusBarStyleLight()

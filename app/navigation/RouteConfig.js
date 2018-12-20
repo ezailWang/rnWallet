@@ -39,7 +39,12 @@
 
     path：路由中设置的路径的覆盖映射配置
 */
-
+import {
+    createBottomTabNavigator
+} from 'react-navigation'
+import {
+    HomeBottomTabNavigationConfig
+} from './NavigatorConfig'
 import {
     walletTest,
     rpcTest,
@@ -58,6 +63,7 @@ import {
     VerifyMnemonicScreen,
     HomeScreen,
     SetContainers,
+    MyScreen,
     SetScreen,
     ModifyPasswordScreen,
     //  PasswordPrompInfoScreen,
@@ -88,13 +94,10 @@ import {
     BindReplaceAddressErcScreen,
     ItcMappingServiceScreen,
     MappingRecordsScreen,
-    MappingRecordDetailScreen
+    MappingRecordDetailScreen,
+    WalletListScreen,
+    CreateMoreWalletScreen
 } from '../containers/Containers';
-
-import { BlueHeader, WhiteBgHeader, WhiteBgNoTitleHeader } from '../components/NavigaionHeader'
-import { BackButton, HeaderButton } from '../components/Button'
-import React from 'react';
-
 //首次启动导航栈
 const FirstLaunchRouteConfig =
 {
@@ -106,6 +109,12 @@ const FirstLaunchRouteConfig =
                 // gesturesEnabled: false
             }
         })
+    },
+    CreateWallet: {
+        screen: CreateWalletScreen,
+        /**navigationOptions: ({navigation}) => ({
+            header:<BlueHeader navigation={navigation}/>
+        })**/
     },
     ServiceAgreement: {
         screen: ServiceAgreementScreen
@@ -119,40 +128,11 @@ const FirstLaunchRouteConfig =
     },
     BackupWallet: {
         screen: BackupWalletScreen,
-        /**navigationOptions: ({navigation}) => ({
-            header:<WhiteBgNoTitleHeader navigation={navigation}/>
-        })**/
     },
-    CreateWallet: {
-        screen: CreateWalletScreen,
-        /**navigationOptions: ({navigation}) => ({
-            header:<BlueHeader navigation={navigation}/>
-        })**/
-    },
-
     ImportWallet: {
         screen: ImportWalletScreen,
     },
-
-
-    MappingTerms:{
-        screen:MappingTermsScreen,
-    },
-    BindReplaceAddress:{
-        screen:BindReplaceAddressScreen,
-    },
-    BindReplaceAddressErc:{
-        screen:BindReplaceAddressErcScreen,
-    },
-    ItcMappingService:{
-        screen:ItcMappingServiceScreen,
-    },
-    MappingRecords:{
-        screen:MappingRecordsScreen,
-    },
-    MappingRecordDetail:{
-        screen:MappingRecordDetailScreen
-    }
+   
 
 
     /**UserRegulation: {
@@ -170,16 +150,42 @@ const FirstLaunchRouteConfig =
 }
 
 
+
+//首页Tab
+const HomeBottomTabNavigation = createBottomTabNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            header: null,
+            //gesturesEnabled:false
+            tabBarLabel: '钱包',
+        }
+    },
+    Mapping: {
+        screen: MappingTermsScreen,
+    },
+    My: {
+        screen: MyScreen,
+    }
+}, HomeBottomTabNavigationConfig)
+
 //主页导航栈
 const HomeRouteConfig =
 {
-    HomeScreen: {
-        screen: HomeScreen,
+    HomeTab: {
+        screen: HomeBottomTabNavigation,
         navigationOptions: {
             header: null,
             //gesturesEnabled:false
         }
     },
+    /*HomeScreen: {
+        screen: HomeScreen,
+        navigationOptions: {
+            header: null,
+            //gesturesEnabled:false
+        }
+    },*/
     AddAssets: {
         screen: AddAssets,
     },
@@ -267,7 +273,50 @@ const HomeRouteConfig =
     AddressList: {
         screen: AddressListScreen,
     },
-    
+
+   
+
+    /*MappingTerms: {
+        screen: MappingTermsScreen,
+    },*/
+    BindReplaceAddress: {
+        screen: BindReplaceAddressScreen,
+    },
+    BindReplaceAddressErc: {
+        screen: BindReplaceAddressErcScreen,
+    },
+    ItcMappingService: {
+        screen: ItcMappingServiceScreen,
+    },
+    MappingRecords: {
+        screen: MappingRecordsScreen,
+    },
+    MappingRecordDetail: {
+        screen: MappingRecordDetailScreen
+    },
+
+    WalletList:{
+        screen:WalletListScreen
+    },
+    CreateMoreWallet:{
+        screen:CreateMoreWalletScreen
+    },
+    ServiceAgreement: {
+        screen: ServiceAgreementScreen
+    },
+    BackupMnemonic: {
+        screen: BackupMnemonicScreen,
+    },
+    VerifyMnemonic: {
+        screen: VerifyMnemonicScreen,
+        navigationOptions: { gesturesEnabled: false }
+    },
+    BackupWallet: {
+        screen: BackupWalletScreen,
+    },
+    ImportWallet: {
+        screen: ImportWalletScreen,
+    },
 };
 
 export {

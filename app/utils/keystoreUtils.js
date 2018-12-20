@@ -81,8 +81,8 @@ export default class KeystoreUtils {
 
     static async getPrivateKey(password) {
         try {
-            const { walletAddress } = store.getState().Core
-            var keyStoreStr = await KeystoreUtils.importFromFile(walletAddress)
+            const { wallet } = store.getState().Core
+            var keyStoreStr = await KeystoreUtils.importFromFile(wallet.address)
             var keyStoreObject = JSON.parse(keyStoreStr)
             var privateKey = await this.recover(password, keyStoreObject);
             return '0x' + privateKey.toString('hex')

@@ -1,5 +1,4 @@
 export const SET_NETWORK = 'SET_NETWORK';
-export const SET_WALLET_ADDRESS = 'SET_WALLET_ADDRESS';
 export const GENERATE_MNEMONIC = 'GENERATE_MNEMONIC';      //产生助记词
 export const WALLET_TRANSFER = 'WALLET_TRANSFER';           //钱包转账参数
 export const TRANSACTION_DETAIL = 'TRANSACTION_DETAIL';     //交易记录信息
@@ -19,4 +18,7 @@ export const IS_NEW_WALLET = 'IS_NEW_WALLET';//是否刚导入/创建的钱包�
 export const SET_CONTACT_LIST = 'SET_CONTACT_LIST';//联系人列表
 export const SET_ALL_TOKENS = 'SET_ALL_TOKENS';//获取所有的列表token
 export const SET_TRANSFER_RECORD_LIST = 'SET_TRANSFER_RECORD_LIST';//转账记录列表
+export const SET_ITC_WALLET_LIST = 'SET_ITC_WALLET_LIST';//itc钱包列表
+export const SET_ETH_WALLET_LIST = 'SET_ETH_WALLET_LIST';//eth钱包列表
+export const SET_CURRENT_WALLET = 'SET_CURRENT_WALLET';//当前正在使用的钱包
 

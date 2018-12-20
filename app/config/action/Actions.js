@@ -22,21 +22,6 @@ function setTransactionDetailParams(transactionDetail) {
         transactionDetail: transactionDetail
     }
 }
-
-function setWalletAddress(address) {
-    return {
-        type: types.SET_WALLET_ADDRESS,
-        walletAddress: address,
-    }
-}
-
-function setWalletName(name) {
-    return {
-        type: types.SET_WALLET_NAME,
-        walletName: name,
-    }
-}
-
 function addToken(token) {
     return {
         type: types.ADD_TOKEN,
@@ -155,6 +140,27 @@ function setTransactionRecordList(transferRecordList){
     }
 }
 
+function setItcWalletList(itcWalletList){
+    return{
+        type:types.SET_ITC_WALLET_LIST,
+        itcWalletList: itcWalletList
+    }
+}
+
+function setEthWalletList(ethWalletList){
+    return{
+        type:types.SET_ETH_WALLET_LIST,
+        ethWalletList: ethWalletList
+    }
+}
+
+function setCurrentWallet(wallet){
+    return{
+        type:types.SET_CURRENT_WALLET,
+        wallet:wallet
+    }
+}
+
 
 
 
@@ -163,8 +169,6 @@ export {
     generateMnemonic,
     setWalletTransferParams,
     setTransactionDetailParams,
-    setWalletAddress,
-    setWalletName,
     addToken,
     loadTokenBalance,
     setTotalAssets,
@@ -181,4 +185,7 @@ export {
     setContactList,
     setAllTokens,
     setTransactionRecordList,
+    setItcWalletList,
+    setEthWalletList,
+    setCurrentWallet
 }

@@ -21,7 +21,7 @@ import { BlueButtonBig } from '../../components/Button'
 import { showToast } from '../../utils/Toast';
 import LinearGradient from 'react-native-linear-gradient'
 
-const rightViewHeight = Layout.WINDOW_HEIGHT - 140 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
+const rightViewHeight = Layout.WINDOW_HEIGHT - 120 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20
 const stepItemHeight = rightViewHeight / 3
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     contentLeft: {
         width: 50,
-        marginTop: 8,
+        marginTop: 6,
         //  backgroundColor: 'yellow'
     },
     contentRight: {
@@ -51,15 +51,15 @@ const styles = StyleSheet.create({
         width: Layout.WINDOW_WIDTH,
         alignItems: 'center',
         backgroundColor: 'white',
-        height: Layout.DEVICE_IS_IPHONE_X() ? 130 : 120,
-        paddingBottom: Layout.DEVICE_IS_IPHONE_X() ? 20 : 0
+        height: 120,
+       // paddingBottom: Layout.DEVICE_IS_IPHONE_X() ? 20 : 0
     },
     checkBox: {
         flexDirection: 'row',
         justifyContent: 'center',
         width: Layout.WINDOW_WIDTH * 0.9 - 20,
         alignSelf: 'center',
-        marginTop: 15,
+        marginTop: 10,
     },
     checkImage: {
         width: 18,
@@ -87,27 +87,27 @@ const styles = StyleSheet.create({
     },
     stepItemTitleBox: {
         width: stepItemWidth,
-        height: 36,
+        height: 32,
         flexDirection: 'row',
     },
     stepItemBgArrow: {
         width: 15,
-        height: 27,
+        height: 24,
         alignSelf: 'center',
     },
     stepItemTitleBg: {
         width: stepItemWidth - 10,
-        height: 36,
+        height: 32,
         borderRadius: 5,
         marginLeft: -5,
     },
     stepItemTitle: {
         width: stepItemWidth - 50,
-        lineHeight: 36,
-        fontSize: 18,
+        lineHeight: 32,
+        fontSize: 16,
         fontWeight: '600',
         color: 'white',
-        paddingLeft: 20,
+        paddingLeft: 15,
         paddingRight: 20,
     },
     stepItemBgDesc: {
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     liItemNum: {
         width: 20,
         height: 20,
-        borderRadius: 20,
+        borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#3fc1ff'

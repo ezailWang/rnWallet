@@ -1,6 +1,5 @@
 import {
     SET_NETWORK,
-    SET_WALLET_ADDRESS,
     GENERATE_MNEMONIC,
     WALLET_TRANSFER,
     TRANSACTION_DETAIL,
@@ -21,6 +20,9 @@ import {
     SET_CONTACT_LIST,
     SET_ALL_TOKENS,
     SET_TRANSFER_RECORD_LIST,
+    SET_ITC_WALLET_LIST,
+    SET_ETH_WALLET_LIST,
+    SET_CURRENT_WALLET
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/Constants'
 import uuid from 'react-native-uuid';
@@ -29,8 +31,6 @@ import lodash from 'lodash'
 
 const defaultState = {
     network: Network.rinkeby,
-    walletAddress: null,
-    walletName: 'wallet',
     walletPasswordPrompt: '',
     mnemonic: '',
     tokens: defaultTokens,
@@ -44,6 +44,9 @@ const defaultState = {
     contactList: [],
     allTokens: [],
     transferRecordList: [],
+    itcWalletList: [],
+    ethWalletList: [],
+    wallet: null,//当前正在使用的钱包
 }
 
 function coreReducer(state = defaultState, action) {
@@ -52,12 +55,6 @@ function coreReducer(state = defaultState, action) {
             return {
                 ...state,
                 network: action.network,
-            }
-            break;
-        case SET_WALLET_ADDRESS:
-            return {
-                ...state,
-                walletAddress: action.walletAddress,
             }
             break;
         case GENERATE_MNEMONIC:
@@ -88,12 +85,6 @@ function coreReducer(state = defaultState, action) {
                     ),
                 ]),
                 //tokens: state.tokens.splice(2,0,action.token),
-            }
-            break;
-        case SET_WALLET_NAME:
-            return {
-                ...state,
-                walletName: action.walletName
             }
             break;
         case LOAD_TOKEN_BALANCE:
@@ -181,6 +172,24 @@ function coreReducer(state = defaultState, action) {
             return {
                 ...state,
                 transferRecordList: action.transferRecordList
+            }
+            break;
+        case SET_ITC_WALLET_LIST:
+            return {
+                ...state,
+                itcWalletList: action.itcWalletList
+            }
+            break;
+        case SET_ETH_WALLET_LIST:
+            return {
+                ...state,
+                ethWalletList: action.ethWalletList
+            }
+            break;
+        case SET_CURRENT_WALLET:
+            return {
+                ...state,
+                wallet: action.wallet
             }
             break;
         default: return state;

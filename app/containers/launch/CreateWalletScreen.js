@@ -266,8 +266,7 @@ class CreateWalletScreen extends BaseComponent {
     generateMnemonic() {
         walletUtils.generateMnemonic().then((data) => {
             this.props.generateMnemonic(data)
-            this.props.setWalletName(this.nametxt);
-            this.props.navigation.navigate('BackupWallet',{password:this.pwdtxt});
+            this.props.navigation.navigate('BackupWallet',{password:this.pwdtxt,name:this.nametxt});
         }, (error) => {
             showToast(I18n.t('toast.create_wallet_error'))
         })
@@ -340,12 +339,12 @@ class CreateWalletScreen extends BaseComponent {
 
     vertifyInputData() {
         Keyboard.dismiss()
-        let walletName = this.nametxt;
+        let name = this.nametxt;
         let pwd = this.pwdtxt;
         let rePwd = this.rePwdtxt;
         //let isMatchPwd = this.vertifyPassword()
         let warnMessage = "";
-        if (walletName == '' || walletName == null || walletName == undefined) {
+        if (name == '' || name == null || name == undefined) {
             warnMessage = I18n.t('toast.enter_wallet_name')
         } else if (pwd == '' || pwd == null || pwd == undefined) {
             warnMessage = I18n.t('toast.enter_password')
@@ -492,10 +491,7 @@ const mapStateToProps = state => ({
     mnemonic: state.Core.mnemonic,
 });
 const mapDispatchToProps = dispatch => ({
-    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
-    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
-    setWalletName: (name) => dispatch(Actions.setWalletName(name)),
-    //setWalletPasswordPrompt: (passwordPrompt) => dispatch(Actions.setWalletPasswordPrompt(passwordPrompt)),
+    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CreateWalletScreen)
 

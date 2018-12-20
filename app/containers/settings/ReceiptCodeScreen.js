@@ -171,8 +171,8 @@ class ReceiptCodeScreen extends BaseComponent {
     }
 
     copyAddress() {
-        walletAddress = this.props.walletAddress
-        Clipboard.setString(walletAddress);
+        let address = this.props.wallet.address
+        Clipboard.setString(address);
         showToast(I18n.t('toast.copied'));
     }
 
@@ -227,7 +227,7 @@ class ReceiptCodeScreen extends BaseComponent {
                     <Image style={styles.logoIcon} source={require('../../assets/set/logoWhiteBg.png')} resizeMode={'center'}></Image>
                     <View style={styles.qrCodeBox}>
 
-                        <Text style={styles.titleTxt}>{this.props.walletName}</Text>
+                        <Text style={styles.titleTxt}>{this.props.wallet.name}</Text>
                         <View style={styles.qrCode}>
                             {this.state.qrcodeLoading && this.props.firstQR ? <View
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -236,7 +236,7 @@ class ReceiptCodeScreen extends BaseComponent {
                             </View>
                                 :
                                 <QRCode
-                                    value={this.props.walletAddress}
+                                    value={this.props.wallet.address}
                                     size={180}
                                     bgColor='#000'
                                     fgColor='#fff'
@@ -245,7 +245,7 @@ class ReceiptCodeScreen extends BaseComponent {
                                 />}
                         </View>
 
-                        <Text style={styles.adderssTxt}>{this.props.walletAddress}</Text>
+                        <Text style={styles.adderssTxt}>{this.props.wallet.address}</Text>
 
                     </View>
 
@@ -277,8 +277,7 @@ class ReceiptCodeScreen extends BaseComponent {
 
 
 const mapStateToProps = state => ({
-    walletAddress: state.Core.walletAddress,
-    walletName: state.Core.walletName,
+    wallet: state.Core.wallet,
     firstQR: state.Core.firstQR
 });
 

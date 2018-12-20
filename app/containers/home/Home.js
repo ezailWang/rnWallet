@@ -51,6 +51,7 @@ class HomeScreen extends BaseComponent {
             headBgImageRef: null,
             versionUpdateModalVisible: false,
         }
+        this._setStatusBarStyleLight()
     }
 
     componentWillMount() {
@@ -190,7 +191,7 @@ class HomeScreen extends BaseComponent {
 
         let params = {
             language: I18n.locale,
-            walletAddress: this.props.walletAddress
+            walletAddress: this.props.wallet.address
         }
         NetworkManager.userInfoUpdate(params)
             .then((response) => {
@@ -206,6 +207,7 @@ class HomeScreen extends BaseComponent {
         this.setState({
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
         })
+
 
         let localUser = await StorageManage.load(StorageKey.User)
         if (localUser && localUser['isTotalAssetsHidden']) {
@@ -284,7 +286,7 @@ class HomeScreen extends BaseComponent {
     }
 
 
-   
+
     versionUpdateLeftPress = () => {
         this.setState({
             versionUpdateModalVisible: false
@@ -318,7 +320,7 @@ class HomeScreen extends BaseComponent {
 
 
     renderComponent() {
-        if (!this.props.walletAddress) {
+        if (!this.props.wallet.address) {
             return null
         }
         const headerHeight = this.state.scroollY.interpolate({
@@ -446,8 +448,8 @@ class HomeScreen extends BaseComponent {
                                     return { isTotalAssetsHidden: !previousState.isTotalAssetsHidden }
                                 })
                             }}
-                            walletName={this.props.walletName}
-                            address={this.formatAddress(this.props.walletAddress)}
+                            walletName={this.props.wallet.name}
+                            address={this.formatAddress(this.props.wallet.address)}
                             totalAssets={
                                 this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}
                             hideAssetsIcon={this.state.isTotalAssetsHidden ? hiddenIcon_invi : hiddenIcon_vi}
@@ -491,11 +493,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     tokens: state.Core.tokens,
-    walletAddress: state.Core.walletAddress,
     totalAssets: state.Core.totalAssets,
-    walletName: state.Core.walletName,
+    wallet: state.Core.wallet,
     monetaryUnit: state.Core.monetaryUnit,
     isNewWallet: state.Core.isNewWallet,
+    wallet: state.Core.wallet,
 })
 
 const mapDispatchToProps = dispatch => ({

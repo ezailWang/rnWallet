@@ -19,12 +19,13 @@
         headerPressColorAndroid：安卓独有的设置颜色纹理，需要安卓版本大于5.0
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Colors } from '../config/GlobalConfig';
 import PropType from 'prop-types'
-import DrawerComponent from '../containers/home/DrawerComponent'
+import RightDrawer from '../containers/home/RightDrawer'
 import LayoutConstants from '../config/LayoutConstants'
-
+import TabIcon from '../components/TabIcon'
 
 const StackNavigationConfig = {
     initialRouteName: 'Set'
@@ -34,9 +35,9 @@ const StackNavigationConfig = {
     //initialRouteName: 'Transfer',
 }
 
-const HomeStackNavigationConfig = {
 
-    initialRouteName: 'HomeScreen',
+const HomeStackNavigationConfig = {
+    initialRouteName: 'HomeTab',
     headerMode: 'none',
     /**navigationOptions: ({ navigation }) => ({
         headerStyle:{
@@ -53,13 +54,12 @@ const HomeStackNavigationConfig = {
         }
 
     })**/
-
 }
 
 const HomeDrawerConfig = {
     initialRouteName: 'HomeNav',
     drawerPosition: 'right',
-    contentComponent: DrawerComponent,
+    contentComponent: RightDrawer,
     drawerWidth: LayoutConstants.HOME_DRAWER_WIDTH
 
 }
@@ -69,11 +69,80 @@ const FirstLaunchStackNavigationConfig = {
     headerMode: 'none',
 }
 
+const HomeBottomTabNavigationConfig = {
+    initialRouteName: 'Home',
+    tabBarPosition: 'bottom',//设置TabNavigator的位置
+    animationEnabled: true,//是否在更改标签时显示动画
+    swipeEnabled: true,//是否允许在标签之间进行滑动
+    lazy: false,//是否在app打开的时候将底部标签栏全部加载
+    backBehavior: "none",//按back键是否跳转到第一个Tab(首页)， none 为不跳转
+    tabBarOptions: {
+        activeBackgroundColor: 'white',//活动标签的背景颜色
+        inactiveBackgroundColor: 'white',//非活动选项卡的背景颜色
+        activeTintColor: Colors.fontBlueColor, //label和icon的前景色 活跃状态下（选中）
+        inactiveTintColor: Colors.fontGrayColor_a, //label和icon的前景色 活跃状态下（未选中）
+        showLabel: true, //是否显示图标，默认关闭
+        showIcon: true, //是否显示label，默认开启
+        upperCaseLabel: false,//Android属性  是否使标签大写，默认为true
+        style: { //整体TabBar的样式
+            backgroundColor: 'white',
+            height: 48,
+            borderTopWidth: 0.5,
+            borderTopColor: Colors.borderColor_e
+        },
+        tabStyle: { //选项卡的样式
+            height: 48,
+        },
+        labelStyle: { //选项卡标签的样式
+            fontSize: 12,
+            margin:2,
+        },
+        indicatorStyle: { //android 线的样式
+            height: 0,
+        }
+    },
+    navigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, tintColor }) => {
+            const { routeName } = navigation.state;
+            switch (routeName) {
+                case "Home":
+                    let homeIcon = focused ? require('../assets/home/wallet_on.png') : require('../assets/home/wallet_off.png')
+                    return (
+                        <TabIcon
+                            icon={homeIcon}
+                            />
+                    );
+                    break;
+                case "Mapping":
+                    let mappingIcon = focused ? require('../assets/home/mapping_on.png') : require('../assets/home/mapping_off.png')
+                    return (
+                        <TabIcon
+                            icon={mappingIcon}
+                            />
+                    );
+                    break
+                case "My":
+                    let myIcon = focused ? require('../assets/home/my_on.png') : require('../assets/home/my_off.png')
+                    return (
+                        <TabIcon
+                            icon={myIcon}
+                            isShowRedRemind={false}
+                            count={0} 
+                           />
+                    );
+                    break
+
+            }
+        }
+    })
+}
+
 export {
     HomeStackNavigationConfig,
     FirstLaunchStackNavigationConfig,
     StackNavigationConfig,
     HomeDrawerConfig,
+    HomeBottomTabNavigationConfig
 }
 
 

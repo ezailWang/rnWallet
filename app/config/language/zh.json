@@ -66,6 +66,11 @@
         
     },
     "home":{
+
+        "tab_wallet":"钱包",
+        "tab_mapping":"映射",
+        "tab_mys":"我的",
+
         "total_assets":"总资产",
         "assets":"资产列表",
         "settings":"设置",
@@ -220,7 +225,17 @@
         "no_data":"暂无数据",
 
         "verifying_password":"正在验证密码",
-        "decrypting_keystore":"正在解密keystore"
+        "decrypting_keystore":"正在解密keystore",
+
+        "chose_wallet_type":"选择钱包类型",
+        "eth_wallet":"ETH钱包",
+        "itc_wallet":"ITC钱包",
+        "create_eth_wallet":"创建ETH钱包",
+        "create_itc_wallet":"创建ITC钱包",
+        "import_eth_wallet":"导入ETH钱包",
+        "import_itc_wallet":"导入ITC钱包",
+        "create":"创建",
+        "import_wallet":"导入钱包"
     },
     "mapping":{
         "itc_mapping_service":"ITC映射服务",

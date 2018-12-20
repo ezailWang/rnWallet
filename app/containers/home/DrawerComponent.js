@@ -56,7 +56,7 @@ class DrawerComponent extends BaseComponent {
                 <StatusBarComponent barStyle={this._barStyle} />
                 <View style={{ marginTop: 80, height: 70, backgroundColor: Colors.bgBlue_drawer_top, alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}>
                     <Image source={require('../../assets/home/menu/menu_icon.png')} style={{ height: 46, width: 46, marginLeft: 21 }} />
-                    <Text style={{ fontSize: 15, marginLeft: 10, color: Colors.fontBlackColor_31, fontWeight: '400' }}>{store.getState().Core.walletName}</Text>
+                    <Text style={{ fontSize: 15, marginLeft: 10, color: Colors.fontBlackColor_31, fontWeight: '400' }}>{store.getState().Core.wallet.name}</Text>
                 </View>
                 <ScrollView style={{ marginTop: 50 }}>
                     <DrawerCellReminder

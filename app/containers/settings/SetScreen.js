@@ -137,7 +137,7 @@ class SetScreen extends BaseComponent {
         this.closeNameModal()
         if (name == '' || name == undefined) {
             showToast(I18n.t('toast.enter_wallet_name'))
-        } else if (name == this.props.walletName) {
+        } else if (name == this.props.wallet.name) {
             showToast(I18n.t('toast.not_modified_wallet_name'))
         } else {
             this.modifyWalletName(name);
@@ -147,7 +147,7 @@ class SetScreen extends BaseComponent {
     nameOnChangeText = (text) => {
         this.inputName = text
         //let isShowWarn = (text == '' || text.length > 12) ? true : false
-        let isDisabled = (text == '' || text.length > 12 || text == this.props.walletName) ? true : false
+        let isDisabled = (text == '' || text.length > 12 || text == this.props.wallet.name) ? true : false
         let warnText = '';
         if (text == '' || text.length > 12) {
             warnText = I18n.t('launch.enter_normative_wallet_name')
@@ -261,7 +261,7 @@ class SetScreen extends BaseComponent {
 
     async exportKeystore() {
         try {
-            var address = this.props.walletAddress;
+            var address = this.props.wallet.address;
             var keystore = await KeystoreUtils.importFromFile(address)
             this.props.navigation.navigate('ExportKeystore', { keystore: keystore });
         } catch (err) {
@@ -289,8 +289,8 @@ class SetScreen extends BaseComponent {
     }
 
     async deleteLocalData() {
-        await KeystoreUtils.removeKeyFile(this.props.walletAddress)
-        this.props.setWalletAddress(null);
+        await KeystoreUtils.removeKeyFile(this.props.wallet.address)
+        this.props.setCurrentWallet(null);
         //删除所有本地的数据
         StorageManage.remove(StorageKey.User)
         StorageManage.remove(StorageKey.Tokens)
@@ -342,7 +342,7 @@ class SetScreen extends BaseComponent {
                     rightPress={() => this.nameConfirmClick()}
                     modalVisible={this.state.nameModalVisible}
                     onChangeText={this.nameOnChangeText}
-                    defaultValue={this.props.walletName}
+                    defaultValue={this.props.wallet.name}
                     warnText={this.state.nameWarnText}
                     isShowWarn={true}
                     rightBtnDisabled={this.state.rightBtnDisabled}
@@ -371,7 +371,7 @@ class SetScreen extends BaseComponent {
                     activeOpacity={0.6}
                     onPress={() => { this.isDeleteWallet = false; this.openNameModal() }}>
                     <Text style={styles.btnTxt}>{I18n.t('settings.modify_wallet_name')}</Text>
-                    <Text style={styles.walletName}>{this.props.walletName}</Text>
+                    <Text style={styles.walletName}>{this.props.wallet.name}</Text>
                 </TouchableOpacity>
 
 
@@ -404,12 +404,10 @@ class SetScreen extends BaseComponent {
     }
 }
 const mapStateToProps = state => ({
-    walletName: state.Core.walletName,
-    walletAddress: state.Core.walletAddress,
+    wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({
     modifyWalletName: (walletName) => dispatch(Actions.setWalletName(walletName)),
-    setWalletAddress: (address) => dispatch(Actions.setWalletAddress(address)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SetScreen)
 

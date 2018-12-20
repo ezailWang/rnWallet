@@ -4,21 +4,21 @@ import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-    setWalletAddress,
-    setWalletName,
     setNetWork,
     setMonetaryUnit,
     setPinInfo,
     setIsNewWallet,
     setContactList,
     setAllTokens,
+    setCurrentWallet,
+    setEthWalletList,
+    setItcWalletList
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 import JPushModule from 'jpush-react-native'
 import NetworkManager from '../../utils/NetworkManager'
 import DeviceInfo from 'react-native-device-info'
-import { __await } from 'tslib';
 class Loading extends Component {
 
     static propTypes = {
@@ -26,16 +26,16 @@ class Loading extends Component {
         navigation: PropTypes.shape({
             navigate: PropTypes.func.isRequired,
         }).isRequired,
-        walletAddress: PropTypes.string,
+        //wallet : PropTypes.object,
     }
 
-    static defaultProps = {
-        walletAddress: null
-    }
+    /*static defaultProps = {
+        wallet : null,
+    }*/
 
     async componentDidMount() {
 
-        if (!this.props.walletAddress) {
+        if (!this.props.wallet) {
             await this.loadFromStorege()
         }
         JPushModule.getRegistrationID(registrationId => {
@@ -45,7 +45,7 @@ class Loading extends Component {
                 'deviceModel': DeviceInfo.getModel(),
                 'deviceToken': registrationId,
                 'deviceId': DeviceInfo.getUniqueID(),
-                'walletAddress': this.props.walletAddress ? this.props.walletAddress : 0,
+                'walletAddress': this.props.wallet ? this.props.wallet.address : 0,
             }
             //设置别名
             JPushModule.setAlias(registrationId, (alias) => {
@@ -90,24 +90,6 @@ class Loading extends Component {
                         updateUrl:response.data.updateUrl
                     }
                     DeviceEventEmitter.emit('versionUpdate', {updateInfo: updateInfo});  
-                    /*Alert.alert(
-                        I18n.t('toast.update_tip'),
-                        response.data.content.split('&').join('\n'),
-                        [
-                            {
-                                text: I18n.t('toast.go_update'), onPress: () => {
-                                    const baseUrl = response.data.updateUrl
-                                    Linking.canOpenURL(baseUrl)
-                                        .then((supported) => {
-                                            if (supported) {
-                                                Linking.openURL(baseUrl)
-                                            }
-                                        })
-                                }
-                            },
-                            { text: I18n.t('modal.cancel'), onPress: () => { }, style: 'cancel' },
-                        ],
-                    )*/
                    
                 } else {
                     console.log('getVersionUpdateInfo err msg:', response.msg)
@@ -117,13 +99,9 @@ class Loading extends Component {
                 console.log('getVersionUpdateInfo err:', err)
             })
 
-
-
-        /*if (!this.props.walletAddress) {
-            await this.loadFromStorege()
-        }*/
-        if (this.props.walletAddress) {
-            return this.props.navigation.navigate('Home')
+        console.log('L_wallet',this.props.wallet)
+        if (this.props.wallet) {
+            return this.props.navigation.navigate('HomeTab')
         } else {
             return this.props.navigation.navigate('FirstLaunch', {
                 migrationMode: true,
@@ -134,7 +112,7 @@ class Loading extends Component {
     }
 
     loadFromStorege = async () => {
-        let data = await StorageManage.load(StorageKey.User)
+        let user = await StorageManage.load(StorageKey.User)
         let net = await StorageManage.load(StorageKey.Network)
         let language = await StorageManage.load(StorageKey.Language)
         let monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
@@ -186,17 +164,16 @@ class Loading extends Component {
         }
 
         this.props.dispatch(setIsNewWallet(false))
+        this.getWalletList()
         this.getAllTokens()
+        this.getMessageCount()
+        
 
-        if (data) {
-            if (data['address']) {
-                this.props.dispatch(setWalletAddress(data['address']))
-            }
-            if (data['name']) {
-                this.props.dispatch(setWalletName(data['name']))
-            }
+        console.log('L_user',user)
+        if (user) {
+            this.props.dispatch(setCurrentWallet(user))
         } else {
-            console.log('data = null')
+            console.log('user = null')
         }
     }
 
@@ -254,13 +231,49 @@ class Loading extends Component {
         })
     }
 
+    //获取钱包列表
+    async getWalletList(){
+        let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
+        let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
+        if(ethWalletList){
+            this.props.dispatch(setEthWalletList(ethWalletList))
+        }
+        if(itcWalletList){
+            this.props.dispatch(setItcWalletList(itcWalletList))
+        }
+    }
+
+    //获取未度消息数
+    async getMessageCount() {
+
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            return;
+        }
+        let params = {
+            'userToken': userToken['userToken'],
+        }
+        NetworkManager.getUnReadMessageCount(params)
+            .then(response => {
+                if (response.code === 200) {
+                    let messageCount = response.data.account;
+                    DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
+                    console.log('L_messageCount')
+                } else {
+                    console.log('getMessageCount err msg:', response.msg)
+                }
+            }).catch(err => {
+                console.log('getMessageCount err:', err)
+            })
+    }
+
     render() {
         return null
     }
 }
 
 const mapStateToProps = state => ({
-    walletAddress: state.Core.walletAddress,
+    wallet: state.Core.wallet,
     monetaryUnit: state.Core.monetaryUnit,
     network: state.Core.network,
 });

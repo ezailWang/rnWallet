@@ -7,7 +7,7 @@ import {
     RefreshControl,
     Text,
     Image,
-    Linking
+    DeviceEventEmitter
 } from 'react-native';
 import PropTypes from 'prop-types'
 import StorageManage from '../../utils/StorageManage'
@@ -269,6 +269,41 @@ class MessageCenterScreen extends BaseComponent {
             })
     }
 
+    //获取未度消息数
+    async getMessageCount() {
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            return;
+        }
+        let params = {
+            'userToken': userToken['userToken'],
+        }
+        NetworkManager.getUnReadMessageCount(params)
+            .then(response => {
+                if (response.code === 200) {
+                    let messageCount = response.data.account;
+                    DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
+                } else {
+                    console.log('getMessageCount err msg:', response.msg)
+                }
+            }).catch(err => {
+                console.log('getMessageCount err:', err)
+            })
+    }
+
+
+    _onBackPressed = () => {
+        this.getMessageCount()
+        this.props.navigation.goBack()
+        return true;
+    }
+
+    backPressed() {
+        this.getMessageCount()
+        this.props.navigation.goBack()
+    }
+
+
     //交易通知
     async transactionNotification(item) {
         let itemSymbol = item.symbol.toUpperCase()
@@ -332,7 +367,7 @@ class MessageCenterScreen extends BaseComponent {
                     }
                 }
 
-                let address = transation.to.toLowerCase() == this.props.walletAddress.toLowerCase() ? transation.from : transation.to
+                let address = transation.to.toLowerCase() == this.props.wallet.address.toLowerCase() ? transation.from : transation.to
                 let transactionDetail = {
                     amount: parseFloat(item.transactionValue),
                     transactionType: item.symbol.toUpperCase(),
@@ -381,6 +416,7 @@ class MessageCenterScreen extends BaseComponent {
         NetworkManager.readAllMessage(params)
             .then((response) => {
                 if (response.code === 200) {
+                    DeviceEventEmitter.emit('messageCount', { messageCount: 0 });
                     this._onRefresh(false)
                 } else {
                     //console.log('readAllMessage err msg:', response.msg)
@@ -445,6 +481,7 @@ class MessageCenterScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgHeader navigation={this.props.navigation}
                     text={I18n.t('settings.message_center')}
+                    leftPress={() => this.backPressed()}
                     rightPress={() => this._readAll()}
                     rightText={I18n.t('settings.read_all')} />
                 <FlatList
@@ -522,7 +559,7 @@ const mapStateToProps = state => ({
     allTokens: state.Core.allTokens,
     tokens: state.Core.tokens,
     contactList: state.Core.contactList,
-    walletAddress: state.Core.walletAddress,
+    wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({
     addToken: (token) => dispatch(Actions.addToken(token)),

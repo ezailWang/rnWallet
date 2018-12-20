@@ -431,16 +431,16 @@ export default class TransactionRecoder extends BaseComponent {
 
 
     refreshItemList = async (newRecoders, symbol, currentBlock) => {
-        const { walletAddress } = store.getState().Core
+        const { wallet } = store.getState().Core
         let { contactList } = store.getState().Core;
         let newItemList = [];
         newRecoders.map((item, i) => {
-            let address = item.to.toLowerCase() == walletAddress.toLowerCase() ? item.from : item.to
+            let address = item.to.toLowerCase() == wallet.address.toLowerCase() ? item.from : item.to
             let data = {
                 key: i.toString(),
                 address: address,
                 time: item.time ? item.time : timestampToTime(item.timeStamp),
-                income: item.to.toLowerCase() == walletAddress.toLowerCase(),
+                income: item.to.toLowerCase() == wallet.address.toLowerCase(),
                 amount: item.amount ? item.amount : item.value ? Number(parseFloat(item.value).toFixed(8)) : item.amount,
                 symbol: symbol.toLowerCase(),
                 sureBlock: currentBlock - item.blockNumber,
@@ -648,7 +648,7 @@ export default class TransactionRecoder extends BaseComponent {
         //this.showLoading()
 
         let { amount, price, symbol } = store.getState().Core.balance;
-        let { walletAddress } = store.getState().Core
+        let { wallet } = store.getState().Core
         //let suggestGas = await NetworkManager.getSuggestGasPrice();
         //let ethBalance = await NetworkManager.getEthBalance();
 
@@ -664,7 +664,7 @@ export default class TransactionRecoder extends BaseComponent {
             balance: amount,
             suggestGasPrice: parseFloat(suggestGas),
             ethPrice: price,
-            fromAddress: walletAddress,
+            fromAddress: wallet.address,
         };
 
        // this.hideLoading()
