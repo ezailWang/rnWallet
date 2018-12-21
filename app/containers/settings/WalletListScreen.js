@@ -19,6 +19,7 @@ import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
+import lodash from 'lodash'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
         height: 45,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 20,
+        paddingLeft: 30,
         paddingRight: 20,
         backgroundColor: 'white'
     },
@@ -106,9 +107,12 @@ class WalletListScreen extends BaseComponent {
     }
 
     _initData() {
-        
-        let itcWallets = this.props.itcWalletList
-        let ethWallets = this.props.ethWalletList
+        this.refreshPage()
+    }
+
+    refreshPage() {
+        let itcWallets = lodash.cloneDeep(this.props.itcWalletList)
+        let ethWallets = lodash.cloneDeep(this.props.ethWalletList)
         this.setState({
             itcWallets: itcWallets,
             ethWallets: ethWallets,
@@ -116,15 +120,35 @@ class WalletListScreen extends BaseComponent {
     }
 
     createEthOrItcWallet = (isItc) => {
-        this.props.navigation.navigate('CreateMoreWallet', {isItc : isItc})
+        let params = {
+            isItc: isItc,
+            from: 2
+        }
+        this.props.setCreateWalletParams(params);
+        this.props.navigation.navigate('CreateMoreWallet')
     }
 
     itcWalletOnPress = (wallet) => {
-       
+
     }
 
     ethWalletOnPress = (wallet) => {
-        
+        let _this = this;
+        this.props.navigation.navigate('Set', {
+            isItc:false,
+            wallet: wallet,
+            callback: function () {
+                _this.refreshPage()
+            }
+        })
+    }
+
+    _changeWalletEmitter = (data) =>{
+       
+    }
+
+    _changeWalletListEmitter = (data) =>{
+        this.refreshPage()
     }
 
     renderComponent() {
@@ -138,7 +162,7 @@ class WalletListScreen extends BaseComponent {
 
         this.state.ethWallets.forEach(function (wallet, index) {
             ethWalletsView.push(
-                <Item key={index} wallet={wallet} onItemPressed={_this.ethWalletOnPress} />
+                <Item key={index} wallet={wallet} onItemPressed={()=>_this.ethWalletOnPress(wallet)} />
             )
         })
         return (
@@ -149,7 +173,7 @@ class WalletListScreen extends BaseComponent {
                         btnText={I18n.t('settings.create_itc_wallet')} onItemHeaderPressed={()=>this.createEthOrItcWallet(true)}></ItemHeader>
                     {itcWalletsView}*/}
                     <ItemHeader title={I18n.t('settings.eth_wallet')} icon={require('../../assets/set/eth_icon.png')}
-                        btnText={I18n.t('settings.create_eth_wallet')} onItemHeaderPressed={()=>this.createEthOrItcWallet(false)}></ItemHeader>
+                        btnText={I18n.t('settings.create_eth_wallet')} onItemHeaderPressed={() => this.createEthOrItcWallet(false)}></ItemHeader>
                     {ethWalletsView}
                 </ScrollView>
             </View>
@@ -236,13 +260,16 @@ class Item extends PureComponent {
 
 
 
-
 const mapStateToProps = state => ({
     ethWalletList: state.Core.ethWalletList,
     itcWalletList: state.Core.itcWalletList,
 });
 const mapDispatchToProps = dispatch => ({
-    setPinInfo: (pinInfo) => dispatch(Actions.setPinInfo(pinInfo)),
+    setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
+    setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
+    setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
+    setCreateWalletParams: (params) => dispatch(Actions.setCreateWalletParams(params)),
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletListScreen)

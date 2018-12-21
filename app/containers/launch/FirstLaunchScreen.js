@@ -241,6 +241,11 @@ class FirstLaunchScreen extends BaseComponent {
     _toRute() {
         //this.props.navigation.navigate('MappingTerms')
         //todo
+        let params = {
+            isItc: false,
+            from: 0
+        }
+        this.props.setCreateWalletParams(params);
         if (this.routeTo == 'createWallet') {
             this.props.navigation.navigate('CreateWallet')
         } else {
@@ -335,5 +340,6 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     setPinInfo: (pinInfo) => dispatch(Actions.setPinInfo(pinInfo)),
+    setCreateWalletParams: (params) => dispatch(Actions.setCreateWalletParams(params)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FirstLaunchScreen)

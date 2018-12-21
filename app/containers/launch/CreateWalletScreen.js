@@ -143,6 +143,7 @@ class CreateWalletScreen extends BaseComponent {
             rePwdWarn:I18n.t('launch.enter_same_password'),
             
         }
+        this.isItc = false;
         this.nametxt = '';
         this.pwdtxt = '';
         this.rePwdtxt = '';
@@ -156,6 +157,14 @@ class CreateWalletScreen extends BaseComponent {
         this.textFontSize = new Animated.Value(18)
         this.containerMarginTop = new Animated.Value(0)
     }
+
+    _initData(){
+        let params = this.props.createWalletParams;
+        this.setState({
+            isItc: params.isItc
+        })
+    }
+
     _addEventListener(){
         super._addEventListener()
         if(Platform.OS == 'ios'){
@@ -265,6 +274,11 @@ class CreateWalletScreen extends BaseComponent {
     //产生助记词
     generateMnemonic() {
         walletUtils.generateMnemonic().then((data) => {
+            let params = this.props.createWalletParams;
+            params.password = this.pwdtxt;
+            params.name = this.nametxt
+            this.props.setCreateWalletParams(params)
+
             this.props.generateMnemonic(data)
             this.props.navigation.navigate('BackupWallet',{password:this.pwdtxt,name:this.nametxt});
         }, (error) => {
@@ -489,9 +503,11 @@ class Item extends PureComponent{
 
 const mapStateToProps = state => ({
     mnemonic: state.Core.mnemonic,
+    createWalletParams: state.Core.createWalletParams,
 });
 const mapDispatchToProps = dispatch => ({
-    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic))
+    generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
+    setCreateWalletParams: (params) => dispatch(Actions.setCreateWalletParams(params)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CreateWalletScreen)
 

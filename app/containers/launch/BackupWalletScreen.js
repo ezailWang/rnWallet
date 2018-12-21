@@ -126,7 +126,7 @@ export default class BackupWalletScreen extends BaseComponent {
                          <BlueButtonBig
                               buttonStyle={{marginTop:10}}
                               isDisabled = {!this.state.isCheck}
-                              onPress = {()=> this.props.navigation.navigate('BackupMnemonic',{password: this.props.navigation.state.params.password,name:this.props.navigation.state.params.name})}
+                              onPress = {()=> this.props.navigation.navigate('BackupMnemonic')}
                               text = {I18n.t('launch.backup_mnemonic')}
                          />
                      </View>

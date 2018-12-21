@@ -161,11 +161,12 @@ const HomeBottomTabNavigation = createBottomTabNavigator({
             tabBarLabel: '钱包',
         }
     },
-    Mapping: {
+    /*Mapping: {
         screen: MappingTermsScreen,
-    },
+    },*/
     My: {
         screen: MyScreen,
+        tabBarLabel: '钱包',
     }
 }, HomeBottomTabNavigationConfig)
 

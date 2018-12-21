@@ -21,4 +21,5 @@ export const SET_TRANSFER_RECORD_LIST = 'SET_TRANSFER_RECORD_LIST';//转账记�
 export const SET_ITC_WALLET_LIST = 'SET_ITC_WALLET_LIST';//itc钱包列表
 export const SET_ETH_WALLET_LIST = 'SET_ETH_WALLET_LIST';//eth钱包列表
 export const SET_CURRENT_WALLET = 'SET_CURRENT_WALLET';//当前正在使用的钱包
+export const CREATE_WALLET_PARAM = 'CREATE_WALLET_PARAM';  //创建钱包参数
 

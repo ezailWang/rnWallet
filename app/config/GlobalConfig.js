@@ -93,7 +93,7 @@ const StorageKey = {
     NotRemindAgainTestITC:'notRemindAgainTestITC',//不再提示
     TransactionRecoderInfo:'TransactionRecoderInfo',//存储交易记录 id为symbol,
     ItcWalletList:'ItcWalletList',//存储itc钱包列表
-    EthWalletList:'ItcWalletList',//存储eth钱包列表
+    EthWalletList:'EthWalletList',//存储eth钱包列表
 }
 
 const Network = {

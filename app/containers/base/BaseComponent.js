@@ -122,6 +122,10 @@ export default class BaseComponent extends PureComponent {
         this.messageCountHandler = DeviceEventEmitter.addListener('messageCount', this._messageCountEmitter);//messageCount
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
         this.backgroundStateHandler = DeviceEventEmitter.addListener('backgroundState', this._backgroundStateEmitter);
+
+        this.changeWalletHandler = DeviceEventEmitter.addListener('changeWallet', this._changeWalletEmitter);
+        this.changeWalletListtHandler = DeviceEventEmitter.addListener('changeWalletList', this._changeWalletListEmitter);
+
     }
 
 
@@ -133,6 +137,9 @@ export default class BaseComponent extends PureComponent {
         this.pinIsShowHandler && this.pinIsShowHandler.remove();
         this.messageCountHandler && this.messageCountHandler.remove();  
         this.backgroundStateHandler && this.backgroundStateHandler.remove();
+
+        this.changeWalletHandler && this.changeWalletHandler.remove();  
+        this.changeWalletListtHandler && this.changeWalletListtHandler.remove();
     }
 
     _addChangeListener() {
@@ -283,8 +290,13 @@ export default class BaseComponent extends PureComponent {
 
     }
 
-   
+    _changeWalletEmitter = (data) =>{
 
+    }
+
+    _changeWalletListEmitter = (data) =>{
+
+    }
 
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
     _touchIdAuthenticate = () => {
@@ -431,6 +443,8 @@ export default class BaseComponent extends PureComponent {
             })
         }
     }
+
+  
 
 
     _verifyIdentidy() {

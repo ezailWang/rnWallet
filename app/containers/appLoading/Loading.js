@@ -258,7 +258,6 @@ class Loading extends Component {
                 if (response.code === 200) {
                     let messageCount = response.data.account;
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
-                    console.log('L_messageCount')
                 } else {
                     console.log('getMessageCount err msg:', response.msg)
                 }

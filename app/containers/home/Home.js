@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    FlatList,
+    Platform,
     SwipeableFlatList,
     View,
     StyleSheet,
@@ -32,7 +32,8 @@ import { showToast } from '../../utils/Toast'
 import { I18n } from '../../config/language/i18n'
 import MyAlertComponent from '../../components/MyAlertComponent'
 import BaseComponent from '../base/BaseComponent'
-
+import JPushModule from 'jpush-react-native'
+import DeviceInfo from 'react-native-device-info'
 
 hiddenIcon_invi = require('../../assets/home/psd_invi_w.png')
 hiddenIcon_vi = require('../../assets/home/psd_vi_w.png')
@@ -152,10 +153,11 @@ class HomeScreen extends BaseComponent {
     }
 
     showDrawer = () => {
-
-        this._getMessageCount();
         this.props.navigation.openDrawer()
     }
+
+
+
 
     changeNetworkDone = async () => {
         this.setState({
@@ -179,6 +181,103 @@ class HomeScreen extends BaseComponent {
     formatAddress(address) {
         return address.substr(0, 10) + '...' + address.slice(-10)
     }
+
+    _changeWalletEmitter = async (data) => {
+        this._showLoding()
+        let address = this.props.wallet.address
+        this.props.navigation.openDrawer()
+
+        let localUser = await StorageManage.load(StorageKey.User)
+        if (localUser && localUser['isTotalAssetsHidden']) {
+            this.setState({
+                isTotalAssetsHidden: localUser['isTotalAssetsHidden']
+            })
+        }
+
+        await this.userInfoUpdate(address)
+       /* await this.walletRegister(address)
+        await this.getMessageCount()*/
+        await NetworkManager.loadTokenList()
+
+        this._hideLoading()
+    }
+
+    async userInfoUpdate(address) {
+        let params = {
+            language: I18n.locale,
+            walletAddress: address
+        }
+        NetworkManager.userInfoUpdate(params)
+            .then((response) => {
+                if (response.code === 200) {
+                    console.log('L_userInfoUpdate')
+                    this.walletRegister(address)
+                } else {
+                    console.log('userInfoUpdate err msg:', response.msg)
+                }
+            })
+            .catch((err) => {
+                console.log('userInfoUpdate err:', err)
+            })
+    }
+
+    async walletRegister(address) {
+
+        JPushModule.getRegistrationID(registrationId => {
+            let params = {
+                'system': Platform.OS,
+                'systemVersion': DeviceInfo.getSystemVersion(),
+                'deviceModel': DeviceInfo.getModel(),
+                'deviceToken': registrationId,
+                'deviceId': DeviceInfo.getUniqueID(),
+                'walletAddress': address,
+            }
+            //设置别名
+            JPushModule.setAlias(registrationId, (alias) => {
+
+            })
+            NetworkManager.deviceRegister(params)
+                .then((response) => {
+                    if (response.code === 200) {
+                        console.log('L_walletRegister')
+                        StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
+                        this.getMessageCount()
+                    } else {
+                        console.log('deviceRegister err msg:', response.msg)
+                    }
+                })
+                .catch((err) => {
+                    console.log('deviceRegister err:', err)
+                })
+        })
+    }
+
+
+    //获取未度消息数
+    async getMessageCount() {
+
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            return;
+        }
+        let params = {
+            'userToken': userToken['userToken'],
+        }
+        NetworkManager.getUnReadMessageCount(params)
+            .then(response => {
+                if (response.code === 200) {
+                    let messageCount = response.data.account;
+                    //DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
+                    console.log('L_getMessageCount')
+                    DeviceEventEmitter.emit('messageCount', 1);
+                } else {
+                    console.log('getMessageCount err msg:', response.msg)
+                }
+            }).catch(err => {
+                console.log('getMessageCount err:', err)
+            })
+    }
+
 
     async _initData() {
         SplashScreen.hide()
@@ -260,32 +359,6 @@ class HomeScreen extends BaseComponent {
             monetaryUnitSymbol: data.monetaryUnit.symbol
         })
     }
-
-
-
-    async _getMessageCount() {
-
-        let userToken = await StorageManage.load(StorageKey.UserToken)
-        if (!userToken || userToken === null) {
-            return;
-        }
-        let params = {
-            'userToken': userToken['userToken'],
-        }
-        NetworkManager.getUnReadMessageCount(params)
-            .then(response => {
-                if (response.code === 200) {
-                    let messageCount = response.data.account;
-                    DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
-                } else {
-                    console.log('getMessageCount err msg:', response.msg)
-                }
-            }).catch(err => {
-                console.log('getMessageCount err:', err)
-            })
-    }
-
-
 
     versionUpdateLeftPress = () => {
         this.setState({
@@ -496,8 +569,7 @@ const mapStateToProps = state => ({
     totalAssets: state.Core.totalAssets,
     wallet: state.Core.wallet,
     monetaryUnit: state.Core.monetaryUnit,
-    isNewWallet: state.Core.isNewWallet,
-    wallet: state.Core.wallet,
+    isNewWallet: state.Core.isNewWallet
 })
 
 const mapDispatchToProps = dispatch => ({

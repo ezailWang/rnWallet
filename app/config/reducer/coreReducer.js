@@ -22,7 +22,8 @@ import {
     SET_TRANSFER_RECORD_LIST,
     SET_ITC_WALLET_LIST,
     SET_ETH_WALLET_LIST,
-    SET_CURRENT_WALLET
+    SET_CURRENT_WALLET,
+    CREATE_WALLET_PARAM
 } from '../action/ActionType'
 import { defaultTokens } from '../../utils/Constants'
 import uuid from 'react-native-uuid';
@@ -47,6 +48,7 @@ const defaultState = {
     itcWalletList: [],
     ethWalletList: [],
     wallet: null,//当前正在使用的钱包
+    createWalletParams:null,
 }
 
 function coreReducer(state = defaultState, action) {
@@ -190,6 +192,12 @@ function coreReducer(state = defaultState, action) {
             return {
                 ...state,
                 wallet: action.wallet
+            }
+            break;
+        case CREATE_WALLET_PARAM:
+            return {
+                ...state,
+                createWalletParams: action.createWalletParams
             }
             break;
         default: return state;

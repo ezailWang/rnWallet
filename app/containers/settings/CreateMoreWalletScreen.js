@@ -124,16 +124,16 @@ const styles = StyleSheet.create({
     warnTxtHidden: {
         height: 0
     },
-    importBtn:{
-        width:Layout.WINDOW_WIDTH * 0.6,
-        height:40,
-        marginTop:10,
-        justifyContent:'center',
-        alignItems:'center',
+    importBtn: {
+        width: Layout.WINDOW_WIDTH * 0.6,
+        height: 40,
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    importText:{
-        fontSize:16,
-        color:Colors.fontBlueColor,
+    importText: {
+        fontSize: 16,
+        color: Colors.fontBlueColor,
     }
 })
 
@@ -151,7 +151,7 @@ class CreateMoreWalletScreen extends BaseComponent {
             nameWarn: I18n.t('launch.enter_normative_wallet_name'),
             pwdWarn: I18n.t('launch.password_warn'),
             rePwdWarn: I18n.t('launch.enter_same_password'),
-            isItc : false, //是创建itc还是eth钱包
+            isItc: false, //是创建itc还是eth钱包
         }
         this.nametxt = '';
         this.pwdtxt = '';
@@ -168,10 +168,10 @@ class CreateMoreWalletScreen extends BaseComponent {
     }
 
 
-    _initData(){
-        let isItc = this.props.navigation.state.params.isItc;
+    _initData() {
+        let params = this.props.createWalletParams;
         this.setState({
-            isItc: isItc
+            isItc: params.isItc
         })
     }
 
@@ -284,8 +284,12 @@ class CreateMoreWalletScreen extends BaseComponent {
     //产生助记词
     generateMnemonic() {
         walletUtils.generateMnemonic().then((data) => {
+            let params = this.props.createWalletParams;
+            params.password = this.pwdtxt;
+            params.name = this.nametxt
+            this.props.setCreateWalletParams(params)
             this.props.generateMnemonic(data)
-            this.props.navigation.navigate('BackupWallet', { password: this.pwdtxt,name: this.nametxt});
+            this.props.navigation.navigate('BackupWallet');
         }, (error) => {
             showToast(I18n.t('toast.create_wallet_error'))
         })
@@ -380,9 +384,8 @@ class CreateMoreWalletScreen extends BaseComponent {
     }
 
 
-    toImportWallet(){
-        let isItc = this.state.isItc
-        this.props.navigation.navigate('ImportWallet', {isItc : isItc})
+    toImportWallet() {
+        this.props.navigation.navigate('ImportWallet')
     }
 
 
@@ -508,9 +511,11 @@ class Item extends PureComponent {
 
 const mapStateToProps = state => ({
     mnemonic: state.Core.mnemonic,
+    createWalletParams: state.Core.createWalletParams,
 });
 const mapDispatchToProps = dispatch => ({
     generateMnemonic: (mnemonic) => dispatch(Actions.generateMnemonic(mnemonic)),
+    setCreateWalletParams: (params) => dispatch(Actions.setCreateWalletParams(params)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMoreWalletScreen)
 

@@ -1,9 +1,11 @@
 
 import React, { PureComponent } from 'react';
-import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform, DeviceEventEmitter } from 'react-native'
+import { setItcWalletList, setEthWalletList, setCurrentWallet, setCreateWalletParams, setTransactionRecordList } from '../../config/action/Actions'
 import { store } from '../../config/store/ConfigureStore'
-import { Colors } from '../../config/GlobalConfig'
+import { Colors, StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
+import StorageManage from '../../utils/StorageManage'
 import { NavigationActions, DrawerActions } from 'react-navigation'
 import PropTypes from 'prop-types';
 import BaseComponent from '../base/BaseComponent'
@@ -11,6 +13,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import { BlurView } from 'react-native-blur';
 import Loading from '../../components/Loading';
 import LayoutConstants from '../../config/LayoutConstants'
+
 
 class RightDrawer extends BaseComponent {
     navigateToScreen = (route, params) => () => {
@@ -26,57 +29,47 @@ class RightDrawer extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            itcWallets: [],
-            ethWallets: [],
+            refreshPage: false,
         }
 
     }
-    _initData() {
 
-        let itcWallets = [], ethWallets = []
-        for (let i = 0; i < 6; i++) {
-            let isSelected = i == 1 ? true : false
-            let wallet = {
-                name: 'itcWallet' + i,
-                isSelected: isSelected
-            }
-            itcWallets.push(wallet)
-        }
 
-        for (let i = 0; i < 10; i++) {
-            let isSelected = i == 0 ? true : false
-            let wallet = {
-                name: 'itcWallet' + i,
-                isSelected: isSelected
-            }
-            ethWallets.push(wallet)
-        }
+    itcWalletOnPress = (wallet) => {
+    }
+
+
+
+    ethWalletOnPress = async (wallet) => {
+        StorageManage.save(StorageKey.User, wallet)
+        store.dispatch(setCurrentWallet(wallet));
+
+        store.dispatch(setTransactionRecordList([]));
+        StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+        
+        DeviceEventEmitter.emit('changeWallet', {});
+
         this.setState({
-            itcWallets: itcWallets,
-            ethWallets: ethWallets,
+            refreshPage: !this.state.refreshPage
         })
     }
 
-    itcWalletOnPress = (wallet) => {
-        console.log('L_itc', wallet.name)
+    createEthOrItcWallet = (isItc) => {
+        // this.navigateToScreen('CreateMoreWallet', { isItc: isItc })
+        let params = {
+            isItc: isItc,
+            from: 1
+        }
+        store.dispatch(setCreateWalletParams(params));
+        this.props.navigation.navigate('CreateMoreWallet')
     }
 
-
-    ethWalletOnPress = (wallet) => {
-        console.log('L_eth', wallet.name)
-    }
-
-
-    addItcOnPress = () => {
-
-    }
-
-    addEthOnPress = () => {
-
-    }
-
+    
 
     render() {
+        let { wallet, itcWalletList, ethWalletList } = store.getState().Core
+        let currentWallet = wallet;
+
         //这个地方直接render，防止把其他页面的状态栏颜色改了
         let _this = this;
         if (this.props.navigation.state.isDrawerOpen) {
@@ -86,15 +79,17 @@ class RightDrawer extends BaseComponent {
         }
 
         let itcWalletsView = [], ethWalletsView = [];
-        this.state.itcWallets.forEach(function (wallet, index) {
+        itcWalletList.forEach(function (wallet, index) {
+            let isSelected = wallet.address.toLowerCase() == currentWallet.address.toLowerCase()
             itcWalletsView.push(
-                <Item key={index} wallet={wallet} itemOnPress={_this.itcWalletOnPress} />
+                <Item key={index} wallet={wallet} itemOnPress={_this.itcWalletOnPress} is />
             )
         })
 
-        this.state.ethWallets.forEach(function (wallet, index) {
+        ethWalletList.forEach(function (wallet, index) {
+            let isSelected = wallet.address.toLowerCase() == currentWallet.address.toLowerCase()
             ethWalletsView.push(
-                <Item key={index} wallet={wallet} itemOnPress={_this.ethWalletOnPress} />
+                <Item key={index} wallet={wallet} isSelected={isSelected} itemOnPress={() => _this.ethWalletOnPress(wallet)} />
             )
         })
         return (
@@ -104,10 +99,10 @@ class RightDrawer extends BaseComponent {
                 <ScrollView style={{ paddingTop: 50, paddingBottom: 20, }} showsVerticalScrollIndicator={false}>
                     {/*<ItemHeader icon={require('../../assets/set/itc_icon.png')} text={I18n.t('settings.itc_wallet')}></ItemHeader>
                     {itcWalletsView}
-                       <AddButton addBg={require('../../assets/set/add_itc.png')} addOnPress={this.addItcOnPress}></AddButton>*/}
+                       <AddButton addBg={require('../../assets/set/add_itc.png')} addOnPress={() => this.createEthOrItcWallet(true)}></AddButton>*/}
                     <ItemHeader icon={require('../../assets/set/eth_icon.png')} text={I18n.t('settings.eth_wallet')}></ItemHeader>
                     {ethWalletsView}
-                    <AddButton addBg={require('../../assets/set/add_eth.png')} addOnPress={this.addEthOnPress}></AddButton>
+                    <AddButton addBg={require('../../assets/set/add_eth.png')} addOnPress={() => this.createEthOrItcWallet(false)}></AddButton>
                 </ScrollView>
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
@@ -121,16 +116,20 @@ class RightDrawer extends BaseComponent {
 }
 
 
+
+
 class Item extends PureComponent {
 
     static propTypes = {
         wallet: PropTypes.object.isRequired,
         itemOnPress: PropTypes.func.isRequired,
+        isSelected: PropTypes.bool,
         isNeedLine: PropTypes.bool,
         itemStyle: PropTypes.object,
     };
 
     static defaultProps = {
+        isSelected: false,
         isNeedLine: false,
     }
 
@@ -141,7 +140,7 @@ class Item extends PureComponent {
 
     render() {
         let wallet = this.props.wallet;
-        let isSelected = wallet.isSelected;
+        let isSelected = this.props.isSelected;
         return (
             <View style={[styles.itemBox, this.props.itemStyle]}>
                 <TouchableOpacity activeOpacity={0.6}
@@ -199,7 +198,7 @@ class AddButton extends PureComponent {
             <TouchableOpacity
                 activeOpacity={0.6}
                 style={styles.addButtonBox}
-                onPress={this.addOnPress}>
+                onPress={this.props.addOnPress}>
                 <Image style={styles.addImage} source={addBg} resizeMode={'center'} />
             </TouchableOpacity>
 
@@ -299,4 +298,5 @@ RightDrawer.prototypes = {
     navigation: PropTypes.object
 }
 
-export default RightDrawer;
+
+export default RightDrawer

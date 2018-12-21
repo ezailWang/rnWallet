@@ -162,6 +162,14 @@ function setCurrentWallet(wallet){
 }
 
 
+function setCreateWalletParams(createWalletParams){
+    return{
+        type:types.CREATE_WALLET_PARAM,
+        createWalletParams:createWalletParams
+    }
+}
+
+
 
 
 
@@ -187,5 +195,6 @@ export {
     setTransactionRecordList,
     setItcWalletList,
     setEthWalletList,
-    setCurrentWallet
+    setCurrentWallet,
+    setCreateWalletParams
 }
