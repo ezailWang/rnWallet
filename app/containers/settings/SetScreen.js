@@ -267,8 +267,9 @@ class SetScreen extends BaseComponent {
 
     async exportKeyPrivate(password) {
         let privateKey
+        let address = this.state.wallet.address
         try {
-            privateKey = await KeystoreUtils.getPrivateKey(password)
+            privateKey = await KeystoreUtils.getPrivateKey(password, address)
             this.hideStaticLoading();//关闭Loading
             if (privateKey == null) {
                 //alert(I18n.t('modal.export_private_key_error'));
@@ -334,7 +335,7 @@ class SetScreen extends BaseComponent {
         await KeystoreUtils.removeKeyFile(address)
 
         let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-        if(!ethWalletList){
+        if (!ethWalletList) {
             ethWalletList = []
         }
         let index = 0;
@@ -345,11 +346,11 @@ class SetScreen extends BaseComponent {
             }
         }
         ethWalletList.splice(index, 1)
-        StorageManage.save(StorageKey.EthWalletList,ethWalletList)
+        StorageManage.save(StorageKey.EthWalletList, ethWalletList)
         this.props.setEthWalletList(ethWalletList)
-     
+
         this._hideLoading();
-        
+
         this.props.navigation.state.params.callback();
         this.props.navigation.goBack()
     }

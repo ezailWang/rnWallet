@@ -184,8 +184,9 @@ class HomeScreen extends BaseComponent {
 
     _changeWalletEmitter = async (data) => {
         this._showLoding()
+
         let address = this.props.wallet.address
-        this.props.navigation.openDrawer()
+        // this.props.navigation.openDrawer()
 
         let localUser = await StorageManage.load(StorageKey.User)
         if (localUser && localUser['isTotalAssetsHidden']) {
@@ -195,8 +196,8 @@ class HomeScreen extends BaseComponent {
         }
 
         await this.userInfoUpdate(address)
-       /* await this.walletRegister(address)
-        await this.getMessageCount()*/
+        /* await this.walletRegister(address)
+         await this.getMessageCount()*/
         await NetworkManager.loadTokenList()
 
         this._hideLoading()
@@ -269,7 +270,7 @@ class HomeScreen extends BaseComponent {
                     let messageCount = response.data.account;
                     //DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
                     console.log('L_getMessageCount')
-                    DeviceEventEmitter.emit('messageCount', 1);
+                    DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
                 } else {
                     console.log('getMessageCount err msg:', response.msg)
                 }

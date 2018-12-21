@@ -409,14 +409,14 @@ export default class Transaction extends BaseComponent {
     async didTapSurePasswordBtn (password){
         // console.warn("输入密码--",password);
         this._showLoding()
-       
+        let { wallet } = store.getState().Core
         setTimeout(async ()=>{
 
             // console.log("开始执行")
 
             let  privateKey
             try{
-                privateKey = await KeystoreUtils.getPrivateKey(password)
+                privateKey = await KeystoreUtils.getPrivateKey(password,wallet.address)
                 if (privateKey == null) {
                     showToast(I18n.t('modal.password_error'))
 
@@ -442,7 +442,6 @@ export default class Transaction extends BaseComponent {
         totalGas = totalGas.toFixed(8);
 
         if (this.params.ethBalance < totalGas) {
-
             alert(I18n.t('transaction.alert_4'));
             return;
         }

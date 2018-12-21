@@ -98,6 +98,7 @@ import {
     WalletListScreen,
     CreateMoreWalletScreen
 } from '../containers/Containers';
+import { I18n } from '../config/language/i18n'
 //首次启动导航栈
 const FirstLaunchRouteConfig =
 {
@@ -158,15 +159,15 @@ const HomeBottomTabNavigation = createBottomTabNavigator({
         navigationOptions: {
             header: null,
             //gesturesEnabled:false
-            tabBarLabel: '钱包',
+            //tabBarLabel: I18n.t('home.tab_wallet'),
         }
     },
     /*Mapping: {
         screen: MappingTermsScreen,
+         tabBarLabel: I18n.t('home.tab_mapping'),
     },*/
     My: {
         screen: MyScreen,
-        tabBarLabel: '钱包',
     }
 }, HomeBottomTabNavigationConfig)
 

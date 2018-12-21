@@ -41,11 +41,14 @@ class RightDrawer extends BaseComponent {
 
 
     ethWalletOnPress = async (wallet) => {
+        this.props.navigation.closeDrawer()
         StorageManage.save(StorageKey.User, wallet)
         store.dispatch(setCurrentWallet(wallet));
 
         store.dispatch(setTransactionRecordList([]));
         StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+
+        
         
         DeviceEventEmitter.emit('changeWallet', {});
 

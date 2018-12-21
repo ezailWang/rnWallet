@@ -64,6 +64,11 @@
         "generating_keystore_file":"Generating keystore"
     },
     "home":{
+        "tab_wallet":"Wallet",
+        "tab_mapping":"映射",
+        "tab_my":"Mine",
+        "my":"Mine",
+        
         "total_assets":"Totale credit",
         "assets":"Lijst met activa",
         "settings":"Instellingen",

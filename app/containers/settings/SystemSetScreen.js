@@ -193,16 +193,24 @@ class SystemSetScreen extends BaseComponent {
         }
         StorageManage.save(key, pinInfo)
 
-        var user = await StorageManage.load(key);
     }
 
+    _onBackPressed = () => {
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack()
+        return true;
+    }
 
+    backPressed() {
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack()
+    }
    
 
     renderComponent() {
         return (
             <View style={styles.container}>
-                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.system_settings')}/>
+                <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('settings.system_settings')} leftPress={() => this.backPressed()}/>
                 <View  style={styles.itemContainer}>
                     <Item title={I18n.t('settings.language')} content = {this.state.langStr} onPressed= {this._choseLanguage}></Item> 
                     <Item title={I18n.t('settings.currency_unit')} content = {this.state.monetaryUnitType} onPressed= {this._choseMonetaryUnit}></Item>

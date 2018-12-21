@@ -44,7 +44,7 @@ export default class KeystoreUtils {
         }
     }
 
-    static async removeKeyFile(address,dirName) {
+    static async removeKeyFile(address, dirName) {
         try {
             var dirPath, dirItems, filepath
             address = address.replace("0x", "");
@@ -79,10 +79,9 @@ export default class KeystoreUtils {
         return filename;
     }
 
-    static async getPrivateKey(password) {
+    static async getPrivateKey(password, address) {
         try {
-            const { wallet } = store.getState().Core
-            var keyStoreStr = await KeystoreUtils.importFromFile(wallet.address)
+            var keyStoreStr = await KeystoreUtils.importFromFile(address)
             var keyStoreObject = JSON.parse(keyStoreStr)
             var privateKey = await this.recover(password, keyStoreObject);
             return '0x' + privateKey.toString('hex')

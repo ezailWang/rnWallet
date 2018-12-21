@@ -20,13 +20,13 @@
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet ,Text} from 'react-native';
 import { Colors } from '../config/GlobalConfig';
 import PropType from 'prop-types'
 import RightDrawer from '../containers/home/RightDrawer'
 import LayoutConstants from '../config/LayoutConstants'
 import TabIcon from '../components/TabIcon'
-
+import { I18n } from '../config/language/i18n'
 const StackNavigationConfig = {
     initialRouteName: 'Set'
     //initialRouteName: 'Home',
@@ -95,13 +95,26 @@ const HomeBottomTabNavigationConfig = {
         },
         labelStyle: { //选项卡标签的样式
             fontSize: 12,
-            margin:2,
         },
         indicatorStyle: { //android 线的样式
             height: 0,
         }
     },
     navigationOptions: ({ navigation }) => ({
+        tabBarLabel: ({ focused, tintColor }) => {
+            const { routeName } = navigation.state;
+            switch (routeName) {
+                case "Home":
+                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_wallet')}</Text>
+                    break;
+                case "Mapping":
+                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_mapping')}</Text>
+                    break
+                case "My":
+                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_my')}</Text>
+                    break
+            }
+        },
         tabBarIcon: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
             switch (routeName) {
@@ -110,7 +123,7 @@ const HomeBottomTabNavigationConfig = {
                     return (
                         <TabIcon
                             icon={homeIcon}
-                            />
+                        />
                     );
                     break;
                 case "Mapping":
@@ -118,7 +131,7 @@ const HomeBottomTabNavigationConfig = {
                     return (
                         <TabIcon
                             icon={mappingIcon}
-                            />
+                        />
                     );
                     break
                 case "My":
@@ -127,15 +140,34 @@ const HomeBottomTabNavigationConfig = {
                         <TabIcon
                             icon={myIcon}
                             isShowRedRemind={false}
-                            count={0} 
-                           />
+                            count={0}
+                        />
                     );
                     break
-
             }
         }
     })
 }
+
+const styles = StyleSheet.create({
+    blueText:{
+        fontSize:12,
+        color:'#01a1e6',
+        textAlign:'center',
+        alignSelf:'center',
+        marginBottom:2,
+        marginTop:0,
+    },
+    grayText:{
+        fontSize:12,
+        color:'#aaaaaa',
+        textAlign:'center',
+        alignSelf:'center',
+        marginBottom:2,
+        marginTop:0,
+    }
+   
+})
 
 export {
     HomeStackNavigationConfig,

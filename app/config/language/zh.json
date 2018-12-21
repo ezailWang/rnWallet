@@ -69,7 +69,8 @@
 
         "tab_wallet":"钱包",
         "tab_mapping":"映射",
-        "tab_mys":"我的",
+        "tab_my":"我的",
+        "my":"我的",
 
         "total_assets":"总资产",
         "assets":"资产列表",

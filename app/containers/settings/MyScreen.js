@@ -150,7 +150,8 @@ class MyScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            newMessageCounts: 0
+            newMessageCounts: 0,
+            refreshPage: false,
         }
         this._setStatusBarStyleLight()
     }
@@ -162,20 +163,31 @@ class MyScreen extends BaseComponent {
         })
     }
 
+    gotoSet = () =>{
+        let _this = this;
+        this.props.navigation.navigate('SystemSet', {
+            callback: function () {
+                _this.setState({
+                    refreshPage: ! _this.state.refreshPage,
+                })
+            }
+        })
+    }
+
     renderComponent() {
         let topBg = require('../../assets/launch/splash_bg.png')
         let topLogo = require('../../assets/launch/splash_logo.png')
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.topBg} source={topBg}>
-                    <Text style={styles.topTitle}>我的</Text>
+                    <Text style={styles.topTitle}>{I18n.t('home.my')}</Text>
                     <Image style={styles.topLog} source={topLogo} resizeMode={'center'} />
                 </ImageBackground>
                 <Item title={I18n.t('settings.message_center')} icon={require('../../assets/home/menu/menu_notice.png')} itemOnPress={()=>this.props.navigation.navigate('MessageCenter')}
                       count={this.state.newMessageCounts}></Item>
                 <Item title={I18n.t('home.wallet_tool')} icon={require('../../assets/home/menu/menu_tool.png')} itemOnPress={()=>this.props.navigation.navigate('WalletList')}></Item>
                 <Item title={I18n.t('home.contact')} icon={require('../../assets/home/menu/menu_contact.png')} itemOnPress={()=>this.props.navigation.navigate('ContactList', {from: 'home'})}></Item>
-                <Item title={I18n.t('home.system_settings')} icon={require('../../assets/home/menu/menu_set.png')} itemOnPress={()=>this.props.navigation.navigate('SystemSet')} isNeedLine={false}></Item>
+                <Item title={I18n.t('home.system_settings')} icon={require('../../assets/home/menu/menu_set.png')} itemOnPress={this.gotoSet} isNeedLine={false}></Item>
                 <Item title={I18n.t('home.feedback')} icon={require('../../assets/home/menu/menu_feedback.png')} itemOnPress={()=>this.props.navigation.navigate('Feedback')} itemStyle={styles.marginTop10}></Item>
                 <Item title={I18n.t('home.about')} icon={require('../../assets/home/menu/menu_about.png')} itemOnPress={()=>this.props.navigation.navigate('AboutUs')} isNeedLine={false}></Item>
             </View>
