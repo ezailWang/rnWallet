@@ -200,7 +200,6 @@ class Loading extends Component {
 
         
         if (user) {
-            console.log('L_user',user)
             this.props.dispatch(setCurrentWallet(user))
         } else {
             console.log('user = null')

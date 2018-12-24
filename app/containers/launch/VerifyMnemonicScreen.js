@@ -191,7 +191,6 @@ class VerifyMnemonicScreen extends BaseComponent {
 
     _initData() {
         let params = this.props.createWalletParams;
-        console.log('L_params',params)
         if(params){
             this.isItc = params.isItc
             this.from = params.from
@@ -200,7 +199,6 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
 
         this.mnemonics = this.props.mnemonic.split(' ');
-        console.log("L_mnemonics", this.mnemonics)
         this.initAllData()
     }
 
@@ -371,26 +369,25 @@ class VerifyMnemonicScreen extends BaseComponent {
             } else {
                 wallets.push(wallet)
                 this.props.setIsNewWallet(true);
-                StorageManage.save(StorageKey.User, wallet)
-                this.props.setCurrentWallet(wallet)
             }
 
-
+            StorageManage.save(StorageKey.User, wallet)
             StorageManage.save(StorageKey.EthWalletList, wallets)
             this.props.setEthWalletList(wallets)
+            this.props.setCurrentWallet(wallet)
 
             this.setState({
                 isShowSLoading: false
             })
+
             if (user) {
-                /*let resetAction = NavigationActions.reset({
-                    index: 2,//打开actions中的第几个页面
-                    actions: [
-                        NavigationActions.navigate({ routeName: 'WalletList' })
-                    ]
-                })
-                this.props.navigation.dispatch(resetAction)*/
+                this.props.setTransactionRecordList([])
+                StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+
                 DeviceEventEmitter.emit('changeWalletList', {});
+                DeviceEventEmitter.emit('changeWallet', {});
+
+            
                 if(this.from == 1){
                     this.props.navigation.navigate('Home')
                     this.props.navigation.openDrawer()
@@ -402,7 +399,6 @@ class VerifyMnemonicScreen extends BaseComponent {
             }
 
         } catch (err) {
-            console.log('L_err', err)
             this.setState({
                 isShowSLoading: false
             })
@@ -575,6 +571,7 @@ const mapDispatchToProps = dispatch => ({
     setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
     setCreateWalletParams: (params) => dispatch(Actions.setCreateWalletParams(params)),
+    setTransactionRecordList : (records) => dispatch(Actions.setTransactionRecordList(records)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonicScreen)

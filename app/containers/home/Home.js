@@ -35,8 +35,8 @@ import BaseComponent from '../base/BaseComponent'
 import JPushModule from 'jpush-react-native'
 import DeviceInfo from 'react-native-device-info'
 
-hiddenIcon_invi = require('../../assets/home/psd_invi_w.png')
-hiddenIcon_vi = require('../../assets/home/psd_vi_w.png')
+const hiddenIcon_invi = require('../../assets/home/psd_invi_w.png')
+const hiddenIcon_vi = require('../../assets/home/psd_vi_w.png')
 class HomeScreen extends BaseComponent {
     constructor(props) {
         super(props)
@@ -56,12 +56,14 @@ class HomeScreen extends BaseComponent {
     }
 
     componentWillMount() {
+        this._isMounted = true
         this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this._addEventListener();
         this._addChangeListener()
     }
 
     componentWillUnmount() {
+        this._isMounted = false
         this.versionUpdateHandler && this.versionUpdateHandler.remove();
         this._removeEventListener();
         this._removeChangeListener()
@@ -168,6 +170,7 @@ class HomeScreen extends BaseComponent {
         this._hideLoading()
     }
 
+
     onRefresh = async () => {
         this.setState({
             isRefreshing: true
@@ -178,15 +181,17 @@ class HomeScreen extends BaseComponent {
         })
     }
 
+
     formatAddress(address) {
         return address.substr(0, 10) + '...' + address.slice(-10)
     }
 
+
     _changeWalletEmitter = async (data) => {
         this._showLoding()
 
+
         let address = this.props.wallet.address
-        // this.props.navigation.openDrawer()
 
         let localUser = await StorageManage.load(StorageKey.User)
         if (localUser && localUser['isTotalAssetsHidden']) {
@@ -196,12 +201,12 @@ class HomeScreen extends BaseComponent {
         }
 
         await this.userInfoUpdate(address)
-        /* await this.walletRegister(address)
-         await this.getMessageCount()*/
         await NetworkManager.loadTokenList()
+
 
         this._hideLoading()
     }
+
 
     async userInfoUpdate(address) {
         let params = {
@@ -211,16 +216,17 @@ class HomeScreen extends BaseComponent {
         NetworkManager.userInfoUpdate(params)
             .then((response) => {
                 if (response.code === 200) {
-                    console.log('L_userInfoUpdate')
                     this.walletRegister(address)
                 } else {
                     console.log('userInfoUpdate err msg:', response.msg)
                 }
             })
             .catch((err) => {
+                this._hideLoading()
                 console.log('userInfoUpdate err:', err)
             })
     }
+
 
     async walletRegister(address) {
 
@@ -240,7 +246,6 @@ class HomeScreen extends BaseComponent {
             NetworkManager.deviceRegister(params)
                 .then((response) => {
                     if (response.code === 200) {
-                        console.log('L_walletRegister')
                         StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
                         this.getMessageCount()
                     } else {
@@ -248,6 +253,7 @@ class HomeScreen extends BaseComponent {
                     }
                 })
                 .catch((err) => {
+                    this._hideLoading()
                     console.log('deviceRegister err:', err)
                 })
         })
@@ -268,13 +274,12 @@ class HomeScreen extends BaseComponent {
             .then(response => {
                 if (response.code === 200) {
                     let messageCount = response.data.account;
-                    //DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
-                    console.log('L_getMessageCount')
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
                 } else {
                     console.log('getMessageCount err msg:', response.msg)
                 }
             }).catch(err => {
+                this._hideLoading()
                 console.log('getMessageCount err:', err)
             })
     }
@@ -369,7 +374,6 @@ class HomeScreen extends BaseComponent {
     }
 
     versionUpdateRightPress = () => {
-
         this.setState({
             versionUpdateModalVisible: false
         })

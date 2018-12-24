@@ -133,11 +133,9 @@ class Item extends PureComponent {
                         <Image style={styles.itemNextIcon} source={require('../../assets/set/next.png')} resizeMode={'center'} />
                     </View>
                 </TouchableOpacity>
-
                 {
                     this.props.isNeedLine ? <View style={styles.itemLine}></View> : null
                 }
-
             </View>
 
         )

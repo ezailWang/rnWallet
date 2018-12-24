@@ -40,7 +40,6 @@ import ItcMappingServiceScreen from './mapping/ItcMappingServiceScreen'
 import MappingRecordsScreen from './mapping/MappingRecordsScreen'
 import MappingRecordDetailScreen from './mapping/MappingRecordDetailScreen'
 import WalletListScreen from './settings/WalletListScreen'
-import CreateMoreWalletScreen from './settings/CreateMoreWalletScreen'
 export {
     HomeScreen,
     Transaction,
@@ -84,5 +83,4 @@ export {
     MappingRecordsScreen,
     MappingRecordDetailScreen,
     WalletListScreen,
-    CreateMoreWalletScreen
 }

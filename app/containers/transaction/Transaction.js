@@ -407,13 +407,9 @@ export default class Transaction extends BaseComponent {
     }
 
     async didTapSurePasswordBtn (password){
-        // console.warn("输入密码--",password);
         this._showLoding()
         let { wallet } = store.getState().Core
         setTimeout(async ()=>{
-
-            // console.log("开始执行")
-
             let  privateKey
             try{
                 privateKey = await KeystoreUtils.getPrivateKey(password,wallet.address)

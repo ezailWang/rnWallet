@@ -48,13 +48,13 @@ class RightDrawer extends BaseComponent {
         store.dispatch(setTransactionRecordList([]));
         StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
 
-        
-        
-        DeviceEventEmitter.emit('changeWallet', {});
-
         this.setState({
             refreshPage: !this.state.refreshPage
         })
+        
+        DeviceEventEmitter.emit('changeWallet', {});
+
+        
     }
 
     createEthOrItcWallet = (isItc) => {
@@ -85,7 +85,7 @@ class RightDrawer extends BaseComponent {
         itcWalletList.forEach(function (wallet, index) {
             let isSelected = wallet.address.toLowerCase() == currentWallet.address.toLowerCase()
             itcWalletsView.push(
-                <Item key={index} wallet={wallet} itemOnPress={_this.itcWalletOnPress} is />
+                <Item key={index} wallet={wallet} isSelected={isSelected} itemOnPress={() => _this.itcWalletOnPress(wallet)} />
             )
         })
 

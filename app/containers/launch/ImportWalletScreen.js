@@ -163,12 +163,12 @@ class ImportWalletScreen extends BaseComponent {
 
     _initData() {
         let params = this.props.createWalletParams;
-        if(params){
+        if (params) {
             this.setState({
                 isItc: params.isItc
             })
             this.from = params.from
-        }  
+        }
     }
 
 
@@ -334,7 +334,6 @@ class ImportWalletScreen extends BaseComponent {
         Keyboard.dismiss();
         let warnMessage = '';
         let mnemonic = this.mnemonictxt;
-        console.log('L_mnemonic',mnemonic)
         let pwd = this.pwdtxt;
         let rePwd = this.rePwdtxt;
         if (mnemonic == '') {
@@ -348,9 +347,7 @@ class ImportWalletScreen extends BaseComponent {
         } else {
             let str = stringTrim(mnemonic);
             let m = resetStringBlank(str);//将字符串中的多个空格缩减为一个空格
-            console.log('L_mnemonic',m)
             let mnemonicIsOk = await walletUtils.validateMnemonic(m);//验证助记词
-            console.log('L_mnemonic_1',mnemonicIsOk)
             if (!mnemonicIsOk) {
                 warnMessage = I18n.t('toast.check_mnemonic_is_correct')
             }
@@ -427,9 +424,12 @@ class ImportWalletScreen extends BaseComponent {
             }
             let isExist = false;
             let wallets = [];
+
+
+
             if (user) {
                 let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-                if(!ethWalletList){
+                if (!ethWalletList) {
                     ethWalletList = []
                 }
                 for (let i = 0; i < ethWalletList.length; i++) {
@@ -443,15 +443,15 @@ class ImportWalletScreen extends BaseComponent {
                 }
             } else {
                 wallets.push(wallet)
-
                 this.props.setIsNewWallet(true);
-                StorageManage.save(StorageKey.User, wallet)
-                this.props.setCurrentWallet(wallet)
             }
-           
 
-         
-        
+
+            StorageManage.save(StorageKey.User, wallet)
+            StorageManage.save(StorageKey.EthWalletList, wallets)
+            this.props.setEthWalletList(wallets)
+            this.props.setCurrentWallet(wallet)
+
 
             this.setState({
                 isShowSLoading: false
@@ -463,11 +463,16 @@ class ImportWalletScreen extends BaseComponent {
                 this.props.setEthWalletList(wallets)
 
                 if (user) {
+                    this.props.setTransactionRecordList([])
+                    StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+
                     DeviceEventEmitter.emit('changeWalletList', {});
-                    if(this.from == 1){
+                    DeviceEventEmitter.emit('changeWallet', {});
+
+                    if (this.from == 1) {
                         this.props.navigation.navigate('Home')
                         this.props.navigation.openDrawer()
-                    }else if(this.from == 2){
+                    } else if (this.from == 2) {
                         this.props.navigation.navigate('WalletList')
                     }
                 } else {
@@ -621,5 +626,6 @@ const mapDispatchToProps = dispatch => ({
     setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
     setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
+    setTransactionRecordList: (records) => dispatch(Actions.setTransactionRecordList(records)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWalletScreen)

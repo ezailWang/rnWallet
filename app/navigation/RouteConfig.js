@@ -62,7 +62,6 @@ import {
     ImportWalletScreen,
     VerifyMnemonicScreen,
     HomeScreen,
-    SetContainers,
     MyScreen,
     SetScreen,
     ModifyPasswordScreen,
@@ -94,10 +93,8 @@ import {
     ItcMappingServiceScreen,
     MappingRecordsScreen,
     MappingRecordDetailScreen,
-    WalletListScreen,
-    CreateMoreWalletScreen
+    WalletListScreen
 } from '../containers/Containers';
-import { I18n } from '../config/language/i18n'
 //首次启动导航栈
 const FirstLaunchRouteConfig =
 {
@@ -295,9 +292,6 @@ const HomeRouteConfig =
 
     WalletList:{
         screen:WalletListScreen
-    },
-    CreateMoreWallet:{
-        screen:CreateMoreWalletScreen
     },
     ServiceAgreement: {
         screen: ServiceAgreementScreen
