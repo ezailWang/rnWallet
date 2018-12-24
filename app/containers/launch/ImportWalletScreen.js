@@ -156,7 +156,6 @@ class ImportWalletScreen extends BaseComponent {
         this.timeIntervalCount = 0;
 
 
-        this.user = null
         this.itcWalletList = null
         this.ethWalletList = null
     }
@@ -347,6 +346,7 @@ class ImportWalletScreen extends BaseComponent {
         } else {
             let str = stringTrim(mnemonic);
             let m = resetStringBlank(str);//将字符串中的多个空格缩减为一个空格
+            console.log('L_m',m)
             let mnemonicIsOk = await walletUtils.validateMnemonic(m);//验证助记词
             if (!mnemonicIsOk) {
                 warnMessage = I18n.t('toast.check_mnemonic_is_correct')
@@ -390,10 +390,8 @@ class ImportWalletScreen extends BaseComponent {
     }
 
     async getWalletData() {
-        this.user = await StorageManage.load(StorageKey.User)
         this.itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
         this.ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-
     }
 
     async importEthWallet() {
@@ -414,8 +412,6 @@ class ImportWalletScreen extends BaseComponent {
             var keyObject = await KeystoreUtils.dump(password, privateKey, dk.salt, dk.iv);
             await KeystoreUtils.exportToFile(keyObject, "keystore")
 
-
-            let user = await StorageManage.load(StorageKey.User)
             let wallet = {
                 name: this.nametxt,
                 address: checksumAddress,
@@ -425,9 +421,7 @@ class ImportWalletScreen extends BaseComponent {
             let isExist = false;
             let wallets = [];
 
-
-
-            if (user) {
+            if (this.from == 1 || this.from == 2) {
                 let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
                 if (!ethWalletList) {
                     ethWalletList = []
@@ -446,41 +440,19 @@ class ImportWalletScreen extends BaseComponent {
                 this.props.setIsNewWallet(true);
             }
 
-
-            StorageManage.save(StorageKey.User, wallet)
-            StorageManage.save(StorageKey.EthWalletList, wallets)
-            this.props.setEthWalletList(wallets)
-            this.props.setCurrentWallet(wallet)
-
-
-            this.setState({
-                isShowSLoading: false
-            })
             if (isExist) {
+                this.setState({
+                    isShowSLoading: false
+                })
                 this._showAlert('您已经导入该钱包')
             } else {
+                StorageManage.save(StorageKey.User, wallet)
                 StorageManage.save(StorageKey.EthWalletList, wallets)
                 this.props.setEthWalletList(wallets)
-
-                if (user) {
-                    this.props.setTransactionRecordList([])
-                    StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-
-                    DeviceEventEmitter.emit('changeWalletList', {});
-                    DeviceEventEmitter.emit('changeWallet', {});
-
-                    if (this.from == 1) {
-                        this.props.navigation.navigate('Home')
-                        this.props.navigation.openDrawer()
-                    } else if (this.from == 2) {
-                        this.props.navigation.navigate('WalletList')
-                    }
-                } else {
-                    this.props.navigation.navigate('Home')
-                }
+                this.props.setCurrentWallet(wallet)
+             
+                this.routeTo()
             }
-
-
         } catch (err) {
             this.setState({
                 isShowSLoading: false
@@ -491,11 +463,31 @@ class ImportWalletScreen extends BaseComponent {
         }
     }
 
+    routeTo() {
+        this.setState({
+            isShowSLoading: false
+        })
+        if (this.from == 1 || this.from == 2) {
+            this.props.setTransactionRecordList([])
+            StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+
+            DeviceEventEmitter.emit('changeWalletList', {});
+            DeviceEventEmitter.emit('changeWallet', {});
+
+            if (this.from == 1) {
+                this.props.navigation.navigate('Home')
+                this.props.navigation.openDrawer()
+            } else if (this.from == 2) {
+                this.props.navigation.navigate('WalletList')
+            }
+        } else {
+            this.props.navigation.navigate('Home')
+        }
+    }
+
     getRePwdMeasure() {
         rePwdRef.measure()
     }
-
-
     isOpenPwd() {
         this.setState({ isShowPassword: !this.state.isShowPassword });
     }

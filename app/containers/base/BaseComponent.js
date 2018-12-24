@@ -153,9 +153,7 @@ export default class BaseComponent extends PureComponent {
 
     //显示Loading
     _showLoding() {
-        console.log('L_Base1')
         if (this._isMounted) {
-            console.log('L_Base')
             this.setState({
                 isShowLoading: true,
             })

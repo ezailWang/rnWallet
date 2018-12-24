@@ -22,6 +22,7 @@ import BaseComponent from '../../containers/base/BaseComponent'
 import PropTypes from 'prop-types';
 import lodash from 'lodash'
 import Toast from 'react-native-root-toast';
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -174,6 +175,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
         }
 
+        
         this.from = 0; // 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入
         this.isItc = false;
         this.password = '';
@@ -199,13 +201,14 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
 
         this.mnemonics = this.props.mnemonic.split(' ');
+        console.log("L_mnemonics",this.mnemonics)
         this.initAllData()
     }
 
     initAllData() {
         this.scrollToX = 0;
         this.sectionMnemonics = upsetArrayOrder(this.props.mnemonic.split(' ')).splice(0, 4);
-        this.wordList = upsetArrayOrder(bip39.wordlists.english).splice(0, 100);
+        this.wordList = bip39.wordlists.english
         this.matchCorrectNum = 0
         this.getRandomArray();
         this.scroll.scrollTo({ x: 0, y: 0, animated: true });
@@ -215,12 +218,13 @@ class VerifyMnemonicScreen extends BaseComponent {
     getRandomArray() {
         let randomSectionMnemonics = [];
         let numberArray = [];
+        let wordListLength = this.wordList.length
         for (let i = 0; i < this.sectionMnemonics.length; i++) {
             let arr = [];
             let word = this.sectionMnemonics[i].toLowerCase()
             arr.push(word)
             do {
-                let i = Math.floor(Math.random() * (1 - 100) + 100);//获取1-100的随机数
+                let i = Math.floor(Math.random() * (1 - wordListLength) + wordListLength);//获取1-wordListLength的随机数
                 let w = this.wordList[i - 1].toLowerCase();
                 let isExist = false;
                 for (let j = 0; j < arr.length; j++) {
@@ -329,6 +333,10 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
     }
 
+    async startCreateItcWallet(){
+
+    }
+
 
     async startCreateEthWallet() {
         try {
@@ -350,8 +358,6 @@ class VerifyMnemonicScreen extends BaseComponent {
             //var newKeyObject = JSON.parse(str)
 
 
-            let user = await StorageManage.load(StorageKey.User)
-
             let wallet = {
                 name: this.name,
                 address: checksumAddress,
@@ -359,45 +365,26 @@ class VerifyMnemonicScreen extends BaseComponent {
                 isItcWallet: false
             }
             let wallets = [];
-            if (user) {
+            if (this.from == 1 || this.from == 2) {
                 let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
                 if(!ethWalletList){
                     ethWalletList = []
                 }
                 wallets = ethWalletList.concat(wallet)
-
             } else {
                 wallets.push(wallet)
                 this.props.setIsNewWallet(true);
-            }
+            }  
 
-            StorageManage.save(StorageKey.User, wallet)
             StorageManage.save(StorageKey.EthWalletList, wallets)
             this.props.setEthWalletList(wallets)
+            
+            StorageManage.save(StorageKey.User, wallet)
             this.props.setCurrentWallet(wallet)
 
-            this.setState({
-                isShowSLoading: false
-            })
-
-            if (user) {
-                this.props.setTransactionRecordList([])
-                StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-
-                DeviceEventEmitter.emit('changeWalletList', {});
-                DeviceEventEmitter.emit('changeWallet', {});
-
+            //页面跳转
+            this.routeTo()
             
-                if(this.from == 1){
-                    this.props.navigation.navigate('Home')
-                    this.props.navigation.openDrawer()
-                }else if(this.from == 2){
-                    this.props.navigation.navigate('WalletList')
-                }
-            } else {
-                this.props.navigation.navigate('Home')
-            }
-
         } catch (err) {
             this.setState({
                 isShowSLoading: false
@@ -405,6 +392,28 @@ class VerifyMnemonicScreen extends BaseComponent {
 
             showToast(I18n.t('toast.create_wallet_error'), Toast.positions.TOP + 10);
             this.initAllData()
+        }
+    }
+
+    routeTo(){
+        if(this.from == 1 || this.from == 2){
+            this.props.setTransactionRecordList([])
+            StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+    
+            DeviceEventEmitter.emit('changeWalletList', {});
+            DeviceEventEmitter.emit('changeWallet', {});
+        }
+        this.setState({
+            isShowSLoading: false
+        })
+       
+        if(this.from == 1){
+            this.props.navigation.navigate('Home')
+            this.props.navigation.openDrawer()
+        }else if(this.from == 2){
+            this.props.navigation.navigate('WalletList')
+        }else{
+            this.props.navigation.navigate('Home')
         }
     }
 
