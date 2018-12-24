@@ -58,13 +58,13 @@ class RightDrawer extends BaseComponent {
     }
 
     createEthOrItcWallet = (isItc) => {
-        // this.navigateToScreen('CreateMoreWallet', { isItc: isItc })
+        // this.navigateToScreen('CreateWallet', { isItc: isItc })
         let params = {
             isItc: isItc,
             from: 1
         }
         store.dispatch(setCreateWalletParams(params));
-        this.props.navigation.navigate('CreateMoreWallet')
+        this.props.navigation.navigate('CreateWallet')
     }
 
     

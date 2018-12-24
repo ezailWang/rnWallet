@@ -354,10 +354,11 @@ class VerifyMnemonicScreen extends BaseComponent {
 
             let user = await StorageManage.load(StorageKey.User)
 
-            let object = {
+            let wallet = {
                 name: this.name,
                 address: checksumAddress,
                 extra: '',
+                isItcWallet: false
             }
             let wallets = [];
             if (user) {
@@ -365,13 +366,13 @@ class VerifyMnemonicScreen extends BaseComponent {
                 if(!ethWalletList){
                     ethWalletList = []
                 }
-                wallets = ethWalletList.concat(object)
+                wallets = ethWalletList.concat(wallet)
 
             } else {
-                wallets.push(object)
+                wallets.push(wallet)
                 this.props.setIsNewWallet(true);
-                StorageManage.save(StorageKey.User, object)
-                this.props.setCurrentWallet(object)
+                StorageManage.save(StorageKey.User, wallet)
+                this.props.setCurrentWallet(wallet)
             }
 
 

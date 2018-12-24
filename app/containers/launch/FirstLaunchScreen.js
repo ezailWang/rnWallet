@@ -285,6 +285,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     _versionUpdateEmitter = (info) => {
+        console.log('L_firstlaunch_版本更新')
         if (!this.state.versionUpdateModalVisible) {
             this.versionUpdateInfo = info.updateInfo
             this.setState({

@@ -83,7 +83,7 @@ class Loading extends Component {
         NetworkManager.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
-
+                    console.log('L_版本更新')
                     let contents = response.data.content.split('&')
                     let updateInfo = {
                         contents:contents,
@@ -99,7 +99,6 @@ class Loading extends Component {
                 console.log('getVersionUpdateInfo err:', err)
             })
 
-        console.log('L_wallet',this.props.wallet)
         if (this.props.wallet) {
             return this.props.navigation.navigate('HomeTab')
         } else {
@@ -118,6 +117,37 @@ class Loading extends Component {
         let monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
         let pinInfo = await StorageManage.load(StorageKey.PinInfo)
         let contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact)
+        let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
+        let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
+        if(!ethWalletList){
+            ethWalletList =[]
+        }
+        if(user && user.isItcWallet === undefined){
+            user.isItcWallet = false
+            let ethWallet = {
+                name: user.name,
+                address: user.address,
+                extra: user.extra,
+                isItcWallet: false
+            }
+            
+            if(ethWalletList){
+                ethWalletList = ethWalletList.concat(ethWallet)
+            }else{
+                ethWalletList.push(ethWallet)
+            }
+            StorageManage.save(StorageKey.EthWalletList, ethWalletList)
+        }
+
+        if(ethWalletList){
+            this.props.dispatch(setEthWalletList(ethWalletList))
+        }
+        if(itcWalletList){
+            this.props.dispatch(setItcWalletList(itcWalletList))
+        }
+
+        
+
         //addDefaultTokens();
         if (net) {
             this.props.dispatch(setNetWork(net))
@@ -164,13 +194,13 @@ class Loading extends Component {
         }
 
         this.props.dispatch(setIsNewWallet(false))
-        this.getWalletList()
         this.getAllTokens()
         this.getMessageCount()
         
 
-        console.log('L_user',user)
+        
         if (user) {
+            console.log('L_user',user)
             this.props.dispatch(setCurrentWallet(user))
         } else {
             console.log('user = null')
@@ -231,18 +261,7 @@ class Loading extends Component {
         })
     }
 
-    //获取钱包列表
-    async getWalletList(){
-        let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-        let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
-        if(ethWalletList){
-            this.props.dispatch(setEthWalletList(ethWalletList))
-        }
-        if(itcWalletList){
-            this.props.dispatch(setItcWalletList(itcWalletList))
-        }
-    }
-
+    
     //获取未度消息数
     async getMessageCount() {
 

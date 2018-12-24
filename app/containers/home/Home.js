@@ -384,6 +384,7 @@ class HomeScreen extends BaseComponent {
     }
 
     _versionUpdateEmitter = (info) => {
+        console.log('L_home_版本更新')
         if (!this.state.versionUpdateModalVisible) {
             this.versionUpdateInfo = info.updateInfo
             this.setState({

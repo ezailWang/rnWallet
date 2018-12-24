@@ -125,7 +125,7 @@ class WalletListScreen extends BaseComponent {
             from: 2
         }
         this.props.setCreateWalletParams(params);
-        this.props.navigation.navigate('CreateMoreWallet')
+        this.props.navigation.navigate('CreateWallet')
     }
 
     itcWalletOnPress = (wallet) => {

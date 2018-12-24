@@ -419,10 +419,11 @@ class ImportWalletScreen extends BaseComponent {
 
 
             let user = await StorageManage.load(StorageKey.User)
-            let object = {
+            let wallet = {
                 name: this.nametxt,
                 address: checksumAddress,
                 extra: '',
+                isItcWallet: false
             }
             let isExist = false;
             let wallets = [];
@@ -438,14 +439,14 @@ class ImportWalletScreen extends BaseComponent {
                     }
                 }
                 if (!isExist) {
-                    wallets = ethWalletList.concat(object)
+                    wallets = ethWalletList.concat(wallet)
                 }
             } else {
-                wallets.push(object)
+                wallets.push(wallet)
 
                 this.props.setIsNewWallet(true);
-                StorageManage.save(StorageKey.User, object)
-                this.props.setCurrentWallet(object)
+                StorageManage.save(StorageKey.User, wallet)
+                this.props.setCurrentWallet(wallet)
             }
            
 
