@@ -12,6 +12,7 @@ import Layout from '../../config/LayoutConstants'
 import { androidPermission } from '../../utils/PermissionsAndroid';
 import NetworkManager from '../../utils/NetworkManager'
 import { I18n } from '../../config/language/i18n'
+import DeviceInfo from 'react-native-device-info'
 import MyAlertComponent from '../../components/MyAlertComponent'
 import BaseComponent from '../../containers/base/BaseComponent'
 
@@ -53,17 +54,20 @@ class FirstLaunchScreen extends BaseComponent {
         this._setStatusBarStyleLight()
     }
 
-    _initData() {
+    async _initData() {
         SplashScreen.hide()
+        this.versionUpdate()
     }
 
     componentWillMount() {
+        this._isMounted = true
         this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this._addEventListener();
         this._addChangeListener()
     }
 
     componentWillUnmount() {
+        this._isMounted = false
         this.versionUpdateHandler && this.versionUpdateHandler.remove();
         this._removeEventListener();
         this._removeChangeListener()
@@ -250,6 +254,7 @@ class FirstLaunchScreen extends BaseComponent {
             this.props.navigation.navigate('CreateWallet')
         } else {
             this.props.navigation.navigate('ImportWallet')
+            //this.props.navigation.navigate('ChoseWalletType')
         }
     }
 
@@ -292,6 +297,35 @@ class FirstLaunchScreen extends BaseComponent {
                 versionUpdateModalVisible: true
             })
         }
+    }
+
+    async versionUpdate() {
+        let params = {
+            'system': Platform.OS,
+            'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
+            'language': I18n.locale
+        }
+        NetworkManager.getVersionUpdateInfo(params)
+            .then((response) => {
+                if (response.code === 200) {
+                    console.log('L_版本更新')
+                    let contents = response.data.content.split('&')
+                    let updateInfo = {
+                        contents: contents,
+                        updateUrl: response.data.updateUrl
+                    }
+                    this.versionUpdateInfo = updateInfo
+                    this.setState({
+                        versionUpdateModalVisible: true
+                    })
+
+                } else {
+                    console.log('getVersionUpdateInfo err msg:', response.msg)
+                }
+            })
+            .catch((err) => {
+                console.log('getVersionUpdateInfo err:', err)
+            })
     }
 
 

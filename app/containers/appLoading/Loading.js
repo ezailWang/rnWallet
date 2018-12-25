@@ -80,7 +80,7 @@ class Loading extends Component {
         }
 
     
-        NetworkManager.getVersionUpdateInfo(params)
+        /*NetworkManager.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
                     console.log('L_版本更新')
@@ -97,7 +97,7 @@ class Loading extends Component {
             })
             .catch((err) => {
                 console.log('getVersionUpdateInfo err:', err)
-            })
+            })*/
 
         if (this.props.wallet) {
             return this.props.navigation.navigate('HomeTab')

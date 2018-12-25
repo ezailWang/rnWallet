@@ -34,12 +34,14 @@ import MessageCenterScreen from './settings/MessageCenterScreen'
 import MessageWebViewScreen from './settings/MessageWebViewScreen'
 import AddressListScreen from './settings/AddressListScreen'
 import MappingTermsScreen from './mapping/MappingTermsScreen'
-import BindReplaceAddressScreen from './mapping/BindReplaceAddressScreen'
-import BindReplaceAddressErcScreen from './mapping/BindReplaceAddressErcScreen'
+import ChangeBindAddressScreen from './mapping/ChangeBindAddressScreen'
+import BindWalletAddressScreen from './mapping/BindWalletAddressScreen'
 import ItcMappingServiceScreen from './mapping/ItcMappingServiceScreen'
 import MappingRecordsScreen from './mapping/MappingRecordsScreen'
 import MappingRecordDetailScreen from './mapping/MappingRecordDetailScreen'
+import MappingGuideScreen from './mapping/MappingGuideScreen'
 import WalletListScreen from './settings/WalletListScreen'
+import ChoseWalletTypeScreen from './launch/ChoseWalletTypeScreen'
 export {
     HomeScreen,
     Transaction,
@@ -77,10 +79,12 @@ export {
     MessageWebViewScreen,
     AddressListScreen,
     MappingTermsScreen,
-    BindReplaceAddressScreen,
-    BindReplaceAddressErcScreen,
+    ChangeBindAddressScreen,
+    BindWalletAddressScreen,
     ItcMappingServiceScreen,
     MappingRecordsScreen,
     MappingRecordDetailScreen,
+    MappingGuideScreen,
     WalletListScreen,
+    ChoseWalletTypeScreen
 }

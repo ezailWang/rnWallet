@@ -11,7 +11,10 @@ import {
     ScrollView,
     StatusBar,
     Keyboard,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    ImageBackground,
+    UIManager,
+    findNodeHandle
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
@@ -35,62 +38,70 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     modalKeyboardAwareScrollView: {
-        height: 400,
+        height: 450,
         //width: contentWidth,
     },
 
     topImg: {
-        width: contentWidth,
-        height: contentWidth / 288 * 76,
+        width: contentWidth - 40,
+        height: (contentWidth - 40) / 288 * 76,
         alignSelf: 'center',
-        marginTop: 16,
+        marginTop: 12,
         marginBottom: 16,
+        justifyContent: 'flex-end'
+    },
+    mappingGuideBox: {
+        textAlignVertical: 'bottom',
+        paddingTop: 15,
+        paddingBottom: 5,
+        alignSelf: 'center'
+    },
+    mappingGuideText: {
+        fontSize: 14,
+        color: Colors.fontBlueColor,
+        textDecorationLine: 'underline',
     },
     mAddressBox: {
         width: contentWidth,
         alignSelf: 'center',
-    },
-    mAddressContent: {
-        alignSelf: 'center',
-        width: contentWidth,
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 15,
         backgroundColor: 'white',
         borderRadius: 5,
         borderWidth: 1,
         borderColor: Colors.bgGrayColor_ed,
-        padding: 15,
-
     },
-    mAddressTitleView: {
-        flexDirection: 'row',
+    mAddressContent: {
+        flex: 1,
     },
     mAddressTitle: {
-        color: Colors.fontGrayColor_a,
-        fontSize: 14,
-        height: 22,
-        lineHeight: 22,
-    },
-    mAddressWarnView: {
-        //marginLeft: 10,
-    },
-    mAddressWarnTouch: {
-        width: 40,
-        height: 22,
-    },
-    warnIcon: {
-        width: 22,
-        height: 22,
-    },
-    triangleIcon: {
-        width: 21,
-        height: 10,
-        marginTop: -5,
+        color: Colors.fontBlackColor_43,
+        fontSize: 15,
+        marginBottom: 6
     },
     mAddressText: {
         color: Colors.fontGrayColor_a,
         fontSize: 14,
-        width: contentWidth - 30,
-        textAlign: 'left',
     },
+    changeBox: {
+        flexDirection: 'row',
+        height: 40,
+        alignItems: 'center',
+        marginLeft: 20,
+    },
+    changeText: {
+        color: Colors.fontGrayColor_a0,
+        fontSize: 15,
+        paddingRight: 5
+    },
+    changeIcon: {
+        width: 12,
+        height: 12,
+    },
+
+
+
     mAmountTitle: {
         width: contentWidth,
         alignSelf: 'center',
@@ -136,24 +147,58 @@ const styles = StyleSheet.create({
         width: contentWidth,
         color: Colors.fontGrayColor_a,
         fontSize: 14,
-        marginTop: 2,
+        marginTop: 5,
         alignSelf: 'center',
     },
     btn: {
         alignSelf: 'center',
     },
 
-    warnDescView: {
+
+    initiationAddressBox: {
+        width: contentWidth,
+        alignSelf: 'center'
+    },
+    initiationAddressContent: {
+        width: contentWidth,
+        flexDirection: 'row',
+        height: 30,
+    },
+    initiationAddressText: {
+        color: Colors.fontGrayColor_a,
+        fontSize: 14,
+        marginTop: 5,
+    },
+    promptBox: {
+        flex: 1,
+    },
+    promptTouch: {
+        width: 40,
+        height: 30,
+        paddingLeft: 5,
+        paddingTop: 6,
+    },
+    promptIcon: {
+        width: 12,
+        height: 12,
+    },
+    triangleIcon: {
+        width: 12,
+        height: 10,
+        marginTop: -8,
+        marginLeft: 5,
+    },
+    promptDescView: {
         position: 'absolute',
-        width: contentWidth - 30,
+        width: contentWidth,
         alignSelf: 'center',
         backgroundColor: 'rgba(63,193,255,0.8)',
         borderRadius: 5,
-        padding: 6,
-        marginTop: 40,
-        marginBottom: 10,
+        padding: 10,
+        marginTop: 30,
+        zIndex: 10
     },
-    warnDesc: {
+    promptDesc: {
         fontSize: 13,
         color: 'white'
     },
@@ -166,31 +211,30 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.blackOpacityColor,
     },
     modalContent: {
-        height: 400,
-        backgroundColor: 'white',
+        //height: 450,
+        flex:1,
+        marginTop:Layout.WINDOW_HEIGHT - 450,
         width: Layout.WINDOW_WIDTH,
     },
     modalKeyboardContainer: {
-        //marginTop: Platform.OS === 'android' ? Layout.ScreenHeight - 400 - StatusBarHeight : Layout.ScreenHeight - 400,
         width: Layout.WINDOW_WIDTH,
-        //height: 400,
-        flex: 1,
+        height: 450,
         marginBottom: 0,
         marginRight: 0,
         marginLeft: 0,
     },
     modalScrollView: {
-        marginTop: Platform.OS === 'android' ? Layout.ScreenHeight - 400 - StatusBarHeight : Layout.ScreenHeight - 400,
+        //marginTop: Platform.OS === 'android' ? Layout.ScreenHeight - 450 - StatusBarHeight : Layout.ScreenHeight - 450,
         flexDirection: 'row',
         flex: 1,
         width: Layout.WINDOW_WIDTH,
-        //height: 400,
         marginBottom: 0,
+        height:450,
         backgroundColor: 'white',
     },
     mDetailBox: {
         width: Layout.WINDOW_WIDTH,
-        height: 400,
+        height: 450,
         alignItems: 'center'
     },
     mTitleView: {
@@ -234,18 +278,18 @@ const styles = StyleSheet.create({
     },
     mDetailItemTitle: {
         color: Colors.fontGrayColor_a,
-        fontSize: 16,
+        fontSize: 15,
         width: 80,
     },
     mDetailItemDesc: {
         flex: 1,
     },
     mDetailItemGray: {
-        fontSize: 15,
+        fontSize: 14,
         color: Colors.fontGrayColor_a,
     },
     mDetailItemBlack: {
-        fontSize: 15,
+        fontSize: 14,
         color: Colors.fontBlackColor_43,
     },
 
@@ -262,10 +306,10 @@ const styles = StyleSheet.create({
 
     mPwdBox: {
         width: Layout.WINDOW_WIDTH,
-        height: 400,
+        height: 450,
         alignItems: 'center',
         marginRight: 0,
-        marginTop: 0,
+        marginBottom: 0,
     },
     mPwdBackBtn: {
         width: 50,
@@ -310,8 +354,37 @@ const styles = StyleSheet.create({
     },
     modalConfirmBtn: {
         marginBottom: 30,
-    }
+    },
 
+    modalPromptBox: {
+        flexDirection: 'row',
+        width: 80,
+    },
+    mPropmptDetailItemTitle: {
+        color: Colors.fontGrayColor_a,
+        fontSize: 15,
+        width: 60,
+
+    },
+    modalPromptTouch: {
+        width: 20,
+        height: 30,
+    },
+    modalTriangleIcon: {
+        width: 12,
+        height: 10,
+        marginTop: -14,
+    },
+    modalPromptDescView: {
+        position: 'absolute',
+        width: contentWidth,
+        alignSelf: 'center',
+        backgroundColor: 'rgba(63,193,255,0.8)',
+        borderRadius: 5,
+        padding: 10,
+        top: 38,
+        zIndex: 10
+    },
 
 })
 
@@ -323,8 +396,12 @@ class ItcMappingServiceScreen extends BaseComponent {
             mappingAddress: '',//专属映射地址
             initiationAddress: '',//发起地址
             gasCost: '',//Gas费用
-            isShowWarn: false,
+            isShowPrompt: false,
             isDisabled: true,
+            itcWallet: {
+                name: 'wallet',
+                address: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a'
+            },
 
             isShowMappingDetail: false,
         }
@@ -358,7 +435,7 @@ class ItcMappingServiceScreen extends BaseComponent {
 
     warnBtn = () => {
         this.setState({
-            isShowWarn: !this.state.isShowWarn,
+            isShowPrompt: !this.state.isShowPrompt,
         })
     }
 
@@ -387,6 +464,23 @@ class ItcMappingServiceScreen extends BaseComponent {
         this.props.navigation.navigate('MappingRecords')
     }
 
+    _onChaneAddressPress = () => {
+        let _this = this;
+        this.props.navigation.navigate('ChangeBindAddress', {
+            callback: function (data) {
+                let itcWallet = data.itcWallet;
+                _this.setState({
+                    itcWallet: itcWallet
+                })
+            }
+        })
+    }
+
+    _toMappingGuide = () => {
+        this.props.navigation.navigate('MappingGuide')
+    }
+
+
 
     renderComponent() {
         let topImg = require('../../assets/mapping/mappingService.png')
@@ -414,35 +508,25 @@ class ItcMappingServiceScreen extends BaseComponent {
                         modalCancelBtn={this.modalCancelBtn}
                         modalConfirmBtn={this.modalConfirmBtn}
                     ></ConfirmMappingModal>
-                    <Image style={styles.topImg} source={topImg} resizeMode={'center'}></Image>
+                    <ImageBackground style={styles.topImg} source={topImg} resizeMode={'center'}>
+                        <TouchableOpacity activeOpacity={0.6}
+                            style={styles.mappingGuideBox}
+                            onPress={this._toMappingGuide}>
+                            <Text style={styles.mappingGuideText}>{I18n.t('mapping.mapping_guide')}</Text>
+                        </TouchableOpacity>
+                    </ImageBackground>
                     <View style={styles.mAddressBox}>
                         <View style={styles.mAddressContent}>
-                            <View style={styles.mAddressTitleView}>
-                                <Text style={styles.mAddressTitle}>{I18n.t('mapping.dedicated_mapping_address')}</Text>
-                                <View style={styles.mAddressWarnView}>
-                                    <TouchableOpacity activeOpacity={0.6}
-                                        style={styles.mAddressWarnTouch}
-                                        onPress={this.warnBtn}>
-                                        <Image style={styles.warnIcon} source={require('../../assets/mapping/sighIcon.png')} resizeMode={'center'} ></Image>
-
-                                    </TouchableOpacity>
-                                    {
-                                        this.state.isShowWarn ?
-                                            <Image style={styles.triangleIcon} source={require('../../assets/mapping/upTriangle.png')} resizeMode={'center'} ></Image> : null
-                                    }
-
-                                </View>
-
-                            </View>
-                            <Text style={styles.mAddressText}>{this.state.mappingAddress}</Text>
-
-
+                            <Text style={styles.mAddressTitle}>{I18n.t('mapping.native_itc_receive_address')}</Text>
+                            <Text style={styles.mAddressText}>{this.state.itcWallet.address}</Text>
                         </View>
-                        {this.state.isShowWarn ?
-                            <View style={styles.warnDescView}>
-                                <Text style={styles.warnDesc}>{I18n.t('mapping.dedicated_mapping_address_desc')}</Text>
-                            </View> : null}
 
+                        <TouchableOpacity activeOpacity={0.6}
+                            style={styles.changeBox}
+                            onPress={this._onChaneAddressPress}>
+                            <Text style={styles.changeText}>{I18n.t('mapping.change')}</Text>
+                            <Image style={styles.changeIcon} source={require('../../assets/set/next.png')} resizeMode={'center'} ></Image>
+                        </TouchableOpacity>
                     </View>
                     <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
                     <View style={styles.mAmountInputView}>
@@ -464,9 +548,35 @@ class ItcMappingServiceScreen extends BaseComponent {
                         <Text style={styles.unit}>ITC</Text>
                     </View>
                     <View style={styles.vLine} ></View>
-                    <Text style={styles.commonText}>{I18n.t('mapping.initiation_address')}</Text>
-                    <Text style={styles.commonText}>{this.state.initiationAddress}</Text>
-                    <Text style={styles.commonText}>{this.state.gasCost}</Text>
+                    <View style={styles.initiationAddressBox}>
+
+                        <View style={styles.initiationAddressContent}>
+                            <Text style={styles.initiationAddressText}>{I18n.t('mapping.initiation_address')}</Text>
+                            <View style={styles.promptBox}>
+                                <TouchableOpacity activeOpacity={0.6}
+                                    style={styles.promptTouch}
+                                    onPress={this.warnBtn}>
+                                    <Image style={styles.promptIcon} source={require('../../assets/mapping/sighIcon.png')} resizeMode={'contain'} ></Image>
+
+                                </TouchableOpacity>
+                                {
+                                    this.state.isShowPrompt ?
+                                        <Image style={styles.triangleIcon} source={require('../../assets/mapping/upTriangle.png')} resizeMode={'contain'} ></Image> : null
+                                }
+
+                            </View>
+                        </View>
+                        <Text style={styles.commonText}>{this.state.initiationAddress}</Text>
+                        <Text style={styles.commonText}>{this.state.gasCost}</Text>
+
+
+                        {this.state.isShowPrompt ?
+                            <View style={styles.promptDescView}>
+                                <Text style={styles.promptDesc}>{I18n.t('mapping.initiation_address_prompt')}</Text>
+                            </View> : null}
+                    </View>
+
+
                     <BlueButtonBig
                         buttonStyle={styles.btn}
                         isDisabled={this.state.isDisabled}
@@ -486,7 +596,8 @@ class ConfirmMappingModal extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            confirmBtnIsDisabled: true
+            confirmBtnIsDisabled: true,
+            isShowPromptModal: false
         }
         this.inputPwd = ''
     }
@@ -508,14 +619,26 @@ class ConfirmMappingModal extends PureComponent {
     }
 
     confirmBtn = () => {
-        this.props.modalConfirmBtn(this.inputPwd)
+        //this.props.modalConfirmBtn(this.inputPwd)
+        this.layout(this.refs.view_line)
     }
+
+    layout(ref) {
+        const handle = findNodeHandle(ref)
+        UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+            console.log('L_layout','Y='+y + " "+ 'height='+height + " "+ 'pageY='+pageY + " ")
+        })
+    }
+   
 
     render() {
         let amountInfo = this.props.amount + ' ITC';
         let payAddress = this.props.payAddress;
         let ethAmountInfo = this.props.ethAmount + 'ether';
         let gasAmountInfo = '= Gas(' + this.props.gasAmount + ')*Gas price(' + '11.00 gewl)';
+
+        console.log('L_WINDOW_HEIGHT',Layout.WINDOW_HEIGHT)
+        let keyboardVOffset = -(Layout.WINDOW_HEIGHT - 450 + StatusBarHeight)
         return (
             <Modal
                 onStartShouldSetResponder={() => false}
@@ -536,8 +659,8 @@ class ConfirmMappingModal extends PureComponent {
                         <KeyboardAvoidingView style={styles.modalKeyboardContainer}
                             keyboardShouldPersistTaps='handled'
                             behavior="padding"
-                            keyboardVerticalOffset={-StatusBarHeight}
-                            >
+                           
+                        >
                             <ScrollView
                                 ref={(scroll) => {
                                     this.scroll = scroll;
@@ -551,7 +674,7 @@ class ConfirmMappingModal extends PureComponent {
                                 bounces={false}
                                 behavior="padding"
                             >
-                                <View style={styles.mDetailBox}>
+                                <View style={styles.mDetailBox} >
                                     <View style={styles.mVLine}></View>
                                     <View style={styles.mTitleView}>
                                         <Text style={styles.mDetailTitle}>{I18n.t('mapping.mapping_detail')}</Text>
@@ -569,17 +692,47 @@ class ConfirmMappingModal extends PureComponent {
                                     </View>
                                     <View style={styles.mItenLine}></View>
                                     <View style={styles.mDetailItemView}>
-                                        <Text style={styles.mDetailItemTitle}>{I18n.t('transaction.payment_address')}</Text>
+                                        <Text style={styles.mDetailItemTitle}>{I18n.t('mapping.initiation_address')}</Text>
                                         <Text style={[styles.mDetailItemDesc, styles.mDetailItemBlack]}>{payAddress}</Text>
                                     </View>
                                     <View style={styles.mItenLine}></View>
-                                    <View style={styles.mDetailItemView}>
-                                        <Text style={styles.mDetailItemTitle}>{I18n.t('transaction.miner_cost')}</Text>
-                                        <View style={styles.mDetailItemDesc}>
-                                            <Text style={styles.mDetailItemBlack}>{ethAmountInfo}</Text>
-                                            <Text style={styles.mDetailItemGray}>{gasAmountInfo}</Text>
+                                    <View>
+                                        <View style={styles.mDetailItemView}>
+                                            <View style={styles.modalPromptBox}>
+                                                <Text style={styles.mPropmptDetailItemTitle}>{I18n.t('mapping.dedicated_mapping_address')}</Text>
+                                                <View >
+                                                    <TouchableOpacity activeOpacity={0.6}
+                                                        style={styles.modalPromptTouch}
+                                                        onPress={() => {
+                                                            this.setState({
+                                                                isShowPromptModal: !this.state.isShowPromptModal
+                                                            })
+                                                        }}>
+                                                        <Image style={styles.promptIcon} source={require('../../assets/mapping/sighIcon.png')} resizeMode={'contain'} ></Image>
+
+                                                    </TouchableOpacity>
+                                                    {
+                                                        this.state.isShowPromptModal ?
+                                                            <Image style={styles.modalTriangleIcon} source={require('../../assets/mapping/upTriangle.png')} resizeMode={'contain'} ></Image> : null
+                                                    }
+                                                </View>
+                                            </View>
+                                            <Text style={[styles.mDetailItemDesc, styles.mDetailItemBlack]}>{payAddress}</Text>
                                         </View>
+                                        <View style={styles.mItenLine}></View>
+                                        <View style={styles.mDetailItemView}>
+                                            <Text style={styles.mDetailItemTitle}>{I18n.t('transaction.miner_cost')}</Text>
+                                            <View style={styles.mDetailItemDesc}>
+                                                <Text style={styles.mDetailItemBlack}>{ethAmountInfo}</Text>
+                                                <Text style={styles.mDetailItemGray}>{gasAmountInfo}</Text>
+                                            </View>
+                                        </View>
+                                        {this.state.isShowPromptModal ?
+                                            <View style={styles.modalPromptDescView}>
+                                                <Text style={styles.promptDesc}>{I18n.t('mapping.dedicated_mapping_address_desc')}</Text>
+                                            </View> : null}
                                     </View>
+
                                     <BlueButtonBig
                                         buttonStyle={styles.modalNextBtn}
                                         onPress={this.toInputPwd}
@@ -587,8 +740,8 @@ class ConfirmMappingModal extends PureComponent {
                                     />
                                 </View>
 
-                                <View style={styles.mPwdBox}>
-                                    <View style={styles.mVLine}></View>
+                                <View style={styles.mPwdBox} >
+                                    <View style={styles.mVLine} ref="view_line"></View>
                                     <View style={styles.mTitleView}>
                                         <TouchableOpacity activeOpacity={0.6}
                                             style={styles.mPwdBackBtn}
@@ -619,7 +772,6 @@ class ConfirmMappingModal extends PureComponent {
                                         />
                                     </View>
                                 </View>
-
                             </ScrollView>
                         </KeyboardAvoidingView>
                     </View>

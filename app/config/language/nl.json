@@ -233,7 +233,61 @@
         "import_eth_wallet":"导入ETH钱包",
         "import_itc_wallet":"导入ITC钱包",
         "create":"创建",
-        "import_wallet":"导入钱包"
+        "import_wallet":"导入钱包",
+        "import_wallet_already":"您已经导入该钱包"
+
+    },
+    "mapping":{
+        "itc_mapping_service":"ITC映射服务",
+        "bind_map_address":"绑定映射地址",
+        "bind_map_address_des":"将当前持有ITC的Erc20钱包与映射地址绑定",
+        "application_mapping":"申请映射",
+        "application_mapping_des":"通过导入的Erc20钱包将ITC转入映射地址",
+        "native_issuance":"原生ITC发放",
+        "native_issuance_des":"ITC Wallet 会监控映射地址收到的ITC,在审计后将原生ITC转入主网钱包地址",
+        "read_and_agreed":"我已仔细阅读并同意",
+        "start":"开始",
+
+        "binding_replace_address":"绑定置换地址",
+        "binding_replace_address_desc":"选择接收原生ITC的主网钱包地址",
+        "next":"下一步",
+        "change":"更换",
+
+        "binding_wallet_address":"绑定钱包地址",
+        "binding_wallet_address_title":"接收原生ITC的主网钱包地址",
+        "binding_wallet_address_desc":"选择当前持有ITC的Erc20钱包",
+        "binding_wallet_address_warn":"(上方主网钱包地址仅能接收此以太坊钱包的映射请求)",
+        "import_erc_wallet":"导入Erc20钱包",
+        "bind":"[已绑定]",
+
+        "mapping_record":"映射记录",
+        "dedicated_mapping_address":"专属映射地址",
+        "dedicated_mapping_address_desc":"专属映射地址是根据您选择的ITC主网钱包地址通过算法直接创建生成，无任何人拥有私钥。转入的资金将永久锁定不可提取。",
+        "map_amount":"映射金额",
+        "initiation_address":"发起地址",
+        "initiation_address_prompt":"发起地址是与您选择的ITC主网钱包地址绑定的Erc20地址，一经绑定不可更改。",
+        "cost":"费用",
+        "confirm_mapping":"确认映射",
+        "mapping_detail":"映射详情",
+        "payment_infor":"支付信息",
+        "itc_mapping":"ITC映射",
+        "":"",
+        "mapping_guide":"映射指引",
+        "terms_service":"服务条款",
+        "mapping_tutorial":"映射教程",
+
+        "native_itc_receive_address":"原生ITC接收地址",
+        "destroy_itc":"Erc20 ITC 销毁",
+        "send_address":"发送地址",
+        "destroy_address":"销毁地址",
+        "transaction_hour":"交易时间",
+        "native_itc_issuance":"原生ITC发放",
+        "collection_address":"收款地址",
+        "transfer_unsuccess_title":"Erc20 ITC 转账尚未成功",
+        "transfer_unsuccess_desc":"转账完成后，原生ITC将在审计后发放",
+        "already_applied":"已申请",
+        "in_the_audit":"审计中",
+        "completed":"已完成"
 
     },
     "toast":{

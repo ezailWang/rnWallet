@@ -52,6 +52,7 @@ class HomeScreen extends BaseComponent {
             headBgImageRef: null,
             versionUpdateModalVisible: false,
         }
+        this.versionUpdateInfo = null
         this._setStatusBarStyleLight()
     }
 
@@ -289,6 +290,7 @@ class HomeScreen extends BaseComponent {
         SplashScreen.hide()
         if (this.props.isNewWallet == false) {
             this._verifyIdentidy();
+            this.versionUpdate()
         } else {
             this.props.setIsNewWallet(false)
             this._showLoding()
@@ -321,6 +323,7 @@ class HomeScreen extends BaseComponent {
             })
         }
         await NetworkManager.loadTokenList()
+        
         this._hideLoading()
     }
 
@@ -368,7 +371,8 @@ class HomeScreen extends BaseComponent {
 
     versionUpdateLeftPress = () => {
         this.setState({
-            versionUpdateModalVisible: false
+            versionUpdateModalVisible: false,
+           
         })
         this.versionUpdateInfo = null
     }
@@ -395,6 +399,35 @@ class HomeScreen extends BaseComponent {
                 versionUpdateModalVisible: true
             })
         }
+    }
+
+    async versionUpdate(){
+        let params = {
+            'system': Platform.OS,
+            'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
+            'language': I18n.locale
+        }
+        NetworkManager.getVersionUpdateInfo(params)
+            .then((response) => {
+                if (response.code === 200) {
+                    console.log('L_版本更新')
+                    let contents = response.data.content.split('&')
+                    let updateInfo = {
+                        contents:contents,
+                        updateUrl:response.data.updateUrl
+                    }
+                    this.versionUpdateInfo = updateInfo
+                    this.setState({
+                        versionUpdateModalVisible: true
+                    })
+                   
+                } else {
+                    console.log('getVersionUpdateInfo err msg:', response.msg)
+                }
+            })
+            .catch((err) => {
+                console.log('getVersionUpdateInfo err:', err)
+            })
     }
 
 
@@ -435,7 +468,6 @@ class HomeScreen extends BaseComponent {
                 <MyAlertComponent
                     visible={this.state.versionUpdateModalVisible}
                     title={I18n.t('toast.update_tip')}
-                    //content={'1234546daf升级提示'}
                     contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
                     leftBtnTxt={I18n.t('modal.cancel')}
                     rightBtnTxt={I18n.t('toast.go_update')}

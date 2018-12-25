@@ -88,12 +88,15 @@ import {
     MessageWebViewScreen,
     AddressListScreen,
     MappingTermsScreen,
-    BindReplaceAddressScreen,
-    BindReplaceAddressErcScreen,
+    ChangeBindAddressScreen,
+    BindWalletAddressScreen,
     ItcMappingServiceScreen,
     MappingRecordsScreen,
     MappingRecordDetailScreen,
-    WalletListScreen
+    MappingGuideScreen,
+    WalletListScreen,
+    ChoseWalletTypeScreen,
+    
 } from '../containers/Containers';
 //首次启动导航栈
 const FirstLaunchRouteConfig =
@@ -129,6 +132,9 @@ const FirstLaunchRouteConfig =
     ImportWallet: {
         screen: ImportWalletScreen,
     },
+    ChoseWalletType: {
+        screen:ChoseWalletTypeScreen,
+    }
    
 
 
@@ -158,10 +164,9 @@ const HomeBottomTabNavigation = createBottomTabNavigator({
             //tabBarLabel: I18n.t('home.tab_wallet'),
         }
     },
-    /*Mapping: {
+    Mapping: {
         screen: MappingTermsScreen,
-         tabBarLabel: I18n.t('home.tab_mapping'),
-    },*/
+    },
     My: {
         screen: MyScreen,
     }
@@ -274,11 +279,11 @@ const HomeRouteConfig =
     /*MappingTerms: {
         screen: MappingTermsScreen,
     },*/
-    BindReplaceAddress: {
-        screen: BindReplaceAddressScreen,
+    ChangeBindAddress: {
+        screen: ChangeBindAddressScreen,
     },
-    BindReplaceAddressErc: {
-        screen: BindReplaceAddressErcScreen,
+    BindWalletAddress: {
+        screen: BindWalletAddressScreen,
     },
     ItcMappingService: {
         screen: ItcMappingServiceScreen,
@@ -289,7 +294,9 @@ const HomeRouteConfig =
     MappingRecordDetail: {
         screen: MappingRecordDetailScreen
     },
-
+    MappingGuide:{
+        screen: MappingGuideScreen
+    },
     WalletList:{
         screen:WalletListScreen
     },
@@ -309,6 +316,9 @@ const HomeRouteConfig =
     ImportWallet: {
         screen: ImportWalletScreen,
     },
+    ChoseWalletType: {
+        screen:ChoseWalletTypeScreen,
+    }
 };
 
 export {

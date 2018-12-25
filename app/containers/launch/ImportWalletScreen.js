@@ -444,7 +444,7 @@ class ImportWalletScreen extends BaseComponent {
                 this.setState({
                     isShowSLoading: false
                 })
-                this._showAlert('您已经导入该钱包')
+                this._showAlert(I18n.t('settings.import_wallet_already'))
             } else {
                 StorageManage.save(StorageKey.User, wallet)
                 StorageManage.save(StorageKey.EthWalletList, wallets)

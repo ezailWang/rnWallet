@@ -21,7 +21,7 @@ import { BlueButtonBig } from '../../components/Button'
 import { showToast } from '../../utils/Toast';
 import LinearGradient from 'react-native-linear-gradient'
 
-const rightViewHeight = Layout.WINDOW_HEIGHT - 120 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
+const rightViewHeight = Layout.WINDOW_HEIGHT - 60 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20
 const stepItemHeight = rightViewHeight / 3
 const styles = StyleSheet.create({
@@ -49,10 +49,28 @@ const styles = StyleSheet.create({
     },
     bottomBox: {
         width: Layout.WINDOW_WIDTH,
-        alignItems: 'center',
         backgroundColor: 'white',
-        height: 120,
-       // paddingBottom: Layout.DEVICE_IS_IPHONE_X() ? 20 : 0
+        height: 60,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    bottomBtn: {
+        flex: 1,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    bottomLine: {
+        height: 40,
+        width: 1,
+        backgroundColor: Colors.bgGrayColor_ed,
+    },
+    btnText: {
+        color: Colors.fontBlueColor,
+        fontSize: 15,
+        lineHeight: 60,
+        height: 60,
     },
     checkBox: {
         flexDirection: 'row',
@@ -149,7 +167,7 @@ const styles = StyleSheet.create({
 
 })
 
-export default class MappingTermsScreen extends BaseComponent {
+export default class MappingGuideScreen extends BaseComponent {
 
     constructor(props) {
         super(props);
@@ -167,6 +185,14 @@ export default class MappingTermsScreen extends BaseComponent {
 
     startBtn() {
         this.props.navigation.navigate('BindWalletAddress')
+    }
+
+    _toTermsService() {
+
+    }
+
+    _toMappingTutorial() {
+
     }
 
     renderComponent() {
@@ -188,18 +214,18 @@ export default class MappingTermsScreen extends BaseComponent {
                             <StepItem title={'STEP 3:' + I18n.t('mapping.native_issuance')} desc={I18n.t('mapping.native_issuance_des')} image={require('../../assets/mapping/mappingStep3.png')}></StepItem>
                         </View>
                     </View>
-                    <View style={styles.bottomBox}>
-                        <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isAgreePress()}>
-                            <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
-                            <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
-                        </TouchableOpacity>
-                        <BlueButtonBig
-                            buttonStyle={styles.button}
-                            isDisabled={!this.state.isAgree}
-                            onPress={() => this.startBtn()}
-                            text={I18n.t('mapping.start')}
-                        />
+                    <View style={{flex:1,justifyContent:'flex-end'}}>
+                        <View style={styles.bottomBox}>
+                            <TouchableOpacity style={styles.bottomBtn} activeOpacity={0.6} onPress={() => this._toTermsService()}>
+                                <Text style={styles.btnText}>{I18n.t('mapping.terms_service')}</Text>
+                            </TouchableOpacity>
+                            <View style={styles.bottomLine}></View>
+                            <TouchableOpacity style={styles.bottomBtn} activeOpacity={0.6} onPress={() => this._toMappingTutorial()}>
+                                <Text style={styles.btnText}>{I18n.t('mapping.mapping_tutorial')}</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+
                 </View>
 
             </View>
