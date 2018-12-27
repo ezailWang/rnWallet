@@ -207,7 +207,7 @@ class FlatListItem extends PureComponent {
         } else {
             _letter = letter;
         }
-        let _address = address.substr(0, 8) + '...' + address.substr(34, 42)
+        let _address = address.substr(0, 8) + '......' + address.substr(34, 42)
         return (
             <TouchableOpacity activeOpacity={0.6}
                 {...this.props}

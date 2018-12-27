@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     bottomBox: {
         width: Layout.WINDOW_WIDTH,
         alignItems: 'center',
-        backgroundColor: 'white',
+       // backgroundColor: 'white',
         //todo height: 120,
         justifyContent:'center',
         height: 100,
@@ -160,6 +160,7 @@ export default class MappingTermsScreen extends BaseComponent {
         this.state = {
             isAgree: false
         }
+        this._setStatusBarStyleDark()
     }
 
     _initData() {
