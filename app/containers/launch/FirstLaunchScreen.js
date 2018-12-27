@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Linking, DeviceEventEmitter, PermissionsAndroid, Platform, ImageBackground } from 'react-native';
+import { View, StyleSheet, Image, Linking, PermissionsAndroid, Platform, ImageBackground } from 'react-native';
 import { WhiteButtonBig, WhiteBorderButton } from '../../components/Button'
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import SplashScreen from 'react-native-splash-screen'
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         marginBottom: 80,
-
     }
 });
 
@@ -61,14 +60,12 @@ class FirstLaunchScreen extends BaseComponent {
 
     componentWillMount() {
         this._isMounted = true
-        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this._addEventListener();
         this._addChangeListener()
     }
 
     componentWillUnmount() {
         this._isMounted = false
-        this.versionUpdateHandler && this.versionUpdateHandler.remove();
         this._removeEventListener();
         this._removeChangeListener()
     }
@@ -176,7 +173,6 @@ class FirstLaunchScreen extends BaseComponent {
         } else {
             super._notSupportTouchId(err)
         }
-
     }
 
     onConfirmUse() {
@@ -289,16 +285,6 @@ class FirstLaunchScreen extends BaseComponent {
         this.versionUpdateInfo = null
     }
 
-    _versionUpdateEmitter = (info) => {
-        console.log('L_firstlaunch_版本更新')
-        if (!this.state.versionUpdateModalVisible) {
-            this.versionUpdateInfo = info.updateInfo
-            this.setState({
-                versionUpdateModalVisible: true
-            })
-        }
-    }
-
     async versionUpdate() {
         let params = {
             'system': Platform.OS,
@@ -308,7 +294,6 @@ class FirstLaunchScreen extends BaseComponent {
         NetworkManager.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
-                    console.log('L_版本更新')
                     let contents = response.data.content.split('&')
                     let updateInfo = {
                         contents: contents,
@@ -338,7 +323,6 @@ class FirstLaunchScreen extends BaseComponent {
                 <MyAlertComponent
                     visible={this.state.versionUpdateModalVisible}
                     title={I18n.t('toast.update_tip')}
-                    //content={'1234546daf升级提示'}
                     contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
                     leftBtnTxt={I18n.t('modal.cancel')}
                     rightBtnTxt={I18n.t('toast.go_update')}

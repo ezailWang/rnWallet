@@ -161,7 +161,7 @@ export default class MappingTermsScreen extends BaseComponent {
     _initData() {
     }
 
-    isAgreePress() {
+    isAgreePress = () => {
         this.setState({ isAgree: !this.state.isAgree });
     }
 
@@ -189,7 +189,7 @@ export default class MappingTermsScreen extends BaseComponent {
                         </View>
                     </View>
                     <View style={styles.bottomBox}>
-                        <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isAgreePress()}>
+                        <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={this.isAgreePress}>
                             <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
                             <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
                         </TouchableOpacity>

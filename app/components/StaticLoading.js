@@ -67,10 +67,10 @@ export default class StaticLoading extends PureComponent {
                 transparent={true}
                 visible={visible}
                 onRequestClose={() => {
-                    //Alert.alert("Modal has been closed.");
+                   
                 }}
                 onShow={() => {
-                    //Alert.alert("Modal has been show.");
+                    
                 }}
             >
                 <View style={styles.modeBox}>

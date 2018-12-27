@@ -155,9 +155,11 @@ const styles = StyleSheet.create({
     },
     lineView: {
         width: Layout.WINDOW_WIDTH - 40,
+        //borderBottomWidth:1,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
         height: 5,
+
     },
 
 })
@@ -298,12 +300,16 @@ class Line extends PureComponent {
     render() {
         let type = this.props.type
         return (
-            <LinearGradient
-                style={styles.lineView}
-                colors={type == 2 ? ['#95C06D', '#6F9D44'] : type == 1 ? ['#0094ff', '#66ceff'] : ['#fff', '#fff']}
+            /*<LinearGradient
+                style={[styles.lineView,{borderColor:type == 2 ? '#95C06D' : type == 1 ? '#0094ff' : '#fff'}]}
+                colors={type == 2 ? ['#95C06D', '#6F9D44'] : type == 1 ? ['#0094ff', '#66ceff'] : ['#000', '#fff']}
                 start={{ x: 0, y: 1 }}
                 end={{ x: 1, y: 1 }}>
-            </LinearGradient>
+            </LinearGradient>*/
+            <View
+                style={[styles.lineView,{borderColor:type == 2 ? '#95C06D' : type == 1 ? '#0094ff' : '#fff',backgroundColor:type == 2 ? '#95C06D' : type == 1 ? '#0094ff' : '#fff'}]}
+               >
+            </View>
         )
     }
 }

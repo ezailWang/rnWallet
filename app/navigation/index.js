@@ -3,9 +3,7 @@ import {
     createStackNavigator,
     createSwitchNavigator,
     createDrawerNavigator,
-    createBottomTabNavigator
 } from 'react-navigation'
-import { Provider, connect } from 'react-redux';
 import {
     FirstLaunchRouteConfig,
     HomeRouteConfig,
@@ -22,11 +20,8 @@ import {
 //首次启动导航栈
 const FirstLaunchNavigation = createStackNavigator(FirstLaunchRouteConfig, FirstLaunchStackNavigationConfig)
 
-
-
 //主页导航栈
 const HomeNavigation = createStackNavigator(HomeRouteConfig, HomeStackNavigationConfig)
-
 
 //隐藏二级页面的侧滑菜单
 HomeNavigation.navigationOptions = ({ navigation }) => {
@@ -54,7 +49,7 @@ const SwicthNavigation = createSwitchNavigator({
 }, {
         initialRouteName: 'Apploading',
         backBehavior: 'none',
-    })
+})
 
 
 export default SwicthNavigation

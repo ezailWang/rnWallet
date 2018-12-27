@@ -122,10 +122,10 @@ export default class MyAlertComponent extends Component {
                 transparent={true}
                 visible={this.props.visible}
                 onRequestClose={() => {
-                    //Alert.alert("Modal has been closed.");
+                    
                 }}
                 onShow={() => {
-                    //Alert.alert("Modal has been show.");
+                    
                 }}
             >
                 <View style={styles.modeBox}>

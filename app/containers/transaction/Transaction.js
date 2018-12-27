@@ -430,8 +430,6 @@ export default class Transaction extends BaseComponent {
 
 
     didTapNextBtn = () => {
-        // console.log('L_next_address', this.state.toAddress)
-
         //计算gas消耗
         let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
         let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
@@ -533,7 +531,6 @@ export default class Transaction extends BaseComponent {
                 callback: function (data) {
                     var address = data.toAddress;
                     _this.inputToAddress = address;
-                    // console.log('L_address', address);
                     _this.setState({
                         toAddress: address
                     })

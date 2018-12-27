@@ -78,8 +78,8 @@ class ChoseWalletTypeScreen extends BaseComponent {
                 <WhiteBgNoTitleHeader navigation={this.props.navigation} />
 
                 <Text style={styles.title}>{I18n.t('settings.chose_wallet_type')}</Text>
-                <Item icon={require('../../assets/set/eth_icon.png')} content={I18n.t('settings.eth_wallet')} itemPress={()=>this.toImportWallet(false)}></Item>
-                <Item icon={require('../../assets/set/itc_icon.png')} content={I18n.t('settings.itc_wallet')} itemPress={()=>this.toImportWallet(true)}></Item>
+                <Item icon={require('../../assets/common/eth_logo.png')} content={I18n.t('settings.eth_wallet')} itemPress={()=>this.toImportWallet(false)}></Item>
+                <Item icon={require('../../assets/common/itc_logo.png')} content={I18n.t('settings.itc_wallet')} itemPress={()=>this.toImportWallet(true)}></Item>
             </View>
         );
     }

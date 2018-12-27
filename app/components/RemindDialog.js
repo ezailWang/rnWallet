@@ -124,10 +124,10 @@ export default class RemindDialog extends Component{
                   transparent={true}
                   visible={this.props.modalVisible}
                   onRequestClose={()=>{
-                     //Alert.alert("Modal has been closed.");
+                    
                   }}
                   onShow={()=>{
-                     //Alert.alert("Modal has been show.");
+                    
                   }}
             >
                 <View style={styles.modeBox}>

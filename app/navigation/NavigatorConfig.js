@@ -20,13 +20,14 @@
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
 import React from 'react';
-import { StyleSheet ,Text} from 'react-native';
-import { Colors } from '../config/GlobalConfig';
+import { StyleSheet, Text, DeviceEventEmitter } from 'react-native';
+import { Colors,Common} from '../config/GlobalConfig';
 import PropType from 'prop-types'
 import RightDrawer from '../containers/home/RightDrawer'
 import LayoutConstants from '../config/LayoutConstants'
 import TabIcon from '../components/TabIcon'
 import { I18n } from '../config/language/i18n'
+import {} from '.'
 const StackNavigationConfig = {
     initialRouteName: 'Set'
     //initialRouteName: 'Home',
@@ -150,23 +151,23 @@ const HomeBottomTabNavigationConfig = {
 }
 
 const styles = StyleSheet.create({
-    blueText:{
-        fontSize:12,
-        color:'#01a1e6',
-        textAlign:'center',
-        alignSelf:'center',
-        marginBottom:2,
-        marginTop:0,
+    blueText: {
+        fontSize: 12,
+        color: '#01a1e6',
+        textAlign: 'center',
+        alignSelf: 'center',
+        marginBottom: 2,
+        marginTop: 0,
     },
-    grayText:{
-        fontSize:12,
-        color:'#aaaaaa',
-        textAlign:'center',
-        alignSelf:'center',
-        marginBottom:2,
-        marginTop:0,
+    grayText: {
+        fontSize: 12,
+        color: '#aaaaaa',
+        textAlign: 'center',
+        alignSelf: 'center',
+        marginBottom: 2,
+        marginTop: 0,
     }
-   
+
 })
 
 export {

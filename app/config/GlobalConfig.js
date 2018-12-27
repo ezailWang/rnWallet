@@ -23,7 +23,8 @@ const Colors = {
     fontGrayColor_a0: '#a0a0a0',
     fontGrayColor_a1: '#a1a1a1',
     fontBlackColor_31: '#313131',
-    fontGreenColor:'#00C6FF',
+    fontGreenColor_46:'#709E46',
+    
     //警告框颜色
     RedColor: '#ff3636',
     //主题颜色
@@ -105,7 +106,7 @@ const Network = {
 
 
 const Common = {
-    touchIDVertifing : false,//touchId是否正在验证中
+    touchIDVertifing : false,//touchId是否正在验证中,
 }
 
 module.exports = {

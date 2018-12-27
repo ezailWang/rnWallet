@@ -42,6 +42,7 @@ import MappingRecordDetailScreen from './mapping/MappingRecordDetailScreen'
 import MappingGuideScreen from './mapping/MappingGuideScreen'
 import WalletListScreen from './settings/WalletListScreen'
 import ChoseWalletTypeScreen from './launch/ChoseWalletTypeScreen'
+import Mapping from './mapping/Mapping'
 export {
     HomeScreen,
     Transaction,
@@ -86,5 +87,6 @@ export {
     MappingRecordDetailScreen,
     MappingGuideScreen,
     WalletListScreen,
-    ChoseWalletTypeScreen
+    ChoseWalletTypeScreen,
+    Mapping
 }

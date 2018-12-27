@@ -58,14 +58,13 @@ class HomeScreen extends BaseComponent {
 
     componentWillMount() {
         this._isMounted = true
-        this.versionUpdateHandler = DeviceEventEmitter.addListener('versionUpdate', this._versionUpdateEmitter);//版本更新
         this._addEventListener();
         this._addChangeListener()
     }
 
+    
     componentWillUnmount() {
         this._isMounted = false
-        this.versionUpdateHandler && this.versionUpdateHandler.remove();
         this._removeEventListener();
         this._removeChangeListener()
     }
@@ -391,15 +390,7 @@ class HomeScreen extends BaseComponent {
         this.versionUpdateInfo = null
     }
 
-    _versionUpdateEmitter = (info) => {
-        console.log('L_home_版本更新')
-        if (!this.state.versionUpdateModalVisible) {
-            this.versionUpdateInfo = info.updateInfo
-            this.setState({
-                versionUpdateModalVisible: true
-            })
-        }
-    }
+    
 
     async versionUpdate(){
         let params = {
@@ -410,7 +401,6 @@ class HomeScreen extends BaseComponent {
         NetworkManager.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
-                    console.log('L_版本更新')
                     let contents = response.data.content.split('&')
                     let updateInfo = {
                         contents:contents,

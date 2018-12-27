@@ -37,10 +37,7 @@ const styles = StyleSheet.create({
     keyboardAwareScrollView: {
         flex: 1,
     },
-    modalKeyboardAwareScrollView: {
-        height: 450,
-        //width: contentWidth,
-    },
+   
 
     topImg: {
         width: contentWidth - 40,
@@ -66,7 +63,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 15,
+        paddingLeft: 15,
+        paddingRight:15,
         backgroundColor: 'white',
         borderRadius: 5,
         borderWidth: 1,
@@ -74,6 +72,8 @@ const styles = StyleSheet.create({
     },
     mAddressContent: {
         flex: 1,
+        marginTop:15,
+        marginBottom:15,
     },
     mAddressTitle: {
         color: Colors.fontBlackColor_43,
@@ -203,8 +203,6 @@ const styles = StyleSheet.create({
         color: 'white'
     },
 
-
-
     modalBox: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -219,9 +217,8 @@ const styles = StyleSheet.create({
     modalKeyboardContainer: {
         width: Layout.WINDOW_WIDTH,
         height: 450,
-        marginBottom: 0,
-        marginRight: 0,
-        marginLeft: 0,
+        //marginTop:Layout.WINDOW_HEIGHT - 450,
+        margin:0,
     },
     modalScrollView: {
         //marginTop: Platform.OS === 'android' ? Layout.ScreenHeight - 450 - StatusBarHeight : Layout.ScreenHeight - 450,
@@ -428,6 +425,7 @@ class ItcMappingServiceScreen extends BaseComponent {
     }
 
     confirmBtn = () => {
+        this.inputText.blur()
         this.setState({
             isShowMappingDetail: true,
         })
@@ -525,7 +523,7 @@ class ItcMappingServiceScreen extends BaseComponent {
                             style={styles.changeBox}
                             onPress={this._onChaneAddressPress}>
                             <Text style={styles.changeText}>{I18n.t('mapping.change')}</Text>
-                            <Image style={styles.changeIcon} source={require('../../assets/set/next.png')} resizeMode={'center'} ></Image>
+                            <Image style={styles.changeIcon} source={require('../../assets/common/right_gray.png')} resizeMode={'center'} ></Image>
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
@@ -561,7 +559,7 @@ class ItcMappingServiceScreen extends BaseComponent {
                                 </TouchableOpacity>
                                 {
                                     this.state.isShowPrompt ?
-                                        <Image style={styles.triangleIcon} source={require('../../assets/mapping/upTriangle.png')} resizeMode={'contain'} ></Image> : null
+                                        <Image style={styles.triangleIcon} source={require('../../assets/common/up_triangle.png')} resizeMode={'contain'} ></Image> : null
                                 }
 
                             </View>
@@ -619,17 +617,9 @@ class ConfirmMappingModal extends PureComponent {
     }
 
     confirmBtn = () => {
-        //this.props.modalConfirmBtn(this.inputPwd)
-        this.layout(this.refs.view_line)
+        this.props.modalConfirmBtn(this.inputPwd)
+        
     }
-
-    layout(ref) {
-        const handle = findNodeHandle(ref)
-        UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
-            console.log('L_layout','Y='+y + " "+ 'height='+height + " "+ 'pageY='+pageY + " ")
-        })
-    }
-   
 
     render() {
         let amountInfo = this.props.amount + ' ITC';
@@ -637,8 +627,6 @@ class ConfirmMappingModal extends PureComponent {
         let ethAmountInfo = this.props.ethAmount + 'ether';
         let gasAmountInfo = '= Gas(' + this.props.gasAmount + ')*Gas price(' + '11.00 gewl)';
 
-        console.log('L_WINDOW_HEIGHT',Layout.WINDOW_HEIGHT)
-        let keyboardVOffset = -(Layout.WINDOW_HEIGHT - 450 + StatusBarHeight)
         return (
             <Modal
                 onStartShouldSetResponder={() => false}
@@ -646,10 +634,10 @@ class ConfirmMappingModal extends PureComponent {
                 transparent={true}
                 visible={this.props.visible}
                 onRequestClose={() => {
-                    //Alert.alert("Modal has been closed.");
+                  
                 }}
                 onShow={() => {
-                    //Alert.alert("Modal has been show.");
+                 
                 }}
             >
 
@@ -713,7 +701,7 @@ class ConfirmMappingModal extends PureComponent {
                                                     </TouchableOpacity>
                                                     {
                                                         this.state.isShowPromptModal ?
-                                                            <Image style={styles.modalTriangleIcon} source={require('../../assets/mapping/upTriangle.png')} resizeMode={'contain'} ></Image> : null
+                                                            <Image style={styles.modalTriangleIcon} source={require('../../assets/common/up_triangle.png')} resizeMode={'contain'} ></Image> : null
                                                     }
                                                 </View>
                                             </View>
@@ -741,7 +729,7 @@ class ConfirmMappingModal extends PureComponent {
                                 </View>
 
                                 <View style={styles.mPwdBox} >
-                                    <View style={styles.mVLine} ref="view_line"></View>
+                                    <View style={styles.mVLine}></View>
                                     <View style={styles.mTitleView}>
                                         <TouchableOpacity activeOpacity={0.6}
                                             style={styles.mPwdBackBtn}

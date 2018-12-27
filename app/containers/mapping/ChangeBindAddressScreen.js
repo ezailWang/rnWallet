@@ -265,7 +265,7 @@ class Item extends PureComponent {
                     <Text style={styles.itemAddress}>{_address}</Text>
                 </View>
                 {
-                    bind ? <Image style={styles.itemCheckedImg} source={require('../../assets/mapping/linkIcon.png')} resizeMode={'center'} ></Image> : 
+                    bind ? <Image style={styles.itemCheckedImg} source={require('../../assets/mapping/bind_icon.png')} resizeMode={'center'} ></Image> : 
                     <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode={'center'} ></Image>
                 }
             </TouchableOpacity>

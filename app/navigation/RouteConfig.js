@@ -39,8 +39,10 @@
 
     path：路由中设置的路径的覆盖映射配置
 */
+import { I18n } from '../config/language/i18n'
 import {
-    createBottomTabNavigator
+    createBottomTabNavigator,
+    createSwitchNavigator
 } from 'react-navigation'
 import {
     HomeBottomTabNavigationConfig
@@ -96,7 +98,7 @@ import {
     MappingGuideScreen,
     WalletListScreen,
     ChoseWalletTypeScreen,
-    
+    Mapping
 } from '../containers/Containers';
 //首次启动导航栈
 const FirstLaunchRouteConfig =
@@ -135,9 +137,6 @@ const FirstLaunchRouteConfig =
     ChoseWalletType: {
         screen:ChoseWalletTypeScreen,
     }
-   
-
-
     /**UserRegulation: {
         screen: UserRegulationScreen,
         navigationOptions: ({navigation}) => ({
@@ -152,8 +151,6 @@ const FirstLaunchRouteConfig =
     },**/
 }
 
-
-
 //首页Tab
 const HomeBottomTabNavigation = createBottomTabNavigator({
     Home: {
@@ -165,7 +162,7 @@ const HomeBottomTabNavigation = createBottomTabNavigator({
         }
     },
     Mapping: {
-        screen: MappingTermsScreen,
+        screen:Mapping,
     },
     My: {
         screen: MyScreen,
@@ -175,6 +172,7 @@ const HomeBottomTabNavigation = createBottomTabNavigator({
 //主页导航栈
 const HomeRouteConfig =
 {
+    
     HomeTab: {
         screen: HomeBottomTabNavigation,
         navigationOptions: {
@@ -276,9 +274,9 @@ const HomeRouteConfig =
 
    
 
-    /*MappingTerms: {
+    MappingTerms: {
         screen: MappingTermsScreen,
-    },*/
+    },
     ChangeBindAddress: {
         screen: ChangeBindAddressScreen,
     },

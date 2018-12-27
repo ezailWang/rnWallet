@@ -33,65 +33,65 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundColor,
         alignItems: 'center'
     },
-    topBox:{
+    topBox: {
         width: Layout.WINDOW_WIDTH * 0.9,
-        paddingLeft:10,
-        paddingRight:10,
-        backgroundColor:'white',
-        borderRadius:5,
-        borderWidth:1,
-        borderColor:Colors.bgGrayColor_ed,
-        marginTop:20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: Colors.bgGrayColor_ed,
+        marginTop: 20,
     },
-    topTitleBox:{
-        flexDirection:'row',
-        alignItems:'center',
+    topTitleBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    topTitle:{
-        color:Colors.fontBlackColor_43,
-        fontSize:14,
-        flex:1,
+    topTitle: {
+        color: Colors.fontBlackColor_43,
+        fontSize: 14,
+        flex: 1,
     },
-    topChangeBox:{
-        flexDirection:'row',
-        alignItems:'center',
-        height:40,
-        paddingLeft:10,
+    topChangeBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 40,
+        paddingLeft: 10,
     },
-    changeText:{
-        color:Colors.fontGrayColor_a0,
-        fontSize:14,
-        paddingRight:5
+    changeText: {
+        color: Colors.fontGrayColor_a0,
+        fontSize: 14,
+        paddingRight: 5
     },
-    changeIcon:{
-        width:10,
-        height:10,
+    changeIcon: {
+        width: 10,
+        height: 10,
     },
-    line:{
-        height:1,
-        backgroundColor:Colors.bgGrayColor_ed,
+    line: {
+        height: 1,
+        backgroundColor: Colors.bgGrayColor_ed,
     },
-    topConetntBox:{
-        flexDirection:'row',
-        alignItems:'center',
-        paddingTop:10,
-        paddingBottom:10
+    topConetntBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop: 10,
+        paddingBottom: 10
     },
-    logoIcon:{
-        width:40,
-        height:40,
+    logoIcon: {
+        width: 40,
+        height: 40,
     },
-    topContent:{
-        marginLeft:10,
+    topContent: {
+        marginLeft: 10,
     },
-    topWalletName:{
-        color:Colors.fontBlackColor_43,
-        fontSize:14,
+    topWalletName: {
+        color: Colors.fontBlackColor_43,
+        fontSize: 14,
     },
-    topWalletAddress:{
-        color:Colors.fontGrayColor_a0,
-        fontSize:12,
-        marginTop:2,
+    topWalletAddress: {
+        color: Colors.fontGrayColor_a0,
+        fontSize: 12,
+        marginTop: 2,
     },
 
 
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     descText: {
         color: 'white',
         fontSize: 15,
-        textAlign:'center',
+        textAlign: 'center',
         width: Layout.WINDOW_WIDTH * 0.85,
     },
     warnText: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         width: Layout.WINDOW_WIDTH * 0.85,
         marginTop: 2,
-        textAlign:'center',
+        textAlign: 'center',
     },
     listContainer: {
         flex: 1,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    itemBindName:{
+    itemBindName: {
         fontSize: 15,
         color: Colors.fontGrayColor_a1,
     },
@@ -212,9 +212,9 @@ class BindWalletAddressScreen extends BaseComponent {
         super(props);
         this.state = {
             walletList: [],
-            itcWallet:{
-                name:'wallet',
-                address:'0xf6C9e322b688A434833dE530E4c23CFA4e579a7a'
+            itcWallet: {
+                name: 'wallet',
+                address: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a'
             },
             isDisabled: true,
         }
@@ -230,7 +230,7 @@ class BindWalletAddressScreen extends BaseComponent {
                 name: 'wallet' + i,
                 address: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
                 isChecked: false,
-                bind: i==2 ? true : false
+                bind: i == 2 ? true : false
             }
             wallets.push(wallet)
         }
@@ -240,7 +240,6 @@ class BindWalletAddressScreen extends BaseComponent {
 
     }
     nextBtn() {
-        console.log('L__________')
         this.props.navigation.navigate('ItcMappingService')
     }
 
@@ -312,7 +311,16 @@ class BindWalletAddressScreen extends BaseComponent {
                 })
             }
         })
-    } 
+    }
+
+    _onBackPressed = () => {
+        this.props.navigation.navigate('Home')
+        return true;
+    }
+
+    backPressed() {
+        this.props.navigation.navigate('Home')
+    }
 
     renderComponent() {
         let itcWallet = this.state.itcWallet;
@@ -320,7 +328,8 @@ class BindWalletAddressScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <WhiteBgHeader navigation={this.props.navigation}
-                    text={I18n.t('mapping.binding_wallet_address')} />
+                    text={I18n.t('mapping.binding_wallet_address')}
+                    leftPress={() => this.backPressed()} />
                 <View style={styles.contentBox}>
                     <View style={styles.topBox}>
                         <View style={styles.topTitleBox}>
@@ -329,7 +338,7 @@ class BindWalletAddressScreen extends BaseComponent {
                                 style={styles.topChangeBox}
                                 onPress={this._onChaneAddressPress}>
                                 <Text style={styles.changeText}>{I18n.t('mapping.change')}</Text>
-                                <Image style={styles.changeIcon} source={require('../../assets/set/next.png')} resizeMode={'center'} ></Image>
+                                <Image style={styles.changeIcon} source={require('../../assets/common/right_gray.png')} resizeMode={'center'} ></Image>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.line}></View>
@@ -385,8 +394,8 @@ class Item extends PureComponent {
         this.props.onPressItem(this.props.item.item)
     }
     render() {
-        const { name, address, isChecked ,bind} = this.props.item.item || {}
-        let _name = bind ? name+I18n.t('mapping.bind') : name
+        const { name, address, isChecked, bind } = this.props.item.item || {}
+        let _name = bind ? name + I18n.t('mapping.bind') : name
         let _address = address.substr(0, 8) + '...' + address.substr(34, 42)
         let checkIcon = isChecked ? require('../../assets/launch/check_on.png') : require('../../assets/launch/check_off.png');
         return (
@@ -401,10 +410,10 @@ class Item extends PureComponent {
                     <Text style={styles.itemAddress}>{_address}</Text>
                 </View>
                 {
-                    bind ? <Image style={styles.itemCheckedImg} source={require('../../assets/mapping/linkIcon.png')} resizeMode={'center'} ></Image> : 
-                    <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode={'center'} ></Image>
+                    bind ? <Image style={styles.itemCheckedImg} source={require('../../assets/mapping/bind_icon.png')} resizeMode={'center'} ></Image> :
+                        <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode={'center'} ></Image>
                 }
-                
+
             </TouchableOpacity>
         )
     }

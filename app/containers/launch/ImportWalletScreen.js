@@ -346,7 +346,6 @@ class ImportWalletScreen extends BaseComponent {
         } else {
             let str = stringTrim(mnemonic);
             let m = resetStringBlank(str);//将字符串中的多个空格缩减为一个空格
-            console.log('L_m',m)
             let mnemonicIsOk = await walletUtils.validateMnemonic(m);//验证助记词
             if (!mnemonicIsOk) {
                 warnMessage = I18n.t('toast.check_mnemonic_is_correct')

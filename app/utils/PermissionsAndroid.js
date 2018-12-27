@@ -1,4 +1,4 @@
-import { PermissionsAndroid,Alert } from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 
 //返回 Promise类型 里面是用户是否授权的布尔值
 //1.PermissionsAndroid.check(permission)  //permission是String型

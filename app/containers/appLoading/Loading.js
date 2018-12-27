@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Platform, Alert, Linking ,DeviceEventEmitter} from 'react-native'
+import { Platform, Linking ,DeviceEventEmitter} from 'react-native'
 import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -83,13 +83,12 @@ class Loading extends Component {
         /*NetworkManager.getVersionUpdateInfo(params)
             .then((response) => {
                 if (response.code === 200) {
-                    console.log('L_版本更新')
                     let contents = response.data.content.split('&')
                     let updateInfo = {
                         contents:contents,
                         updateUrl:response.data.updateUrl
                     }
-                    DeviceEventEmitter.emit('versionUpdate', {updateInfo: updateInfo});  
+
                    
                 } else {
                     console.log('getVersionUpdateInfo err msg:', response.msg)

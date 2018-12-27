@@ -120,10 +120,10 @@ export default class ScreenshotWarn extends Component{
                   transparent={true}
                   visible={this.props.modalVisible}
                   onRequestClose={()=>{
-                     //Alert.alert("Modal has been closed.");
+                    
                   }}
                   onShow={()=>{
-                     //Alert.alert("Modal has been show.");
+                     
                   }}
                   
             >
