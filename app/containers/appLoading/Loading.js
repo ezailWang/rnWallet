@@ -148,9 +148,9 @@ class Loading extends Component {
         
 
         //addDefaultTokens();
-        if (net) {
+        /*if (net) {
             this.props.dispatch(setNetWork(net))
-        }
+        }*/
         if (language) {
             I18n.locale = language.lang
         } else {

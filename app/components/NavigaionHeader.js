@@ -226,6 +226,30 @@ class WhiteBgHeader extends PureComponent {
     }
 };
 
+
+class WhiteBgNoBackHeader extends PureComponent {
+    static propTypes = {
+        text: PropTypes.string,
+    }
+
+    render() {
+        let height = Layout.NAVIGATION_HEIGHT();
+        let contentMarginTop = { marginTop: 24 };
+        if (Layout.DEVICE_IS_IPHONE_X()) {
+            contentMarginTop = { marginTop: 48 };
+        }
+        return (
+            <View style={[styles.headerBgContainer, { height: height }]}>
+                <View style={[styles.headerTitleBox, contentMarginTop]}>
+                    <Text style={styles.headerTitle}>
+                        {this.props.text}
+                    </Text>
+                </View>
+            </View>
+        )
+    }
+};
+
 class WhiteBgNoTitleHeader extends Component {
     static propTypes = {
         navigation: PropTypes.object.isRequired,
@@ -258,5 +282,6 @@ export {
     WhiteBgHeader,
     WhiteBgNoTitleHeader,
     BlackBgHeader,
-    TransparentBgHeader
+    TransparentBgHeader,
+    WhiteBgNoBackHeader
 }

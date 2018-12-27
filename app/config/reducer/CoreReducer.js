@@ -31,7 +31,7 @@ import { Network } from '../GlobalConfig'
 import lodash from 'lodash'
 
 const defaultState = {
-    network: Network.rinkeby,
+    network: Network.main,
     walletPasswordPrompt: '',
     mnemonic: '',
     tokens: defaultTokens,

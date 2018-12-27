@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import { Colors } from '../../config/GlobalConfig'
-import { WhiteBgHeader } from '../../components/NavigaionHeader'
+import { WhiteBgNoBackHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
@@ -21,7 +21,7 @@ import { BlueButtonBig } from '../../components/Button'
 import { showToast } from '../../utils/Toast';
 import LinearGradient from 'react-native-linear-gradient'
 
-const rightViewHeight = Layout.WINDOW_HEIGHT - 120 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
+const rightViewHeight = Layout.WINDOW_HEIGHT - 80 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20
 const stepItemHeight = rightViewHeight / 3
 const styles = StyleSheet.create({
@@ -51,8 +51,9 @@ const styles = StyleSheet.create({
         width: Layout.WINDOW_WIDTH,
         alignItems: 'center',
         backgroundColor: 'white',
-        height: 120,
-       // paddingBottom: Layout.DEVICE_IS_IPHONE_X() ? 20 : 0
+        //todo height: 120,
+        height: 80,
+      
     },
     checkBox: {
         flexDirection: 'row',
@@ -173,7 +174,7 @@ export default class MappingTermsScreen extends BaseComponent {
         let checkIcon = this.state.isAgree ? require('../../assets/launch/check_on.png') : require('../../assets/launch/check_off.png');
         return (
             <View style={styles.container}>
-                <WhiteBgHeader navigation={this.props.navigation}
+                <WhiteBgNoBackHeader navigation={this.props.navigation}
                     text={I18n.t('mapping.itc_mapping_service')} />
                 <View style={styles.contentBox}>
                     <View style={styles.contentView}>
@@ -189,15 +190,15 @@ export default class MappingTermsScreen extends BaseComponent {
                         </View>
                     </View>
                     <View style={styles.bottomBox}>
-                        <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={this.isAgreePress}>
+                        {/*<TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={this.isAgreePress}>
                             <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
                             <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
-                        </TouchableOpacity>
+        </TouchableOpacity>*/}
                         <BlueButtonBig
                             buttonStyle={styles.button}
                             isDisabled={!this.state.isAgree}
                             onPress={() => this.startBtn()}
-                            text={I18n.t('mapping.start')}
+                            text={I18n.t('mapping.upcoming_start')}
                         />
                     </View>
                 </View>

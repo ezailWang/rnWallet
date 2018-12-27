@@ -247,6 +247,7 @@
         "native_issuance_des":"ITC Wallet 会监控映射地址收到的ITC,在审计后将原生ITC转入主网钱包地址",
         "read_and_agreed":"我已仔细阅读并同意",
         "start":"开始",
+        "upcoming_start":"即将开始",
 
         "binding_replace_address":"绑定置换地址",
         "binding_replace_address_desc":"选择接收原生ITC的主网钱包地址",

@@ -121,21 +121,21 @@ class HomeScreen extends BaseComponent {
     }
 
     pushAddtoken = () => {
-        this.props.navigation.navigate('AddAssets', {
+        /*this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
                 this._showLoding()
                 await this.saveTokenToStorage(token)
                 await NetworkManager.loadTokenList()
                 this._hideLoading()
             }
-        });
-        /*this.props.navigation.navigate('AddToken', {
+        });*/
+        this.props.navigation.navigate('AddToken', {
             callback: async (token) => {
                 this._showLoding()
                 await NetworkManager.loadTokenList()
                 this._hideLoading()
             }
-        });*/
+        });
     }
 
     onClickAdd = async (token) => {
