@@ -546,6 +546,7 @@ export default class Transaction extends BaseComponent {
         let params = store.getState().Core.walletTransfer;
         let title = /*params.transferType + ' ' + */I18n.t('transaction.transfer');
         let alertHeight =(this.state.toAddress.length == 42 &&  this.state.toAddress != this.state.fromAddress) ? 0 : 18
+        //let isShowAddressWarn = 
     
         return (
             <View   style={styles.container} 

@@ -173,7 +173,7 @@ export default class TransactionDetail extends BaseComponent {
         const { network } = store.getState().Core
         if (network === Network.rinkeby) {
             var baiduURL = 'https://rinkeby.etherscan.io/tx/' + this.state.transactionHash;
-        } else {
+        } else if(network === Network.main){
             var baiduURL = 'https://etherscan.io/tx/' + this.state.transactionHash;
         }
 

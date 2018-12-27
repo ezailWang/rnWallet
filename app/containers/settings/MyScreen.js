@@ -126,7 +126,7 @@ class Item extends PureComponent {
                     style={styles.itemTouchable}
                     onPress={this.props.itemOnPress}
                     disabled={this.props.isDisabled}>
-                    <Image style={styles.itemIcon} source={icon} resizeMode={'center'} />
+                    <Image style={styles.itemIcon} source={icon} resizeMode={'contain'} />
                     <Text style={styles.itemTitle}>{this.props.title}</Text>
                     <View style={styles.itemRightView}>
                         {isShowRed ? <View style={styles.itemRedCircle}><Text style={[styles.itemRedCircleText, textSize]}>{count}</Text></View>: null}
@@ -179,7 +179,7 @@ class MyScreen extends BaseComponent {
             <View style={styles.container}>
                 <ImageBackground style={styles.topBg} source={topBg}>
                     <Text style={styles.topTitle}>{I18n.t('home.my')}</Text>
-                    <Image style={styles.topLog} source={topLogo} resizeMode={'center'} />
+                    <Image style={styles.topLog} source={topLogo} resizeMode={'contain'} />
                 </ImageBackground>
                 <Item title={I18n.t('settings.message_center')} icon={require('../../assets/home/menu/menu_notice.png')} itemOnPress={()=>this.props.navigation.navigate('MessageCenter')}
                       count={this.state.newMessageCounts}></Item>

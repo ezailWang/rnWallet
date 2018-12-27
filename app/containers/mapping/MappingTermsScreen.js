@@ -21,7 +21,7 @@ import { BlueButtonBig } from '../../components/Button'
 import { showToast } from '../../utils/Toast';
 import LinearGradient from 'react-native-linear-gradient'
 
-const rightViewHeight = Layout.WINDOW_HEIGHT - 80 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
+const rightViewHeight = Layout.WINDOW_HEIGHT -100  - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20
 const stepItemHeight = rightViewHeight / 3
 const styles = StyleSheet.create({
@@ -52,7 +52,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         //todo height: 120,
-        height: 80,
+        justifyContent:'center',
+        height: 100,
+        margin:0,
+        padding:0
       
     },
     checkBox: {
@@ -75,9 +78,9 @@ const styles = StyleSheet.create({
     },
     button: {
         //width:Layout.WINDOW_WIDTH*0.8,
-        marginTop: 10,
+        marginTop: -20,
+        padding:0,
         alignSelf: 'center',
-
     },
 
     stepItemBox: {
