@@ -92,7 +92,7 @@ class SetScreen extends BaseComponent {
             isCurrentWallet: true,
         }
 
-        this.isItc = false;
+        this.walletType = 'eth';
 
         this.isDeleteWallet = false;
         this.inputName = '';
@@ -105,7 +105,7 @@ class SetScreen extends BaseComponent {
 
     _initData() {
         let wallet = this.props.navigation.state.params.wallet;
-        this.isItc = this.props.navigation.state.params.isItc;
+        this.walletType = this.props.navigation.state.params.walletType;
         let isCurrentWallet = wallet.address.toLowerCase() == this.props.currentWallet.address.toLowerCase()
         this.setState({
             wallet: wallet,
@@ -240,7 +240,7 @@ class SetScreen extends BaseComponent {
         let wallet = this.state.wallet
         wallet.name = name;
 
-        if (this.isItc) {
+        if (this.walletType == 'itc') {
 
         } else {
             let ethWallets = await StorageManage.load(StorageKey.EthWalletList);

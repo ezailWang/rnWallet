@@ -119,9 +119,9 @@ class WalletListScreen extends BaseComponent {
         })
     }
 
-    createEthOrItcWallet = (isItc) => {
+    createEthOrItcWallet = (walletType) => {
         let params = {
-            isItc: isItc,
+            walletType: walletType,
             from: 2
         }
         this.props.setCreateWalletParams(params);
@@ -135,7 +135,7 @@ class WalletListScreen extends BaseComponent {
     ethWalletOnPress = (wallet) => {
         let _this = this;
         this.props.navigation.navigate('Set', {
-            isItc:false,
+            walletType:'eth',
             wallet: wallet,
             callback: function () {
                 _this.refreshPage()
@@ -170,10 +170,10 @@ class WalletListScreen extends BaseComponent {
                 <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.set')} />
                 <ScrollView style={{ marginBottom: 12 }} showsVerticalScrollIndicator={false}>
                     {/*<ItemHeader title={I18n.t('settings.itc_wallet')} icon={require('../../assets/set/itc_icon.png')}
-                        btnText={I18n.t('settings.create_itc_wallet')} onItemHeaderPressed={()=>this.createEthOrItcWallet(true)}></ItemHeader>
+                        btnText={I18n.t('settings.create_itc_wallet')} onItemHeaderPressed={()=>this.createEthOrItcWallet('itc')}></ItemHeader>
                     {itcWalletsView}*/}
                     <ItemHeader title={I18n.t('settings.eth_wallet')} icon={require('../../assets/set/eth_icon.png')}
-                        btnText={I18n.t('settings.create_eth_wallet')} onItemHeaderPressed={() => this.createEthOrItcWallet(false)}></ItemHeader>
+                        btnText={I18n.t('settings.create_eth_wallet')} onItemHeaderPressed={() => this.createEthOrItcWallet('eth')}></ItemHeader>
                     {ethWalletsView}
                 </ScrollView>
             </View>

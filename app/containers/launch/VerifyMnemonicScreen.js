@@ -177,7 +177,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
         
         this.from = 0; // 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入
-        this.isItc = false;
+        this.walletType = 'eth';
         this.password = '';
         this.name = '';
         this.mnemonics = [];
@@ -194,7 +194,7 @@ class VerifyMnemonicScreen extends BaseComponent {
     _initData() {
         let params = this.props.createWalletParams;
         if(params){
-            this.isItc = params.isItc
+            this.walletType = params.walletType
             this.from = params.from
             this.password = params.password
             this.name = params.name
@@ -362,7 +362,7 @@ class VerifyMnemonicScreen extends BaseComponent {
                 name: this.name,
                 address: checksumAddress,
                 extra: '',
-                isItcWallet: false
+                type: 'eth',//钱包类型
             }
             let wallets = [];
             if (this.from == 1 || this.from == 2) {

@@ -149,7 +149,7 @@ class CreateWalletScreen extends BaseComponent {
             nameWarn: I18n.t('launch.enter_normative_wallet_name'),
             pwdWarn: I18n.t('launch.password_warn'),
             rePwdWarn: I18n.t('launch.enter_same_password'),
-            isItc: false, //是创建itc还是eth钱包,
+            walletType: 'eth', //是创建itc还是eth钱包,
             from: 0,
         }
         this.nametxt = '';
@@ -169,7 +169,7 @@ class CreateWalletScreen extends BaseComponent {
     _initData() {
         let params = this.props.createWalletParams;
         this.setState({
-            isItc: params.isItc,
+            walletType: params.walletType,
             from: params.from
         })
     }
@@ -394,7 +394,7 @@ class CreateWalletScreen extends BaseComponent {
         //let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.creact_wallet');
         //let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/create_icon.png');
 
-        let titleText = this.state.isItc ? I18n.t('settings.create_itc_wallet') : I18n.t('settings.create_eth_wallet');
+        let titleText = this.state.walletType=='itc' ? I18n.t('settings.create_itc_wallet') : I18n.t('settings.create_eth_wallet');
         let titleIcon = require('../../assets/launch/create_icon.png');
         return (
 

@@ -121,13 +121,13 @@ class Loading extends Component {
         if(!ethWalletList){
             ethWalletList =[]
         }
-        if(user && user.isItcWallet === undefined){
-            user.isItcWallet = false
+        if(user && user.type === undefined){
+            user.type = 'eth'
             let ethWallet = {
                 name: user.name,
                 address: user.address,
                 extra: user.extra,
-                isItcWallet: false
+                type: 'eth'
             }
             
             if(ethWalletList){

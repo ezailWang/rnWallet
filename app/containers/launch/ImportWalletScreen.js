@@ -134,7 +134,7 @@ class ImportWalletScreen extends BaseComponent {
 
             isShowSLoading: false,
             sLoadingContent: '',
-            isItc: false,
+            walletType: 'eth',
         }
         this.from = 0;// 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入
         this.nametxt = '';
@@ -164,7 +164,7 @@ class ImportWalletScreen extends BaseComponent {
         let params = this.props.createWalletParams;
         if (params) {
             this.setState({
-                isItc: params.isItc
+                walletType: params.walletType
             })
             this.from = params.from
         }
@@ -415,7 +415,7 @@ class ImportWalletScreen extends BaseComponent {
                 name: this.nametxt,
                 address: checksumAddress,
                 extra: '',
-                isItcWallet: false
+                type: 'eth'
             }
             let isExist = false;
             let wallets = [];
@@ -498,7 +498,7 @@ class ImportWalletScreen extends BaseComponent {
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         //let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.import_wallet');
         //let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/importIcon.png');
-        let titleText = this.state.isItc ? I18n.t('settings.import_itc_wallet') : I18n.t('settings.import_eth_wallet');
+        let titleText = this.state.walletType=='itc' ? I18n.t('settings.import_itc_wallet') : I18n.t('settings.import_eth_wallet');
 
         let titleIcon = require('../../assets/launch/importIcon.png');
         return (

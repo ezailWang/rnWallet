@@ -242,7 +242,7 @@ class FirstLaunchScreen extends BaseComponent {
         //this.props.navigation.navigate('MappingTerms')
         //todo
         let params = {
-            isItc: false,
+            walletType: 'eth',
             from: 0
         }
         this.props.setCreateWalletParams(params);

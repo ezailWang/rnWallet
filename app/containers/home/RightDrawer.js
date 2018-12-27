@@ -57,10 +57,9 @@ class RightDrawer extends BaseComponent {
         
     }
 
-    createEthOrItcWallet = (isItc) => {
-        // this.navigateToScreen('CreateWallet', { isItc: isItc })
+    createEthOrItcWallet = (walletType) => {
         let params = {
-            isItc: isItc,
+            walletType: walletType,
             from: 1
         }
         store.dispatch(setCreateWalletParams(params));
@@ -102,10 +101,10 @@ class RightDrawer extends BaseComponent {
                 <ScrollView style={{ paddingTop: 50, paddingBottom: 20, }} showsVerticalScrollIndicator={false}>
                     {/*<ItemHeader icon={require('../../assets/set/itc_icon.png')} text={I18n.t('settings.itc_wallet')}></ItemHeader>
                     {itcWalletsView}
-                       <AddButton addBg={require('../../assets/set/add_itc.png')} addOnPress={() => this.createEthOrItcWallet(true)}></AddButton>*/}
+                       <AddButton addBg={require('../../assets/set/add_itc.png')} addOnPress={() => this.createEthOrItcWallet('itc')}></AddButton>*/}
                     <ItemHeader icon={require('../../assets/set/eth_icon.png')} text={I18n.t('settings.eth_wallet')}></ItemHeader>
                     {ethWalletsView}
-                    <AddButton addBg={require('../../assets/set/add_eth.png')} addOnPress={() => this.createEthOrItcWallet(false)}></AddButton>
+                    <AddButton addBg={require('../../assets/set/add_eth.png')} addOnPress={() => this.createEthOrItcWallet('eth')}></AddButton>
                 </ScrollView>
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
