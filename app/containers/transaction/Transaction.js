@@ -546,7 +546,8 @@ export default class Transaction extends BaseComponent {
         let params = store.getState().Core.walletTransfer;
         let title = /*params.transferType + ' ' + */I18n.t('transaction.transfer');
         let alertHeight =(this.state.toAddress.length == 42 &&  this.state.toAddress != this.state.fromAddress) ? 0 : 18
-        //let isShowAddressWarn = 
+        console.log('LtoAddress',this.state.toAddress)
+        let isShowAddressWarn =  this.state.toAddress != '' &&  alertHeight == 18
     
         return (
             <View   style={styles.container} 
@@ -585,10 +586,10 @@ export default class Transaction extends BaseComponent {
                         returnKeyType={"done"}
                         onChangeText={this.detailTextInputChangeText} />*/}
                     {/*滑竿视图*/}
-                    {alertHeight == 0 ? null : <Text style={{color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}} 
+                    {isShowAddressWarn ?  <Text style={{color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}} 
                                 adjustsFontSizeToFit = {true}>
                                 {I18n.t('modal.enter_valid_transfer_address')}
-                    </Text>}
+                    </Text> : null}
                     <SliderView gasStr={this.state.gasStr}
                         minGasPrice={this.state.minGasPrice}
                         maxGasPrice={this.state.maxGasPrice}
