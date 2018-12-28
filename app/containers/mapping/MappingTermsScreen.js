@@ -103,11 +103,13 @@ const styles = StyleSheet.create({
         height: 32,
         borderRadius: 5,
         marginLeft: -5,
+        flexDirection:'row',
+        alignItems:'center'
     },
     stepItemTitle: {
         width: stepItemWidth - 50,
         lineHeight: 32,
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: '600',
         color: 'white',
         paddingLeft: 15,
@@ -188,9 +190,9 @@ export default class MappingTermsScreen extends BaseComponent {
                             <LiItem num={'3'} isShowLine={false}></LiItem>
                         </View>
                         <View style={styles.contentRight}>
-                            <StepItem title={'STEP 1:' + I18n.t('mapping.bind_map_address')} desc={I18n.t('mapping.bind_map_address_des')} image={require('../../assets/mapping/mappingStep1.png')}></StepItem>
-                            <StepItem title={'STEP 2:' + I18n.t('mapping.application_mapping')} desc={I18n.t('mapping.application_mapping_des')} image={require('../../assets/mapping/mappingStep2.png')}></StepItem>
-                            <StepItem title={'STEP 3:' + I18n.t('mapping.native_issuance')} desc={I18n.t('mapping.native_issuance_des')} image={require('../../assets/mapping/mappingStep3.png')}></StepItem>
+                            <StepItem title={'STEP 1: ' + I18n.t('mapping.bind_map_address')} desc={I18n.t('mapping.bind_map_address_des')} image={require('../../assets/mapping/mappingStep1.png')}></StepItem>
+                            <StepItem title={'STEP 2: ' + I18n.t('mapping.application_mapping')} desc={I18n.t('mapping.application_mapping_des')} image={require('../../assets/mapping/mappingStep2.png')}></StepItem>
+                            <StepItem title={'STEP 3: ' + I18n.t('mapping.native_issuance')} desc={I18n.t('mapping.native_issuance_des')} image={require('../../assets/mapping/mappingStep3.png')}></StepItem>
                         </View>
                     </View>
                     <View style={styles.bottomBox}>

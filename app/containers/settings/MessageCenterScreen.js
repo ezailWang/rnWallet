@@ -435,7 +435,7 @@ class MessageCenterScreen extends BaseComponent {
         if (!localTokens) {
             localTokens = []
         }
-
+        
         localTokens.push({
             iconLarge: token.iconLarge,
             symbol: token.symbol,

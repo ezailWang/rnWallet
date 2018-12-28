@@ -295,6 +295,7 @@ class SearchTokenScreen extends BaseComponent {
         }
         this._saveData()
         this.refreshDatas();
+       
         
     }
 
@@ -313,10 +314,13 @@ class SearchTokenScreen extends BaseComponent {
                 })
             } 
         })
+        
         let key = StorageKey.Tokens + this.props.wallet.address
         StorageManage.save(key, localTokens)
-
-        DeviceEventEmitter.emit('changeTokens', {});
+        setTimeout(()=>{
+            DeviceEventEmitter.emit('changeTokens', {});
+        }, 0);
+       
         //this._hideLoading()
        
     }

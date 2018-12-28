@@ -410,7 +410,7 @@ class VerifyMnemonicScreen extends BaseComponent {
        
         if(this.from == 1){
             this.props.navigation.navigate('Home')
-            this.props.navigation.openDrawer()
+            //this.props.navigation.openDrawer()
         }else if(this.from == 2){
             this.props.navigation.navigate('WalletList')
         }else{

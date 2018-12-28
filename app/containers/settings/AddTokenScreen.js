@@ -157,7 +157,7 @@ class AddTokenScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            datas: [],//列表数据
+            datas: []
         }
         this.addedTokens = [];//已经添加的Tokens
         this.tokenList = [];
@@ -167,7 +167,6 @@ class AddTokenScreen extends BaseComponent {
 
 
     _changeTokensEmitter = (data) =>{
-        console.log('L_changeTokensEmitter')
         this._loadData()
     }
 
@@ -230,7 +229,7 @@ class AddTokenScreen extends BaseComponent {
         }
         let list = this.tokenList
         this.setState({
-            datas: list,
+            datas:list,
         })
 
         this._saveData()
@@ -240,7 +239,7 @@ class AddTokenScreen extends BaseComponent {
         let _this = this;
         this.props.navigation.navigate('SearchToken', {
             callback: async (data) => {
-                _this._loadData()
+               // _this._loadData()
             }
         });
     }
@@ -275,7 +274,6 @@ class AddTokenScreen extends BaseComponent {
         StorageManage.save(key, localTokens)
 
         //this._hideLoading()
-
     }
 
     toHomePage() {
@@ -284,7 +282,6 @@ class AddTokenScreen extends BaseComponent {
     }
 
     renderComponent() {
-        console.log('L_changeTokensEmitter__1')
         return (
             <View style={styles.container}>
                 <View style={styles.topBox}>
@@ -310,7 +307,6 @@ class AddTokenScreen extends BaseComponent {
                     ItemSeparatorComponent={this._renderItemSeparatorComponent}
                     getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index: index })}>
                 </FlatList>
-                {this.props.tokens.length  ? <View></View> : null}
             </View>
         );
     }
