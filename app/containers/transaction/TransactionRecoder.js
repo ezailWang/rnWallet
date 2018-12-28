@@ -301,7 +301,7 @@ export default class TransactionRecoder extends BaseComponent {
         super(props);
         // this.onRefresh = this.onRefresh.bind(this);
 
-        let { amount, price } = store.getState().Core.balance;
+        let { amount, price, iconLarge} = store.getState().Core.balance;
 
         this.state = {
             itemList: [],
@@ -309,7 +309,9 @@ export default class TransactionRecoder extends BaseComponent {
             price: price,
             isRefreshing: false,
             scroollY: new Animated.Value(0),
-            showNoData: false
+            showNoData: false,
+            icon:iconLarge,
+            loadIconError : false
         }
 
 
@@ -422,7 +424,7 @@ export default class TransactionRecoder extends BaseComponent {
                 showNoData: true,
                 itemList: itemList,
                 price: balanceInfo.price,
-                balance: balanceInfo.amount
+                balance: balanceInfo.amount,
             });
             store.dispatch(setCoinBalance(balanceInfo));
         }
@@ -803,6 +805,25 @@ export default class TransactionRecoder extends BaseComponent {
         return true;
     }
 
+    _getLogo = (symbol,iconLarge) =>{
+        if(symbol == 'ITC'){
+            return require('../../assets/home/ITC.png');
+        }
+        if(iconLarge == ''){
+            if(symbol == 'ETH'){
+                return require('../../assets/home/ETH.png');
+            }else if(symbol == 'ITC'){
+                return require('../../assets/home/ITC.png');
+            }else{
+                return require('../../assets/home/null.png');
+            }
+        }else {
+            if(this.state.loadIconError){
+                return require('../../assets/home/null.png');
+            }
+        }
+    }
+
     renderComponent() {
 
         let { amount, price, symbol } = store.getState().Core.balance;
@@ -862,6 +883,9 @@ export default class TransactionRecoder extends BaseComponent {
         let sign = store.getState().Core.monetaryUnit.symbol;
         let priceStr = isNaN(pr) || (pr) === 0 ? '--' : '≈' + sign + (pr).toFixed(2)
         let TouchView = Animated.createAnimatedComponent(TouchableOpacity)
+
+        let iconUri  = this.state.icon;
+        let icon = this._getLogo(symbol,iconUri)
         return (
             <View style={styles.container}>
                 <StatusBarComponent barStyle={'light-content'} />
@@ -925,11 +949,20 @@ export default class TransactionRecoder extends BaseComponent {
                             position: 'absolute',
                             left: 20,
                             bottom: 60,
-                            width: 28,
-                            height: 28,
+                            width: 36,
+                            height: 36,
                             opacity: headerTextOpacity,
+                            borderRadius:18,
                         }}
-                        source={this.getIconImage(symbol)}
+                        /*source={this.getIconImage(symbol)}*/
+                        source={ iconUri=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconUri}} 
+                        resizeMode='contain'
+                        iosdefaultSource={require('../../assets/home/null.png')}
+                        onError = {()=>{
+                            this.setState({
+                               loadIconError:true,
+                            })
+                        }}
                     />
                     <Animated.Text
                         style={{

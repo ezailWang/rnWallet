@@ -355,7 +355,7 @@ class ItemView extends PureComponent{
         const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
         let icon = this._getLogo(symbol,iconLarge)
 
-        let _address = address.substr(0,6) + '---' + address.substr(36,42);
+        let _address = address.substr(0,6) + '......' + address.substr(36,42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
         let fullName = name=='' || name ==undefined ? '---' : name;

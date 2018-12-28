@@ -103,15 +103,15 @@ class HomeScreen extends BaseComponent {
     }
 
     onClickCell = async (item) => {
-
-        let { address, symbol, decimal, price, balance } = item.item;
-
+        let { address, symbol, decimal, price, balance,iconLarge } = item.item;
+        console.log('L_iconLarge',iconLarge)
         let balanceInfo = {
             amount: balance,
             price: price,
             symbol: symbol,
             address: address,
-            decimal: decimal
+            decimal: decimal,
+            iconLarge : iconLarge
         }
         store.dispatch(setCoinBalance(balanceInfo));
         this.props.navigation.navigate('TransactionRecoder', {

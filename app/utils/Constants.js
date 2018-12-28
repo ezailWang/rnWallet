@@ -7,7 +7,7 @@ const defaultTokens = [
         iconLarge: '',
         name: 'Ethereum',
         decimal: 18,
-        address: '',
+        address: '0x0000000000000000000000000000000000000000',
     },
     // {
     //     address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940',//主网

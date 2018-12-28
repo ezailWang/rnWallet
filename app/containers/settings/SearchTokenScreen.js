@@ -198,7 +198,8 @@ class SearchTokenScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            datas: [],//列表数据
+            datas:[],//列表数据
+            isShowEmptyView: false
         }
 
         this.searchText = '';
@@ -244,20 +245,21 @@ class SearchTokenScreen extends BaseComponent {
 
 
 
-    //空布局
-    _renderEmptyView = () => (
+     //空布局
+     _renderEmptyView = () => (
+         this.state.isShowEmptyView ? 
         <View style={styles.emptyListContainer}>
-
-            <View style={styles.emptyListBox}>
-                <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'} />
-                <Text style={styles.emptyListText}>{I18n.t('settings.no_related_currency_found')}</Text>
-                <TouchableOpacity activeOpacity={0.6}
-                    style={styles.toFeedbackBtn}
-                    onPress={this._toFeedbackPress}>
-                    <Text style={styles.feedBackText}>{I18n.t('settings.feedback')}</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+            
+             <View style={styles.emptyListBox}>
+                     <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'}/>
+                     <Text style={styles.emptyListText}>{I18n.t('settings.no_related_currency_found')}</Text>
+                     <TouchableOpacity activeOpacity={0.6}
+                               style={styles.toFeedbackBtn}
+                               onPress={this._toFeedbackPress}>
+                            <Text style={styles.feedBackText}>{I18n.t('settings.feedback')}</Text>          
+                     </TouchableOpacity> 
+             </View>
+        </View> : null
     )
 
     _toFeedbackPress = () => {
@@ -316,6 +318,7 @@ class SearchTokenScreen extends BaseComponent {
             this.searchTokens = [];
             this.setState({
                 datas: [],
+                isShowEmptyView: false
             })
         } else {
             this._matchToken()
@@ -368,6 +371,7 @@ class SearchTokenScreen extends BaseComponent {
         })
         this.setState({
             datas: datas,
+            isShowEmptyView: true
         })
         this.searchText = '';
     }
@@ -378,6 +382,7 @@ class SearchTokenScreen extends BaseComponent {
         this.refs.searchInput.clear()
         this.setState({
             datas: [],
+            isShowEmptyView: false
         })
     }
 
@@ -470,11 +475,11 @@ class ItemView extends PureComponent {
         }
     }
 
-    render() {
-        const { iconLarge, symbol, name, address, isAdded } = this.props.item.item || {}
-        let icon = this._getLogo(symbol, iconLarge);
-        let _address = address.substr(0, 6) + '...' + address.substr(36, 42);
-        let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ? true : false
+    render(){
+        const { iconLarge, symbol, name,address,isAdded} = this.props.item.item || {}
+        let icon = this._getLogo(symbol,iconLarge);
+        let _address = address.substr(0,6) + '......' + address.substr(36,42);
+        let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
         let fullName = name == '' || name == undefined ? '...' : name;
 

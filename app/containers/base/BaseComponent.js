@@ -61,6 +61,7 @@ export default class BaseComponent extends PureComponent {
         this._showLoding = this._showLoding.bind(this);
         this._hideLoading = this._hideLoading.bind(this);
         this._setStatusBarStyleLight = this._setStatusBarStyleLight.bind(this);
+        this._setStatusBarStyleDark = this._setStatusBarStyleDark.bind(this);
         this._initData = this._initData.bind(this);
         //  this._handleAppStateChange = this._handleAppStateChange.bind(this);
         this._barStyle = 'dark-content';
