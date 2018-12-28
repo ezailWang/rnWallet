@@ -60,7 +60,13 @@
     "unorm": "^1.4.1",
     "url": "^0.10.3",
     "vm-browserify": "0.0.4",
-    "web3": "^1.0.0-beta.34"
+    "web3": "^1.0.0-beta.34",
+    
+    "elliptic": "6.4.0",
+    "isomorphic-ws": "4.0.1",
+    "crypto-js": "3.1.9-1",
+    "axios": "0.18.0",
+    "ws": "6.1.2"
   },
   "devDependencies": {
     "babel-jest": "22.4.3",

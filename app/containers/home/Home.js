@@ -23,7 +23,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import NetworkManager from '../../utils/NetworkManager'
-import { setAllTokens, setCoinBalance, setNetWork, removeToken, setIsNewWallet } from '../../config/action/Actions'
+import { setAllTokens, setCoinBalance, setNetWork, removeToken, setIsNewWallet, setNewTransaction } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -191,6 +191,7 @@ class HomeScreen extends BaseComponent {
     _changeWalletEmitter = async (data) => {
         this._showLoading()
         try {
+            store.dispatch(setNewTransaction(null));
             let address = this.props.wallet.address
             let localUser = await StorageManage.load(StorageKey.User)
             if (localUser && localUser['isTotalAssetsHidden']) {

@@ -1,5 +1,5 @@
 import React, { PureComponent, Component } from 'react';
-import { View, StyleSheet, Image, Text, ScrollView, Vibration, TouchableOpacity ,DeviceEventEmitter} from 'react-native';
+import { View, StyleSheet, Image, Text, ScrollView, Vibration, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import keythereum from 'keythereum'
 import HDWallet from 'react-native-hdwallet'
@@ -22,7 +22,7 @@ import BaseComponent from '../../containers/base/BaseComponent'
 import PropTypes from 'prop-types';
 import lodash from 'lodash'
 import Toast from 'react-native-root-toast';
-import { defaultTokens,itcDefaultTokens } from '../../utils/Constants'
+import { defaultTokens, defaultTokensOfITC } from '../../utils/Constants'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -175,7 +175,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
         }
 
-        
+
         this.from = 0; // 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入
         this.walletType = 'eth';
         this.password = '';
@@ -193,7 +193,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
     _initData() {
         let params = this.props.createWalletParams;
-        if(params){
+        if (params) {
             this.walletType = params.walletType
             this.from = params.from
             this.password = params.password
@@ -201,7 +201,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
 
         this.mnemonics = this.props.mnemonic.split(' ');
-        console.log("L_mnemonics",this.mnemonics)
+        console.log("L_mnemonics", this.mnemonics)
         this.initAllData()
     }
 
@@ -333,7 +333,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
     }
 
-    async startCreateItcWallet(){
+    async startCreateItcWallet() {
 
     }
 
@@ -367,29 +367,29 @@ class VerifyMnemonicScreen extends BaseComponent {
             let wallets = [];
             if (this.from == 1 || this.from == 2) {
                 let preWalletList = [];
-                if(this.walletType == 'itc'){
+                if (this.walletType == 'itc') {
                     preWalletList = await StorageManage.load(StorageKey.ItcWalletList)
-                }else{
+                } else {
                     preWalletList = await StorageManage.load(StorageKey.EthWalletList)
                 }
-                
-                if(!preWalletList){
+
+                if (!preWalletList) {
                     preWalletList = []
                 }
                 wallets = preWalletList.concat(wallet)
             } else {
                 wallets.push(wallet)
                 this.props.setIsNewWallet(true);
-            }  
+            }
 
-            if(this.walletType == 'itc'){
+            if (this.walletType == 'itc') {
                 StorageManage.save(StorageKey.ItcWalletList, wallets)
                 this.props.setItcWalletList(wallets)
-            }else{
+            } else {
                 StorageManage.save(StorageKey.EthWalletList, wallets)
                 this.props.setEthWalletList(wallets)
             }
-          
+
             StorageManage.save(StorageKey.User, wallet)
             this.props.setCurrentWallet(wallet)
 
@@ -405,29 +405,29 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
     }
 
-    routeTo(){
-        if(this.walletType == 'itc'){
-            this.props.loadTokenBalance(itcDefaultTokens)
-        }else{
+    routeTo() {
+        if (this.walletType == 'itc') {
+            this.props.loadTokenBalance(defaultTokensOfITC)
+        } else {
             this.props.loadTokenBalance(defaultTokens)
         }
-        if(this.from == 1 || this.from == 2){
-            
+        if (this.from == 1 || this.from == 2) {
+
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-    
-            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false,isChangeWalletList:true});
+
+            DeviceEventEmitter.emit('changeWallet', { openRightDrawer: false, isChangeWalletList: true });
         }
         this.setState({
             isShowSLoading: false
         })
-       
-        if(this.from == 1){
+
+        if (this.from == 1) {
             this.props.navigation.navigate('Home')
             //this.props.navigation.openDrawer()
-        }else if(this.from == 2){
+        } else if (this.from == 2) {
             this.props.navigation.navigate('WalletList')
-        }else{
+        } else {
             this.props.navigation.navigate('Home')
         }
     }
@@ -595,8 +595,8 @@ const mapDispatchToProps = dispatch => ({
     setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
     setCreateWalletParams: (params) => dispatch(Actions.setCreateWalletParams(params)),
-    setTransactionRecordList : (records) => dispatch(Actions.setTransactionRecordList(records)),
-    loadTokenBalance : (tokens) => dispatch(Actions.loadTokenBalance(tokens))
+    setTransactionRecordList: (records) => dispatch(Actions.setTransactionRecordList(records)),
+    loadTokenBalance: (tokens) => dispatch(Actions.loadTokenBalance(tokens))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonicScreen)

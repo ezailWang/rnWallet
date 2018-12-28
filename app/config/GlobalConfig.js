@@ -69,8 +69,13 @@ const TransferType = {
 
 const TransferGasLimit = {
     ethGasLimit: 25200,
-    tokenGasLimit: 110000
+    tokenGasLimit: 110000,
+    itcGasLimit:21000
 };
+
+const ItcChainId = {
+    default:1
+}
 
 const FontSize = {
     HeaderSize: 18,
@@ -95,6 +100,7 @@ const StorageKey = {
     TransactionRecoderInfo:'TransactionRecoderInfo',//存储交易记录 id为symbol,
     ItcWalletList:'ItcWalletList',//存储itc钱包列表
     EthWalletList:'EthWalletList',//存储eth钱包列表
+    ItcWalletNonce:'itcWalletNonce'//存储itc钱包上次交易的nonce
 }
 
 const Network = {
@@ -117,4 +123,5 @@ module.exports = {
     StorageKey,
     Network,
     Common,
+    ItcChainId
 };

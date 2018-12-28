@@ -18,7 +18,7 @@ import { I18n } from '../../config/language/i18n'
 import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
 import { NavigationActions } from 'react-navigation';
-import { defaultTokens,itcDefaultTokens } from '../../utils/Constants'
+import { defaultTokens, defaultTokensOfITC } from '../../utils/Constants'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -415,7 +415,7 @@ class ImportWalletScreen extends BaseComponent {
                 let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
 
 
-                if(itcWalletList && itcWalletList.length > 0){
+                if (itcWalletList && itcWalletList.length > 0) {
                     for (let i = 0; i < itcWalletList.length; i++) {
                         if (checksumAddress.toLowerCase() == itcWalletList[i].address.toLowerCase()) {
                             isExist = true;
@@ -423,26 +423,26 @@ class ImportWalletScreen extends BaseComponent {
                         }
                     }
                 }
-                if(ethWalletList && ethWalletList.length > 0){
+                if (ethWalletList && ethWalletList.length > 0) {
                     for (let i = 0; i < ethWalletList.length; i++) {
                         if (checksumAddress.toLowerCase() == ethWalletList[i].address.toLowerCase()) {
                             isExist = true;
                             break;
                         }
                     }
-                } 
-                
+                }
+
                 let preWalletList = [];
-                if(this.state.walletType == 'itc'){
+                if (this.state.walletType == 'itc') {
                     preWalletList = itcWalletList
-                }else{
+                } else {
                     preWalletList = ethWalletList
                 }
-                
+
                 if (!preWalletList) {
                     preWalletList = []
                 }
-                
+
                 if (!isExist) {
                     wallets = preWalletList.concat(wallet)
                 }
@@ -457,10 +457,10 @@ class ImportWalletScreen extends BaseComponent {
                 })
                 this._showAlert(I18n.t('settings.import_wallet_already'))
             } else {
-                if(this.state.walletType == 'itc'){
+                if (this.state.walletType == 'itc') {
                     StorageManage.save(StorageKey.ItcWalletList, wallets)
                     this.props.setItcWalletList(wallets)
-                }else{
+                } else {
                     StorageManage.save(StorageKey.EthWalletList, wallets)
                     this.props.setEthWalletList(wallets)
                 }
@@ -483,16 +483,16 @@ class ImportWalletScreen extends BaseComponent {
         this.setState({
             isShowSLoading: false
         })
-        if(this.state.walletType == 'itc'){
-            this.props.loadTokenBalance(itcDefaultTokens)
-        }else{
+        if (this.state.walletType == 'itc') {
+            this.props.loadTokenBalance(defaultTokensOfITC)
+        } else {
             this.props.loadTokenBalance(defaultTokens)
         }
         if (this.from == 1 || this.from == 2) {
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-            
-            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false,isChangeWalletList:true});
+
+            DeviceEventEmitter.emit('changeWallet', { openRightDrawer: false, isChangeWalletList: true });
 
             if (this.from == 1) {
                 this.props.navigation.navigate('Home')
@@ -519,7 +519,7 @@ class ImportWalletScreen extends BaseComponent {
         let rePwdIcon = this.state.isShowRePassword ? require('../../assets/launch/pwdOpenIcon.png') : require('../../assets/launch/pwdHideIcon.png');
         //let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.import_wallet');
         //let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/importIcon.png');
-        let titleText = this.state.walletType=='itc' ? I18n.t('settings.import_itc_wallet') : I18n.t('settings.import_eth_wallet');
+        let titleText = this.state.walletType == 'itc' ? I18n.t('settings.import_itc_wallet') : I18n.t('settings.import_eth_wallet');
 
         let titleIcon = require('../../assets/launch/importIcon.png');
         return (
@@ -634,7 +634,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
     setIsNewWallet: (isNewWallet) => dispatch(Actions.setIsNewWallet(isNewWallet)),
-    loadTokenBalance: (tokens) => dispatch(Actions.loadTokenBalance(tokens)), 
+    loadTokenBalance: (tokens) => dispatch(Actions.loadTokenBalance(tokens)),
     setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
     setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),

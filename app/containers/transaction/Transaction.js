@@ -335,20 +335,30 @@ export default class Transaction extends BaseComponent {
     })**/
 
     getPriceTitle = (gasPrice, ethPrice) => {
-
-        let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
-
+        const wallet = store.getState().Core.wallet;
+        let gasLimit
+        if (wallet.type === 'itc') {
+            gasLimit = TransferGasLimit.itcGasLimit
+        } else if (wallet.type === 'eht') {
+            gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+        }
         let totalGas = gasPrice * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = Number(totalGas.toFixed(8))
         // let totalGasPrice = totalGas * ethPrice;
         // totalGasPrice = totalGasPrice.toFixed(8);
         // return totalGas + "ether≈" + totalGasPrice + "$";
 
-        return totalGas + " ether";
+        return totalGas + (wallet.type === 'itc' ? ' itc' : ' ether');
     };
 
     getDetailPriceTitle = () => {
-        let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+        const wallet = store.getState().Core.wallet;
+        let gasLimit
+        if (wallet.type === 'itc') {
+            gasLimit = TransferGasLimit.itcGasLimit
+        } else if (wallet.type === 'eht') {
+            gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+        }
         let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = Number(totalGas.toFixed(8));
 
@@ -359,11 +369,8 @@ export default class Transaction extends BaseComponent {
 
 
         try {
-            // console.warn("开始转账，已验证私钥");
-
+       
             let { address, symbol, decimal } = store.getState().Core.balance;
-
-            // console.warn('交易参数：',address,symbol,decimal,this.state.toAddress,this.state.transferValue,this.state.currentGas)
 
             let currentBlock = await NetworkManager.getCurrentBlockNumber();
             let res = await NetworkManager.sendTransaction(
@@ -377,25 +384,34 @@ export default class Transaction extends BaseComponent {
                 this.state.currentGas,
                 privateKey,
                 (hash) => {
+                    if (hash === null) {
+                        this.hideLoading();
+                        this._showAlert(I18n.t('transaction.alert_1'))
+                        return
+                    }
                     let { wallet } = store.getState().Core
                     let timestamp = new Date().getTime()
 
-                    let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+                    let gasLimit
+                    if (wallet.type === 'itc') {
+                        gasLimit = TransferGasLimit.itcGasLimit
+                    } else if (wallet.type === 'eht') {
+                        gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+                    }
                     let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
                     totalGas = totalGas.toFixed(8);
-
+                    const txHash = hash.indexOf('0x') === -1 ? '0x' + hash : hash
                     let newTransaction = {
                         from: wallet.address,
                         to: this.state.toAddress,
                         timeStamp: timestamp / 1000,
-                        hash: hash,
+                        hash: txHash,
                         value: this.state.transferValue,
                         isError: "0",
                         gasPrice: totalGas,
                         blockNumber: currentBlock,
                         symbol: symbol
                     }
-
                     store.dispatch(setNewTransaction(newTransaction));
                     this.hideLoading();
 
@@ -408,7 +424,6 @@ export default class Transaction extends BaseComponent {
         } catch (err) {
             this.hideLoading()
         }
-
 
         // if (!res) {
         //     setTimeout(() => {
@@ -469,7 +484,13 @@ export default class Transaction extends BaseComponent {
 
     didTapNextBtn = () => {
         //计算gas消耗
-        let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+        const wallet = store.getState().Core.wallet;
+        let gasLimit
+        if (wallet.type === 'itc') {
+            gasLimit = TransferGasLimit.itcGasLimit
+        } else if (wallet.type === 'eht') {
+            gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+        }
         let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
         totalGas = totalGas.toFixed(8);
 
