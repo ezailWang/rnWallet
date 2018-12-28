@@ -233,14 +233,9 @@ class WhiteBgNoBackHeader extends PureComponent {
     }
 
     render() {
-        let height = Layout.NAVIGATION_HEIGHT();
-        let contentMarginTop = { marginTop: 24 };
-        if (Layout.DEVICE_IS_IPHONE_X()) {
-            contentMarginTop = { marginTop: 48 };
-        }
         return (
-            <View style={[styles.headerBgContainer, { height: height }]}>
-                <View style={[styles.headerTitleBox, contentMarginTop]}>
+            <View style={[styles.headerBgContainer,{height:44}]}>
+                <View style={[styles.headerTitleBox]}>
                     <Text style={styles.headerTitle}>
                         {this.props.text}
                     </Text>

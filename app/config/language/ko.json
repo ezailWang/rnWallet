@@ -244,7 +244,7 @@
         "bind_map_address_des":"현재 보유한 ITC ERC20 월렛을 토큰스왑의 주소와 바인딩",
         "application_mapping":"토큰스왑 진행을 요청하기",
         "application_mapping_des":"가져온 Erc20 월렛을 통해 토큰스왑의 주소로 ITC를 마이그레이션",
-        "native_issuance":"기존 ITC를 분배",
+        "native_issuance":"메인넷 ITC를 분배",
         "native_issuance_des":"ITC 월렛은 스왑될 주소에서 입금된 ITC를 모니토링합니다. 모니토링 끝난 후 기존 ITC 토큰을 메인넷 월렛 주소로 마이그레이션을 할 것입니다.",
         "read_and_agreed":"잘 읽고 동의하였습니다.",
         "start":"시작",

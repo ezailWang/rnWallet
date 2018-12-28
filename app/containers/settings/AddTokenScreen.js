@@ -223,10 +223,10 @@ class AddTokenScreen extends BaseComponent {
         this.setState({
             datas: list,
         })
+
+        this._saveData()
     }
 
-   
-   
     _search = async() =>{
         let _this = this;
         this.props.navigation.navigate('SearchToken', {
@@ -256,15 +256,17 @@ class AddTokenScreen extends BaseComponent {
 
     _backPress = () =>{
         this._saveData()
+        this.toHomePage()
     }
 
     _onBackPressed = () => {
         this._saveData()
+        this.toHomePage()
         return true;
     }
 
     _saveData = async() => {
-        this._showLoding()
+        //this._showLoding()
         let tokens = this.addedTokens;
         let localTokens = [];
         tokens.forEach(function (value, index, b) {
@@ -280,10 +282,15 @@ class AddTokenScreen extends BaseComponent {
         })
         StorageManage.save(StorageKey.Tokens, localTokens)
 
-        this._hideLoading()
+        //this._hideLoading()
+       
+    }
+
+    toHomePage (){
         this.props.navigation.state.params.callback();
         this.props.navigation.goBack()
     }
+
     renderComponent() {
         return (
             <View style={styles.container}>

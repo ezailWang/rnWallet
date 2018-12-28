@@ -1,26 +1,27 @@
 import React, { PureComponent } from 'react'
-import { Platform, Linking ,DeviceEventEmitter} from 'react-native'
+import { View, Linking, DeviceEventEmitter, Platform } from 'react-native'
 import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import Layout from '../../config/LayoutConstants'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 import ItcMappingServiceScreen from '../mapping/ItcMappingServiceScreen'
 import MappingTermsScreen from '../mapping/MappingTermsScreen'
+import StatusBarComponent from '../../components/StatusBarComponent'
 class Mapping extends PureComponent {
 
 
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
 
         }
         this._isMounted = false;
-        
     }
 
     componentDidMount() {
-       
+
     }
 
     componentWillMount() {
@@ -33,7 +34,7 @@ class Mapping extends PureComponent {
         //this.choseMappingTabHandler && this.choseMappingTabHandler.remove();
     }
 
-    _choseMappingTabEmitter=(data)=>{
+    _choseMappingTabEmitter = (data) => {
         /*if(this._isMounted){
         }
         setTimeout(()=>{
@@ -44,7 +45,14 @@ class Mapping extends PureComponent {
     }
 
     render() {
-        return <MappingTermsScreen></MappingTermsScreen>
+        return (
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
+                <StatusBarComponent barStyle='dark-content' />
+                <View style={{ flex: 1, marginTop: Layout.DEVICE_IS_IPHONE_X() ? 44 : 20, backgroundColor: 'white' }}>
+                    <MappingTermsScreen></MappingTermsScreen>
+                </View>
+            </View>
+        )
         //I18n.locale == 'zh' ? <ItcMappingServiceScreen></ItcMappingServiceScreen> :
     }
 }

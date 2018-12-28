@@ -120,6 +120,7 @@ class HomeScreen extends BaseComponent {
         })
     }
 
+    
     pushAddtoken = () => {
         /*this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {

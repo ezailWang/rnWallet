@@ -413,8 +413,6 @@ export default class TransactionRecoder extends BaseComponent {
         this.isGetRecodering = false;
     }
 
-
-
     //刷新页面
     refreshPage = async (itemList, isFirst) => {
         if (this._isMounted) {
@@ -429,8 +427,6 @@ export default class TransactionRecoder extends BaseComponent {
             store.dispatch(setCoinBalance(balanceInfo));
         }
     }
-
-
 
     refreshItemList = async (newRecoders, symbol, currentBlock) => {
         const { wallet } = store.getState().Core

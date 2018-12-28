@@ -276,7 +276,6 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _addOrRemoveItem = async (item) => {
-
         let token = item.item;
         let index = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
         let isAdd = token.isAdded;
@@ -293,20 +292,43 @@ class SearchTokenScreen extends BaseComponent {
             this.props.removeToken(token.address)
             this.addedTokens.splice(index, 1)
         }
+        this._saveData()
         this.refreshDatas();
+        
+    }
+
+    _saveData = async() => {
+        //this._showLoding()
+        let tokens = this.addedTokens;
+        let localTokens = [];
+        tokens.forEach(function (value, index, b) {
+            if(index != 0 && index != 1){
+                localTokens.push({
+                    iconLarge: value.iconLarge,
+                    symbol: value.symbol,
+                    name: value.name,
+                    decimal: parseInt(value.decimal, 10),
+                    address: value.address,
+                })
+            } 
+        })
+        StorageManage.save(StorageKey.Tokens, localTokens)
+
+        //this._hideLoading()
+       
     }
 
 
     _backPress = () => {
-        this._saveData()
+        this._goBack()
     }
 
     _onBackPressed = () => {
-        this._saveData()
+        this._goBack()
         return true;
     }
 
-    _saveData = () => {
+    _goBack = () => {
         let addedTokens = this.addedTokens;
         this.props.navigation.state.params.callback({ addedTokens: addedTokens });
         this.props.navigation.goBack()
@@ -509,7 +531,6 @@ class ItemView extends PureComponent {
                             </Text>
                         </TouchableOpacity>
                 }
-
             </View>
         )
     }
