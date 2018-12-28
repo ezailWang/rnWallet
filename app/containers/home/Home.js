@@ -37,6 +37,7 @@ import DeviceInfo from 'react-native-device-info'
 
 const hiddenIcon_invi = require('../../assets/home/psd_invi_w.png')
 const hiddenIcon_vi = require('../../assets/home/psd_vi_w.png')
+
 class HomeScreen extends BaseComponent {
     constructor(props) {
         super(props)
@@ -52,6 +53,7 @@ class HomeScreen extends BaseComponent {
             headBgImageRef: null,
             versionUpdateModalVisible: false,
         }
+        this.timer;
         this.versionUpdateInfo = null
         this._setStatusBarStyleLight()
     }
@@ -65,6 +67,7 @@ class HomeScreen extends BaseComponent {
     
     componentWillUnmount() {
         this._isMounted = false
+        clearInterval(this.timer)
         this._removeEventListener();
         this._removeChangeListener()
     }
@@ -104,7 +107,6 @@ class HomeScreen extends BaseComponent {
 
     onClickCell = async (item) => {
         let { address, symbol, decimal, price, balance,iconLarge } = item.item;
-        console.log('L_iconLarge',iconLarge)
         let balanceInfo = {
             amount: balance,
             price: price,
@@ -114,13 +116,15 @@ class HomeScreen extends BaseComponent {
             iconLarge : iconLarge
         }
         store.dispatch(setCoinBalance(balanceInfo));
+        let _this  = this
         this.props.navigation.navigate('TransactionRecoder', {
-            callback: function (data) {
+            callback: async function (data) {
+                await NetworkManager.loadTokenList()
             }
         })
     }
 
-    
+
     pushAddtoken = () => {
         /*this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
@@ -130,11 +134,12 @@ class HomeScreen extends BaseComponent {
                 this._hideLoading()
             }
         });*/
+        let _this = this;
         this.props.navigation.navigate('AddToken', {
             callback: async (token) => {
-                this._showLoding()
+                _this._showLoding()
                 await NetworkManager.loadTokenList()
-                this._hideLoading()
+                _this._hideLoading()
             }
         });
     }
@@ -189,6 +194,7 @@ class HomeScreen extends BaseComponent {
 
 
     _changeWalletEmitter = async (data) => {
+        
         this._showLoding()
 
 
@@ -206,6 +212,9 @@ class HomeScreen extends BaseComponent {
 
 
         this._hideLoading()
+        if(data.openRightDrawer){
+            this.props.navigation.openDrawer()
+        }
     }
 
 
@@ -274,7 +283,9 @@ class HomeScreen extends BaseComponent {
         NetworkManager.getUnReadMessageCount(params)
             .then(response => {
                 if (response.code === 200) {
+                   
                     let messageCount = response.data.account;
+                    console.log('L_getMessageCount',messageCount)
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
                 } else {
                     console.log('getMessageCount err msg:', response.msg)
@@ -325,11 +336,16 @@ class HomeScreen extends BaseComponent {
         await NetworkManager.loadTokenList()
         
         this._hideLoading()
+
+        this.timer = setInterval(() => {
+            this.getMessageCount()
+        }, 60 * 1000)
     }
 
 
     async saveTokenToStorage(token) {
-        let localTokens = await StorageManage.load(StorageKey.Tokens)
+        let key = StorageKey.Tokens + this.props.wallet.address
+        let localTokens = await StorageManage.load(key)
         if (!localTokens) {
             localTokens = []
         }
@@ -339,17 +355,18 @@ class HomeScreen extends BaseComponent {
             symbol: token.tokenSymbol,
             decimal: token.tokenDecimal,
         })
-        StorageManage.save(StorageKey.Tokens, localTokens)
+        StorageManage.save(key, localTokens)
     }
 
     async removeTokenFromStorage(address) {
-        let localTokens = await StorageManage.load(StorageKey.Tokens)
+        let key = StorageKey.Tokens + this.props.wallet.address
+        let localTokens = await StorageManage.load(key)
         if (!localTokens) {
             console.error('localTokens is null')
             return
         }
         localTokens.splice(localTokens.findIndex(item => item.address === address), 1)
-        StorageManage.save(StorageKey.Tokens, localTokens)
+        StorageManage.save(key, localTokens)
     }
 
     async saveIsTotalAssetsHiddenToStorage(isHidden) {
@@ -598,7 +615,8 @@ const mapStateToProps = state => ({
     totalAssets: state.Core.totalAssets,
     wallet: state.Core.wallet,
     monetaryUnit: state.Core.monetaryUnit,
-    isNewWallet: state.Core.isNewWallet
+    isNewWallet: state.Core.isNewWallet,
+    myLanguage: state.Core.myLanguage,
 })
 
 const mapDispatchToProps = dispatch => ({

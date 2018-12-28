@@ -13,14 +13,14 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import { Colors } from '../../config/GlobalConfig'
-import { WhiteBgNoBackHeader, WhiteBgHeader } from '../../components/NavigaionHeader'
+import { WhiteBgNoBackHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import { BlueButtonBig } from '../../components/Button'
 import { showToast } from '../../utils/Toast';
 import LinearGradient from 'react-native-linear-gradient'
-
+import StatusBarComponent from '../../components/StatusBarComponent';
 
 const rightViewHeight = Layout.WINDOW_HEIGHT - 100 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64)
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // backgroundColor: 'white',
         //todo height: 120,
-        justifyContent: 'center',
         height: 100,
         margin: 0,
         padding: 0
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     },
     button: {
         //width:Layout.WINDOW_WIDTH*0.8,
-        marginTop: -20,
+        marginTop: 10,
         padding: 0,
         alignSelf: 'center',
     },
@@ -178,8 +177,9 @@ export default class MappingTermsScreen extends BaseComponent {
         let checkIcon = this.state.isAgree ? require('../../assets/launch/check_on.png') : require('../../assets/launch/check_off.png');
         return (
             <View style={styles.container}>
-                <WhiteBgNoBackHeader
-                    text={I18n.t('mapping.itc_mapping_service')} />
+                <StatusBarComponent barStyle={'light-content'} />
+
+                <WhiteBgNoBackHeader text={I18n.t('mapping.itc_mapping_service')} />
                 <View style={styles.contentBox}>
                     <View style={styles.contentView}>
                         <View style={styles.contentLeft}>

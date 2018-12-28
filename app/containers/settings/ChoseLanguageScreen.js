@@ -153,6 +153,7 @@ class ChoseLanguageScreen extends BaseComponent {
         let params = {
             language: this.lang
         }
+        this.props.setLanguage(params)
         NetworkManager.userInfoUpdate(params)
             .then((response) => {
                 if (response.code === 200) {
@@ -163,8 +164,9 @@ class ChoseLanguageScreen extends BaseComponent {
                 console.log('userInfoUpdate err:', err)
             })
         this.resetJPushTag(preLang)
-        this.props.navigation.state.params.callback({ language: langObject, monetaryUnit: monetaryObject });
-        this.props.navigation.goBack()
+        this.props.navigation.navigate('Home')
+        /*this.props.navigation.state.params.callback({ language: langObject, monetaryUnit: monetaryObject });
+        this.props.navigation.goBack()*/
     }
 
     resetJPushTag = (preLang) => {
@@ -229,6 +231,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     setMonetaryUnit: (monetaryUnit) => dispatch(Actions.setMonetaryUnit(monetaryUnit)),
+    setLanguage: (myLanguage) => dispatch(Actions.setLanguage(myLanguage)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ChoseLanguageScreen)
 

@@ -541,6 +541,7 @@ export default class Transaction extends BaseComponent {
             this._showAlert(I18n.t('transaction.alert_2'))
         }
     }
+
     renderComponent() {
 
         let params = store.getState().Core.walletTransfer;

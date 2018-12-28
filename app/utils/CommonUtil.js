@@ -1,6 +1,7 @@
 import { I18n } from '../config/language/i18n'
 import StorageManage from './StorageManage'
 import { StorageKey } from '../config/GlobalConfig'
+import { store } from '../config/store/ConfigureStore'
 function validateEmail(email) {
     var mailRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
     if (mailRegex.test(email)) {
@@ -42,7 +43,8 @@ function addDefaultTokens(){
     }
     tokenArray.push(ethToken)
     tokenArray.push(itcToken)
-    StorageManage.save(StorageKey.Tokens, tokenArray)
+    let wallet = store.getState().Core.wallet
+    StorageManage.save(StorageKey.Tokens+wallet.address, tokenArray)
 }
 
 

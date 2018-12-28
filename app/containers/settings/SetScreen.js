@@ -17,6 +17,7 @@ import BaseComponent from '../base/BaseComponent';
 import RemindDialog from '../../components/RemindDialog'
 import StaticLoading from '../../components/StaticLoading'
 import NetworkManager from '../../utils/NetworkManager'
+import { defaultTokens } from '../../utils/Constants'
 
 
 const styles = StyleSheet.create({
@@ -348,21 +349,43 @@ class SetScreen extends BaseComponent {
         ethWalletList.splice(index, 1)
         StorageManage.save(StorageKey.EthWalletList, ethWalletList)
         this.props.setEthWalletList(ethWalletList)
-
+        StorageManage.remove(StorageKey.Tokens + this.props.currentWallet.address)
         this._hideLoading();
 
-        this.props.navigation.state.params.callback();
-        this.props.navigation.goBack()
+        if(this.state.isCurrentWallet){
+            this.props.loadTokenBalance(defaultTokens)
+            if(ethWalletList.length > 0){
+                let wallet = ethWalletList[0]
+                StorageManage.save(StorageKey.User, wallet)
+                this.props.setCurrentWallet(wallet)
+                this.props.setTransactionRecordList([])
+                StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+
+                DeviceEventEmitter.emit('changeWallet', {openRightDrawer:true});
+                this.props.navigation.navigate('Home')
+                
+            }else{
+                StorageManage.remove(StorageKey.User)
+                this.props.setCurrentWallet({})
+                this.props.setTransactionRecordList([])
+                StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+                this.props.navigation.navigate('FirstLaunch')
+            }
+        }else{
+            this.props.navigation.state.params.callback();
+            this.props.navigation.goBack()
+        }
     }
 
 
-    async deleteLocalData() {
+
+    /*async deleteLocalData() {
 
         await KeystoreUtils.removeKeyFile(this.state.wallet.address)
         this.props.setCurrentWallet(null);
         //删除所有本地的数据
         StorageManage.remove(StorageKey.User)
-        StorageManage.remove(StorageKey.Tokens)
+        StorageManage.remove(StorageKey.Tokens + this.state.wallet.address)
         StorageManage.remove(StorageKey.Network)
         StorageManage.remove(StorageKey.UserToken)
         //StorageManage.remove(StorageKey.Language)
@@ -390,7 +413,7 @@ class SetScreen extends BaseComponent {
 
         this._hideLoading();
         this.props.navigation.navigate('Apploading')
-    }
+    }*/
 
     _onBackPressed = () => {
         this.props.navigation.state.params.callback();
@@ -468,17 +491,13 @@ class SetScreen extends BaseComponent {
                         text={I18n.t('settings.export_private_key')}
                     />
                 </View>
-                {
-                    this.state.isCurrentWallet ? null :
-                        <View style={styles.delButtonBox}>
-                            <GreyButtonBig
-                                buttonStyle={styles.button}
-                                onPress={() => { this.isDeleteWallet = true; this.openPasswordModal() }}
-                                text={I18n.t('settings.delete_wallet')}
-                            />
-                        </View>
-                }
-
+                <View style={styles.delButtonBox}>
+                    <GreyButtonBig
+                        buttonStyle={styles.button}
+                        onPress={() => { this.isDeleteWallet = true; this.openPasswordModal() }}
+                        text={I18n.t('settings.delete_wallet')}
+                    />
+                </View>
 
 
             </View>
@@ -487,11 +506,14 @@ class SetScreen extends BaseComponent {
 }
 const mapStateToProps = state => ({
     currentWallet: state.Core.wallet,
+    tokens: state.Core.tokens,
 });
 const mapDispatchToProps = dispatch => ({
     setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
     setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
+    setTransactionRecordList : (list)=>dispatch(Actions.setTransactionRecordList(list)),
+    loadTokenBalance : (tokens) => dispatch(Actions.loadTokenBalance(tokens))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SetScreen)
 

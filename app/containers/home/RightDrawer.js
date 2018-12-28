@@ -1,7 +1,7 @@
 
 import React, { PureComponent } from 'react';
 import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform, DeviceEventEmitter } from 'react-native'
-import { setItcWalletList, setEthWalletList, setCurrentWallet, setCreateWalletParams, setTransactionRecordList } from '../../config/action/Actions'
+import { setItcWalletList, setEthWalletList, setCurrentWallet, setCreateWalletParams, setTransactionRecordList,loadTokenBalance } from '../../config/action/Actions'
 import { store } from '../../config/store/ConfigureStore'
 import { Colors, StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
@@ -13,7 +13,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import { BlurView } from 'react-native-blur';
 import Loading from '../../components/Loading';
 import LayoutConstants from '../../config/LayoutConstants'
-
+import { defaultTokens } from '../../utils/Constants'
 
 class RightDrawer extends BaseComponent {
     navigateToScreen = (route, params) => () => {
@@ -47,12 +47,12 @@ class RightDrawer extends BaseComponent {
 
         store.dispatch(setTransactionRecordList([]));
         StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-
+        store.dispatch(loadTokenBalance(defaultTokens))
         this.setState({
             refreshPage: !this.state.refreshPage
         })
         
-        DeviceEventEmitter.emit('changeWallet', {});
+        DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
 
         
     }

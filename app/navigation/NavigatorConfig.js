@@ -27,7 +27,7 @@ import RightDrawer from '../containers/home/RightDrawer'
 import LayoutConstants from '../config/LayoutConstants'
 import TabIcon from '../components/TabIcon'
 import { I18n } from '../config/language/i18n'
-import {} from '.'
+import { store } from '../config/store/ConfigureStore'
 const StackNavigationConfig = {
     initialRouteName: 'Set'
     //initialRouteName: 'Home',
@@ -104,9 +104,10 @@ const HomeBottomTabNavigationConfig = {
     navigationOptions: ({ navigation }) => ({
         tabBarLabel: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
+            let lang = store.getState().Core.myLanguage
             switch (routeName) {
                 case "Home":
-                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_wallet')}</Text>
+                    return  <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_wallet')}</Text>
                     break;
                 case "Mapping":
                     return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_mapping')}</Text>

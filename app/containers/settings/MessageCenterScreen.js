@@ -430,7 +430,8 @@ class MessageCenterScreen extends BaseComponent {
     }
 
     async saveTokenToStorage(token) {
-        let localTokens = await StorageManage.load(StorageKey.Tokens)
+        let key = StorageKey.Tokens + this.props.wallet.address
+        let localTokens = await StorageManage.load(key)
         if (!localTokens) {
             localTokens = []
         }
@@ -442,7 +443,7 @@ class MessageCenterScreen extends BaseComponent {
             decimal: parseInt(token.decimal, 10),
             address: token.address,
         })
-        StorageManage.save(StorageKey.Tokens, localTokens)
+        StorageManage.save(key, localTokens)
     }
 
     //自定义分割线

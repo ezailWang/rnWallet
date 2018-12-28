@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
-import { 
+import {
     View,
     StyleSheet,
     TouchableOpacity,
     FlatList,
     Text,
     Platform,
-    Image
+    Image,
+    DeviceEventEmitter
 } from 'react-native';
 
 import PropTypes from 'prop-types'
@@ -19,162 +20,170 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import { addressToName } from '../../utils/CommonUtil'
-
+import lodash from 'lodash'
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:'white',
-        alignItems:'center',
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
     },
-    topBox:{ 
-        backgroundColor:Colors.whiteBackgroundColor, 
-        flexDirection:'row',
-        alignItems:'center',
-        height:46,
+    topBox: {
+        backgroundColor: Colors.whiteBackgroundColor,
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 46,
         marginTop: Layout.DEVICE_IS_IPHONE_X() ? 48 : 24,
     },
-    backBox:{
-        height:46,
-        justifyContent:'center',
-        paddingLeft:15,
-        paddingRight:15,
+    backBox: {
+        height: 46,
+        justifyContent: 'center',
+        paddingLeft: 15,
+        paddingRight: 15,
     },
-    backIcon:{
-        width:22,
-        height:22,
+    backIcon: {
+        width: 22,
+        height: 22,
     },
-    searchBox:{
-        flex:1,
-        flexDirection:'row',
-        height:30,
-        marginRight:15,
-        alignItems:'center',
-        borderRadius:5,
+    searchBox: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 30,
+        marginRight: 15,
+        alignItems: 'center',
+        borderRadius: 5,
         backgroundColor: Colors.backgroundColor,
     },
-    searchIcon:{
-        width:18,
-        height:18,
-        marginRight:10,
-        marginLeft:10,
+    searchIcon: {
+        width: 18,
+        height: 18,
+        marginRight: 10,
+        marginLeft: 10,
     },
-    searchInput:{
-        flex:1,
-        color:Colors.fontGrayColor_a0,
-        fontSize:13,
+    searchInput: {
+        flex: 1,
+        color: Colors.fontGrayColor_a0,
+        fontSize: 13,
     },
-    cancelBox:{
-        height:38,
-        paddingLeft:10,
+    cancelBox: {
+        height: 38,
+        paddingLeft: 10,
     },
-    cancelText:{
-        height:38,
-        lineHeight:38,
-        fontSize:14,
-        color:Colors.fontBlackColor_43,
+    cancelText: {
+        height: 38,
+        lineHeight: 38,
+        fontSize: 14,
+        color: Colors.fontBlackColor_43,
     },
-    line:{
-        backgroundColor:Colors.backgroundColor,
-        height:10,
-        width:Layout.WINDOW_WIDTH,
+    line: {
+        backgroundColor: Colors.backgroundColor,
+        height: 10,
+        width: Layout.WINDOW_WIDTH,
     },
-    listContainer:{
-        flex:1,
-        width:Layout.WINDOW_WIDTH,
-        marginTop:10,
-        paddingLeft:10,
-        paddingRight:10,
+    listContainer: {
+        flex: 1,
+        width: Layout.WINDOW_WIDTH,
+        marginTop: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
-    item:{
-        flexDirection:'row',
-        alignItems:'center',
-        height:72,
-        backgroundColor:'white',
-        paddingLeft:20,
-        paddingRight:20,
+    item: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 72,
+        backgroundColor: 'white',
+        paddingLeft: 20,
+        paddingRight: 20,
     },
-    itemIcon:{
-        width:30,
-        height:30,
-        borderRadius:15,
-        marginRight:10,
+    itemIcon: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        marginRight: 10,
     },
-    itemCenterBox:{
-        flex:1,
-        flexDirection:'column',
-        alignItems:'flex-start',
+    itemCenterBox: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'flex-start',
     },
-    itemName:{
-        fontSize:15,
-        color:Colors.fontBlackColor_43,
+    itemName: {
+        fontSize: 15,
+        color: Colors.fontBlackColor_43,
     },
-    itemFullName:{
-        fontSize:12,
-        color:Colors.fontGrayColor_a,
+    itemFullName: {
+        fontSize: 12,
+        color: Colors.fontGrayColor_a,
     },
-    itemAddress:{
-        fontSize:12,
-        color:Colors.fontGrayColor_a,
+    itemAddress: {
+        fontSize: 12,
+        color: Colors.fontGrayColor_a,
     },
-    itemRightBox:{
-        height:30,
-        justifyContent:'center',
+    itemRightBox: {
+        height: 30,
+        justifyContent: 'center',
     },
-    itemAddOrRemoveBtn:{
-        height:30,
-        lineHeight:30,
-        fontSize:14,
-        borderRadius:5,
-        paddingLeft:20,
-        paddingRight:20,  
+    itemAddOrRemoveBtn: {
+        height: 30,
+        lineHeight: 30,
+        fontSize: 14,
+        borderRadius: 5,
+        paddingLeft: 20,
+        paddingRight: 20,
     },
-    itemAddBtn:{
-        borderColor:Colors.fontBlueColor,
-        backgroundColor:Colors.fontBlueColor
+    itemAddBtn: {
+        borderColor: Colors.fontBlueColor,
+        backgroundColor: Colors.fontBlueColor
     },
-    itemRemoveBtn:{
-        borderWidth:1,
-        borderColor:Colors.fontBlueColor,
-        backgroundColor:'transparent'
+    itemRemoveBtn: {
+        borderWidth: 1,
+        borderColor: Colors.fontBlueColor,
+        backgroundColor: 'transparent'
     },
-    itemAddText:{
-        color:'white',
+    itemAddText: {
+        color: 'white',
     },
-    itemRemoveText:{
-        color:Colors.fontBlueColor,
+    itemRemoveText: {
+        color: Colors.fontBlueColor,
     },
-    itemSeparator:{
-        height:2,
-        width:Layout.WINDOW_WIDTH-20,
-        backgroundColor:Colors.backgroundColor,
+    itemSeparator: {
+        height: 2,
+        width: Layout.WINDOW_WIDTH - 20,
+        backgroundColor: Colors.backgroundColor,
     }
-   
+
 })
 
 class AddTokenScreen extends BaseComponent {
-   
-    constructor(props){
+
+    constructor(props) {
         super(props);
         this.state = {
-            datas:[],//列表数据
+            datas: [],//列表数据
         }
         this.addedTokens = [];//已经添加的Tokens
         this.tokenList = [];
     }
 
-    async _initData() { 
+ 
+
+
+    _changeTokensEmitter = (data) =>{
+        console.log('L_changeTokensEmitter')
         this._loadData()
     }
 
-    _loadData(){
+    async _initData() {
+        this._loadData()
+    }
+
+    _loadData() {
         let allTokens = [];
         let defaultTokens = [];//默认的
         let addTokens = [];//添加的
         this.props.tokens.forEach(function (token, index, b) {
             token.isAdded = true
-            if(index == 0 || index == 1){
+            if (index == 0 || index == 1) {
                 defaultTokens.push(token)
-            }else{
+            } else {
                 addTokens.unshift(token)
             }
         })
@@ -182,7 +191,7 @@ class AddTokenScreen extends BaseComponent {
         this.tokenList = [].concat(allTokens);
         this.addedTokens = [].concat(allTokens);
         this.setState({
-            datas : allTokens 
+            datas: allTokens
         })
     }
 
@@ -195,26 +204,26 @@ class AddTokenScreen extends BaseComponent {
 
 
     _renderItem = (item) => {
-        return(
+        return (
             <ItemView
-                 item = {item}
-                 addOrRemoveItem = {this._addOrRemoveItem.bind(this,item)} 
-            />     
+                item={item}
+                addOrRemoveItem={this._addOrRemoveItem.bind(this, item)}
+            />
         )
     }
 
-    _addOrRemoveItem = async(item) => {
+    _addOrRemoveItem = async (item) => {
         let token = item.item;
         let index = this.tokenList.findIndex(addedToken => addedToken.address == token.address);
         let addedIndex = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
         let isAdd = token.isAdded;
 
         this.tokenList.splice(index, 1, token)
-        if(isAdd){
-             //添加
-             this.props.addToken(token)
-             this.addedTokens.push(token)
-        }else{
+        if (isAdd) {
+            //添加
+            this.props.addToken(token)
+            this.addedTokens.push(token)
+        } else {
             //移除
             this.props.removeToken(token.address)
             this.addedTokens.splice(addedIndex, 1)
@@ -227,34 +236,16 @@ class AddTokenScreen extends BaseComponent {
         this._saveData()
     }
 
-    _search = async() =>{
+    _search = async () => {
         let _this = this;
         this.props.navigation.navigate('SearchToken', {
             callback: async (data) => {
                 _this._loadData()
-                /*let tokens = data.addedTokens
-                _this._showLoding()
-                let localTokens = [];
-                tokens.forEach(function (value, index, b) {
-                    if(index != 0 && index != 1){
-                        localTokens.push({
-                            iconLarge: value.iconLarge,
-                            symbol: value.symbol,
-                            name: value.name,
-                            decimal: parseInt(value.decimal, 10),
-                            address: value.address,
-                        })
-                    } 
-                })
-                StorageManage.save(StorageKey.Tokens, localTokens)
-                //await NetworkManager.loadTokenList()
-                _this._loadData()
-                _this._hideLoading()*/
             }
         });
     }
 
-    _backPress = () =>{
+    _backPress = () => {
         this._saveData()
         this.toHomePage()
     }
@@ -265,12 +256,12 @@ class AddTokenScreen extends BaseComponent {
         return true;
     }
 
-    _saveData = async() => {
+    _saveData = async () => {
         //this._showLoding()
         let tokens = this.addedTokens;
         let localTokens = [];
         tokens.forEach(function (value, index, b) {
-            if(index != 0 && index != 1){
+            if (index != 0 && index != 1) {
                 localTokens.push({
                     iconLarge: value.iconLarge,
                     symbol: value.symbol,
@@ -278,106 +269,109 @@ class AddTokenScreen extends BaseComponent {
                     decimal: parseInt(value.decimal, 10),
                     address: value.address,
                 })
-            } 
+            }
         })
-        StorageManage.save(StorageKey.Tokens, localTokens)
+        let key = StorageKey.Tokens + this.props.wallet.address;
+        StorageManage.save(key, localTokens)
 
         //this._hideLoading()
-       
+
     }
 
-    toHomePage (){
+    toHomePage() {
         this.props.navigation.state.params.callback();
         this.props.navigation.goBack()
     }
 
     renderComponent() {
+        console.log('L_changeTokensEmitter__1')
         return (
             <View style={styles.container}>
                 <View style={styles.topBox}>
-                     <TouchableOpacity activeOpacity={0.6}
-                                       style={styles.backBox}
-                                       onPress={this._backPress}>
-                            <Image style={styles.backIcon} source={require('../../assets/common/common_back.png')} resizeMode='contain'/>          
-                     </TouchableOpacity>
-                     <TouchableOpacity activeOpacity={0.6}
-                                       style={styles.searchBox}
-                                       onPress={this._search}>
-                            <Image style={styles.searchIcon} source={require('../../assets/common/search.png')} resizeMode='contain'/>  
-                            <Text  style={styles.searchInput} >{I18n.t('settings.input_token_name')}</Text>      
-                     </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.6}
+                        style={styles.backBox}
+                        onPress={this._backPress}>
+                        <Image style={styles.backIcon} source={require('../../assets/common/common_back.png')} resizeMode='contain' />
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.6}
+                        style={styles.searchBox}
+                        onPress={this._search}>
+                        <Image style={styles.searchIcon} source={require('../../assets/common/search.png')} resizeMode='contain' />
+                        <Text style={styles.searchInput} >{I18n.t('settings.input_token_name')}</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style = {styles.line}></View>
+                <View style={styles.line}></View>
                 <FlatList
-                     style = {styles.listContainer}
-                     ref = {ref=>this.flatList = ref}
-                     data = {this.state.datas}
-                     keyExtractor = {(item,index)=>index.toString()}//给定的item生成一个不重复的key
-                     renderItem = {this._renderItem}
-                     ItemSeparatorComponent = {this._renderItemSeparatorComponent}
-                     getItemLayout={(datas, index) => ({ length: 72, offset: (72+2) * index, index: index })}>
+                    style={styles.listContainer}
+                    ref={ref => this.flatList = ref}
+                    data={this.state.datas}
+                    keyExtractor={(item, index) => index.toString()}//给定的item生成一个不重复的key
+                    renderItem={this._renderItem}
+                    ItemSeparatorComponent={this._renderItemSeparatorComponent}
+                    getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index: index })}>
                 </FlatList>
-            </View>    
+                {this.props.tokens.length  ? <View></View> : null}
+            </View>
         );
     }
 }
 
 
-class ItemView extends PureComponent{
+class ItemView extends PureComponent {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             loadIconError: false,
         }
     }
 
-    _itemAddOrRemovePress = () =>{
+    _itemAddOrRemovePress = () => {
         let preTokenIsAdded = this.props.item.item.isAdded;
-        let nowToken = (preTokenIsAdded == undefined || preTokenIsAdded == false)  ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
+        let nowToken = (preTokenIsAdded == undefined || preTokenIsAdded == false) ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
         this.props.addOrRemoveItem(nowToken)
     }
 
-   
-    _getLogo = (symbol,iconLarge) =>{
-        if(symbol == 'ITC'){
+
+    _getLogo = (symbol, iconLarge) => {
+        if (symbol == 'ITC') {
             return require('../../assets/home/ITC.png');
         }
-        if(iconLarge == ''){
-            if(symbol == 'ETH'){
+        if (iconLarge == '') {
+            if (symbol == 'ETH') {
                 return require('../../assets/home/ETH.png');
-            }else if(symbol == 'ITC'){
+            } else if (symbol == 'ITC') {
                 return require('../../assets/home/ITC.png');
-            }else{
+            } else {
                 return require('../../assets/home/null.png');
             }
-        }else {
-            if(this.state.loadIconError){
+        } else {
+            if (this.state.loadIconError) {
                 return require('../../assets/home/null.png');
             }
         }
     }
 
-    render(){
-        const { iconLarge, symbol, name,decimal,address,isAdded} = this.props.item.item || {}
-        let icon = this._getLogo(symbol,iconLarge)
+    render() {
+        const { iconLarge, symbol, name, decimal, address, isAdded } = this.props.item.item || {}
+        let icon = this._getLogo(symbol, iconLarge)
 
-        let _address = address.substr(0,6) + '......' + address.substr(36,42);
-        let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
+        let _address = address.substr(0, 6) + '......' + address.substr(36, 42);
+        let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ? true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
-        let fullName = name=='' || name ==undefined ? '---' : name;
- 
-        return(
+        let fullName = name == '' || name == undefined ? '---' : name;
+
+        return (
             <View style={styles.item}>
-                <Image style={styles.itemIcon}  
-                       source={ iconLarge=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconLarge}} 
-                       resizeMode='contain'
-                       iosdefaultSource={require('../../assets/home/null.png')}
-                       onError = {()=>{
-                            this.setState({
-                               loadIconError:true,
-                            })
-                       }}/>
+                <Image style={styles.itemIcon}
+                    source={iconLarge == '' || this.state.loadIconError == true || symbol == 'ITC' ? icon : { uri: iconLarge }}
+                    resizeMode='contain'
+                    iosdefaultSource={require('../../assets/home/null.png')}
+                    onError={() => {
+                        this.setState({
+                            loadIconError: true,
+                        })
+                    }} />
                 <View style={styles.itemCenterBox}>
                     <Text style={styles.itemName}>{symbol}</Text>
                     <Text style={styles.itemFullName}>{fullName}</Text>
@@ -385,14 +379,14 @@ class ItemView extends PureComponent{
                 </View>
                 {
                     isHideBtn ? null :
-                    <TouchableOpacity activeOpacity={0.6}
-                                  style={[styles.itemRightBox,styles.itemAddOrRemoveBtn,isAdded ? styles.itemRemoveBtn : styles.itemAddBtn]}
-                                  onPress={this._itemAddOrRemovePress}>
-                        <Text style={[styles.itemAddOrRemoveText,isAdded ? styles.itemRemoveText : styles.itemAddText]}>{btnTxt}
-                        </Text>          
-                    </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={0.6}
+                            style={[styles.itemRightBox, styles.itemAddOrRemoveBtn, isAdded ? styles.itemRemoveBtn : styles.itemAddBtn]}
+                            onPress={this._itemAddOrRemovePress}>
+                            <Text style={[styles.itemAddOrRemoveText, isAdded ? styles.itemRemoveText : styles.itemAddText]}>{btnTxt}
+                            </Text>
+                        </TouchableOpacity>
                 }
-                
+
             </View>
         )
     }
@@ -401,9 +395,10 @@ class ItemView extends PureComponent{
 
 const mapStateToProps = state => ({
     tokens: state.Core.tokens,
+    wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({
-    addToken : (token) => dispatch(Actions.addToken(token)),
+    addToken: (token) => dispatch(Actions.addToken(token)),
     removeToken: (token) => dispatch(Actions.removeToken(token)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AddTokenScreen)

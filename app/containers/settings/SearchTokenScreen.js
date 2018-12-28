@@ -7,7 +7,8 @@ import {
     Text,
     TextInput,
     Image,
-    Platform
+    Platform,
+    DeviceEventEmitter
 } from 'react-native';
 
 import PropTypes from 'prop-types'
@@ -199,7 +200,7 @@ class SearchTokenScreen extends BaseComponent {
         super(props);
         this.state = {
             datas:[],//列表数据
-            isShowEmptyView: false
+            isShowEmptyView: false,
         }
 
         this.searchText = '';
@@ -312,8 +313,10 @@ class SearchTokenScreen extends BaseComponent {
                 })
             } 
         })
-        StorageManage.save(StorageKey.Tokens, localTokens)
+        let key = StorageKey.Tokens + this.props.wallet.address
+        StorageManage.save(key, localTokens)
 
+        DeviceEventEmitter.emit('changeTokens', {});
         //this._hideLoading()
        
     }
@@ -340,7 +343,7 @@ class SearchTokenScreen extends BaseComponent {
             this.searchTokens = [];
             this.setState({
                 datas: [],
-                isShowEmptyView: false
+                isShowEmptyView: false,
             })
         } else {
             this._matchToken()
@@ -401,10 +404,10 @@ class SearchTokenScreen extends BaseComponent {
     _cancelPress = () => {
         this.searchText = '';
         this.searchTokens = [];
-        this.refs.searchInput.clear()
+        this.TextInput.clear()
         this.setState({
             datas: [],
-            isShowEmptyView: false
+            isShowEmptyView: false,
         })
     }
 
@@ -420,7 +423,8 @@ class SearchTokenScreen extends BaseComponent {
                     <View style={styles.searchBox}>
                         <Image style={styles.searchIcon} source={require('../../assets/common/search.png')} resizeMode='contain' />
                         <TextInput style={styles.searchInput}
-                            ref="searchInput"
+                            //ref="searchInput"
+                            ref = {textInput => this.TextInput = textInput}
                             autoFocus={true}
                             placeholderTextColor={Colors.fontGrayColor_a0}
                             placeholder={I18n.t('settings.input_token_name')}
@@ -541,10 +545,12 @@ const mapStateToProps = state => ({
     allTokens: state.Core.allTokens,
     tokens: state.Core.tokens,
     network: state.Core.network,
+    wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({
     addToken: (token) => dispatch(Actions.addToken(token)),
     removeToken: (token) => dispatch(Actions.removeToken(token)),
+    setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SearchTokenScreen)
 

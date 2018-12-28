@@ -165,9 +165,10 @@ class MyScreen extends BaseComponent {
         let _this = this;
         this.props.navigation.navigate('SystemSet', {
             callback: function () {
-                _this.setState({
+               /* _this.setState({
                     refreshPage: ! _this.state.refreshPage,
                 })
+               _this.props.navigation.navigate('HomeTab')*/ 
             }
         })
     }
@@ -193,7 +194,7 @@ class MyScreen extends BaseComponent {
     }
 }
 const mapStateToProps = state => ({
-   
+    myLanguage: state.Core.myLanguage,
 });
 const mapDispatchToProps = dispatch => ({
    

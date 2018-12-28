@@ -9,6 +9,7 @@ import { I18n } from '../../config/language/i18n'
 import ItcMappingServiceScreen from '../mapping/ItcMappingServiceScreen'
 import MappingTermsScreen from '../mapping/MappingTermsScreen'
 import StatusBarComponent from '../../components/StatusBarComponent'
+import LinearGradient from 'react-native-linear-gradient'
 class Mapping extends PureComponent {
 
 
@@ -46,14 +47,13 @@ class Mapping extends PureComponent {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <StatusBarComponent barStyle='dark-content' />
+            <LinearGradient style={{ flex: 1 }} colors={['#32beff', '#0095eb', '#2093ff']}>
                 <View style={{ flex: 1, marginTop: Layout.DEVICE_IS_IPHONE_X() ? 44 : 20, backgroundColor: 'white' }}>
                     <MappingTermsScreen></MappingTermsScreen>
                 </View>
-            </View>
+            </LinearGradient>
         )
-        //I18n.locale == 'zh' ? <ItcMappingServiceScreen></ItcMappingServiceScreen> :
+
     }
 }
 

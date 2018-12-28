@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
     headerBgContainer: {
         flexDirection: 'row',
-        width:Layout.WINDOW_WIDTH,
+        width: Layout.WINDOW_WIDTH,
         backgroundColor: Colors.whiteBackgroundColor,
         zIndex: 10,
     },
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
     },
     headerTitle: {
         fontSize: FontSize.HeaderSize,
@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
         fontSize: FontSize.HeaderSize,
         color: 'white',
     },
-    rightText:{
-        color:Colors.fontBlueColor,
-        fontSize:14,
-        alignSelf:'flex-end',
-        height:40,
-        lineHeight:40
+    rightText: {
+        color: Colors.fontBlueColor,
+        fontSize: 14,
+        alignSelf: 'flex-end',
+        height: 40,
+        lineHeight: 40
 
     }
 })
@@ -195,7 +195,7 @@ class WhiteBgHeader extends PureComponent {
         }
         return (
             <View style={[styles.headerBgContainer, { height: height }]}>
-                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop,{marginRight:this.props.rightText ? 60 : 0}]}
+                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop, { marginRight: this.props.rightText ? 60 : 0 }]}
                     onPress={this.props.leftPress == undefined ? () => { Keyboard.dismiss(); this.props.navigation.goBack() } : this.props.leftPress}
                 >
                     <Image style={styles.icon}
@@ -210,16 +210,16 @@ class WhiteBgHeader extends PureComponent {
                     </Text>
                 </View>
 
-                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop,{width:this.props.rightText ? 100 : 40}]} onPress={this.props.rightPress}>
-                   {!this.props.rightText ? 
-                    <Image style={styles.icon}
-                        resizeMode={'center'}
-                        source={this.props.rightIcon}>
-                    </Image>
-                    :
-                    <Text style={styles.rightText}>
-                        {this.props.rightText}
-                    </Text>}
+                <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop, { width: this.props.rightText ? 100 : 40 }]} onPress={this.props.rightPress}>
+                    {!this.props.rightText ?
+                        <Image style={styles.icon}
+                            resizeMode={'center'}
+                            source={this.props.rightIcon}>
+                        </Image>
+                        :
+                        <Text style={styles.rightText}>
+                            {this.props.rightText}
+                        </Text>}
                 </TouchableOpacity>
             </View>
         )
@@ -233,14 +233,27 @@ class WhiteBgNoBackHeader extends PureComponent {
     }
 
     render() {
+
         return (
-            <View style={[styles.headerBgContainer,{height:44}]}>
-                <View style={[styles.headerTitleBox]}>
+
+
+            <LinearGradient
+                colors={['#32beff', '#0095eb', '#2093ff']}
+                style={[{ height: 44 }]}>
+                <View style={styles.headerTitleBox}>
+                    <Text style={styles.whiteTitle}>
+                        {this.props.text}
+                    </Text>
+                </View>
+            </LinearGradient>
+
+            /*<View style={[styles.headerBgContainer, { height: 44 }]}>
+                <View style={styles.headerTitleBox}>
                     <Text style={styles.headerTitle}>
                         {this.props.text}
                     </Text>
                 </View>
-            </View>
+        </View>*/
         )
     }
 };

@@ -125,6 +125,7 @@ export default class BaseComponent extends PureComponent {
 
         this.changeWalletHandler = DeviceEventEmitter.addListener('changeWallet', this._changeWalletEmitter);
         this.changeWalletListtHandler = DeviceEventEmitter.addListener('changeWalletList', this._changeWalletListEmitter);
+        this.changeTokensHandler = DeviceEventEmitter.addListener('changeTokens', this._changeTokensEmitter);
 
     }
 
@@ -140,6 +141,7 @@ export default class BaseComponent extends PureComponent {
 
         this.changeWalletHandler && this.changeWalletHandler.remove();  
         this.changeWalletListtHandler && this.changeWalletListtHandler.remove();
+        this.changeTokensHandler && this.changeTokensHandler.remove();
     }
 
     _addChangeListener() {
@@ -296,6 +298,10 @@ export default class BaseComponent extends PureComponent {
 
     _changeWalletListEmitter = (data) =>{
 
+    }
+
+    _changeTokensEmitter = (data) =>{
+        
     }
 
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。

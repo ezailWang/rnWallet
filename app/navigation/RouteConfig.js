@@ -152,6 +152,7 @@ const FirstLaunchRouteConfig =
 }
 
 //首页Tab
+
 const HomeBottomTabNavigation = createBottomTabNavigator({
     Home: {
         screen: HomeScreen,
@@ -168,6 +169,8 @@ const HomeBottomTabNavigation = createBottomTabNavigator({
         screen: MyScreen,
     }
 }, HomeBottomTabNavigationConfig)
+
+
 
 //主页导航栈
 const HomeRouteConfig =

@@ -273,6 +273,7 @@ class Item extends PureComponent{
 const mapStateToProps = state => ({
     monetaryUnit:state.Core.monetaryUnit,
     pinInfo: state.Core.pinInfo,
+    myLanguage: state.Core.myLanguage,
 });
 const mapDispatchToProps = dispatch => ({
     setPinInfo: (pinInfo) => dispatch(Actions.setPinInfo(pinInfo)),

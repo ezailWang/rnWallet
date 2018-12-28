@@ -18,6 +18,7 @@ import { I18n } from '../../config/language/i18n'
 import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
 import { NavigationActions } from 'react-navigation';
+import { defaultTokens } from '../../utils/Constants'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -467,11 +468,12 @@ class ImportWalletScreen extends BaseComponent {
             isShowSLoading: false
         })
         if (this.from == 1 || this.from == 2) {
+            this.props.loadTokenBalance(defaultTokens)
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
 
             DeviceEventEmitter.emit('changeWalletList', {});
-            DeviceEventEmitter.emit('changeWallet', {});
+            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
 
             if (this.from == 1) {
                 this.props.navigation.navigate('Home')

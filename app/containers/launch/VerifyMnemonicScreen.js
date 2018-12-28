@@ -22,7 +22,7 @@ import BaseComponent from '../../containers/base/BaseComponent'
 import PropTypes from 'prop-types';
 import lodash from 'lodash'
 import Toast from 'react-native-root-toast';
-
+import { defaultTokens } from '../../utils/Constants'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -397,11 +397,12 @@ class VerifyMnemonicScreen extends BaseComponent {
 
     routeTo(){
         if(this.from == 1 || this.from == 2){
+            this.props.loadTokenBalance(defaultTokens)
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
     
             DeviceEventEmitter.emit('changeWalletList', {});
-            DeviceEventEmitter.emit('changeWallet', {});
+            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
         }
         this.setState({
             isShowSLoading: false
@@ -581,6 +582,7 @@ const mapDispatchToProps = dispatch => ({
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
     setCreateWalletParams: (params) => dispatch(Actions.setCreateWalletParams(params)),
     setTransactionRecordList : (records) => dispatch(Actions.setTransactionRecordList(records)),
+    loadTokenBalance : (tokens) => dispatch(Actions.loadTokenBalance(tokens))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonicScreen)

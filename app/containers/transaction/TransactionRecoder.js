@@ -671,8 +671,8 @@ export default class TransactionRecoder extends BaseComponent {
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
             onGoBack: () => {
-
-                this.refs.flatList.scrollToOffset(0)
+                this.refs.flatList.scrollToOffset(0);
+                //
                 this.getRecoder(false)
             },
         });
@@ -750,7 +750,7 @@ export default class TransactionRecoder extends BaseComponent {
 
         timer = setInterval(() => {
             this.getRecoder(false)
-        }, 10 * 1000)
+        }, 3 * 1000)
 
         this.suggestGas = await NetworkManager.getSuggestGasPrice();
         this.ethBalance = await NetworkManager.getEthBalance();
