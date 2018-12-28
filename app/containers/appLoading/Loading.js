@@ -245,8 +245,7 @@ class Loading extends Component {
 
     async getAllTokens() {
         let allTokensParams = {
-            //'network': this.props.network,
-            'network': 'main',
+            'network': this.props.network,
         }
         NetworkManager.getAllTokens(allTokensParams).then((response) => {
             if (response.code === 200) {
