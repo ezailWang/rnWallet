@@ -201,7 +201,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         }
 
         this.mnemonics = this.props.mnemonic.split(' ');
-        console.log("L_mnemonics",this.mnemonics)
+       // console.log("L_mnemonics",this.mnemonics)
         this.initAllData()
     }
 

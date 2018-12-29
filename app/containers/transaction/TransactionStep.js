@@ -316,9 +316,7 @@ export default class TransactionStep extends Component {
     showStepView(params) {
 
         let isShow = this.state.show;
-
         if (params) {
-
             this.setState({
                 show: !isShow,
                 fromAddress: params.fromAddress,
