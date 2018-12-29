@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     topBg:{
+        paddingTop: Layout.DEVICE_IS_IPHONE_X() ? 48 : 24,
         width:Layout.WINDOW_WIDTH,
         alignItems:'center',
     },
@@ -179,7 +180,7 @@ class MyScreen extends BaseComponent {
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.topBg} source={topBg}>
-                    <Text style={styles.topTitle}>{I18n.t('home.my')}</Text>
+                    {/*<Text style={styles.topTitle}>{I18n.t('home.my')}</Text>*/}
                     <Image style={styles.topLog} source={topLogo} resizeMode={'contain'} />
                 </ImageBackground>
                 <Item title={I18n.t('settings.message_center')} icon={require('../../assets/home/menu/menu_notice.png')} itemOnPress={()=>this.props.navigation.navigate('MessageCenter')}

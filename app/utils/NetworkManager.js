@@ -381,7 +381,6 @@ export default class NetworkManager {
 
     static async loadTokensFromStorage() {
         const { tokens, wallet } = store.getState().Core
-        console.log('L_tokens',tokens)
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.address)

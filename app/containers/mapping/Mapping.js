@@ -47,7 +47,7 @@ class Mapping extends PureComponent {
 
     render() {
         return (
-            <LinearGradient style={{ flex: 1 }} colors={['#32beff', '#0095eb', '#2093ff']}>
+            <LinearGradient style={{ flex: 1 }} colors={['#32beff', '#32beff']}>
                 <View style={{ flex: 1, marginTop: Layout.DEVICE_IS_IPHONE_X() ? 44 : 20, backgroundColor: 'white' }}>
                     <MappingTermsScreen></MappingTermsScreen>
                 </View>

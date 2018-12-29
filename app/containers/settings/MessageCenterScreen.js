@@ -110,7 +110,7 @@ class MessageCenterScreen extends BaseComponent {
         }
 
         this.page = 1;
-        this.pageCount = 30;//每页显示的10条数据
+        this.pageCount = 600;//每页显示的10条数据
         this.haveNextPage = true;//是否还有下一页
         this.callBackIsNeedRefresh = true;
 

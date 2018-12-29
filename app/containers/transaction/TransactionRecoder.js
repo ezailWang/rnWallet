@@ -301,7 +301,7 @@ export default class TransactionRecoder extends BaseComponent {
         super(props);
         // this.onRefresh = this.onRefresh.bind(this);
 
-        let { amount, price, iconLarge} = store.getState().Core.balance;
+        let { amount, price, iconLarge } = store.getState().Core.balance;
 
         this.state = {
             itemList: [],
@@ -310,8 +310,8 @@ export default class TransactionRecoder extends BaseComponent {
             isRefreshing: false,
             scroollY: new Animated.Value(0),
             showNoData: false,
-            icon:iconLarge,
-            loadIconError : false
+            icon: iconLarge,
+            loadIconError: false
         }
 
 
@@ -325,8 +325,8 @@ export default class TransactionRecoder extends BaseComponent {
         this.isLoadMoreing = false;
 
 
-        this.suggestGas = 0;
-        this.ethBalance = 0;
+        this.suggestGas = -1;
+        this.ethBalance = -1;
 
         this.onRefresh = this.onRefresh.bind(this);
     }
@@ -490,12 +490,11 @@ export default class TransactionRecoder extends BaseComponent {
 
         //将交易记录列表存在store中
         let storeTransferRecords = {
-            symbol: symbol,
+            symbol: symbol.toLowerCase(),
             transferRecords: records
         }
         let transferRecordList = [];
         transferRecordList = store.getState().Core.transferRecordList;
-
         if (transferRecordList && transferRecordList.length > 0) {
             let pos = -1;
             for (let i = 0; i < transferRecordList.length; i++) {
@@ -513,10 +512,12 @@ export default class TransactionRecoder extends BaseComponent {
             transferRecordList = [];
             transferRecordList.push(storeTransferRecords)
         }
+
         store.dispatch(setTransactionRecordList(transferRecordList));
 
 
 
+       
         //将交易记录列表存在本地
         let transactionRecoderInfo = {
             transactionRecoder: records.length > 100 ? records.slice(0, 100) : records
@@ -531,7 +532,6 @@ export default class TransactionRecoder extends BaseComponent {
         let { symbol } = store.getState().Core.balance;
         let transferRecordList = [];
         let transactionRecoderInfo = await StorageManage.load(StorageKey.TransactionRecoderInfo, symbol.toLowerCase());
-
         if (transactionRecoderInfo && transactionRecoderInfo.transactionRecoder.length > 0) {
             transferRecordList = transactionRecoderInfo.transactionRecoder
             if (transferRecordList.length > 0) {
@@ -557,7 +557,6 @@ export default class TransactionRecoder extends BaseComponent {
     loadStoreTransactionRecoder = async () => {
         let { symbol } = store.getState().Core.balance;
         let transferRecordList = store.getState().Core.transferRecordList;
-
         if (transferRecordList && transferRecordList.length > 0) {
             let isExist = false
             for (let i = 0; i < transferRecordList.length; i++) {
@@ -644,12 +643,15 @@ export default class TransactionRecoder extends BaseComponent {
 
     didTapTransactionButton = async () => {
 
-        //this.showLoading()
 
         let { amount, price, symbol } = store.getState().Core.balance;
         let { wallet } = store.getState().Core
-        //let suggestGas = await NetworkManager.getSuggestGasPrice();
-        //let ethBalance = await NetworkManager.getEthBalance();
+
+        if (this.ethBalance == -1) {
+            this._showLoding()
+            this.ethBalance = await NetworkManager.getEthBalance();
+            this._hideLoading()
+        }
 
         if (this.ethBalance <= 0) {
             showToast(I18n.t('transaction.alert_4'))
@@ -666,13 +668,12 @@ export default class TransactionRecoder extends BaseComponent {
             fromAddress: wallet.address,
         };
 
-        // this.hideLoading()
+
 
         store.dispatch(setWalletTransferParams(transferProps));
         this.props.navigation.navigate('Transaction', {
             onGoBack: () => {
                 this.refs.flatList.scrollToOffset(0);
-                //
                 this.getRecoder(false)
             },
         });
@@ -738,7 +739,6 @@ export default class TransactionRecoder extends BaseComponent {
     async _initData() {
 
         let isGetTRFromStore = await this.loadStoreTransactionRecoder();//从store获取
-
         if (!isGetTRFromStore) {
             this.showLoading()
             let isGetTRFromLocal = await this.loadLocalTransactionRecoder()//本地中获取
@@ -748,12 +748,14 @@ export default class TransactionRecoder extends BaseComponent {
             this.hideLoading()
         }
 
-        timer = setInterval(() => {
-            this.getRecoder(false)
-        }, 3 * 1000)
 
         this.suggestGas = await NetworkManager.getSuggestGasPrice();
         this.ethBalance = await NetworkManager.getEthBalance();
+    
+
+        timer = setInterval(() => {
+            this.getRecoder(false)
+        }, 3 * 1000)
     }
 
     showLoading() {
@@ -785,14 +787,12 @@ export default class TransactionRecoder extends BaseComponent {
 
     componentWillMount() {
         super.componentWillMount()
-        /*timer = setInterval(() => {
-            this.getRecoder(false)
-        }, 10 * 1000)*/
     }
 
     componentWillUnmount() {
-        super.componentWillUnmount()
         clearInterval(timer)
+        super.componentWillUnmount()
+        
     }
 
     _onBackPressed = () => {
@@ -801,20 +801,20 @@ export default class TransactionRecoder extends BaseComponent {
         return true;
     }
 
-    _getLogo = (symbol,iconLarge) =>{
-        if(symbol == 'ITC'){
+    _getLogo = (symbol, iconLarge) => {
+        if (symbol == 'ITC') {
             return require('../../assets/home/ITC.png');
         }
-        if(iconLarge == ''){
-            if(symbol == 'ETH'){
+        if (iconLarge == '') {
+            if (symbol == 'ETH') {
                 return require('../../assets/home/ETH.png');
-            }else if(symbol == 'ITC'){
+            } else if (symbol == 'ITC') {
                 return require('../../assets/home/ITC.png');
-            }else{
+            } else {
                 return require('../../assets/home/null.png');
             }
-        }else {
-            if(this.state.loadIconError){
+        } else {
+            if (this.state.loadIconError) {
                 return require('../../assets/home/null.png');
             }
         }
@@ -880,8 +880,8 @@ export default class TransactionRecoder extends BaseComponent {
         let priceStr = isNaN(pr) || (pr) === 0 ? '--' : '≈' + sign + (pr).toFixed(2)
         let TouchView = Animated.createAnimatedComponent(TouchableOpacity)
 
-        let iconUri  = this.state.icon;
-        let icon = this._getLogo(symbol,iconUri)
+        let iconUri = this.state.icon;
+        let icon = this._getLogo(symbol, iconUri)
         return (
             <View style={styles.container}>
                 <StatusBarComponent barStyle={'light-content'} />
@@ -941,26 +941,26 @@ export default class TransactionRecoder extends BaseComponent {
                         }}
                     >{amount}</Animated.Text>
                     <Animated.Image
-                        style={{
-                            position: 'absolute',
-                            left: 20,
-                            bottom: 60,
-                            width: 36,
-                            height: 36,
-                            opacity: headerTextOpacity,
-                            borderRadius:18,
-                            backgroundColor: Platform.OS == 'ios' ? 'white' : 'transparent'
-                        }}
-                        /*source={this.getIconImage(symbol)}*/
-                        source={ iconUri=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconUri}} 
-                        resizeMode='contain'
-                        iosdefaultSource={require('../../assets/home/null.png')}
-                        onError = {()=>{
-                            this.setState({
-                               loadIconError:true,
-                            })
-                        }}
-                    />
+                            style={{
+                                position: 'absolute',
+                                left: 20,
+                                bottom: 60,
+                                width: 36,
+                                height: 36,
+                                opacity: headerTextOpacity,
+                                borderRadius: 18,
+                                backgroundColor: Platform.OS == 'ios' ? 'white' : 'transparent'
+                            }}
+                            
+                            source={iconUri == '' || this.state.loadIconError == true || symbol == 'ITC' ? icon : { uri: iconUri }}
+                            resizeMode='contain'
+                            iosdefaultSource={require('../../assets/home/null.png')}
+                            onError={() => {
+                                this.setState({
+                                    loadIconError: true,
+                                })
+                            }}
+                        />
                     <Animated.Text
                         style={{
                             position: 'absolute',
@@ -1042,7 +1042,7 @@ export default class TransactionRecoder extends BaseComponent {
                                         text={I18n.t('transaction.receipt')}
                                         image={require('../../assets/transfer/recoder/shoukuan_icon.png')}/> */}
                 </View>
-            </View>
+            </View >
         )
     }
 }

@@ -233,19 +233,14 @@ class WhiteBgNoBackHeader extends PureComponent {
     }
 
     render() {
-
         return (
-
-
-            <LinearGradient
-                colors={['#32beff', '#0095eb', '#2093ff']}
-                style={[{ height: 44 }]}>
+            <View style={[{ height: 44,backgroundColor:'#32beff'}]}>
                 <View style={styles.headerTitleBox}>
                     <Text style={styles.whiteTitle}>
                         {this.props.text}
                     </Text>
                 </View>
-            </LinearGradient>
+            </View>
 
             /*<View style={[styles.headerBgContainer, { height: 44 }]}>
                 <View style={styles.headerTitleBox}>

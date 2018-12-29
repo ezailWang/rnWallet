@@ -27,7 +27,7 @@ import RightDrawer from '../containers/home/RightDrawer'
 import LayoutConstants from '../config/LayoutConstants'
 import TabIcon from '../components/TabIcon'
 import { I18n } from '../config/language/i18n'
-import { store } from '../config/store/ConfigureStore'
+import {getMessageCount} from '../utils/CommonUtil'
 const StackNavigationConfig = {
     initialRouteName: 'Set'
     //initialRouteName: 'Home',
@@ -104,7 +104,7 @@ const HomeBottomTabNavigationConfig = {
     navigationOptions: ({ navigation }) => ({
         tabBarLabel: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
-            let lang = store.getState().Core.myLanguage
+            
             switch (routeName) {
                 case "Home":
                     return  <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_wallet')}</Text>
@@ -119,6 +119,7 @@ const HomeBottomTabNavigationConfig = {
         },
         tabBarIcon: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
+            getMessageCount()
             switch (routeName) {
                 case "Home":
                     let homeIcon = focused ? require('../assets/home/wallet_on.png') : require('../assets/home/wallet_off.png')
@@ -138,6 +139,7 @@ const HomeBottomTabNavigationConfig = {
                     break
                 case "My":
                     let myIcon = focused ? require('../assets/home/my_on.png') : require('../assets/home/my_off.png')
+                   
                     return (
                         <TabIcon
                             icon={myIcon}
@@ -150,6 +152,9 @@ const HomeBottomTabNavigationConfig = {
         }
     })
 }
+
+
+
 
 const styles = StyleSheet.create({
     blueText: {

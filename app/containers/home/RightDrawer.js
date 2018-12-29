@@ -1,6 +1,6 @@
 
 import React, { PureComponent } from 'react';
-import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform, DeviceEventEmitter } from 'react-native'
+import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, TouchableOpacity, Platform, DeviceEventEmitter,ImageBackground } from 'react-native'
 import { setItcWalletList, setEthWalletList, setCurrentWallet, setCreateWalletParams, setTransactionRecordList,loadTokenBalance } from '../../config/action/Actions'
 import { store } from '../../config/store/ConfigureStore'
 import { Colors, StorageKey } from '../../config/GlobalConfig'
@@ -101,10 +101,10 @@ class RightDrawer extends BaseComponent {
                 <ScrollView style={{ paddingTop: 50, paddingBottom: 20, }} showsVerticalScrollIndicator={false}>
                     {/*<ItemHeader icon={require('../../assets/set/itc_icon.png')} text={I18n.t('settings.itc_wallet')}></ItemHeader>
                     {itcWalletsView}
-                       <AddButton addBg={require('../../assets/set/add_itc.png')} addOnPress={() => this.createEthOrItcWallet('itc')}></AddButton>*/}
+                       <AddButton text={I18n.t('settings.create_itc_wallet')} addOnPress={() => this.createEthOrItcWallet('itc')}></AddButton>*/}
                     <ItemHeader icon={require('../../assets/set/eth_icon.png')} text={I18n.t('settings.eth_wallet')}></ItemHeader>
                     {ethWalletsView}
-                    <AddButton addBg={require('../../assets/set/add_eth.png')} addOnPress={() => this.createEthOrItcWallet('eth')}></AddButton>
+                    <AddButton text={I18n.t('settings.create_eth_wallet')} addOnPress={() => this.createEthOrItcWallet('eth')}></AddButton>
                 </ScrollView>
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
@@ -190,18 +190,21 @@ class ItemHeader extends PureComponent {
 class AddButton extends PureComponent {
 
     static propTypes = {
-        addBg: PropTypes.number.isRequired,
+        text: PropTypes.string.isRequired,
         addOnPress: PropTypes.func.isRequired,
     };
 
     render() {
-        let addBg = this.props.addBg
         return (
             <TouchableOpacity
                 activeOpacity={0.6}
                 style={styles.addButtonBox}
                 onPress={this.props.addOnPress}>
-                <Image style={styles.addImage} source={addBg} resizeMode={'center'} />
+                <ImageBackground style={styles.addButtonBg} source={require('../../assets/common/add_bg.png')} resizeMode={'contain'}>
+                        <Image style={styles.addIcon} source={require('../../assets/common/add_icon.png')} resizeMode={'contain'} />
+                        <Text style={styles.addButtonText}>{this.props.text}</Text>
+                </ImageBackground>
+                {/*<Image style={styles.addImage} source={addBg} resizeMode={'center'} />*/}
             </TouchableOpacity>
 
         )
@@ -223,13 +226,28 @@ const styles = StyleSheet.create({
     },
 
     addButtonBox: {
-        width: 215,
-        height: 50,
-        alignSelf: 'center'
+        width: 195,
+        height: 40,
+        alignSelf: 'center',
+        //borderStyle:'dashed',
     },
-    addImage: {
-        width: 215,
-        height: 50,
+    addButtonBg:{
+        width: 195,
+        height: 40,
+        flexDirection:'row',
+        justifyContent: 'center',
+        alignItems:'center',
+    },
+    addIcon:{
+        width:15,
+        height:15,
+    },
+    addButtonText:{
+        lineHeight:38,
+        textAlign:'center',
+        color:Colors.fontGrayColor_a,
+        fontSize:14,
+        marginLeft:10,
     },
 
 

@@ -14,6 +14,7 @@ import {
     DeviceEventEmitter,
     findNodeHandle
 } from 'react-native'
+
 import HeadView from './component/HeadView'
 import { HomeCell, ItemDivideComponent, EmptyComponent } from './component/HomeCell'
 import ImageButton from '../../components/ImageButton'
@@ -53,7 +54,7 @@ class HomeScreen extends BaseComponent {
             headBgImageRef: null,
             versionUpdateModalVisible: false,
         }
-        this.timer;
+       
         this.versionUpdateInfo = null
         this._setStatusBarStyleLight()
     }
@@ -67,7 +68,6 @@ class HomeScreen extends BaseComponent {
     
     componentWillUnmount() {
         this._isMounted = false
-        clearInterval(this.timer)
         this._removeEventListener();
         this._removeChangeListener()
     }
@@ -211,9 +211,9 @@ class HomeScreen extends BaseComponent {
         await this.walletRegister(address)
 
         await NetworkManager.loadTokenList()
-
-
+        
         this._hideLoading()
+
         if(data.openRightDrawer){
             this.props.navigation.openDrawer()
         }
@@ -259,7 +259,7 @@ class HomeScreen extends BaseComponent {
                 .then((response) => {
                     if (response.code === 200) {
                         StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
-                        //this.getMessageCount()
+            
                     } else {
                         console.log('deviceRegister err msg:', response.msg)
                     }
@@ -270,33 +270,6 @@ class HomeScreen extends BaseComponent {
                 })
         })
     }
-
-
-    //获取未度消息数
-    async getMessageCount() {
-
-        let userToken = await StorageManage.load(StorageKey.UserToken)
-        if (!userToken || userToken === null) {
-            return;
-        }
-        let params = {
-            'userToken': userToken['userToken'],
-        }
-        NetworkManager.getUnReadMessageCount(params)
-            .then(response => {
-                if (response.code === 200) {
-                    let messageCount = response.data.account;
-                    DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
-                    console.log('L_getMessageCount', messageCount)
-                } else {
-                    console.log('getMessageCountErr msg:', response.msg)
-                }
-            }).catch(err => {
-                this._hideLoading()
-                console.log('getMessageCountErr:', err)
-            })
-    }
-
 
     async _initData() {
         SplashScreen.hide()
@@ -337,10 +310,6 @@ class HomeScreen extends BaseComponent {
         await NetworkManager.loadTokenList()
         
         this._hideLoading()
-
-        this.timer = setInterval(() => {
-            this.getMessageCount()
-        }, 60 * 1000)
     }
 
 

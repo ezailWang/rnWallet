@@ -615,7 +615,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
     setIsNewWallet: (isNewWallet) => dispatch(Actions.setIsNewWallet(isNewWallet)),
-
+    loadTokenBalance: (tokens) => dispatch(Actions.loadTokenBalance(tokens)), 
     setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
     setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
