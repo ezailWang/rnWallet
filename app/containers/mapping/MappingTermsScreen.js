@@ -190,9 +190,9 @@ export default class MappingTermsScreen extends BaseComponent {
                             <LiItem num={'3'} isShowLine={false}></LiItem>
                         </View>
                         <View style={styles.contentRight}>
-                            <StepItem title={'STEP 1: ' + I18n.t('mapping.bind_map_address')} desc={I18n.t('mapping.bind_map_address_des')} image={require('../../assets/mapping/mappingStep1.png')}></StepItem>
-                            <StepItem title={'STEP 2: ' + I18n.t('mapping.application_mapping')} desc={I18n.t('mapping.application_mapping_des')} image={require('../../assets/mapping/mappingStep2.png')}></StepItem>
-                            <StepItem title={'STEP 3: ' + I18n.t('mapping.native_issuance')} desc={I18n.t('mapping.native_issuance_des')} image={require('../../assets/mapping/mappingStep3.png')}></StepItem>
+                            <StepItem title={'STEP 1: ' + I18n.t('mapping.bind_map_address')} desc={I18n.t('mapping.bind_map_address_des')} image={require('../../assets/mapping/mappingStepOne.png')}></StepItem>
+                            <StepItem title={'STEP 2: ' + I18n.t('mapping.application_mapping')} desc={I18n.t('mapping.application_mapping_des')} image={require('../../assets/mapping/mappingStepTwo.png')}></StepItem>
+                            <StepItem title={'STEP 3: ' + I18n.t('mapping.native_issuance')} desc={I18n.t('mapping.native_issuance_des')} image={require('../../assets/mapping/mappingStepThree.png')}></StepItem>
                         </View>
                     </View>
                     <View style={styles.bottomBox}>
