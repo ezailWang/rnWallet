@@ -199,7 +199,8 @@ class SearchTokenScreen extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            datas:[],//列表数据
+            datas: [],//列表数据
+            searchValue: '',
             isShowEmptyView: false,
         }
 
@@ -246,21 +247,21 @@ class SearchTokenScreen extends BaseComponent {
 
 
 
-     //空布局
-     _renderEmptyView = () => (
-         this.state.isShowEmptyView ? 
-        <View style={styles.emptyListContainer}>
-            
-             <View style={styles.emptyListBox}>
-                     <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'}/>
-                     <Text style={styles.emptyListText}>{I18n.t('settings.no_related_currency_found')}</Text>
-                     <TouchableOpacity activeOpacity={0.6}
-                               style={styles.toFeedbackBtn}
-                               onPress={this._toFeedbackPress}>
-                            <Text style={styles.feedBackText}>{I18n.t('settings.feedback')}</Text>          
-                     </TouchableOpacity> 
-             </View>
-        </View> : null
+    //空布局
+    _renderEmptyView = () => (
+        this.state.isShowEmptyView ?
+            <View style={styles.emptyListContainer}>
+
+                <View style={styles.emptyListBox}>
+                    <Image style={styles.emptyListIcon} source={require('../../assets/common/no_icon.png')} resizeMode={'contain'} />
+                    <Text style={styles.emptyListText}>{I18n.t('settings.no_related_currency_found')}</Text>
+                    <TouchableOpacity activeOpacity={0.6}
+                        style={styles.toFeedbackBtn}
+                        onPress={this._toFeedbackPress}>
+                        <Text style={styles.feedBackText}>{I18n.t('settings.feedback')}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View> : null
     )
 
     _toFeedbackPress = () => {
@@ -295,16 +296,16 @@ class SearchTokenScreen extends BaseComponent {
         }
         this._saveData()
         this.refreshDatas();
-       
-        
+
+
     }
 
-    _saveData = async() => {
+    _saveData = async () => {
         //this._showLoding()
         let tokens = this.addedTokens;
         let localTokens = [];
         tokens.forEach(function (value, index, b) {
-            if(index != 0 && index != 1){
+            if (index != 0 && index != 1) {
                 localTokens.push({
                     iconLarge: value.iconLarge,
                     symbol: value.symbol,
@@ -312,17 +313,17 @@ class SearchTokenScreen extends BaseComponent {
                     decimal: parseInt(value.decimal, 10),
                     address: value.address,
                 })
-            } 
+            }
         })
-        
+
         let key = StorageKey.Tokens + this.props.wallet.address
         StorageManage.save(key, localTokens)
-        setTimeout(()=>{
+        setTimeout(() => {
             DeviceEventEmitter.emit('changeTokens', {});
         }, 0);
-       
+
         //this._hideLoading()
-       
+
     }
 
 
@@ -341,7 +342,7 @@ class SearchTokenScreen extends BaseComponent {
         this.props.navigation.goBack()
     }
 
-    _onChangeText = (text) => {
+    _onChangeText(text) {
         this.searchText = text.trim();
         if (this.searchText == '') {
             this.searchTokens = [];
@@ -408,10 +409,12 @@ class SearchTokenScreen extends BaseComponent {
     _cancelPress = () => {
         this.searchText = '';
         this.searchTokens = [];
-        this.TextInput.clear()
+        this.refs.searchInputRef.clear()
         this.setState({
             datas: [],
             isShowEmptyView: false,
+            searchValue:''
+            
         })
     }
 
@@ -427,12 +430,17 @@ class SearchTokenScreen extends BaseComponent {
                     <View style={styles.searchBox}>
                         <Image style={styles.searchIcon} source={require('../../assets/common/search.png')} resizeMode='contain' />
                         <TextInput style={styles.searchInput}
-                            //ref="searchInput"
-                            ref = {textInput => this.TextInput = textInput}
+                            ref="searchInputRef"
+                            //ref={textInput => this.TextInput = textInput}
                             autoFocus={true}
                             placeholderTextColor={Colors.fontGrayColor_a0}
                             placeholder={I18n.t('settings.input_token_name')}
-                            onChangeText={this._onChangeText}></TextInput>
+                            onChangeText={(text) => {
+                                this.setState({
+                                    searchValue: text
+                                })
+                                this._onChangeText(text)
+                            }}>{this.state.searchValue}</TextInput>
                         <TouchableOpacity activeOpacity={0.6}
                             style={styles.cancelBox}
                             onPress={this._cancelPress}>
@@ -505,11 +513,11 @@ class ItemView extends PureComponent {
         }
     }
 
-    render(){
-        const { iconLarge, symbol, name,address,isAdded} = this.props.item.item || {}
-        let icon = this._getLogo(symbol,iconLarge);
-        let _address = address.substr(0,6) + '......' + address.substr(36,42);
-        let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ?  true : false
+    render() {
+        const { iconLarge, symbol, name, address, isAdded } = this.props.item.item || {}
+        let icon = this._getLogo(symbol, iconLarge);
+        let _address = address.substr(0, 6) + '......' + address.substr(36, 42);
+        let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ? true : false
         let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
         let fullName = name == '' || name == undefined ? '...' : name;
 
