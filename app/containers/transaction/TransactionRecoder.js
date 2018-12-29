@@ -949,6 +949,7 @@ export default class TransactionRecoder extends BaseComponent {
                             height: 36,
                             opacity: headerTextOpacity,
                             borderRadius:18,
+                            backgroundColor: Platform.OS == 'ios' ? 'white' : 'transparent'
                         }}
                         /*source={this.getIconImage(symbol)}*/
                         source={ iconUri=='' ||  this.state.loadIconError == true  || symbol == 'ITC' ? icon  : {uri:iconUri}} 

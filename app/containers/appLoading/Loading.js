@@ -136,6 +136,7 @@ class Loading extends Component {
                 ethWalletList.push(ethWallet)
             }
             StorageManage.save(StorageKey.EthWalletList, ethWalletList)
+            StorageManage.save(StorageKey.User, ethWallet)
         }
 
         if(ethWalletList){

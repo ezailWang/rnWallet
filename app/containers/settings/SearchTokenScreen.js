@@ -178,9 +178,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     toFeedbackBtn: {
-        height: 40,
-        paddingLeft: 26,
-        paddingRight: 26,
+        height: 36,
+        paddingLeft: 20,
+        paddingRight: 20,
         marginTop: 50,
         borderWidth: 1.5,
         borderRadius: 5,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     feedBackText: {
         fontSize: 16,
         color: Colors.fontBlueColor,
-        lineHeight: 40,
+        lineHeight: 34,
     }
 
 })

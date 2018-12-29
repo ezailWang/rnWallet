@@ -208,6 +208,8 @@ class HomeScreen extends BaseComponent {
         }
 
         await this.userInfoUpdate(address)
+        await this.walletRegister(address)
+
         await NetworkManager.loadTokenList()
 
 
@@ -226,14 +228,14 @@ class HomeScreen extends BaseComponent {
         NetworkManager.userInfoUpdate(params)
             .then((response) => {
                 if (response.code === 200) {
-                    this.walletRegister(address)
+                    //this.walletRegister(address)
                 } else {
-                    console.log('userInfoUpdate err msg:', response.msg)
+                    //console.log('userInfoUpdate err msg:', response.msg)
                 }
             })
             .catch((err) => {
                 this._hideLoading()
-                console.log('userInfoUpdate err:', err)
+                //console.log('userInfoUpdate err:', err)
             })
     }
 
@@ -257,7 +259,7 @@ class HomeScreen extends BaseComponent {
                 .then((response) => {
                     if (response.code === 200) {
                         StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
-                        this.getMessageCount()
+                        //this.getMessageCount()
                     } else {
                         console.log('deviceRegister err msg:', response.msg)
                     }
@@ -285,12 +287,13 @@ class HomeScreen extends BaseComponent {
                 if (response.code === 200) {
                     let messageCount = response.data.account;
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
+                    console.log('L_getMessageCount', messageCount)
                 } else {
-                    console.log('getMessageCount err msg:', response.msg)
+                    console.log('getMessageCountErr msg:', response.msg)
                 }
             }).catch(err => {
                 this._hideLoading()
-                console.log('getMessageCount err:', err)
+                console.log('getMessageCountErr:', err)
             })
     }
 
