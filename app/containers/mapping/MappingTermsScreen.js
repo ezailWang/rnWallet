@@ -251,7 +251,7 @@ class StepItem extends PureComponent {
                     </LinearGradient>
                 </View>
                 <Text style={styles.stepItemBgDesc}>{this.props.desc}</Text>
-                <Image style={styles.stepItemImg} source={image} resizeMode={'center'}></Image>
+                <Image style={styles.stepItemImg} source={image} resizeMode={'contain'}></Image>
             </View>
         )
     }
