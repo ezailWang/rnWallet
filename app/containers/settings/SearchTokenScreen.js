@@ -140,14 +140,16 @@ const styles = StyleSheet.create({
     },
     itemRemoveBtn: {
         borderWidth: 1,
-        borderColor: Colors.fontBlueColor,
+        //borderColor: Colors.fontBlueColor,
+        borderColor: Colors.fontGrayColor_a,
         backgroundColor: 'transparent'
     },
     itemAddText: {
         color: 'white',
     },
     itemRemoveText: {
-        color: Colors.fontBlueColor,
+        //color: Colors.fontBlueColor,
+        color:Colors.fontGrayColor_a,
     },
     itemSeparator: {
         height: 2,
@@ -518,7 +520,7 @@ class ItemView extends PureComponent {
         let icon = this._getLogo(symbol, iconLarge);
         let _address = address.substr(0, 6) + '......' + address.substr(36, 42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ? true : false
-        let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
+        let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.added');
         let fullName = name == '' || name == undefined ? '...' : name;
 
         return (

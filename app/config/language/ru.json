@@ -201,6 +201,7 @@
 
         "input_token_name":"Введите название валюты",
         "add":"Добавить",
+        "added":"Added",
         "remove":"Удалить",
         "no_related_currency_found":"Валюта не найдена",
         "cancel":"Отменить",

@@ -273,7 +273,6 @@ class SetScreen extends BaseComponent {
             privateKey = await KeystoreUtils.getPrivateKey(password, address)
             this.hideStaticLoading();//关闭Loading
             if (privateKey == null) {
-                //alert(I18n.t('modal.export_private_key_error'));
                 showToast(this.isDeleteWallet ? I18n.t('modal.password_error') : I18n.t('modal.export_private_key_error'))
             } else {
                 if (this.isDeleteWallet) {
@@ -305,7 +304,7 @@ class SetScreen extends BaseComponent {
             var keystore = await KeystoreUtils.importFromFile(address)
             this.props.navigation.navigate('ExportKeystore', { keystore: keystore });
         } catch (err) {
-            alert(I18n.t('modal.password_error'));
+            this._showAlert(I18n.t('modal.password_error'))
             console.log('exportKeystoreErr:', err)
         }
     }

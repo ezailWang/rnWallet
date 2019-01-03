@@ -201,6 +201,7 @@
 
         "input_token_name":"Please enter a currency name ",
         "add":"Add",
+        "added":"Added",
         "remove":"Remove",
         "no_related_currency_found":"No related currency found",
         "cancel":"Cancel",

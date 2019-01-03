@@ -201,6 +201,7 @@
 
         "input_token_name":"S'il vous plaît entrer un nom de devise",
         "add":"Ajouter",
+        "added":"Added",
         "remove":"Retirer",
         "no_related_currency_found":"Aucune devise associée trouvée",
         "cancel":"Annuler",

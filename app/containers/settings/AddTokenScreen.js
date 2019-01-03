@@ -7,7 +7,7 @@ import {
     Text,
     Platform,
     Image,
-    DeviceEventEmitter
+    Switch,
 } from 'react-native';
 
 import PropTypes from 'prop-types'
@@ -163,10 +163,10 @@ class AddTokenScreen extends BaseComponent {
         this.tokenList = [];
     }
 
- 
 
 
-    _changeTokensEmitter = (data) =>{
+
+    _changeTokensEmitter = (data) => {
         this._loadData()
     }
 
@@ -229,7 +229,7 @@ class AddTokenScreen extends BaseComponent {
         }
         let list = this.tokenList
         this.setState({
-            datas:list,
+            datas: list,
         })
 
         this._saveData()
@@ -239,7 +239,7 @@ class AddTokenScreen extends BaseComponent {
         let _this = this;
         this.props.navigation.navigate('SearchToken', {
             callback: async (data) => {
-               // _this._loadData()
+                // _this._loadData()
             }
         });
     }
@@ -375,12 +375,21 @@ class ItemView extends PureComponent {
                 </View>
                 {
                     isHideBtn ? null :
+                        <Switch
+                            value={isAdded}
+                            onTintColor={Colors.bgGrayColor_ed}
+                            thumbTintColor={isAdded ? Colors.fontBlueColor : Colors.bgGrayColor_e5}
+                            tintColor={Colors.bgGrayColor_ed}
+                            onValueChange={this._itemAddOrRemovePress}></Switch>
+                }
+                {
+                    /*isHideBtn ? null :
                         <TouchableOpacity activeOpacity={0.6}
                             style={[styles.itemRightBox, styles.itemAddOrRemoveBtn, isAdded ? styles.itemRemoveBtn : styles.itemAddBtn]}
                             onPress={this._itemAddOrRemovePress}>
                             <Text style={[styles.itemAddOrRemoveText, isAdded ? styles.itemRemoveText : styles.itemAddText]}>{btnTxt}
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity>*/
                 }
 
             </View>

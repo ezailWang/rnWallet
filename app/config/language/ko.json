@@ -202,6 +202,7 @@
 
         "input_token_name":"화폐 명칭을 입력해서 검색해주세요",
         "add":"추가",
+        "added":"Added",
         "remove":"제거",
         "no_related_currency_found":"해당 화폐는 없습니다.",
         "cancel":"취소",

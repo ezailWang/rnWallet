@@ -201,6 +201,7 @@
 
         "input_token_name":"Voer een valutanaam in",
         "add":"Toevoegen",
+        "added":"Added",
         "remove":"Verwijderen",
         "no_related_currency_found":"Geen gerelateerde valuta gevonden",
         "cancel":"Annuleer",

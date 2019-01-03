@@ -7,7 +7,8 @@ import {
     RefreshControl,
     Text,
     Image,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Platform
 } from 'react-native';
 import PropTypes from 'prop-types'
 import StorageManage from '../../utils/StorageManage'
@@ -21,7 +22,7 @@ import BaseComponent from '../base/BaseComponent'
 import { showToast } from '../../utils/Toast';
 import { addressToName } from '../../utils/CommonUtil'
 import NetworkManager from '../../utils/NetworkManager'
-
+import JPushModule from 'jpush-react-native'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -114,10 +115,12 @@ class MessageCenterScreen extends BaseComponent {
         this.haveNextPage = true;//是否还有下一页
         this.callBackIsNeedRefresh = true;
 
+        //this.unReadMessageCount = 0;
         this.userToken = {}
     }
 
     async _initData() {
+        //this.unReadMessageCount = this.props.navigation.state.params.newMessageCounts;
         this.userToken = await StorageManage.load(StorageKey.UserToken)
         if (!this.userToken || this.userToken === null) {
             return;
@@ -260,7 +263,11 @@ class MessageCenterScreen extends BaseComponent {
         NetworkManager.readMessage(params)
             .then((response) => {
                 if (response.code === 200) {
+                    //todo
+                    //JPushModule.clearNotificationById(msgId);
+                    this.getMessageCount();
                     this._onRefresh(false)
+                    
                 } else {
                 }
             })
@@ -282,24 +289,28 @@ class MessageCenterScreen extends BaseComponent {
             .then(response => {
                 if (response.code === 200) {
                     let messageCount = response.data.account;
+                    //ios
+                    if(Platform.OS == 'ios'){
+                        JPushModule.setBadge(messageCount, success => {
+                            console.log('L_readItem','设置角标为'+messageCount)
+                        })
+                    }
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
                 } else {
-                    console.log('getMessageCount err msg:', response.msg)
+                    console.log('getMessageCounts err msg:', response.msg)
                 }
             }).catch(err => {
-                console.log('getMessageCount err:', err)
+                console.log('getMessageCounts err:', err)
             })
     }
 
 
     _onBackPressed = () => {
-        this.getMessageCount()
         this.props.navigation.goBack()
         return true;
     }
 
     backPressed() {
-        this.getMessageCount()
         this.props.navigation.goBack()
     }
 
@@ -416,6 +427,13 @@ class MessageCenterScreen extends BaseComponent {
         NetworkManager.readAllMessage(params)
             .then((response) => {
                 if (response.code === 200) {
+                    //JPushModule.clearAllNotifications();
+                    //ios
+                    if(Platform.OS == 'ios'){
+                        JPushModule.setBadge(0, success => {
+                            console.log('L_readALL','设置角标为0')
+                        })
+                    }
                     DeviceEventEmitter.emit('messageCount', { messageCount: 0 });
                     this._onRefresh(false)
                 } else {

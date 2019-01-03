@@ -90,18 +90,18 @@ const styles = StyleSheet.create({
         // backgroundColor:"green"
     },
 
-    infoViewDetailTitleTouchable:{
-        alignSelf:'center',
+    infoViewDetailTitleTouchable: {
+        alignSelf: 'center',
         // textAlign: "right",
-        height:42,
+        height: 42,
         marginLeft: 0,
         paddingRight: 20,
-        justifyContent:'flex-end'
+        justifyContent: 'flex-end'
     },
     blueText: {
         color: Colors.fontBlueColor,
-        height:20,
-        textAlign:'center'
+        height: 20,
+        textAlign: 'center'
         //width: 2 * ScreenWidth / 3 - 40,
     },
     sectionViewTextInput: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         height: 38,
         marginRight: 20,
         fontSize: 12,
-        color:Colors.fontBlackColor_43
+        color: Colors.fontBlackColor_43
     },
     sliderBottomView: {
         marginTop: 12,
@@ -190,7 +190,7 @@ const SectionView = ({ titleText, placeHolder, detailTitle, returnKeyType, targe
 
         <View style={[styles.sectionViewBottomView, (Platform.OS == 'ios' ? styles.shadowStyle : {})]}>
             <TextInput style={styles.sectionViewTextInput}
-                placeholderTextColor = {Colors.fontGrayColor_a0}
+                placeholderTextColor={Colors.fontGrayColor_a0}
                 placeholder={placeHolder}
                 returnKeyType={returnKeyType}
                 ref={(textInput) => {
@@ -232,7 +232,7 @@ class InfoView extends Component {
                 </View>
                 <View style={[styles.sectionViewBottomView, (Platform.OS == 'ios' ? styles.shadowStyle : {})]}>
                     <TextInput style={styles.sectionViewTextInput}
-                        placeholderTextColor = {Colors.fontGrayColor_a0}
+                        placeholderTextColor={Colors.fontGrayColor_a0}
                         placeholder={this.props.placeholder}
                         returnKeyType={this.props.returnKeyType}
                         keyboardType={this.props.keyboardType}
@@ -318,7 +318,7 @@ export default class Transaction extends BaseComponent {
             fromAddress: params.fromAddress,
             detailData: "",
             defaultTransferValue: '',
-            isDisabled:true
+            isDisabled: true
         };
 
     };
@@ -348,7 +348,7 @@ export default class Transaction extends BaseComponent {
         return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
     };
 
-    async startSendTransaction(privateKey){
+    async startSendTransaction(privateKey) {
 
         // console.warn("开始转账，已验证私钥");
 
@@ -371,7 +371,7 @@ export default class Transaction extends BaseComponent {
                 // console.warn('hash', hash)
 
                 let { wallet } = store.getState().Core
-                let timestamp=new Date().getTime()
+                let timestamp = new Date().getTime()
 
                 let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
                 let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
@@ -380,13 +380,13 @@ export default class Transaction extends BaseComponent {
                 let newTransaction = {
                     from: wallet.address,
                     to: this.state.toAddress,
-                    timeStamp: timestamp/1000,
+                    timeStamp: timestamp / 1000,
                     hash: hash,
                     value: this.state.transferValue,
                     isError: "0",
                     gasPrice: totalGas,
                     blockNumber: currentBlock,
-                    symbol:symbol
+                    symbol: symbol
                 }
                 store.dispatch(setNewTransaction(newTransaction));
                 this._hideLoading();
@@ -396,37 +396,37 @@ export default class Transaction extends BaseComponent {
             },
         )
 
-        // console.warn('交易发送完毕'+res);
         // 刷新首页list
-        NetworkManager.loadTokenList()
-        if (!res){
+        // NetworkManager.loadTokenList()
+        if (!res) {
             setTimeout(() => {
-                alert(I18n.t('transaction.alert_1'));
+                //alert(I18n.t('transaction.alert_1'));
+                this._showAlert(I18n.t('transaction.alert_1'))
             }, 100);
         }
     }
 
-    async didTapSurePasswordBtn (password){
-        this._showLoding()
-        let { wallet } = store.getState().Core
-        setTimeout(async ()=>{
-            let  privateKey
-            try{
-                privateKey = await KeystoreUtils.getPrivateKey(password,wallet.address)
-                if (privateKey == null) {
-                    showToast(I18n.t('modal.password_error'))
+    async didTapSurePasswordBtn(password) {
 
-                    this._hideLoading();
-                } else {
-                    this.startSendTransaction(privateKey)
-                } 
-            }catch(err){
-                // console.log('exportKeyPrivateErr:', err)
-            }finally{
-                
-            } 
-        },2000)
-     };
+        let { wallet } = store.getState().Core
+
+        let privateKey
+        try {
+            privateKey = await KeystoreUtils.getPrivateKey(password, wallet.address)
+            if (privateKey == null) {
+                this._hideLoading();
+                showToast(I18n.t('modal.password_error'))
+            } else {
+                this.startSendTransaction(privateKey)
+            }
+        } catch (err) {
+            this._hideLoading();
+            // console.log('exportKeyPrivateErr:', err)
+        } finally {
+
+        }
+
+    };
 
 
     didTapNextBtn = () => {
@@ -436,7 +436,8 @@ export default class Transaction extends BaseComponent {
         totalGas = totalGas.toFixed(8);
 
         if (this.params.ethBalance < totalGas) {
-            alert(I18n.t('transaction.alert_4'));
+            //alert(I18n.t('transaction.alert_4'));
+            this._showAlert(I18n.t('transaction.alert_4'))
             return;
         }
 
@@ -453,7 +454,7 @@ export default class Transaction extends BaseComponent {
     };
 
 
-    _closeModal(){
+    _closeModal() {
         this.dialog.closeStepView();
     }
     //----视图的事件方法
@@ -464,6 +465,7 @@ export default class Transaction extends BaseComponent {
             currentGas: value,
             gasStr: price
         });
+
     };
 
     valueTextInputChangeText = (text) => {
@@ -482,17 +484,17 @@ export default class Transaction extends BaseComponent {
         this.judgeCanSendInfoCorrect()
     };
 
-    judgeCanSendInfoCorrect (){
+    judgeCanSendInfoCorrect() {
         let totalValue = this.params.balance;
 
         // console.log('######'+this.inputTransferValue)
 
-        let amountIsNotValid = this.inputTransferValue === undefined || Number.isNaN(this.inputTransferValue) || parseFloat(this.inputTransferValue)  > totalValue
+        let amountIsNotValid = this.inputTransferValue === undefined || Number.isNaN(this.inputTransferValue) || parseFloat(this.inputTransferValue) > totalValue
         let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
 
         this.setState({
-            isDisabled: amountIsNotValid||addressIsNotValid||addressIsSame
+            isDisabled: amountIsNotValid || addressIsNotValid || addressIsSame
         });
     }
 
@@ -546,14 +548,14 @@ export default class Transaction extends BaseComponent {
 
         let params = store.getState().Core.walletTransfer;
         let title = /*params.transferType + ' ' + */I18n.t('transaction.transfer');
-        let alertHeight =(this.state.toAddress.length == 42 &&  this.state.toAddress != this.state.fromAddress) ? 0 : 18
-        let isShowAddressWarn =  this.state.toAddress != '' &&  alertHeight == 18
-    
+        let alertHeight = (this.state.toAddress.length == 42 && this.state.toAddress != this.state.fromAddress) ? 0 : 18
+        let isShowAddressWarn = this.state.toAddress != '' && alertHeight == 18
+
         return (
-            <View   style={styles.container} 
-                    onResponderGrant={() => {
-                        Keyboard.dismiss()
-                    }}>
+            <View style={styles.container}
+                onResponderGrant={() => {
+                    Keyboard.dismiss()
+                }}>
                 <WhiteBgHeader navigation={this.props.navigation}
                     text={title}
                     rightPress={() => this.scanClick()}
@@ -562,22 +564,26 @@ export default class Transaction extends BaseComponent {
                     bounces={false}
                     keyboardShouldPersistTaps={'handled'}>**/}
                 <View style={styles.contentBox}>
-                    <TransactionStep didTapSurePasswordBtn={(password)=>{
+                    <TransactionStep didTapSurePasswordBtn={(password) => {
+                        this._showLoding();
+                        setTimeout(async () => {
                             this.didTapSurePasswordBtn(password)
-                        }}
+                        }, 1200)
+
+                    }}
                         ref={(dialog) => { this.dialog = dialog; }} />
                     <InfoView title={I18n.t('transaction.amount')}
-                        detailTitle={I18n.t('transaction.balance') + ':' + Number(parseFloat(this.params.balance).toFixed(4))+ this.params.transferType}
+                        detailTitle={I18n.t('transaction.balance') + ':' + Number(parseFloat(this.params.balance).toFixed(4)) + this.params.transferType}
                         placeholder={I18n.t('transaction.enter') /*+ this.params.transferType + I18n.t('transaction.amount')*/}
                         returnKeyType={"next"}
                         keyboardType={'numeric'}
-                        onChangeText={(txt)=>{this.inputTransferValue = parseFloat(txt);this.valueTextInputChangeText()}}/>
+                        onChangeText={(txt) => { this.inputTransferValue = parseFloat(txt); this.valueTextInputChangeText() }} />
                     {/*转账地址栏*/}
                     <InfoView title={I18n.t('transaction.collection_address')}
                         detailTitle={I18n.t('transaction.address_list')}
                         placeholder={I18n.t('transaction.enter_transfer_address')}
                         returnKeyType={"next"}
-                        onChangeText={(txt)=>{this.inputToAddress = txt;this.toAddressTextInputChangeText()}}
+                        onChangeText={(txt) => { this.inputToAddress = txt; this.toAddressTextInputChangeText() }}
                         defaultValue={this.state.toAddress}
                         detailTitlePress={this.routeContactList} />
                     {/*备注栏*/}
@@ -586,9 +592,9 @@ export default class Transaction extends BaseComponent {
                         returnKeyType={"done"}
                         onChangeText={this.detailTextInputChangeText} />*/}
                     {/*滑竿视图*/}
-                    {isShowAddressWarn ?  <Text style={{color:Colors.fontRedColor,textAlign:'right',marginTop:8,marginLeft:20,marginRight:20,fontSize:14}} 
-                                adjustsFontSizeToFit = {true}>
-                                {I18n.t('modal.enter_valid_transfer_address')}
+                    {isShowAddressWarn ? <Text style={{ color: Colors.fontRedColor, textAlign: 'right', marginTop: 8, marginLeft: 20, marginRight: 20, fontSize: 14 }}
+                        adjustsFontSizeToFit={true}>
+                        {I18n.t('modal.enter_valid_transfer_address')}
                     </Text> : null}
                     <SliderView gasStr={this.state.gasStr}
                         minGasPrice={this.state.minGasPrice}
@@ -598,11 +604,11 @@ export default class Transaction extends BaseComponent {
                     {/*下一步按钮*/}
                     <View style={styles.buttonBox}>
                         <BlueButtonBig
-                            buttonStyle = {styles.button}
-                            isDisabled = {this.state.isDisabled}
-                            onPress = {()=> this.didTapNextBtn()}
-                            text = {I18n.t('transaction.next_step')}
-                        /> 
+                            buttonStyle={styles.button}
+                            isDisabled={this.state.isDisabled}
+                            onPress={() => this.didTapNextBtn()}
+                            text={I18n.t('transaction.next_step')}
+                        />
                     </View>
                 </View>
 

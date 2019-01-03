@@ -201,6 +201,7 @@
 
         "input_token_name":"Bitte geben Sie einen Währungsnamen ein.",
         "add":"Hinzufügen",
+        "added":"Added",
         "remove":"Entfernen",
         "no_related_currency_found":"Keine zugehörige Währung gefunden",
         "cancel":"Abbrechen",

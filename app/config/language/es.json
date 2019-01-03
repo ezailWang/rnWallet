@@ -202,6 +202,7 @@
 
         "input_token_name":"Introduzca el nombre del activo",
         "add":"Añadir",
+        "added":"Added",
         "remove":"Eliminar",
         "no_related_currency_found":"No se encontró el activo",
         "cancel":"Cancelar",
