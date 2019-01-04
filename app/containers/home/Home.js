@@ -194,27 +194,29 @@ class HomeScreen extends BaseComponent {
 
 
     _changeWalletEmitter = async (data) => {
-
         this._showLoding()
 
+        try {
+            let address = this.props.wallet.address
 
-        let address = this.props.wallet.address
+            let localUser = await StorageManage.load(StorageKey.User)
+            if (localUser && localUser['isTotalAssetsHidden']) {
+                this.setState({
+                    isTotalAssetsHidden: localUser['isTotalAssetsHidden']
+                })
+            }
+            await NetworkManager.loadTokenList();
+            this._hideLoading()
 
-        let localUser = await StorageManage.load(StorageKey.User)
-        if (localUser && localUser['isTotalAssetsHidden']) {
-            this.setState({
-                isTotalAssetsHidden: localUser['isTotalAssetsHidden']
-            })
+            if (data.openRightDrawer) {
+                this.props.navigation.openDrawer()
+            }
+            
+        } catch (err) {
+            this._hideLoading()
         }
-        //await this.walletRegister(address)
-
-        await NetworkManager.loadTokenList()
-
-        this._hideLoading()
-
-        if (data.openRightDrawer) {
-            this.props.navigation.openDrawer()
-        }
+        
+        
     }
 
     _changeWalletListEmitter = () => {
@@ -236,7 +238,6 @@ class HomeScreen extends BaseComponent {
         NetworkManager.userInfoUpdate(params)
             .then((response) => {
                 if (response.code === 200) {
-                    //this.walletRegister(address)
                 } else {
                     //console.log('userInfoUpdate err msg:', response.msg)
                 }
