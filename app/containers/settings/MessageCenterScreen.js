@@ -378,20 +378,22 @@ class MessageCenterScreen extends BaseComponent {
                     }
                 }
 
-                let address = transation.to.toLowerCase() == this.props.wallet.address.toLowerCase() ? transation.from : transation.to
+                //let address = transation.to.toLowerCase() == this.props.wallet.address.toLowerCase() ? transation.from : transation.to
+                let address = item.fromAddress == this.props.wallet.address.toLowerCase() ? item.fromAddress : item.toAddress
                 let transactionDetail = {
                     amount: parseFloat(item.transactionValue),
                     transactionType: item.symbol.toUpperCase(),
                     tranStatus: status,
-                    fromAddress: transation.from,
-                    toAddress: transation.to,
+                    fromAddress: item.fromAddress,//transation.from,
+                    toAddress: item.toAddress,//transation.to,
                     gasPrice: '',
-                    transactionHash: transation.hash,
+                    transactionHash: item.hashId,//transation.hash,
                     blockNumber: transation.blockNumber,
                     transactionTime: item.updateTime + " +0800",
                     remark: I18n.t('transaction.no'),
                     name: addressToName(address, this.props.contactList)
                 };
+
                 this._hideLoading()
                 this.props.setTransactionDetailParams(transactionDetail);
                 this.props.navigation.navigate('TransactionDetail');

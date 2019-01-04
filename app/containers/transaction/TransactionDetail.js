@@ -164,7 +164,8 @@ export default class TransactionDetail extends BaseComponent {
         this.myAddress = wallet.address;
         this.isFrom = params.fromAddress.toLowerCase() == wallet.address.toLowerCase()  ? true : false
         this.otherAddress = this.isFrom ? this.state.toAddress : this.state.fromAddress,
-        
+
+       
         this._setStatusBarStyleLight()
     }
 
