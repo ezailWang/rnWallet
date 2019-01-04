@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Platform, Linking ,DeviceEventEmitter} from 'react-native'
+import { Platform, Linking, DeviceEventEmitter } from 'react-native'
 import StorageManage from '../../utils/StorageManage'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -34,36 +34,36 @@ class Loading extends Component {
     }*/
 
     async componentDidMount() {
-
         if (!this.props.wallet) {
             await this.loadFromStorege()
         }
-        JPushModule.getRegistrationID(registrationId => {
-            let params = {
-                'system': Platform.OS,
-                'systemVersion': DeviceInfo.getSystemVersion(),
-                'deviceModel': DeviceInfo.getModel(),
-                'deviceToken': registrationId,
-                'deviceId': DeviceInfo.getUniqueID(),
-                'walletAddress': this.props.wallet ? this.props.wallet.address : 0,
-            }
-            //设置别名
-            JPushModule.setAlias(registrationId, (alias) => {
+        let userToken = await StorageManage.load(StorageKey.UserToken)
+        if (!userToken || userToken === null) {
+            JPushModule.getRegistrationID(registrationId => {
+                let params = {
+                    'system': Platform.OS,
+                    'systemVersion': DeviceInfo.getSystemVersion(),
+                    'deviceModel': DeviceInfo.getModel(),
+                    'deviceToken': registrationId,
+                    'deviceId': DeviceInfo.getUniqueID(),
+                }
+                //设置别名
+                JPushModule.setAlias(registrationId, (alias) => {
 
+                })
+                NetworkManager.deviceRegister(params)
+                    .then((response) => {
+                        if (response.code === 200) {
+                            StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
+                        } else {
+                            console.log('deviceRegister err msg:', response.msg)
+                        }
+                    })
+                    .catch((err) => {
+                        console.log('deviceRegister err:', err)
+                    })
             })
-            NetworkManager.deviceRegister(params)
-                .then((response) => {
-                    if (response.code === 200) {
-                        StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
-                    } else {
-                        console.log('deviceRegister err msg:', response.msg)
-                    }
-                })
-                .catch((err) => {
-                    console.log('deviceRegister err:', err)
-                })
-        })
-
+        }
 
         /*JPushModule.addReceiveOpenNotificationListener((map)=>{
             this.props.navigation.navigate('MessageCenter')
@@ -73,30 +73,6 @@ class Loading extends Component {
             'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
             'language': I18n.locale
         }
-        //清除小标
-        if (Platform.OS === 'ios') {
-            JPushModule.setBadge(0, (result) => {
-            })
-        }
-
-    
-        /*NetworkManager.getVersionUpdateInfo(params)
-            .then((response) => {
-                if (response.code === 200) {
-                    let contents = response.data.content.split('&')
-                    let updateInfo = {
-                        contents:contents,
-                        updateUrl:response.data.updateUrl
-                    }
-
-                   
-                } else {
-                    console.log('getVersionUpdateInfo err msg:', response.msg)
-                }
-            })
-            .catch((err) => {
-                console.log('getVersionUpdateInfo err:', err)
-            })*/
 
         if (this.props.wallet) {
             return this.props.navigation.navigate('HomeTab')
@@ -118,10 +94,10 @@ class Loading extends Component {
         let contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact)
         let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
         let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
-        if(!ethWalletList){
-            ethWalletList =[]
+        if (!ethWalletList) {
+            ethWalletList = []
         }
-        if(user && user.type === undefined){
+        if (user && user.type === undefined) {
             user.type = 'eth'
             let ethWallet = {
                 name: user.name,
@@ -129,24 +105,24 @@ class Loading extends Component {
                 extra: user.extra,
                 type: 'eth'
             }
-            
-            if(ethWalletList){
+
+            if (ethWalletList) {
                 ethWalletList = ethWalletList.concat(ethWallet)
-            }else{
+            } else {
                 ethWalletList.push(ethWallet)
             }
             StorageManage.save(StorageKey.EthWalletList, ethWalletList)
             StorageManage.save(StorageKey.User, ethWallet)
         }
 
-        if(ethWalletList){
+        if (ethWalletList) {
             this.props.dispatch(setEthWalletList(ethWalletList))
         }
-        if(itcWalletList){
+        if (itcWalletList) {
             this.props.dispatch(setItcWalletList(itcWalletList))
         }
 
-        
+
 
         //addDefaultTokens();
         /*if (net) {
@@ -196,9 +172,9 @@ class Loading extends Component {
         this.props.dispatch(setIsNewWallet(false))
         this.getAllTokens()
         this.getMessageCount()
-        
 
-        
+
+
         if (user) {
             this.props.dispatch(setCurrentWallet(user))
         } else {
@@ -259,7 +235,7 @@ class Loading extends Component {
         })
     }
 
-    
+
     //获取未度消息数
     async getMessageCount() {
 

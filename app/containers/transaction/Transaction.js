@@ -398,12 +398,12 @@ export default class Transaction extends BaseComponent {
 
         // 刷新首页list
         // NetworkManager.loadTokenList()
-        if (!res) {
-            setTimeout(() => {
-                //alert(I18n.t('transaction.alert_1'));
-                this._showAlert(I18n.t('transaction.alert_1'))
-            }, 100);
-        }
+        // if (!res) {
+        //     setTimeout(() => {
+                 //alert(I18n.t('transaction.alert_1'));
+        //         this._showAlert(I18n.t('transaction.alert_1'))
+        //     }, 100);
+        // }
     }
 
     async didTapSurePasswordBtn(password) {

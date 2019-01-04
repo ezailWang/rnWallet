@@ -54,7 +54,7 @@ class HomeScreen extends BaseComponent {
             headBgImageRef: null,
             versionUpdateModalVisible: false,
         }
-       
+
         this.versionUpdateInfo = null
         this._setStatusBarStyleLight()
     }
@@ -65,7 +65,7 @@ class HomeScreen extends BaseComponent {
         this._addChangeListener()
     }
 
-    
+
     componentWillUnmount() {
         this._isMounted = false
         this._removeEventListener();
@@ -106,17 +106,17 @@ class HomeScreen extends BaseComponent {
     }
 
     onClickCell = async (item) => {
-        let { address, symbol, decimal, price, balance,iconLarge } = item.item;
+        let { address, symbol, decimal, price, balance, iconLarge } = item.item;
         let balanceInfo = {
             amount: balance,
             price: price,
             symbol: symbol,
             address: address,
             decimal: decimal,
-            iconLarge : iconLarge
+            iconLarge: iconLarge
         }
         store.dispatch(setCoinBalance(balanceInfo));
-        let _this  = this
+        let _this = this
         this.props.navigation.navigate('TransactionRecoder', {
             callback: async function (data) {
                 await NetworkManager.loadTokenList()
@@ -194,7 +194,7 @@ class HomeScreen extends BaseComponent {
 
 
     _changeWalletEmitter = async (data) => {
-        
+
         this._showLoding()
 
 
@@ -206,24 +206,32 @@ class HomeScreen extends BaseComponent {
                 isTotalAssetsHidden: localUser['isTotalAssetsHidden']
             })
         }
-
-        await this.userInfoUpdate(address)
-        await this.walletRegister(address)
+        //await this.walletRegister(address)
 
         await NetworkManager.loadTokenList()
-        
+
         this._hideLoading()
 
-        if(data.openRightDrawer){
+        if (data.openRightDrawer) {
             this.props.navigation.openDrawer()
         }
     }
 
+    _changeWalletListEmitter = () => {
+        //钱包列表发生变化，更新推送服务器数据
+        this.userInfoUpdate()
+    }
 
-    async userInfoUpdate(address) {
+
+    userInfoUpdate() {
+        const { ethWalletList, itcWalletList } = store.getState().Core
+        const ethWallets = ethWalletList.map(wallet => wallet.address)
+        const itcWallets = itcWalletList.map(wallet => wallet.address)
         let params = {
             language: I18n.locale,
-            walletAddress: address
+            // walletAddress: address,
+            ethWallets: ethWallets,
+            itcWallets: itcWallets
         }
         NetworkManager.userInfoUpdate(params)
             .then((response) => {
@@ -239,38 +247,6 @@ class HomeScreen extends BaseComponent {
             })
     }
 
-
-    async walletRegister(address) {
-
-        JPushModule.getRegistrationID(registrationId => {
-            let params = {
-                'system': Platform.OS,
-                'systemVersion': DeviceInfo.getSystemVersion(),
-                'deviceModel': DeviceInfo.getModel(),
-                'deviceToken': registrationId,
-                'deviceId': DeviceInfo.getUniqueID(),
-                'walletAddress': address,
-            }
-            //设置别名
-            JPushModule.setAlias(registrationId, (alias) => {
-
-            })
-            NetworkManager.deviceRegister(params)
-                .then((response) => {
-                    if (response.code === 200) {
-                        StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
-            
-                    } else {
-                        console.log('deviceRegister err msg:', response.msg)
-                    }
-                })
-                .catch((err) => {
-                    this._hideLoading()
-                    console.log('deviceRegister err:', err)
-                })
-        })
-    }
-
     async _initData() {
         SplashScreen.hide()
         if (this.props.isNewWallet == false) {
@@ -280,21 +256,7 @@ class HomeScreen extends BaseComponent {
             this.props.setIsNewWallet(false)
             this._showLoding()
         }
-
-        let params = {
-            language: I18n.locale,
-            walletAddress: this.props.wallet.address
-        }
-        NetworkManager.userInfoUpdate(params)
-            .then((response) => {
-                if (response.code === 200) {
-                } else {
-                    console.log('userInfoUpdate err msg:', response.msg)
-                }
-            })
-            .catch((err) => {
-                console.log('userInfoUpdate err:', err)
-            })
+        this.userInfoUpdate()
 
         this.setState({
             monetaryUnitSymbol: this.props.monetaryUnit.symbol
@@ -308,7 +270,7 @@ class HomeScreen extends BaseComponent {
             })
         }
         await NetworkManager.loadTokenList()
-        
+
         this._hideLoading()
     }
 
@@ -359,7 +321,7 @@ class HomeScreen extends BaseComponent {
     versionUpdateLeftPress = () => {
         this.setState({
             versionUpdateModalVisible: false,
-           
+
         })
         this.versionUpdateInfo = null
     }
@@ -378,9 +340,9 @@ class HomeScreen extends BaseComponent {
         this.versionUpdateInfo = null
     }
 
-    
 
-    async versionUpdate(){
+
+    async versionUpdate() {
         let params = {
             'system': Platform.OS,
             'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
@@ -391,14 +353,14 @@ class HomeScreen extends BaseComponent {
                 if (response.code === 200) {
                     let contents = response.data.content.split('&')
                     let updateInfo = {
-                        contents:contents,
-                        updateUrl:response.data.updateUrl
+                        contents: contents,
+                        updateUrl: response.data.updateUrl
                     }
                     this.versionUpdateInfo = updateInfo
                     this.setState({
                         versionUpdateModalVisible: true
                     })
-                   
+
                 } else {
                     console.log('getVersionUpdateInfo err msg:', response.msg)
                 }

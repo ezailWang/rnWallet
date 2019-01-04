@@ -359,7 +359,7 @@ class SetScreen extends BaseComponent {
                 this.props.setCurrentWallet(wallet)
                 this.props.setTransactionRecordList([])
                 StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-
+                DeviceEventEmitter.emit('changeWalletList', {});
                 DeviceEventEmitter.emit('changeWallet', {openRightDrawer:true});
                 this.props.navigation.navigate('Home')
                 

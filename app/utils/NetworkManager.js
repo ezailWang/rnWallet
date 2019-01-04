@@ -99,20 +99,20 @@ export default class NetworkManager {
      * @param {number} startBlock
      * @param {number/string} endBlock   default 'latest'
      */
-    static getTransations({ address, symbol, decimal },startBlock,endBlock) {
+    static getTransations({ address, symbol, decimal }, startBlock, endBlock) {
         if (symbol == 'ETH') {
-            return this.getEthTransations(startBlock,endBlock)
+            return this.getEthTransations(startBlock, endBlock)
         }
-        return this.getERC20Transations(address, decimal,startBlock,endBlock)
+        return this.getERC20Transations(address, decimal, startBlock, endBlock)
     }
 
     /**
      * Get a list of ETH transactions for the user's wallet
      */
-    static async getEthTransations(startBlock,endBlock) {
+    static async getEthTransations(startBlock, endBlock) {
         try {
-            const { wallet} = store.getState().Core
-            var data = await api.account.txlist(wallet.address,startBlock,endBlock)
+            const { wallet } = store.getState().Core
+            var data = await api.account.txlist(wallet.address, startBlock, endBlock)
             if (data.message !== 'OK') {
                 return []
             }
@@ -151,10 +151,10 @@ export default class NetworkManager {
      * @param {String} address 
      * @param {Number} decimal 
      */
-    static async getERC20Transations(address, decimal,startBlock,endBlock) {
+    static async getERC20Transations(address, decimal, startBlock, endBlock) {
         try {
             const { wallet } = store.getState().Core
-            var data = await api.account.tokentx(wallet.address, address,startBlock,endBlock)
+            var data = await api.account.tokentx(wallet.address, address, startBlock, endBlock)
             if (data.message !== 'OK') {
                 return []
             }
@@ -384,7 +384,7 @@ export default class NetworkManager {
         const tokensAddresses = tokens
             .filter(token => token.symbol !== 'ETH')
             .map(token => token.address)
-        var localTokens = await StorageManage.load(StorageKey.Tokens+wallet.address)
+        var localTokens = await StorageManage.load(StorageKey.Tokens + wallet.address)
         if (localTokens) {
             localTokens.filter(
                 token =>
@@ -456,7 +456,7 @@ export default class NetworkManager {
     static getAllTokens(params) {
         return FetchUtils.requestGet(NetAddr.getAllTokens, params)
     }
-    
+
     /**
      * getAllTokens 
      */
