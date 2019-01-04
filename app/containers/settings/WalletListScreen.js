@@ -135,7 +135,7 @@ class WalletListScreen extends BaseComponent {
     ethWalletOnPress = (wallet) => {
         let _this = this;
         this.props.navigation.navigate('Set', {
-            walletType:'eth',
+            walletType: 'eth',
             wallet: wallet,
             callback: function () {
                 _this.refreshPage()
@@ -143,11 +143,11 @@ class WalletListScreen extends BaseComponent {
         })
     }
 
-    _changeWalletEmitter = (data) =>{
-       
+    _changeWalletEmitter = (data) => {
+
     }
 
-    _changeWalletListEmitter = (data) =>{
+    _changeWalletListEmitter = (data) => {
         this.refreshPage()
     }
 
@@ -162,7 +162,7 @@ class WalletListScreen extends BaseComponent {
 
         this.state.ethWallets.forEach(function (wallet, index) {
             ethWalletsView.push(
-                <Item key={index} wallet={wallet} onItemPressed={()=>_this.ethWalletOnPress(wallet)} />
+                <Item key={index} wallet={wallet} onItemPressed={() => _this.ethWalletOnPress(wallet)} />
             )
         })
         return (
@@ -170,9 +170,11 @@ class WalletListScreen extends BaseComponent {
                 <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.set')} />
                 <ScrollView style={{ marginBottom: 12 }} showsVerticalScrollIndicator={false}>
                     {/*<ItemHeader title={I18n.t('settings.itc_wallet')} icon={require('../../assets/set/itc_icon.png')}
+                        isShowButton = {this.state.itcWallets.length >= 10 ?  false : true}
                         btnText={I18n.t('settings.create_itc_wallet')} onItemHeaderPressed={()=>this.createEthOrItcWallet('itc')}></ItemHeader>
                     {itcWalletsView}*/}
                     <ItemHeader title={I18n.t('settings.eth_wallet')} icon={require('../../assets/set/eth_icon.png')}
+                        isShowButton = {this.state.ethWallets.length >= 10 ?  false : true}
                         btnText={I18n.t('settings.create_eth_wallet')} onItemHeaderPressed={() => this.createEthOrItcWallet('eth')}></ItemHeader>
                     {ethWalletsView}
                 </ScrollView>
@@ -189,6 +191,7 @@ class ItemHeader extends PureComponent {
         icon: PropTypes.number.isRequired,
         btnText: PropTypes.string.isRequired,
         onItemHeaderPressed: PropTypes.func.isRequired,
+        isShowButton: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -201,11 +204,15 @@ class ItemHeader extends PureComponent {
                 <Image style={styles.itemHeaderIcon} source={this.props.icon} resizeMode={'center'}></Image>
                 <Text style={styles.itemHeaderTitle}>{this.props.title}</Text>
 
-                <TouchableOpacity activeOpacity={0.6}
-                    style={styles.itemHeaderTouchable}
-                    onPress={this.props.onItemHeaderPressed}>
-                    <Text style={styles.itemHeaderBtnTxt}>+{this.props.btnText}</Text>
-                </TouchableOpacity>
+                {
+                    this.props.isShowButton ?
+                        <TouchableOpacity activeOpacity={0.6}
+                            style={styles.itemHeaderTouchable}
+                            onPress={this.props.onItemHeaderPressed}>
+                            <Text style={styles.itemHeaderBtnTxt}>+{this.props.btnText}</Text>
+                        </TouchableOpacity> : null
+                }
+
             </View>
         )
     }

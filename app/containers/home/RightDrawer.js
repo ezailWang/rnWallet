@@ -94,6 +94,9 @@ class RightDrawer extends BaseComponent {
                 <Item key={index} wallet={wallet} isSelected={isSelected} itemOnPress={() => _this.ethWalletOnPress(wallet)} />
             )
         })
+
+        
+        
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBarComponent barStyle={this._barStyle} />
@@ -101,10 +104,12 @@ class RightDrawer extends BaseComponent {
                 <ScrollView style={{ paddingTop: 50, paddingBottom: 20, }} showsVerticalScrollIndicator={false}>
                     {/*<ItemHeader icon={require('../../assets/set/itc_icon.png')} text={I18n.t('settings.itc_wallet')}></ItemHeader>
                     {itcWalletsView}
-                       <AddButton text={I18n.t('settings.create_itc_wallet')} addOnPress={() => this.createEthOrItcWallet('itc')}></AddButton>*/}
+                    {itcWalletList.length >=10 ? null : <AddButton text={I18n.t('settings.create_itc_wallet')} addOnPress={() => this.createEthOrItcWallet('itc')}></AddButton>}
+                       */}
                     <ItemHeader icon={require('../../assets/set/eth_icon.png')} text={I18n.t('settings.eth_wallet')}></ItemHeader>
                     {ethWalletsView}
-                    <AddButton text={I18n.t('settings.create_eth_wallet')} addOnPress={() => this.createEthOrItcWallet('eth')}></AddButton>
+                    {ethWalletList.length >= 10 ? null : <AddButton text={I18n.t('settings.create_eth_wallet')} addOnPress={() => this.createEthOrItcWallet('eth')}></AddButton>}
+                    
                 </ScrollView>
                 {Platform.OS === 'ios' && this.state.showBlur && <BlurView
                     style={styles.blurStyle}
