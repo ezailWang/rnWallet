@@ -646,7 +646,6 @@ export default class TransactionRecoder extends BaseComponent {
 
     didTapTransactionButton = async () => {
 
-
         let { amount, price, symbol } = store.getState().Core.balance;
         let { wallet } = store.getState().Core
 
@@ -687,38 +686,45 @@ export default class TransactionRecoder extends BaseComponent {
     };
 
     async didTapTransactionCell(item) {
+        this._showLoding()
+        try {
+            let { symbol } = store.getState().Core.balance;
+            let recoder = item;
+            let currentBlock = await NetworkManager.getCurrentBlockNumber()
+            this._hideLoading()
+            // "0"--已确认 "1"--错误  "2"--确认中
+            let state = recoder.isError
 
-        let { symbol } = store.getState().Core.balance;
-        let recoder = item;
-        let currentBlock = await NetworkManager.getCurrentBlockNumber()
-
-        // "0"--已确认 "1"--错误  "2"--确认中
-        let state = recoder.isError
-
-        if (state == "0") {
-            let sureBlock = currentBlock - recoder.blockNumber;
-            if (sureBlock < 12) {
-                state = "2"
+            if (state == "0") {
+                let sureBlock = currentBlock - recoder.blockNumber;
+                if (sureBlock < 12) {
+                    state = "2"
+                }
             }
+
+            let transactionDetail = {
+                //amount: parseFloat(recoder.value),
+                // amount: Number(parseFloat(recoder.value).toFixed(8)),
+                amount: item.amount,
+                transactionType: symbol,
+                fromAddress: recoder.from,
+                toAddress: recoder.to,
+                gasPrice: recoder.gasPrice,
+                remark: I18n.t('transaction.no'),
+                transactionHash: recoder.hash,
+                blockNumber: recoder.blockNumber,
+                transactionTime: item.time + " +0800",
+                tranStatus: state,
+                name: item.name
+            };
+            store.dispatch(setTransactionDetailParams(transactionDetail));
+            this.props.navigation.navigate('TransactionDetail');
+        } catch (err) {
+            this._hideLoading()
+        } finally {
+            this._hideLoading()
         }
 
-        let transactionDetail = {
-            //amount: parseFloat(recoder.value),
-            // amount: Number(parseFloat(recoder.value).toFixed(8)),
-            amount: item.amount,
-            transactionType: symbol,
-            fromAddress: recoder.from,
-            toAddress: recoder.to,
-            gasPrice: recoder.gasPrice,
-            remark: I18n.t('transaction.no'),
-            transactionHash: recoder.hash,
-            blockNumber: recoder.blockNumber,
-            transactionTime: item.time + " +0800",
-            tranStatus: state,
-            name: item.name
-        };
-        store.dispatch(setTransactionDetailParams(transactionDetail));
-        this.props.navigation.navigate('TransactionDetail');
     };
 
     renderItem = (item) => {
@@ -741,18 +747,21 @@ export default class TransactionRecoder extends BaseComponent {
 
     async _initData() {
 
-        let isGetTRFromStore = await this.loadStoreTransactionRecoder();//从store获取
-        if (!isGetTRFromStore) {
-            this.showLoading()
-            //let isGetTRFromLocal = await this.loadLocalTransactionRecoder()//本地中获取
-            let isGetTRFromLocal = false;
-            if (!isGetTRFromLocal) {
-                await this.getRecoder(true) //从远端获取
+        try{
+            let isGetTRFromStore = await this.loadStoreTransactionRecoder();//从store获取
+            if (!isGetTRFromStore) {
+                this.showLoading()
+                //let isGetTRFromLocal = await this.loadLocalTransactionRecoder()//本地中获取
+                let isGetTRFromLocal = false;
+                if (!isGetTRFromLocal) {
+                    await this.getRecoder(true) //从远端获取
+                }
+                this.hideLoading()
             }
+        }catch (err) {
             this.hideLoading()
         }
-
-
+        
         this.suggestGas = await NetworkManager.getSuggestGasPrice();
         this.ethBalance = await NetworkManager.getEthBalance();
 
@@ -781,7 +790,6 @@ export default class TransactionRecoder extends BaseComponent {
     }
 
     getIconImage(symbol) {
-
         let imageSource = require('../../assets/transfer/naIcon.png')
         if (symbol === 'ETH' || symbol === 'ITC' || symbol === 'MANA' || symbol === 'DPY') {
             imageSource = tokenIcon[symbol]

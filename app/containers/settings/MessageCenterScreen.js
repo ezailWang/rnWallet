@@ -237,19 +237,26 @@ class MessageCenterScreen extends BaseComponent {
     }
 
     _onPressItem = (item) => {
-        if (item.item.readStatus == 1) {
-            this.callBackIsNeedRefresh = true;
-            this._readMessage(item.item.msgId)
-        } else {
-            this.callBackIsNeedRefresh = false;
+        try {
+            if (item.item.readStatus == 1) {
+                this.callBackIsNeedRefresh = true;
+                this._readMessage(item.item.msgId)
+            } else {
+                this.callBackIsNeedRefresh = false;
+            }
+
+            if (item.item.messageType == 1) {
+                this._showLoding()
+                this.transactionNotification(item.item)
+            } else if (item.item.messageType == 2) {
+                this.announcement(item.item)
+            }
+        } catch (err) {
+            this._hideLoading()
+        } finally {
+
         }
 
-        if (item.item.messageType == 1) {
-            this._showLoding()
-            this.transactionNotification(item.item)
-        } else if (item.item.messageType == 2) {
-            this.announcement(item.item)
-        }
     }
 
     _readMessage = async (msgId) => {
@@ -267,12 +274,13 @@ class MessageCenterScreen extends BaseComponent {
                     //JPushModule.clearNotificationById(msgId);
                     this.getMessageCount();
                     this._onRefresh(false)
-                    
+
                 } else {
                 }
             })
             .catch((err) => {
                 //console.log('_readMessage err:', err)
+                this._hideLoading()
             })
     }
 
@@ -290,9 +298,9 @@ class MessageCenterScreen extends BaseComponent {
                 if (response.code === 200) {
                     let messageCount = response.data.account;
                     //ios
-                    if(Platform.OS == 'ios'){
+                    if (Platform.OS == 'ios') {
                         JPushModule.setBadge(messageCount, success => {
-                            console.log('L_readItem','设置角标为'+messageCount)
+                            console.log('L_readItem', '设置角标为' + messageCount)
                         })
                     }
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
@@ -301,6 +309,7 @@ class MessageCenterScreen extends BaseComponent {
                 }
             }).catch(err => {
                 console.log('getMessageCounts err:', err)
+                this._hideLoading()
             })
     }
 
@@ -431,9 +440,9 @@ class MessageCenterScreen extends BaseComponent {
                 if (response.code === 200) {
                     //JPushModule.clearAllNotifications();
                     //ios
-                    if(Platform.OS == 'ios'){
+                    if (Platform.OS == 'ios') {
                         JPushModule.setBadge(0, success => {
-                            console.log('L_readALL','设置角标为0')
+                            console.log('L_readALL', '设置角标为0')
                         })
                     }
                     DeviceEventEmitter.emit('messageCount', { messageCount: 0 });
@@ -455,7 +464,7 @@ class MessageCenterScreen extends BaseComponent {
         if (!localTokens) {
             localTokens = []
         }
-        
+
         localTokens.push({
             iconLarge: token.iconLarge,
             symbol: token.symbol,

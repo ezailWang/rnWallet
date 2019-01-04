@@ -350,58 +350,65 @@ export default class Transaction extends BaseComponent {
 
     async startSendTransaction(privateKey) {
 
-        // console.warn("开始转账，已验证私钥");
 
-        let { address, symbol, decimal } = store.getState().Core.balance;
+        try {
+            // console.warn("开始转账，已验证私钥");
 
-        // console.warn('交易参数：',address,symbol,decimal,this.state.toAddress,this.state.transferValue,this.state.currentGas)
+            let { address, symbol, decimal } = store.getState().Core.balance;
 
-        let currentBlock = await NetworkManager.getCurrentBlockNumber();
-        let res = await NetworkManager.sendTransaction(
-            {
-                "address": address,
-                "symbol": symbol,
-                "decimal": decimal
-            },
-            this.state.toAddress,
-            this.state.transferValue,
-            this.state.currentGas,
-            privateKey,
-            (hash) => {
-                console.log('L_hash',hash)
-                let { wallet } = store.getState().Core
-                let timestamp = new Date().getTime()
+            // console.warn('交易参数：',address,symbol,decimal,this.state.toAddress,this.state.transferValue,this.state.currentGas)
 
-                let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
-                let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
-                totalGas = totalGas.toFixed(8);
+            let currentBlock = await NetworkManager.getCurrentBlockNumber();
+            let res = await NetworkManager.sendTransaction(
+                {
+                    "address": address,
+                    "symbol": symbol,
+                    "decimal": decimal
+                },
+                this.state.toAddress,
+                this.state.transferValue,
+                this.state.currentGas,
+                privateKey,
+                (hash) => {
+                    let { wallet } = store.getState().Core
+                    let timestamp = new Date().getTime()
 
-                let newTransaction = {
-                    from: wallet.address,
-                    to: this.state.toAddress,
-                    timeStamp: timestamp / 1000,
-                    hash: hash,
-                    value: this.state.transferValue,
-                    isError: "0",
-                    gasPrice: totalGas,
-                    blockNumber: currentBlock,
-                    symbol: symbol
-                }
-               
+                    let gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
+                    let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
+                    totalGas = totalGas.toFixed(8);
 
-                store.dispatch(setNewTransaction(newTransaction));
-                this._hideLoading();
-                //回调刷新
-                this.props.navigation.state.params.onGoBack();
-                this.props.navigation.goBack();
-            },
-        )
+                    let newTransaction = {
+                        from: wallet.address,
+                        to: this.state.toAddress,
+                        timeStamp: timestamp / 1000,
+                        hash: hash,
+                        value: this.state.transferValue,
+                        isError: "0",
+                        gasPrice: totalGas,
+                        blockNumber: currentBlock,
+                        symbol: symbol
+                    }
+
+
+                    store.dispatch(setNewTransaction(newTransaction));
+                    this._hideLoading();
+                    //回调刷新
+                    this.props.navigation.state.params.onGoBack();
+                    this.props.navigation.goBack();
+                },
+            )
+
+        } catch (err) {
+            this._hideLoading()
+        }
+
+
 
         // 刷新首页list
         // NetworkManager.loadTokenList()
         // if (!res) {
         //     setTimeout(() => {
-                 //alert(I18n.t('transaction.alert_1'));
+        //alert(I18n.t('transaction.alert_1'));
         //         this._showAlert(I18n.t('transaction.alert_1'))
         //     }, 100);
         // }

@@ -361,9 +361,6 @@ class ImportWalletScreen extends BaseComponent {
                 this.timeIntervalCount = this.timeIntervalCount + 1;
                 this.changeLoading(this.timeIntervalCount)
             }, 500);
-
-
-
         }
     }
 
