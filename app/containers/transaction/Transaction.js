@@ -368,8 +368,7 @@ export default class Transaction extends BaseComponent {
             this.state.currentGas,
             privateKey,
             (hash) => {
-                // console.warn('hash', hash)
-
+                console.log('L_hash',hash)
                 let { wallet } = store.getState().Core
                 let timestamp = new Date().getTime()
 
@@ -388,6 +387,8 @@ export default class Transaction extends BaseComponent {
                     blockNumber: currentBlock,
                     symbol: symbol
                 }
+               
+
                 store.dispatch(setNewTransaction(newTransaction));
                 this._hideLoading();
                 //回调刷新
@@ -398,7 +399,9 @@ export default class Transaction extends BaseComponent {
 
         // 刷新首页list
         // NetworkManager.loadTokenList()
+        console.log('L_res',res)
         if (!res) {
+           
             setTimeout(() => {
                 //alert(I18n.t('transaction.alert_1'));
                 this._showAlert(I18n.t('transaction.alert_1'))
