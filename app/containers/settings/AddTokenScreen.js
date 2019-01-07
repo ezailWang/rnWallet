@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
         height: 2,
         width: Layout.WINDOW_WIDTH - 20,
         backgroundColor: Colors.backgroundColor,
-    }
+    },
 
 })
 

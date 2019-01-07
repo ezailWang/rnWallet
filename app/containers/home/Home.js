@@ -23,7 +23,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import NetworkManager from '../../utils/NetworkManager'
-import {setAllTokens, setCoinBalance, setNetWork, removeToken, setIsNewWallet } from '../../config/action/Actions'
+import { setAllTokens, setCoinBalance, setNetWork, removeToken, setIsNewWallet } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -125,7 +125,7 @@ class HomeScreen extends BaseComponent {
     }
 
 
-    pushAddtoken = async() => {
+    pushAddtoken = async () => {
         /*this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
                 this._showLoading()
@@ -134,24 +134,23 @@ class HomeScreen extends BaseComponent {
                 this._hideLoading()
             }
         });*/
-        
-        if(!this.props.allTokens || this.props.allTokens.length <=0){
+
+        if (!this.props.allTokens || this.props.allTokens.length <= 0) {
             this._showLoading()
-            await this.getAllTokens()
-            this._hideLoading()
+            this.getAllTokens()
+        } else {
+            let _this = this;
+            this.props.navigation.navigate('AddToken', {
+                callback: async (token) => {
+                    /*_this._showLoading()
+                    await NetworkManager.loadTokenList()
+                    _this._hideLoading()*/
+                }
+            });
         }
-       
-        let _this = this;
-        this.props.navigation.navigate('AddToken', {
-            callback: async (token) => {
-                /*_this._showLoading()
-                await NetworkManager.loadTokenList()
-                _this._hideLoading()*/
-            }
-        });
     }
 
-   
+
 
     showChangeNetwork = () => {
         this.setState({
@@ -213,9 +212,6 @@ class HomeScreen extends BaseComponent {
             if (data.openRightDrawer) {
                 this.props.navigation.openDrawer()
             }
-            
-
-
 
         } catch (err) {
             this._hideLoading()
@@ -257,13 +253,21 @@ class HomeScreen extends BaseComponent {
         NetworkManager.getAllTokens(allTokensParams).then((response) => {
             if (response.code === 200) {
                 this.props.setAllTokens(response.data)
+                this._hideLoading()
+                this.props.navigation.navigate('AddToken', {
+                    callback: async (token) => {
+                    }
+                });
             } else {
+                this._hideLoading()
                 console.log('getAllTokens err msg:', response.msg)
+                showToast(I18n.t('toast.net_request_err'))
             }
         }).catch((err) => {
             this._hideLoading()
             console.log('getAllTokens err:', err)
-        })
+            showToast(I18n.t('toast.net_request_err'))
+        }) 
     }
 
     async _initData() {
