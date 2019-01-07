@@ -339,7 +339,7 @@
         "i_know":"Verstanden",
 
         "backup_fail":"Bestätigen fehlgeschlagen",
-        "check_mnemonic_is_correct":"Bitte überprüfen Sie die mnemonische Passphrase.",
+       
 
         "export_private_key_error":"Fehler beim Exportieren des privaten Schlüssels.",
         "password_error":"Falsches Passwort",
@@ -349,11 +349,7 @@
 
         "permission_camera":"Bitte Öffnen Sie zuerst den Kamerazugriff.",
 
-        "get_private_key_fail":"Der private Schlüssel wurde nicht erhalten.",
-        "transaction_failed":"Transaktion fehlgeschlagen. Bitte überprüfen Sie die Parameter.",
         "enter_valid_transfer_address":"Bitte geben Sie eine korrekte Transferadresse an.",
-        "enter_valid_transfer_amount":"Bitte geben Sie einen korrekten Transferbetrag an.",
-        "insufficient_balance":"Unzureichende Mittel",
 
         "ping_id_warn1":"Sobald das Loginpasswort erfolgereich festgelegt wurde, kann es nicht mehr geändert oder wiederhergestellt werden.",
         "ping_id_warn2":"Stellen Sie sicher, dass Sie sich an das Loginpasswort erinnern.",

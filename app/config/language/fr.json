@@ -340,7 +340,6 @@
         "i_know":"Compris",
 
         "backup_fail":"Back up a échoué.",
-        "check_mnemonic_is_correct":"S'il vous plaît vérifier les phrases mnémoniques.",
 
         "export_private_key_error":"Erreur! Impossible d'exporter une clé privée.",
         "password_error":"Mot de passe incorrect. Veuillez réessayer.",
@@ -350,11 +349,7 @@
 
         "permission_camera":"Veuillez autoriser l'accès à la caméra.",
 
-        "get_private_key_fail":"Échec de l'acquisition de la clé privée.",
-        "transaction_failed":"La transaction a échoué. Veuillez vérifier les paramètres ou l'état du réseau.",
         "enter_valid_transfer_address":"Veuillez entrer une adresse de transfert valide.",
-        "enter_valid_transfer_amount":"Veuillez entrer un montant de transfert valide.",
-        "insufficient_balance":"Solde insuffisant",
 
         "ping_id_warn1":"Une fois que le mot de passe de connexion a été défini avec succès, il ne peut être ni modifié ni récupéré.",
         "ping_id_warn2":"Assurez-vous de retenir votre mot de passe de connexion.",

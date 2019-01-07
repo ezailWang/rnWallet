@@ -340,7 +340,7 @@
         "i_know":"Understood",
 
         "backup_fail":"Backup failed.",
-        "check_mnemonic_is_correct":"Please check the mnemonic phrases.",
+
 
         "export_private_key_error":"Error! Cannot Export Private Key.",
         "password_error":"Password incorrect. Please try again.",
@@ -350,11 +350,7 @@
 
         "permission_camera":"Please allow camera access.",
 
-        "get_private_key_fail":"Failed to acquire the private key.",
-        "transaction_failed":"Transaction failed. Please check the parameters or network status.",
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
-        "enter_valid_transfer_amount":"Please enter a valid transfer amount.",
-        "insufficient_balance":"Insufficient Balance",
 
         "ping_id_warn1":"Once the login password is set successfully, it cannot be modified or retrieved.",
         "ping_id_warn2":"Make sure to remember your login password.",

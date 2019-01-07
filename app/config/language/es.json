@@ -340,7 +340,6 @@
         "i_know":"Entendido",
 
         "backup_fail":"Copia de seguridad fallida.",
-        "check_mnemonic_is_correct":"Por favor comprueba las frases mnemotécnicas.",
 
         "export_private_key_error":"¡Error! No se puede exportar la clave privada.",
         "password_error":"Contraseña incorrecta. Pruebe de nuevo.",
@@ -350,11 +349,7 @@
 
         "permission_camera":"Por favor habilita el acceso a la cámara.",
 
-        "get_private_key_fail":"Error al obtener la clave privada.",
-        "transaction_failed":"Transacción fallida. Por favor comprueba los parámetros o el estado de la red.",
         "enter_valid_transfer_address":"Por favor introduce una dirección válida de transferencia.",
-        "enter_valid_transfer_amount":"Por favor introduce una cantidad válida de transferencia.",
-        "insufficient_balance":"Saldo insuficiente",
 
         "ping_id_warn1":"Una vez establecida la contraseña de inicio, no puede ser modificada o recuperada.",
         "ping_id_warn2":"Asegúrate de no perderla.",

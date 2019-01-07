@@ -340,7 +340,6 @@
         "i_know":"Begrepen.",
 
         "backup_fail":"Back-up mislukt",
-        "check_mnemonic_is_correct":"Controleer de mnemonic-Passphrase.",
 
         "export_private_key_error":"Fout bij het exporteren van de persoonlijke sleutel.",
         "password_error":"Verkeerd wachtwoord",
@@ -350,11 +349,7 @@
 
         "permission_camera":"Gelieve camera-toegang toe te staan.",
 
-        "get_private_key_fail":"Kan de privésleutel niet verkrijgen.",
-        "transaction_failed":"Transactie mislukt. Controleer de parameters of netwerkstatus.",
         "enter_valid_transfer_address":"Voer een geldig overdrachtsadres in.",
-        "enter_valid_transfer_amount":"Geef een correct bedrag aan.",
-        "insufficient_balance":"Onvoldoende saldo",
 
         "ping_id_warn1":"Als het inlogwachtwoord eenmaal is ingesteld, kan het niet worden gewijzigd of opgehaald.",
         "ping_id_warn2":"Vergeet niet je login-wachtwoord te onthouden.",
