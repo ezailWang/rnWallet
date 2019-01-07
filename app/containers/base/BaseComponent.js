@@ -58,7 +58,7 @@ export default class BaseComponent extends PureComponent {
 
         this._addEventListener = this._addEventListener.bind(this);
         this._removeEventListener = this._removeEventListener.bind(this);
-        this._showLoding = this._showLoding.bind(this);
+        this._showLoading = this._showLoading.bind(this);
         this._hideLoading = this._hideLoading.bind(this);
         this._setStatusBarStyleLight = this._setStatusBarStyleLight.bind(this);
         this._setStatusBarStyleDark = this._setStatusBarStyleDark.bind(this);
@@ -122,8 +122,8 @@ export default class BaseComponent extends PureComponent {
         this.messageCountHandler = DeviceEventEmitter.addListener('messageCount', this._messageCountEmitter);//messageCount
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this._onBackPressed);//Android物理返回键监听
         this.backgroundStateHandler = DeviceEventEmitter.addListener('backgroundState', this._backgroundStateEmitter);
-        this.changeWalletHandler = DeviceEventEmitter.addListener('changeWallet', this._changeWalletEmitter);
-        this.changeTokensHandler = DeviceEventEmitter.addListener('changeTokens', this._changeTokensEmitter);
+        this.changeWalletHandler = DeviceEventEmitter.addListener('changeWallet', this._changeWalletEmitter);//切换钱包监听
+        this.changeTokensHandler = DeviceEventEmitter.addListener('changeTokens', this._changeTokensEmitter);//token列表改变的监听
 
     }
 
@@ -151,7 +151,7 @@ export default class BaseComponent extends PureComponent {
     }
 
     //显示Loading
-    _showLoding() {
+    _showLoading() {
         if (this._isMounted) {
             this.setState({
                 isShowLoading: true,

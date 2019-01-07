@@ -128,7 +128,7 @@ class HomeScreen extends BaseComponent {
     pushAddtoken = () => {
         /*this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
-                this._showLoding()
+                this._showLoading()
                 await this.saveTokenToStorage(token)
                 await NetworkManager.loadTokenList()
                 this._hideLoading()
@@ -137,7 +137,7 @@ class HomeScreen extends BaseComponent {
         let _this = this;
         this.props.navigation.navigate('AddToken', {
             callback: async (token) => {
-                _this._showLoding()
+                _this._showLoading()
                 await NetworkManager.loadTokenList()
                 _this._hideLoading()
             }
@@ -149,7 +149,7 @@ class HomeScreen extends BaseComponent {
         this.setState({
             addTokenShow: false
         })
-        this._showLoding()
+        this._showLoading()
         await NetworkManager.loadTokenList()
         this._hideLoading()
     }
@@ -171,7 +171,7 @@ class HomeScreen extends BaseComponent {
         this.setState({
             changeNetworkShow: false
         })
-        this._showLoding()
+        this._showLoading()
         await NetworkManager.loadTokenList()
         this._hideLoading()
     }
@@ -194,7 +194,7 @@ class HomeScreen extends BaseComponent {
 
 
     _changeWalletEmitter = async (data) => {
-        this._showLoding()
+        this._showLoading()
         try {
             let address = this.props.wallet.address
             let localUser = await StorageManage.load(StorageKey.User)
@@ -208,7 +208,7 @@ class HomeScreen extends BaseComponent {
                 //钱包列表发生变化，更新推送服务器数据
                 this.userInfoUpdate()
             }
-            
+
             this._hideLoading()
 
             if (data.openRightDrawer) {
@@ -254,7 +254,7 @@ class HomeScreen extends BaseComponent {
             this.versionUpdate()
         } else {
             this.props.setIsNewWallet(false)
-            this._showLoding()
+            this._showLoading()
         }
         this.userInfoUpdate()
 

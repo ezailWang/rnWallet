@@ -256,7 +256,7 @@ class AddTokenScreen extends BaseComponent {
     }
 
     _saveData = async () => {
-        //this._showLoding()
+        //this._showLoading()
         let tokens = this.addedTokens;
         let localTokens = [];
         tokens.forEach(function (value, index, b) {

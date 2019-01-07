@@ -320,7 +320,7 @@ class SetScreen extends BaseComponent {
         this.setState({
             isShowRemindDialog: false
         })
-        this._showLoding()
+        this._showLoading()
         setTimeout(() => {
             this.deleteWallet()
             //this.deleteLocalData();

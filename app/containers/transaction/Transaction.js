@@ -609,7 +609,7 @@ export default class Transaction extends BaseComponent {
                 ></StaticLoading>
                 <View style={styles.contentBox}>
                     <TransactionStep didTapSurePasswordBtn={(password) => {
-                        /*this._showLoding();
+                        /*this._showLoading();
                         setTimeout(async () => {
                             this.didTapSurePasswordBtn(password)
                         }, 1200)*/

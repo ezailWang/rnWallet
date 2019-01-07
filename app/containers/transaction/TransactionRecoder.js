@@ -650,7 +650,7 @@ export default class TransactionRecoder extends BaseComponent {
         let { wallet } = store.getState().Core
 
         if (this.ethBalance == -1) {
-            this._showLoding()
+            this._showLoading()
             this.ethBalance = await NetworkManager.getEthBalance();
             this._hideLoading()
         }
@@ -686,7 +686,7 @@ export default class TransactionRecoder extends BaseComponent {
     };
 
     async didTapTransactionCell(item) {
-        this._showLoding()
+        this._showLoading()
         try {
             let { symbol } = store.getState().Core.balance;
             let recoder = item;
@@ -772,7 +772,7 @@ export default class TransactionRecoder extends BaseComponent {
     }
 
     showLoading() {
-        this._showLoding()
+        this._showLoading()
         if (this.state.showNoData) {
             this.setState({
                 showNoData: false

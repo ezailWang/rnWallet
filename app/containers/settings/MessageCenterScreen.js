@@ -130,7 +130,7 @@ class MessageCenterScreen extends BaseComponent {
 
     async loadData(isShowLoading) {
         if (isShowLoading) {
-            this._showLoding()
+            this._showLoading()
         }
         let params = {
             'userToken': this.userToken['userToken'],
@@ -246,7 +246,7 @@ class MessageCenterScreen extends BaseComponent {
             }
 
             if (item.item.messageType == 1) {
-                this._showLoding()
+                this._showLoading()
                 this.transactionNotification(item.item)
             } else if (item.item.messageType == 2) {
                 this.announcement(item.item)
@@ -432,7 +432,7 @@ class MessageCenterScreen extends BaseComponent {
         if (!this.userToken || this.userToken === null) {
             return;
         }
-        this._showLoding()
+        this._showLoading()
         let params = {
             'userToken': this.userToken['userToken'],
         }

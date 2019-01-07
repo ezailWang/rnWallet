@@ -190,7 +190,7 @@ export default class FeedbackScreen extends BaseComponent {
 
     async submit() {
         Keyboard.dismiss();
-        this._showLoding()
+        this._showLoading()
         let userToken = await StorageManage.load(StorageKey.UserToken)
         if (!userToken || userToken === null) {
             userToken = { 'userToken': 1 }
