@@ -67,10 +67,6 @@ class ChoseItem extends PureComponent {
     }
 }
 
-
-
-
-
 export {
     ChoseItem,
 }

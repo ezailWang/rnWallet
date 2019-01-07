@@ -23,7 +23,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import ChangeNetwork from './component/ChangeNetwork'
 import { connect } from 'react-redux'
 import NetworkManager from '../../utils/NetworkManager'
-import { addToken, setNewTransaction, setCoinBalance, setNetWork, removeToken, setIsNewWallet } from '../../config/action/Actions'
+import {setAllTokens, setCoinBalance, setNetWork, removeToken, setIsNewWallet } from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'
 import { StorageKey, Colors } from '../../config/GlobalConfig'
 import { store } from '../../config/store/ConfigureStore'
@@ -125,7 +125,7 @@ class HomeScreen extends BaseComponent {
     }
 
 
-    pushAddtoken = () => {
+    pushAddtoken = async() => {
         /*this.props.navigation.navigate('AddAssets', {
             callback: async (token) => {
                 this._showLoading()
@@ -134,25 +134,24 @@ class HomeScreen extends BaseComponent {
                 this._hideLoading()
             }
         });*/
+        
+        if(!this.props.allTokens || this.props.allTokens.length <=0){
+            this._showLoading()
+            await this.getAllTokens()
+            this._hideLoading()
+        }
+       
         let _this = this;
         this.props.navigation.navigate('AddToken', {
             callback: async (token) => {
-                _this._showLoading()
+                /*_this._showLoading()
                 await NetworkManager.loadTokenList()
-                _this._hideLoading()
+                _this._hideLoading()*/
             }
         });
     }
 
-    onClickAdd = async (token) => {
-        await this.saveTokenToStorage(token)
-        this.setState({
-            addTokenShow: false
-        })
-        this._showLoading()
-        await NetworkManager.loadTokenList()
-        this._hideLoading()
-    }
+   
 
     showChangeNetwork = () => {
         this.setState({
@@ -167,14 +166,14 @@ class HomeScreen extends BaseComponent {
 
 
 
-    changeNetworkDone = async () => {
+    /*changeNetworkDone = async () => {
         this.setState({
             changeNetworkShow: false
         })
         this._showLoading()
         await NetworkManager.loadTokenList()
         this._hideLoading()
-    }
+    }*/
 
 
     onRefresh = async () => {
@@ -223,6 +222,10 @@ class HomeScreen extends BaseComponent {
         }
     }
 
+    _changeTokensEmitter = async (data) => {
+        await NetworkManager.loadTokenList()
+    }
+
 
     userInfoUpdate() {
         const { ethWalletList, itcWalletList } = store.getState().Core
@@ -245,6 +248,22 @@ class HomeScreen extends BaseComponent {
                 this._hideLoading()
                 //console.log('userInfoUpdate err:', err)
             })
+    }
+
+    async getAllTokens() {
+        let allTokensParams = {
+            'network': this.props.network,
+        }
+        NetworkManager.getAllTokens(allTokensParams).then((response) => {
+            if (response.code === 200) {
+                this.props.setAllTokens(response.data)
+            } else {
+                console.log('getAllTokens err msg:', response.msg)
+            }
+        }).catch((err) => {
+            this._hideLoading()
+            console.log('getAllTokens err:', err)
+        })
     }
 
     async _initData() {
@@ -550,6 +569,8 @@ const mapStateToProps = state => ({
     monetaryUnit: state.Core.monetaryUnit,
     isNewWallet: state.Core.isNewWallet,
     myLanguage: state.Core.myLanguage,
+    network: state.Core.network,
+    allTokens: state.Core.allTokens,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -557,6 +578,7 @@ const mapDispatchToProps = dispatch => ({
     removeToken: (token) => dispatch(removeToken(token)),
     setTotalAssets: (totalAssets) => dispatch(setTotalAssets(totalAssets)),
     setIsNewWallet: (isNewWallet) => dispatch(setIsNewWallet(isNewWallet)),
+    setAllTokens: (allTokens) => dispatch(setAllTokens(allTokens)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

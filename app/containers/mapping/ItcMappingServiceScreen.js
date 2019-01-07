@@ -13,10 +13,7 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     ImageBackground,
-    UIManager,
-    findNodeHandle
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions'
 import StorageManage from '../../utils/StorageManage'

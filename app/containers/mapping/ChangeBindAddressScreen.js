@@ -3,7 +3,6 @@ import {
     View,
     StyleSheet,
     Platform,
-    PermissionsAndroid,
     Text,
     FlatList,
     Image,
@@ -18,9 +17,6 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
-import NetworkManager from '../../utils/NetworkManager';
-import { CommonTextInput } from '../../components/TextInputComponent'
-import RemindDialog from '../../components/RemindDialog'
 import BaseComponent from '../base/BaseComponent';
 import LinearGradient from 'react-native-linear-gradient'
 const styles = StyleSheet.create({

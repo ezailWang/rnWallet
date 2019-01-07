@@ -7,28 +7,7 @@ import {
     DeviceEventEmitter,
 } from 'react-native'
 
-function addDefaultTokens(){
-    //添加默认的eth,itc
-    let tokenArray = [];
-    let ethToken = {
-        iconLarge: '',
-        symbol: 'ETH',
-        name: 'ethereum',
-        decimal: 18,
-        address: '',
-    }
-    let itcToken = {
-        iconLarge: 'http://47.75.16.97:9000/images/token/0x5e6b6d9abad9093fdc861ea1600eba1b355cd940@3x.png',
-        symbol: 'ITC',
-        name: 'IoT Chain',
-        decimal: 18,
-        address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940',
-    }
-    tokenArray.push(ethToken)
-    tokenArray.push(itcToken)
-    let wallet = store.getState().Core.wallet
-    StorageManage.save(StorageKey.Tokens+wallet.address, tokenArray)
-}
+
 
 
 function validateEmail(email) {
@@ -84,4 +63,4 @@ async function getMessageCount() {
 
 
 
-module.exports = {validateEmail,addressToName,addDefaultTokens,getMessageCount}
+module.exports = {validateEmail,addressToName,getMessageCount}

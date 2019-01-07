@@ -7,7 +7,6 @@ import StatusBarComponent from './StatusBarComponent';
 import LinearGradient from 'react-native-linear-gradient'
 import { showToast } from '../utils/Toast';
 import PinComponent from './PinComponent'
-//import Pin from './Pin'
 
 import {
     View,

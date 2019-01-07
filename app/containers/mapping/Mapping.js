@@ -8,7 +8,6 @@ import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 import ItcMappingServiceScreen from '../mapping/ItcMappingServiceScreen'
 import MappingTermsScreen from '../mapping/MappingTermsScreen'
-import StatusBarComponent from '../../components/StatusBarComponent'
 import LinearGradient from 'react-native-linear-gradient'
 class Mapping extends PureComponent {
 
@@ -27,22 +26,11 @@ class Mapping extends PureComponent {
 
     componentWillMount() {
         this._isMounted = true;
-        //this.choseMappingTabHandler = DeviceEventEmitter.addListener('choseMappingTab', this._choseMappingTabEmitter);
     }
 
     componentWillUnmount() {
         this._isMounted = false;
-        //this.choseMappingTabHandler && this.choseMappingTabHandler.remove();
-    }
 
-    _choseMappingTabEmitter = (data) => {
-        /*if(this._isMounted){
-        }
-        setTimeout(()=>{
-            I18n.locale == 'zh' ? 
-            this.props.navigation.navigate('MappingTerms') :
-            this.props.navigation.navigate('ItcMappingService')
-        }, 0);*/
     }
 
     render() {

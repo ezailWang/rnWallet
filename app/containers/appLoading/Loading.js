@@ -129,8 +129,6 @@ class Loading extends Component {
         if (itcWalletList) {
             this.props.dispatch(setItcWalletList(itcWalletList))
         }
-
-        //addDefaultTokens();
         /*if (net) {
             this.props.dispatch(setNetWork(net))
         }*/
