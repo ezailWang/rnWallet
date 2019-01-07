@@ -300,7 +300,7 @@ class MessageCenterScreen extends BaseComponent {
                     //ios
                     if (Platform.OS == 'ios') {
                         JPushModule.setBadge(messageCount, success => {
-                            console.log('L_readItem', '设置角标为' + messageCount)
+                           
                         })
                     }
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
@@ -327,7 +327,7 @@ class MessageCenterScreen extends BaseComponent {
     //交易通知
     async transactionNotification(item) {
         let itemSymbol = item.symbol.toUpperCase()
-        let isHaveToken = this.routeToTransactionRecoder(item)
+        let isHaveToken = await this.routeToTransactionRecoder(item)
         if (!isHaveToken) {
             let allTokens = this.props.allTokens
             let isMatchToken = false;
@@ -348,7 +348,7 @@ class MessageCenterScreen extends BaseComponent {
                 }
             }
             if (isMatchToken) {
-                this.routeToTransactionRecoder(item)
+                await this.routeToTransactionRecoder(item)
             } else {
                 this._hideLoading()
             }
@@ -376,6 +376,7 @@ class MessageCenterScreen extends BaseComponent {
                 this.props.setCoinBalance(balanceInfo);
 
                 let transation = await NetworkManager.getTransaction(item.hashId)
+               
                 let status = 2;
                 if (transation.isError == undefined || transation.isError == false) {
                     status = 0;
@@ -442,7 +443,6 @@ class MessageCenterScreen extends BaseComponent {
                     //ios
                     if (Platform.OS == 'ios') {
                         JPushModule.setBadge(0, success => {
-                            console.log('L_readALL', '设置角标为0')
                         })
                     }
                     DeviceEventEmitter.emit('messageCount', { messageCount: 0 });

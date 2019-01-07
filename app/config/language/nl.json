@@ -131,6 +131,9 @@
         "determine":"Bevestig",
 
         "add_contact":"Add contacts",
+        "getting_key":"Getting key",
+        "signing_transaction":"Signing transaction",
+        "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"Transactie mislukt",
         "alert_0":"De privésleutel is niet ontvangen.",

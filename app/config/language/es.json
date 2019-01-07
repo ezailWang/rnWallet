@@ -131,6 +131,9 @@
         "determine":"Confirmar",
 
         "add_contact":"Agregar contactos",
+        "getting_key":"Getting key",
+        "signing_transaction":"Signing transaction",
+        "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"Error en la transacción",
         "alert_0":"Error al obtener la clave privada",

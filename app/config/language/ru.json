@@ -131,6 +131,9 @@
         "determine":"Подтвердить",
         
         "add_contact":"Добавить контакты",
+        "getting_key":"Getting key",
+        "signing_transaction":"Signing transaction",
+        "broadcasting_transaction":"Broadcasting transaction",
 
         "transaction_fail":"Транзакция не прошла",
         "alert_0":"Не получилось прочитать приватный ключ",

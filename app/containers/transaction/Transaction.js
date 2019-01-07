@@ -31,6 +31,7 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
 import { showToast } from '../../utils/Toast';
+import StaticLoading from '../../components/StaticLoading'
 
 import { setNewTransaction } from '../../config/action/Actions';
 
@@ -306,6 +307,9 @@ export default class Transaction extends BaseComponent {
         this.inputTransferValue = 0;
         this.inputToAddress = '';
 
+        this.timeInterval = null;
+        this.timeIntervalCount = 0;
+
         this.state = {
             transferType: params.transferType,
             minGasPrice: 1,
@@ -318,7 +322,10 @@ export default class Transaction extends BaseComponent {
             fromAddress: params.fromAddress,
             detailData: "",
             defaultTransferValue: '',
-            isDisabled: true
+            isDisabled: true,
+
+            isShowSLoading: false,
+            sLoadingContent: '',
         };
 
     };
@@ -389,9 +396,8 @@ export default class Transaction extends BaseComponent {
                         symbol: symbol
                     }
 
-
                     store.dispatch(setNewTransaction(newTransaction));
-                    this._hideLoading();
+                    this.hideLoading();
                     //回调刷新
                     this.props.navigation.state.params.onGoBack();
                     this.props.navigation.goBack();
@@ -399,10 +405,8 @@ export default class Transaction extends BaseComponent {
             )
 
         } catch (err) {
-            this._hideLoading()
+            this.hideLoading()
         }
-
-
 
         // 刷新首页list
         // NetworkManager.loadTokenList()
@@ -414,28 +418,54 @@ export default class Transaction extends BaseComponent {
         // }
     }
 
-    async didTapSurePasswordBtn(password) {
+    changeLoading(num,password) {
+        let content = '';
+        if (num == 1) {
+            content = I18n.t('transaction.getting_key')
+        } else if (num == 2) {
+            content = I18n.t('transaction.signing_transaction')
+        } else {
+            content = I18n.t('transaction.broadcasting_transaction')
+        }
+        this.setState({
+            isShowSLoading: true,
+            sLoadingContent: content
+        })
+        if (num == 3) {
+            clearInterval(this.timeInterval)
+            setTimeout(() => {
+                this.didTapSurePasswordBtn(password)
+            }, 0);
+        }
+    }
 
+    async didTapSurePasswordBtn(password) {
         let { wallet } = store.getState().Core
 
         let privateKey
         try {
             privateKey = await KeystoreUtils.getPrivateKey(password, wallet.address)
             if (privateKey == null) {
-                this._hideLoading();
+                this.hideLoading()
                 showToast(I18n.t('modal.password_error'))
             } else {
                 this.startSendTransaction(privateKey)
             }
         } catch (err) {
-            this._hideLoading();
+            this.hideLoading()
             // console.log('exportKeyPrivateErr:', err)
         } finally {
-
         }
 
     };
 
+
+    hideLoading(){
+        this.setState({
+            isShowSLoading: false,
+            sLoadingContent:''
+        })
+    }
 
     didTapNextBtn = () => {
         //计算gas消耗
@@ -465,6 +495,7 @@ export default class Transaction extends BaseComponent {
     _closeModal() {
         this.dialog.closeStepView();
     }
+
     //----视图的事件方法
     sliderValueChanged = (value) => {
 
@@ -492,11 +523,10 @@ export default class Transaction extends BaseComponent {
         this.judgeCanSendInfoCorrect()
     };
 
+
     judgeCanSendInfoCorrect() {
         let totalValue = this.params.balance;
-
         // console.log('######'+this.inputTransferValue)
-
         let amountIsNotValid = this.inputTransferValue === undefined || Number.isNaN(this.inputTransferValue) || parseFloat(this.inputTransferValue) > totalValue
         let addressIsNotValid = this.inputToAddress.length != 42
         let addressIsSame = this.inputToAddress == this.state.fromAddress
@@ -505,6 +535,7 @@ export default class Transaction extends BaseComponent {
             isDisabled: amountIsNotValid || addressIsNotValid || addressIsSame
         });
     }
+
 
     routeContactList = () => {
         let _this = this;
@@ -521,12 +552,13 @@ export default class Transaction extends BaseComponent {
         })
     }
 
-    detailTextInputChangeText = (text) => {
 
+    detailTextInputChangeText = (text) => {
         this.setState({
             detailData: text
         });
     };
+
 
     scanClick = async () => {
         var _this = this;
@@ -571,12 +603,22 @@ export default class Transaction extends BaseComponent {
                 {/**<ScrollView style={styles.scrollView}
                     bounces={false}
                     keyboardShouldPersistTaps={'handled'}>**/}
+                <StaticLoading
+                    visible={this.state.isShowSLoading}
+                    content={this.state.sLoadingContent}
+                ></StaticLoading>
                 <View style={styles.contentBox}>
                     <TransactionStep didTapSurePasswordBtn={(password) => {
-                        this._showLoding();
+                        /*this._showLoding();
                         setTimeout(async () => {
                             this.didTapSurePasswordBtn(password)
-                        }, 1200)
+                        }, 1200)*/
+                        this.timeIntervalCount = 0;
+                        this.timeInterval = setInterval(() => {
+                            this.timeIntervalCount = this.timeIntervalCount + 1;
+                            this.changeLoading(this.timeIntervalCount,password)
+                        }, 500);
+                       
 
                     }}
                         ref={(dialog) => { this.dialog = dialog; }} />

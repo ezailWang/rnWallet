@@ -132,6 +132,9 @@
         "determine":"Підтвердити",
         
         "add_contact":"Додати контакти",
+        "getting_key":"Getting key",
+        "signing_transaction":"Signing transaction",
+        "broadcasting_transaction":"Broadcasting transaction",
        
         "transaction_fail":"Транзакція не пройшла",
         "alert_0":"Не вийшло прочитати приватний ключ",

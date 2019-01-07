@@ -133,6 +133,9 @@
         "determine":"确定",
         
         "add_contact":"添加联系人",
+        "getting_key":"正在获取秘钥",
+        "signing_transaction":"正在签名交易",
+        "broadcasting_transaction":"正在广播交易",
        
         "transaction_fail":"交易失败",
         "alert_0":"秘钥获取失败",

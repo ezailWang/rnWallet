@@ -131,6 +131,9 @@
         "determine":"Confirm",
 
         "add_contact":"Add contacts",
+        "getting_key":"Getting key",
+        "signing_transaction":"Signing transaction",
+        "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"Transaction Failed",
         "alert_0":"Failed to acquire the private key.",

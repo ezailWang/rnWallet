@@ -132,6 +132,9 @@
         "determine":"확인",
 
         "add_contact":"연락처를 추가합니다",
+        "getting_key":"Getting key",
+        "signing_transaction":"Signing transaction",
+        "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"거래가 실패했습니다.",
         "alert_0":"개인 키 획득에 실패했습니다.",

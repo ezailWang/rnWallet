@@ -131,6 +131,9 @@
         "determine":"Bestätigen",
         
         "add_contact":"Kontakt hinzufügen",
+        "getting_key":"Getting key",
+        "signing_transaction":"Signing transaction",
+        "broadcasting_transaction":"Broadcasting transaction",
 
         "transaction_fail":"Transaktion fehlgeschlagen",
         "alert_0":"Der private Schlüssel wurde nicht erhalten.",

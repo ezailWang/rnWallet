@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundColor,
         alignItems: 'center',
     },
-
     headerContainer: {
         flexDirection: 'row',
         width: Layout.WINDOW_WIDTH,
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
         height: 30,
         paddingTop: 5,
         paddingBottom: 5,
-        width: 110,
+        width: 120,
 
     },
     headerTitleRight: {
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
         height: 30,
         paddingTop: 5,
         paddingBottom: 5,
-        width: 110,
+        width: 120,
     },
     headerTitleChecked: {
         backgroundColor: Colors.fontBlueColor,
