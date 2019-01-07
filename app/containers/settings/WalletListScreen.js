@@ -144,10 +144,6 @@ class WalletListScreen extends BaseComponent {
     }
 
     _changeWalletEmitter = (data) => {
-
-    }
-
-    _changeWalletListEmitter = (data) => {
         this.refreshPage()
     }
 

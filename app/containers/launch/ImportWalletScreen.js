@@ -491,9 +491,8 @@ class ImportWalletScreen extends BaseComponent {
         if (this.from == 1 || this.from == 2) {
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-
-            DeviceEventEmitter.emit('changeWalletList', {});
-            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
+            
+            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false,isChangeWalletList:true});
 
             if (this.from == 1) {
                 this.props.navigation.navigate('Home')

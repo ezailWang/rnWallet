@@ -47,7 +47,7 @@ class RightDrawer extends BaseComponent {
             refreshPage: !this.state.refreshPage
         })
         
-        DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
+        DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false,isChangeWalletList:false});
     }
 
 
@@ -64,7 +64,7 @@ class RightDrawer extends BaseComponent {
             refreshPage: !this.state.refreshPage
         })
         
-        DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
+        DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false,isChangeWalletList:false});
     }
 
     createEthOrItcWallet = (walletType) => {

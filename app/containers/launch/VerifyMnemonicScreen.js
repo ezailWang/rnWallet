@@ -416,8 +416,7 @@ class VerifyMnemonicScreen extends BaseComponent {
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
     
-            DeviceEventEmitter.emit('changeWalletList', {});
-            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
+            DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false,isChangeWalletList:true});
         }
         this.setState({
             isShowSLoading: false

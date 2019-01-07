@@ -204,20 +204,23 @@ class HomeScreen extends BaseComponent {
                 })
             }
             await NetworkManager.loadTokenList();
+            if (data.isChangeWalletList) {
+                //钱包列表发生变化，更新推送服务器数据
+                this.userInfoUpdate()
+            }
+            
             this._hideLoading()
 
             if (data.openRightDrawer) {
                 this.props.navigation.openDrawer()
             }
             
+
+
+
         } catch (err) {
             this._hideLoading()
         }
-    }
-
-    _changeWalletListEmitter = () => {
-        //钱包列表发生变化，更新推送服务器数据
-        this.userInfoUpdate()
     }
 
 
