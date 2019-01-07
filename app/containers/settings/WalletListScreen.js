@@ -169,10 +169,10 @@ class WalletListScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.set')} />
                 <ScrollView style={{ marginBottom: 12 }} showsVerticalScrollIndicator={false}>
-                    {/*<ItemHeader title={I18n.t('settings.itc_wallet')} icon={require('../../assets/set/itc_icon.png')}
+                    <ItemHeader title={I18n.t('settings.itc_wallet')} icon={require('../../assets/set/itc_icon.png')}
                         isShowButton = {this.state.itcWallets.length >= 10 ?  false : true}
                         btnText={I18n.t('settings.create_itc_wallet')} onItemHeaderPressed={()=>this.createEthOrItcWallet('itc')}></ItemHeader>
-                    {itcWalletsView}*/}
+                    {itcWalletsView}
                     <ItemHeader title={I18n.t('settings.eth_wallet')} icon={require('../../assets/set/eth_icon.png')}
                         isShowButton = {this.state.ethWallets.length >= 10 ?  false : true}
                         btnText={I18n.t('settings.create_eth_wallet')} onItemHeaderPressed={() => this.createEthOrItcWallet('eth')}></ItemHeader>

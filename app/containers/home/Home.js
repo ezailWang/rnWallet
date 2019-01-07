@@ -195,10 +195,8 @@ class HomeScreen extends BaseComponent {
 
     _changeWalletEmitter = async (data) => {
         this._showLoding()
-
         try {
             let address = this.props.wallet.address
-
             let localUser = await StorageManage.load(StorageKey.User)
             if (localUser && localUser['isTotalAssetsHidden']) {
                 this.setState({
@@ -215,8 +213,6 @@ class HomeScreen extends BaseComponent {
         } catch (err) {
             this._hideLoading()
         }
-        
-        
     }
 
     _changeWalletListEmitter = () => {
@@ -506,6 +502,7 @@ class HomeScreen extends BaseComponent {
                                 this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}
                             hideAssetsIcon={this.state.isTotalAssetsHidden ? hiddenIcon_invi : hiddenIcon_vi}
                             QRCodeIcon={require('../../assets/home/hp_qrc.png')}
+                            isHaveAddTokenBtn={this.props.wallet.type == 'eth' ? true : false}
                             addAssetsIcon={require('../../assets/home/plus_icon.png')}
                         />
                     }

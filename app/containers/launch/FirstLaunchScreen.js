@@ -240,17 +240,22 @@ class FirstLaunchScreen extends BaseComponent {
 
     _toRute() {
         //this.props.navigation.navigate('MappingTerms')
-        //todo
-        let params = {
-            walletType: 'eth',
-            from: 0
-        }
-        this.props.setCreateWalletParams(params);
+       
+       
         if (this.routeTo == 'createWallet') {
+            let params = {
+                walletType: 'itc',
+                from: 0
+            }
+            this.props.setCreateWalletParams(params);
             this.props.navigation.navigate('CreateWallet')
         } else {
-            this.props.navigation.navigate('ImportWallet')
-            //this.props.navigation.navigate('ChoseWalletType')
+            //this.props.navigation.navigate('ImportWallet')
+            let params = {
+                from: 0
+            }
+            this.props.setCreateWalletParams(params);
+            this.props.navigation.navigate('ChoseWalletType')
         }
     }
 
@@ -342,7 +347,7 @@ class FirstLaunchScreen extends BaseComponent {
                     <WhiteButtonBig
                         buttonStyle={{ height: 48 }}
                         onPress={() => this.vertifyAndroidPermissions(true)}
-                        text={I18n.t('launch.creact_wallet')} />
+                        text={I18n.t('settings.create_itc_wallet')} />
                     <WhiteBorderButton
                         onPress={() => this.vertifyAndroidPermissions(false)}
                         text={I18n.t('launch.import_wallet')} />

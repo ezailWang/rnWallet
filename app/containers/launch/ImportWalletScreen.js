@@ -18,7 +18,7 @@ import { I18n } from '../../config/language/i18n'
 import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
 import { NavigationActions } from 'react-navigation';
-import { defaultTokens } from '../../utils/Constants'
+import { defaultTokens,itcDefaultTokens } from '../../utils/Constants'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -155,10 +155,6 @@ class ImportWalletScreen extends BaseComponent {
 
         this.timeInterval = null;
         this.timeIntervalCount = 0;
-
-
-        this.itcWalletList = null
-        this.ethWalletList = null
     }
 
     _initData() {
@@ -380,18 +376,14 @@ class ImportWalletScreen extends BaseComponent {
         if (num == 3) {
             clearInterval(this.timeInterval)
             setTimeout(() => {
-                this.importEthWallet();
+                this.importWallet();
             }, 0);
 
         }
     }
 
-    async getWalletData() {
-        this.itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
-        this.ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-    }
 
-    async importEthWallet() {
+    async importWallet() {
         try {
             const seed = walletUtils.mnemonicToSeed(this.mnemonictxt)
             const seedHex = seed.toString('hex')
@@ -413,24 +405,46 @@ class ImportWalletScreen extends BaseComponent {
                 name: this.nametxt,
                 address: checksumAddress,
                 extra: '',
-                type: 'eth'
+                type: this.state.walletType
             }
+
             let isExist = false;
             let wallets = [];
-
             if (this.from == 1 || this.from == 2) {
+                let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
                 let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-                if (!ethWalletList) {
-                    ethWalletList = []
-                }
-                for (let i = 0; i < ethWalletList.length; i++) {
-                    if (checksumAddress.toLowerCase() == ethWalletList[i].address.toLowerCase()) {
-                        isExist = true;
-                        break;
+
+
+                if(itcWalletList && itcWalletList.length > 0){
+                    for (let i = 0; i < itcWalletList.length; i++) {
+                        if (checksumAddress.toLowerCase() == itcWalletList[i].address.toLowerCase()) {
+                            isExist = true;
+                            break;
+                        }
                     }
                 }
+                if(ethWalletList && ethWalletList.length > 0){
+                    for (let i = 0; i < ethWalletList.length; i++) {
+                        if (checksumAddress.toLowerCase() == ethWalletList[i].address.toLowerCase()) {
+                            isExist = true;
+                            break;
+                        }
+                    }
+                } 
+                
+                let preWalletList = [];
+                if(this.state.walletType == 'itc'){
+                    preWalletList = itcWalletList
+                }else{
+                    preWalletList = ethWalletList
+                }
+                
+                if (!preWalletList) {
+                    preWalletList = []
+                }
+                
                 if (!isExist) {
-                    wallets = ethWalletList.concat(wallet)
+                    wallets = preWalletList.concat(wallet)
                 }
             } else {
                 wallets.push(wallet)
@@ -443,11 +457,16 @@ class ImportWalletScreen extends BaseComponent {
                 })
                 this._showAlert(I18n.t('settings.import_wallet_already'))
             } else {
+                if(this.state.walletType == 'itc'){
+                    StorageManage.save(StorageKey.ItcWalletList, wallets)
+                    this.props.setItcWalletList(wallets)
+                }else{
+                    StorageManage.save(StorageKey.EthWalletList, wallets)
+                    this.props.setEthWalletList(wallets)
+                }
                 StorageManage.save(StorageKey.User, wallet)
-                StorageManage.save(StorageKey.EthWalletList, wallets)
-                this.props.setEthWalletList(wallets)
                 this.props.setCurrentWallet(wallet)
-             
+
                 this.routeTo()
             }
         } catch (err) {
@@ -464,8 +483,12 @@ class ImportWalletScreen extends BaseComponent {
         this.setState({
             isShowSLoading: false
         })
-        if (this.from == 1 || this.from == 2) {
+        if(this.state.walletType == 'itc'){
+            this.props.loadTokenBalance(itcDefaultTokens)
+        }else{
             this.props.loadTokenBalance(defaultTokens)
+        }
+        if (this.from == 1 || this.from == 2) {
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
 

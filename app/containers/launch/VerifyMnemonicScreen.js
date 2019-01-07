@@ -22,7 +22,7 @@ import BaseComponent from '../../containers/base/BaseComponent'
 import PropTypes from 'prop-types';
 import lodash from 'lodash'
 import Toast from 'react-native-root-toast';
-import { defaultTokens } from '../../utils/Constants'
+import { defaultTokens,itcDefaultTokens } from '../../utils/Constants'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -362,29 +362,39 @@ class VerifyMnemonicScreen extends BaseComponent {
                 name: this.name,
                 address: checksumAddress,
                 extra: '',
-                type: 'eth',//钱包类型
+                type: this.walletType,//钱包类型
             }
             let wallets = [];
             if (this.from == 1 || this.from == 2) {
-                let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-                if(!ethWalletList){
-                    ethWalletList = []
+                let preWalletList = [];
+                if(this.walletType == 'itc'){
+                    preWalletList = await StorageManage.load(StorageKey.ItcWalletList)
+                }else{
+                    preWalletList = await StorageManage.load(StorageKey.EthWalletList)
                 }
-                wallets = ethWalletList.concat(wallet)
+                
+                if(!preWalletList){
+                    preWalletList = []
+                }
+                wallets = preWalletList.concat(wallet)
             } else {
                 wallets.push(wallet)
                 this.props.setIsNewWallet(true);
             }  
 
-            StorageManage.save(StorageKey.EthWalletList, wallets)
-            this.props.setEthWalletList(wallets)
-            
+            if(this.walletType == 'itc'){
+                StorageManage.save(StorageKey.ItcWalletList, wallets)
+                this.props.setItcWalletList(wallets)
+            }else{
+                StorageManage.save(StorageKey.EthWalletList, wallets)
+                this.props.setEthWalletList(wallets)
+            }
+          
             StorageManage.save(StorageKey.User, wallet)
             this.props.setCurrentWallet(wallet)
 
             //页面跳转
             this.routeTo()
-            
         } catch (err) {
             this.setState({
                 isShowSLoading: false
@@ -396,8 +406,13 @@ class VerifyMnemonicScreen extends BaseComponent {
     }
 
     routeTo(){
-        if(this.from == 1 || this.from == 2){
+        if(this.walletType == 'itc'){
+            this.props.loadTokenBalance(itcDefaultTokens)
+        }else{
             this.props.loadTokenBalance(defaultTokens)
+        }
+        if(this.from == 1 || this.from == 2){
+            
             this.props.setTransactionRecordList([])
             StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
     

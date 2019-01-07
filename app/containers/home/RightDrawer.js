@@ -13,7 +13,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import { BlurView } from 'react-native-blur';
 import Loading from '../../components/Loading';
 import LayoutConstants from '../../config/LayoutConstants'
-import { defaultTokens } from '../../utils/Constants'
+import { defaultTokens ,itcDefaultTokens} from '../../utils/Constants'
 
 class RightDrawer extends BaseComponent {
     navigateToScreen = (route, params) => () => {
@@ -35,7 +35,19 @@ class RightDrawer extends BaseComponent {
     }
 
 
-    itcWalletOnPress = (wallet) => {
+    itcWalletOnPress = async (wallet) => {
+        this.props.navigation.closeDrawer()
+        StorageManage.save(StorageKey.User, wallet)
+        store.dispatch(setCurrentWallet(wallet));
+
+        store.dispatch(setTransactionRecordList([]));
+        StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+        store.dispatch(loadTokenBalance(itcDefaultTokens))
+        this.setState({
+            refreshPage: !this.state.refreshPage
+        })
+        
+        DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
     }
 
 
@@ -53,8 +65,6 @@ class RightDrawer extends BaseComponent {
         })
         
         DeviceEventEmitter.emit('changeWallet', {openRightDrawer:false});
-
-        
     }
 
     createEthOrItcWallet = (walletType) => {
@@ -102,10 +112,10 @@ class RightDrawer extends BaseComponent {
                 <StatusBarComponent barStyle={this._barStyle} />
 
                 <ScrollView style={{ paddingTop: 50, paddingBottom: 20, }} showsVerticalScrollIndicator={false}>
-                    {/*<ItemHeader icon={require('../../assets/set/itc_icon.png')} text={I18n.t('settings.itc_wallet')}></ItemHeader>
+                    <ItemHeader icon={require('../../assets/set/itc_icon.png')} text={I18n.t('settings.itc_wallet')}></ItemHeader>
                     {itcWalletsView}
                     {itcWalletList.length >=10 ? null : <AddButton text={I18n.t('settings.create_itc_wallet')} addOnPress={() => this.createEthOrItcWallet('itc')}></AddButton>}
-                       */}
+                       
                     <ItemHeader icon={require('../../assets/set/eth_icon.png')} text={I18n.t('settings.eth_wallet')}></ItemHeader>
                     {ethWalletsView}
                     {ethWalletList.length >= 10 ? null : <AddButton text={I18n.t('settings.create_eth_wallet')} addOnPress={() => this.createEthOrItcWallet('eth')}></AddButton>}
@@ -234,6 +244,7 @@ const styles = StyleSheet.create({
         width: 195,
         height: 40,
         alignSelf: 'center',
+        marginTop:20,
         //borderStyle:'dashed',
     },
     addButtonBg:{

@@ -17,7 +17,7 @@ import BaseComponent from '../base/BaseComponent';
 import RemindDialog from '../../components/RemindDialog'
 import StaticLoading from '../../components/StaticLoading'
 import NetworkManager from '../../utils/NetworkManager'
-import { defaultTokens } from '../../utils/Constants'
+import { defaultTokens, itcDefaultTokens } from '../../utils/Constants'
 
 
 const styles = StyleSheet.create({
@@ -332,29 +332,45 @@ class SetScreen extends BaseComponent {
     async deleteWallet() {
 
         let address = this.state.wallet.address
+        let walletType = this.state.wallet.type
         await KeystoreUtils.removeKeyFile(address)
 
-        let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-        if (!ethWalletList) {
-            ethWalletList = []
+        let preWalletList = [];
+        if(walletType == 'itc'){
+            preWalletList = await StorageManage.load(StorageKey.ItcWalletList)
+        }else{
+            preWalletList = await StorageManage.load(StorageKey.EthWalletList)
+        }
+        if (!preWalletList) {
+            preWalletList = []
         }
         let index = 0;
-        for (let i = 0; i < ethWalletList.length; i++) {
-            if (address.toLowerCase() == ethWalletList[i].address.toLowerCase()) {
+        for (let i = 0; i < preWalletList.length; i++) {
+            if (address.toLowerCase() == preWalletList[i].address.toLowerCase()) {
                 index = i;
                 break;
             }
         }
-        ethWalletList.splice(index, 1)
-        StorageManage.save(StorageKey.EthWalletList, ethWalletList)
-        this.props.setEthWalletList(ethWalletList)
+        preWalletList.splice(index, 1)
+        if(walletType == 'itc'){
+            StorageManage.save(StorageKey.ItcWalletList, preWalletList)
+            this.props.setItcWalletList(preWalletList)
+        }else{
+            StorageManage.save(StorageKey.EthWalletList, preWalletList)
+            this.props.setEthWalletList(preWalletList)
+        }
         StorageManage.remove(StorageKey.Tokens + this.props.currentWallet.address)
         this._hideLoading();
 
         if(this.state.isCurrentWallet){
-            this.props.loadTokenBalance(defaultTokens)
-            if(ethWalletList.length > 0){
-                let wallet = ethWalletList[0]
+            if(this.state.walletType == 'itc'){
+                this.props.loadTokenBalance(itcDefaultTokens)
+            }else{
+                this.props.loadTokenBalance(defaultTokens)
+            }
+            
+            if(preWalletList.length > 0){
+                let wallet = preWalletList[0]
                 StorageManage.save(StorageKey.User, wallet)
                 this.props.setCurrentWallet(wallet)
                 this.props.setTransactionRecordList([])

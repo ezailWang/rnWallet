@@ -65,10 +65,10 @@ class ChoseWalletTypeScreen extends BaseComponent {
    
    
     toImportWallet = (walletType) => {
-        /*let params = this.props.createWalletParams;
+        let params = this.props.createWalletParams;
         params.walletType = walletType
         this.props.setCreateWalletParams(params);
-        this.props.navigation.navigate('ImportWallet')*/
+        this.props.navigation.navigate('ImportWallet')
     }
 
     renderComponent() {

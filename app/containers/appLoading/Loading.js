@@ -12,13 +12,15 @@ import {
     setAllTokens,
     setCurrentWallet,
     setEthWalletList,
-    setItcWalletList
+    setItcWalletList,
+    loadTokenBalance
 } from '../../config/action/Actions'
 import { StorageKey } from '../../config/GlobalConfig'
 import { I18n } from '../../config/language/i18n'
 import JPushModule from 'jpush-react-native'
 import NetworkManager from '../../utils/NetworkManager'
 import DeviceInfo from 'react-native-device-info'
+import { defaultTokens ,itcDefaultTokens} from '../../utils/Constants'
 class Loading extends Component {
 
     static propTypes = {
@@ -115,14 +117,18 @@ class Loading extends Component {
             StorageManage.save(StorageKey.User, ethWallet)
         }
 
+        if(user && user.type == 'itc'){
+            this.props.dispatch(loadTokenBalance(itcDefaultTokens))
+        }else{
+            this.props.dispatch(loadTokenBalance(defaultTokens))
+        }
+
         if (ethWalletList) {
             this.props.dispatch(setEthWalletList(ethWalletList))
         }
         if (itcWalletList) {
             this.props.dispatch(setItcWalletList(itcWalletList))
         }
-
-
 
         //addDefaultTokens();
         /*if (net) {
