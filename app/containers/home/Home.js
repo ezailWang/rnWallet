@@ -145,9 +145,6 @@ class HomeScreen extends BaseComponent {
             this.props.navigation.navigate('AddToken', {
                 tokens : _this.props.tokens,
                 callback: async (token) => {
-                    /*_this._showLoading()
-                    await NetworkManager.loadTokenList()
-                    _this._hideLoading()*/
                 }
             });
         }
@@ -253,7 +250,6 @@ class HomeScreen extends BaseComponent {
         let _this = this
         NetworkManager.getAllTokens(allTokensParams).then((response) => {
             if (response.code === 200) {
-               
                 this.props.setAllTokens(response.data)
                 this._hideLoading()
                 if(type == 2){
@@ -262,8 +258,7 @@ class HomeScreen extends BaseComponent {
                         callback: async (token) => {
                         }
                     });
-                }
-               
+                }   
             } else {
                 this._hideLoading()
                 if(type == 2){

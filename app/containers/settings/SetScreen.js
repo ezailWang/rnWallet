@@ -224,20 +224,6 @@ class SetScreen extends BaseComponent {
 
 
     async  modifyWalletName(name) {
-        // var name = this.refs.inputTextDialog.state.text;
-        /*var key = StorageKey.User;
-
-        var loadUser = await StorageManage.load(key);
-        if (loadUser == null) {
-            loadUser = {
-                name: name,
-            }
-        } else {
-            loadUser.name = name;//修改name值
-        }
-        StorageManage.save(key, loadUser)
-        this.props.modifyWalletName(name);*/
-
         let wallet = this.state.wallet
         wallet.name = name;
 
@@ -249,7 +235,7 @@ class SetScreen extends BaseComponent {
             }
 
             itcWallets.splice(index, 1, wallet)
-            this.props.setEthWalletList(itcWallets)
+            this.props.setItcWalletList(itcWallets)
             StorageManage.save(StorageKey.ItcWalletList, itcWallets);
         } else {
             let ethWallets = await StorageManage.load(StorageKey.EthWalletList);
@@ -357,7 +343,7 @@ class SetScreen extends BaseComponent {
                 StorageManage.save(StorageKey.EthWalletList, ethWalletList)
                 this.props.setEthWalletList(ethWalletList)
             }
-            StorageManage.remove(StorageKey.Tokens + this.props.currentWallet.address)
+            StorageManage.remove(StorageKey.Tokens + address)
             this._hideLoading();
 
             let allWalletList = itcWalletList.concat(ethWalletList);
