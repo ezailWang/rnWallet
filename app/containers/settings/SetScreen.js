@@ -90,14 +90,15 @@ class SetScreen extends BaseComponent {
 
             isShowSLoading: false,
             sLoadingContent: I18n.t('settings.verifying_password'),
-            isCurrentWallet: true,
+            
         }
 
-        this.walletType = 'eth';
+       
 
         this.isDeleteWallet = false;
         this.inputName = '';
         this.inputPwd = '';
+        this.isCurrentWallet =  true,//是否是当前钱包
 
 
         this.timeInterval = null;
@@ -106,11 +107,9 @@ class SetScreen extends BaseComponent {
 
     _initData() {
         let wallet = this.props.navigation.state.params.wallet;
-        this.walletType = this.props.navigation.state.params.walletType;
-        let isCurrentWallet = wallet.address.toLowerCase() == this.props.currentWallet.address.toLowerCase()
+        this.isCurrentWallet = wallet.address.toLowerCase() == this.props.currentWallet.address.toLowerCase() ? true : false
         this.setState({
             wallet: wallet,
-            isCurrentWallet: isCurrentWallet
         })
     }
 
@@ -227,12 +226,14 @@ class SetScreen extends BaseComponent {
         let wallet = this.state.wallet
         wallet.name = name;
 
-        if (this.walletType == 'itc') {
+        if (this.isCurrentWallet) {
+            this.props.setCurrentWallet(wallet)
+        }
+
+        if (wallet.type == 'itc') {
             let itcWallets = await StorageManage.load(StorageKey.ItcWalletList);
             let index = itcWallets.findIndex(itcWallet => itcWallet.address.toLowerCase() == wallet.address.toLowerCase())
-            if (this.props.currentWallet.address == wallet.address) {
-                this.props.setCurrentWallet(wallet)
-            }
+            
 
             itcWallets.splice(index, 1, wallet)
             this.props.setItcWalletList(itcWallets)
@@ -240,14 +241,11 @@ class SetScreen extends BaseComponent {
         } else {
             let ethWallets = await StorageManage.load(StorageKey.EthWalletList);
             let index = ethWallets.findIndex(ethWallet => ethWallet.address.toLowerCase() == wallet.address.toLowerCase())
-            if (this.props.currentWallet.address == wallet.address) {
-                this.props.setCurrentWallet(wallet)
-            }
+            
 
             ethWallets.splice(index, 1, wallet)
             this.props.setEthWalletList(ethWallets)
             StorageManage.save(StorageKey.EthWalletList, ethWallets);
-
         }
 
     }
@@ -347,7 +345,7 @@ class SetScreen extends BaseComponent {
             this._hideLoading();
 
             let allWalletList = itcWalletList.concat(ethWalletList);
-            if (this.state.isCurrentWallet) {
+            if (this.isCurrentWallet) {
                 //删除的是当前钱包
                 StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
                 if (allWalletList.length > 0) {
