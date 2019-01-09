@@ -20,8 +20,8 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import NetworkManager from '../../utils/NetworkManager';
-//import {CachedImage,ImageCache} from 'react-native-img-cache'
-//import {Image as CacheImage,CacheManager} from "react-native-expo-image-cache";
+import lodash from 'lodash'
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -213,33 +213,13 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _initData() {
-        //this._getAllTokens()   
         this.allTokens = this.props.allTokens
-        let addTokens = [];
-        this.props.tokens.forEach(function (token, index, b) {
+        this.addedTokens = this.props.tokens.map((token, index, b) => {
             token.isAdded = true
-            addTokens.push(token)
-
+            return token
         })
-        this.addedTokens = addTokens
     }
 
-    _getAllTokens() {
-        let params = {
-            //'network': this.props.network,
-            'network': 'main',
-        }
-        NetworkManager.getAllTokens(params).then((response) => {
-            if (response.code === 200) {
-                this.allTokens = response.data
-            } else {
-                console.log('getAllTokens err msg:', response.msg)
-            }
-        }).catch((err) => {
-            console.log('getAllTokens err:', err)
-        })
-
-    }
 
     //自定义分割线
     _renderItemSeparatorComponent = () => (
@@ -280,85 +260,42 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _addOrRemoveItem = async (item) => {
-        try{
+        try {
             let token = item.item
-            let index = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
-            let isAdd = token.isAdded;
+            let isAdd = !token.isAdded
+            token.isAdded = isAdd
+            let index = this.searchTokens.findIndex(searchToken => searchToken.address.toLowerCase() == token.address.toLowerCase());
+            if (index >= 0) {
+                this.searchTokens.splice(index, 1, token)
+            }
+            let addIndex = this.addedTokens.findIndex(addedToken => addedToken.address.toLowerCase() == token.address.toLowerCase());
             if (isAdd) {
                 //添加
                 this.props.addToken(token)
-                if (index >= 0) {
-                    this.addedTokens.splice(index, 1,token)
-                } else {
+                if (addIndex < 0) {
                     this.addedTokens.push(token)
                 }
             } else {
                 //移除
-                if(index >= 2 &&  index < this.addedTokens.length){
+                if(addIndex >= 2 &&  addIndex < this.addedTokens.length){
                     //0 和 1分别是eth和itc不可移除
                     this.props.removeToken(token.address)
-                    this.addedTokens.splice(index, 1)
+                    this.addedTokens.splice(addIndex, 1)
                 }
             }
-            
-            let tokenObj = {
-                iconLarge: token.iconLarge,
-                symbol: token.symbol,
-                name: token.name,
-                decimal: parseInt(token.decimal, 10),
-                address: token.address,
-            }
-    
-            //刷新页面
-            await this.refreshDatas();
-    
-            //存储到本地
-            let key = StorageKey.Tokens + this.props.wallet.address
-            let localTokens = await StorageManage.load(key)
-            let newLocalTokens = []
-            if (!localTokens) {
-                localTokens = [];
-            }
-            if (isAdd) {
-                newLocalTokens = localTokens.filter(localToken =>
-                    token.address.toLowerCase() != localToken.address.toLowerCase()
-                ).concat(tokenObj)
-            } else {
-                newLocalTokens = localTokens.filter(localToken =>
-                    token.address.toLowerCase() != localToken.address.toLowerCase()
-                )
-            }
-    
-            StorageManage.save(key, newLocalTokens)
+            this.setState({
+                datas: lodash.cloneDeep(this.searchTokens),
+                isShowEmptyView: true,
+            })
             setTimeout(() => {
                 DeviceEventEmitter.emit('changeTokens', {tokens:this.props.tokens,from:'searchTokenPage'});
             }, 0);
-        }catch(e){
-           console.log('add_remove_token_err',e)
+            
+        } catch (e) {
+            console.log('add_remove_token_err', e)
         }
     }
 
-    
-    //保存添加的token到本地
-    _saveData = async () => {
-        /*let tokens = this.addedTokens;
-        let localTokens = [];
-        tokens.forEach(function (value, index, b) {
-            if (index != 0 && index != 1) {
-                localTokens.push({
-                    iconLarge: value.iconLarge,
-                    symbol: value.symbol,
-                    name: value.name,
-                    decimal: parseInt(value.decimal, 10),
-                    address: value.address,
-                })
-            }
-        })
-        StorageManage.save(key, localTokens)
-        setTimeout(() => {
-            DeviceEventEmitter.emit('changeTokens', {tokens:this.props.tokens,from:'searchTokenPage'});
-        }, 0);*/
-    }
 
 
     _backPress = () => {
@@ -378,7 +315,7 @@ class SearchTokenScreen extends BaseComponent {
 
     _onChangeText(text) {
         this.searchText = text.trim();
-        if (this.searchText == '') {
+        if (!this.searchText || this.searchText == '') {
             this.searchTokens = [];
             this.setState({
                 datas: [],
@@ -387,29 +324,36 @@ class SearchTokenScreen extends BaseComponent {
         } else {
             this._matchToken()
         }
-
-
     }
 
     _matchToken = () => {
         let _this = this
         this.searchTokens = [];
-        let allTokens = this.allTokens;
+        let addedTokens  = this.addedTokens;
         let searchContent = this.searchText;
-        
-        allTokens.forEach(function (token, index) {
-            let symbol = token.symbol.trim().toLowerCase()
-            if (symbol.indexOf(searchContent.trim().toLowerCase()) >= 0) {
-                _this.searchTokens.push(token)
+        this.allTokens.forEach((token, index) => {
+            if (token.symbol.trim().toLowerCase().indexOf(searchContent.trim().toLowerCase()) >= 0) {
+                let index = addedTokens.findIndex(addedToken => addedToken.address.toLowerCase() == token.address.toLowerCase())
+                let obj = {
+                    iconLarge: token.iconLarge,
+                    symbol: token.symbol,
+                    name: token.name,
+                    decimal: token.decimal,
+                    address: token.address,
+                    isAdded: index>=0 ? true : false,
+                }
+                _this.searchTokens.push(obj)
             }
         })
 
-        this.refreshDatas();
+        this.setState({
+            datas: lodash.cloneDeep(_this.searchTokens),
+            isShowEmptyView: true,
+        })
+        this.searchText = '';
     }
 
     refreshDatas = () => {
-        let datas = [];
-        let addedTokens = this.addedTokens;
         this.searchTokens.forEach(function (data, index) {
             let isAdded = false;//是否已添加
             for (let i = 0; i < addedTokens.length; i++) {
@@ -443,7 +387,6 @@ class SearchTokenScreen extends BaseComponent {
             datas: [],
             isShowEmptyView: false,
             searchValue: ''
-
         })
     }
 
@@ -500,26 +443,10 @@ class ItemView extends PureComponent {
         super(props);
         this.state = {
             loadIconError: false,
-            //isAdded : false,
         }
     }
 
-    /*componentWillReceiveProps(nextProps){
-        let nextIsAdded = nextProps.item.item.isAdded
-        if(nextIsAdded == '' ||  nextIsAdded == undefined || !nextIsAdded){
-            this.setState({
-                isAdded : false,
-            })
-        }else{
-            this.setState({
-                isAdded : true,
-            })
-        }
-    }*/
-
     _itemAddOrRemovePress = () => {
-        let preTokenIsAdded = this.props.item.item.isAdded;
-        (preTokenIsAdded == undefined || preTokenIsAdded == false) ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
         this.props.addOrRemoveItem()
     }
 

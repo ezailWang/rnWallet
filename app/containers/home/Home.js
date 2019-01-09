@@ -102,7 +102,7 @@ class HomeScreen extends BaseComponent {
             return
         }
         this.props.removeToken(item.item.address)
-        this.removeTokenFromStorage(item.item.address)
+        //this.removeTokenFromStorage(item.item.address)
     }
 
     onClickCell = async (item) => {
@@ -139,7 +139,7 @@ class HomeScreen extends BaseComponent {
 
         if (!this.props.allTokens || this.props.allTokens.length <= 0) {
             this._showLoading()
-            this.getAllTokens()
+            this.getAllTokens(2)
         } else {
             let _this = this;
             this.props.navigation.navigate('AddToken', {
@@ -249,27 +249,34 @@ class HomeScreen extends BaseComponent {
             })
     }
 
-    async getAllTokens() {
+    async getAllTokens(type) {
         let allTokensParams = {
             'network': this.props.network,
         }
+        let _this = this
         NetworkManager.getAllTokens(allTokensParams).then((response) => {
             if (response.code === 200) {
+               
                 this.props.setAllTokens(response.data)
                 this._hideLoading()
-                this.props.navigation.navigate('AddToken', {
-                    callback: async (token) => {
-                    }
-                });
+                if(type == 2){
+                    this.props.navigation.navigate('AddToken', {
+                        tokens : _this.props.tokens,
+                        callback: async (token) => {
+                        }
+                    });
+                }
+               
             } else {
                 this._hideLoading()
-                console.log('getAllTokens err msg:', response.msg)
-                showToast(I18n.t('toast.net_request_err'))
+                if(type == 2){
+                    showToast(I18n.t('toast.net_request_err'))
+                }  
+                console.log('getAllTokens_err_msg:', response.msg)
             }
         }).catch((err) => {
             this._hideLoading()
-            console.log('getAllTokens err:', err)
-            showToast(I18n.t('toast.net_request_err'))
+            console.log('getAllTokens_err:', err)
         })
     }
 
@@ -296,6 +303,7 @@ class HomeScreen extends BaseComponent {
 
             this._hideLoading()
             this.userInfoUpdate()
+            this.getAllTokens(1)
         } catch (err) {
             this._hideLoading()
         }
@@ -303,7 +311,7 @@ class HomeScreen extends BaseComponent {
 
 
 
-    async saveTokenToStorage(token) {
+    /*async saveTokenToStorage(token) {
         let key = StorageKey.Tokens + this.props.wallet.address
         let localTokens = await StorageManage.load(key)
         if (!localTokens) {
@@ -327,7 +335,7 @@ class HomeScreen extends BaseComponent {
         }
         localTokens.splice(localTokens.findIndex(item => item.address === address), 1)
         StorageManage.save(key, localTokens)
-    }
+    }*/
 
     async saveIsTotalAssetsHiddenToStorage(isHidden) {
         let localUser = await StorageManage.load(StorageKey.User)

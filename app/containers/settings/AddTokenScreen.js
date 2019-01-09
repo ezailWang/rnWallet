@@ -160,7 +160,7 @@ class AddTokenScreen extends BaseComponent {
             datas: []
         }
         this.addedTokens = [];//已经添加的Tokens
-        this.tokenList = [];
+        this.tokenList = [];//显示的列表
     }
 
 
@@ -182,8 +182,8 @@ class AddTokenScreen extends BaseComponent {
         let allTokens = [];
         let defaultTokens = [];//默认的
         let addTokens = [];//添加的
-        //this.props.tokens.forEach(function (token, index, b) {
-        tokens.forEach(function (token, index, b) {
+
+        tokens.forEach((token, index, b) => {
             token.isAdded = true
             if (index == 0 || index == 1) {
                 defaultTokens.push(token)
@@ -217,57 +217,39 @@ class AddTokenScreen extends BaseComponent {
     }
 
     _addOrRemoveItem = async (item) => {
-        let token = item.item;
-        let index = this.tokenList.findIndex(addedToken => addedToken.address == token.address);
-        let addedIndex = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
-        let isAdd = token.isAdded;
-
-        this.tokenList.splice(index, 1, token)
-        if (isAdd) {
-            //添加
-            this.props.addToken(token)
-            this.addedTokens.push(token)
-        } else {
-            //移除
-            if (index >= 2 && index < this.tokenList.length) {
-                //0 和 1分别是eth和itc不可移除
-                this.props.removeToken(token.address)
-                this.addedTokens.splice(index, 1)
+        try {
+            let token = item.item
+            let isAdd = !token.isAdded
+            token.isAdded = isAdd
+            let index = this.tokenList.findIndex(item => item.address.toLowerCase() == token.address.toLowerCase());
+            if (index >= 0) {
+                this.tokenList.splice(index, 1, token)
             }
+            let addIndex = this.addedTokens.findIndex(addedToken => addedToken.address.toLowerCase() == token.address.toLowerCase());
+            if (isAdd) {
+                //添加
+                this.props.addToken(token)
+                if (addIndex < 0) {
+                    this.addedTokens.push(token)
+                }
+            } else {
+                //移除
+                if(addIndex >= 2 &&  addIndex < this.addedTokens.length){
+                    //0 和 1分别是eth和itc不可移除
+                    this.props.removeToken(token.address)
+                    this.addedTokens.splice(addIndex, 1)
+                }
+            }
+            this.setState({
+                datas: lodash.cloneDeep(this.tokenList),
+            })
+            setTimeout(() => {
+                DeviceEventEmitter.emit('changeTokens', {from:'addTokenPage'});
+            }, 0);
+            
+        } catch (e) {
+            console.log('add_remove_token_err', e)
         }
-        let list = lodash.cloneDeep(this.tokenList)
-        this.setState({
-            datas: list,
-        })
-       
-
-        //存储到本地
-        let tokenObj = {
-            iconLarge: token.iconLarge,
-            symbol: token.symbol,
-            name: token.name,
-            decimal: parseInt(token.decimal, 10),
-            address: token.address,
-        }
-        let key = StorageKey.Tokens + this.props.wallet.address
-        let localTokens = await StorageManage.load(key)
-        let newLocalTokens = []
-        if (!localTokens) {
-            localTokens = [];
-        }
-        if (isAdd) {
-            newLocalTokens = localTokens.filter(localToken =>
-                token.address.toLowerCase() != localToken.address.toLowerCase()
-            ).concat(tokenObj)
-        } else {
-            newLocalTokens = localTokens.filter(localToken =>
-                token.address.toLowerCase() != localToken.address.toLowerCase()
-            )
-        }
-        StorageManage.save(key, newLocalTokens)
-        setTimeout(() => {
-            DeviceEventEmitter.emit('changeTokens', { from: "addTokenPage" });
-        }, 0);
     }
 
     _search = async () => {
@@ -287,30 +269,6 @@ class AddTokenScreen extends BaseComponent {
         this.toHomePage()
         return true;
     }
-
-    /*_saveData = async () => {
-        let tokens = this.addedTokens;
-        let localTokens = [];
-        tokens.forEach(function (value, index, b) {
-            if (index != 0 && index != 1) {
-                localTokens.push({
-                    iconLarge: value.iconLarge,
-                    symbol: value.symbol,
-                    name: value.name,
-                    decimal: parseInt(value.decimal, 10),
-                    address: value.address,
-                })
-            }
-        })
-        let key = StorageKey.Tokens + this.props.wallet.address;
-        StorageManage.save(key, localTokens)
-
-
-        setTimeout(() => {
-            DeviceEventEmitter.emit('changeTokens', { from: "addTokenPage" });
-        }, 0);
-    }*/
-
     toHomePage() {
         this.props.navigation.state.params.callback();
         this.props.navigation.goBack()
@@ -358,9 +316,9 @@ class ItemView extends PureComponent {
     }
 
     _itemAddOrRemovePress = () => {
-        let token = this.props.item.item;
+        /*let token = this.props.item.item;
         let preTokenIsAdded = token.isAdded;
-        (preTokenIsAdded == undefined || preTokenIsAdded == false) ? token.isAdded = true : token.isAdded = false
+        (preTokenIsAdded == undefined || preTokenIsAdded == false) ? token.isAdded = true : token.isAdded = false*/
         this.props.addOrRemoveItem()
     }
 

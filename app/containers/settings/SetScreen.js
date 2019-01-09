@@ -383,7 +383,6 @@ class SetScreen extends BaseComponent {
                     this.props.setCurrentWallet({})
                     this.props.setTransactionRecordList([])
                     this.props.navigation.navigate('FirstLaunch')
-
                 }
             } else {
                 this.props.navigation.state.params.callback();
@@ -396,10 +395,7 @@ class SetScreen extends BaseComponent {
 
     }
 
-
-
     /*async deleteLocalData() {
-
         await KeystoreUtils.removeKeyFile(this.state.wallet.address)
         this.props.setCurrentWallet(null);
         //删除所有本地的数据

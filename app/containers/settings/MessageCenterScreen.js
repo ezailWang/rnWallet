@@ -592,7 +592,6 @@ const mapStateToProps = state => ({
     wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({
-    addToken: (token) => dispatch(Actions.addToken(token)),
     setCoinBalance: (balanceInfo) => dispatch(Actions.setCoinBalance(balanceInfo)),
     setTransactionDetailParams: (transactionDetail) => dispatch(Actions.setTransactionDetailParams(transactionDetail)),
 });

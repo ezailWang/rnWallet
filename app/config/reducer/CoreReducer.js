@@ -28,6 +28,8 @@ import {
 import { defaultTokens } from '../../utils/Constants'
 import uuid from 'react-native-uuid';
 import { Network } from '../GlobalConfig'
+import StorageManage from '../../utils/StorageManage'
+import { StorageKey } from '../../config/GlobalConfig'
 import lodash from 'lodash'
 
 const defaultState = {
@@ -86,16 +88,20 @@ function coreReducer(state = defaultState, action) {
             let newTokens = state.tokens.filter((token, index) =>
                 addedToken.address != token.address
             ).concat(addedToken)
+
+            if (state.wallet) {
+                let key = StorageKey.Tokens + state.wallet.address
+                StorageManage.save(key, newTokens)
+            }
             return {
                 ...state,
+                tokens: newTokens
                 /*tokens: state.tokens.concat([
                     Object.assign(
                         action.token,
                         { id: uuid.v4() }
                     ),
                 ]),*/
-                tokens: newTokens
-
                 //tokens: state.tokens.splice(2,0,action.token),
             }
             break;
@@ -145,8 +151,13 @@ function coreReducer(state = defaultState, action) {
         case REMOVE_TOKEN:
             const copyToken = lodash.cloneDeep(state.tokens)
             let index = state.tokens.findIndex(item => item.address === action.address)
-            if(index >= 2 && index < state.tokens.length){
+            if (index >= 2 && index < state.tokens.length) {
                 copyToken.splice(index, 1)
+            }
+
+            if (state.wallet) {
+                let key = StorageKey.Tokens + state.wallet.address
+                StorageManage.save(key, copyToken)
             }
             return {
                 ...state,
