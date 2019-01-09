@@ -206,7 +206,6 @@ class SystemSetScreen extends BaseComponent {
         this.props.navigation.goBack()
     }
    
-
     renderComponent() {
         return (
             <View style={styles.container}>
@@ -226,9 +225,7 @@ class SystemSetScreen extends BaseComponent {
                                  onValueChange={this.isUseTouchIdChange}></Switch>
                         </View> : null
                     }
-                    
                 </View>
-               
             </View>    
         );
     }
@@ -263,7 +260,6 @@ class Item extends PureComponent{
                 </TouchableOpacity>
                 <View style={styles.itemLine}></View>
             </View>
-            
         )
     }
 }

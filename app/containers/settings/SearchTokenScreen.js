@@ -334,7 +334,7 @@ class SearchTokenScreen extends BaseComponent {
                 DeviceEventEmitter.emit('changeTokens', {tokens:this.props.tokens,from:'searchTokenPage'});
             }, 0);
         }catch(e){
-           
+           console.log('add_remove_token_err',e)
         }
     }
 
@@ -396,22 +396,17 @@ class SearchTokenScreen extends BaseComponent {
         this.searchTokens = [];
         let allTokens = this.allTokens;
         let searchContent = this.searchText;
-        /*for(let i=0;i<allTokens.length;i++){
-            let token = allTokens[i];
-            let symbol  = token.symbol.trim().toLowerCase()
-            if(symbol.indexOf(searchContent.trim().toLowerCase())>=0){
-                this.searchTokens.push(token)
-            }
-        }*/
-
+        
         allTokens.forEach(function (token, index) {
             let symbol = token.symbol.trim().toLowerCase()
             if (symbol.indexOf(searchContent.trim().toLowerCase()) >= 0) {
                 _this.searchTokens.push(token)
             }
         })
+
         this.refreshDatas();
     }
+
     refreshDatas = () => {
         let datas = [];
         let addedTokens = this.addedTokens;
