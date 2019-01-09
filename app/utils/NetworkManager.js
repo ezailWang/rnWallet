@@ -396,7 +396,6 @@ export default class NetworkManager {
                     }
                 )
         }
-
     }
 
     static async getTokensBalance() {

@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     },
     itemRemoveText: {
         //color: Colors.fontBlueColor,
-        color:Colors.fontGrayColor_a,
+        color: Colors.fontGrayColor_a,
     },
     itemSeparator: {
         height: 2,
@@ -280,31 +280,68 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _addOrRemoveItem = async (item) => {
-        let token = item.item;
-        let index = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
-        let isAdd = token.isAdded;
-        if (isAdd) {
-            if (index >= 0) {
-                //this.addedTokens.splice(index, 1,token)
-            } else {
+        try{
+            let token = item.item
+            let index = this.addedTokens.findIndex(addedToken => addedToken.address == token.address);
+            let isAdd = token.isAdded;
+            if (isAdd) {
                 //添加
                 this.props.addToken(token)
-                this.addedTokens.push(token)
+                if (index >= 0) {
+                    this.addedTokens.splice(index, 1,token)
+                } else {
+                    this.addedTokens.push(token)
+                }
+            } else {
+                //移除
+                if(index >= 2 &&  index < this.addedTokens.length){
+                    //0 和 1分别是eth和itc不可移除
+                    this.props.removeToken(token.address)
+                    this.addedTokens.splice(index, 1)
+                }
             }
-        } else {
-            //移除
-            this.props.removeToken(token.address)
-            this.addedTokens.splice(index, 1)
+            
+            let tokenObj = {
+                iconLarge: token.iconLarge,
+                symbol: token.symbol,
+                name: token.name,
+                decimal: parseInt(token.decimal, 10),
+                address: token.address,
+            }
+    
+            //刷新页面
+            await this.refreshDatas();
+    
+            //存储到本地
+            let key = StorageKey.Tokens + this.props.wallet.address
+            let localTokens = await StorageManage.load(key)
+            let newLocalTokens = []
+            if (!localTokens) {
+                localTokens = [];
+            }
+            if (isAdd) {
+                newLocalTokens = localTokens.filter(localToken =>
+                    token.address.toLowerCase() != localToken.address.toLowerCase()
+                ).concat(tokenObj)
+            } else {
+                newLocalTokens = localTokens.filter(localToken =>
+                    token.address.toLowerCase() != localToken.address.toLowerCase()
+                )
+            }
+    
+            StorageManage.save(key, newLocalTokens)
+            setTimeout(() => {
+                DeviceEventEmitter.emit('changeTokens', {tokens:this.props.tokens,from:'searchTokenPage'});
+            }, 0);
+        }catch(e){
+           
         }
-        this._saveData()
-        this.refreshDatas();
-
-
     }
 
+    
+    //保存添加的token到本地
     _saveData = async () => {
-        //this._showLoading()
-        let tokens = this.addedTokens;
+        /*let tokens = this.addedTokens;
         let localTokens = [];
         tokens.forEach(function (value, index, b) {
             if (index != 0 && index != 1) {
@@ -317,15 +354,10 @@ class SearchTokenScreen extends BaseComponent {
                 })
             }
         })
-
-        let key = StorageKey.Tokens + this.props.wallet.address
         StorageManage.save(key, localTokens)
         setTimeout(() => {
-            DeviceEventEmitter.emit('changeTokens', {});
-        }, 0);
-
-        //this._hideLoading()
-
+            DeviceEventEmitter.emit('changeTokens', {tokens:this.props.tokens,from:'searchTokenPage'});
+        }, 0);*/
     }
 
 
@@ -339,8 +371,8 @@ class SearchTokenScreen extends BaseComponent {
     }
 
     _goBack = () => {
-        let addedTokens = this.addedTokens;
-        this.props.navigation.state.params.callback({ addedTokens: addedTokens });
+        let tokens = this.props.tokens;
+        this.props.navigation.state.params.callback({ tokens: tokens });
         this.props.navigation.goBack()
     }
 
@@ -403,7 +435,7 @@ class SearchTokenScreen extends BaseComponent {
         })
         this.setState({
             datas: datas,
-            isShowEmptyView: true
+            isShowEmptyView: true,
         })
         this.searchText = '';
     }
@@ -415,8 +447,8 @@ class SearchTokenScreen extends BaseComponent {
         this.setState({
             datas: [],
             isShowEmptyView: false,
-            searchValue:''
-            
+            searchValue: ''
+
         })
     }
 
@@ -492,8 +524,8 @@ class ItemView extends PureComponent {
 
     _itemAddOrRemovePress = () => {
         let preTokenIsAdded = this.props.item.item.isAdded;
-        this.props.item.item.isAdded = (preTokenIsAdded == undefined || preTokenIsAdded == false) ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
-        this.props.addOrRemoveItem(this.props.item.item)
+        (preTokenIsAdded == undefined || preTokenIsAdded == false) ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
+        this.props.addOrRemoveItem()
     }
 
     _getLogo = (symbol, iconLarge) => {

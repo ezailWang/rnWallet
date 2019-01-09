@@ -330,66 +330,81 @@ class SetScreen extends BaseComponent {
 
 
     async deleteWallet() {
+        try {
+            let address = this.state.wallet.address
+            let walletType = this.state.wallet.type
 
-        let address = this.state.wallet.address
-        let walletType = this.state.wallet.type
-        await KeystoreUtils.removeKeyFile(address)
+            await KeystoreUtils.removeKeyFile(address)
 
-        let preWalletList = [];
-        if(walletType == 'itc'){
-            preWalletList = await StorageManage.load(StorageKey.ItcWalletList)
-        }else{
-            preWalletList = await StorageManage.load(StorageKey.EthWalletList)
-        }
-        if (!preWalletList) {
-            preWalletList = []
-        }
-        let index = 0;
-        for (let i = 0; i < preWalletList.length; i++) {
-            if (address.toLowerCase() == preWalletList[i].address.toLowerCase()) {
-                index = i;
-                break;
+            let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
+            let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
+            if (!itcWalletList) {
+                itcWalletList = []
             }
-        }
-        preWalletList.splice(index, 1)
-        if(walletType == 'itc'){
-            StorageManage.save(StorageKey.ItcWalletList, preWalletList)
-            this.props.setItcWalletList(preWalletList)
-        }else{
-            StorageManage.save(StorageKey.EthWalletList, preWalletList)
-            this.props.setEthWalletList(preWalletList)
-        }
-        StorageManage.remove(StorageKey.Tokens + this.props.currentWallet.address)
-        this._hideLoading();
-
-        if(this.state.isCurrentWallet){
-            if(this.state.walletType == 'itc'){
-                this.props.loadTokenBalance(itcDefaultTokens)
-            }else{
-                this.props.loadTokenBalance(defaultTokens)
+            if (!ethWalletList) {
+                ethWalletList = []
             }
-            
-            if(preWalletList.length > 0){
-                let wallet = preWalletList[0]
-                StorageManage.save(StorageKey.User, wallet)
-                this.props.setCurrentWallet(wallet)
-                this.props.setTransactionRecordList([])
+
+            if (walletType == 'itc') {
+                let index = -1;
+                for (let i = 0; i < itcWalletList.length; i++) {
+                    if (address.toLowerCase() == itcWalletList[i].address.toLowerCase()) {
+                        index = i;
+                        break;
+                    }
+                }
+                itcWalletList.splice(index, 1)
+                StorageManage.save(StorageKey.ItcWalletList, itcWalletList)
+                this.props.setItcWalletList(itcWalletList)
+            } else {
+                let index = -1;
+                for (let i = 0; i < ethWalletList.length; i++) {
+                    if (address.toLowerCase() == ethWalletList[i].address.toLowerCase()) {
+                        index = i;
+                        break;
+                    }
+                }
+                ethWalletList.splice(index, 1)
+                StorageManage.save(StorageKey.EthWalletList, ethWalletList)
+                this.props.setEthWalletList(ethWalletList)
+            }
+            StorageManage.remove(StorageKey.Tokens + this.props.currentWallet.address)
+            this._hideLoading();
+
+
+            let allWalletList = itcWalletList.concat(ethWalletList);
+            if (this.state.isCurrentWallet) {
+                //删除的是当前钱包
                 StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
+                if (allWalletList.length > 0) {
+                    let newWallet = allWalletList[0]
+                    let newWalletType = newWallet.type
+                    if (newWalletType == 'itc') {
+                        this.props.loadTokenBalance(itcDefaultTokens)
+                    } else {
+                        this.props.loadTokenBalance(defaultTokens)
+                    }
+                    StorageManage.save(StorageKey.User, newWallet)
+                    this.props.setCurrentWallet(newWallet)
+                    this.props.setTransactionRecordList([])
+                    DeviceEventEmitter.emit('changeWallet', { openRightDrawer: true, isChangeWalletList: true });
+                    this.props.navigation.navigate('Home')
 
-                DeviceEventEmitter.emit('changeWallet', {openRightDrawer:true,isChangeWalletList:true});
-                this.props.navigation.navigate('Home')
-                
-            }else{
-                StorageManage.remove(StorageKey.User)
-                this.props.setCurrentWallet({})
-                this.props.setTransactionRecordList([])
-                StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-                this.props.navigation.navigate('FirstLaunch')
+                } else {
+                    StorageManage.remove(StorageKey.User)
+                    this.props.setCurrentWallet({})
+                    this.props.setTransactionRecordList([])
+                    this.props.navigation.navigate('FirstLaunch')
+                }
+            } else {
+                this.props.navigation.state.params.callback();
+                this.props.navigation.goBack()
             }
-        }else{
-            this.props.navigation.state.params.callback();
-            this.props.navigation.goBack()
+        } catch (e) {
+            console.log('deleteWallet err', e)
+            this._hideLoading();
         }
+
     }
 
 
@@ -527,8 +542,8 @@ const mapDispatchToProps = dispatch => ({
     setItcWalletList: (itcWalletList) => dispatch(Actions.setItcWalletList(itcWalletList)),
     setEthWalletList: (ethWalletList) => dispatch(Actions.setEthWalletList(ethWalletList)),
     setCurrentWallet: (wallet) => dispatch(Actions.setCurrentWallet(wallet)),
-    setTransactionRecordList : (list)=>dispatch(Actions.setTransactionRecordList(list)),
-    loadTokenBalance : (tokens) => dispatch(Actions.loadTokenBalance(tokens))
+    setTransactionRecordList: (list) => dispatch(Actions.setTransactionRecordList(list)),
+    loadTokenBalance: (tokens) => dispatch(Actions.loadTokenBalance(tokens))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SetScreen)
 

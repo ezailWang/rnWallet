@@ -677,6 +677,8 @@ export default class TransactionRecoder extends BaseComponent {
             onGoBack: () => {
                 this.refs.flatList.scrollToOffset(0);
                 this.getRecoder(false)
+                // 刷新首页list
+                NetworkManager.loadTokenList()
             },
         });
     };

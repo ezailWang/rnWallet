@@ -398,6 +398,7 @@ export default class Transaction extends BaseComponent {
 
                     store.dispatch(setNewTransaction(newTransaction));
                     this.hideLoading();
+
                     //回调刷新
                     this.props.navigation.state.params.onGoBack();
                     this.props.navigation.goBack();
@@ -408,8 +409,7 @@ export default class Transaction extends BaseComponent {
             this.hideLoading()
         }
 
-        // 刷新首页list
-        // NetworkManager.loadTokenList()
+
         // if (!res) {
         //     setTimeout(() => {
         //alert(I18n.t('transaction.alert_1'));
@@ -418,7 +418,7 @@ export default class Transaction extends BaseComponent {
         // }
     }
 
-    changeLoading(num,password) {
+    changeLoading(num, password) {
         let content = '';
         if (num == 1) {
             content = I18n.t('transaction.getting_key')
@@ -460,10 +460,10 @@ export default class Transaction extends BaseComponent {
     };
 
 
-    hideLoading(){
+    hideLoading() {
         this.setState({
             isShowSLoading: false,
-            sLoadingContent:''
+            sLoadingContent: ''
         })
     }
 
@@ -616,9 +616,9 @@ export default class Transaction extends BaseComponent {
                         this.timeIntervalCount = 0;
                         this.timeInterval = setInterval(() => {
                             this.timeIntervalCount = this.timeIntervalCount + 1;
-                            this.changeLoading(this.timeIntervalCount,password)
+                            this.changeLoading(this.timeIntervalCount, password)
                         }, 500);
-                       
+
 
                     }}
                         ref={(dialog) => { this.dialog = dialog; }} />

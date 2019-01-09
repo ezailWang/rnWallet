@@ -132,10 +132,10 @@ class WalletListScreen extends BaseComponent {
 
     }
 
-    ethWalletOnPress = (wallet) => {
+    ethWalletOnPress = (wallet,type) => {
         let _this = this;
         this.props.navigation.navigate('Set', {
-            walletType: 'eth',
+            walletType: type,
             wallet: wallet,
             callback: function () {
                 _this.refreshPage()
@@ -152,13 +152,13 @@ class WalletListScreen extends BaseComponent {
         let itcWalletsView = [], ethWalletsView = [];
         this.state.itcWallets.forEach(function (wallet, index) {
             itcWalletsView.push(
-                <Item key={index} wallet={wallet} onItemPressed={_this.itcWalletOnPress} />
+                <Item key={index} wallet={wallet} onItemPressed={() => _this.ethWalletOnPress(wallet,'itc')} />
             )
         })
 
         this.state.ethWallets.forEach(function (wallet, index) {
             ethWalletsView.push(
-                <Item key={index} wallet={wallet} onItemPressed={() => _this.ethWalletOnPress(wallet)} />
+                <Item key={index} wallet={wallet} onItemPressed={() => _this.ethWalletOnPress(wallet,'eth')} />
             )
         })
         return (

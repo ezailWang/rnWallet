@@ -8,6 +8,7 @@ import {
     Platform,
     Image,
     Switch,
+    DeviceEventEmitter
 } from 'react-native';
 
 import PropTypes from 'prop-types'
@@ -19,7 +20,6 @@ import { Colors, StorageKey } from '../../config/GlobalConfig'
 import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
-import { addressToName } from '../../utils/CommonUtil'
 import lodash from 'lodash'
 const styles = StyleSheet.create({
     container: {
@@ -166,19 +166,24 @@ class AddTokenScreen extends BaseComponent {
 
 
 
-    _changeTokensEmitter = (data) => {
-        this._loadData()
+    _changeTokensEmitter = async (data) => {
+        if (data.from == 'searchTokenPage') {
+            let tokens = data.tokens
+            this._loadData(tokens)
+        }
     }
 
     async _initData() {
-        this._loadData()
+        let tokens = this.props.navigation.state.params.tokens;
+        this._loadData(tokens)
     }
 
-    _loadData() {
+    _loadData(tokens) {
         let allTokens = [];
         let defaultTokens = [];//默认的
         let addTokens = [];//添加的
-        this.props.tokens.forEach(function (token, index, b) {
+        //this.props.tokens.forEach(function (token, index, b) {
+        tokens.forEach(function (token, index, b) {
             token.isAdded = true
             if (index == 0 || index == 1) {
                 defaultTokens.push(token)
@@ -224,39 +229,66 @@ class AddTokenScreen extends BaseComponent {
             this.addedTokens.push(token)
         } else {
             //移除
-            this.props.removeToken(token.address)
-            this.addedTokens.splice(addedIndex, 1)
+            if (index >= 2 && index < this.tokenList.length) {
+                //0 和 1分别是eth和itc不可移除
+                this.props.removeToken(token.address)
+                this.addedTokens.splice(index, 1)
+            }
         }
-        let list = this.tokenList
+        let list = lodash.cloneDeep(this.tokenList)
         this.setState({
             datas: list,
         })
+       
 
-        this._saveData()
+        //存储到本地
+        let tokenObj = {
+            iconLarge: token.iconLarge,
+            symbol: token.symbol,
+            name: token.name,
+            decimal: parseInt(token.decimal, 10),
+            address: token.address,
+        }
+        let key = StorageKey.Tokens + this.props.wallet.address
+        let localTokens = await StorageManage.load(key)
+        let newLocalTokens = []
+        if (!localTokens) {
+            localTokens = [];
+        }
+        if (isAdd) {
+            newLocalTokens = localTokens.filter(localToken =>
+                token.address.toLowerCase() != localToken.address.toLowerCase()
+            ).concat(tokenObj)
+        } else {
+            newLocalTokens = localTokens.filter(localToken =>
+                token.address.toLowerCase() != localToken.address.toLowerCase()
+            )
+        }
+        StorageManage.save(key, newLocalTokens)
+        setTimeout(() => {
+            DeviceEventEmitter.emit('changeTokens', { from: "addTokenPage" });
+        }, 0);
     }
 
     _search = async () => {
         let _this = this;
         this.props.navigation.navigate('SearchToken', {
             callback: async (data) => {
-                // _this._loadData()
+
             }
         });
     }
 
     _backPress = () => {
-        this._saveData()
         this.toHomePage()
     }
 
     _onBackPressed = () => {
-        this._saveData()
         this.toHomePage()
         return true;
     }
 
-    _saveData = async () => {
-        //this._showLoading()
+    /*_saveData = async () => {
         let tokens = this.addedTokens;
         let localTokens = [];
         tokens.forEach(function (value, index, b) {
@@ -273,8 +305,11 @@ class AddTokenScreen extends BaseComponent {
         let key = StorageKey.Tokens + this.props.wallet.address;
         StorageManage.save(key, localTokens)
 
-        //this._hideLoading()
-    }
+
+        setTimeout(() => {
+            DeviceEventEmitter.emit('changeTokens', { from: "addTokenPage" });
+        }, 0);
+    }*/
 
     toHomePage() {
         this.props.navigation.state.params.callback();
@@ -323,9 +358,10 @@ class ItemView extends PureComponent {
     }
 
     _itemAddOrRemovePress = () => {
-        let preTokenIsAdded = this.props.item.item.isAdded;
-        let nowToken = (preTokenIsAdded == undefined || preTokenIsAdded == false) ? this.props.item.item.isAdded = true : this.props.item.item.isAdded = false
-        this.props.addOrRemoveItem(nowToken)
+        let token = this.props.item.item;
+        let preTokenIsAdded = token.isAdded;
+        (preTokenIsAdded == undefined || preTokenIsAdded == false) ? token.isAdded = true : token.isAdded = false
+        this.props.addOrRemoveItem()
     }
 
 
@@ -354,7 +390,8 @@ class ItemView extends PureComponent {
 
         let _address = address.substr(0, 6) + '......' + address.substr(36, 42);
         let isHideBtn = symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc' ? true : false
-        let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
+        //let btnTxt = (isAdded == undefined || !isAdded) ? I18n.t('settings.add') : I18n.t('settings.remove');
+        let isCheck = (isAdded == undefined || !isAdded) ? false : true
         let fullName = name == '' || name == undefined ? '---' : name;
 
         return (
@@ -376,9 +413,9 @@ class ItemView extends PureComponent {
                 {
                     isHideBtn ? null :
                         <Switch
-                            value={isAdded}
+                            value={isCheck}
                             onTintColor={Colors.bgGrayColor_ed}
-                            thumbTintColor={isAdded ? Colors.fontBlueColor : Colors.bgGrayColor_e5}
+                            thumbTintColor={isCheck ? Colors.fontBlueColor : Colors.bgGrayColor_e5}
                             tintColor={Colors.bgGrayColor_ed}
                             onValueChange={this._itemAddOrRemovePress}></Switch>
                 }
@@ -399,7 +436,7 @@ class ItemView extends PureComponent {
 
 
 const mapStateToProps = state => ({
-    tokens: state.Core.tokens,
+    //tokens: state.Core.tokens,
     wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({

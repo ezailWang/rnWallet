@@ -35,7 +35,7 @@ const defaultState = {
     walletPasswordPrompt: '',
     mnemonic: '',
     //tokens: defaultTokens,
-    tokens:[],
+    tokens: [],
     totalAssets: '0.00',
     recoders: [],
     myLanguage: null,
@@ -49,7 +49,7 @@ const defaultState = {
     itcWalletList: [],
     ethWalletList: [],
     wallet: null,//当前正在使用的钱包
-    createWalletParams:null,
+    createWalletParams: null,
 }
 
 function coreReducer(state = defaultState, action) {
@@ -79,14 +79,23 @@ function coreReducer(state = defaultState, action) {
             }
             break;
         case ADD_TOKEN:
+            let addedToken = Object.assign(
+                action.token,
+                { id: uuid.v4() }
+            )
+            let newTokens = state.tokens.filter((token, index) =>
+                addedToken.address != token.address
+            ).concat(addedToken)
             return {
                 ...state,
-                tokens: state.tokens.concat([
+                /*tokens: state.tokens.concat([
                     Object.assign(
                         action.token,
                         { id: uuid.v4() }
                     ),
-                ]),
+                ]),*/
+                tokens: newTokens
+
                 //tokens: state.tokens.splice(2,0,action.token),
             }
             break;
@@ -135,7 +144,10 @@ function coreReducer(state = defaultState, action) {
             break;
         case REMOVE_TOKEN:
             const copyToken = lodash.cloneDeep(state.tokens)
-            copyToken.splice(state.tokens.findIndex(item => item.address === action.address), 1)
+            let index = state.tokens.findIndex(item => item.address === action.address)
+            if(index >= 2 && index < state.tokens.length){
+                copyToken.splice(index, 1)
+            }
             return {
                 ...state,
                 tokens: copyToken

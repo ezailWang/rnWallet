@@ -428,9 +428,6 @@ export default class BaseComponent extends PureComponent {
             this._hideLoading()
             this._hideAlert()
             this._closeModal()
-            /*setTimeout(()=>{
-               this._showPin() 
-            }, 200);*/
         }
         if (state != null && state === 'active') {
             this.setState({
@@ -448,10 +445,6 @@ export default class BaseComponent extends PureComponent {
 
     _verifyIdentidy() {
         const { pinInfo } = store.getState().Core
-        /*
-          pinInfo.password 
-          isUseTouchId:true/false
-        */
         if (pinInfo != null) {
             setTimeout(() => {
                 this._showPin()
@@ -463,13 +456,6 @@ export default class BaseComponent extends PureComponent {
             }, 100)
 
         }
-        /*if(pinInfo != null){
-            if(pinInfo.isUseTouchId){
-                this._touchIdIsSupported()
-            }else{
-                this._showPin()
-            }     
-        }*/
     }
 }
 

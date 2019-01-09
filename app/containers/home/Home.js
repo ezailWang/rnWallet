@@ -119,7 +119,7 @@ class HomeScreen extends BaseComponent {
         let _this = this
         this.props.navigation.navigate('TransactionRecoder', {
             callback: async function (data) {
-                await NetworkManager.loadTokenList()
+                //await NetworkManager.loadTokenList()
             }
         })
     }
@@ -135,12 +135,15 @@ class HomeScreen extends BaseComponent {
             }
         });*/
 
+
+
         if (!this.props.allTokens || this.props.allTokens.length <= 0) {
             this._showLoading()
             this.getAllTokens()
         } else {
             let _this = this;
             this.props.navigation.navigate('AddToken', {
+                tokens : _this.props.tokens,
                 callback: async (token) => {
                     /*_this._showLoading()
                     await NetworkManager.loadTokenList()
@@ -219,11 +222,11 @@ class HomeScreen extends BaseComponent {
     }
 
     _changeTokensEmitter = async (data) => {
-        await NetworkManager.loadTokenList()
+        await NetworkManager.getTokensBalance()
     }
 
 
-    userInfoUpdate() {
+    async userInfoUpdate() {
         const { ethWalletList, itcWalletList } = store.getState().Core
         const ethWallets = ethWalletList.map(wallet => wallet.address)
         const itcWallets = itcWalletList.map(wallet => wallet.address)
@@ -267,35 +270,37 @@ class HomeScreen extends BaseComponent {
             this._hideLoading()
             console.log('getAllTokens err:', err)
             showToast(I18n.t('toast.net_request_err'))
-        }) 
+        })
     }
 
     async _initData() {
         SplashScreen.hide()
-        if (this.props.isNewWallet == false) {
-            this._verifyIdentidy();
-            this.versionUpdate()
-        } else {
-            this.props.setIsNewWallet(false)
-            this._showLoading()
-        }
-        this.userInfoUpdate()
-
-        this.setState({
-            monetaryUnitSymbol: this.props.monetaryUnit.symbol
-        })
-
-
-        let localUser = await StorageManage.load(StorageKey.User)
-        if (localUser && localUser['isTotalAssetsHidden']) {
+        try {
+            if (this.props.isNewWallet == false) {
+                this._verifyIdentidy();
+                this.versionUpdate()
+            } else {
+                this.props.setIsNewWallet(false)
+                this._showLoading()
+            }
             this.setState({
-                isTotalAssetsHidden: localUser['isTotalAssetsHidden']
+                monetaryUnitSymbol: this.props.monetaryUnit.symbol
             })
-        }
-        await NetworkManager.loadTokenList()
+            let localUser = await StorageManage.load(StorageKey.User)
+            if (localUser && localUser['isTotalAssetsHidden']) {
+                this.setState({
+                    isTotalAssetsHidden: localUser['isTotalAssetsHidden']
+                })
+            }
+            await NetworkManager.loadTokenList()
 
-        this._hideLoading()
+            this._hideLoading()
+            this.userInfoUpdate()
+        } catch (err) {
+            this._hideLoading()
+        }
     }
+
 
 
     async saveTokenToStorage(token) {
