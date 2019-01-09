@@ -174,7 +174,6 @@ class Loading extends Component {
         }
 
         this.props.dispatch(setIsNewWallet(false))
-        //this.getAllTokens()
         this.getMessageCount()
 
 
@@ -224,21 +223,7 @@ class Loading extends Component {
         this.props.dispatch(setMonetaryUnit(monetaryUnit))
     }
 
-    /*async getAllTokens() {
-        let allTokensParams = {
-            'network': this.props.network,
-        }
-        NetworkManager.getAllTokens(allTokensParams).then((response) => {
-            if (response.code === 200) {
-                this.props.dispatch(setAllTokens(response.data))
-            } else {
-                console.log('getAllTokens_err_msg:', response.msg)
-            }
-        }).catch((err) => {
-            console.log('getAllTokens_err:', err)
-        })
-    }*/
-
+   
 
     //获取未度消息数
     async getMessageCount() {

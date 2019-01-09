@@ -37,6 +37,7 @@ class RightDrawer extends BaseComponent {
 
     itcWalletOnPress = async (wallet) => {
         this.props.navigation.closeDrawer()
+        this._barStyle = 'light-content'
         StorageManage.save(StorageKey.User, wallet)
         store.dispatch(setCurrentWallet(wallet));
 
@@ -54,6 +55,7 @@ class RightDrawer extends BaseComponent {
 
     ethWalletOnPress = async (wallet) => {
         this.props.navigation.closeDrawer()
+        this._barStyle = 'light-content'
         StorageManage.save(StorageKey.User, wallet)
         store.dispatch(setCurrentWallet(wallet));
 

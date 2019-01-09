@@ -165,9 +165,6 @@ class HomeScreen extends BaseComponent {
         this.props.navigation.openDrawer()
     }
 
-
-
-
     /*changeNetworkDone = async () => {
         this.setState({
             changeNetworkShow: false
