@@ -21,13 +21,13 @@
 */
 import React from 'react';
 import { StyleSheet, Text, DeviceEventEmitter } from 'react-native';
-import { Colors,Common} from '../config/GlobalConfig';
+import { Colors, Common } from '../config/GlobalConfig';
 import PropType from 'prop-types'
 import RightDrawer from '../containers/home/RightDrawer'
 import LayoutConstants from '../config/LayoutConstants'
 import TabIcon from '../components/TabIcon'
 import { I18n } from '../config/language/i18n'
-import {getMessageCount} from '../utils/CommonUtil'
+import { getMessageCount } from '../utils/CommonUtil'
 const StackNavigationConfig = {
     initialRouteName: 'Set'
     //initialRouteName: 'Home',
@@ -99,15 +99,16 @@ const HomeBottomTabNavigationConfig = {
         },
         indicatorStyle: { //android 线的样式
             height: 0,
-        }
+        },
     },
     navigationOptions: ({ navigation }) => ({
+
         tabBarLabel: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
-            
+
             switch (routeName) {
                 case "Home":
-                    return  <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_wallet')}</Text>
+                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_wallet')}</Text>
                     break;
                 case "Mapping":
                     return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_mapping')}</Text>
@@ -139,7 +140,6 @@ const HomeBottomTabNavigationConfig = {
                     break
                 case "My":
                     let myIcon = focused ? require('../assets/home/my_on.png') : require('../assets/home/my_off.png')
-                   
                     return (
                         <TabIcon
                             icon={myIcon}
@@ -150,7 +150,8 @@ const HomeBottomTabNavigationConfig = {
                     break
             }
         }
-    })
+    }),
+    
 }
 
 
