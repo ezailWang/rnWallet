@@ -198,7 +198,7 @@ class MappingRecordDetailScreen extends BaseComponent {
         if (Layout.DEVICE_IS_IPHONE_X()) {
             headerMarginTop = { marginTop: 48 };
         }
-        let headerBg = require('../../assets/home/hp_bg.png')
+        let headerBg = require('../../assets/home/top_bg.png')
 
         let info1IsDone = this.state.status == 0 ? false : true
         let info2IsDone = this.state.status == 2 ? true : false

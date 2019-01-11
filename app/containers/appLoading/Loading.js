@@ -174,8 +174,6 @@ class Loading extends Component {
         }
 
         this.props.dispatch(setIsNewWallet(false))
-        this.getMessageCount()
-
 
 
         if (user) {
@@ -221,31 +219,6 @@ class Loading extends Component {
         }
         StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit)
         this.props.dispatch(setMonetaryUnit(monetaryUnit))
-    }
-
-   
-
-    //获取未度消息数
-    async getMessageCount() {
-
-        let userToken = await StorageManage.load(StorageKey.UserToken)
-        if (!userToken || userToken === null) {
-            return;
-        }
-        let params = {
-            'userToken': userToken['userToken'],
-        }
-        NetworkManager.getUnReadMessageCount(params)
-            .then(response => {
-                if (response.code === 200) {
-                    let messageCount = response.data.account;
-                    DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
-                } else {
-                    console.log('getMessageCount err msg:', response.msg)
-                }
-            }).catch(err => {
-                console.log('getMessageCount err:', err)
-            })
     }
 
     render() {

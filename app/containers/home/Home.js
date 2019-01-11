@@ -431,6 +431,7 @@ class HomeScreen extends BaseComponent {
             extrapolate: 'clamp'
         })
 
+        let topBg = this.props.wallet.type == 'eth' ? require('../../assets/home/hp_bg_eth.png') : require('../../assets/home/hp_bg.png');
         return (
             <View style={styles.container}>
                 <StatusBarComponent barStyle={this.state.statusbarStyle} />
@@ -461,7 +462,7 @@ class HomeScreen extends BaseComponent {
                             width: LayoutConstants.WINDOW_WIDTH,
                             transform: [{ translateY: headerBgImageTranslateY }, { scale: headerBgImageScale }],
                         }}
-                        source={require('../../assets/home/hp_bg.png')}
+                        source={topBg} 
                     />
                     <Animated.View
                         style={{
@@ -489,7 +490,7 @@ class HomeScreen extends BaseComponent {
                                 color: 'white',
                                 fontWeight: '400',
                                 fontSize: 18,
-                                lineHeight: 18
+                                lineHeight: 18,
                             }}
                         >{this.state.isTotalAssetsHidden ? '****' : this.state.monetaryUnitSymbol + this.props.totalAssets + ''}</Text>
                     </Animated.View>

@@ -229,7 +229,15 @@ class ReceiptCodeScreen extends BaseComponent {
 
                         <Text style={styles.titleTxt}>{this.props.wallet.name}</Text>
                         <View style={styles.qrCode}>
-                            {this.state.qrcodeLoading && this.props.firstQR ? <View
+                        <QRCode
+                                    value={this.props.wallet.address}
+                                    size={180}
+                                    bgColor='#000'
+                                    fgColor='#fff'
+                                    onLoad={() => {}}
+                                    onLoadEnd={() => { }}
+                                />
+                            {/*{this.state.qrcodeLoading && this.props.firstQR ? <View
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <Text
                                     style={{ color: 'black' }}>Loading...</Text>
@@ -240,9 +248,9 @@ class ReceiptCodeScreen extends BaseComponent {
                                     size={180}
                                     bgColor='#000'
                                     fgColor='#fff'
-                                    onLoad={() => { }}
+                                    onLoad={() => {}}
                                     onLoadEnd={() => { }}
-                                />}
+                            />}*/}
                         </View>
 
                         <Text style={styles.adderssTxt}>{this.props.wallet.address}</Text>

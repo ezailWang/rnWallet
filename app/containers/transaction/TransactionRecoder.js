@@ -844,6 +844,7 @@ export default class TransactionRecoder extends BaseComponent {
     renderComponent() {
 
         let { amount, price } = store.getState().Core.balance;
+        const { wallet } = store.getState().Core
         let value = parseFloat(amount) * parseFloat(price);
         value = Number(value.toFixed(8));
 
@@ -931,7 +932,7 @@ export default class TransactionRecoder extends BaseComponent {
                 }}>
                     <Image
                         style={{ flex: 1, width: Layout.WINDOW_WIDTH }}
-                        source={require('../../assets/home/hp_bg.png')}
+                        source={require('../../assets/home/top_bg.png')}
                     />
                     <Animated.Text
                         style={{

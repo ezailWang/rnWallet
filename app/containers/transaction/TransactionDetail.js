@@ -183,11 +183,11 @@ export default class TransactionDetail extends BaseComponent {
 
         Linking.canOpenURL(detailUrl).then(supported => {
             if (!supported) {
-                //console.warn('Can\'t handle url: ' + baiduURL);
+                //console.warn('Can\'t handle url: ' + detailUrl);
             } else {
-                return Linking.openURL(baiduURL);
+                return Linking.openURL(detailUrl);
             }
-        }).catch(err => console.error('An error occurred', baiduURL));
+        }).catch(err => console.error('An error occurred', detailUrl));
     }
 
     copyUrl() {
