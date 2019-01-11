@@ -16,7 +16,7 @@ import FetchUtils from './FetchUtils'
 import NetAddr from './NetAddr'
 const Ether = new BigNumber(10e+17)
 var api = etherscan.init(LayoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000)
-const jbokSdlUrl = "http://192.168.50.249:20002"
+const jbokSdlUrl = NetAddr.jbokWs
 const client = jbokSdk.Client;
 const hasher = jbokSdk.Hasher;
 const jsonCodec = jbokSdk.JsonCodec;
@@ -36,6 +36,17 @@ export default class NetworkManager {
             }
         } catch (err) {
             console.log('getJbokSdkInstance:', err)
+        }
+    }
+
+    static async jsonrpc(params) {
+        try {
+            await this.getJbokSdkInstance();
+            return jbokSdkClient.jsonrpc(params)
+        } catch (err) {
+            console.log('jsonrpc err:', err)
+            jbokSdkClient = null;
+            return null
         }
     }
 
@@ -72,7 +83,7 @@ export default class NetworkManager {
         if (wallet.type === 'eth') {
             return this.getBalanceOfETH({ address, symbol, decimal })
         } else if (wallet.type === 'itc') {
-            return this.getBalanceOfITC({ address, symbol, decimal })
+            return this.getBalanceOfITC()
         }
     }
 
@@ -90,7 +101,6 @@ export default class NetworkManager {
     static async getItcBalance() {
         try {
             const { wallet } = store.getState().Core
-            await this.getJbokSdkInstance()
             const blockParam = {
                 //WithNumber:{n:'830'}    //查询某个区块高度时的余额
                 Latest: {}                //查询最新余额状态
@@ -99,7 +109,7 @@ export default class NetworkManager {
                 method: 'getBalance',
                 params: [wallet.address, blockParam]
             }
-            const balanceJson = await jbokSdkClient.jsonrpc(JSON.stringify(params))
+            const balanceJson = await this.jsonrpc(JSON.stringify(params))
             const balance = JSON.parse(balanceJson).result
             if (balance) {
                 return parseFloat(balance / Math.pow(10, 18)).toFixed(4)
@@ -190,7 +200,7 @@ export default class NetworkManager {
                 return rsp.data.trx.reverse().map(t => ({
                     from: t.senderAddress,
                     to: t.receivingAddress,
-                    timeStamp: Date.parse(new Date(t.updateTime)) / 1000,
+                    timeStamp: t.unixTimestamp,
                     hash: t.hash,
                     value: web3.utils.fromWei(t.value, 'ether'),
                     gasPrice: t.gasPrice === 0 ? 0 : web3.utils.fromWei(((t.gasUsed || t.gasLimit) * t.gasPrice).toString(), 'ether'),
@@ -300,7 +310,6 @@ export default class NetworkManager {
     static async getItcNonce() {
         try {
             const { wallet } = store.getState().Core
-            await this.getJbokSdkInstance()
             const blockParam = {
                 Latest: {}
             }
@@ -308,7 +317,7 @@ export default class NetworkManager {
                 method: 'getAccount',
                 params: [wallet.address, blockParam]
             }
-            const accountRsp = await jbokSdkClient.jsonrpc(JSON.stringify(params))
+            const accountRsp = await this.jsonrpc(JSON.stringify(params))
             const accountRes = JSON.parse(accountRsp).result
             let nonce = accountRes.nonce
             // const preNonce = await StorageManage.load(StorageKey.ItcWalletNonce, wallet.address)
@@ -325,7 +334,6 @@ export default class NetworkManager {
 
     static async sendItcTransaction(toAddress, amout, gasPrice, privateKey, callBackHash) {
         try {
-            await this.getJbokSdkInstance()
             const web3 = this.getWeb3Instance();
             const wallet = store.getState().Core.wallet
             const nonce = await this.getItcNonce()
@@ -344,7 +352,7 @@ export default class NetworkManager {
                 method: 'sendSignedTransaction',
                 params: JSON.parse(signedTxJson)
             }
-            const rsp = await jbokSdkClient.jsonrpc(JSON.stringify(params))
+            const rsp = await this.jsonrpc(JSON.stringify(params))
             const rspO = JSON.parse(rsp)
             if (rspO.result) {
                 // StorageManage.save(StorageKey.ItcWalletNonce, tx['nonce'], wallet.address) //发出交易后，存储nonce在本地
@@ -434,12 +442,11 @@ export default class NetworkManager {
         try {
             const wallet = store.getState().Core.wallet
             if (wallet.type === 'itc') {
-                await this.getJbokSdkInstance()
                 const params = {
                     method: 'bestBlockNumber',
                     params: {}
                 }
-                const jsondata = await jbokSdkClient.jsonrpc(JSON.stringify(params))
+                const jsondata = await this.jsonrpc(JSON.stringify(params))
                 const result = JSON.parse(jsondata).result
                 if (result) {
                     return result
@@ -647,12 +654,11 @@ export default class NetworkManager {
             const { wallet } = store.getState().Core
             const web3 = this.getWeb3Instance();
             if (wallet.type === 'itc') {
-                await this.getJbokSdkInstance()
                 const params = {
                     method: 'getGasPrice',
                     params: {}
                 }
-                const jsondata = await jbokSdkClient.jsonrpc(JSON.stringify(params))
+                const jsondata = await this.jsonrpc(JSON.stringify(params))
                 let result = JSON.parse(jsondata).result
                 console.log('result:', result)
                 result = result === 0 ? 1 : result
