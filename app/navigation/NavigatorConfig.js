@@ -27,7 +27,6 @@ import RightDrawer from '../containers/home/RightDrawer'
 import LayoutConstants from '../config/LayoutConstants'
 import TabIcon from '../components/TabIcon'
 import { I18n } from '../config/language/i18n'
-import { getMessageCount } from '../utils/CommonUtil'
 const StackNavigationConfig = {
     initialRouteName: 'Set'
     //initialRouteName: 'Home',
@@ -102,7 +101,13 @@ const HomeBottomTabNavigationConfig = {
         },
     },
     navigationOptions: ({ navigation }) => ({
-
+        tabBarOnPress: () => { // 使用tabBarOnPress点击事件
+            if (!navigation.isFocused()) {
+                navigation.navigate(navigation.state.routeName, {
+                    title: navigation.state.routeName
+                })
+            }
+        },
         tabBarLabel: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
 
@@ -120,7 +125,6 @@ const HomeBottomTabNavigationConfig = {
         },
         tabBarIcon: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
-            getMessageCount()
             switch (routeName) {
                 case "Home":
                     let homeIcon = focused ? require('../assets/home/wallet_on.png') : require('../assets/home/wallet_off.png')

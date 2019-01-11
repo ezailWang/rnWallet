@@ -100,6 +100,8 @@ import {
     ChoseWalletTypeScreen,
     Mapping
 } from '../containers/Containers';
+import { getMessageCount } from '../utils/CommonUtil'
+import NetworkManager from '../utils/NetworkManager'
 //首次启动导航栈
 const FirstLaunchRouteConfig =
 {
@@ -156,17 +158,30 @@ const FirstLaunchRouteConfig =
 const HomeBottomTabNavigation = createBottomTabNavigator({
     Home: {
         screen: HomeScreen,
-        navigationOptions: {
+        navigationOptions: ({ navigation }) => ({
             header: null,
-            //gesturesEnabled:false
-            //tabBarLabel: I18n.t('home.tab_wallet'),
-        }
+            tabBarOnPress: () => { // 使用tabBarOnPress点击事件
+                NetworkManager.loadTokenList()
+                navigation.navigate("Home")
+            },
+        })
     },
     Mapping: {
         screen:Mapping,
+        navigationOptions: ({ navigation }) => ({
+            tabBarOnPress: () => {
+                navigation.navigate("Mapping")
+            },
+        })
     },
     My: {
         screen: MyScreen,
+        navigationOptions: ({ navigation }) => ({
+            tabBarOnPress: () => {
+                getMessageCount()
+                navigation.navigate("My")
+            },
+        })
     }
 }, HomeBottomTabNavigationConfig)
 

@@ -559,6 +559,7 @@ export default class NetworkManager {
      * Load the tokens the user owns
      */
     static async loadTokenList() {
+
         try {
             //如果是itc钱包，暂不支持erc20 
             const { wallet } = store.getState().Core
