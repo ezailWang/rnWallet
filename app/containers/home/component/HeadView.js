@@ -47,7 +47,7 @@ export default class HeadView extends Component {
                                 backgroundImageSource={this.props.hideAssetsIcon}
                             />
                         </View>
-                        <Text style={{ fontSize: 39, color: 'white', fontWeight: '700', marginLeft: -3, paddingLeft: 0 }}> {this.props.totalAssets} </Text>
+                        <Text adjustsFontSizeToFit={true} minimumFontScale={0.01} numberOfLines={1} style={{ flex: 1, fontSize: 39, color: 'white', fontWeight: '700', marginLeft: -3, paddingLeft: 0, width: LayoutConstants.WINDOW_WIDTH - 50 }}> {this.props.totalAssets} </Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.addressContainer}>

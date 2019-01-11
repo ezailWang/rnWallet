@@ -82,7 +82,6 @@ export default class BaseComponent extends PureComponent {
     }
 
     componentWillMount() {
-        this._isMounted = true
         /*JPushModule.notifyJSDidLoad((resultCode)=>{
             if(resultCode === 0){
 
@@ -105,8 +104,6 @@ export default class BaseComponent extends PureComponent {
         this._removeEventListener();
 
         //JPushModule.removeReceiveOpenNotificationListener()
-
-        this._isMounted = false
     }
 
     //初始化数据
@@ -134,20 +131,20 @@ export default class BaseComponent extends PureComponent {
         this.monetaryUnitChangeHandler && this.monetaryUnitChangeHandler.remove();
         this.backHandler && this.backHandler.remove();//移除android物理返回键监听事件
         this.pinIsShowHandler && this.pinIsShowHandler.remove();
-        this.messageCountHandler && this.messageCountHandler.remove();  
+        this.messageCountHandler && this.messageCountHandler.remove();
         this.backgroundStateHandler && this.backgroundStateHandler.remove();
-        this.changeWalletHandler && this.changeWalletHandler.remove();  
+        this.changeWalletHandler && this.changeWalletHandler.remove();
         this.changeTokensHandler && this.changeTokensHandler.remove();
     }
 
     _addChangeListener() {
         AppState.addEventListener('change', this._handleAppStateChange);
-       
+
     }
 
     _removeChangeListener() {
         AppState.removeEventListener('change', this._handleAppStateChange);
-       
+
     }
 
     //显示Loading
@@ -257,7 +254,7 @@ export default class BaseComponent extends PureComponent {
                     blurType='light'
                     blurAmount={10}
                 />}
-                
+
                 {this.state.isShowLoading == undefined ? null : <Loading visible={this.state.isShowLoading} />}
                 {this.state.isShowPin == undefined ? null :
                     <PinModal visible={this.state.isShowPin}
@@ -288,13 +285,13 @@ export default class BaseComponent extends PureComponent {
 
     }
 
-    _changeWalletEmitter = (data) =>{
+    _changeWalletEmitter = (data) => {
 
     }
 
-   
-    _changeTokensEmitter = (data) =>{
-        
+
+    _changeTokensEmitter = (data) => {
+
     }
 
     //尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
@@ -383,22 +380,26 @@ export default class BaseComponent extends PureComponent {
     //网络请假错误回调
     _netRequestErr = (err) => {
         this._hideLoading()
-        if (this.toast instanceof RootSiblings) {
-            return
-        }
-        if (err.message === 'Network request failed'
-            || err.message === 'Invalid JSON RPC response: \"The Internet connection appears to be offline.\"'
-            || err.message === 'Error: Network Error') {
-            this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP + 10);
-        } else if (err.message === 'Couldn\'t decode uint256 from ABI: 0x') {
-            this.toast = showToast(I18n.t('toast.net_request_token_unable_resolve'), Toast.positions.TOP + 10)
-        } else if (err.message === 'timeout of 10000ms exceeded' || err === 'timeout promise' || err.message === 'Error: timeout of 10000ms exceeded') {
-            this.toast = showToast(I18n.t('toast.net_request_timeout'), Toast.positions.TOP + 10)
-        } else if (err === 'No transactions found' || err.message === 'No transactions found') {
-            return
-        } else {
-            let errMessage = err.message === undefined ? err : err.message
-            this.toast = showToast(errMessage, Toast.positions.TOP + 10);
+        try {
+            if (this.toast instanceof RootSiblings) {
+                return
+            }
+            if (err.message === 'Network request failed'
+                || err.message === 'Invalid JSON RPC response: \"The Internet connection appears to be offline.\"'
+                || err.message === 'Error: Network Error') {
+                this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP + 10);
+            } else if (err.message === 'Couldn\'t decode uint256 from ABI: 0x') {
+                this.toast = showToast(I18n.t('toast.net_request_token_unable_resolve'), Toast.positions.TOP + 10)
+            } else if (err.Hd === '10 seconds' ||err.qe === '10 seconds' || err.message === 'timeout of 10000ms exceeded' || err === ' timeout promise' || err.message === 'Error: timeout of 10000ms exceeded') {
+                this.toast = showToast(I18n.t('toast.net_request_timeout'), Toast.positions.TOP + 10)
+            } else if (err === 'No transactions found' || err.message === 'No transactions found') {
+                return
+            } else {
+                let errMessage = err.message === undefined ? err : err.message
+               // this.toast = showToast(errMessage, Toast.positions.TOP + 10);
+            }
+        } catch (err) {
+            console.log('toast err:', err)
         }
     }
     //点击android物理返回键的操作
@@ -440,7 +441,7 @@ export default class BaseComponent extends PureComponent {
         }
     }
 
-  
+
 
 
     _verifyIdentidy() {

@@ -1,6 +1,8 @@
 
 import MD5 from 'react-native-md5'
+import NetAddr from './NetAddr'
 const signKey = 'Ub9xq1Ju~T&.g%B7?8!]OpB+ab,b7q19w'
+const signKeyScan = 'Ub1kjkh^800123^&xc%1jjz$89$&0jkz01B+abb'
 
 export default class FetchUtils {
 
@@ -38,7 +40,7 @@ export default class FetchUtils {
             }
         }
         const currentTime = new Date().getTime()
-        let sign = MD5.hex_md5(this.getSign(currentTime))
+        let sign = MD5.hex_md5(this.getSign(currentTime, url))
         let signParam = ['time=' + currentTime, 'sign=' + sign].join('&')
         if (url.search(/\?/) === -1) {
             url += '?' + signParam
@@ -62,7 +64,7 @@ export default class FetchUtils {
 
     static requestPost(url, params, images) {
         const currentTime = new Date().getTime()
-        let sign = MD5.hex_md5(this.getSign(currentTime))
+        let sign = MD5.hex_md5(this.getSign(currentTime, url))
         params['sign'] = sign
         params['time'] = currentTime
         if (images) {
@@ -109,15 +111,20 @@ export default class FetchUtils {
         }
     }
 
-    static getSign(currentTime) {
-        let inputSign = currentTime + signKey
-        let outputSign = ''
-        for (let i = 0; i < inputSign.length; i++) {
-            if (i % 2 === 0) {
-                outputSign += inputSign[i]
+    static getSign(currentTime, url) {
+        const isItcScan = url.indexOf(NetAddr.getTransactionByAddress) > -1
+        if (isItcScan) {
+            return signKeyScan + currentTime
+        } else {
+            let inputSign = currentTime + signKey
+            let outputSign = ''
+            for (let i = 0; i < inputSign.length; i++) {
+                if (i % 2 === 0) {
+                    outputSign += inputSign[i]
+                }
             }
+            return outputSign
         }
-        return outputSign
     }
 
 

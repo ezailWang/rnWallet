@@ -17,7 +17,7 @@ import BaseComponent from '../base/BaseComponent';
 import RemindDialog from '../../components/RemindDialog'
 import StaticLoading from '../../components/StaticLoading'
 import NetworkManager from '../../utils/NetworkManager'
-import { defaultTokens, itcDefaultTokens } from '../../utils/Constants'
+import { defaultTokens, defaultTokensOfITC } from '../../utils/Constants'
 
 
 const styles = StyleSheet.create({
@@ -352,7 +352,7 @@ class SetScreen extends BaseComponent {
                     let newWallet = allWalletList[0]
                     let newWalletType = newWallet.type
                     if (newWalletType == 'itc') {
-                        this.props.loadTokenBalance(itcDefaultTokens)
+                        this.props.loadTokenBalance(defaultTokensOfITC)
                     } else {
                         this.props.loadTokenBalance(defaultTokens)
                     }

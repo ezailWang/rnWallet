@@ -20,7 +20,7 @@ import { I18n } from '../../config/language/i18n'
 import JPushModule from 'jpush-react-native'
 import NetworkManager from '../../utils/NetworkManager'
 import DeviceInfo from 'react-native-device-info'
-import { defaultTokens ,itcDefaultTokens} from '../../utils/Constants'
+import { defaultTokens ,defaultTokensOfITC} from '../../utils/Constants'
 class Loading extends Component {
 
     static propTypes = {
@@ -118,7 +118,7 @@ class Loading extends Component {
         }
 
         if(user && user.type == 'itc'){
-            this.props.dispatch(loadTokenBalance(itcDefaultTokens))
+            this.props.dispatch(loadTokenBalance(defaultTokensOfITC))
         }else{
             this.props.dispatch(loadTokenBalance(defaultTokens))
         }

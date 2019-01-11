@@ -13,7 +13,7 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import { BlurView } from 'react-native-blur';
 import Loading from '../../components/Loading';
 import LayoutConstants from '../../config/LayoutConstants'
-import { defaultTokens ,itcDefaultTokens} from '../../utils/Constants'
+import { defaultTokens ,defaultTokensOfITC} from '../../utils/Constants'
 
 class RightDrawer extends BaseComponent {
     navigateToScreen = (route, params) => () => {
@@ -43,7 +43,7 @@ class RightDrawer extends BaseComponent {
 
         store.dispatch(setTransactionRecordList([]));
         StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo)
-        store.dispatch(loadTokenBalance(itcDefaultTokens))
+        store.dispatch(loadTokenBalance(defaultTokensOfITC))
         this.setState({
             refreshPage: !this.state.refreshPage
         })
