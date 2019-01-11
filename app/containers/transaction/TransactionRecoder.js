@@ -286,7 +286,12 @@ class Cell extends Component {
 
 //时间戳换时间格式
 function timestampToTime(timestamp) {
-    var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    let date
+    if (timestamp.length === 10) {
+        date = new Date(parseInt(timestamp) * 1000);
+    } else if(timestamp.length === 13){
+        date = new Date(parseInt(timestamp))
+    }
     Y = date.getFullYear() + '-';
     M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
     D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
