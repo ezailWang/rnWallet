@@ -8,7 +8,7 @@ import NetworkManager from '../../utils/NetworkManager'
 import { HeaderButton, BlueButtonBig } from '../../components/Button';
 import { androidPermission } from '../../utils/PermissionsAndroid';
 import { TransparentBgHeader } from '../../components/NavigaionHeader'
-import { Colors, StorageKey ,Network} from '../../config/GlobalConfig'
+import { Colors, StorageKey, Network } from '../../config/GlobalConfig'
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent';
@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center',
     },
-    contentBox:{
-        paddingTop:30,
+    contentBox: {
+        paddingTop: 30,
         width: Layout.WINDOW_WIDTH * 0.82,
-        alignItems:'center',
+        alignItems: 'center',
     },
     qrCodeBox: {
         width: Layout.WINDOW_WIDTH * 0.82 - 3,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         paddingRight: 0,
         marginLeft: 0,
         marginRight: 0,
-        marginBottom:20,
+        marginBottom: 20,
     },
     btnOpacity: {
         //backgroundColor:'transparent',
@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         marginTop: 20,
     },
-    itcBox:{
+    itcBox: {
         width: Layout.WINDOW_WIDTH * 0.82,
         alignSelf: 'center',
     },
-    itcTextWarn:{
+    itcTextWarn: {
         width: Layout.WINDOW_WIDTH * 0.82,
-        color:'white',
-        fontSize:13,
+        color: 'white',
+        fontSize: 13,
     }
 })
 
@@ -121,30 +121,30 @@ class ReceiptCodeScreen extends BaseComponent {
         this._setStatusBarStyleLight()
         this.state = {
             qrcodeLoading: true,
-            modalVisible:false,
-            isNotRemind:false,
-            isMainNetwork:true,
+            modalVisible: false,
+            isNotRemind: false,
+            isMainNetwork: true,
         }
 
     }
 
-    
-    _initData(){
+
+    _initData() {
 
         const { network } = store.getState().Core;
-        if(network == Network.main){
+        if (network == Network.main) {
             this.setState({
-                isMainNetwork:true,
-                modalVisible:false,
+                isMainNetwork: true,
+                modalVisible: false,
             })
-        }else{
+        } else {
             this.setState({
-                isMainNetwork:false,
+                isMainNetwork: false,
             })
             this.getIsRemindAgain()
         }
 
-        
+
         InteractionManager.runAfterInteractions(() => {
             if (this._isMounted) {
                 this.setState({ qrcodeLoading: false })
@@ -176,31 +176,31 @@ class ReceiptCodeScreen extends BaseComponent {
         showToast(I18n.t('toast.copied'));
     }
 
-    async getIsRemindAgain(){
+    async getIsRemindAgain() {
         var key = StorageKey.NotRemindAgainTestITC
         var remindAgain = await StorageManage.load(key);
         this.setState({
-            modalVisible :remindAgain == null ? true : !remindAgain.isRemindAgain
+            modalVisible: remindAgain == null ? true : !remindAgain.isRemindAgain
         })
     }
 
-    onCloseModal(){
+    onCloseModal() {
         var object = {
             name: 'testWarn',
             isRemindAgain: this.state.isNotRemind
         }
-        
+
         var key = StorageKey.NotRemindAgainTestITC
         StorageManage.save(key, object)
-        this.setState({modalVisible: false});
+        this.setState({ modalVisible: false });
     }
-    _closeModal(){
-        this.setState({modalVisible: false});
+    _closeModal() {
+        this.setState({ modalVisible: false });
     }
 
-    notRemindPress(){
+    notRemindPress() {
         this.setState({
-            isNotRemind:!this.state.isNotRemind
+            isNotRemind: !this.state.isNotRemind
         })
     }
 
@@ -213,31 +213,31 @@ class ReceiptCodeScreen extends BaseComponent {
                                 rightIcon= {require('../../assets/common/scanIcon.png')}**//>
 
                 <ScreenshotWarn
-                    content = {I18n.t('modal.itc_test_warn1')}
-                    content1 = {I18n.t('modal.itc_test_warn2')}
-                    btnText = {I18n.t('modal.i_know')}
-                    modalVisible = {this.state.modalVisible}
-                    onPress = {()=> this.onCloseModal()}
-                    isShowNotRemindBtn = {true}
-                    isNotRemind = {!this.state.isNotRemind}
-                    notRemindPress = {()=> this.notRemindPress()}
-                />                
+                    content={I18n.t('modal.itc_test_warn1')}
+                    content1={I18n.t('modal.itc_test_warn2')}
+                    btnText={I18n.t('modal.i_know')}
+                    modalVisible={this.state.modalVisible}
+                    onPress={() => this.onCloseModal()}
+                    isShowNotRemindBtn={true}
+                    isNotRemind={!this.state.isNotRemind}
+                    notRemindPress={() => this.notRemindPress()}
+                />
                 <View style={styles.contentContainer}>
-                <View style={styles.contentBox}>
-                    <Image style={styles.logoIcon} source={require('../../assets/set/logoWhiteBg.png')} resizeMode={'center'}></Image>
-                    <View style={styles.qrCodeBox}>
+                    <View style={styles.contentBox}>
+                        <Image style={styles.logoIcon} source={require('../../assets/set/logoWhiteBg.png')} resizeMode={'center'}></Image>
+                        <View style={styles.qrCodeBox}>
 
-                        <Text style={styles.titleTxt}>{this.props.wallet.name}</Text>
-                        <View style={styles.qrCode}>
-                        <QRCode
+                            <Text style={styles.titleTxt}>{this.props.wallet.name}</Text>
+                            <View style={styles.qrCode}>
+                                <QRCode
                                     value={this.props.wallet.address}
                                     size={180}
                                     bgColor='#000'
                                     fgColor='#fff'
-                                    onLoad={() => {}}
+                                    onLoad={() => { }}
                                     onLoadEnd={() => { }}
                                 />
-                            {/*{this.state.qrcodeLoading && this.props.firstQR ? <View
+                                {/*{this.state.qrcodeLoading && this.props.firstQR ? <View
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <Text
                                     style={{ color: 'black' }}>Loading...</Text>
@@ -251,33 +251,33 @@ class ReceiptCodeScreen extends BaseComponent {
                                     onLoad={() => {}}
                                     onLoadEnd={() => { }}
                             />}*/}
+                            </View>
+
+                            <Text style={styles.adderssTxt}>{this.props.wallet.address}</Text>
+
                         </View>
 
-                        <Text style={styles.adderssTxt}>{this.props.wallet.address}</Text>
+                        <ImageBackground style={styles.btnImageBackground} source={require('../../assets/set/qrBtnBg.png')}
+                            resizeMode={'contain'}>
+                            <TouchableOpacity style={[styles.btnOpacity]}
+                                activeOpacity={0.6}
+                                onPress={() => this.copyAddress()}>
+                                <Text style={styles.btnTxt}>{I18n.t('settings.copy_payment_address')}</Text>
+                            </TouchableOpacity>
+                        </ImageBackground>
+
+                        {
+                            this.state.isMainNetwork ? null :
+                                <View style={styles.itcBox}>
+                                    <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>
+                                    <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text>
+                                </View>
+                        }
 
                     </View>
-
-                    <ImageBackground style={styles.btnImageBackground} source={require('../../assets/set/qrBtnBg.png')}
-                        resizeMode={'contain'}>
-                        <TouchableOpacity style={[styles.btnOpacity]}
-                            activeOpacity={0.6}
-                            onPress={() => this.copyAddress()}>
-                            <Text style={styles.btnTxt}>{I18n.t('settings.copy_payment_address')}</Text>
-                        </TouchableOpacity>
-                    </ImageBackground>
-
-                    {
-                        this.state.isMainNetwork ? null : 
-                        <View style={styles.itcBox}>
-                             <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>  
-                             <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text> 
-                        </View>
-                    }
-                    
-                </View>    
                 </View>
 
-                 
+
             </ImageBackground>
         );
     }
