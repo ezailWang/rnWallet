@@ -404,7 +404,7 @@ export default class Transaction extends BaseComponent {
                     let newTransaction = {
                         from: wallet.address,
                         to: this.state.toAddress,
-                        timeStamp: timestamp / 1000,
+                        timeStamp: timestamp.toString(),
                         hash: txHash,
                         value: this.state.transferValue,
                         isError: "0",
