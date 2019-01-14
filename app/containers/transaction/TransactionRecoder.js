@@ -289,7 +289,7 @@ function timestampToTime(timestamp) {
     let date
     if (timestamp.length === 10) {
         date = new Date(parseInt(timestamp) * 1000);
-    } else if(timestamp.length === 13){
+    } else if (timestamp.length === 13) {
         date = new Date(parseInt(timestamp))
     }
     Y = date.getFullYear() + '-';
@@ -349,6 +349,7 @@ export default class TransactionRecoder extends BaseComponent {
             this.isGetRecodering = true;
 
             let { address, decimal, price } = store.getState().Core.balance;
+            const { wallet } = store.getState().Core
             let startBlock = this.topBlock == 0 ? 0 : parseInt(this.topBlock) + 1;
             let recoders = await NetworkManager.getTransations({
                 address: address,
@@ -374,17 +375,16 @@ export default class TransactionRecoder extends BaseComponent {
                 }
             } else {
                 if (lastTransaction) {
-                    let nowAllTransactions = recoders.concat(this.totalItemList);
+                   let nowAllTransactions = recoders.concat(this.totalItemList);
                     let didContainNewTransaction = false
                     for (const index in nowAllTransactions) {
                         let recoder = nowAllTransactions[index];
                         if (lastTransaction.hash.toLowerCase() == recoder.hash.toLowerCase()) {
                             didContainNewTransaction = true;
-                            NetworkManager.loadTokenList() //新交易已经入快，更新list
                             break;
                         }
                     }
-                    if (lastTransaction && lastTransaction.symbol.toLowerCase() == this.symbol.toLowerCase() && didContainNewTransaction == false) {
+                    if (lastTransaction && lastTransaction.from === wallet.address && lastTransaction.symbol.toLowerCase() == this.symbol.toLowerCase() && didContainNewTransaction == false) {
                         lastTransaction.blockNumber = currentBlock
                         recoders.push(lastTransaction)
                     }
@@ -398,6 +398,10 @@ export default class TransactionRecoder extends BaseComponent {
                     for (let i = 0; i < totalRecoderList.length; i++) {
                         if (data.hash.toLowerCase() == totalRecoderList[i].hash.toLowerCase()) {
                             isExist = true;
+                            //当拉取到新交易后，更新区块高度
+                            if(data.blockNumber != totalRecoderList[i].blockNumber){
+                            totalRecoderList[i].blockNumber = data.blockNumber
+                            }
                             break;
                         }
                     }
@@ -405,10 +409,7 @@ export default class TransactionRecoder extends BaseComponent {
                         recordList.push(data)
                     }
                 })
-
                 recordList.reverse();
-
-
                 totalRecords = recordList.concat(this.totalItemList);
                 this.totalItemList = await this.refreshItemList(totalRecords, this.symbol, currentBlock);
 

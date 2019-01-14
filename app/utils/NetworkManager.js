@@ -660,7 +660,6 @@ export default class NetworkManager {
                 }
                 const jsondata = await this.jsonrpc(JSON.stringify(params))
                 let result = JSON.parse(jsondata).result
-                console.log('result:', result)
                 result = result === 0 ? 1 : result
                 if (result) {
                     const price = web3.utils.fromWei(result, 'gwei')
