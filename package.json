@@ -75,7 +75,7 @@
     "babel-preset-react-native": "^5",
     "jest": "22.4.3",
     "react-test-renderer": "16.3.1",
-    "rn-nodeify": "^10.0.0"
+    "rn-nodeify": "^10.0.1"
   },
   "jest": {
     "preset": "react-native"

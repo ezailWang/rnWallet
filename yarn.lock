@@ -6284,9 +6284,9 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rn-nodeify@^10.0.0:
-  version "10.0.0"
-  resolved "http://registry.npm.taobao.org/rn-nodeify/download/rn-nodeify-10.0.0.tgz#f2dda38be4189f0eafcd6781b53caa0e32215220"
+rn-nodeify@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.npmjs.org/rn-nodeify/-/rn-nodeify-10.0.1.tgz#b54a3f2a61eda88b40639ee9262f51f34039e353"
   dependencies:
     "@yarnpkg/lockfile" "^1.0.0"
     deep-equal "^1.0.0"
