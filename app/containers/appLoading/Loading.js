@@ -1,235 +1,228 @@
-import React, { Component } from 'react'
-import { Platform, Linking, DeviceEventEmitter } from 'react-native'
-import StorageManage from '../../utils/StorageManage'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { Component } from 'react';
+import { Platform } from 'react-native';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import JPushModule from 'jpush-react-native';
+import DeviceInfo from 'react-native-device-info';
+import StorageManage from '../../utils/StorageManage';
 import {
-    setNetWork,
-    setMonetaryUnit,
-    setPinInfo,
-    setIsNewWallet,
-    setContactList,
-    setAllTokens,
-    setCurrentWallet,
-    setEthWalletList,
-    setItcWalletList,
-    loadTokenBalance
-} from '../../config/action/Actions'
-import { StorageKey } from '../../config/GlobalConfig'
-import { I18n } from '../../config/language/i18n'
-import JPushModule from 'jpush-react-native'
-import NetworkManager from '../../utils/NetworkManager'
-import DeviceInfo from 'react-native-device-info'
-import { defaultTokens ,defaultTokensOfITC} from '../../utils/Constants'
+  setMonetaryUnit,
+  setPinInfo,
+  setIsNewWallet,
+  setContactList,
+  setCurrentWallet,
+  setEthWalletList,
+  setItcWalletList,
+  loadTokenBalance,
+} from '../../config/action/Actions';
+import { StorageKey } from '../../config/GlobalConfig';
+import { I18n } from '../../config/language/i18n';
+import NetworkManager from '../../utils/NetworkManager';
+import { defaultTokens, defaultTokensOfITC } from '../../utils/Constants';
+
 class Loading extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+    // wallet : PropTypes.object,
+  };
 
-    static propTypes = {
-        dispatch: PropTypes.func.isRequired,
-        navigation: PropTypes.shape({
-            navigate: PropTypes.func.isRequired,
-        }).isRequired,
-        //wallet : PropTypes.object,
-    }
-
-    /*static defaultProps = {
+  /* static defaultProps = {
         wallet : null,
-    }*/
+    } */
 
-    async componentDidMount() {
-        if (!this.props.wallet) {
-            await this.loadFromStorege()
-        }
-        let userToken = await StorageManage.load(StorageKey.UserToken)
-        if (!userToken || userToken === null) {
-            JPushModule.getRegistrationID(registrationId => {
-                let params = {
-                    'system': Platform.OS,
-                    'systemVersion': DeviceInfo.getSystemVersion(),
-                    'deviceModel': DeviceInfo.getModel(),
-                    'deviceToken': registrationId,
-                    'deviceId': DeviceInfo.getUniqueID(),
-                }
-                //设置别名
-                JPushModule.setAlias(registrationId, (alias) => {
+  static byLanguageSetMonetaryUnit() {
+    const lang = I18n.locale;
+    const { dispatch } = this.props;
+    let monetaryUnit = null;
+    if (lang === 'zh') {
+      monetaryUnit = {
+        monetaryUnitType: 'CNY',
+        symbol: '¥',
+      };
+    } else if (lang === 'ko') {
+      monetaryUnit = {
+        monetaryUnitType: 'KRW',
+        symbol: '₩',
+      };
+    } else if (lang === 'ru') {
+      monetaryUnit = {
+        monetaryUnitType: 'RUB',
+        symbol: '₽',
+      };
+    } else if (lang === 'uk') {
+      monetaryUnit = {
+        monetaryUnitType: 'UAH',
+        symbol: '₴',
+      };
+    } else if (lang === 'de' || lang === 'es' || lang === 'nl' || lang === 'fr') {
+      monetaryUnit = {
+        monetaryUnitType: 'EUR',
+        symbol: '€',
+      };
+    } else {
+      monetaryUnit = {
+        monetaryUnitType: 'USD',
+        symbol: '$',
+      };
+    }
+    StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit);
+    dispatch(setMonetaryUnit(monetaryUnit));
+  }
 
-                })
-                NetworkManager.deviceRegister(params)
-                    .then((response) => {
-                        if (response.code === 200) {
-                            StorageManage.save(StorageKey.UserToken, { 'userToken': response.data.userToken })
-                        } else {
-                            console.log('deviceRegister err msg:', response.msg)
-                        }
-                    })
-                    .catch((err) => {
-                        console.log('deviceRegister err:', err)
-                    })
-            })
-        }
-
-        /*JPushModule.addReceiveOpenNotificationListener((map)=>{
-            this.props.navigation.navigate('MessageCenter')
-        })*/
-        let params = {
-            'system': Platform.OS,
-            'version': DeviceInfo.getVersion() + '(' + DeviceInfo.getBuildNumber() + ')',
-            'language': I18n.locale
-        }
-
-        if (this.props.wallet) {
-            return this.props.navigation.navigate('HomeTab')
-        } else {
-            return this.props.navigation.navigate('FirstLaunch', {
-                migrationMode: true,
-            })
-        }
-
-
+  async componentDidMount() {
+    const { wallet, navigation } = this.props;
+    if (!wallet) {
+      await this.loadFromStorege();
+    }
+    const userToken = await StorageManage.load(StorageKey.UserToken);
+    if (!userToken || userToken === null) {
+      JPushModule.getRegistrationID(registrationId => {
+        const params = {
+          system: Platform.OS,
+          systemVersion: DeviceInfo.getSystemVersion(),
+          deviceModel: DeviceInfo.getModel(),
+          deviceToken: registrationId,
+          deviceId: DeviceInfo.getUniqueID(),
+        };
+        // 设置别名
+        JPushModule.setAlias(registrationId, () => {});
+        NetworkManager.deviceRegister(params)
+          .then(response => {
+            if (response.code === 200) {
+              StorageManage.save(StorageKey.UserToken, { userToken: response.data.userToken });
+            } else {
+              console.log('deviceRegister err msg:', response.msg);
+            }
+          })
+          .catch(err => {
+            console.log('deviceRegister err:', err);
+          });
+      });
     }
 
-    loadFromStorege = async () => {
-        let user = await StorageManage.load(StorageKey.User)
-        let net = await StorageManage.load(StorageKey.Network)
-        let language = await StorageManage.load(StorageKey.Language)
-        let monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
-        let pinInfo = await StorageManage.load(StorageKey.PinInfo)
-        let contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact)
-        let ethWalletList = await StorageManage.load(StorageKey.EthWalletList)
-        let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList)
-        if (!ethWalletList) {
-            ethWalletList = []
-        }
-        if (user && user.type === undefined) {
-            user.type = 'eth'
-            let ethWallet = {
-                name: user.name,
-                address: user.address,
-                extra: user.extra,
-                type: 'eth'
-            }
+    /* JPushModule.addReceiveOpenNotificationListener((map)=>{
+            this.props.navigation.navƒigate('MessageCenter')
+        }) */
+    // const params = {
+    //   system: Platform.OS,
+    //   version: `${DeviceInfo.getVersion()}(${DeviceInfo.getBuildNumber()})`,
+    //   language: I18n.locale,
+    // };
+    if (wallet) {
+      return navigation.navigate('HomeTab');
+    }
+    return navigation.navigate('FirstLaunch', {
+      migrationMode: true,
+    });
+  }
 
-            if (ethWalletList) {
-                ethWalletList = ethWalletList.concat(ethWallet)
-            } else {
-                ethWalletList.push(ethWallet)
-            }
-            StorageManage.save(StorageKey.EthWalletList, ethWalletList)
-            StorageManage.save(StorageKey.User, ethWallet)
-        }
+  loadFromStorege = async () => {
+    const { dispatch } = this.props;
+    const user = await StorageManage.load(StorageKey.User);
+    const language = await StorageManage.load(StorageKey.Language);
+    const monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit);
+    const pinInfo = await StorageManage.load(StorageKey.PinInfo);
+    const contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact);
+    let ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
+    const itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
+    if (!ethWalletList) {
+      ethWalletList = [];
+    }
+    if (user && user.type === undefined) {
+      user.type = 'eth';
+      const ethWallet = {
+        name: user.name,
+        address: user.address,
+        extra: user.extra,
+        type: 'eth',
+      };
 
-        if(user && user.type == 'itc'){
-            this.props.dispatch(loadTokenBalance(defaultTokensOfITC))
-        }else{
-            this.props.dispatch(loadTokenBalance(defaultTokens))
-        }
+      if (ethWalletList) {
+        ethWalletList = ethWalletList.concat(ethWallet);
+      } else {
+        ethWalletList.push(ethWallet);
+      }
+      StorageManage.save(StorageKey.EthWalletList, ethWalletList);
+      StorageManage.save(StorageKey.User, ethWallet);
+    }
 
-        if (ethWalletList) {
-            this.props.dispatch(setEthWalletList(ethWalletList))
-        }
-        if (itcWalletList) {
-            this.props.dispatch(setItcWalletList(itcWalletList))
-        }
-        /*if (net) {
+    if (user && user.type === 'itc') {
+      dispatch(loadTokenBalance(defaultTokensOfITC));
+    } else {
+      dispatch(loadTokenBalance(defaultTokens));
+    }
+
+    if (ethWalletList) {
+      dispatch(setEthWalletList(ethWalletList));
+    }
+    if (itcWalletList) {
+      dispatch(setItcWalletList(itcWalletList));
+    }
+    /* if (net) {
             this.props.dispatch(setNetWork(net))
-        }*/
-        if (language) {
-            I18n.locale = language.lang
-        } else {
-            //let localeLanguage = DeviceInfo.getDeviceLocale();
-            let localeLanguage = I18n.locale;
-            let lang = localeLanguage.substring(0, 2).toLowerCase()
-            if (lang == 'zh') {
-                I18n.locale = 'zh';
-            } else if (lang == 'ko') {
-                I18n.locale = 'ko';
-            } else if (lang == 'de') {
-                I18n.locale = 'de';
-            } else if (lang == 'es') {
-                I18n.locale = 'es';
-            } else if (lang == 'nl') {
-                I18n.locale = 'nl';
-            } else if (lang == 'fr') {
-                I18n.locale = 'fr';
-            } else if (lang == 'ru') {
-                I18n.locale = 'ru';
-            } else if (lang == 'uk') {
-                I18n.locale = 'uk';
-            } else {
-                I18n.locale = 'en';
-            }
-        }
-
-        if (monetaryUnit) {
-            this.props.dispatch(setMonetaryUnit(monetaryUnit))
-        } else {
-            this.byLanguageSetMonetaryUnit()
-        }
-
-        if (pinInfo) {
-            this.props.dispatch(setPinInfo(pinInfo))
-        }
-
-        if (contacts) {
-            this.props.dispatch(setContactList(contacts))
-        }
-
-        this.props.dispatch(setIsNewWallet(false))
-
-
-        if (user) {
-            this.props.dispatch(setCurrentWallet(user))
-        } else {
-            console.log('user = null')
-        }
+        } */
+    if (language) {
+      I18n.locale = language.lang;
+    } else {
+      // let localeLanguage = DeviceInfo.getDeviceLocale();
+      const localeLanguage = I18n.locale;
+      const lang = localeLanguage.substring(0, 2).toLowerCase();
+      if (lang === 'zh') {
+        I18n.locale = 'zh';
+      } else if (lang === 'ko') {
+        I18n.locale = 'ko';
+      } else if (lang === 'de') {
+        I18n.locale = 'de';
+      } else if (lang === 'es') {
+        I18n.locale = 'es';
+      } else if (lang === 'nl') {
+        I18n.locale = 'nl';
+      } else if (lang === 'fr') {
+        I18n.locale = 'fr';
+      } else if (lang === 'ru') {
+        I18n.locale = 'ru';
+      } else if (lang === 'uk') {
+        I18n.locale = 'uk';
+      } else {
+        I18n.locale = 'en';
+      }
     }
 
-    byLanguageSetMonetaryUnit() {
-        let lang = I18n.locale
-        let monetaryUnit = null;
-        if (lang == 'zh') {
-            monetaryUnit = {
-                monetaryUnitType: 'CNY',
-                symbol: '¥'
-            }
-        } else if (lang == 'ko') {
-            monetaryUnit = {
-                monetaryUnitType: 'KRW',
-                symbol: '₩'
-            }
-        } else if (lang == 'ru') {
-            monetaryUnit = {
-                monetaryUnitType: 'RUB',
-                symbol: '₽'
-            }
-        } else if (lang == 'uk') {
-            monetaryUnit = {
-                monetaryUnitType: 'UAH',
-                symbol: '₴'
-            }
-        } else if (lang == 'de' || lang == 'es' || lang == 'nl' || lang == 'fr') {
-            monetaryUnit = {
-                monetaryUnitType: 'EUR',
-                symbol: '€'
-            }
-        } else {
-            monetaryUnit = {
-                monetaryUnitType: 'USD',
-                symbol: '$'
-            }
-        }
-        StorageManage.save(StorageKey.MonetaryUnit, monetaryUnit)
-        this.props.dispatch(setMonetaryUnit(monetaryUnit))
+    if (monetaryUnit) {
+      dispatch(setMonetaryUnit(monetaryUnit));
+    } else {
+      this.byLanguageSetMonetaryUnit();
     }
 
-    render() {
-        return null
+    if (pinInfo) {
+      dispatch(setPinInfo(pinInfo));
     }
+
+    if (contacts) {
+      dispatch(setContactList(contacts));
+    }
+
+    dispatch(setIsNewWallet(false));
+
+    if (user) {
+      dispatch(setCurrentWallet(user));
+    } else {
+      console.log('user = null');
+    }
+  };
+
+  render() {
+    return null;
+  }
 }
 
 const mapStateToProps = state => ({
-    wallet: state.Core.wallet,
-    monetaryUnit: state.Core.monetaryUnit,
-    network: state.Core.network,
+  wallet: state.Core.wallet,
+  monetaryUnit: state.Core.monetaryUnit,
+  network: state.Core.network,
 });
 
 export default connect(mapStateToProps)(Loading);

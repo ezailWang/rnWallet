@@ -1,5 +1,5 @@
-import Transaction from './transaction/Transaction'
-import HomeScreen from './home/Home'
+import Transaction from './transaction/Transaction';
+import HomeScreen from './home/Home';
 import FirstLaunchScreen from './launch/FirstLaunchScreen';
 import ServiceAgreementScreen from './launch/ServiceAgreementScreen';
 import BackupMnemonicScreen from './launch/BackupMnemonicScreen';
@@ -10,7 +10,7 @@ import VerifyMnemonicScreen from './launch/VerifyMnemonicScreen';
 import MyScreen from './settings/MyScreen';
 import SetScreen from './settings/SetScreen';
 import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
-//import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
+// import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
 import ExportPrivateKeyScreen from './settings/ExportPrivateKeyScreen';
 import ExportKeystoreScreen from './settings/ExportKeystoreScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
@@ -27,66 +27,67 @@ import ChoseLanguageScreen from './settings/ChoseLanguageScreen';
 import ChoseMonetaryUnitScreen from './settings/ChoseMonetaryUnitScreen';
 import SystemSetScreen from './settings/SystemSetScreen';
 import UseAndPrivacyPolicyScreen from './settings/UseAndPrivacyPolicyScreen';
-import AddAssets from './home/AddAssets'
-import AddTokenScreen from './settings/AddTokenScreen'
-import SearchTokenScreen from './settings/SearchTokenScreen'
-import MessageCenterScreen from './settings/MessageCenterScreen'
-import MessageWebViewScreen from './settings/MessageWebViewScreen'
-import AddressListScreen from './settings/AddressListScreen'
-import MappingTermsScreen from './mapping/MappingTermsScreen'
-import ChangeBindAddressScreen from './mapping/ChangeBindAddressScreen'
-import BindWalletAddressScreen from './mapping/BindWalletAddressScreen'
-import ItcMappingServiceScreen from './mapping/ItcMappingServiceScreen'
-import MappingRecordsScreen from './mapping/MappingRecordsScreen'
-import MappingRecordDetailScreen from './mapping/MappingRecordDetailScreen'
-import MappingGuideScreen from './mapping/MappingGuideScreen'
-import WalletListScreen from './settings/WalletListScreen'
-import ChoseWalletTypeScreen from './launch/ChoseWalletTypeScreen'
-import Mapping from './mapping/Mapping'
+import AddAssets from './home/AddAssets';
+import AddTokenScreen from './settings/AddTokenScreen';
+import SearchTokenScreen from './settings/SearchTokenScreen';
+import MessageCenterScreen from './settings/MessageCenterScreen';
+import MessageWebViewScreen from './settings/MessageWebViewScreen';
+import AddressListScreen from './settings/AddressListScreen';
+import MappingTermsScreen from './mapping/MappingTermsScreen';
+import ChangeBindAddressScreen from './mapping/ChangeBindAddressScreen';
+import BindWalletAddressScreen from './mapping/BindWalletAddressScreen';
+import ItcMappingServiceScreen from './mapping/ItcMappingServiceScreen';
+import MappingRecordsScreen from './mapping/MappingRecordsScreen';
+import MappingRecordDetailScreen from './mapping/MappingRecordDetailScreen';
+import MappingGuideScreen from './mapping/MappingGuideScreen';
+import WalletListScreen from './settings/WalletListScreen';
+import ChoseWalletTypeScreen from './launch/ChoseWalletTypeScreen';
+import Mapping from './mapping/Mapping';
+
 export {
-    HomeScreen,
-    Transaction,
-    FirstLaunchScreen,
-    ServiceAgreementScreen,
-    BackupMnemonicScreen,
-    BackupWalletScreen,
-    CreateWalletScreen,
-    ImportWalletScreen,
-    VerifyMnemonicScreen,
-    MyScreen,
-    SetScreen,
-    ModifyPasswordScreen,
-    ExportPrivateKeyScreen,
-    ExportKeystoreScreen,
-    // PasswordPrompInfoScreen,
-    ReceiptCodeScreen,
-    ScanQRCodeScreen,
-    TransactionDetail,
-    Loading,
-    TransactionRecoder,
-    CreateContactScreen,
-    ContactListScreen,
-    ContactInfoScreen,
-    AboutUsScreen,
-    FeedbackScreen,
-    ChoseLanguageScreen,
-    ChoseMonetaryUnitScreen,
-    SystemSetScreen,
-    UseAndPrivacyPolicyScreen,
-    AddAssets,
-    AddTokenScreen,
-    SearchTokenScreen,
-    MessageCenterScreen,
-    MessageWebViewScreen,
-    AddressListScreen,
-    MappingTermsScreen,
-    ChangeBindAddressScreen,
-    BindWalletAddressScreen,
-    ItcMappingServiceScreen,
-    MappingRecordsScreen,
-    MappingRecordDetailScreen,
-    MappingGuideScreen,
-    WalletListScreen,
-    ChoseWalletTypeScreen,
-    Mapping
-}
+  HomeScreen,
+  Transaction,
+  FirstLaunchScreen,
+  ServiceAgreementScreen,
+  BackupMnemonicScreen,
+  BackupWalletScreen,
+  CreateWalletScreen,
+  ImportWalletScreen,
+  VerifyMnemonicScreen,
+  MyScreen,
+  SetScreen,
+  ModifyPasswordScreen,
+  ExportPrivateKeyScreen,
+  ExportKeystoreScreen,
+  // PasswordPrompInfoScreen,
+  ReceiptCodeScreen,
+  ScanQRCodeScreen,
+  TransactionDetail,
+  Loading,
+  TransactionRecoder,
+  CreateContactScreen,
+  ContactListScreen,
+  ContactInfoScreen,
+  AboutUsScreen,
+  FeedbackScreen,
+  ChoseLanguageScreen,
+  ChoseMonetaryUnitScreen,
+  SystemSetScreen,
+  UseAndPrivacyPolicyScreen,
+  AddAssets,
+  AddTokenScreen,
+  SearchTokenScreen,
+  MessageCenterScreen,
+  MessageWebViewScreen,
+  AddressListScreen,
+  MappingTermsScreen,
+  ChangeBindAddressScreen,
+  BindWalletAddressScreen,
+  ItcMappingServiceScreen,
+  MappingRecordsScreen,
+  MappingRecordDetailScreen,
+  MappingGuideScreen,
+  WalletListScreen,
+  ChoseWalletTypeScreen,
+  Mapping,
+};
