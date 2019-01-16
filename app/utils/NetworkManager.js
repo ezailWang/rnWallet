@@ -54,20 +54,20 @@ export default class NetworkManager {
         switch (store.getState().Core.network) {
             case Network.ropsten:
                 return new Web3.providers.HttpProvider(
-                    `https://ropsten.infura.io/${LayoutConstants.INFURA_API_KEY}`,
+                    `https://ropsten.infura.io/v3/${LayoutConstants.INFURA_API_KEY}`,
                 );
             case Network.kovan:
 
                 return new Web3.providers.HttpProvider(
-                    `https://kovan.infura.io/${LayoutConstants.INFURA_API_KEY}`,
+                    `https://kovan.infura.io/v3/${LayoutConstants.INFURA_API_KEY}`,
                 );
             case Network.rinkeby:
                 return new Web3.providers.HttpProvider(
-                    `https://rinkeby.infura.io/${LayoutConstants.INFURA_API_KEY}`,
+                    `https://rinkeby.infura.io/v3/${LayoutConstants.INFURA_API_KEY}`,
                 );
             default:
                 return new Web3.providers.HttpProvider(
-                    `https://mainnet.infura.io/${LayoutConstants.INFURA_API_KEY}`,
+                    `https://mainnet.infura.io/v3/${LayoutConstants.INFURA_API_KEY}`,
                 );
         }
     }
