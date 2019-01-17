@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -17,7 +17,6 @@ import PinModalSet from '../../components/PinModalSet';
 import StorageManage from '../../utils/StorageManage';
 import RemindDialog from '../../components/RemindDialog';
 import * as Actions from '../../config/action/Actions';
-import Layout from '../../config/LayoutConstants';
 import { androidPermission } from '../../utils/PermissionsAndroid';
 import NetworkManager from '../../utils/NetworkManager';
 import { I18n } from '../../config/language/i18n';
@@ -54,6 +53,7 @@ class FirstLaunchScreen extends BaseComponent {
       remindContent: '',
       versionUpdateModalVisible: false,
     };
+    this.pinModalSet = React.createRef();
     this.routeTo = '';
     this.pinPassword = '';
     this.touchIdVeryifyFailCount = 0; // touchId验证失败的次数ß
@@ -131,15 +131,14 @@ class FirstLaunchScreen extends BaseComponent {
   }
 
   _pinIsShowEmitter = data => {
-    const pinType = data.pinObject.pinType;
     const isVisible = data.pinObject.visible;
     this.pinPassword = data.pinObject.pinPassword;
 
-    if (pinType == 'PinModal') {
+    if (data.pinObject.pinType === 'PinModal') {
       this._hidePin();
     }
 
-    if (pinType == 'PinModalSet' && !isVisible) {
+    if (data.pinObject.pinType === 'PinModalSet' && !isVisible) {
       this.setState({
         isShowSetPin: false,
       });
@@ -206,16 +205,16 @@ class FirstLaunchScreen extends BaseComponent {
 
   _touchIdAuthenticateFail(err) {
     if (this.props.pinInfo == null) {
-      if (err == 'TouchIDError: User canceled authentication') {
+      if (err === 'TouchIDError: User canceled authentication') {
         this.savePinInfo(false);
         this._toRute();
-      } else if (err == 'TouchIDError: Authentication failed') {
+      } else if (err === 'TouchIDError: Authentication failed') {
         // ios 验证失败后系统会再试一次(共三次)
         // 三次验证失败才会进入_touchIdAuthenticateFail()   err == 'TouchIDError: Authentication failed'
         // 超过三次验证失败 系统则会锁住
 
         // android 验证失败后再调起touchIdAuthenticate 三次验证失败则会弹起pinCode页面
-        if (Platform.OS == 'ios') {
+        if (Platform.OS === 'ios') {
           this.touchIdVeryifyFailCount = 0;
           this.savePinInfo(false);
           this._toRute();
@@ -242,7 +241,7 @@ class FirstLaunchScreen extends BaseComponent {
   _toRute() {
     // this.props.navigation.navigate('MappingTerms')
 
-    if (this.routeTo == 'createWallet') {
+    if (this.routeTo === 'createWallet') {
       const params = {
         walletType: 'itc',
         from: 0,
@@ -279,10 +278,9 @@ class FirstLaunchScreen extends BaseComponent {
     this.setState({
       versionUpdateModalVisible: false,
     });
-    const updateUrl = this.versionUpdateInfo.updateUrl;
-    Linking.canOpenURL(updateUrl).then(supported => {
+    Linking.canOpenURL(this.versionUpdateInfo.updateUrl).then(supported => {
       if (supported) {
-        Linking.openURL(updateUrl);
+        Linking.openURL(this.versionUpdateInfo.updateUrl);
       }
     });
     this.versionUpdateInfo = null;
@@ -332,7 +330,7 @@ class FirstLaunchScreen extends BaseComponent {
           leftPress={this.versionUpdateLeftPress}
           rightPress={this.versionUpdateRightPress}
         />
-        <PinModalSet ref="pinModalSet" visible={this.state.isShowSetPin} />
+        <PinModalSet ref={this.pinModalSet} visible={this.state.isShowSetPin} />
         <RemindDialog
           content={this.state.remindContent}
           modalVisible={this.state.isShowRemind}

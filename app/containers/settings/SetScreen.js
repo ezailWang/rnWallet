@@ -1,15 +1,5 @@
-import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-  BackHandler,
-  DeviceEventEmitter,
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage';
@@ -22,11 +12,9 @@ import * as Actions from '../../config/action/Actions';
 import { showToast } from '../../utils/Toast';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n';
-import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
 import RemindDialog from '../../components/RemindDialog';
 import StaticLoading from '../../components/StaticLoading';
-import NetworkManager from '../../utils/NetworkManager';
 import { defaultTokens, defaultTokensOfITC } from '../../utils/Constants';
 
 const styles = StyleSheet.create({
@@ -101,15 +89,18 @@ class SetScreen extends BaseComponent {
     this.isDeleteWallet = false;
     this.inputName = '';
     this.inputPwd = '';
-    (this.isCurrentWallet = true), // 是否是当前钱包
-      (this.timeInterval = null);
+    this.isCurrentWallet = true; // 是否是当前钱包
+    this.timeInterval = null;
     this.timeIntervalCount = 0;
+
+    this.inputTextDialog = React.createRef();
+    this.inputPasswordDialog = React.createRef();
   }
 
   _initData() {
-    const wallet = this.props.navigation.state.params.wallet;
+    const { wallet } = this.props.navigation.state.params;
     this.isCurrentWallet =
-      wallet.address.toLowerCase() == this.props.currentWallet.address.toLowerCase();
+      wallet.address.toLowerCase() === this.props.currentWallet.address.toLowerCase();
     this.setState({
       wallet,
     });
@@ -151,9 +142,9 @@ class SetScreen extends BaseComponent {
     // var name = this.refs.inputTextDialog.state.text;
     const name = this.inputName;
     this.closeNameModal();
-    if (name == '' || name == undefined) {
+    if (name === '' || name === undefined) {
       showToast(I18n.t('toast.enter_wallet_name'));
-    } else if (name == this.state.wallet.name) {
+    } else if (name === this.state.wallet.name) {
       showToast(I18n.t('toast.not_modified_wallet_name'));
     } else {
       this.modifyWalletName(name);
@@ -161,11 +152,12 @@ class SetScreen extends BaseComponent {
   }
 
   nameOnChangeText = text => {
+    const { wallet } = this.state;
     this.inputName = text;
     // let isShowWarn = (text == '' || text.length > 12) ? true : false
-    const isDisabled = !!(text == '' || text.length > 12 || text == this.state.wallet.name);
+    const isDisabled = !!(text === '' || text.length > 12 || text === wallet.name);
     let warnText = '';
-    if (text == '' || text.length > 12) {
+    if (text === '' || text.length > 12) {
       warnText = I18n.t('launch.enter_normative_wallet_name');
     }
     this.setState({
@@ -177,7 +169,7 @@ class SetScreen extends BaseComponent {
 
   pwdOnChangeText = text => {
     this.inputPwd = text;
-    const isDisabled = !!(text == '' || text.length < 8);
+    const isDisabled = !!(text === '' || text.length < 8);
     this.setState({
       pwdRightBtnDisabled: isDisabled,
     });
@@ -187,7 +179,7 @@ class SetScreen extends BaseComponent {
     // var password = this.refs.inputPasswordDialog.state.text;
     const password = this.inputPwd;
     this.closePasswordModal();
-    if (password == '' || password == undefined) {
+    if (password === '' || password === undefined) {
       showToast(I18n.t('toast.enter_password'));
     } else {
       this.timeIntervalCount = 0;
@@ -200,9 +192,9 @@ class SetScreen extends BaseComponent {
 
   changeLoading(num, password) {
     let content = '';
-    if (num == 1) {
+    if (num === 1) {
       content = I18n.t('settings.verifying_password');
-    } else if (num == 2) {
+    } else if (num === 2) {
       content = I18n.t('settings.decrypting_keystore');
     }
     this.setState({
@@ -210,7 +202,7 @@ class SetScreen extends BaseComponent {
       sLoadingContent: content,
     });
     const n = this.isDeleteWallet ? 1 : 2;
-    if (num == n) {
+    if (num === n) {
       clearInterval(this.timeInterval);
       setTimeout(() => {
         this.exportKeyPrivate(password);
@@ -219,17 +211,17 @@ class SetScreen extends BaseComponent {
   }
 
   async modifyWalletName(name) {
-    const wallet = this.state.wallet;
+    const { wallet } = this.state;
     wallet.name = name;
 
     if (this.isCurrentWallet) {
       this.props.setCurrentWallet(wallet);
     }
 
-    if (wallet.type == 'itc') {
+    if (wallet.type === 'itc') {
       const itcWallets = await StorageManage.load(StorageKey.ItcWalletList);
       const index = itcWallets.findIndex(
-        itcWallet => itcWallet.address.toLowerCase() == wallet.address.toLowerCase()
+        itcWallet => itcWallet.address.toLowerCase() === wallet.address.toLowerCase()
       );
 
       itcWallets.splice(index, 1, wallet);
@@ -238,7 +230,7 @@ class SetScreen extends BaseComponent {
     } else {
       const ethWallets = await StorageManage.load(StorageKey.EthWalletList);
       const index = ethWallets.findIndex(
-        ethWallet => ethWallet.address.toLowerCase() == wallet.address.toLowerCase()
+        ethWallet => ethWallet.address.toLowerCase() === wallet.address.toLowerCase()
       );
 
       ethWallets.splice(index, 1, wallet);
@@ -249,7 +241,7 @@ class SetScreen extends BaseComponent {
 
   async exportKeyPrivate(password) {
     let privateKey;
-    const address = this.state.wallet.address;
+    const { address } = this.state.wallet;
     try {
       privateKey = await KeystoreUtils.getPrivateKey(password, address);
       this.hideStaticLoading(); // 关闭Loading
@@ -267,7 +259,7 @@ class SetScreen extends BaseComponent {
         this.props.navigation.navigate('ExportPrivateKey', { privateKey });
       }
     } catch (e) {
-      console.log('exportKeyPrivateErr:', err);
+      console.log('exportKeyPrivateErr:', e);
     } finally {
       this.hideStaticLoading();
     }
@@ -282,7 +274,7 @@ class SetScreen extends BaseComponent {
 
   async exportKeystore() {
     try {
-      const address = this.state.wallet.address;
+      const { address } = this.state.wallet;
       const keystore = await KeystoreUtils.importFromFile(address);
       this.props.navigation.navigate('ExportKeystore', { keystore });
     } catch (err) {
@@ -310,10 +302,10 @@ class SetScreen extends BaseComponent {
 
   async deleteWallet() {
     try {
-      const address = this.state.wallet.address;
+      const { wallet } = this.state.wallet;
       const walletType = this.state.wallet.type;
 
-      await KeystoreUtils.removeKeyFile(address);
+      await KeystoreUtils.removeKeyFile(wallet.address);
 
       let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
       let ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
@@ -324,22 +316,22 @@ class SetScreen extends BaseComponent {
         ethWalletList = [];
       }
 
-      if (walletType == 'itc') {
+      if (walletType === 'itc') {
         const index = itcWalletList.findIndex(
-          item => item.address.toLowerCase() == address.toLowerCase()
+          item => item.address.toLowerCase() === wallet.address.toLowerCase()
         );
         itcWalletList.splice(index, 1);
         StorageManage.save(StorageKey.ItcWalletList, itcWalletList);
         this.props.setItcWalletList(itcWalletList);
       } else {
         const index = ethWalletList.findIndex(
-          item => item.address.toLowerCase() == address.toLowerCase()
+          item => item.address.toLowerCase() === wallet.address.toLowerCase()
         );
         ethWalletList.splice(index, 1);
         StorageManage.save(StorageKey.EthWalletList, ethWalletList);
         this.props.setEthWalletList(ethWalletList);
       }
-      StorageManage.remove(StorageKey.Tokens + address);
+      StorageManage.remove(StorageKey.Tokens + wallet.address);
       this._hideLoading();
 
       const allWalletList = itcWalletList.concat(ethWalletList);
@@ -349,7 +341,7 @@ class SetScreen extends BaseComponent {
         if (allWalletList.length > 0) {
           const newWallet = allWalletList[0];
           const newWalletType = newWallet.type;
-          if (newWalletType == 'itc') {
+          if (newWalletType === 'itc') {
             this.props.loadTokenBalance(defaultTokensOfITC);
           } else {
             this.props.loadTokenBalance(defaultTokens);
@@ -436,7 +428,7 @@ class SetScreen extends BaseComponent {
         <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
 
         <InputTextDialog
-          ref="inputTextDialog"
+          ref={this.inputTextDialog}
           placeholder={I18n.t('settings.enter_wallet_name_hint')}
           leftTxt={I18n.t('modal.cancel')}
           rightTxt={I18n.t('modal.confirm')}
@@ -450,7 +442,7 @@ class SetScreen extends BaseComponent {
           rightBtnDisabled={this.state.rightBtnDisabled}
         />
         <InputPasswordDialog
-          ref="inputPasswordDialog"
+          ref={this.inputPasswordDialog}
           placeholder={I18n.t('settings.enter_passowrd_hint')}
           leftTxt={I18n.t('modal.cancel')}
           rightTxt={I18n.t('modal.confirm')}

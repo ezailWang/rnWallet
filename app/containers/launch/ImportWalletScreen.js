@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -12,16 +12,11 @@ import {
   findNodeHandle,
   UIManager,
   Platform,
-  PermissionsAndroid,
-  Dimensions,
-  BackHandler,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import keythereum from 'keythereum';
 import HDWallet from 'react-native-hdwallet';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import KeystoreUtils from '../../utils/KeystoreUtils';
 import StorageManage from '../../utils/StorageManage';
 import * as Actions from '../../config/action/Actions';
@@ -170,6 +165,7 @@ class ImportWalletScreen extends BaseComponent {
 
     this.timeInterval = null;
     this.timeIntervalCount = 0;
+    this.rePwdRef = React.createRef();
   }
 
   _initData() {
@@ -195,7 +191,7 @@ class ImportWalletScreen extends BaseComponent {
 
   _addEventListener() {
     super._addEventListener();
-    if (Platform.OS == 'ios') {
+    if (Platform.OS === 'ios') {
       this.keyboardWillShowListener = Keyboard.addListener(
         'keyboardWillShow',
         this.keyboardWillShowHandler
@@ -218,29 +214,34 @@ class ImportWalletScreen extends BaseComponent {
 
   _removeEventListener() {
     super._removeEventListener();
-    if (Platform.OS == 'ios') {
-      this.keyboardWillShowListener && this.keyboardWillShowListener.remove();
-      this.keyboardWillHideListener && this.keyboardWillHideListener.remove();
+    if (Platform.OS === 'ios') {
+      if (this.keyboardWillShowListener) {
+        this.keyboardWillShowListener.remove();
+      }
+      if (this.keyboardWillHideListener) {
+        this.keyboardWillHideListener.remove();
+      }
     } else {
-      this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
-      this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
+      if (this.keyboardDidShowListener) {
+        this.keyboardDidShowListener.remove();
+      }
+      if (this.keyboardDidHideListener) {
+        this.keyboardDidHideListener.remove();
+      }
     }
   }
 
   keyboardWillShowHandler = event => {
     this.keyBoardIsShow = true;
-    const duration = event.duration;
     this.keyboardHeight = event.endCoordinates.height; // 软键盘高度
-
-    this.titleBoxAnimated(duration, 0, 0, 0, 0);
+    this.titleBoxAnimated(event.duration, 0, 0, 0, 0);
   };
 
   keyboardWillHideHandler = event => {
     this.keyBoardIsShow = false;
     this._isShowRePwdWarn();
     this.keyboardHeight = 0;
-    const duration = event.duration;
-    this.titleBoxAnimated(duration, 0, 160, 72, 18);
+    this.titleBoxAnimated(event.duration, 0, 160, 72, 18);
   };
 
   keyboardDidShowHandler = event => {
@@ -257,7 +258,7 @@ class ImportWalletScreen extends BaseComponent {
     }
   };
 
-  keyboardDidHideHandler = event => {
+  keyboardDidHideHandler = () => {
     this.keyBoardIsShow = false;
     this._isShowRePwdWarn();
     const duration = 100;
@@ -289,18 +290,19 @@ class ImportWalletScreen extends BaseComponent {
   // 所有信息都输入完成前，“创建”按钮显示为灰色
   btnIsEnableClick() {
     if (
-      this.mnemonictxt == '' ||
-      this.nametxt == '' ||
-      this.pwdtxt == '' ||
-      this.rePwdtxt == '' ||
-      this.pwdtxt != this.rePwdtxt ||
-      vertifyPassword(this.pwdtxt) != '' ||
+      this.mnemonictxt === '' ||
+      this.nametxt === '' ||
+      this.pwdtxt === '' ||
+      this.rePwdtxt === '' ||
+      this.pwdtxt !== this.rePwdtxt ||
+      vertifyPassword(this.pwdtxt) !== '' ||
       this.nametxt.length > 12
     ) {
+      const isShowRe = this.state.isShowRePwdWarn;
       this.setState({
         isDisabled: true,
-        isShowRePwdWarn: this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn,
-        isShowNameWarn: !!(this.nametxt == '' || this.nametxt.length > 12),
+        isShowRePwdWarn: this.pwdtxt === this.rePwdtxt ? false : isShowRe,
+        isShowNameWarn: !!(this.nametxt === '' || this.nametxt.length > 12),
       });
     } else {
       this.setState({
@@ -313,10 +315,10 @@ class ImportWalletScreen extends BaseComponent {
 
   _isShowRePwdWarn() {
     if (
-      this.pwdtxt != '' &&
+      this.pwdtxt !== '' &&
       !this.state.isShowPwdWarn &&
-      this.rePwdtxt != '' &&
-      this.pwdtxt != this.rePwdtxt
+      this.rePwdtxt !== '' &&
+      this.pwdtxt !== this.rePwdtxt
     ) {
       if (!this.state.isShowRePwdWarn) {
         this.setState({
@@ -332,9 +334,9 @@ class ImportWalletScreen extends BaseComponent {
 
   _isShowPwdWarn() {
     let isMatchPwd = '';
-    if (this.pwdtxt != '') {
+    if (this.pwdtxt !== '') {
       isMatchPwd = vertifyPassword(this.pwdtxt);
-      if (isMatchPwd != '') {
+      if (isMatchPwd !== '') {
         // 密码不匹配
         this.setState({
           isShowPwdWarn: true,
@@ -364,13 +366,13 @@ class ImportWalletScreen extends BaseComponent {
     const mnemonic = this.mnemonictxt;
     const pwd = this.pwdtxt;
     const rePwd = this.rePwdtxt;
-    if (mnemonic == '') {
+    if (mnemonic === '') {
       warnMessage = I18n.t('toast.enter_mnemonic');
-    } else if (pwd == '') {
+    } else if (pwd === '') {
       warnMessage = I18n.t('toast.enter_password');
-    } else if (rePwd == '') {
+    } else if (rePwd === '') {
       warnMessage = I18n.t('toast.enter_repassword');
-    } else if (pwd != rePwd) {
+    } else if (pwd !== rePwd) {
       warnMessage = I18n.t('toast.enter_same_password');
     } else {
       const str = stringTrim(mnemonic);
@@ -381,7 +383,7 @@ class ImportWalletScreen extends BaseComponent {
       }
     }
 
-    if (warnMessage != '') {
+    if (warnMessage !== '') {
       showToast(warnMessage);
     } else {
       this.timeIntervalCount = 0;
@@ -394,9 +396,9 @@ class ImportWalletScreen extends BaseComponent {
 
   changeLoading(num) {
     let content = '';
-    if (num == 1) {
+    if (num === 1) {
       content = I18n.t('launch.start_import_wallet');
-    } else if (num == 2) {
+    } else if (num === 2) {
       content = I18n.t('launch.generating_key_pairs');
     } else {
       content = I18n.t('launch.generating_keystore_file');
@@ -405,7 +407,7 @@ class ImportWalletScreen extends BaseComponent {
       isShowSLoading: true,
       sLoadingContent: content,
     });
-    if (num == 3) {
+    if (num === 3) {
       clearInterval(this.timeInterval);
       setTimeout(() => {
         this.importWallet();
@@ -416,7 +418,7 @@ class ImportWalletScreen extends BaseComponent {
   async importWallet() {
     try {
       const seed = walletUtils.mnemonicToSeed(this.mnemonictxt);
-      const seedHex = seed.toString('hex');
+      // const seedHex = seed.toString('hex');
       const hdwallet = HDWallet.fromMasterSeed(seed);
       const derivePath = "m/44'/60'/0'/0/0";
       hdwallet.setDerivePath(derivePath);
@@ -439,13 +441,13 @@ class ImportWalletScreen extends BaseComponent {
 
       let isExist = false;
       let wallets = [];
-      if (this.from == 1 || this.from == 2) {
+      if (this.from === 1 || this.from === 2) {
         const itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
         const ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
 
         if (itcWalletList && itcWalletList.length > 0) {
           for (let i = 0; i < itcWalletList.length; i++) {
-            if (checksumAddress.toLowerCase() == itcWalletList[i].address.toLowerCase()) {
+            if (checksumAddress.toLowerCase() === itcWalletList[i].address.toLowerCase()) {
               isExist = true;
               break;
             }
@@ -453,7 +455,7 @@ class ImportWalletScreen extends BaseComponent {
         }
         if (ethWalletList && ethWalletList.length > 0) {
           for (let i = 0; i < ethWalletList.length; i++) {
-            if (checksumAddress.toLowerCase() == ethWalletList[i].address.toLowerCase()) {
+            if (checksumAddress.toLowerCase() === ethWalletList[i].address.toLowerCase()) {
               isExist = true;
               break;
             }
@@ -461,7 +463,7 @@ class ImportWalletScreen extends BaseComponent {
         }
 
         let preWalletList = [];
-        if (this.state.walletType == 'itc') {
+        if (this.state.walletType === 'itc') {
           preWalletList = itcWalletList;
         } else {
           preWalletList = ethWalletList;
@@ -485,7 +487,7 @@ class ImportWalletScreen extends BaseComponent {
         });
         this._showAlert(I18n.t('settings.import_wallet_already'));
       } else {
-        if (this.state.walletType == 'itc') {
+        if (this.state.walletType === 'itc') {
           StorageManage.save(StorageKey.ItcWalletList, wallets);
           this.props.setItcWalletList(wallets);
         } else {
@@ -511,21 +513,21 @@ class ImportWalletScreen extends BaseComponent {
     this.setState({
       isShowSLoading: false,
     });
-    if (this.state.walletType == 'itc') {
+    if (this.state.walletType === 'itc') {
       this.props.loadTokenBalance(defaultTokensOfITC);
     } else {
       this.props.loadTokenBalance(defaultTokens);
     }
-    if (this.from == 1 || this.from == 2) {
+    if (this.from === 1 || this.from === 2) {
       this.props.setTransactionRecordList([]);
       StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo);
 
       DeviceEventEmitter.emit('changeWallet', { openRightDrawer: false, isChangeWalletList: true });
 
-      if (this.from == 1) {
+      if (this.from === 1) {
         this.props.navigation.navigate('Home');
         this.props.navigation.openDrawer();
-      } else if (this.from == 2) {
+      } else if (this.from === 2) {
         this.props.navigation.navigate('WalletList');
       }
     } else {
@@ -533,16 +535,14 @@ class ImportWalletScreen extends BaseComponent {
     }
   }
 
-  getRePwdMeasure() {
-    rePwdRef.measure();
-  }
-
   isOpenPwd() {
-    this.setState({ isShowPassword: !this.state.isShowPassword });
+    const isShow = this.state.isShowPassword;
+    this.setState({ isShowPassword: !isShow });
   }
 
   isOpenRePwd() {
-    this.setState({ isShowRePassword: !this.state.isShowRePassword });
+    const isShow = this.state.isShowRePassword;
+    this.setState({ isShowRePassword: !isShow });
   }
 
   renderComponent() {
@@ -555,7 +555,7 @@ class ImportWalletScreen extends BaseComponent {
     // let titleText = this.keyBoardIsShow ? '' : I18n.t('launch.import_wallet');
     // let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/importIcon.png');
     const titleText =
-      this.state.walletType == 'itc'
+      this.state.walletType === 'itc'
         ? I18n.t('settings.import_itc_wallet')
         : I18n.t('settings.import_eth_wallet');
 
@@ -655,7 +655,7 @@ class ImportWalletScreen extends BaseComponent {
           <Text style={this.state.isShowPwdWarn ? styles.warnTxt : styles.warnTxtHidden}>
             {this.state.pwdWarn}
           </Text>
-          <View style={styles.inputBox} ref="rePwdRef">
+          <View style={styles.inputBox} ref={this.rePwdRef}>
             <TextInput
               style={styles.input}
               placeholderTextColor={Colors.fontGrayColor_a0}

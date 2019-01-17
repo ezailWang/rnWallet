@@ -1,13 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, Linking, DeviceEventEmitter, Platform } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
-import StorageManage from '../../utils/StorageManage';
 import Layout from '../../config/LayoutConstants';
-import { StorageKey } from '../../config/GlobalConfig';
-import { I18n } from '../../config/language/i18n';
-import ItcMappingServiceScreen from './ItcMappingServiceScreen';
 import MappingTermsScreen from './MappingTermsScreen';
 
 class Mapping extends PureComponent {
@@ -16,8 +11,6 @@ class Mapping extends PureComponent {
     this.state = {};
     this._isMounted = false;
   }
-
-  componentDidMount() {}
 
   componentWillMount() {
     this._isMounted = true;

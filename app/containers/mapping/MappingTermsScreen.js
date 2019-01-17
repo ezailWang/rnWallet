@@ -1,25 +1,12 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-  Text,
-  Image,
-  Linking,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import * as Actions from '../../config/action/Actions';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgNoBackHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
 import { BlueButtonBig } from '../../components/Button';
-import { showToast } from '../../utils/Toast';
 import StatusBarComponent from '../../components/StatusBarComponent';
 
 const rightViewHeight = Layout.WINDOW_HEIGHT - 100 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64);
@@ -159,10 +146,9 @@ export default class MappingTermsScreen extends BaseComponent {
     this._setStatusBarStyleDark();
   }
 
-  _initData() {}
-
   isAgreePress = () => {
-    this.setState({ isAgree: !this.state.isAgree });
+    const agree = this.state.isAgree;
+    this.setState({ isAgree: !agree });
   };
 
   startBtn() {
@@ -170,9 +156,9 @@ export default class MappingTermsScreen extends BaseComponent {
   }
 
   renderComponent() {
-    const checkIcon = this.state.isAgree
+    /* const checkIcon = this.state.isAgree
       ? require('../../assets/launch/check_on.png')
-      : require('../../assets/launch/check_off.png');
+      : require('../../assets/launch/check_off.png'); */
     return (
       <View style={styles.container}>
         <StatusBarComponent barStyle="light-content" />
@@ -227,12 +213,13 @@ class LiItem extends PureComponent {
   };
 
   render() {
+    const { num, isShowLine } = this.props;
     return (
       <View style={styles.liItemBox}>
         <View style={styles.liItemNum}>
-          <Text style={styles.liItemNumText}>{this.props.num}</Text>
+          <Text style={styles.liItemNumText}>{num}</Text>
         </View>
-        {this.props.isShowLine ? <View style={styles.liItemLine} /> : null}
+        {isShowLine ? <View style={styles.liItemLine} /> : null}
       </View>
     );
   }
@@ -240,7 +227,7 @@ class LiItem extends PureComponent {
 
 class StepItem extends PureComponent {
   render() {
-    const image = this.props.image;
+    const { image, title, desc } = this.props;
     return (
       <View style={styles.stepItemBox}>
         <View style={styles.stepItemTitleBox}>
@@ -255,10 +242,10 @@ class StepItem extends PureComponent {
             end={{ x: 1, y: 1 }}
             style={styles.stepItemTitleBg}
           >
-            <Text style={styles.stepItemTitle}>{this.props.title}</Text>
+            <Text style={styles.stepItemTitle}>{title}</Text>
           </LinearGradient>
         </View>
-        <Text style={styles.stepItemBgDesc}>{this.props.desc}</Text>
+        <Text style={styles.stepItemBgDesc}>{desc}</Text>
         <Image style={styles.stepItemImg} source={image} resizeMode="contain" />
       </View>
     );

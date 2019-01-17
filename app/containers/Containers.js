@@ -9,8 +9,6 @@ import ImportWalletScreen from './launch/ImportWalletScreen';
 import VerifyMnemonicScreen from './launch/VerifyMnemonicScreen';
 import MyScreen from './settings/MyScreen';
 import SetScreen from './settings/SetScreen';
-import ModifyPasswordScreen from './settings/ModifyPasswordScreen';
-// import PasswordPrompInfoScreen from './settings/PasswordPrompInfoScreen';
 import ExportPrivateKeyScreen from './settings/ExportPrivateKeyScreen';
 import ExportKeystoreScreen from './settings/ExportKeystoreScreen';
 import ReceiptCodeScreen from './settings/ReceiptCodeScreen';
@@ -56,7 +54,6 @@ export {
   VerifyMnemonicScreen,
   MyScreen,
   SetScreen,
-  ModifyPasswordScreen,
   ExportPrivateKeyScreen,
   ExportKeystoreScreen,
   // PasswordPrompInfoScreen,

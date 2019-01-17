@@ -1,22 +1,11 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Text,
-  Image,
-  DeviceEventEmitter,
-  Switch,
-} from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import lodash from 'lodash';
 import * as Actions from '../../config/action/Actions';
-import { Colors, StorageKey } from '../../config/GlobalConfig';
-import StorageManage from '../../utils/StorageManage';
+import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
@@ -134,7 +123,7 @@ class WalletListScreen extends BaseComponent {
     });
   };
 
-  _changeWalletEmitter = data => {
+  _changeWalletEmitter = () => {
     this.refreshPage();
   };
 
@@ -143,15 +132,23 @@ class WalletListScreen extends BaseComponent {
     const itcWalletsView = [];
 
     const ethWalletsView = [];
-    this.state.itcWallets.forEach((wallet, index) => {
+    this.state.itcWallets.forEach(wallet => {
       itcWalletsView.push(
-        <Item key={index} wallet={wallet} onItemPressed={() => _this.walletItemOnPress(wallet)} />
+        <Item
+          key={wallet.address}
+          wallet={wallet}
+          onItemPressed={() => _this.walletItemOnPress(wallet)}
+        />
       );
     });
 
-    this.state.ethWallets.forEach((wallet, index) => {
+    this.state.ethWallets.forEach(wallet => {
       ethWalletsView.push(
-        <Item key={index} wallet={wallet} onItemPressed={() => _this.walletItemOnPress(wallet)} />
+        <Item
+          key={wallet.address}
+          wallet={wallet}
+          onItemPressed={() => _this.walletItemOnPress(wallet)}
+        />
       );
     });
     return (
@@ -192,18 +189,19 @@ class ItemHeader extends PureComponent {
   static defaultProps = {};
 
   render() {
+    const { icon, title, isShowButton, onItemHeaderPressed, btnText } = this.props;
     return (
       <View style={styles.itemHeaderBox}>
-        <Image style={styles.itemHeaderIcon} source={this.props.icon} resizeMode="center" />
-        <Text style={styles.itemHeaderTitle}>{this.props.title}</Text>
+        <Image style={styles.itemHeaderIcon} source={icon} resizeMode="center" />
+        <Text style={styles.itemHeaderTitle}>{title}</Text>
 
-        {this.props.isShowButton ? (
+        {isShowButton ? (
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.itemHeaderTouchable}
-            onPress={this.props.onItemHeaderPressed}
+            onPress={onItemHeaderPressed}
           >
-            <Text style={styles.itemHeaderBtnTxt}>+{this.props.btnText}</Text>
+            <Text style={styles.itemHeaderBtnTxt}>+{btnText}</Text>
           </TouchableOpacity>
         ) : null}
       </View>
@@ -225,20 +223,20 @@ class Item extends PureComponent {
   };
 
   onItemPressed = () => {
-    const wallet = this.props.wallet;
-    this.props.onItemPressed(wallet);
+    const { wallet, onItemPressed } = this.props;
+    onItemPressed(wallet);
   };
 
   render() {
-    const wallet = this.props.wallet;
+    const { wallet, onItemPressed, isDisabled, isNeedLine } = this.props;
     const address = `${wallet.address.substr(0, 8)}...${wallet.address.substr(34, 42)}`;
     return (
       <View style={styles.itemBox}>
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.itemTouchBox}
-          onPress={this.props.onItemPressed}
-          disabled={this.props.isDisabled}
+          onPress={onItemPressed}
+          disabled={isDisabled}
         >
           <View style={styles.itemContentView}>
             <Text style={styles.itemName}>{wallet.name}</Text>
@@ -251,7 +249,7 @@ class Item extends PureComponent {
             resizeMode="center"
           />
         </TouchableOpacity>
-        {this.props.isNeedLine ? <View style={styles.itemLine} /> : null}
+        {isNeedLine ? <View style={styles.itemLine} /> : null}
       </View>
     );
   }

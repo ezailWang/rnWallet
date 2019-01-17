@@ -8,7 +8,6 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
-  Dimensions,
   Animated,
   findNodeHandle,
   UIManager,
@@ -19,7 +18,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors, FontSize } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import { showToast } from '../../utils/Toast';
 import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader';
 import { vertifyPassword } from './Common';
@@ -176,6 +175,7 @@ class CreateWalletScreen extends BaseComponent {
     this.imageHeight = new Animated.Value(72);
     this.textFontSize = new Animated.Value(18);
     this.containerMarginTop = new Animated.Value(0);
+    this.rePwdRef = React.createRef();
   }
 
   _initData() {
@@ -188,7 +188,7 @@ class CreateWalletScreen extends BaseComponent {
 
   _addEventListener() {
     super._addEventListener();
-    if (Platform.OS == 'ios') {
+    if (Platform.OS === 'ios') {
       this.keyboardWillShowListener = Keyboard.addListener(
         'keyboardWillShow',
         this.keyboardWillShowHandler
@@ -212,17 +212,25 @@ class CreateWalletScreen extends BaseComponent {
 
   _removeEventListener() {
     super._removeEventListener();
-    if (Platform.OS == 'ios') {
-      this.keyboardWillShowListener && this.keyboardWillShowListener.remove();
-      this.keyboardWillHideListener && this.keyboardWillHideListener.remove();
+    if (Platform.OS === 'ios') {
+      if (this.keyboardWillShowListener) {
+        this.keyboardWillShowListener.remove();
+      }
+      if (this.keyboardWillHideListener) {
+        this.keyboardWillHideListener.remove();
+      }
     } else {
-      this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
-      this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
+      if (this.keyboardDidShowListener) {
+        this.keyboardDidShowListener.remove();
+      }
+      if (this.keyboardDidHideListener) {
+        this.keyboardDidHideListener.remove();
+      }
     }
   }
 
-  layout(ref) {
-    const handle = findNodeHandle(ref);
+  layout() {
+    const handle = findNodeHandle(this.rePwdRef.current);
     UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
       if (this.keyBoardIsShow) {
         this.textInputMarginBottom = Layout.WINDOW_HEIGHT - pageY - 40;
@@ -234,18 +242,16 @@ class CreateWalletScreen extends BaseComponent {
 
   keyboardWillShowHandler = event => {
     this.keyBoardIsShow = true;
-    const duration = event.duration;
     this.keyboardHeight = event.endCoordinates.height; // 软键盘高度
 
-    this.titleBoxAnimated(duration, 0, 0, 0, 0);
+    this.titleBoxAnimated(event.duration, 0, 0, 0, 0);
   };
 
   keyboardWillHideHandler = event => {
     this.keyBoardIsShow = false;
     this._isShowRePwdWarn();
-    const duration = event.duration;
     this.keyboardHeight = 0;
-    this.titleBoxAnimated(duration, 0, 140, 72, 18);
+    this.titleBoxAnimated(event.duration, 0, 140, 72, 18);
   };
 
   keyboardDidShowHandler = event => {
@@ -262,7 +268,7 @@ class CreateWalletScreen extends BaseComponent {
     }
   };
 
-  keyboardDidHideHandler = event => {
+  keyboardDidHideHandler = () => {
     this.keyBoardIsShow = false;
     this._isShowRePwdWarn();
     const duration = 100;
@@ -292,11 +298,17 @@ class CreateWalletScreen extends BaseComponent {
   }
 
   isOpenPwd() {
-    this.setState({ isShowPassword: !this.state.isShowPassword });
+    const isShow = this.state.isShowPassword;
+    this.setState({
+      isShowPassword: !isShow,
+    });
   }
 
   isOpenRePwd() {
-    this.setState({ isShowRePassword: !this.state.isShowRePassword });
+    const isShow = this.state.isShowRePassword;
+    this.setState({
+      isShowRePassword: !isShow,
+    });
   }
 
   // 产生助记词
@@ -309,12 +321,9 @@ class CreateWalletScreen extends BaseComponent {
         this.props.setCreateWalletParams(params);
 
         this.props.generateMnemonic(data);
-        this.props.navigation.navigate('BackupWallet', {
-          password: this.pwdtxt,
-          name: this.nametxt,
-        });
+        this.props.navigation.navigate('BackupWallet');
       },
-      error => {
+      () => {
         showToast(I18n.t('toast.create_wallet_error'));
       }
     );
@@ -322,17 +331,18 @@ class CreateWalletScreen extends BaseComponent {
 
   btnIsEnableClick() {
     if (
-      this.nametxt == '' ||
-      this.pwdtxt == '' ||
-      this.rePwdtxt == '' ||
-      this.pwdtxt != this.rePwdtxt ||
-      vertifyPassword(this.pwdtxt) != '' ||
+      this.nametxt === '' ||
+      this.pwdtxt === '' ||
+      this.rePwdtxt === '' ||
+      this.pwdtxt !== this.rePwdtxt ||
+      vertifyPassword(this.pwdtxt) !== '' ||
       this.nametxt.length > 12
     ) {
+      const isShowRe = this.state.isShowRePwdWarn;
       this.setState({
         isDisabled: true,
-        isShowRePwdWarn: this.pwdtxt == this.rePwdtxt ? false : this.state.isShowRePwdWarn,
-        isShowNameWarn: !!(this.nametxt == '' || this.nametxt.length > 12),
+        isShowRePwdWarn: this.pwdtxt === this.rePwdtxt ? false : isShowRe,
+        isShowNameWarn: !!(this.nametxt === '' || this.nametxt.length > 12),
       });
     } else {
       this.setState({
@@ -345,10 +355,10 @@ class CreateWalletScreen extends BaseComponent {
 
   _isShowRePwdWarn() {
     if (
-      this.pwdtxt != '' &&
+      this.pwdtxt !== '' &&
       !this.state.isShowPwdWarn &&
-      this.rePwdtxt != '' &&
-      this.pwdtxt != this.rePwdtxt
+      this.rePwdtxt !== '' &&
+      this.pwdtxt !== this.rePwdtxt
     ) {
       if (!this.state.isShowRePwdWarn) {
         this.setState({
@@ -365,9 +375,9 @@ class CreateWalletScreen extends BaseComponent {
 
   _isShowPwdWarn() {
     let isMatchPwd = '';
-    if (this.pwdtxt != '') {
+    if (this.pwdtxt !== '') {
       isMatchPwd = vertifyPassword(this.pwdtxt);
-      if (isMatchPwd != '') {
+      if (isMatchPwd !== '') {
         // 密码不匹配
         this.setState({
           isShowPwdWarn: true,
@@ -398,16 +408,16 @@ class CreateWalletScreen extends BaseComponent {
     const rePwd = this.rePwdtxt;
     // let isMatchPwd = this.vertifyPassword()
     let warnMessage = '';
-    if (name == '' || name == null || name == undefined) {
+    if (name === '' || name == null || name === undefined) {
       warnMessage = I18n.t('toast.enter_wallet_name');
-    } else if (pwd == '' || pwd == null || pwd == undefined) {
+    } else if (pwd === '' || pwd == null || pwd === undefined) {
       warnMessage = I18n.t('toast.enter_password');
-    } else if (rePwd == '' || rePwd == null || rePwd == undefined) {
+    } else if (rePwd === '' || rePwd == null || rePwd === undefined) {
       warnMessage = I18n.t('toast.enter_repassword');
-    } else if (pwd != rePwd) {
+    } else if (pwd !== rePwd) {
       warnMessage = I18n.t('toast.enter_same_password');
     }
-    if (warnMessage != '') {
+    if (warnMessage !== '') {
       showToast(warnMessage);
     } else {
       this.generateMnemonic();
@@ -429,7 +439,7 @@ class CreateWalletScreen extends BaseComponent {
     // let titleIcon = this.keyBoardIsShow ? null : require('../../assets/launch/create_icon.png');
 
     const titleText =
-      this.state.walletType == 'itc'
+      this.state.walletType === 'itc'
         ? I18n.t('settings.create_itc_wallet')
         : I18n.t('settings.create_eth_wallet');
     const titleIcon = require('../../assets/launch/create_icon.png');
@@ -499,7 +509,6 @@ class CreateWalletScreen extends BaseComponent {
               onFocus={() => {
                 this._isShowPwdWarn();
               }}
-              onBlur={() => {}}
             />
             <TouchableOpacity
               style={[styles.pwdBtnOpacity]}
@@ -513,7 +522,7 @@ class CreateWalletScreen extends BaseComponent {
             {this.state.pwdWarn}
           </Text>
 
-          <View style={styles.inputBox} ref="rePwdRef">
+          <View style={styles.inputBox} ref={this.rePwdRef}>
             <TextInput
               style={styles.input}
               placeholderTextColor={Colors.fontGrayColor_a0}
@@ -528,7 +537,7 @@ class CreateWalletScreen extends BaseComponent {
               }}
               onFocus={() => {
                 this.isRePwdFocus = true;
-                this.layout(this.refs.rePwdRef);
+                this.layout();
               }}
               onBlur={() => {
                 this.isRePwdFocus = false;
@@ -553,7 +562,7 @@ class CreateWalletScreen extends BaseComponent {
             onPress={() => this.vertifyInputData()}
             text={I18n.t('launch.create')}
           />
-          {this.state.from == 0 ? null : (
+          {this.state.from === 0 ? null : (
             <TouchableOpacity
               style={[styles.importBtn]}
               activeOpacity={0.6}
@@ -574,6 +583,7 @@ class Item extends PureComponent {
   };
 
   render() {
+    const { content } = this.props;
     return (
       <View style={styles.itemBox}>
         <LinearGradient
@@ -582,7 +592,7 @@ class Item extends PureComponent {
           end={{ x: 1, y: 1 }}
           style={styles.itemCircle}
         />
-        <Text style={styles.itemText}>{this.props.content}</Text>
+        <Text style={styles.itemText}>{content}</Text>
       </View>
     );
   }

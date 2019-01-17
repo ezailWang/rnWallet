@@ -87,11 +87,7 @@ class HomeCell extends Component {
       if (symbol === 'ETH') {
         return require('../../../assets/home/ETH.png');
       }
-      if (symbol === 'ITC') {
-        return require('../../../assets/home/ITC.png');
-      }
     }
-
     return require('../../../assets/home/null.png');
   };
 

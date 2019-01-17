@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
-import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig';
+import { Colors, StorageKey } from '../../config/GlobalConfig';
 import StorageManage from '../../utils/StorageManage';
-import { showToast } from '../../utils/Toast';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
 import { ChoseItem } from '../../components/ChoseComponent';
 import BaseComponent from '../base/BaseComponent';
@@ -59,22 +57,22 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
   }
 
   _checkMonetaryUnit() {
-    if (this.monetaryUnitType == 'CNY') {
+    if (this.monetaryUnitType === 'CNY') {
       this.monetaryUnitSymbol = '¥';
       this._checkState(true, false, false, false, false, false);
-    } else if (this.monetaryUnitType == 'USD') {
+    } else if (this.monetaryUnitType === 'USD') {
       this.monetaryUnitSymbol = '$';
       this._checkState(false, true, false, false, false, false);
-    } else if (this.monetaryUnitType == 'KRW') {
+    } else if (this.monetaryUnitType === 'KRW') {
       this.monetaryUnitSymbol = '₩';
       this._checkState(false, false, true, false, false, false);
-    } else if (this.monetaryUnitType == 'EUR') {
+    } else if (this.monetaryUnitType === 'EUR') {
       this.monetaryUnitSymbol = '€';
       this._checkState(false, false, false, true, false, false);
-    } else if (this.monetaryUnitType == 'RUB') {
+    } else if (this.monetaryUnitType === 'RUB') {
       this.monetaryUnitSymbol = '₽';
       this._checkState(false, false, false, false, true, false);
-    } else if (this.monetaryUnitType == 'UAH') {
+    } else if (this.monetaryUnitType === 'UAH') {
       this.monetaryUnitSymbol = '₴';
       this._checkState(false, false, false, false, false, true);
     }

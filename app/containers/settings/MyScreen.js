@@ -1,19 +1,8 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  Text,
-  TouchableOpacity,
-  BackHandler,
-  DeviceEventEmitter,
-} from 'react-native';
+import { View, StyleSheet, ImageBackground, Image, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig';
-import * as Actions from '../../config/action/Actions';
-import { showToast } from '../../utils/Toast';
+import { Colors, FontSize } from '../../config/GlobalConfig';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
@@ -119,34 +108,30 @@ class Item extends PureComponent {
   };
 
   render() {
-    const icon = this.props.icon;
-    const isShowRed = !(this.props.count <= 0);
-    let count;
+    const { icon, count, itemStyle, itemOnPress, isDisabled, title, isNeedLine } = this.props;
+    const isShowRed = !(count <= 0);
+    let mCount;
     let textSize;
     if (isShowRed) {
-      count = this.props.count <= 99 ? this.props.count : '99+';
-      textSize =
-        this.props.count > 99
-          ? styles.textSize10
-          : this.props.count < 10
-          ? styles.textSize14
-          : styles.textSize12;
+      mCount = count <= 99 ? count : '99+';
+      const ts = count < 10 ? styles.textSize14 : styles.textSize12;
+      textSize = count > 99 ? styles.textSize10 : ts;
     }
 
     return (
-      <View style={[styles.itemBox, this.props.itemStyle]}>
+      <View style={[styles.itemBox, itemStyle]}>
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.itemTouchable}
-          onPress={this.props.itemOnPress}
-          disabled={this.props.isDisabled}
+          onPress={itemOnPress}
+          disabled={isDisabled}
         >
           <Image style={styles.itemIcon} source={icon} resizeMode="contain" />
-          <Text style={styles.itemTitle}>{this.props.title}</Text>
+          <Text style={styles.itemTitle}>{title}</Text>
           <View style={styles.itemRightView}>
             {isShowRed ? (
               <View style={styles.itemRedCircle}>
-                <Text style={[styles.itemRedCircleText, textSize]}>{count}</Text>
+                <Text style={[styles.itemRedCircleText, textSize]}>{mCount}</Text>
               </View>
             ) : null}
             <Image
@@ -156,7 +141,7 @@ class Item extends PureComponent {
             />
           </View>
         </TouchableOpacity>
-        {this.props.isNeedLine ? <View style={styles.itemLine} /> : null}
+        {isNeedLine ? <View style={styles.itemLine} /> : null}
       </View>
     );
   }
@@ -173,14 +158,13 @@ class MyScreen extends BaseComponent {
   }
 
   _messageCountEmitter = data => {
-    const messageCount = data.messageCount;
+    const { messageCount } = data;
     this.setState({
       newMessageCounts: messageCount,
     });
   };
 
   gotoSet = () => {
-    const _this = this;
     this.props.navigation.navigate('SystemSet', {
       callback() {
         /* _this.setState({
@@ -192,10 +176,9 @@ class MyScreen extends BaseComponent {
   };
 
   renderComponent() {
+    const { newMessageCounts } = this.state;
     const topBg = require('../../assets/launch/splash_bg.png');
     const topLogo = require('../../assets/launch/splash_logo.png');
-
-    const newMessageCounts = this.state.newMessageCounts;
     return (
       <View style={styles.container}>
         <ImageBackground style={styles.topBg} source={topBg}>
@@ -243,7 +226,7 @@ class MyScreen extends BaseComponent {
 const mapStateToProps = state => ({
   myLanguage: state.Core.myLanguage,
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = () => ({});
 export default connect(
   mapStateToProps,
   mapDispatchToProps

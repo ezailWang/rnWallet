@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -15,8 +15,6 @@ import QRCode from 'react-native-qrcode';
 import { connect } from 'react-redux';
 import Layout from '../../config/LayoutConstants';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
-import NetworkManager from '../../utils/NetworkManager';
-import { HeaderButton, BlueButtonBig } from '../../components/Button';
 import { androidPermission } from '../../utils/PermissionsAndroid';
 import { TransparentBgHeader } from '../../components/NavigaionHeader';
 import { Colors, StorageKey, Network } from '../../config/GlobalConfig';
@@ -140,7 +138,7 @@ class ReceiptCodeScreen extends BaseComponent {
 
   _initData() {
     const { network } = store.getState().Core;
-    if (network == Network.main) {
+    if (network === Network.main) {
       this.setState({
         isMainNetwork: true,
         modalVisible: false,
@@ -178,7 +176,7 @@ class ReceiptCodeScreen extends BaseComponent {
   };
 
   copyAddress() {
-    const address = this.props.wallet.address;
+    const { address } = this.props.wallet;
     Clipboard.setString(address);
     showToast(I18n.t('toast.copied'));
   }
@@ -207,9 +205,9 @@ class ReceiptCodeScreen extends BaseComponent {
   }
 
   notRemindPress() {
-    this.setState({
-      isNotRemind: !this.state.isNotRemind,
-    });
+    this.setState(prevState => ({
+      isNotRemind: !prevState.isNotRemind,
+    }));
   }
 
   renderComponent() {
@@ -222,7 +220,7 @@ class ReceiptCodeScreen extends BaseComponent {
           navigation={this.props.navigation}
           text={I18n.t('settings.collection_code')}
           /** rightPress = {()=>this.scanClick()}
-                                rightIcon= {require('../../assets/common/scanIcon.png')}* */
+                              rightIcon= {require('../../assets/common/scanIcon.png')}* */
         />
 
         <ScreenshotWarn
@@ -250,8 +248,12 @@ class ReceiptCodeScreen extends BaseComponent {
                   size={180}
                   bgColor="#000"
                   fgColor="#fff"
-                  onLoad={() => {}}
-                  onLoadEnd={() => {}}
+                  onLoad={() => {
+                    /* console.log('onLoad','load'); */
+                  }}
+                  onLoadEnd={() => {
+                    /* console.log('onLoadEnd','loadEnd'); */
+                  }}
                 />
                 {/* {this.state.qrcodeLoading && this.props.firstQR ? <View
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

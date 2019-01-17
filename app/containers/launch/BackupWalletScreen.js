@@ -1,25 +1,15 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors, FontSize } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
 
-const ScreenWidth = Dimensions.get('window').width;
-const ScreenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -96,7 +86,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class BackupWalletScreen extends BaseComponent {
+class BackupWalletScreen extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,7 +95,7 @@ export default class BackupWalletScreen extends BaseComponent {
   }
 
   isReadPress() {
-    this.setState({ isCheck: !this.state.isCheck });
+    this.setState(prevState => ({ isCheck: !prevState.isCheck }));
   }
 
   renderComponent() {
@@ -158,6 +148,7 @@ class Item extends PureComponent {
   };
 
   render() {
+    const { content } = this.props;
     return (
       <View style={styles.itemBox}>
         <LinearGradient
@@ -166,8 +157,13 @@ class Item extends PureComponent {
           end={{ x: 1, y: 1 }}
           style={styles.itemCircle}
         />
-        <Text style={styles.itemText}>{this.props.content}</Text>
+        <Text style={styles.itemText}>{content}</Text>
       </View>
     );
   }
 }
+
+export default connect(
+  {},
+  {}
+)(BackupWalletScreen);

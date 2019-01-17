@@ -1,25 +1,11 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-  Text,
-  Image,
-  Linking,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import * as Actions from '../../config/action/Actions';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
-import { BlueButtonBig } from '../../components/Button';
-import { showToast } from '../../utils/Toast';
 
 const rightViewHeight = Layout.WINDOW_HEIGHT - 60 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64);
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20;
@@ -51,7 +37,6 @@ const styles = StyleSheet.create({
     width: Layout.WINDOW_WIDTH,
     backgroundColor: 'white',
     height: 60,
-    backgroundColor: 'white',
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -171,24 +156,28 @@ export default class MappingGuideScreen extends BaseComponent {
     };
   }
 
-  _initData() {}
-
   isAgreePress() {
-    this.setState({ isAgree: !this.state.isAgree });
+    const agree = this.state.isAgree;
+    this.setState({ isAgree: !agree });
   }
 
   startBtn() {
     this.props.navigation.navigate('BindWalletAddress');
   }
 
-  _toTermsService() {}
+  /* _toTermsService() {
 
-  _toMappingTutorial() {}
+  }
+
+  _toMappingTutorial() {
+
+  } */
 
   renderComponent() {
-    const checkIcon = this.state.isAgree
-      ? require('../../assets/launch/check_on.png')
-      : require('../../assets/launch/check_off.png');
+    /* const { isAgree } = this.state;
+   const checkIcon = isAgree
+     ? require('../../assets/launch/check_on.png')
+     : require('../../assets/launch/check_off.png'); */
     return (
       <View style={styles.container}>
         <WhiteBgHeader
@@ -225,7 +214,7 @@ export default class MappingGuideScreen extends BaseComponent {
               <TouchableOpacity
                 style={styles.bottomBtn}
                 activeOpacity={0.6}
-                onPress={() => this._toTermsService()}
+                onPress={() => console.log('_toTermsService') /* this._toTermsService() */}
               >
                 <Text style={styles.btnText}>{I18n.t('mapping.terms_service')}</Text>
               </TouchableOpacity>
@@ -233,7 +222,7 @@ export default class MappingGuideScreen extends BaseComponent {
               <TouchableOpacity
                 style={styles.bottomBtn}
                 activeOpacity={0.6}
-                onPress={() => this._toMappingTutorial()}
+                onPress={() => console.log('_toMappingTutorial') /* this._toMappingTutorial() */}
               >
                 <Text style={styles.btnText}>{I18n.t('mapping.mapping_tutorial')}</Text>
               </TouchableOpacity>
@@ -251,12 +240,13 @@ class LiItem extends PureComponent {
   };
 
   render() {
+    const { num, isShowLine } = this.props;
     return (
       <View style={styles.liItemBox}>
         <View style={styles.liItemNum}>
-          <Text style={styles.liItemNumText}>{this.props.num}</Text>
+          <Text style={styles.liItemNumText}>{num}</Text>
         </View>
-        {this.props.isShowLine ? <View style={styles.liItemLine} /> : null}
+        {isShowLine ? <View style={styles.liItemLine} /> : null}
       </View>
     );
   }
@@ -264,7 +254,7 @@ class LiItem extends PureComponent {
 
 class StepItem extends PureComponent {
   render() {
-    const image = this.props.image;
+    const { image, title, desc } = this.props;
     return (
       <View style={styles.stepItemBox}>
         <View style={styles.stepItemTitleBox}>
@@ -279,10 +269,10 @@ class StepItem extends PureComponent {
             end={{ x: 1, y: 1 }}
             style={styles.stepItemTitleBg}
           >
-            <Text style={styles.stepItemTitle}>{this.props.title}</Text>
+            <Text style={styles.stepItemTitle}>{title}</Text>
           </LinearGradient>
         </View>
-        <Text style={styles.stepItemBgDesc}>{this.props.desc}</Text>
+        <Text style={styles.stepItemBgDesc}>{desc}</Text>
         <Image style={styles.stepItemImg} source={image} resizeMode="contain" />
       </View>
     );

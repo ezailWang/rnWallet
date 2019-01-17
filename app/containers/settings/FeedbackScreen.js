@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
   Platform,
-  TouchableOpacity,
   Text,
   Keyboard,
   KeyboardAvoidingView,
   Image,
-  PermissionsAndroid,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import DeviceInfo from 'react-native-device-info';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors } from '../../config/GlobalConfig';
+import { Colors, StorageKey } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
 import { showToast } from '../../utils/Toast';
@@ -23,8 +21,6 @@ import { CommonTextInput } from '../../components/TextInputComponent';
 import BaseComponent from '../base/BaseComponent';
 import ImageButton from '../../components/ImageButton';
 import NetworkManager from '../../utils/NetworkManager';
-import { androidPermission } from '../../utils/PermissionsAndroid';
-import { StorageKey } from '../../config/GlobalConfig';
 import StorageManage from '../../utils/StorageManage';
 
 const styles = StyleSheet.create({
@@ -92,8 +88,6 @@ export default class FeedbackScreen extends BaseComponent {
     this.isEmailFocus = false;
   }
 
-  _initData() {}
-
   _addEventListener() {
     super._addEventListener();
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -108,15 +102,19 @@ export default class FeedbackScreen extends BaseComponent {
 
   _removeEventListener() {
     super._removeEventListener();
-    this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
+    if (this.keyboardDidShowListener) {
+      this.keyboardDidShowListener.remove();
+    }
+    if (this.keyboardDidHideListener) {
+      this.keyboardDidHideListener.remove();
+    }
   }
 
-  keyboardDidShowHandler = event => {
+  keyboardDidShowHandler = () => {
     this.keyBoardIsShow = true;
   };
 
-  keyboardDidHideHandler = event => {
+  keyboardDidHideHandler = () => {
     this.keyBoardIsShow = false;
   };
 
@@ -127,7 +125,7 @@ export default class FeedbackScreen extends BaseComponent {
   };
 
   btnIsEnableClick() {
-    if (this.name == '' || this.email == '' || this.description == '') {
+    if (this.name === '' || this.email === '' || this.description === '') {
       if (!this.state.isDisabled) {
         this.setState({
           isDisabled: true,
@@ -142,11 +140,11 @@ export default class FeedbackScreen extends BaseComponent {
 
   vertifyEmail() {
     let emailIsOk = true;
-    if (this.email != '') {
+    if (this.email !== '') {
       emailIsOk = validateEmail(this.email);
       this.setState({
         isShowEmailWarn: !emailIsOk,
-        isDisabled: this.name == '' || this.description == '' || !emailIsOk,
+        isDisabled: this.name === '' || this.description === '' || !emailIsOk,
       });
     } else if (!this.state.isDisabled) {
       this.setState({
@@ -156,12 +154,12 @@ export default class FeedbackScreen extends BaseComponent {
   }
 
   vertifyAddress() {
-    if (this.address != '') {
+    if (this.address !== '') {
       const validAddress = NetworkManager.isValidAddress(this.address);
+      const { isShowEmailWarn } = this.state;
       this.setState({
         isShowAddressWarn: !validAddress,
-        isDisabled:
-          this.name == '' || this.description == '' || this.state.isShowEmailWarn || !validAddress,
+        isDisabled: this.name === '' || this.description === '' || isShowEmailWarn || !validAddress,
       });
     } else if (!this.state.isDisabled) {
       this.setState({
@@ -218,7 +216,7 @@ export default class FeedbackScreen extends BaseComponent {
           showToast(res.msg);
         }
       })
-      .catch(err => {
+      .catch(() => {
         showToast(I18n.t('toast.submitted_failed'));
         this._hideLoading();
       });
@@ -226,9 +224,11 @@ export default class FeedbackScreen extends BaseComponent {
 
   renderComponent() {
     const photoSelectComponents = [];
-    this.state.photoArray.forEach((value, index, array) => {
+    this.state.photoArray.forEach((value, index) => {
+      const keyValue = `photo${index}`;
+      console.log('L_photo', keyValue);
       photoSelectComponents.push(
-        <View key={index} style={{ width: 56, height: 56, marginRight: 10, marginTop: 5 }}>
+        <View key={keyValue} style={{ width: 56, height: 56, marginRight: 10, marginTop: 5 }}>
           <Image style={{ width: 56, height: 56 }} source={value} />
           <ImageButton
             btnStyle={{ position: 'absolute', right: 5, top: 5, width: 14, height: 14 }}

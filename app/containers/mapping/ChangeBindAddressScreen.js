@@ -1,13 +1,11 @@
-import React, { Component, PureComponent } from 'react';
-import { View, StyleSheet, Platform, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Actions from '../../config/action/Actions';
-import StorageManage from '../../utils/StorageManage';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors, StorageKey } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
@@ -115,6 +113,7 @@ class ChangeBindAddressScreen extends BaseComponent {
       isDisabled: true,
     };
     this.selectedWallet = null;
+    this.flatList = React.createRef();
   }
 
   _initData() {
@@ -124,7 +123,7 @@ class ChangeBindAddressScreen extends BaseComponent {
         name: `wallet${i}`,
         address: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
         isChecked: false,
-        bind: i == 2,
+        bind: i === 2,
       };
       wallets.push(wallet);
     }
@@ -154,7 +153,7 @@ class ChangeBindAddressScreen extends BaseComponent {
     </View>
   );
 
-  _renderItem = item => <Item item={item} onPressItem={this._onPressItem.bind(this, item)} />;
+  _renderItem = item => <Item item={item} onPressItem={this._onPressItem} />;
 
   _onPressItem = item => {
     const choseWallet = item.item;
@@ -167,7 +166,7 @@ class ChangeBindAddressScreen extends BaseComponent {
       if (wallet.isChecked) {
         wallet.isChecked = false;
       }
-      if (choseWallet.name == wallet.name) {
+      if (choseWallet.name === wallet.name) {
         wallet.isChecked = true;
       }
       newWallets.push(wallet);
@@ -198,7 +197,7 @@ class ChangeBindAddressScreen extends BaseComponent {
           </LinearGradient>
           <FlatList
             style={styles.listContainer}
-            ref={ref => (this.flatList = ref)}
+            ref={this.flatList}
             data={this.state.walletList}
             keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
             renderItem={this._renderItem}
@@ -225,12 +224,9 @@ class ChangeBindAddressScreen extends BaseComponent {
 }
 
 class Item extends PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props.item.item);
-  };
-
   render() {
-    const { name, address, isChecked, bind } = this.props.item.item || {};
+    const { item } = this.props || {};
+    const { name, address, isChecked, bind, onPressItem } = item.item || {};
 
     const _name = bind ? name + I18n.t('mapping.bind') : name;
     const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
@@ -238,27 +234,20 @@ class Item extends PureComponent {
     const checkIcon = isChecked
       ? require('../../assets/launch/check_on.png')
       : require('../../assets/launch/check_off.png');
+    const icon = bind ? require('../../assets/mapping/bind_icon.png') : checkIcon;
     return (
       <TouchableOpacity
         activeOpacity={0.6}
         {...this.props}
         style={styles.item}
-        onPress={this._onPress}
+        onPress={onPressItem}
         disabled={bind}
       >
         <View style={styles.itemConetntView}>
           <Text style={bind ? styles.itemBindName : styles.itemName}>{_name}</Text>
           <Text style={styles.itemAddress}>{_address}</Text>
         </View>
-        {bind ? (
-          <Image
-            style={styles.itemCheckedImg}
-            source={require('../../assets/mapping/bind_icon.png')}
-            resizeMode="center"
-          />
-        ) : (
-          <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode="center" />
-        )}
+        <Image style={styles.itemCheckedImg} source={icon} resizeMode="center" />
       </TouchableOpacity>
     );
   }

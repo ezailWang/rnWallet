@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet, Platform, PermissionsAndroid, Text, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
@@ -70,7 +70,7 @@ class CreateContactScreen extends BaseComponent {
 
   _initData() {
     const addAddress = this.props.navigation.state.params.address;
-    if (addAddress != undefined) {
+    if (addAddress !== undefined) {
       this.setState({
         address: addAddress,
       });
@@ -79,10 +79,10 @@ class CreateContactScreen extends BaseComponent {
   }
 
   btnIsEnableClick() {
-    if (this.name == '' || this.address == '' || this.name.length > 12) {
+    if (this.name === '' || this.address === '' || this.name.length > 12) {
       this.setState({
         isDisabled: true,
-        isShowNameWarn: !!(this.name == '' || this.name.length > 12),
+        isShowNameWarn: !!(this.name === '' || this.name.length > 12),
       });
     } else {
       this.setState({
@@ -94,9 +94,9 @@ class CreateContactScreen extends BaseComponent {
 
   vertifyAddress() {
     let addressIsOK = true;
-    if (this.address != '') {
+    if (this.address !== '') {
       addressIsOK = NetworkManager.isValidAddress(this.address);
-      const disabled = this.name == '' || !addressIsOK || this.name.length > 12;
+      const disabled = this.name === '' || !addressIsOK || this.name.length > 12;
       this.setState({
         isShowAddressWarn: !addressIsOK,
         isDisabled: disabled,

@@ -53,7 +53,6 @@ import {
   HomeScreen,
   MyScreen,
   SetScreen,
-  ModifyPasswordScreen,
   ExportPrivateKeyScreen,
   ExportKeystoreScreen,
   ReceiptCodeScreen,
@@ -196,9 +195,6 @@ const HomeRouteConfig = {
   },
   Set: {
     screen: SetScreen,
-  },
-  ModifyPassword: {
-    screen: ModifyPasswordScreen,
   },
   ReceiptCode: {
     screen: ReceiptCodeScreen,

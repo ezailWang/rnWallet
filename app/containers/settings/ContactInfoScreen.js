@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -80,10 +80,10 @@ class ContactInfoScreen extends BaseComponent {
       addressWarn: I18n.t('toast.enter_valid_transfer_address'),
     };
 
-    (this.contactInfo = {}),
-      (this.index = undefined),
-      (this.storageId = undefined),
-      (this.name = '');
+    this.contactInfo = {};
+    this.index = undefined;
+    this.storageId = undefined;
+    this.name = '';
     this.remark = '';
     this.address = '';
     this.isAddressFocus = '';
@@ -97,8 +97,9 @@ class ContactInfoScreen extends BaseComponent {
     this.remark = this.contactInfo.remark;
     this.address = this.contactInfo.address;
 
+    const { contentChangeCount } = this.state;
     this.setState({
-      contentChangeCount: this.state.contentChangeCount + 1,
+      contentChangeCount: contentChangeCount + 1,
       // name:this.contactInfo.name,
       // remark:this.contactInfo.remark,
       // address:this.contactInfo.address,
@@ -114,16 +115,16 @@ class ContactInfoScreen extends BaseComponent {
 
   btnIsEnableClick() {
     if (
-      this.name == '' ||
-      this.address == '' ||
+      this.name === '' ||
+      this.address === '' ||
       this.name.length > 12 ||
-      (this.name == this.contactInfo.name &&
-        this.remark == this.contactInfo.remark &&
-        this.address == this.contactInfo.address)
+      (this.name === this.contactInfo.name &&
+        this.remark === this.contactInfo.remark &&
+        this.address === this.contactInfo.address)
     ) {
       this.setState({
         isDisabled: true,
-        isShowNameWarn: !!(this.name == '' || this.name.length > 12),
+        isShowNameWarn: !!(this.name === '' || this.name.length > 12),
       });
     } else {
       this.setState({
@@ -135,13 +136,13 @@ class ContactInfoScreen extends BaseComponent {
 
   vertifyAddress() {
     let addressIsOK = true;
-    if (this.address != '') {
+    if (this.address !== '') {
       addressIsOK = NetworkManager.isValidAddress(this.address);
       const disabled =
-        this.name == '' ||
-        (this.name == this.contactInfo.name &&
-          this.remark == this.contactInfo.remark &&
-          this.address == this.contactInfo.address) ||
+        this.name === '' ||
+        (this.name === this.contactInfo.name &&
+          this.remark === this.contactInfo.remark &&
+          this.address === this.contactInfo.address) ||
         !addressIsOK ||
         this.name.length > 12;
       this.setState({
@@ -191,9 +192,10 @@ class ContactInfoScreen extends BaseComponent {
 
   addressOnChangeText = text => {
     this.address = text;
+    const { contentChangeCount } = this.state;
     this.setState({
       // address:text,
-      contentChangeCount: this.state.contentChangeCount + 1,
+      contentChangeCount: contentChangeCount + 1,
     });
     this.vertifyAddress();
   };

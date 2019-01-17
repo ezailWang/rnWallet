@@ -7,20 +7,16 @@ import {
   Text,
   TextInput,
   Image,
-  Platform,
   DeviceEventEmitter,
 } from 'react-native';
 
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import lodash from 'lodash';
-import StorageManage from '../../utils/StorageManage';
 import * as Actions from '../../config/action/Actions';
-import { Colors, StorageKey } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
-import NetworkManager from '../../utils/NetworkManager';
 
 const styles = StyleSheet.create({
   container: {
@@ -208,11 +204,14 @@ class SearchTokenScreen extends BaseComponent {
     this.allTokens = []; // 所有的tokens
     this.searchTokens = []; // 搜索到符合的条件的tokens
     this.addedTokens = []; // 已经添加的Tokens
+
+    this.searchInputRef = React.createRef();
+    this.flatList = React.createRef();
   }
 
   _initData() {
     this.allTokens = this.props.allTokens;
-    this.addedTokens = this.props.tokens.map((token, index, b) => {
+    this.addedTokens = this.props.tokens.map(token => {
       token.isAdded = true;
       return token;
     });
@@ -247,9 +246,7 @@ class SearchTokenScreen extends BaseComponent {
     this.props.navigation.navigate('Feedback');
   };
 
-  _renderItem = item => (
-    <ItemView item={item} addOrRemoveItem={this._addOrRemoveItem.bind(this, item)} />
-  );
+  _renderItem = item => <ItemView item={item} addOrRemoveItem={this._addOrRemoveItem} />;
 
   _addOrRemoveItem = async item => {
     try {
@@ -257,13 +254,13 @@ class SearchTokenScreen extends BaseComponent {
       const isAdd = !token.isAdded;
       token.isAdded = isAdd;
       const index = this.searchTokens.findIndex(
-        searchToken => searchToken.address.toLowerCase() == token.address.toLowerCase()
+        searchToken => searchToken.address.toLowerCase() === token.address.toLowerCase()
       );
       if (index >= 0) {
         this.searchTokens.splice(index, 1, token);
       }
       const addIndex = this.addedTokens.findIndex(
-        addedToken => addedToken.address.toLowerCase() == token.address.toLowerCase()
+        addedToken => addedToken.address.toLowerCase() === token.address.toLowerCase()
       );
       if (isAdd) {
         // 添加
@@ -271,13 +268,12 @@ class SearchTokenScreen extends BaseComponent {
         if (addIndex < 0) {
           this.addedTokens.push(token);
         }
-      } else {
-        // 移除
-        if (addIndex >= 2 && addIndex < this.addedTokens.length) {
-          // 0 和 1分别是eth和itc不可移除
-          this.props.removeToken(token.address);
-          this.addedTokens.splice(addIndex, 1);
-        }
+      }
+      // 移除
+      if (!isAdd && addIndex >= 2 && addIndex < this.addedTokens.length) {
+        // 0 和 1分别是eth和itc不可移除
+        this.props.removeToken(token.address);
+        this.addedTokens.splice(addIndex, 1);
       }
       this.setState({
         datas: lodash.cloneDeep(this.searchTokens),
@@ -304,14 +300,14 @@ class SearchTokenScreen extends BaseComponent {
   };
 
   _goBack = () => {
-    const tokens = this.props.tokens;
+    const { tokens } = this.props;
     this.props.navigation.state.params.callback({ tokens });
     this.props.navigation.goBack();
   };
 
   _onChangeText(text) {
     this.searchText = text.trim();
-    if (!this.searchText || this.searchText == '') {
+    if (!this.searchText || this.searchText === '') {
       this.searchTokens = [];
       this.setState({
         datas: [],
@@ -325,17 +321,17 @@ class SearchTokenScreen extends BaseComponent {
   _matchToken = () => {
     const _this = this;
     this.searchTokens = [];
-    const addedTokens = this.addedTokens;
+    const addedTokenList = this.addedTokens;
     const searchContent = this.searchText;
-    this.allTokens.forEach((token, index) => {
+    this.allTokens.forEach(token => {
       if (
         token.symbol
           .trim()
           .toLowerCase()
           .indexOf(searchContent.trim().toLowerCase()) >= 0
       ) {
-        const index = addedTokens.findIndex(
-          addedToken => addedToken.address.toLowerCase() == token.address.toLowerCase()
+        const index = addedTokenList.findIndex(
+          addedToken => addedToken.address.toLowerCase() === token.address.toLowerCase()
         );
         const obj = {
           iconLarge: token.iconLarge,
@@ -357,11 +353,13 @@ class SearchTokenScreen extends BaseComponent {
   };
 
   refreshDatas = () => {
-    this.searchTokens.forEach((data, index) => {
-      let isAdded = false; // 是否已添加
-      for (let i = 0; i < addedTokens.length; i++) {
-        if (data.address == addedTokens[i].address) {
-          isAdded = true;
+    const addedTokenList = this.addedTokens;
+    const dataList = [];
+    this.searchTokens.forEach(data => {
+      let added = false; // 是否已添加
+      for (let i = 0; i < addedTokenList.length; i++) {
+        if (data.address === addedTokenList[i].address) {
+          added = true;
           break;
         }
       }
@@ -371,12 +369,12 @@ class SearchTokenScreen extends BaseComponent {
         name: data.name,
         decimal: data.decimal,
         address: data.address,
-        isAdded,
+        isAdded: added,
       };
-      datas.push(obj);
+      dataList.push(obj);
     });
     this.setState({
-      datas,
+      datas: dataList,
       isShowEmptyView: true,
     });
     this.searchText = '';
@@ -385,7 +383,7 @@ class SearchTokenScreen extends BaseComponent {
   _cancelPress = () => {
     this.searchText = '';
     this.searchTokens = [];
-    this.refs.searchInputRef.clear();
+    this.searchInputRef.clear();
     this.setState({
       datas: [],
       isShowEmptyView: false,
@@ -412,8 +410,7 @@ class SearchTokenScreen extends BaseComponent {
             />
             <TextInput
               style={styles.searchInput}
-              ref="searchInputRef"
-              // ref={textInput => this.TextInput = textInput}
+              ref={this.searchInputRef}
               autoFocus
               placeholderTextColor={Colors.fontGrayColor_a0}
               placeholder={I18n.t('settings.input_token_name')}
@@ -442,7 +439,7 @@ class SearchTokenScreen extends BaseComponent {
         <View style={styles.line} />
         <FlatList
           style={styles.listContainer}
-          ref={ref => (this.flatList = ref)}
+          ref={this.flatList}
           data={this.state.datas}
           keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
           renderItem={this._renderItem}
@@ -463,36 +460,28 @@ class ItemView extends PureComponent {
     };
   }
 
-  _itemAddOrRemovePress = () => {
-    this.props.addOrRemoveItem();
-  };
-
   _getLogo = (symbol, iconLarge) => {
-    if (symbol == 'ITC') {
+    if (symbol === 'ITC') {
       return require('../../assets/home/ITC.png');
     }
-    if (iconLarge == '') {
-      if (symbol == 'ETH') {
+    if (iconLarge === '') {
+      if (symbol === 'ETH') {
         return require('../../assets/home/ETH.png');
       }
-      if (symbol == 'ITC') {
-        return require('../../assets/home/ITC.png');
-      }
-      return require('../../assets/home/null.png');
     }
-    if (this.state.loadIconError) {
-      return require('../../assets/home/null.png');
-    }
+    return require('../../assets/home/null.png');
   };
 
   render() {
-    const { iconLarge, symbol, name, address, isAdded } = this.props.item.item || {};
+    const { item } = this.props || {};
+    const { iconLarge, symbol, name, address, isAdded, addOrRemoveItem } = item || {};
+    const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
     const _address = `${address.substr(0, 6)}......${address.substr(36, 42)}`;
-    const isHideBtn = !!(symbol.toLowerCase() == 'eth' || symbol.toLowerCase() == 'itc');
+    const isHideBtn = !!(symbol.toLowerCase() === 'eth' || symbol.toLowerCase() === 'itc');
     const btnTxt =
-      isAdded == undefined || !isAdded ? I18n.t('settings.add') : I18n.t('settings.added');
-    const fullName = name == '' || name == undefined ? '...' : name;
+      isAdded === undefined || !isAdded ? I18n.t('settings.add') : I18n.t('settings.added');
+    const fullName = name === '' || name === undefined ? '...' : name;
 
     return (
       <View style={styles.item}>
@@ -500,7 +489,7 @@ class ItemView extends PureComponent {
           style={styles.itemIcon}
           iosdefaultSource={require('../../assets/home/null.png')}
           source={
-            iconLarge == '' || this.state.loadIconError == true || symbol == 'ITC'
+            iconLarge === '' || loadIconError === true || symbol === 'ITC'
               ? icon
               : { uri: iconLarge }
           }
@@ -525,7 +514,7 @@ class ItemView extends PureComponent {
               styles.itemAddOrRemoveBtn,
               isAdded ? styles.itemRemoveBtn : styles.itemAddBtn,
             ]}
-            onPress={this._itemAddOrRemovePress}
+            onPress={addOrRemoveItem}
           >
             <Text style={[isAdded ? styles.itemRemoveText : styles.itemAddText]}>{btnTxt}</Text>
           </TouchableOpacity>

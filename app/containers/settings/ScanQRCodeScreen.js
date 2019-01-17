@@ -1,26 +1,11 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  InteractionManager,
-  Animated,
-  Easing,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, Animated, Easing } from 'react-native';
 import Camera from 'react-native-camera';
 import { connect } from 'react-redux';
-import StorageManage from '../../utils/StorageManage';
-import * as Actions from '../../config/action/Actions';
-import { Colors, FontSize } from '../../config/GlobalConfig';
-import Layout from '../../config/LayoutConstants';
+import BaseComponent from '../base/BaseComponent';
 import { BlackBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n';
-import BaseComponent from '../base/BaseComponent';
 
-const Dimensions = require('Dimensions');
-
-const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -65,7 +50,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     bottom: 0,
     left: 0,
-    bottom: 0,
     right: 0,
   },
   scanLine: {

@@ -1,15 +1,5 @@
-import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  WebView,
-  TouchableOpacity,
-  Image,
-  Text,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, WebView, TouchableOpacity, Image, Text, ScrollView } from 'react-native';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { BlueButtonBig } from '../../components/Button';
 import { Colors } from '../../config/GlobalConfig';
@@ -82,7 +72,8 @@ export default class ServiceAgreementScreen extends BaseComponent {
   }
 
   isAgreePress() {
-    this.setState({ isAgree: !this.state.isAgree });
+    const isAg = this.state.isAgree;
+    this.setState({ isAgree: !isAg });
   }
 
   agreeBtn() {
@@ -93,12 +84,14 @@ export default class ServiceAgreementScreen extends BaseComponent {
   onMessage(event) {
     try {
       const action = JSON.parse(event.nativeEvent.data);
-      if (action.type == 'setHeight' && action.height > 0) {
+      if (action.type === 'setHeight' && action.height > 0) {
         this.setState({
           webviewHeight: action.height,
         });
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log('onMessage', err);
+    }
   }
 
   renderComponent() {
@@ -124,7 +117,7 @@ export default class ServiceAgreementScreen extends BaseComponent {
             scrollEnabled={false}
             automaticallyAdjustContentInsets
             contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
-            onMessage={this.onMessage.bind(this)}
+            onMessage={this.onMessage}
             domStorageEnabled
           />
           <TouchableOpacity

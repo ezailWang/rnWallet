@@ -1,23 +1,12 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  Platform,
-  TouchableOpacity,
-  Text,
-  Image,
-  DeviceEventEmitter,
-  Switch,
-} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Image, Switch } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
 import { Colors, StorageKey } from '../../config/GlobalConfig';
 import StorageManage from '../../utils/StorageManage';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
-import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
 
 const styles = StyleSheet.create({
@@ -109,28 +98,28 @@ class SystemSetScreen extends BaseComponent {
     this._initState(true);
   }
 
-  _notSupportTouchId(err) {
+  _notSupportTouchId() {
     this._initState(false);
   }
 
   _initState(isSupportTouchID) {
     const lang = I18n.locale;
     let str;
-    if (lang == 'zh') {
+    if (lang === 'zh') {
       str = '简体中文';
-    } else if (lang == 'ko') {
+    } else if (lang === 'ko') {
       str = '한국어';
-    } else if (lang == 'de') {
+    } else if (lang === 'de') {
       str = 'Deutsch';
-    } else if (lang == 'nl') {
+    } else if (lang === 'nl') {
       str = 'Nederlands';
-    } else if (lang == 'fr') {
+    } else if (lang === 'fr') {
       str = 'Français';
-    } else if (lang == 'ru') {
+    } else if (lang === 'ru') {
       str = 'Pусский';
-    } else if (lang == 'es') {
+    } else if (lang === 'es') {
       str = 'Español';
-    } else if (lang == 'uk') {
+    } else if (lang === 'uk') {
       str = 'УКРАЇНА';
     } else {
       str = 'English';
@@ -255,17 +244,18 @@ class Item extends PureComponent {
   };
 
   render() {
+    const { onPressed, isDisabled, title, content } = this.props;
     return (
       <View style={styles.itemBox}>
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.itemTouchable}
-          onPress={this.props.onPressed}
-          disabled={this.props.isDisabled}
+          onPress={onPressed}
+          disabled={isDisabled}
         >
-          <Text style={styles.itemTitle}>{this.props.title}</Text>
+          <Text style={styles.itemTitle}>{title}</Text>
           <View style={styles.itemRightBox}>
-            <Text style={styles.itemContent}>{this.props.content}</Text>
+            <Text style={styles.itemContent}>{content}</Text>
             <Image
               style={styles.itemImage}
               source={require('../../assets/set/next.png')}

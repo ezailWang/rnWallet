@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import JPushModule from 'jpush-react-native';
 import * as Actions from '../../config/action/Actions';
-import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig';
+import { Colors, StorageKey } from '../../config/GlobalConfig';
 import StorageManage from '../../utils/StorageManage';
-import { showToast } from '../../utils/Toast';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
 import { ChoseItem } from '../../components/ChoseComponent';
 import BaseComponent from '../base/BaseComponent';
@@ -69,55 +67,55 @@ class ChoseLanguageScreen extends BaseComponent {
   }
 
   _checkLanguage() {
-    if (this.lang == 'zh') {
+    if (this.lang === 'zh') {
       this.langStr = '简体中文';
       this._checkState(true, false, false, false, false, false, false, false, false);
 
       this.monetaryUnitType = 'CNY';
       this.monetaryUnitSymbol = '¥';
-    } else if (this.lang == 'en') {
+    } else if (this.lang === 'en') {
       this.langStr = 'English';
       this._checkState(false, true, false, false, false, false, false, false, false);
 
       this.monetaryUnitType = 'USD';
       this.monetaryUnitSymbol = '$';
-    } else if (this.lang == 'ko') {
+    } else if (this.lang === 'ko') {
       this.langStr = '한국어';
       this._checkState(false, false, true, false, false, false, false, false, false);
 
       this.monetaryUnitType = 'KRW';
       this.monetaryUnitSymbol = '₩';
-    } else if (this.lang == 'de') {
+    } else if (this.lang === 'de') {
       this.langStr = 'Deutsch';
       this._checkState(false, false, false, true, false, false, false, false, false);
 
       this.monetaryUnitType = 'EUR';
       this.monetaryUnitSymbol = '€';
-    } else if (this.lang == 'es') {
+    } else if (this.lang === 'es') {
       this.langStr = 'Español';
       this._checkState(false, false, false, false, true, false, false, false, false);
 
       this.monetaryUnitType = 'EUR';
       this.monetaryUnitSymbol = '€';
-    } else if (this.lang == 'nl') {
+    } else if (this.lang === 'nl') {
       this.langStr = 'Nederlands';
       this._checkState(false, false, false, false, false, true, false, false, false);
 
       this.monetaryUnitType = 'EUR';
       this.monetaryUnitSymbol = '€';
-    } else if (this.lang == 'fr') {
+    } else if (this.lang === 'fr') {
       this.langStr = 'Français';
       this._checkState(false, false, false, false, false, false, true, false, false);
 
       this.monetaryUnitType = 'EUR';
       this.monetaryUnitSymbol = '€';
-    } else if (this.lang == 'ru') {
+    } else if (this.lang === 'ru') {
       this.langStr = 'Русский язык';
       this._checkState(false, false, false, false, false, false, false, true, false);
 
       this.monetaryUnitType = 'RUB';
       this.monetaryUnitSymbol = '₽';
-    } else if (this.lang == 'uk') {
+    } else if (this.lang === 'uk') {
       this.langStr = 'УКРАЇНА';
       this._checkState(false, false, false, false, false, false, false, false, true);
 
@@ -152,6 +150,7 @@ class ChoseLanguageScreen extends BaseComponent {
     NetworkManager.userInfoUpdate(params)
       .then(response => {
         if (response.code === 200) {
+          // console.log('userInfoUpdate success:', 'success');
         } else {
           console.log('userInfoUpdate err msg:', response.msg);
         }
@@ -169,11 +168,11 @@ class ChoseLanguageScreen extends BaseComponent {
     const nowLang = this.lang;
     JPushModule.deleteTags([preLang], map => {
       if (map.errorCode === 0) {
-        JPushModule.addTags([nowLang], map => {
-          if (map.errorCode === 0) {
-            console.log(`Add tags succeed, tags: ${map.tags}`);
+        JPushModule.addTags([nowLang], m => {
+          if (m.errorCode === 0) {
+            console.log(`Add tags succeed, tags: ${m.tags}`);
           } else {
-            console.log(`Add tags failed, error code: ${map.errorCode}`);
+            console.log(`Add tags failed, error code: ${m.errorCode}`);
           }
         });
       } else {

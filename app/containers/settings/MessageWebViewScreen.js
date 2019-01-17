@@ -1,20 +1,8 @@
-import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  WebView,
-  TouchableOpacity,
-  Image,
-  Text,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, WebView, ScrollView } from 'react-native';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { BlueButtonBig } from '../../components/Button';
 import { Colors } from '../../config/GlobalConfig';
 import Layout from '../../config/LayoutConstants';
-import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
 
 const styles = StyleSheet.create({
@@ -56,7 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const GetWebviewHeight = `(function(){
+/* const GetWebviewHeight = `(function(){
     var height = null;
     function changeHeight(){
         if(document.body.scrollHeight != height){
@@ -71,7 +59,7 @@ const GetWebviewHeight = `(function(){
     }
     setInterval(changeHeight,300);
 } ())
-`;
+`; */
 export default class MessageWebViewScreen extends BaseComponent {
   constructor(props) {
     super(props);
@@ -83,23 +71,25 @@ export default class MessageWebViewScreen extends BaseComponent {
   }
 
   _initData() {
-    const title = this.props.navigation.state.params.title;
-    const url = this.props.navigation.state.params.url;
+    const _title = this.props.navigation.state.params.title;
+    const _url = this.props.navigation.state.params.url;
     this.setState({
-      title,
-      url,
+      title: _title,
+      url: _url,
     });
   }
 
   onMessage(event) {
     try {
       const action = JSON.parse(event.nativeEvent.data);
-      if (action.type == 'setHeight' && action.height > 0) {
+      if (action.type === 'setHeight' && action.height > 0) {
         this.setState({
           webviewHeight: action.height,
         });
       }
-    } catch (err) {}
+    } catch (err) {
+      // console.log('onMessage', err);
+    }
   }
 
   backPressed() {

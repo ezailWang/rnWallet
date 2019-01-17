@@ -1,16 +1,7 @@
-import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  Clipboard,
-  ScrollView,
-  TextInput,
-  BackHandler,
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Image, Text, Clipboard, ScrollView } from 'react-native';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors, FontSize } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import { showToast } from '../../utils/Toast';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
@@ -94,9 +85,8 @@ export default class ExportKeystoreScreen extends BaseComponent {
   }
 
   showKeystore() {
-    const keystore = this.props.navigation.state.params.keystore;
     this.setState({
-      keystore,
+      keystore: this.props.navigation.state.params.keystore,
       screenshotWarnVisible: true,
     });
   }

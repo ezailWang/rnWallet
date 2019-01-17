@@ -1,8 +1,7 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   Text,
   TextInput,
   Image,
@@ -16,11 +15,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
-import StorageManage from '../../utils/StorageManage';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors, StorageKey } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
@@ -395,6 +392,9 @@ class ItcMappingServiceScreen extends BaseComponent {
     this.inputAmount = '';
     this.ethAmount = '0.008';
     this.gasAmount = '600';
+
+    this.scroll = React.createRef();
+    this.inputText = React.createRef();
   }
 
   _initData() {
@@ -419,14 +419,15 @@ class ItcMappingServiceScreen extends BaseComponent {
   };
 
   warnBtn = () => {
+    const isShow = this.state.isShowPrompt;
     this.setState({
-      isShowPrompt: !this.state.isShowPrompt,
+      isShowPrompt: !isShow,
     });
   };
 
   onAmountChangeText = text => {
     this.inputAmount = text;
-    if (this.inputAmount != '') {
+    if (this.inputAmount !== '') {
       this.setState({
         isDisabled: false,
       });
@@ -450,9 +451,8 @@ class ItcMappingServiceScreen extends BaseComponent {
     const _this = this;
     this.props.navigation.navigate('ChangeBindAddress', {
       callback(data) {
-        const itcWallet = data.itcWallet;
         _this.setState({
-          itcWallet,
+          itcWallet: data.itcWallet,
         });
       },
     });
@@ -528,9 +528,7 @@ class ItcMappingServiceScreen extends BaseComponent {
           <View style={styles.mAmountInputView}>
             <TextInput
               style={[styles.mAmountInput]}
-              ref={input => {
-                this.inputText = input;
-              }}
+              ref={this.inputText}
               placeholderTextColor={Colors.fontGrayColor_a0}
               placeholder=""
               underlineColorAndroid="transparent"
@@ -611,30 +609,32 @@ class ConfirmMappingModal extends PureComponent {
 
   pwdInputChangeText = text => {
     this.inputPwd = text;
-    const isDisabled = !!(text == '' || text.length < 8);
+    const isDisabled = !!(text === '' || text.length < 8);
     this.setState({
       confirmBtnIsDisabled: isDisabled,
     });
   };
 
   confirmBtn = () => {
-    this.props.modalConfirmBtn(this.inputPwd);
+    const { modalConfirmBtn } = this.props;
+    modalConfirmBtn(this.inputPwd);
   };
 
   render() {
-    const amountInfo = `${this.props.amount} ITC`;
-    const payAddress = this.props.payAddress;
-    const ethAmountInfo = `${this.props.ethAmount}ether`;
-    const gasAmountInfo = `= Gas(${this.props.gasAmount})*Gas price(` + `11.00 gewl)`;
+    const { amount, payAddress, ethAmount, gasAmount, visible, modalCancelBtn } = this.props;
+    const { isShowPromptModal, confirmBtnIsDisabled } = this.state;
+    const amountInfo = `${amount} ITC`;
+    const ethAmountInfo = `${ethAmount}ether`;
+    const gasAmountInfo = `= Gas(${gasAmount})*Gas price(`; // + `11.00 gewl)`;
 
     return (
       <Modal
         onStartShouldSetResponder={() => false}
         animationType="none"
         transparent
-        visible={this.props.visible}
-        onRequestClose={() => {}}
-        onShow={() => {}}
+        visible={visible}
+        onRequestClose={() => console.log('close')}
+        onShow={() => console.log('show')}
       >
         <View style={styles.modalBox}>
           <View style={styles.modalContent}>
@@ -644,9 +644,7 @@ class ConfirmMappingModal extends PureComponent {
               behavior="padding"
             >
               <ScrollView
-                ref={scroll => {
-                  this.scroll = scroll;
-                }}
+                ref={this.scroll}
                 style={styles.modalScrollView}
                 keyboardShouldPersistTaps="handled"
                 horizontal
@@ -663,7 +661,7 @@ class ConfirmMappingModal extends PureComponent {
                     <TouchableOpacity
                       activeOpacity={0.6}
                       style={styles.mDetailCancelBtn}
-                      onPress={this.props.modalCancelBtn}
+                      onPress={modalCancelBtn}
                     >
                       <Image
                         style={styles.mDetailCancelIcon}
@@ -701,8 +699,9 @@ class ConfirmMappingModal extends PureComponent {
                             activeOpacity={0.6}
                             style={styles.modalPromptTouch}
                             onPress={() => {
+                              const isShow = isShowPromptModal;
                               this.setState({
-                                isShowPromptModal: !this.state.isShowPromptModal,
+                                isShowPromptModal: !isShow,
                               });
                             }}
                           >
@@ -712,7 +711,7 @@ class ConfirmMappingModal extends PureComponent {
                               resizeMode="contain"
                             />
                           </TouchableOpacity>
-                          {this.state.isShowPromptModal ? (
+                          {isShowPromptModal ? (
                             <Image
                               style={styles.modalTriangleIcon}
                               source={require('../../assets/common/up_triangle.png')}
@@ -735,7 +734,7 @@ class ConfirmMappingModal extends PureComponent {
                         <Text style={styles.mDetailItemGray}>{gasAmountInfo}</Text>
                       </View>
                     </View>
-                    {this.state.isShowPromptModal ? (
+                    {isShowPromptModal ? (
                       <View style={styles.modalPromptDescView}>
                         <Text style={styles.promptDesc}>
                           {I18n.t('mapping.dedicated_mapping_address_desc')}
@@ -784,7 +783,7 @@ class ConfirmMappingModal extends PureComponent {
                     <BlueButtonBig
                       buttonStyle={styles.modalConfirmBtn}
                       onPress={this.confirmBtn}
-                      isDisabled={this.state.confirmBtnIsDisabled}
+                      isDisabled={confirmBtnIsDisabled}
                       text={I18n.t('mapping.next')}
                     />
                   </View>

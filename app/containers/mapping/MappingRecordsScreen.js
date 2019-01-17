@@ -1,27 +1,12 @@
-import React, { Component, PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  Platform,
-  PermissionsAndroid,
-  Text,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Actions from '../../config/action/Actions';
-import StorageManage from '../../utils/StorageManage';
-import { BlueButtonBig } from '../../components/Button';
-import { Colors, StorageKey } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
-import NetworkManager from '../../utils/NetworkManager';
-import { CommonTextInput } from '../../components/TextInputComponent';
-import RemindDialog from '../../components/RemindDialog';
 import BaseComponent from '../base/BaseComponent';
 import ProgressView from '../../components/ProgressView';
 
@@ -158,16 +143,17 @@ class MappingRecordsScreen extends BaseComponent {
       mappingRecords: [],
       nativeReceiveAddress: '0xf6C9e322b688A434833dE530E4c23CFA4e579a78', // 原生itc接收地址
     };
+    this.flatList = React.createRef();
   }
 
   _initData() {
     const records = [];
     for (let i = 0; i < 10; i++) {
       let s = 2;
-      if (i == 0) {
+      if (i === 0) {
         s = 0;
       }
-      if (i == 1) {
+      if (i === 1) {
         s = 1;
       }
       const record = {
@@ -197,7 +183,7 @@ class MappingRecordsScreen extends BaseComponent {
     </View>
   );
 
-  _renderItem = item => <Item item={item} onPressItem={this._onPressItem.bind(this, item)} />;
+  _renderItem = item => <Item item={item} onPressItem={this._onPressItem} />;
 
   _onPressItem = item => {
     const mappingDetail = item.item;
@@ -205,10 +191,9 @@ class MappingRecordsScreen extends BaseComponent {
   };
 
   _onChaneAddressPress = () => {
-    const _this = this;
     this.props.navigation.navigate('ChangeBindAddress', {
-      callback(data) {
-        const itcWallet = data.itcWallet;
+      callback() {
+        // const itcWallet = data.itcWallet;
       },
     });
   };
@@ -247,7 +232,7 @@ class MappingRecordsScreen extends BaseComponent {
         </LinearGradient>
         <FlatList
           style={styles.listContainer}
-          ref={ref => (this.flatList = ref)}
+          ref={this.flatList}
           data={this.state.mappingRecords}
           keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
           renderItem={this._renderItem}
@@ -261,15 +246,11 @@ class MappingRecordsScreen extends BaseComponent {
 }
 
 class Item extends PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props.item.item);
-  };
-
   _status = status => {
-    if (status == 0) {
+    if (status === 0) {
       return I18n.t('mapping.already_applied');
     }
-    if (status == 1) {
+    if (status === 1) {
       return I18n.t('mapping.in_the_audit');
     }
     return I18n.t('mapping.completed');
@@ -277,7 +258,8 @@ class Item extends PureComponent {
 
   render() {
     // status 0 已申请 1 申请中  2 已完成
-    const { amount, time, status } = this.props.item.item || {};
+    const { item } = this.props || {};
+    const { amount, time, status, onPressItem } = item || {};
 
     const amountTxt = `${amount} ITC`;
     const timeTxt = time;
@@ -286,8 +268,8 @@ class Item extends PureComponent {
       <TouchableOpacity
         activeOpacity={0.6}
         {...this.props}
-        style={[styles.item, { height: status == 0 ? 84 : 60 }]}
-        onPress={this._onPress}
+        style={[styles.item, { height: status === 0 ? 84 : 60 }]}
+        onPress={onPressItem}
       >
         <View style={[styles.itemContentView]}>
           <View style={styles.itemConetntLeftView}>
@@ -297,13 +279,13 @@ class Item extends PureComponent {
           <Text
             style={[
               styles.itemStatus,
-              { color: status == 2 ? Colors.fontGreenColor_46 : Colors.fontGrayColor_a },
+              { color: status === 2 ? Colors.fontGreenColor_46 : Colors.fontGrayColor_a },
             ]}
           >
             {statusTxt}
           </Text>
         </View>
-        {status == 0 ? (
+        {status === 0 ? (
           <ProgressView progresView={styles.progresView} totalProgress={100} curProgress={30} />
         ) : null}
       </TouchableOpacity>

@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Image, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Colors, FontSize } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import * as Actions from '../../config/action/Actions';
 import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
 
@@ -56,10 +55,6 @@ const styles = StyleSheet.create({
 });
 
 class ChoseWalletTypeScreen extends BaseComponent {
-  constructor(props) {
-    super(props);
-  }
-
   toImportWallet = walletType => {
     const params = this.props.createWalletParams;
     params.walletType = walletType;
@@ -96,11 +91,11 @@ class Item extends PureComponent {
   };
 
   render() {
-    const icon = this.props.icon;
+    const { icon, content, itemPress } = this.props;
     return (
-      <TouchableOpacity style={styles.itemBox} activeOpacity={0.6} onPress={this.props.itemPress}>
+      <TouchableOpacity style={styles.itemBox} activeOpacity={0.6} onPress={itemPress}>
         <Image style={styles.itemIcon} source={icon} resizeMode="center" />
-        <Text style={styles.itemContent}>{this.props.content}</Text>
+        <Text style={styles.itemContent}>{content}</Text>
         <Image
           style={styles.itemNext}
           source={require('../../assets/set/next.png')}

@@ -1,16 +1,6 @@
-import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  WebView,
-  TouchableOpacity,
-  Image,
-  Text,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, WebView, ScrollView } from 'react-native';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { BlueButtonBig } from '../../components/Button';
 import { Colors } from '../../config/GlobalConfig';
 import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
@@ -81,7 +71,7 @@ export default class UseAndPrivacyPolicyScreen extends BaseComponent {
   }
 
   isAgreePress() {
-    this.setState({ isAgree: !this.state.isAgree });
+    this.setState(prevState => ({ isAgree: !prevState.isAgree }));
   }
 
   agreeBtn() {
@@ -93,18 +83,20 @@ export default class UseAndPrivacyPolicyScreen extends BaseComponent {
     try {
       const action = JSON.parse(event.nativeEvent.data);
 
-      if (action.type == 'setHeight' && action.height > 0) {
+      if (action.type === 'setHeight' && action.height > 0) {
         this.setState({
           webviewHeight: action.height,
         });
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log('onMessage', err);
+    }
   }
 
   renderComponent() {
-    const checkIcon = this.state.isAgree
+    /* const checkIcon = this.state.isAgree
       ? require('../../assets/launch/check_on.png')
-      : require('../../assets/launch/check_off.png');
+      : require('../../assets/launch/check_off.png'); */
     return (
       <View style={styles.container}>
         <WhiteBgHeader
@@ -125,7 +117,7 @@ export default class UseAndPrivacyPolicyScreen extends BaseComponent {
             automaticallyAdjustContentInsets // 设置是否自动调整内容
             contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }} // 设置内容所占的尺寸大小。格式：{top:number,left:number,bottom:number,right:number}
             domStorageEnabled // android 用于控制是否开启 DOM Storage（存储）
-            onMessage={this.onMessage.bind(this)}
+            onMessage={this.onMessage}
           />
         </ScrollView>
       </View>

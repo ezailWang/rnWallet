@@ -10,7 +10,6 @@ import {
   DeviceEventEmitter,
   Platform,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import JPushModule from 'jpush-react-native';
 import StorageManage from '../../utils/StorageManage';
@@ -20,7 +19,6 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
-import { showToast } from '../../utils/Toast';
 import { addressToName } from '../../utils/CommonUtil';
 import NetworkManager from '../../utils/NetworkManager';
 
@@ -117,6 +115,7 @@ class MessageCenterScreen extends BaseComponent {
 
     // this.unReadMessageCount = 0;
     this.userToken = {};
+    this.flatList = React.createRef();
   }
 
   async _initData() {
@@ -143,14 +142,14 @@ class MessageCenterScreen extends BaseComponent {
           this.haveNextPage = response.data.haveNextPage;
           const list = response.data.messages;
           const meaasges = [];
-          list.forEach((data, index) => {
+          list.forEach(data => {
             const message = {};
             message.msgId = data.msgId;
             message.messageType = data.messageType; // (消息类型)  1-消息通知、2-公告
             message.readStatus = data.readStatus; // （消息状态） 1-未读、2-已读
             message.updateTime = data.updateTime;
             message.deviceToken = data.deviceToken;
-            if (data.messageType == 1) {
+            if (data.messageType === 1) {
               message.hashId = data.hashId;
               message.transactionType = data.transactionType; // （交易类型） 1-收款、2-转账
               message.status = data.status; // 1-成功、2失败
@@ -158,7 +157,7 @@ class MessageCenterScreen extends BaseComponent {
               message.fromAddress = data.fromAddress;
               message.toAddress = data.toAddress;
               message.transactionValue = data.transactionValue;
-            } else if (data.messageType == 2) {
+            } else if (data.messageType === 2) {
               message.alertTitle = data.alertTitle;
               message.alertSubTitle = data.alertSubTitle;
               message.contentUrl = data.contentUrl;
@@ -171,9 +170,9 @@ class MessageCenterScreen extends BaseComponent {
               data: meaasges,
             });
           } else {
-            this.setState({
-              data: this.state.data.concat(meaasges),
-            });
+            this.setState(prevState => ({
+              data: prevState.data.concat(meaasges),
+            }));
           }
         } else {
           console.log('getMessageList err msg:', response.msg);
@@ -187,7 +186,7 @@ class MessageCenterScreen extends BaseComponent {
   }
 
   _onRefresh = isShowLoading => {
-    const showLoading = !!(isShowLoading == undefined || isShowLoading);
+    const showLoading = !!(isShowLoading === undefined || isShowLoading);
     if (!this.userToken || this.userToken === null) {
       return;
     }
@@ -235,22 +234,21 @@ class MessageCenterScreen extends BaseComponent {
 
   _onPressItem = item => {
     try {
-      if (item.item.readStatus == 1) {
+      if (item.item.readStatus === 1) {
         this.callBackIsNeedRefresh = true;
         this._readMessage(item.item.msgId);
       } else {
         this.callBackIsNeedRefresh = false;
       }
 
-      if (item.item.messageType == 1) {
+      if (item.item.messageType === 1) {
         this._showLoading();
         this.transactionNotification(item.item);
-      } else if (item.item.messageType == 2) {
+      } else if (item.item.messageType === 2) {
         this.announcement(item.item);
       }
     } catch (err) {
       this._hideLoading();
-    } finally {
     }
   };
 
@@ -269,10 +267,9 @@ class MessageCenterScreen extends BaseComponent {
           // JPushModule.clearNotificationById(msgId);
           this.getMessageCount();
           this._onRefresh(false);
-        } else {
         }
       })
-      .catch(err => {
+      .catch(() => {
         // console.log('_readMessage err:', err)
         this._hideLoading();
       });
@@ -292,8 +289,8 @@ class MessageCenterScreen extends BaseComponent {
         if (response.code === 200) {
           const messageCount = response.data.account;
           // ios
-          if (Platform.OS == 'ios') {
-            JPushModule.setBadge(messageCount, success => {});
+          if (Platform.OS === 'ios') {
+            JPushModule.setBadge(messageCount /* success => {} */);
           }
           DeviceEventEmitter.emit('messageCount', { messageCount });
         } else {
@@ -320,25 +317,27 @@ class MessageCenterScreen extends BaseComponent {
     const itemSymbol = item.symbol.toUpperCase();
     const isHaveToken = await this.routeToTransactionRecoder(item);
     if (!isHaveToken) {
-      const allTokens = this.props.allTokens;
+      const { allTokens } = this.props;
       let isMatchToken = false;
+      let tokenInfo = null;
       for (let i = 0; i < allTokens.length; i++) {
         const token = allTokens[i];
-        if (token.symbol.toUpperCase() == itemSymbol) {
+        if (token.symbol.toUpperCase() === itemSymbol) {
           isMatchToken = true;
-          const tokenInfo = {
+          tokenInfo = {
             iconLarge: token.iconLarge,
             symbol: token.symbol,
             name: token.name,
             decimal: token.decimal,
             address: token.address,
           };
-          await this.saveTokenToStorage(tokenInfo);
-          await NetworkManager.loadTokenList();
           break;
         }
       }
+
       if (isMatchToken) {
+        await this.saveTokenToStorage(tokenInfo);
+        await NetworkManager.loadTokenList();
         await this.routeToTransactionRecoder(item);
       } else {
         this._hideLoading();
@@ -347,13 +346,13 @@ class MessageCenterScreen extends BaseComponent {
   }
 
   async routeToTransactionRecoder(item) {
-    const _this = this;
     const itemSymbol = item.symbol.toUpperCase();
-    const tokens = this.props.tokens;
+    const { tokens } = this.props;
     let isHaveToken = false;
+    const currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
-      if (token.symbol.toUpperCase() == itemSymbol) {
+      if (token.symbol.toUpperCase() === itemSymbol) {
         isHaveToken = true;
         const balanceInfo = {
           amount: token.balance,
@@ -364,14 +363,13 @@ class MessageCenterScreen extends BaseComponent {
         };
         this.props.setCoinBalance(balanceInfo);
 
-        const transation = await NetworkManager.getTransaction(item.hashId);
-
+        // const transation = await NetworkManager.getTransaction(item.hashId);
+        const transation = NetworkManager.getTransaction(item.hashId);
         let status = 2;
-        if (transation.isError == undefined || transation.isError == false) {
+        if (transation.isError === undefined || transation.isError === false) {
           status = 0;
         }
-        if (status == 0) {
-          const currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
+        if (status === 0) {
           if (currentBlockNumber - transation.blockNumber < 12) {
             status = 1;
           }
@@ -379,7 +377,7 @@ class MessageCenterScreen extends BaseComponent {
 
         // let address = transation.to.toLowerCase() == this.props.wallet.address.toLowerCase() ? transation.from : transation.to
         const address =
-          item.fromAddress == this.props.wallet.address.toLowerCase()
+          item.fromAddress === this.props.wallet.address.toLowerCase()
             ? item.fromAddress
             : item.toAddress;
         const transactionDetail = {
@@ -408,11 +406,12 @@ class MessageCenterScreen extends BaseComponent {
 
   // 公告
   announcement(item) {
-    const _this = this;
     this.props.navigation.navigate('MessageWebView', {
       url: item.contentUrl,
       title: item.alertTitle,
-      callback(data) {},
+      callback() {
+        // console.log('callback', data);
+      },
     });
   }
 
@@ -430,8 +429,8 @@ class MessageCenterScreen extends BaseComponent {
         if (response.code === 200) {
           // JPushModule.clearAllNotifications();
           // ios
-          if (Platform.OS == 'ios') {
-            JPushModule.setBadge(0, success => {});
+          if (Platform.OS === 'ios') {
+            JPushModule.setBadge(0 /* , success => { } */);
           }
           DeviceEventEmitter.emit('messageCount', { messageCount: 0 });
           this._onRefresh(false);
@@ -440,7 +439,7 @@ class MessageCenterScreen extends BaseComponent {
         }
         this._hideLoading();
       })
-      .catch(err => {
+      .catch(() => {
         // console.log('readAllMessage err:', err)
         this._hideLoading();
       });
@@ -485,7 +484,7 @@ class MessageCenterScreen extends BaseComponent {
       </View>
     );
 
-  _renderItem = item => <Item item={item} onPressItem={this._onPressItem.bind(this, item)} />;
+  _renderItem = item => <Item item={item} onPressItem={this._onPressItem} />;
 
   renderComponent() {
     return (
@@ -499,7 +498,7 @@ class MessageCenterScreen extends BaseComponent {
         />
         <FlatList
           style={styles.listContainer}
-          ref={ref => (this.flatList = ref)}
+          ref={this.flatList}
           data={this.state.data}
           keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
           renderItem={this._renderItem}
@@ -516,7 +515,6 @@ class MessageCenterScreen extends BaseComponent {
           }
           onEndReachedThreshold={0.1}
           onEndReached={this._onLoadMore} // 加载更多
-          // ListFooterComponent={this._listFooterView}
         />
       </View>
     );
@@ -524,37 +522,32 @@ class MessageCenterScreen extends BaseComponent {
 }
 
 class Item extends PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props.item.item);
-  };
-
   render() {
-    const { messageType, updateTime, readStatus } = this.props.item.item || {};
+    const { item } = this.props || {};
+    const { messageType, updateTime, readStatus, onPressItem } = item || {};
     let title = '';
     let content = '';
 
-    if (messageType == 1) {
+    if (messageType === 1) {
       const { transactionType, status, symbol, fromAddress, toAddress, transactionValue } =
-        this.props.item.item || {};
+        item || {};
       const title1 =
-        transactionType == 1
+        transactionType === 1
           ? I18n.t('settings.receipt_notice')
           : I18n.t('settings.transfer_notice');
       const title2 = `${transactionValue + symbol.toUpperCase()} `;
-      const title3 =
-        transactionType == 2
-          ? status == 1
-            ? I18n.t('settings.successful_transfer')
-            : I18n.t('settings.transfer_failed')
-          : I18n.t('settings.successful_payment');
+
+      const t3transfer =
+        status === 1 ? I18n.t('settings.successful_transfer') : I18n.t('settings.transfer_failed');
+      const title3 = transactionType === 2 ? t3transfer : I18n.t('settings.successful_payment');
       title = title1 + title2 + title3;
 
-      const address = transactionType == 1 ? fromAddress : toAddress;
+      const address = transactionType === 1 ? fromAddress : toAddress;
       const content1 =
-        transactionType == 1 ? I18n.t('settings.sender') : I18n.t('settings.receiver');
+        transactionType === 1 ? I18n.t('settings.sender') : I18n.t('settings.receiver');
       content = `${content1 + address.substr(0, 8)}......${address.substr(34, 42)}`;
-    } else if (messageType == 2) {
-      const { alertTitle, alertSubTitle, sender } = this.props.item.item || {};
+    } else if (messageType === 2) {
+      const { alertSubTitle, sender } = item || {};
       title = I18n.t('settings.announcement') + alertSubTitle;
       content = sender;
     }
@@ -562,8 +555,8 @@ class Item extends PureComponent {
     return (
       <TouchableOpacity
         activeOpacity={0.6}
-        style={[styles.item, { backgroundColor: readStatus == 2 ? 'white' : Colors.bg_blue }]}
-        onPress={this._onPress}
+        style={[styles.item, { backgroundColor: readStatus === 2 ? 'white' : Colors.bg_blue }]}
+        onPress={onPressItem}
       >
         <View style={styles.itemContentBox}>
           <Text style={styles.itemTitle}>{title}</Text>

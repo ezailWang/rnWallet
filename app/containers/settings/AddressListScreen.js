@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableOpacity, FlatList, Text, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage';
 import * as Actions from '../../config/action/Actions';
 import { Colors, StorageKey } from '../../config/GlobalConfig';
-import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
-import { addressToName } from '../../utils/CommonUtil';
 
 const styles = StyleSheet.create({
   container: {
@@ -190,6 +187,8 @@ class AddressListScreen extends BaseComponent {
 
     this.recentAddressList = [];
     this.from = undefined; // 从哪个页面跳转过来的
+    this.contactList = React.createRef();
+    this.recentAddressList = React.createRef();
   }
 
   async _initData() {
@@ -204,11 +203,11 @@ class AddressListScreen extends BaseComponent {
 
   refreshData() {
     const contactData = this.props.contactList;
-    this.recentAddressList.forEach((recentAddress, index, b) => {
-      const address = recentAddress.address;
+    this.recentAddressList.forEach(recentAddress => {
+      const { address } = recentAddress;
       let isMathAddressName = '';
       for (let i = 0; i < contactData.length; i++) {
-        if (address.toUpperCase() == contactData[i].address.toUpperCase()) {
+        if (address.toUpperCase() === contactData[i].address.toUpperCase()) {
           isMathAddressName = contactData[i].name;
           break;
         }
@@ -229,7 +228,7 @@ class AddressListScreen extends BaseComponent {
   _onContactPressItem = item => {
     const _this = this;
     // this.props.navigation.navigate('',{contactInfo:item.item,index:item.index});
-    if (this.from == 'transaction') {
+    if (this.from === 'transaction') {
       // 返回转账页面
       this.props.navigation.state.params.callback({ toAddress: item.item.address });
       this.props.navigation.goBack();
@@ -238,7 +237,7 @@ class AddressListScreen extends BaseComponent {
       this.props.navigation.navigate('ContactInfo', {
         contactInfo: item.item,
         index: item.index,
-        callback(data) {
+        callback() {
           _this.loadContactData();
         },
       });
@@ -246,26 +245,23 @@ class AddressListScreen extends BaseComponent {
   };
 
   _onRecentAddressItem = item => {
-    const _this = this;
-    if (this.from == 'transaction') {
+    if (this.from === 'transaction') {
       // 返回转账页面
       this.props.navigation.state.params.callback({ toAddress: item.item.address });
       this.props.navigation.goBack();
     }
   };
 
-  _renderItemContact = item => (
-    <ContactItem item={item} onPressItem={this._onContactPressItem.bind(this, item)} />
-  );
+  _renderItemContact = item => <ContactItem item={item} onPressItem={this._onContactPressItem} />;
 
   _renderItemRecentAddress = item => (
-    <RecentAddressItem item={item} onPressItem={this._onRecentAddressItem.bind(this, item)} />
+    <RecentAddressItem item={item} onPressItem={this._onRecentAddressItem} />
   );
 
   addContact = async () => {
     const _this = this;
     this.props.navigation.navigate('CreateContact', {
-      callback(data) {
+      callback() {
         _this.loadContactData();
       },
     });
@@ -303,8 +299,8 @@ class AddressListScreen extends BaseComponent {
   );
 
   renderComponent() {
-    const isCheckedContactList = this.state.isCheckedContactList;
-    const headerTitleFontSize = I18n.locale == 'zh' ? 15 : 12;
+    const { isCheckedContactList } = this.state;
+    const headerTitleFontSize = I18n.locale === 'zh' ? 15 : 12;
     return (
       <View style={styles.container}>
         <View style={[styles.headerContainer]}>
@@ -364,7 +360,7 @@ class AddressListScreen extends BaseComponent {
 
           <TouchableOpacity
             style={[styles.headerButtonBox]}
-            onPress={isCheckedContactList ? this.addContact : () => {}}
+            onPress={isCheckedContactList ? this.addContact : null}
           >
             {isCheckedContactList ? (
               <Image
@@ -378,7 +374,7 @@ class AddressListScreen extends BaseComponent {
         {isCheckedContactList ? (
           <FlatList
             style={styles.listContainer}
-            ref="contactList"
+            ref={this.contactList}
             data={this.state.contactDatas}
             keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
             renderItem={this._renderItemContact}
@@ -393,7 +389,7 @@ class AddressListScreen extends BaseComponent {
         ) : (
           <FlatList
             style={styles.listContainer}
-            ref="recentAddressList"
+            ref={this.recentAddressList}
             data={this.state.recentAddressDatas}
             keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
             renderItem={this._renderItemRecentAddress}
@@ -412,12 +408,9 @@ class AddressListScreen extends BaseComponent {
 }
 
 class ContactItem extends PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props.item.item);
-  };
-
   render() {
-    const { name, address, remark } = this.props.item.item || {};
+    const { item } = this.props || {};
+    const { name, address, onPressItem } = item || {};
     const letter = name.substr(0, 1);
     let _letter = `${letter}`;
     if (letter >= 'a' && letter <= 'z') {
@@ -431,7 +424,7 @@ class ContactItem extends PureComponent {
         activeOpacity={0.6}
         {...this.props}
         style={styles.item}
-        onPress={this._onPress}
+        onPress={onPressItem}
       >
         <LinearGradient
           colors={['#32beff', '#0095eb', '#2093ff']}
@@ -460,40 +453,32 @@ class RecentAddressItem extends PureComponent {
   }
 
   _getLogo = (symbol, iconLarge) => {
-    if (symbol == 'ITC') {
+    if (symbol === 'ITC') {
       return require('../../assets/home/ITC.png');
     }
-    if (iconLarge == '') {
-      if (symbol == 'ETH') {
+    if (iconLarge === '') {
+      if (symbol === 'ETH') {
         return require('../../assets/home/ETH.png');
       }
-      if (symbol == 'ITC') {
-        return require('../../assets/home/ITC.png');
-      }
-      return require('../../assets/home/null.png');
     }
-    if (this.state.loadIconError) {
-      return require('../../assets/home/null.png');
-    }
-  };
-
-  _onPress = () => {
-    this.props.onPressItem(this.props.item.item);
+    return require('../../assets/home/null.png');
   };
 
   render() {
-    const { address, symbol, time, iconLarge, name } = this.props.item.item || {};
+    const { item } = this.props || {};
+    const { address, symbol, time, iconLarge, name, onPressItem } = item || {};
+    const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
-    const _name = name == '' ? '' : ` (${name.trim()})`;
+    const _name = name === '' ? '' : ` (${name.trim()})`;
     const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}${_name}`;
     const _time = `${time} +0800`;
     return (
-      <TouchableOpacity activeOpacity={0.6} style={styles.rAItem} onPress={this._onPress}>
+      <TouchableOpacity activeOpacity={0.6} style={styles.rAItem} onPress={onPressItem}>
         <Image
           style={styles.rAItemIcon}
           iosdefaultSource={require('../../assets/home/null.png')}
           source={
-            iconLarge == '' || this.state.loadIconError == true || symbol == 'ITC'
+            iconLarge === '' || loadIconError === true || symbol === 'ITC'
               ? icon
               : { uri: iconLarge }
           }

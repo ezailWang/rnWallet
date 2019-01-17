@@ -1,22 +1,12 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  SnapshotViewIOS,
-  TouchableOpacity,
-  Dimensions,
-  BackHandler,
-} from 'react-native';
-import { connect } from 'react-redux';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import { BlueButtonBig } from '../../components/Button';
 import { Colors, FontSize } from '../../config/GlobalConfig';
 import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
 
@@ -190,23 +180,30 @@ class BackupMnemonicScreen extends BaseComponent {
 }
 
 class Item extends PureComponent {
-  static propTypes = {};
+  static propTypes = {
+    isLastLine: PropTypes.bool.isRequired,
+    num1: PropTypes.string.isRequired,
+    word1: PropTypes.string.isRequired,
+    num2: PropTypes.string.isRequired,
+    word2: PropTypes.string.isRequired,
+  };
 
   static defaultProps = {
     isLastLine: false,
   };
 
   render() {
+    const { isLastLine, num1, word1, num2, word2 } = this.props;
     return (
-      <View style={[styles.itemBox, this.props.isLastLine ? null : styles.itemHLine]}>
+      <View style={[styles.itemBox, isLastLine ? null : styles.itemHLine]}>
         <View style={[styles.itemCommon]}>
-          <Text style={styles.itemNum}>{this.props.num1}</Text>
-          <Text style={styles.itemWord}>{this.props.word1}</Text>
+          <Text style={styles.itemNum}>{num1}</Text>
+          <Text style={styles.itemWord}>{word1}</Text>
         </View>
         <View style={styles.itemVLine} />
         <View style={[styles.itemCommon]}>
-          <Text style={styles.itemNum}>{this.props.num2}</Text>
-          <Text style={styles.itemWord}>{this.props.word2}</Text>
+          <Text style={styles.itemNum}>{num2}</Text>
+          <Text style={styles.itemWord}>{word2}</Text>
         </View>
       </View>
     );

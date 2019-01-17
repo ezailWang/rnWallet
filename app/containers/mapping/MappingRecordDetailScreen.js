@@ -1,8 +1,7 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   ScrollView,
   Text,
   ImageBackground,
@@ -10,10 +9,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
 import * as Actions from '../../config/action/Actions';
-import { Colors, StorageKey, FontSize } from '../../config/GlobalConfig';
-import { showToast } from '../../utils/Toast';
+import { Colors, FontSize } from '../../config/GlobalConfig';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
@@ -68,7 +65,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center',
     flex: 1,
-    justifyContent: 'center',
   },
   amountTxt: {
     fontSize: 30,
@@ -194,8 +190,8 @@ class MappingRecordDetailScreen extends BaseComponent {
     }
     const headerBg = require('../../assets/home/top_bg.png');
 
-    const info1IsDone = this.state.status != 0;
-    const info2IsDone = this.state.status == 2;
+    const info1IsDone = this.state.status !== 0;
+    const info2IsDone = this.state.status === 2;
 
     return (
       <View style={styles.container}>
@@ -248,7 +244,7 @@ class MappingRecordDetailScreen extends BaseComponent {
                   content="2018-11-06 18:18:06 +0800"
                 />
               </View>
-              <Line type={this.state.status == 0 ? 1 : 2} />
+              <Line type={this.state.status === 0 ? 1 : 2} />
             </View>
             <View
               style={[
@@ -262,7 +258,7 @@ class MappingRecordDetailScreen extends BaseComponent {
                   content={I18n.t('mapping.native_itc_issuance')}
                 />
                 <View style={styles.vLine} />
-                {this.state.status == 0 ? (
+                {this.state.status === 0 ? (
                   <ItemView
                     title={I18n.t('mapping.transfer_unsuccess_title')}
                     content={I18n.t('mapping.transfer_unsuccess_desc')}
@@ -292,10 +288,11 @@ class MappingRecordDetailScreen extends BaseComponent {
 
 class ItemView extends PureComponent {
   render() {
+    const { title, content } = this.props;
     return (
       <View style={styles.itemView}>
-        <Text style={styles.itemTitle}>{this.props.title}</Text>
-        <Text style={styles.itemContent}>{this.props.content}</Text>
+        <Text style={styles.itemTitle}>{title}</Text>
+        <Text style={styles.itemContent}>{content}</Text>
       </View>
     );
   }
@@ -303,13 +300,14 @@ class ItemView extends PureComponent {
 
 class TitleView extends PureComponent {
   render() {
-    const titleIcon = this.props.isCompleted
+    const { isCompleted, content } = this.props;
+    const titleIcon = isCompleted
       ? require('../../assets/mapping/doneIcon.png')
       : require('../../assets/mapping/ingIcon.png');
     return (
       <View style={styles.titleView}>
         <Image style={styles.titleIcon} resizeMode="center" source={titleIcon} />
-        <Text style={styles.titleTxt}>{this.props.content}</Text>
+        <Text style={styles.titleTxt}>{content}</Text>
       </View>
     );
   }
@@ -317,7 +315,8 @@ class TitleView extends PureComponent {
 
 class Line extends PureComponent {
   render() {
-    const type = this.props.type;
+    const { type } = this.props;
+    const bgColor = type === 1 ? '#0094ff' : '#fff';
     return (
       /* <LinearGradient
                 style={[styles.lineView,{borderColor:type == 2 ? '#95C06D' : type == 1 ? '#0094ff' : '#fff'}]}
@@ -329,8 +328,8 @@ class Line extends PureComponent {
         style={[
           styles.lineView,
           {
-            borderColor: type == 2 ? '#95C06D' : type == 1 ? '#0094ff' : '#fff',
-            backgroundColor: type == 2 ? '#95C06D' : type == 1 ? '#0094ff' : '#fff',
+            borderColor: type === 2 ? '#95C06D' : bgColor,
+            backgroundColor: type === 2 ? '#95C06D' : bgColor,
           },
         ]}
       />

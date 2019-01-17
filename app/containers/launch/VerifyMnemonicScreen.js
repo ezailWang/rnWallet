@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   StyleSheet,
@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   DeviceEventEmitter,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import keythereum from 'keythereum';
 import HDWallet from 'react-native-hdwallet';
 import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
@@ -22,12 +21,10 @@ import KeystoreUtils from '../../utils/KeystoreUtils';
 import StorageManage from '../../utils/StorageManage';
 import * as Actions from '../../config/action/Actions';
 import { upsetArrayOrder } from './Common';
-import { Colors, FontSize } from '../../config/GlobalConfig';
+import { Colors, FontSize, StorageKey } from '../../config/GlobalConfig';
 import { WhiteBgNoTitleHeader } from '../../components/NavigaionHeader';
 import { showToast } from '../../utils/Toast';
 import Layout from '../../config/LayoutConstants';
-import { StorageKey } from '../../config/GlobalConfig';
-import store from '../../config/store/ConfigureStore';
 import { I18n } from '../../config/language/i18n';
 import StaticLoading from '../../components/StaticLoading';
 import BaseComponent from '../base/BaseComponent';
@@ -223,11 +220,11 @@ class VerifyMnemonicScreen extends BaseComponent {
       const word = this.sectionMnemonics[i].toLowerCase();
       arr.push(word);
       do {
-        const i = Math.floor(Math.random() * (1 - wordListLength) + wordListLength); // 获取1-wordListLength的随机数
-        const w = this.wordList[i - 1].toLowerCase();
+        const l = Math.floor(Math.random() * (1 - wordListLength) + wordListLength); // 获取1-wordListLength的随机数
+        const w = this.wordList[l - 1].toLowerCase();
         let isExist = false;
         for (let j = 0; j < arr.length; j++) {
-          if (w == arr[j].toLowerCase()) {
+          if (w === arr[j].toLowerCase()) {
             isExist = true;
             break;
           }
@@ -238,11 +235,11 @@ class VerifyMnemonicScreen extends BaseComponent {
       } while (arr.length < 3);
 
       do {
-        const i = Math.floor(Math.random() * (1 - 12) + 12); // 获取1-12的随机数
-        const w = upsetArrayOrder(this.props.mnemonic.split(' '))[i - 1].toLowerCase();
+        const u = Math.floor(Math.random() * (1 - 12) + 12); // 获取1-12的随机数
+        const w = upsetArrayOrder(this.props.mnemonic.split(' '))[u - 1].toLowerCase();
         let isExist = false;
         for (let j = 0; j < arr.length; j++) {
-          if (w == arr[j].toLowerCase()) {
+          if (w === arr[j].toLowerCase()) {
             isExist = true;
             break;
           }
@@ -269,7 +266,8 @@ class VerifyMnemonicScreen extends BaseComponent {
   _onPressItem = (text, num) => {
     const word = this.sectionMnemonics[num].toLowerCase();
     const checkedNumIndex = this.state.randomSectionMnemonics[num].indexOf(text);
-    const checkedNums = lodash.cloneDeep(this.state.checkedNums);
+    const checkedNumArray = this.state.checkedNums;
+    const checkedNums = lodash.cloneDeep(checkedNumArray);
     checkedNums[num] = checkedNumIndex;
 
     /* this.setState(Object.assign({}, this.state, {
@@ -279,7 +277,7 @@ class VerifyMnemonicScreen extends BaseComponent {
       checkedNums,
     });
 
-    if (text.toLowerCase() == word) {
+    if (text.toLowerCase() === word) {
       this.matchCorrectNum = this.matchCorrectNum + 1;
       // Vibration.vibrate([0, 20], false)
       if (this.matchCorrectNum < 4) {
@@ -306,9 +304,9 @@ class VerifyMnemonicScreen extends BaseComponent {
 
   changeLoading(num) {
     let content = '';
-    if (num == 1) {
+    if (num === 1) {
       content = I18n.t('launch.start_create_wallet');
-    } else if (num == 2) {
+    } else if (num === 2) {
       content = I18n.t('launch.generating_key_pairs');
     } else {
       content = I18n.t('launch.generating_keystore_file');
@@ -317,7 +315,7 @@ class VerifyMnemonicScreen extends BaseComponent {
       isShowSLoading: true,
       sLoadingContent: content,
     });
-    if (num == 3) {
+    if (num === 3) {
       clearInterval(this.timeInterval);
       setTimeout(() => {
         this.startCreateEthWallet();
@@ -325,23 +323,19 @@ class VerifyMnemonicScreen extends BaseComponent {
     }
   }
 
-  async startCreateItcWallet() {}
-
   async startCreateEthWallet() {
     try {
       const m = this.props.mnemonic; // 助记词
       const seed = walletUtils.mnemonicToSeed(m);
-      const seedHex = seed.toString('hex');
+      // const seedHex = seed.toString('hex');
       const hdwallet = HDWallet.fromMasterSeed(seed);
       const derivePath = "m/44'/60'/0'/0/0";
       hdwallet.setDerivePath(derivePath);
       const privateKey = hdwallet.getPrivateKey();
       const checksumAddress = hdwallet.getChecksumAddressString();
-
-      const password = this.password;
       const params = { keyBytes: 32, ivBytes: 16 };
       const dk = keythereum.create(params);
-      const keyObject = await KeystoreUtils.dump(password, privateKey, dk.salt, dk.iv);
+      const keyObject = await KeystoreUtils.dump(this.password, privateKey, dk.salt, dk.iv);
       await KeystoreUtils.exportToFile(keyObject, 'keystore');
       // var str = await KeystoreUtils.importFromFile(keyObject.address)
       // var newKeyObject = JSON.parse(str)
@@ -353,9 +347,9 @@ class VerifyMnemonicScreen extends BaseComponent {
         type: this.walletType, // 钱包类型
       };
       let wallets = [];
-      if (this.from == 1 || this.from == 2) {
+      if (this.from === 1 || this.from === 2) {
         let preWalletList = [];
-        if (this.walletType == 'itc') {
+        if (this.walletType === 'itc') {
           preWalletList = await StorageManage.load(StorageKey.ItcWalletList);
         } else {
           preWalletList = await StorageManage.load(StorageKey.EthWalletList);
@@ -370,7 +364,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         this.props.setIsNewWallet(true);
       }
 
-      if (this.walletType == 'itc') {
+      if (this.walletType === 'itc') {
         StorageManage.save(StorageKey.ItcWalletList, wallets);
         this.props.setItcWalletList(wallets);
       } else {
@@ -394,12 +388,12 @@ class VerifyMnemonicScreen extends BaseComponent {
   }
 
   routeTo() {
-    if (this.walletType == 'itc') {
+    if (this.walletType === 'itc') {
       this.props.loadTokenBalance(defaultTokensOfITC);
     } else {
       this.props.loadTokenBalance(defaultTokens);
     }
-    if (this.from == 1 || this.from == 2) {
+    if (this.from === 1 || this.from === 2) {
       this.props.setTransactionRecordList([]);
       StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo);
 
@@ -409,10 +403,10 @@ class VerifyMnemonicScreen extends BaseComponent {
       isShowSLoading: false,
     });
 
-    if (this.from == 1) {
+    if (this.from === 1) {
       this.props.navigation.navigate('Home');
       // this.props.navigation.openDrawer()
-    } else if (this.from == 2) {
+    } else if (this.from === 2) {
       this.props.navigation.navigate('WalletList');
     } else {
       this.props.navigation.navigate('Home');
@@ -437,9 +431,9 @@ class VerifyMnemonicScreen extends BaseComponent {
   }
 
   renderComponent() {
-    const numberArray = this.state.numberArray;
+    const numbers = this.state.numberArray;
     const rSMnemonics = this.state.randomSectionMnemonics;
-    const checkedNums = this.state.checkedNums;
+    const checkeds = this.state.checkedNums;
 
     return (
       <View style={styles.container}>
@@ -467,33 +461,33 @@ class VerifyMnemonicScreen extends BaseComponent {
             scrollEnabled={false}
           >
             <Item
-              number={numberArray[0]}
+              number={numbers[0]}
               serialNum={1}
               randomMnemonics={rSMnemonics[0]}
               onPressItem={this._onPressItem}
-              checkedNum={checkedNums[0]}
+              checkedNum={checkeds[0]}
               isShowLeftView={false}
             />
             <Item
-              number={numberArray[1]}
+              number={numbers[1]}
               serialNum={2}
               randomMnemonics={rSMnemonics[1]}
               onPressItem={this._onPressItem}
-              checkedNum={checkedNums[1]}
+              checkedNum={checkeds[1]}
             />
             <Item
-              number={numberArray[2]}
+              number={numbers[2]}
               serialNum={3}
               randomMnemonics={rSMnemonics[2]}
               onPressItem={this._onPressItem}
-              checkedNum={checkedNums[2]}
+              checkedNum={checkeds[2]}
             />
             <Item
-              number={numberArray[3]}
+              number={numbers[3]}
               serialNum={4}
               randomMnemonics={rSMnemonics[3]}
               onPressItem={this._onPressItem}
-              checkedNum={checkedNums[3]}
+              checkedNum={checkeds[3]}
               isShowRightView={false}
             />
           </ScrollView>
@@ -511,6 +505,7 @@ class Item extends PureComponent {
     checkedNum: PropTypes.number.isRequired,
     isShowLeftView: PropTypes.bool,
     isShowRightView: PropTypes.bool,
+    onPressItem: PropTypes.func,
   };
 
   static defaultProps = {
@@ -522,20 +517,20 @@ class Item extends PureComponent {
     checkedNum: -1,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   _onPress = text => {
-    this.props.onPressItem(text, this.props.serialNum - 1);
+    const { onPressItem, serialNum } = this.props;
+    onPressItem(text, serialNum - 1);
   };
 
   render() {
-    const isShowLeftView = this.props.isShowLeftView;
-    const isShowRightView = this.props.isShowRightView;
-    const randomMnemonics = this.props.randomMnemonics;
-    const checkedNum = this.props.checkedNum;
-
+    const {
+      isShowLeftView,
+      isShowRightView,
+      randomMnemonics,
+      checkedNum,
+      number,
+      serialNum,
+    } = this.props;
     return (
       <View style={styles.itemBox}>
         <View
@@ -549,10 +544,10 @@ class Item extends PureComponent {
         <View style={styles.itemView}>
           <View style={styles.itemTitle}>
             <View style={styles.itemTextView}>
-              <Text style={styles.itemNumberText}>{this.props.number}</Text>
+              <Text style={styles.itemNumberText}>{number}</Text>
             </View>
             <View style={styles.itemTextView}>
-              <Text style={styles.itemSerialNumText}>{this.props.serialNum}</Text>
+              <Text style={styles.itemSerialNumText}>{serialNum}</Text>
               <Text style={styles.itemSerialTotalNumText}>/4</Text>
             </View>
           </View>
@@ -561,13 +556,13 @@ class Item extends PureComponent {
               itemBtnStyle={styles.itemBtnStyle1}
               text={randomMnemonics[0]}
               onPressItem={this._onPress}
-              isChecked={checkedNum == 0}
+              isChecked={checkedNum === 0}
             />
             <ItemButtom
               itemBtnStyle={styles.itemBtnStyle2}
               text={randomMnemonics[1]}
               onPressItem={this._onPress}
-              isChecked={checkedNum == 1}
+              isChecked={checkedNum === 1}
             />
           </View>
           <View style={styles.itemRow}>
@@ -575,13 +570,13 @@ class Item extends PureComponent {
               itemBtnStyle={styles.itemBtnStyle3}
               text={randomMnemonics[2]}
               onPressItem={this._onPress}
-              isChecked={checkedNum == 2}
+              isChecked={checkedNum === 2}
             />
             <ItemButtom
               itemBtnStyle={styles.itemBtnStyle4}
               text={randomMnemonics[3]}
               onPressItem={this._onPress}
-              isChecked={checkedNum == 3}
+              isChecked={checkedNum === 3}
             />
           </View>
         </View>
@@ -604,23 +599,24 @@ class ItemButtom extends PureComponent {
   };
 
   _onPress = () => {
-    this.props.onPressItem(this.props.text);
+    const { text, onPressItem } = this.props;
+    onPressItem(text);
   };
 
   render() {
-    const isChecked = this.props.isChecked;
+    const { isChecked, text, itemBtnStyle } = this.props;
     return (
       <TouchableOpacity
         style={[
           styles.itemBtnBox,
           { backgroundColor: isChecked ? Colors.bg_blue_55 : 'white' },
-          this.props.itemBtnStyle,
+          itemBtnStyle,
         ]}
         activeOpacity={0.6}
         onPress={this._onPress}
       >
         <Text style={[styles.itemBtnText, { color: isChecked ? 'white' : Colors.fontBlueColor }]}>
-          {this.props.text}
+          {text}
         </Text>
       </TouchableOpacity>
     );

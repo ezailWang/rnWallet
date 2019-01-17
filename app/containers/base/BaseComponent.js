@@ -105,10 +105,10 @@ export default class BaseComponent extends PureComponent {
   }
 
   // 初始化数据
-  static _initData() {}
+  static _initData() { }
 
   // pin显示的时候，其他的modal必须关系，否则pin显示不出来
-  static _closeModal() {}
+  static _closeModal() { }
 
   // 设置StatusBar的barStyle为light-content,默认为dark-content
   _setStatusBarStyleLight() {
@@ -312,7 +312,7 @@ export default class BaseComponent extends PureComponent {
   }
 
   // 接收到货币单位改变的监听所需要的操作
-  _monetaryUnitChange = () => {};
+  _monetaryUnitChange = () => { };
 
   // 接收到Pin显示隐藏的监听所需要的操作
   _pinIsShowEmitter = data => {
@@ -325,11 +325,11 @@ export default class BaseComponent extends PureComponent {
     }
   };
 
-  _messageCountEmitter = () => {};
+  _messageCountEmitter = () => { };
 
-  _changeWalletEmitter = () => {};
+  _changeWalletEmitter = () => { };
 
-  _changeTokensEmitter = () => {};
+  _changeTokensEmitter = () => { };
 
   // 尝试使用Face ID / Touch ID进行身份验证。 返回Promise对象。
   _touchIdAuthenticate = () => {
@@ -380,7 +380,7 @@ export default class BaseComponent extends PureComponent {
     this._showPin();
   }
 
-  static _touchIdAuthenticateSuccess() {}
+  static _touchIdAuthenticateSuccess() { }
 
   _touchIdAuthenticateFail(err) {
     if (err === 'TouchIDError: User canceled authentication') {
@@ -419,7 +419,7 @@ export default class BaseComponent extends PureComponent {
       if (
         err.message === 'Network request failed' ||
         err.message ===
-          'Invalid JSON RPC response: "The Internet connection appears to be offline."' ||
+        'Invalid JSON RPC response: "The Internet connection appears to be offline."' ||
         err.message === 'Error: Network Error'
       ) {
         this.toast = showToast(I18n.t('toast.net_request_err'), Toast.positions.TOP + 10);

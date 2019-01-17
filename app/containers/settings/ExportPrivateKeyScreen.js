@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, Clipboard, BackHandler } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Image, Text, Clipboard } from 'react-native';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors, FontSize } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import ScreenshotWarn from '../../components/ScreenShowWarn';
 import Layout from '../../config/LayoutConstants';
 import { showToast } from '../../utils/Toast';
@@ -85,8 +85,8 @@ export default class ExportPrivateKeyScreen extends BaseComponent {
   }
 
   showPrivateKey() {
-    const privateKey = this.props.navigation.state.params.privateKey;
-    const privateKeyHex = privateKey.toString('hex');
+    const _privateKey = this.props.navigation.state.params.privateKey;
+    const privateKeyHex = _privateKey.toString('hex');
     this.setState({
       privateKey: privateKeyHex,
       screenshotWarnVisible: true,

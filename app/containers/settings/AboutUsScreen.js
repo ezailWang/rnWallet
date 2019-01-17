@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Platform, TouchableOpacity, Text, Image, Linking } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Image, Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import DeviceInfo from 'react-native-device-info';
-import { Colors, StorageKey } from '../../config/GlobalConfig';
+import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
@@ -127,17 +126,18 @@ class Item extends PureComponent {
   };
 
   _onPress = () => {
-    let url;
-    if (this.props.url.substr(0, 5) == 'https') {
-      url = this.props.url;
+    const { url } = this.props;
+    let urlLink;
+    if (url.substr(0, 5) === 'https') {
+      urlLink = url;
     } else {
-      url = `https://${this.props.url}`;
+      urlLink = `https://${url}`;
     }
 
-    Linking.canOpenURL(url)
+    Linking.canOpenURL(urlLink)
       .then(supported => {
         if (supported) {
-          Linking.openURL(url);
+          Linking.openURL(urlLink);
         } else {
           // showToast('打不开')
         }
@@ -146,17 +146,18 @@ class Item extends PureComponent {
   };
 
   render() {
+    const { title, isDisabled, url } = this.props;
     return (
       <View style={styles.itemBox}>
         <View style={styles.item}>
-          <Text style={styles.itemTitle}>{this.props.title}</Text>
+          <Text style={styles.itemTitle}>{title}</Text>
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.itemTouchable}
             onPress={this._onPress}
-            disabled={this.props.isDisabled}
+            disabled={isDisabled}
           >
-            <Text style={styles.itemUrl}>{this.props.url}</Text>
+            <Text style={styles.itemUrl}>{url}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.itemLine} />
