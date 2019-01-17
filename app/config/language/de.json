@@ -17,8 +17,8 @@
 
         "backup_wallet":"Sie dienen als Sicherungskopie und somit als Wiederherstellungsoption für Ihr Wallet.",
         "why_backup_wallet":"Warum müssen mnemonische Phrasen gesichert werden?",
-        "reason_backup_wallet1":"Mnemonische Phrasen können ihre Wallet wiederherstellen. Jeder der über diese Passphrase verfügt hat die Kontrolle über ihr gesamtes Guthaben!",
-        "reason_backup_wallet2":"Wir speichern weder Ihr Passwort, noch können wir es wiederherstellen. Bitte sichern Sie dieses sorgfältig!",
+        "reason_backup_wallet1":"Sie dienen als Sicherungskopie und somit als Wiederherstellungsoption für ihr wallet!",
+        "reason_backup_wallet2":"Wir speichern weder Ihre Passphrase, noch können wir es wiederherstellen. Bitte sichern Sie dieses sorgfältig!",
         "how_backup_wallet":"Wie erstellt man eine Sicherungskopie?",
         "reason_backup_wallet3":"Bitte schreiben Sie die mnemonischen Phrasen auf Papier und bewahren Sie diese sicher auf.",
         "reason_backup_wallet4":"Speichern Sie mnemonische Phrasen niemals in E-Mails oder auf Netzwerkfestplatten. Übertragen Sie diese nicht durch Netzwerke.",
