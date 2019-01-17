@@ -269,7 +269,7 @@ export default class TransactionDetail extends BaseComponent {
                                                 ellipsizeMode={"middle"}>{this.state.transactionHash}</Text>
                                         </TouchableOpacity>
                                         <Text style={[styles.fontGray, styles.marginTop10]}>{I18n.t('transaction.block')}</Text>
-                                        <Text style={[styles.fontBlack, styles.marginTop2]}>{this.tranStatus === '0' ? this.state.blockNumber : '...'}</Text>
+                                        <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.tranStatus === '0' ? this.state.blockNumber : '...'}</Text>
                                         <Text style={[styles.fontGray, styles.marginTop10]}>{I18n.t('transaction.transaction_time')}</Text>
                                         <Text style={[styles.fontBlack, styles.marginTop2]}>{this.state.transactionTime}</Text>
                                     </View>

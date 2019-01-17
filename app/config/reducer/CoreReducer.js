@@ -91,7 +91,10 @@ function coreReducer(state = defaultState, action) {
 
             if (state.wallet) {
                 let key = StorageKey.Tokens + state.wallet.address
-                StorageManage.save(key, newTokens)
+                let localTokens = newTokens.filter((token, index) =>
+                    token.symbol.toLowerCase() != 'itc' && token.symbol.toLowerCase() != 'eth'
+                )
+                StorageManage.save(key, localTokens)
             }
             return {
                 ...state,
