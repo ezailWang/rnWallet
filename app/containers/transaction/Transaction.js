@@ -356,7 +356,7 @@ export default class Transaction extends BaseComponent {
         let gasLimit
         if (wallet.type === 'itc') {
             gasLimit = TransferGasLimit.itcGasLimit
-        } else if (wallet.type === 'wth') {
+        } else if (wallet.type === 'eth') {
             gasLimit = this.params.transferType === TransferType.ETH ? TransferGasLimit.ethGasLimit : TransferGasLimit.tokenGasLimit;
         }
         let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
