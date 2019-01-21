@@ -300,7 +300,7 @@ class MessageCenterScreen extends BaseComponent {
                     //ios
                     if (Platform.OS == 'ios') {
                         JPushModule.setBadge(messageCount, success => {
-                           
+
                         })
                     }
                     DeviceEventEmitter.emit('messageCount', { messageCount: messageCount });
@@ -331,23 +331,26 @@ class MessageCenterScreen extends BaseComponent {
         if (!isHaveToken) {
             let allTokens = this.props.allTokens
             let isMatchToken = false;
+            let tokenInfo = null;
             for (let i = 0; i < allTokens.length; i++) {
                 let token = allTokens[i];
                 if (token.symbol.toUpperCase() == itemSymbol) {
                     isMatchToken = true;
-                    let tokenInfo = {
+                    tokenInfo = {
                         iconLarge: token.iconLarge,
                         symbol: token.symbol,
                         name: token.name,
-                        decimal: token.decimal,
+                        decimal: parseInt(token.decimal, 10),
                         address: token.address,
                     }
-                    await this.saveTokenToStorage(tokenInfo)
-                    await NetworkManager.loadTokenList()
                     break;
                 }
             }
             if (isMatchToken) {
+                //await this.saveTokenToStorage(tokenInfo)
+                //await NetworkManager.loadTokenList()
+                this.props.addToken(tokenInfo)
+                await NetworkManager.getTokensBalance()
                 await this.routeToTransactionRecoder(item)
             } else {
                 this._hideLoading()
@@ -376,7 +379,7 @@ class MessageCenterScreen extends BaseComponent {
                 this.props.setCoinBalance(balanceInfo);
 
                 let transation = await NetworkManager.getTransaction(item.hashId)
-               
+
                 let status = 2;
                 if (transation.isError == undefined || transation.isError == false) {
                     status = 0;
@@ -417,7 +420,6 @@ class MessageCenterScreen extends BaseComponent {
 
     //公告
     announcement(item) {
-        let _this = this;
         this.props.navigation.navigate('MessageWebView', {
             url: item.contentUrl,
             title: item.alertTitle,
@@ -459,7 +461,7 @@ class MessageCenterScreen extends BaseComponent {
     }
 
     async saveTokenToStorage(token) {
-        let key = StorageKey.Tokens + this.props.wallet.address
+        /*let key = StorageKey.Tokens + this.props.wallet.address
         let localTokens = await StorageManage.load(key)
         if (!localTokens) {
             localTokens = []
@@ -472,7 +474,8 @@ class MessageCenterScreen extends BaseComponent {
             decimal: parseInt(token.decimal, 10),
             address: token.address,
         })
-        StorageManage.save(key, localTokens)
+        
+        StorageManage.save(key, localTokens)*/
     }
 
     //自定义分割线
@@ -592,6 +595,7 @@ const mapStateToProps = state => ({
     wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({
+    addToken: (token) => dispatch(Actions.addToken(token)),
     setCoinBalance: (balanceInfo) => dispatch(Actions.setCoinBalance(balanceInfo)),
     setTransactionDetailParams: (transactionDetail) => dispatch(Actions.setTransactionDetailParams(transactionDetail)),
 });
