@@ -73,7 +73,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+        entryFile: "index.js"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -144,7 +144,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -155,10 +155,11 @@ android {
 }
 
 dependencies {
-    compile project(':jcore-react-native')
-    compile project(':jpush-react-native')
-    compile project(':react-native-touch-id')
-    compile project(':react-native-image-picker')
+    implementation project(':react-native-firebase')
+    implementation project(':jcore-react-native')
+    implementation project(':jpush-react-native')
+    implementation project(':react-native-touch-id')
+    implementation project(':react-native-image-picker')
     implementation project(':react-native-device-info')
     implementation project(':react-native-blur')
     implementation project(':react-native-i18n')
@@ -169,7 +170,7 @@ dependencies {
     implementation project(':react-native-randombytes')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-fs')
-    
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -186,6 +187,8 @@ dependencies {
     implementation 'com.facebook.fresco:webpsupport:0.11.0'  //需要WebP格式支持添加本行语句
     implementation 'com.facebook.fresco:animated-webp:0.11.0'  //需要WebP动画支持添加本行语句
 
+    implementation "com.google.android.gms:play-services-base:16.0.1"
+    implementation "com.google.firebase:firebase-core:16.0.6"
 }
 
 // Run this once to be able to run the application with BUCK
@@ -194,3 +197,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.implementation
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

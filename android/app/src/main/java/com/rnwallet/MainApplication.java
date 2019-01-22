@@ -3,6 +3,8 @@ package com.rnwallet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.RNFirebasePackage;
 import com.rnfingerprint.FingerprintAuthPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -22,6 +24,8 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 import cn.jpush.reactnativejpush.JPushPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -39,6 +43,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseAnalyticsPackage(),
             new FingerprintAuthPackage(),
             new ImagePickerPackage(),
             new RNDeviceInfo(),

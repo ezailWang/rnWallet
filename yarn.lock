@@ -5106,6 +5106,10 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+opencollective-postinstall@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/opencollective-postinstall/-/opencollective-postinstall-2.0.1.tgz#798e83e168f7b91949061c2683f762af747f17cc"
+
 opn@^3.0.2:
   version "3.0.3"
   resolved "http://registry.npm.taobao.org/opn/download/opn-3.0.3.tgz#b6d99e7399f78d65c3baaffef1fb288e9b85243a"
@@ -5653,6 +5657,13 @@ react-native-fast-crypto@^1.5.6:
   dependencies:
     buffer "^5.0.8"
     rfc4648 "^1.0.0"
+
+react-native-firebase@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.npmjs.org/react-native-firebase/-/react-native-firebase-5.2.1.tgz#2904ccc80880930ea72fa152eae3c7f53a0d5e1c"
+  dependencies:
+    opencollective-postinstall "^2.0.0"
+    prop-types "^15.6.2"
 
 "react-native-fs@git://github.com/itinance/react-native-fs.git":
   version "2.10.14"

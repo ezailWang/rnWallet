@@ -11,11 +11,15 @@
   "dependencies": {
     "assert": "^1.4.1",
     "asyncstorage-down": "^4.0.1",
+    "axios": "0.18.0",
     "bignumber.js": "^7.2.1",
     "bn.js": "^4.11.8",
+    "crypto-js": "3.1.9-1",
+    "elliptic": "6.4.0",
     "etherscan-api": "^8.1.2",
     "events": "^1.1.1",
     "hdkey": "^1.0.0",
+    "isomorphic-ws": "4.0.1",
     "jcore-react-native": "^1.2.10",
     "jpush-react-native": "^2.2.11",
     "keccak": "^1.4.0",
@@ -29,6 +33,7 @@
     "react-native-crypto": "^2.1.2",
     "react-native-device-info": "^0.22.5",
     "react-native-fast-crypto": "^1.5.6",
+    "react-native-firebase": "^5.2.1",
     "react-native-fs": "git://github.com/itinance/react-native-fs.git",
     "react-native-hdwallet": "^1.0.2",
     "react-native-i18n": "^2.0.15",
@@ -61,11 +66,6 @@
     "url": "^0.10.3",
     "vm-browserify": "0.0.4",
     "web3": "^1.0.0-beta.34",
-    
-    "elliptic": "6.4.0",
-    "isomorphic-ws": "4.0.1",
-    "crypto-js": "3.1.9-1",
-    "axios": "0.18.0",
     "ws": "6.1.2"
   },
   "devDependencies": {

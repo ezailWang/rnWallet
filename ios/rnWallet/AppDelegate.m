@@ -16,6 +16,7 @@
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
 #import "JPUSHService.h"
+#import <Firebase.h>
 
 @interface AppDelegate()
 @end
@@ -97,6 +98,7 @@
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"bundle/index.ios" withExtension:@"jsbundle"];
 #endif
   
+  [FIRApp configure];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"rnWallet"
                                                initialProperties:nil
