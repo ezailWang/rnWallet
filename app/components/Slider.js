@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 import PropTypes from 'prop-types';
-import LinearGradient from 'react-native-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient';
 
 const TRACK_SIZE = 4;
 const THUMB_SIZE = 20;
@@ -30,13 +30,38 @@ function Rect(x, y, width, height) {
 }
 
 Rect.prototype.containsPoint = function(x, y) {
-  return (
-    x >= this.x &&
-    y >= this.y &&
-    x <= this.x + this.width &&
-    y <= this.y + this.height
-  );
+  return x >= this.x && y >= this.y && x <= this.x + this.width && y <= this.y + this.height;
 };
+
+const defaultStyles = StyleSheet.create({
+  container: {
+    height: 40,
+    justifyContent: 'center',
+  },
+  track: {
+    height: TRACK_SIZE,
+    borderRadius: TRACK_SIZE / 2,
+  },
+  thumb: {
+    position: 'absolute',
+    width: THUMB_SIZE,
+    height: THUMB_SIZE,
+    borderRadius: THUMB_SIZE / 2,
+  },
+  touchArea: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  debugThumbTouchArea: {
+    position: 'absolute',
+    backgroundColor: 'green',
+    opacity: 0.5,
+  },
+});
 
 const DEFAULT_ANIMATION_CONFIGS = {
   spring: {
@@ -188,13 +213,24 @@ export default class Slider extends PureComponent {
     animationType: 'timing',
   };
 
-  state = {
+  constructor(props) {
+    super(props);
+    this.state = {
+      containerSize: { width: 0, height: 0 },
+      trackSize: { width: 0, height: 0 },
+      thumbSize: { width: 0, height: 0 },
+      allMeasured: false,
+      value: new Animated.Value(props.value),
+    };
+  }
+
+  /* state = {
     containerSize: { width: 0, height: 0 },
     trackSize: { width: 0, height: 0 },
     thumbSize: { width: 0, height: 0 },
     allMeasured: false,
-    value: new Animated.Value(this.props.value),
-  };
+    value: new Animated.Value(0),
+  }; */
 
   componentWillMount() {
     this._panResponder = PanResponder.create({
@@ -210,9 +246,9 @@ export default class Slider extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const newValue = nextProps.value;
-
-    if (this.props.value !== newValue) {
-      if (this.props.animateTransitions) {
+    const { value, animateTransitions } = this.props;
+    if (value !== newValue) {
+      if (animateTransitions) {
         this._setCurrentValueAnimated(newValue);
       } else {
         this._setCurrentValue(newValue);
@@ -239,13 +275,8 @@ export default class Slider extends PureComponent {
       animateTransitions,
       ...other
     } = this.props;
-    const {
-      value,
-      containerSize,
-      trackSize,
-      thumbSize,
-      allMeasured,
-    } = this.state;
+
+    const { value, containerSize, trackSize, thumbSize, allMeasured } = this.state;
     const mainStyles = styles || defaultStyles;
     const thumbLeft = value.interpolate({
       inputRange: [minimumValue, maximumValue],
@@ -273,27 +304,19 @@ export default class Slider extends PureComponent {
 
     const touchOverflowStyle = this._getTouchOverflowStyle();
 
-    let AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
+    const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
     return (
+      <View {...other} style={[mainStyles.container, style]} onLayout={this._measureContainer}>
         <View
-            {...other}
-            style={[mainStyles.container, style]}
-            onLayout={this._measureContainer}
-        >
-        <View
-          style={[
-            { backgroundColor: maximumTrackTintColor },
-            mainStyles.track,
-            trackStyle,
-          ]}
+          style={[{ backgroundColor: maximumTrackTintColor }, mainStyles.track, trackStyle]}
           renderToHardwareTextureAndroid
           onLayout={this._measureTrack}
         />
         <AnimatedLinearGradient
           colors={['#32beff', '#0095eb', '#2093ff']}
-          start={{x:0,y:1}}
-          end={{x:1,y:1}}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 1 }}
           renderToHardwareTextureAndroid
           style={[mainStyles.track, trackStyle, minimumTrackStyle]}
         />
@@ -317,36 +340,18 @@ export default class Slider extends PureComponent {
           style={[defaultStyles.touchArea, touchOverflowStyle]}
           {...this._panResponder.panHandlers}
         >
-          {debugTouchArea === true &&
-            this._renderDebugThumbTouchRect(minimumTrackWidth)}
+          {debugTouchArea === true && this._renderDebugThumbTouchRect(minimumTrackWidth)}
         </View>
       </View>
     );
   }
 
-  _getPropsForComponentUpdate(props) {
-    const {
-      value,
-      onValueChange,
-      onSlidingStart,
-      onSlidingComplete,
-      style,
-      trackStyle,
-      thumbStyle,
-      ...otherProps
-    } = props;
-
-    return otherProps;
-  }
-
-  _handleStartShouldSetPanResponder = (e) =>
+  _handleStartShouldSetPanResponder = e =>
     // Should we become active when the user presses down on the thumb?
     this._thumbHitTest(e);
 
-  _handleMoveShouldSetPanResponder() {
-    // Should we become active when the user moves a touch over the thumb?
-    return false;
-  }
+  _handleMoveShouldSetPanResponder = () => false;
+  // Should we become active when the user moves a touch over the thumb?
 
   _handlePanResponderGrant = (/* e, gestureState */) => {
     this._previousLeft = this._getThumbLeft(this._getCurrentValue());
@@ -354,7 +359,8 @@ export default class Slider extends PureComponent {
   };
 
   _handlePanResponderMove = (e, gestureState) => {
-    if (this.props.disabled) {
+    const { disabled } = this.props;
+    if (disabled) {
       return;
     }
 
@@ -362,13 +368,13 @@ export default class Slider extends PureComponent {
     this._fireChangeEvent('onValueChange');
   };
 
-  _handlePanResponderRequestEnd(e, gestureState) {
+  _handlePanResponderRequestEnd = () =>
     // Should we allow another component to take over this pan?
-    return false;
-  }
+    false;
 
   _handlePanResponderEnd = (e, gestureState) => {
-    if (this.props.disabled) {
+    const { disabled } = this.props;
+    if (disabled) {
       return;
     }
 
@@ -376,15 +382,15 @@ export default class Slider extends PureComponent {
     this._fireChangeEvent('onSlidingComplete');
   };
 
-  _measureContainer = (x) => {
+  _measureContainer = x => {
     this._handleMeasure('containerSize', x);
   };
 
-  _measureTrack = (x) => {
+  _measureTrack = x => {
     this._handleMeasure('trackSize', x);
   };
 
-  _measureThumb = (x) => {
+  _measureThumb = x => {
     this._handleMeasure('thumbSize', x);
   };
 
@@ -394,11 +400,7 @@ export default class Slider extends PureComponent {
 
     const storeName = `_${name}`;
     const currentSize = this[storeName];
-    if (
-      currentSize &&
-      width === currentSize.width &&
-      height === currentSize.height
-    ) {
+    if (currentSize && width === currentSize.width && height === currentSize.height) {
       return;
     }
     this[storeName] = size;
@@ -413,96 +415,89 @@ export default class Slider extends PureComponent {
     }
   };
 
-  _getRatio = (value) =>
-    (value - this.props.minimumValue) /
-    (this.props.maximumValue - this.props.minimumValue);
-
-  _getThumbLeft = (value) => {
-    const nonRtlRatio = this._getRatio(value);
-    const ratio = I18nManager.isRTL ? 1 - nonRtlRatio : nonRtlRatio;
-    return (
-      ratio * (this.state.containerSize.width - this.state.thumbSize.width)
-    );
+  _getRatio = value => {
+    const { minimumValue, maximumValue } = this.props;
+    return (value - minimumValue) / (maximumValue - minimumValue);
   };
 
-  _getValue = (gestureState) => {
-    const length = this.state.containerSize.width - this.state.thumbSize.width;
+  _getThumbLeft = value => {
+    const { containerSize, thumbSize } = this.state;
+    const nonRtlRatio = this._getRatio(value);
+    const ratio = I18nManager.isRTL ? 1 - nonRtlRatio : nonRtlRatio;
+    return ratio * (containerSize.width - thumbSize.width);
+  };
+
+  _getValue = gestureState => {
+    const { step, minimumValue, maximumValue } = this.props;
+    const { containerSize, thumbSize } = this.state;
+    const length = containerSize.width - thumbSize.width;
     const thumbLeft = this._previousLeft + gestureState.dx;
 
     const nonRtlRatio = thumbLeft / length;
     const ratio = I18nManager.isRTL ? 1 - nonRtlRatio : nonRtlRatio;
 
-    if (this.props.step) {
+    if (step) {
       return Math.max(
-        this.props.minimumValue,
+        minimumValue,
         Math.min(
-          this.props.maximumValue,
-          this.props.minimumValue +
-            Math.round(
-              ratio *
-                (this.props.maximumValue - this.props.minimumValue) /
-                this.props.step,
-            ) *
-              this.props.step,
-        ),
+          maximumValue,
+          minimumValue + Math.round((ratio * (maximumValue - minimumValue)) / step) * step
+        )
       );
     }
     return Math.max(
-      this.props.minimumValue,
-      Math.min(
-        this.props.maximumValue,
-        ratio * (this.props.maximumValue - this.props.minimumValue) +
-          this.props.minimumValue,
-      ),
+      minimumValue,
+      Math.min(maximumValue, ratio * (maximumValue - minimumValue) + minimumValue)
     );
   };
 
-  _getCurrentValue = () => this.state.value.__getValue();
-
-  _setCurrentValue = (value) => {
-    this.state.value.setValue(value);
+  _getCurrentValue = () => {
+    const { value } = this.state;
+    value.__getValue();
   };
 
-  _setCurrentValueAnimated = (value) => {
-    const animationType = this.props.animationType;
-    const animationConfig = Object.assign(
+  _setCurrentValue = v => {
+    const { value } = this.state;
+    value.setValue(v);
+  };
+
+  _setCurrentValueAnimated = v => {
+    const { animationType, animationConfig } = this.props;
+    const { value } = this.state;
+    const animConfig = Object.assign(
       {},
       DEFAULT_ANIMATION_CONFIGS[animationType],
-      this.props.animationConfig,
+      animationConfig,
       {
-        toValue: value,
-      },
+        toValue: v,
+      }
     );
 
-    Animated[animationType](this.state.value, animationConfig).start();
+    Animated[animationType](value, animConfig).start();
   };
 
   _fireChangeEvent = event => {
-    if (this.props[event]) {
-      this.props[event](this._getCurrentValue());
+    const { props } = this.props;
+    if (props[event]) {
+      props[event](this._getCurrentValue());
     }
   };
 
   _getTouchOverflowSize = () => {
-    const state = this.state;
-    const props = this.props;
+    const { allMeasured, thumbSize, containerSize } = this.state;
+    const { thumbTouchSize } = this.props;
 
     const size = {};
-    if (state.allMeasured === true) {
-      size.width = Math.max(
-        0,
-        props.thumbTouchSize.width - state.thumbSize.width,
-      );
-      size.height = Math.max(
-        0,
-        props.thumbTouchSize.height - state.containerSize.height,
-      );
+    if (allMeasured === true) {
+      size.width = Math.max(0, thumbTouchSize.width - thumbSize.width);
+      size.height = Math.max(0, thumbTouchSize.height - containerSize.height);
     }
 
     return size;
   };
 
   _getTouchOverflowStyle = () => {
+    const { debugTouchArea } = this.props;
     const { width, height } = this._getTouchOverflowSize();
 
     const touchOverflowStyle = {};
@@ -516,7 +511,7 @@ export default class Slider extends PureComponent {
       touchOverflowStyle.marginRight = horizontalMargin;
     }
 
-    if (this.props.debugTouchArea === true) {
+    if (debugTouchArea === true) {
       touchOverflowStyle.backgroundColor = 'orange';
       touchOverflowStyle.opacity = 0.5;
     }
@@ -524,28 +519,24 @@ export default class Slider extends PureComponent {
     return touchOverflowStyle;
   };
 
-  _thumbHitTest = (e) => {
-    const nativeEvent = e.nativeEvent;
+  _thumbHitTest = e => {
+    const { nativeEvent } = e;
     const thumbTouchRect = this._getThumbTouchRect();
-    return thumbTouchRect.containsPoint(
-      nativeEvent.locationX,
-      nativeEvent.locationY,
-    );
+    return thumbTouchRect.containsPoint(nativeEvent.locationX, nativeEvent.locationY);
   };
 
   _getThumbTouchRect = () => {
-    const state = this.state;
-    const props = this.props;
+    const { thumbSize, containerSize } = this.state;
+    const { thumbTouchSize } = this.props;
     const touchOverflowSize = this._getTouchOverflowSize();
 
     return new Rect(
       touchOverflowSize.width / 2 +
         this._getThumbLeft(this._getCurrentValue()) +
-        (state.thumbSize.width - props.thumbTouchSize.width) / 2,
-      touchOverflowSize.height / 2 +
-        (state.containerSize.height - props.thumbTouchSize.height) / 2,
-      props.thumbTouchSize.width,
-      props.thumbTouchSize.height,
+        (thumbSize.width - thumbTouchSize.width) / 2,
+      touchOverflowSize.height / 2 + (containerSize.height - thumbTouchSize.height) / 2,
+      thumbTouchSize.width,
+      thumbTouchSize.height
     );
   };
 
@@ -569,38 +560,8 @@ export default class Slider extends PureComponent {
   _renderThumbImage = () => {
     const { thumbImage } = this.props;
 
-    if (!thumbImage) return;
+    if (!thumbImage) return null;
 
     return <Image source={thumbImage} />;
   };
 }
-
-var defaultStyles = StyleSheet.create({
-  container: {
-    height: 40,
-    justifyContent: 'center',
-  },
-  track: {
-    height: TRACK_SIZE,
-    borderRadius: TRACK_SIZE / 2,
-  },
-  thumb: {
-    position: 'absolute',
-    width: THUMB_SIZE,
-    height: THUMB_SIZE,
-    borderRadius: THUMB_SIZE / 2,
-  },
-  touchArea: {
-    position: 'absolute',
-    backgroundColor: 'transparent',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  debugThumbTouchArea: {
-    position: 'absolute',
-    backgroundColor: 'green',
-    opacity: 0.5,
-  },
-});

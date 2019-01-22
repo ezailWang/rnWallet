@@ -145,6 +145,7 @@ class BackButton extends Component {
   };
 
   render() {
+    const { onPress } = this.props;
     let backItemStyle = { marginTop: 0 };
 
     if (Layout.DEVICE_IS_IPHONE_X()) {
@@ -153,7 +154,7 @@ class BackButton extends Component {
 
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={[styles.backBtn, backItemStyle]} onPress={this.props.onPress}>
+        <TouchableOpacity style={[styles.backBtn, backItemStyle]} onPress={onPress}>
           <Image
             style={styles.backItem}
             resizeMode="center"
@@ -171,6 +172,7 @@ class BackWhiteButton extends Component {
   };
 
   render() {
+    const { onPress } = this.props;
     let backItemStyle = { marginTop: 30 };
 
     if (Layout.DEVICE_IS_IPHONE_X()) {
@@ -179,7 +181,7 @@ class BackWhiteButton extends Component {
 
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={[styles.backBtn, backItemStyle]} onPress={this.props.onPress}>
+        <TouchableOpacity style={[styles.backBtn, backItemStyle]} onPress={onPress}>
           <Image
             style={styles.backItem}
             resizeMode="center"
@@ -199,9 +201,10 @@ class ClarityWhiteButtonBig extends Component {
   };
 
   render() {
+    const { onPress, text } = this.props;
     return (
-      <TouchableOpacity style={[styles.normalBtn, styles.clearBtn]} onPress={this.props.onPress}>
-        <Text style={[styles.clearBtnTitle, styles.normalBtnTitle]}>{this.props.text}</Text>
+      <TouchableOpacity style={[styles.normalBtn, styles.clearBtn]} onPress={onPress}>
+        <Text style={[styles.clearBtnTitle, styles.normalBtnTitle]}>{text}</Text>
       </TouchableOpacity>
     );
   }
@@ -216,23 +219,22 @@ class BlueButtonBig extends Component {
   };
 
   render() {
+    const { buttonStyle, isDisabled, onPress, text } = this.props;
     return (
       // <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
       <TouchableOpacity
-        style={[styles.normalBtn, this.props.buttonStyle]}
+        style={[styles.normalBtn, buttonStyle]}
         activeOpacity={0.6}
-        disabled={this.props.isDisabled}
-        onPress={this.props.onPress}
+        disabled={isDisabled}
+        onPress={onPress}
       >
         <LinearGradient
-          colors={
-            this.props.isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#0094ff']
-          }
+          colors={isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#0094ff']}
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
           style={[styles.normalBtnGradient, { flex: 1 }]}
         >
-          <Text style={[styles.blueBtnTitle, styles.normalBtnTitle]}>{this.props.text}</Text>
+          <Text style={[styles.blueBtnTitle, styles.normalBtnTitle]}>{text}</Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -248,13 +250,14 @@ class GreyButtonBig extends Component {
   };
 
   render() {
+    const { buttonStyle, isDisabled, onPress, text } = this.props;
     return (
       // <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
       <TouchableOpacity
-        style={[styles.normalBtn, this.props.buttonStyle]}
+        style={[styles.normalBtn, buttonStyle]}
         activeOpacity={0.6}
-        disabled={this.props.isDisabled}
-        onPress={this.props.onPress}
+        disabled={isDisabled}
+        onPress={onPress}
       >
         <LinearGradient
           colors={['#a0a0a0', '#a0a0a0']}
@@ -262,7 +265,7 @@ class GreyButtonBig extends Component {
           end={{ x: 1, y: 1 }}
           style={[styles.normalBtnGradient, { flex: 1 }]}
         >
-          <Text style={[styles.GreyBtnText, styles.normalBtnTitle]}>{this.props.text}</Text>
+          <Text style={[styles.GreyBtnText, styles.normalBtnTitle]}>{text}</Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -277,13 +280,14 @@ class WhiteButtonBig extends Component {
   };
 
   render() {
+    const { buttonStyle, onPress, text } = this.props;
     return (
       <TouchableOpacity
-        style={[styles.normalBtn, styles.whiteBtn, this.props.buttonStyle]}
+        style={[styles.normalBtn, styles.whiteBtn, buttonStyle]}
         activeOpacity={0.6}
-        onPress={this.props.onPress}
+        onPress={onPress}
       >
-        <Text style={[styles.whiteBtnTitle, styles.normalBtnTitle]}>{this.props.text}</Text>
+        <Text style={[styles.whiteBtnTitle, styles.normalBtnTitle]}>{text}</Text>
       </TouchableOpacity>
     );
   }
@@ -297,6 +301,7 @@ class WhiteButtonMiddle extends Component {
   };
 
   render() {
+    const { image, onPress, text } = this.props;
     return (
       <TouchableOpacity
         style={[
@@ -304,16 +309,14 @@ class WhiteButtonMiddle extends Component {
           styles.middleWhiteBtn,
           { flexDirection: 'row', alignItems: 'center' },
         ]}
-        onPress={this.props.onPress}
+        onPress={onPress}
       >
         <Image
-          source={this.props.image}
+          source={image}
           style={{ marginRight: 5, height: 20, width: 20 }}
           resizeMode="center"
         />
-        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]}>
-          {this.props.text}
-        </Text>
+        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]}>{text}</Text>
       </TouchableOpacity>
     );
   }
@@ -326,17 +329,16 @@ class BlueButtonMiddle extends Component {
   };
 
   render() {
+    const { onPress, text } = this.props;
     return (
-      <TouchableOpacity style={styles.normalMiddleBtn} onPress={this.props.onPress}>
+      <TouchableOpacity style={styles.normalMiddleBtn} onPress={onPress}>
         <LinearGradient
           colors={['#66ceff', '#0094ff']}
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
           style={[styles.normalMiddleBtn, { flex: 1 }]}
         >
-          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]}>
-            {this.props.text}
-          </Text>
+          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]}>{text}</Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -350,14 +352,10 @@ class WhiteButtonSmall extends Component {
   };
 
   render() {
+    const { onPress, text } = this.props;
     return (
-      <TouchableOpacity
-        style={[styles.normalSmallBtn, styles.middleWhiteBtn]}
-        onPress={this.props.onPress}
-      >
-        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]}>
-          {this.props.text}
-        </Text>
+      <TouchableOpacity style={[styles.normalSmallBtn, styles.middleWhiteBtn]} onPress={onPress}>
+        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]}>{text}</Text>
       </TouchableOpacity>
     );
   }
@@ -371,28 +369,20 @@ class BlueButtonSmall extends Component {
   };
 
   render() {
-    let backItemStyle = { marginTop: 30 };
-
+    const { onPress, text, isDisabled } = this.props;
+    /* let backItemStyle = { marginTop: 30 };
     if (Layout.DEVICE_IS_IPHONE_X()) {
       backItemStyle = { marginTop: 50 };
-    }
+    } */
     return (
-      <TouchableOpacity
-        style={styles.normalSmallBtn}
-        onPress={this.props.onPress}
-        disabled={this.props.isDisabled}
-      >
+      <TouchableOpacity style={styles.normalSmallBtn} onPress={onPress} disabled={isDisabled}>
         <LinearGradient
-          colors={
-            this.props.isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#0094ff']
-          }
+          colors={isDisabled ? ['#a0a0a0', '#a0a0a0', '#a0a0a0'] : ['#66ceff', '#0094ff']}
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
           style={[styles.normalSmallBtn, { flex: 1 }]}
         >
-          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]}>
-            {this.props.text}
-          </Text>
+          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]}>{text}</Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -406,13 +396,10 @@ class NextButton extends Component {
   };
 
   render() {
+    const { onPress, text } = this.props;
     return (
-      <TouchableOpacity
-        style={[styles.btnOpacity]}
-        activeOpacity={0.6}
-        onPress={this.props.onPress}
-      >
-        <Text style={styles.txt}>{this.props.text}</Text>
+      <TouchableOpacity style={[styles.btnOpacity]} activeOpacity={0.6} onPress={onPress}>
+        <Text style={styles.txt}>{text}</Text>
         <Image style={styles.icon} source={require('../assets/set/next.png')} resizeMode="center" />
       </TouchableOpacity>
     );
@@ -426,14 +413,15 @@ class HeaderButton extends Component {
   };
 
   render() {
+    const { onPress, img } = this.props;
     let backItemStyle = { marginTop: 30 };
     if (Layout.DEVICE_IS_IPHONE_X()) {
       backItemStyle = { marginTop: 50 };
     }
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={[styles.headerRight, backItemStyle]} onPress={this.props.onPress}>
-          <Image style={styles.backItem} resizeMode="center" source={this.props.img} />
+        <TouchableOpacity style={[styles.headerRight, backItemStyle]} onPress={onPress}>
+          <Image style={styles.backItem} resizeMode="center" source={img} />
         </TouchableOpacity>
       </View>
     );
@@ -448,13 +436,14 @@ class WhiteBorderButton extends Component {
   };
 
   render() {
+    const { buttonStyle, onPress, text } = this.props;
     return (
       <TouchableOpacity
-        style={[styles.normalBtn, styles.whiteBorderBtn, this.props.buttonStyle]}
+        style={[styles.normalBtn, styles.whiteBorderBtn, buttonStyle]}
         activeOpacity={0.6}
-        onPress={this.props.onPress}
+        onPress={onPress}
       >
-        <Text style={[styles.normalBtnTitle, styles.whiteTxt]}>{this.props.text}</Text>
+        <Text style={[styles.normalBtnTitle, styles.whiteTxt]}>{text}</Text>
       </TouchableOpacity>
     );
   }

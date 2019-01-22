@@ -33,7 +33,7 @@ class Loading extends Component {
         wallet : null,
     } */
 
-  static byLanguageSetMonetaryUnit() {
+  byLanguageSetMonetaryUnit() {
     const lang = I18n.locale;
     const { dispatch } = this.props;
     let monetaryUnit = null;
@@ -74,9 +74,11 @@ class Loading extends Component {
 
   async componentDidMount() {
     const { wallet, navigation } = this.props;
+    let user = null;
     if (!wallet) {
-      await this.loadFromStorege();
+      user = await this.loadFromStorege();
     }
+
     const userToken = await StorageManage.load(StorageKey.UserToken);
     if (!userToken || userToken === null) {
       JPushModule.getRegistrationID(registrationId => {
@@ -111,7 +113,7 @@ class Loading extends Component {
     //   version: `${DeviceInfo.getVersion()}(${DeviceInfo.getBuildNumber()})`,
     //   language: I18n.locale,
     // };
-    if (wallet) {
+    if (user) {
       return navigation.navigate('HomeTab');
     }
     return navigation.navigate('FirstLaunch', {
@@ -128,6 +130,7 @@ class Loading extends Component {
     const contacts = await StorageManage.loadAllDataForKey(StorageKey.Contact);
     let ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
     const itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
+
     if (!ethWalletList) {
       ethWalletList = [];
     }
@@ -161,9 +164,7 @@ class Loading extends Component {
     if (itcWalletList) {
       dispatch(setItcWalletList(itcWalletList));
     }
-    /* if (net) {
-            this.props.dispatch(setNetWork(net))
-        } */
+
     if (language) {
       I18n.locale = language.lang;
     } else {
@@ -209,9 +210,10 @@ class Loading extends Component {
 
     if (user) {
       dispatch(setCurrentWallet(user));
-    } else {
-      console.log('user = null');
+      return user;
     }
+    console.log('user = null');
+    return null;
   };
 
   render() {

@@ -174,7 +174,7 @@ class Header extends Component {
 
 class EmptyComponent extends Component {
   render() {
-    const { show } = this.pros;
+    const { show } = this.props;
     return show ? (
       <View style={styles.emptyListContainer}>
         <Image

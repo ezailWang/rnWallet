@@ -87,7 +87,7 @@ class HomeScreen extends BaseComponent {
     return (
       <HomeCell
         item={item}
-        onClick={this.onClickCell(item)}
+        onClick={() => this.onClickCell(item)}
         monetaryUnitSymbol={this.state.monetaryUnitSymbol}
       />
     );
@@ -190,7 +190,7 @@ class HomeScreen extends BaseComponent {
     });
   };
 
-  static formatAddress(address) {
+  formatAddress(address) {
     return `${address.substr(0, 10)}...${address.slice(-10)}`;
   }
 

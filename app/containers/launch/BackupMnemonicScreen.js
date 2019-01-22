@@ -181,11 +181,11 @@ class BackupMnemonicScreen extends BaseComponent {
 
 class Item extends PureComponent {
   static propTypes = {
-    isLastLine: PropTypes.bool.isRequired,
     num1: PropTypes.string.isRequired,
-    word1: PropTypes.string.isRequired,
     num2: PropTypes.string.isRequired,
-    word2: PropTypes.string.isRequired,
+    isLastLine: PropTypes.bool,
+    word1: PropTypes.string,
+    word2: PropTypes.string,
   };
 
   static defaultProps = {

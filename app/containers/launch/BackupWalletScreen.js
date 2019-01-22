@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { BlueButtonBig } from '../../components/Button';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
@@ -86,7 +85,8 @@ const styles = StyleSheet.create({
   },
 });
 
-class BackupWalletScreen extends BaseComponent {
+
+export default class BackupWalletScreen extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -95,16 +95,20 @@ class BackupWalletScreen extends BaseComponent {
   }
 
   isReadPress() {
-    this.setState(prevState => ({ isCheck: !prevState.isCheck }));
+    this.setState(prevState => ({
+      isCheck: !prevState.isCheck,
+    }));
   }
 
   renderComponent() {
-    const checkIcon = this.state.isCheck
+    const {navigation} = this.props;
+    const {isCheck} = this.state;
+    const checkIcon = isCheck
       ? require('../../assets/launch/check_on.png')
       : require('../../assets/launch/check_off.png');
     return (
       <View style={styles.container}>
-        <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('launch.backup_wallet')} />
+        <WhiteBgHeader navigation={navigation} text={I18n.t('launch.backup_wallet')} />
         <ScrollView style={styles.contentContainer}>
           <Image
             style={styles.icon}
@@ -131,8 +135,8 @@ class BackupWalletScreen extends BaseComponent {
             </TouchableOpacity>
             <BlueButtonBig
               buttonStyle={{ marginTop: 10 }}
-              isDisabled={!this.state.isCheck}
-              onPress={() => this.props.navigation.navigate('BackupMnemonic')}
+              isDisabled={!isCheck}
+              onPress={() => navigation.navigate('BackupMnemonic')}
               text={I18n.t('launch.backup_mnemonic')}
             />
           </View>
@@ -162,8 +166,3 @@ class Item extends PureComponent {
     );
   }
 }
-
-export default connect(
-  {},
-  {}
-)(BackupWalletScreen);

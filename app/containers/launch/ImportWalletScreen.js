@@ -178,8 +178,8 @@ class ImportWalletScreen extends BaseComponent {
     }
   }
 
-  layout(ref) {
-    const handle = findNodeHandle(ref);
+  layout() {
+    const handle = findNodeHandle(this.rePwdRef.current);
     UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
       if (this.keyBoardIsShow) {
         this.textInputMarginBottom = Layout.WINDOW_HEIGHT - pageY - 40;
@@ -670,7 +670,7 @@ class ImportWalletScreen extends BaseComponent {
               }}
               onFocus={() => {
                 this.isRePwdFocus = true;
-                this.layout(this.refs.rePwdRef);
+                this.layout();
               }}
               onBlur={() => {
                 this.isRePwdFocus = false;

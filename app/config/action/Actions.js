@@ -1,200 +1,195 @@
-import * as types from './ActionType'
-import StorageManage from '../../utils/StorageManage'
-import { StorageKey } from '../GlobalConfig'
+import * as types from './ActionType';
+import StorageManage from '../../utils/StorageManage';
+import { StorageKey } from '../GlobalConfig';
 
 function generateMnemonic(mnemonic) {
-    return {
-        type: types.GENERATE_MNEMONIC,
-        mnemonic: mnemonic,
-    }
+  return {
+    type: types.GENERATE_MNEMONIC,
+    mnemonic,
+  };
 }
 
-function setWalletTransferParams(walletTransfer) {
-    return {
-        type: types.WALLET_TRANSFER,
-        walletTransfer: walletTransfer
-    }
+function setWalletTransferParams(walletTran) {
+  return {
+    type: types.WALLET_TRANSFER,
+    walletTransfer: walletTran,
+  };
 }
 
-function setTransactionDetailParams(transactionDetail) {
-    return {
-        type: types.TRANSACTION_DETAIL,
-        transactionDetail: transactionDetail
-    }
+function setTransactionDetailParams(tranDetail) {
+  return {
+    type: types.TRANSACTION_DETAIL,
+    transactionDetail: tranDetail,
+  };
 }
 function addToken(token) {
-    return {
-        type: types.ADD_TOKEN,
-        token: {
-            iconLarge: token.iconLarge,
-            symbol: token.symbol,
-            name: token.name,
-            decimal: parseInt(token.decimal, 10),
-            address: token.address,
-        }
-    }
+  return {
+    type: types.ADD_TOKEN,
+    token: {
+      iconLarge: token.iconLarge,
+      symbol: token.symbol,
+      name: token.name,
+      decimal: parseInt(token.decimal, 10),
+      address: token.address,
+    },
+  };
 }
 
-function removeToken(address){
-    return {
-        type:types.REMOVE_TOKEN,
-        address:address
-    }
+function removeToken(address) {
+  return {
+    type: types.REMOVE_TOKEN,
+    address,
+  };
 }
 
 function loadTokenBalance(tokens) {
-    return {
-        type: types.LOAD_TOKEN_BALANCE,
-        tokens: tokens
-    }
+  return {
+    type: types.LOAD_TOKEN_BALANCE,
+    tokens,
+  };
 }
 
 function setTotalAssets(value) {
-    return {
-        type: types.SET_TOTAL_ASSETS,
-        value: value.toFixed(2)
-    }
+  return {
+    type: types.SET_TOTAL_ASSETS,
+    value: value.toFixed(2),
+  };
 }
 
 function setTransactionRecoders(value) {
-    return {
-        type: types.SET_TRANSACTION_RECODER,
-        recoders: value
-    }
+  return {
+    type: types.SET_TRANSACTION_RECODER,
+    recoders: value,
+  };
 }
 
 function setCoinBalance(value) {
-    return {
-        type: types.SET_COIN_BALANCE,
-        balance: value
-    }
+  return {
+    type: types.SET_COIN_BALANCE,
+    balance: value,
+  };
 }
 
 function setNetWork(value) {
-    StorageManage.save(StorageKey.Network,value)
-    return {
-        type: types.SET_NETWORK,
-        network: value
-    }
+  StorageManage.save(StorageKey.Network, value);
+  return {
+    type: types.SET_NETWORK,
+    network: value,
+  };
 }
 
-function setLanguage(value){
-    return{
-        type : types.SET_LANGUAGE,
-        myLanguage : value
-    }
+function setLanguage(value) {
+  return {
+    type: types.SET_LANGUAGE,
+    myLanguage: value,
+  };
 }
 
-function setMonetaryUnit(value){
-    return{
-        type: types.SET_MONETARY_UNIT,
-        monetaryUnit : value
-    }
+function setMonetaryUnit(value) {
+  return {
+    type: types.SET_MONETARY_UNIT,
+    monetaryUnit: value,
+  };
 }
 
-function setNewTransaction(value){
-    return{
-        type: types.SET_NEW_TRANSACTION,
-        newTransaction : value
-    }
+function setNewTransaction(value) {
+  return {
+    type: types.SET_NEW_TRANSACTION,
+    newTransaction: value,
+  };
 }
 
-function setFirstQR(){
-    return{
-        type:types.SET_FIRST_QR,
-    }
+function setFirstQR() {
+  return {
+    type: types.SET_FIRST_QR,
+  };
 }
 
-function setPinInfo(value){
-    return{
-        type:types.SET_PIN_INFO,
-        pinInfo:value
-    }
+function setPinInfo(value) {
+  return {
+    type: types.SET_PIN_INFO,
+    pinInfo: value,
+  };
 }
 
-function setIsNewWallet(value){
-    return{
-        type:types.IS_NEW_WALLET,
-        isNewWallet:value
-    }
+function setIsNewWallet(value) {
+  return {
+    type: types.IS_NEW_WALLET,
+    isNewWallet: value,
+  };
 }
 
-function setContactList(value){
-    return{
-        type : types.SET_CONTACT_LIST,
-        contactList : value
-    }
+function setContactList(value) {
+  return {
+    type: types.SET_CONTACT_LIST,
+    contactList: value,
+  };
 }
 
-function setAllTokens(allTokens){
-    return{
-        type:types.SET_ALL_TOKENS,
-        allTokens : allTokens
-    }
+function setAllTokens(allTokens) {
+  return {
+    type: types.SET_ALL_TOKENS,
+    allTokens,
+  };
 }
 
-function setTransactionRecordList(transferRecordList){
-    return{
-        type:types.SET_TRANSFER_RECORD_LIST,
-        transferRecordList: transferRecordList
-    }
+function setTransactionRecordList(transferRecordList) {
+  return {
+    type: types.SET_TRANSFER_RECORD_LIST,
+    transferRecordList,
+  };
 }
 
-function setItcWalletList(itcWalletList){
-    return{
-        type:types.SET_ITC_WALLET_LIST,
-        itcWalletList: itcWalletList
-    }
+function setItcWalletList(itcWalletList) {
+  return {
+    type: types.SET_ITC_WALLET_LIST,
+    itcWalletList,
+  };
 }
 
-function setEthWalletList(ethWalletList){
-    return{
-        type:types.SET_ETH_WALLET_LIST,
-        ethWalletList: ethWalletList
-    }
+function setEthWalletList(ethWalletList) {
+  return {
+    type: types.SET_ETH_WALLET_LIST,
+    ethWalletList,
+  };
 }
 
-function setCurrentWallet(wallet){
-    return{
-        type:types.SET_CURRENT_WALLET,
-        wallet:wallet
-    }
+function setCurrentWallet(wallet) {
+  return {
+    type: types.SET_CURRENT_WALLET,
+    wallet,
+  };
 }
 
-
-function setCreateWalletParams(createWalletParams){
-    return{
-        type:types.CREATE_WALLET_PARAM,
-        createWalletParams:createWalletParams
-    }
+function setCreateWalletParams(createWalletParams) {
+  return {
+    type: types.CREATE_WALLET_PARAM,
+    createWalletParams,
+  };
 }
-
-
-
-
 
 export {
-    generateMnemonic,
-    setWalletTransferParams,
-    setTransactionDetailParams,
-    addToken,
-    loadTokenBalance,
-    setTotalAssets,
-    setTransactionRecoders,
-    setCoinBalance,
-    setNetWork,
-    removeToken,
-    setLanguage,
-    setMonetaryUnit,
-    setNewTransaction,
-    setFirstQR,
-    setPinInfo,
-    setIsNewWallet,
-    setContactList,
-    setAllTokens,
-    setTransactionRecordList,
-    setItcWalletList,
-    setEthWalletList,
-    setCurrentWallet,
-    setCreateWalletParams
-}
+  generateMnemonic,
+  setWalletTransferParams,
+  setTransactionDetailParams,
+  addToken,
+  loadTokenBalance,
+  setTotalAssets,
+  setTransactionRecoders,
+  setCoinBalance,
+  setNetWork,
+  removeToken,
+  setLanguage,
+  setMonetaryUnit,
+  setNewTransaction,
+  setFirstQR,
+  setPinInfo,
+  setIsNewWallet,
+  setContactList,
+  setAllTokens,
+  setTransactionRecordList,
+  setItcWalletList,
+  setEthWalletList,
+  setCurrentWallet,
+  setCreateWalletParams,
+};
