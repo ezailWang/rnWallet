@@ -318,7 +318,7 @@ export default class Transaction extends BaseComponent {
     let gasLimit;
     if (wallet.type === 'itc') {
       gasLimit = TransferGasLimit.itcGasLimit;
-    } else if (wallet.type === 'eht') {
+    } else if (wallet.type === 'eth') {
       gasLimit =
         this.params.transferType === TransferType.ETH
           ? TransferGasLimit.ethGasLimit
@@ -338,7 +338,7 @@ export default class Transaction extends BaseComponent {
     let gasLimit;
     if (wallet.type === 'itc') {
       gasLimit = TransferGasLimit.itcGasLimit;
-    } else if (wallet.type === 'eht') {
+    } else if (wallet.type === 'eth') {
       gasLimit =
         this.params.transferType === TransferType.ETH
           ? TransferGasLimit.ethGasLimit
@@ -374,7 +374,7 @@ export default class Transaction extends BaseComponent {
           let gasLimit;
           if (wallet.type === 'itc') {
             gasLimit = TransferGasLimit.itcGasLimit;
-          } else if (wallet.type === 'eht') {
+          } else if (wallet.type === 'eth') {
             gasLimit =
               this.params.transferType === TransferType.ETH
                 ? TransferGasLimit.ethGasLimit
@@ -467,7 +467,7 @@ export default class Transaction extends BaseComponent {
     let gasLimit;
     if (wallet.type === 'itc') {
       gasLimit = TransferGasLimit.itcGasLimit;
-    } else if (wallet.type === 'eht') {
+    } else if (wallet.type === 'eth') {
       gasLimit =
         this.params.transferType === TransferType.ETH
           ? TransferGasLimit.ethGasLimit
@@ -500,6 +500,7 @@ export default class Transaction extends BaseComponent {
 
   // ----视图的事件方法
   sliderValueChanged = value => {
+    console.log('L_____value', value);
     const price = this.getPriceTitle(value);
     this.setState({
       currentGas: value,

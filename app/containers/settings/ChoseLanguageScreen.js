@@ -7,7 +7,7 @@ import { Colors, StorageKey } from '../../config/GlobalConfig';
 import StorageManage from '../../utils/StorageManage';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n';
-import { ChoseItem } from '../../components/ChoseComponent';
+import ChoseItem from '../../components/ChoseComponent';
 import BaseComponent from '../base/BaseComponent';
 import NetworkManager from '../../utils/NetworkManager';
 

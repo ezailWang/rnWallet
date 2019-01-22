@@ -33,6 +33,22 @@ Rect.prototype.containsPoint = function(x, y) {
   return x >= this.x && y >= this.y && x <= this.x + this.width && y <= this.y + this.height;
 };
 
+const DEFAULT_ANIMATION_CONFIGS = {
+  spring: {
+    friction: 7,
+    tension: 100,
+  },
+  timing: {
+    duration: 150,
+    easing: Easing.inOut(Easing.ease),
+    delay: 0,
+  },
+  // decay : { // This has a serious bug
+  //   velocity     : 1,
+  //   deceleration : 0.997
+  // }
+};
+
 const defaultStyles = StyleSheet.create({
   container: {
     height: 40,
@@ -62,22 +78,6 @@ const defaultStyles = StyleSheet.create({
     opacity: 0.5,
   },
 });
-
-const DEFAULT_ANIMATION_CONFIGS = {
-  spring: {
-    friction: 7,
-    tension: 100,
-  },
-  timing: {
-    duration: 150,
-    easing: Easing.inOut(Easing.ease),
-    delay: 0,
-  },
-  // decay : { // This has a serious bug
-  //   velocity     : 1,
-  //   deceleration : 0.997
-  // }
-};
 
 export default class Slider extends PureComponent {
   static propTypes = {
@@ -229,7 +229,7 @@ export default class Slider extends PureComponent {
     trackSize: { width: 0, height: 0 },
     thumbSize: { width: 0, height: 0 },
     allMeasured: false,
-    value: new Animated.Value(0),
+    value: new Animated.Value(this.props.value),
   }; */
 
   componentWillMount() {
@@ -275,7 +275,6 @@ export default class Slider extends PureComponent {
       animateTransitions,
       ...other
     } = this.props;
-
     const { value, containerSize, trackSize, thumbSize, allMeasured } = this.state;
     const mainStyles = styles || defaultStyles;
     const thumbLeft = value.interpolate({
@@ -346,6 +345,21 @@ export default class Slider extends PureComponent {
     );
   }
 
+  /* _getPropsForComponentUpdate(props) {
+    const {
+      value,
+      onValueChange,
+      onSlidingStart,
+      onSlidingComplete,
+      style,
+      trackStyle,
+      thumbStyle,
+      ...otherProps
+    } = props;
+
+    return otherProps;
+  } */
+
   _handleStartShouldSetPanResponder = e =>
     // Should we become active when the user presses down on the thumb?
     this._thumbHitTest(e);
@@ -368,9 +382,8 @@ export default class Slider extends PureComponent {
     this._fireChangeEvent('onValueChange');
   };
 
-  _handlePanResponderRequestEnd = () =>
-    // Should we allow another component to take over this pan?
-    false;
+  _handlePanResponderRequestEnd = () => false;
+  // Should we allow another component to take over this pan?
 
   _handlePanResponderEnd = (e, gestureState) => {
     const { disabled } = this.props;
@@ -453,7 +466,7 @@ export default class Slider extends PureComponent {
 
   _getCurrentValue = () => {
     const { value } = this.state;
-    value.__getValue();
+    return value.__getValue();
   };
 
   _setCurrentValue = v => {
@@ -464,7 +477,7 @@ export default class Slider extends PureComponent {
   _setCurrentValueAnimated = v => {
     const { animationType, animationConfig } = this.props;
     const { value } = this.state;
-    const animConfig = Object.assign(
+    const animaConfig = Object.assign(
       {},
       DEFAULT_ANIMATION_CONFIGS[animationType],
       animationConfig,
@@ -473,18 +486,17 @@ export default class Slider extends PureComponent {
       }
     );
 
-    Animated[animationType](value, animConfig).start();
+    Animated[animationType](value, animaConfig).start();
   };
 
   _fireChangeEvent = event => {
-    const { props } = this.props;
-    if (props[event]) {
-      props[event](this._getCurrentValue());
+    if (this.props[event]) {
+      this.props[event](this._getCurrentValue());
     }
   };
 
   _getTouchOverflowSize = () => {
-    const { allMeasured, thumbSize, containerSize } = this.state;
+    const { thumbSize, containerSize, allMeasured } = this.state;
     const { thumbTouchSize } = this.props;
 
     const size = {};
@@ -520,9 +532,9 @@ export default class Slider extends PureComponent {
   };
 
   _thumbHitTest = e => {
-    const { nativeEvent } = e;
+    const nEvent = e.nativeEvent;
     const thumbTouchRect = this._getThumbTouchRect();
-    return thumbTouchRect.containsPoint(nativeEvent.locationX, nativeEvent.locationY);
+    return thumbTouchRect.containsPoint(nEvent.locationX, nEvent.locationY);
   };
 
   _getThumbTouchRect = () => {

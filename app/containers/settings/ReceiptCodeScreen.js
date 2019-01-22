@@ -175,11 +175,13 @@ class ReceiptCodeScreen extends BaseComponent {
     }
   };
 
-  copyAddress() {
+  copyAddress = () => {
+    console.log('L_copyAddress', 'copyAddress');
     const { address } = this.props.wallet;
     Clipboard.setString(address);
-    showToast(I18n.t('toast.copied'));
-  }
+    // showToast(I18n.t('toast.copied'));
+    showToast('123');
+  };
 
   async getIsRemindAgain() {
     const key = StorageKey.NotRemindAgainTestITC;
@@ -282,7 +284,7 @@ class ReceiptCodeScreen extends BaseComponent {
               <TouchableOpacity
                 style={[styles.btnOpacity]}
                 activeOpacity={0.6}
-                onPress={() => this.copyAddress()}
+                onPress={this.copyAddress}
               >
                 <Text style={styles.btnTxt}>{I18n.t('settings.copy_payment_address')}</Text>
               </TouchableOpacity>
