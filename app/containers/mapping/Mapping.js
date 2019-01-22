@@ -9,6 +9,7 @@ import { I18n } from '../../config/language/i18n'
 import ItcMappingServiceScreen from '../mapping/ItcMappingServiceScreen'
 import MappingTermsScreen from '../mapping/MappingTermsScreen'
 import LinearGradient from 'react-native-linear-gradient'
+import Analytics from '../../utils/Analytics'
 class Mapping extends PureComponent {
 
 
@@ -26,6 +27,7 @@ class Mapping extends PureComponent {
 
     componentWillMount() {
         this._isMounted = true;
+        Analytics.setCurrentScreen('mapping')
     }
 
     componentWillUnmount() {

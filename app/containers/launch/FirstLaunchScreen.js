@@ -15,6 +15,7 @@ import { I18n } from '../../config/language/i18n'
 import DeviceInfo from 'react-native-device-info'
 import MyAlertComponent from '../../components/MyAlertComponent'
 import BaseComponent from '../../containers/base/BaseComponent'
+import Analytics from '../../utils/Analytics'
 
 const styles = StyleSheet.create({
     contentContainer: {
@@ -310,11 +311,11 @@ class FirstLaunchScreen extends BaseComponent {
                     })
 
                 } else {
-                    console.log('getVersionUpdateInfo err msg:', response.msg)
+                    Analytics.recordErr('getVersionUpdateInfoRspErr',response)
                 }
             })
             .catch((err) => {
-                console.log('getVersionUpdateInfo err:', err)
+                Analytics.recordErr('getVersionUpdateInfoCatchErr',err)
             })
     }
 

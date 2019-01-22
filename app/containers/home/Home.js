@@ -35,6 +35,7 @@ import MyAlertComponent from '../../components/MyAlertComponent'
 import BaseComponent from '../base/BaseComponent'
 import JPushModule from 'jpush-react-native'
 import DeviceInfo from 'react-native-device-info'
+import Analytics from '../../utils/Analytics'
 
 const hiddenIcon_invi = require('../../assets/home/psd_invi_w.png')
 const hiddenIcon_vi = require('../../assets/home/psd_vi_w.png')
@@ -63,6 +64,7 @@ class HomeScreen extends BaseComponent {
         this._isMounted = true
         this._addEventListener();
         this._addChangeListener()
+        Analytics.setCurrentScreen('home')
     }
 
 
@@ -265,11 +267,11 @@ class HomeScreen extends BaseComponent {
                 if(type == 2){
                     showToast(I18n.t('toast.net_request_err'))
                 }  
-                console.log('getAllTokens_err_msg:', response.msg)
+                Analytics.recordErr('getAllTokensRspErr',response)
             }
         }).catch((err) => {
             this._hideLoading()
-            console.log('getAllTokens_err:', err)
+            Analytics.recordErr('getAllTokensCatchErr',err)
         })
     }
 
@@ -391,11 +393,11 @@ class HomeScreen extends BaseComponent {
                     })
 
                 } else {
-                    console.log('getVersionUpdateInfo err msg:', response.msg)
+                    Analytics.recordErr('getVersionUpdateInfoResErr',response)
                 }
             })
             .catch((err) => {
-                console.log('getVersionUpdateInfo err:', err)
+                Analytics.recordErr('getVersionUpdateInfoCatchErr',err)
             })
     }
 

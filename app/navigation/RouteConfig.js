@@ -39,107 +39,106 @@
 
     path：路由中设置的路径的覆盖映射配置
 */
-import { I18n } from '../config/language/i18n'
+import { I18n } from "../config/language/i18n";
 import {
-    createBottomTabNavigator,
-    createSwitchNavigator
-} from 'react-navigation'
+  createBottomTabNavigator,
+  createSwitchNavigator
+} from "react-navigation";
+import { HomeBottomTabNavigationConfig } from "./NavigatorConfig";
 import {
-    HomeBottomTabNavigationConfig
-} from './NavigatorConfig'
-import {
-    walletTest,
-    rpcTest,
-    keystoreTest,
-    networkTest,
-    FirstLaunchContainers,
-    mainContainers,
-    Wallet,
-    Transaction,
-    FirstLaunchScreen,
-    ServiceAgreementScreen,
-    BackupMnemonicScreen,
-    BackupWalletScreen,
-    CreateWalletScreen,
-    ImportWalletScreen,
-    VerifyMnemonicScreen,
-    HomeScreen,
-    MyScreen,
-    SetScreen,
-    ModifyPasswordScreen,
-    ExportPrivateKeyScreen,
-    ExportKeystoreScreen,
-    ReceiptCodeScreen,
-    ScanQRCodeScreen,
-    TransactionDetail,
-    Loading,
-    TransactionRecoder,
-    CreateContactScreen,
-    ContactListScreen,
-    ContactInfoScreen,
-    AboutUsScreen,
-    FeedbackScreen,
-    ChoseLanguageScreen,
-    ChoseMonetaryUnitScreen,
-    SystemSetScreen,
-    UseAndPrivacyPolicyScreen,
-    AddAssets,
-    AddTokenScreen,
-    SearchTokenScreen,
-    MessageCenterScreen,
-    MessageWebViewScreen,
-    AddressListScreen,
-    MappingTermsScreen,
-    ChangeBindAddressScreen,
-    BindWalletAddressScreen,
-    ItcMappingServiceScreen,
-    MappingRecordsScreen,
-    MappingRecordDetailScreen,
-    MappingGuideScreen,
-    WalletListScreen,
-    ChoseWalletTypeScreen,
-    Mapping
-} from '../containers/Containers';
-import { getMessageCount } from '../utils/CommonUtil'
-import NetworkManager from '../utils/NetworkManager'
+  walletTest,
+  rpcTest,
+  keystoreTest,
+  networkTest,
+  FirstLaunchContainers,
+  mainContainers,
+  Wallet,
+  Transaction,
+  FirstLaunchScreen,
+  ServiceAgreementScreen,
+  BackupMnemonicScreen,
+  BackupWalletScreen,
+  CreateWalletScreen,
+  ImportWalletScreen,
+  VerifyMnemonicScreen,
+  HomeScreen,
+  MyScreen,
+  SetScreen,
+  ModifyPasswordScreen,
+  ExportPrivateKeyScreen,
+  ExportKeystoreScreen,
+  ReceiptCodeScreen,
+  ScanQRCodeScreen,
+  TransactionDetail,
+  Loading,
+  TransactionRecoder,
+  CreateContactScreen,
+  ContactListScreen,
+  ContactInfoScreen,
+  AboutUsScreen,
+  FeedbackScreen,
+  ChoseLanguageScreen,
+  ChoseMonetaryUnitScreen,
+  SystemSetScreen,
+  UseAndPrivacyPolicyScreen,
+  AddAssets,
+  AddTokenScreen,
+  SearchTokenScreen,
+  MessageCenterScreen,
+  MessageWebViewScreen,
+  AddressListScreen,
+  MappingTermsScreen,
+  ChangeBindAddressScreen,
+  BindWalletAddressScreen,
+  ItcMappingServiceScreen,
+  MappingRecordsScreen,
+  MappingRecordDetailScreen,
+  MappingGuideScreen,
+  WalletListScreen,
+  ChoseWalletTypeScreen,
+  Mapping
+} from "../containers/Containers";
+import { getMessageCount } from "../utils/CommonUtil";
+import NetworkManager from "../utils/NetworkManager";
+import firebase from "react-native-firebase";
+import Analytics from "../utils/Analytics";
 //首次启动导航栈
-const FirstLaunchRouteConfig =
-{
-    FirstLaunch: {
-        screen: FirstLaunchScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: null,
-            cardStack: {
-                // gesturesEnabled: false
-            }
-        })
-    },
-    CreateWallet: {
-        screen: CreateWalletScreen,
-        /**navigationOptions: ({navigation}) => ({
+const FirstLaunchRouteConfig = {
+  FirstLaunch: {
+    screen: FirstLaunchScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      cardStack: {
+        // gesturesEnabled: false
+      }
+    })
+  },
+  CreateWallet: {
+    screen: CreateWalletScreen
+    /**navigationOptions: ({navigation}) => ({
             header:<BlueHeader navigation={navigation}/>
         })**/
-    },
-    ServiceAgreement: {
-        screen: ServiceAgreementScreen
-    },
-    BackupMnemonic: {
-        screen: BackupMnemonicScreen,
-    },
-    VerifyMnemonic: {
-        screen: VerifyMnemonicScreen,
-        navigationOptions: { gesturesEnabled: false }
-    },
-    BackupWallet: {
-        screen: BackupWalletScreen,
-    },
-    ImportWallet: {
-        screen: ImportWalletScreen,
-    },
-    ChoseWalletType: {
-        screen:ChoseWalletTypeScreen,
-    }
-    /**UserRegulation: {
+  },
+  ServiceAgreement: {
+    screen: ServiceAgreementScreen
+  },
+  BackupMnemonic: {
+    screen: BackupMnemonicScreen
+  },
+  VerifyMnemonic: {
+    screen: VerifyMnemonicScreen,
+    navigationOptions: { gesturesEnabled: false }
+  },
+  BackupWallet: {
+    screen: BackupWalletScreen
+  },
+  ImportWallet: {
+    screen: ImportWalletScreen
+  },
+  ChoseWalletType: {
+    screen: ChoseWalletTypeScreen
+  }
+  /**UserRegulation: {
         screen: UserRegulationScreen,
         navigationOptions: ({navigation}) => ({
             headerTitle:"用户条例",
@@ -151,195 +150,190 @@ const FirstLaunchRouteConfig =
             }}/>,
         })
     },**/
-}
+};
 
 //首页Tab
 
-const HomeBottomTabNavigation = createBottomTabNavigator({
+const HomeBottomTabNavigation = createBottomTabNavigator(
+  {
     Home: {
-        screen: HomeScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: null,
-            tabBarOnPress: () => { // 使用tabBarOnPress点击事件
-                NetworkManager.loadTokenList()
-                navigation.navigate("Home")
-            },
-        })
+      screen: HomeScreen,
+      navigationOptions: ({ navigation }) => ({
+        header: null,
+        tabBarOnPress: () => {
+          // 使用tabBarOnPress点击事件
+          Analytics.recordClick("Tab", "home");
+          navigation.navigate("Home");
+        }
+      })
     },
     Mapping: {
-        screen:Mapping,
-        navigationOptions: ({ navigation }) => ({
-            tabBarOnPress: () => {
-                navigation.navigate("Mapping")
-            },
-        })
+      screen: Mapping,
+      navigationOptions: ({ navigation }) => ({
+        tabBarOnPress: () => {
+          Analytics.recordClick("Tab", "mapping");
+          navigation.navigate("Mapping");
+        }
+      })
     },
     My: {
-        screen: MyScreen,
-        navigationOptions: ({ navigation }) => ({
-            tabBarOnPress: () => {
-                getMessageCount()
-                navigation.navigate("My")
-            },
-        })
+      screen: MyScreen,
+      navigationOptions: ({ navigation }) => ({
+        tabBarOnPress: () => {
+          getMessageCount();
+          Analytics.recordClick("Tab", "my");
+          navigation.navigate("My");
+        }
+      })
     }
-}, HomeBottomTabNavigationConfig)
-
-
+  },
+  HomeBottomTabNavigationConfig
+);
 
 //主页导航栈
-const HomeRouteConfig =
-{
-    
-    HomeTab: {
-        screen: HomeBottomTabNavigation,
-        navigationOptions: {
-            header: null,
-            //gesturesEnabled:false
-        }
-    },
-    /*HomeScreen: {
+const HomeRouteConfig = {
+  HomeTab: {
+    screen: HomeBottomTabNavigation,
+    navigationOptions: {
+      header: null
+      //gesturesEnabled:false
+    }
+  },
+  /*HomeScreen: {
         screen: HomeScreen,
         navigationOptions: {
             header: null,
             //gesturesEnabled:false
         }
     },*/
-    AddAssets: {
-        screen: AddAssets,
-    },
-    Set: {
-        screen: SetScreen,
-    },
-    ModifyPassword: {
-        screen: ModifyPasswordScreen,
-    },
-    ReceiptCode: {
-        screen: ReceiptCodeScreen,
-    },
-    TransactionDetail: {
-        screen: TransactionDetail,
-        /**navigationOptions: ({navigation}) => ({
+  AddAssets: {
+    screen: AddAssets
+  },
+  Set: {
+    screen: SetScreen
+  },
+  ModifyPassword: {
+    screen: ModifyPasswordScreen
+  },
+  ReceiptCode: {
+    screen: ReceiptCodeScreen
+  },
+  TransactionDetail: {
+    screen: TransactionDetail
+    /**navigationOptions: ({navigation}) => ({
             header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
         })**/
-    },
-    ScanQRCode: {
-        screen: ScanQRCodeScreen,
-    },
-    BackupMnemonic: {
-        screen: BackupMnemonicScreen,
-    },
-    VerifyMnemonic: {
-        screen: VerifyMnemonicScreen,
-    },
-    CreateWallet: {
-        screen: CreateWalletScreen,
-    },
-    TransactionRecoder: {
-        screen: TransactionRecoder,
-    },
-    Transaction: {
-        screen: Transaction,
-    },
-    ExportPrivateKey: {
-        screen: ExportPrivateKeyScreen,
-    },
-    ExportKeystore: {
-        screen: ExportKeystoreScreen,
-    },
-    CreateContact: {
-        screen: CreateContactScreen,
-    },
-    ContactList: {
-        screen: ContactListScreen,
-    },
-    ContactInfo: {
-        screen: ContactInfoScreen,
-    },
-    AboutUs: {
-        screen: AboutUsScreen,
-    },
-    Feedback: {
-        screen: FeedbackScreen,
-    },
-    ChoseLanguage: {
-        screen: ChoseLanguageScreen,
-    },
-    ChoseMonetaryUnit: {
-        screen: ChoseMonetaryUnitScreen,
-    },
-    SystemSet: {
-        screen: SystemSetScreen,
-    },
-    UseAndPrivacyPolicy: {
-        screen: UseAndPrivacyPolicyScreen,
-    },
-    AddToken: {
-        screen: AddTokenScreen,
-    },
-    SearchToken: {
-        screen: SearchTokenScreen
-    },
-    MessageCenter: {
-        screen: MessageCenterScreen,
-    },
-    MessageWebView: {
-        screen: MessageWebViewScreen,
-    },
-    AddressList: {
-        screen: AddressListScreen,
-    },
+  },
+  ScanQRCode: {
+    screen: ScanQRCodeScreen
+  },
+  BackupMnemonic: {
+    screen: BackupMnemonicScreen
+  },
+  VerifyMnemonic: {
+    screen: VerifyMnemonicScreen
+  },
+  CreateWallet: {
+    screen: CreateWalletScreen
+  },
+  TransactionRecoder: {
+    screen: TransactionRecoder
+  },
+  Transaction: {
+    screen: Transaction
+  },
+  ExportPrivateKey: {
+    screen: ExportPrivateKeyScreen
+  },
+  ExportKeystore: {
+    screen: ExportKeystoreScreen
+  },
+  CreateContact: {
+    screen: CreateContactScreen
+  },
+  ContactList: {
+    screen: ContactListScreen
+  },
+  ContactInfo: {
+    screen: ContactInfoScreen
+  },
+  AboutUs: {
+    screen: AboutUsScreen
+  },
+  Feedback: {
+    screen: FeedbackScreen
+  },
+  ChoseLanguage: {
+    screen: ChoseLanguageScreen
+  },
+  ChoseMonetaryUnit: {
+    screen: ChoseMonetaryUnitScreen
+  },
+  SystemSet: {
+    screen: SystemSetScreen
+  },
+  UseAndPrivacyPolicy: {
+    screen: UseAndPrivacyPolicyScreen
+  },
+  AddToken: {
+    screen: AddTokenScreen
+  },
+  SearchToken: {
+    screen: SearchTokenScreen
+  },
+  MessageCenter: {
+    screen: MessageCenterScreen
+  },
+  MessageWebView: {
+    screen: MessageWebViewScreen
+  },
+  AddressList: {
+    screen: AddressListScreen
+  },
 
-   
-
-    MappingTerms: {
-        screen: MappingTermsScreen,
-    },
-    ChangeBindAddress: {
-        screen: ChangeBindAddressScreen,
-    },
-    BindWalletAddress: {
-        screen: BindWalletAddressScreen,
-    },
-    ItcMappingService: {
-        screen: ItcMappingServiceScreen,
-    },
-    MappingRecords: {
-        screen: MappingRecordsScreen,
-    },
-    MappingRecordDetail: {
-        screen: MappingRecordDetailScreen
-    },
-    MappingGuide:{
-        screen: MappingGuideScreen
-    },
-    WalletList:{
-        screen:WalletListScreen
-    },
-    ServiceAgreement: {
-        screen: ServiceAgreementScreen
-    },
-    BackupMnemonic: {
-        screen: BackupMnemonicScreen,
-    },
-    VerifyMnemonic: {
-        screen: VerifyMnemonicScreen,
-        navigationOptions: { gesturesEnabled: false }
-    },
-    BackupWallet: {
-        screen: BackupWalletScreen,
-    },
-    ImportWallet: {
-        screen: ImportWalletScreen,
-    },
-    ChoseWalletType: {
-        screen:ChoseWalletTypeScreen,
-    }
+  MappingTerms: {
+    screen: MappingTermsScreen
+  },
+  ChangeBindAddress: {
+    screen: ChangeBindAddressScreen
+  },
+  BindWalletAddress: {
+    screen: BindWalletAddressScreen
+  },
+  ItcMappingService: {
+    screen: ItcMappingServiceScreen
+  },
+  MappingRecords: {
+    screen: MappingRecordsScreen
+  },
+  MappingRecordDetail: {
+    screen: MappingRecordDetailScreen
+  },
+  MappingGuide: {
+    screen: MappingGuideScreen
+  },
+  WalletList: {
+    screen: WalletListScreen
+  },
+  ServiceAgreement: {
+    screen: ServiceAgreementScreen
+  },
+  BackupMnemonic: {
+    screen: BackupMnemonicScreen
+  },
+  VerifyMnemonic: {
+    screen: VerifyMnemonicScreen,
+    navigationOptions: { gesturesEnabled: false }
+  },
+  BackupWallet: {
+    screen: BackupWalletScreen
+  },
+  ImportWallet: {
+    screen: ImportWalletScreen
+  },
+  ChoseWalletType: {
+    screen: ChoseWalletTypeScreen
+  }
 };
 
-export {
-    HomeRouteConfig,
-    FirstLaunchRouteConfig,
-    Loading,
-};
-
+export { HomeRouteConfig, FirstLaunchRouteConfig, Loading };

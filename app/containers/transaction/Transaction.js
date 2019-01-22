@@ -36,6 +36,7 @@ import StaticLoading from '../../components/StaticLoading'
 import { setNewTransaction } from '../../config/action/Actions';
 
 import I18n from 'react-native-i18n'
+import Analytics from '../../utils/Analytics';
 
 
 let ScreenWidth = Dimensions.get('window').width;
@@ -367,9 +368,9 @@ export default class Transaction extends BaseComponent {
 
     async startSendTransaction(privateKey) {
 
-
+        Analytics.recordClick('Transaction','startSendTransaction')
         try {
-       
+            
             let { address, symbol, decimal } = store.getState().Core.balance;
 
             let currentBlock = await NetworkManager.getCurrentBlockNumber();
@@ -559,6 +560,7 @@ export default class Transaction extends BaseComponent {
 
 
     routeContactList = () => {
+        Analytics.recordClick('Transaction','contactList')
         let _this = this;
         this.props.navigation.navigate('AddressList', {
             from: 'transaction',
@@ -582,6 +584,7 @@ export default class Transaction extends BaseComponent {
 
 
     scanClick = async () => {
+        Analytics.recordClick('Transaction','san')
         var _this = this;
         //const {navigate} = this.props.navigation;//页面跳转
         //navigation('页面');
