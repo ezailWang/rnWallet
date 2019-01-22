@@ -122,9 +122,7 @@ export default class NetworkManager {
       if (balance) {
         return parseFloat(balance / Math.pow(10, 18)).toFixed(4);
       }
-      firebase
-        .analytics()
-        .logEvent("getItcBalanceErr", JSON.parse(balanceJson).error);
+      Analytics.recordErr("getItcBalanceRspErr", balanceJson);
       return 0.0;
     } catch (err) {
       DeviceEventEmitter.emit("netRequestErr", err);

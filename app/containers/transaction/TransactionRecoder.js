@@ -385,11 +385,6 @@ export default class TransactionRecoder extends BaseComponent {
     this.onRefresh = this.onRefresh.bind(this);
   }
 
-  componentWillMount() {
-    super.componentWillMount();
-    Analytics.setCurrentScreen("transactionRecoder");
-  }
-
   getRecoder = async isFirst => {
     if (this._isMounted) {
       if (this.isGetRecodering || this.isLoadMoreing) {

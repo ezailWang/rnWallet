@@ -240,7 +240,6 @@ export default class BaseComponent extends PureComponent {
         alertTitle: title,
         alertContent: content
       });
-      Analytics.recordAlert(title, content);
     }
   }
 
@@ -429,7 +428,7 @@ export default class BaseComponent extends PureComponent {
         // this.toast = showToast(errMessage, Toast.positions.TOP + 10);
       }
     } catch (err) {
-      console.log("toast err:", err);
+      Analytics.recordErr('netRequestErrCatchErr',err)
     }
   };
   //点击android物理返回键的操作

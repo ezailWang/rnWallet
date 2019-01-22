@@ -8,8 +8,8 @@ export default class Analytics {
     firebase.analytics().setUserId(userId);
   }
 
-  static setCurrentScreen(screenClass){
-      firebase.analytics().setCurrentScreen(screenClass)
+  static setCurrentScreen(screenClass) {
+    firebase.analytics().setCurrentScreen(screenClass);
   }
 
   static recordErr(errName, err) {
@@ -17,15 +17,24 @@ export default class Analytics {
       return;
     }
     try {
-      console.log(errName, err);
-      firebase.analytics().logEvent("err", {
+      let errStr;
+      if (err.message) {
+        errStr = err.message;
+      } else {
+        errStr = JSON.stringify(err);
+      }
+      console.log(errName, errStr);
+      if (errStr.length > 50) {
+        errStr = errStr.substring(0, 49);
+      }
+      firebase.analytics().logEvent("customErr", {
         errName: errName,
-        errDetail: JSON.stringify(err)
+        errDetail: errStr
       });
     } catch (err) {
       firebase
         .analytics()
-        .logEvent("err", { errName: "recordErr", errDetail: errName });
+        .logEvent("customErr", { errName: "recordErr", errDetail: errName });
     }
   }
 
@@ -38,20 +47,7 @@ export default class Analytics {
     } catch (err) {
       firebase
         .analytics()
-        .logEvent("err", { errName: "recordClick", errDetail: category });
-    }
-  }
-
-  static recordAlert(title, content) {
-    try {
-      firebase.analytics.logEvent("alert", {
-        title: title,
-        content: content
-      });
-    } catch (err) {
-      firebase
-        .analytics()
-        .logEvent("err", { errName: "recordAlert", errDetail: title });
+        .logEvent("customErr", { errName: "recordClick", errDetail: category });
     }
   }
 }

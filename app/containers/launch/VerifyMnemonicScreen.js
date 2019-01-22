@@ -23,6 +23,7 @@ import PropTypes from 'prop-types';
 import lodash from 'lodash'
 import Toast from 'react-native-root-toast';
 import { defaultTokens, defaultTokensOfITC } from '../../utils/Constants'
+import Analytics from '../../utils/Analytics'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -401,6 +402,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
             showToast(I18n.t('toast.create_wallet_error'), Toast.positions.TOP + 10);
             this.initAllData()
+            Analytics.recordErr('startCreateEthWalletCatchErr',err)
         }
     }
 
@@ -483,7 +485,7 @@ class VerifyMnemonicScreen extends BaseComponent {
 
                     </ScrollView>
                 </View>
-            </View >
+            </View>
         );
     }
 }

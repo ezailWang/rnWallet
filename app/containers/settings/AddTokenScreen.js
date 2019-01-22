@@ -21,6 +21,7 @@ import Layout from '../../config/LayoutConstants'
 import { I18n } from '../../config/language/i18n'
 import BaseComponent from '../base/BaseComponent'
 import lodash from 'lodash'
+import Analytics from '../../utils/Analytics'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -248,7 +249,7 @@ class AddTokenScreen extends BaseComponent {
             }, 0);
             
         } catch (e) {
-            console.log('add_remove_token_err', e)
+            Analytics.recordErr('addOrRemoveItemCatchErr',e)
         }
     }
 
