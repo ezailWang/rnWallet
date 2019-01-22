@@ -566,7 +566,7 @@ class HomeScreen extends BaseComponent {
               }}
               onHideAssets={() => {
                 this.setState(previousState => {
-                  this.saveIsTotalAssetsHiddenToStorage(!previousState.isTotalAssetsHidden);
+                  HomeScreen.saveIsTotalAssetsHiddenToStorage(!previousState.isTotalAssetsHidden);
                   return { isTotalAssetsHidden: !previousState.isTotalAssetsHidden };
                 });
               }}

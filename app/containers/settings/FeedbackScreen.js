@@ -17,7 +17,7 @@ import Layout from '../../config/LayoutConstants';
 import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import { validateEmail } from '../../utils/CommonUtil';
-import { CommonTextInput } from '../../components/TextInputComponent';
+import CommonTextInput from '../../components/TextInputComponent';
 import BaseComponent from '../base/BaseComponent';
 import ImageButton from '../../components/ImageButton';
 import NetworkManager from '../../utils/NetworkManager';
@@ -226,7 +226,6 @@ export default class FeedbackScreen extends BaseComponent {
     const photoSelectComponents = [];
     this.state.photoArray.forEach((value, index) => {
       const keyValue = `photo${index}`;
-      console.log('L_photo', keyValue);
       photoSelectComponents.push(
         <View key={keyValue} style={{ width: 56, height: 56, marginRight: 10, marginTop: 5 }}>
           <Image style={{ width: 56, height: 56 }} source={value} />

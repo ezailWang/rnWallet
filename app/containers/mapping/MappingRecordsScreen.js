@@ -183,7 +183,7 @@ class MappingRecordsScreen extends BaseComponent {
     </View>
   );
 
-  _renderItem = item => <Item item={item} onPressItem={this._onPressItem} />;
+  _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem()} />;
 
   _onPressItem = item => {
     const mappingDetail = item.item;
@@ -258,8 +258,8 @@ class Item extends PureComponent {
 
   render() {
     // status 0 已申请 1 申请中  2 已完成
-    const { item } = this.props || {};
-    const { amount, time, status, onPressItem } = item || {};
+    const { item, onPressItem } = this.props || {};
+    const { amount, time, status } = item.item || {};
 
     const amountTxt = `${amount} ITC`;
     const timeTxt = time;

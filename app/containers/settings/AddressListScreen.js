@@ -252,10 +252,12 @@ class AddressListScreen extends BaseComponent {
     }
   };
 
-  _renderItemContact = item => <ContactItem item={item} onPressItem={this._onContactPressItem} />;
+  _renderItemContact = item => (
+    <ContactItem item={item} onPressItem={() => this._onContactPressItem(item)} />
+  );
 
   _renderItemRecentAddress = item => (
-    <RecentAddressItem item={item} onPressItem={this._onRecentAddressItem} />
+    <RecentAddressItem item={item} onPressItem={() => this._onRecentAddressItem(item)} />
   );
 
   addContact = async () => {
@@ -409,8 +411,8 @@ class AddressListScreen extends BaseComponent {
 
 class ContactItem extends PureComponent {
   render() {
-    const { item } = this.props || {};
-    const { name, address, onPressItem } = item || {};
+    const { item, onPressItem } = this.props || {};
+    const { name, address } = item.item || {};
     const letter = name.substr(0, 1);
     let _letter = `${letter}`;
     if (letter >= 'a' && letter <= 'z') {
@@ -466,7 +468,7 @@ class RecentAddressItem extends PureComponent {
 
   render() {
     const { item } = this.props || {};
-    const { address, symbol, time, iconLarge, name, onPressItem } = item || {};
+    const { address, symbol, time, iconLarge, name, onPressItem } = item.item || {};
     const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
     const _name = name === '' ? '' : ` (${name.trim()})`;

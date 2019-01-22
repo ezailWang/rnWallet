@@ -194,7 +194,9 @@ class AddTokenScreen extends BaseComponent {
   // 自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
-  _renderItem = item => <ItemView item={item} addOrRemoveItem={this._addOrRemoveItem} />;
+  _renderItem = item => (
+    <ItemView item={item} addOrRemoveItem={() => this._addOrRemoveItem(item)} />
+  );
 
   _addOrRemoveItem = async item => {
     try {
@@ -312,8 +314,8 @@ class ItemView extends PureComponent {
   };
 
   render() {
-    const { item } = this.props || {};
-    const { iconLarge, symbol, name, address, isAdded, addOrRemoveItem } = item || {};
+    const { item, addOrRemoveItem } = this.props || {};
+    const { iconLarge, symbol, name, address, isAdded } = item.item || {};
     const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
 

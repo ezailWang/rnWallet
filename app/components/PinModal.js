@@ -35,14 +35,15 @@ export default class PinModal extends PureComponent {
     this.inputPassword = this.inputPassword + text;
     const inputlength = this.inputPassword.length;
     if (inputlength === 6) {
+      const correct = this.inputPassword === password;
+      this.isAnimation = !correct;
       this.inputPassword = '';
-      this.isAnimation = this.inputPassword !== password;
       this.setState({
         pointsCkeckedCount: 0,
         delDisabled: true,
       });
       setTimeout(() => {
-        if (this.inputPassword === password) {
+        if (correct) {
           const object = {
             pinType: 'PinModal',
             visible: false,

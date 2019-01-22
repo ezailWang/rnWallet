@@ -89,7 +89,7 @@ class SetScreen extends BaseComponent {
     this.isDeleteWallet = false;
     this.inputName = '';
     this.inputPwd = '';
-    this.isCurrentWallet = true; // 是否是当前钱包
+    this.isCurrentWallet = false; // 是否是当前钱包
     this.timeInterval = null;
     this.timeIntervalCount = 0;
 
@@ -98,11 +98,11 @@ class SetScreen extends BaseComponent {
   }
 
   _initData() {
-    const { wallet } = this.props.navigation.state.params;
+    const mWallet = this.props.navigation.state.params.wallet;
     this.isCurrentWallet =
-      wallet.address.toLowerCase() === this.props.currentWallet.address.toLowerCase();
+      mWallet.address.toLowerCase() === this.props.currentWallet.address.toLowerCase();
     this.setState({
-      wallet,
+      wallet: mWallet,
     });
   }
 
@@ -216,6 +216,7 @@ class SetScreen extends BaseComponent {
 
     if (this.isCurrentWallet) {
       this.props.setCurrentWallet(wallet);
+      StorageManage.save(StorageKey.User, wallet);
     }
 
     if (wallet.type === 'itc') {
@@ -302,8 +303,7 @@ class SetScreen extends BaseComponent {
 
   async deleteWallet() {
     try {
-      const { wallet } = this.state.wallet;
-      const walletType = this.state.wallet.type;
+      const { wallet } = this.state;
 
       await KeystoreUtils.removeKeyFile(wallet.address);
 
@@ -316,7 +316,7 @@ class SetScreen extends BaseComponent {
         ethWalletList = [];
       }
 
-      if (walletType === 'itc') {
+      if (wallet.type === 'itc') {
         const index = itcWalletList.findIndex(
           item => item.address.toLowerCase() === wallet.address.toLowerCase()
         );

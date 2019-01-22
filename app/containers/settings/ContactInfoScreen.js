@@ -19,7 +19,7 @@ import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import NetworkManager from '../../utils/NetworkManager';
-import { CommonTextInput } from '../../components/TextInputComponent';
+import CommonTextInput from '../../components/TextInputComponent';
 import RemindDialog from '../../components/RemindDialog';
 import BaseComponent from '../base/BaseComponent';
 

@@ -246,7 +246,9 @@ class SearchTokenScreen extends BaseComponent {
     this.props.navigation.navigate('Feedback');
   };
 
-  _renderItem = item => <ItemView item={item} addOrRemoveItem={this._addOrRemoveItem} />;
+  _renderItem = item => (
+    <ItemView item={item} addOrRemoveItem={() => this._addOrRemoveItem(item)} />
+  );
 
   _addOrRemoveItem = async item => {
     try {
@@ -279,16 +281,21 @@ class SearchTokenScreen extends BaseComponent {
         datas: lodash.cloneDeep(this.searchTokens),
         isShowEmptyView: true,
       });
-      setTimeout(() => {
-        DeviceEventEmitter.emit('changeTokens', {
-          tokens: this.props.tokens,
-          from: 'searchTokenPage',
-        });
-      }, 0);
+      this.changeTokensEmitter();
     } catch (e) {
       console.log('add_remove_token_err', e);
     }
   };
+
+  changeTokensEmitter() {
+    setTimeout(() => {
+      const newTokens = this.props.tokens;
+      DeviceEventEmitter.emit('changeTokens', {
+        tokens: newTokens,
+        from: 'searchTokenPage',
+      });
+    }, 10);
+  }
 
   _backPress = () => {
     this._goBack();
@@ -383,7 +390,7 @@ class SearchTokenScreen extends BaseComponent {
   _cancelPress = () => {
     this.searchText = '';
     this.searchTokens = [];
-    this.searchInputRef.clear();
+    // this.searchInputRef.clear();
     this.setState({
       datas: [],
       isShowEmptyView: false,
@@ -473,8 +480,8 @@ class ItemView extends PureComponent {
   };
 
   render() {
-    const { item } = this.props || {};
-    const { iconLarge, symbol, name, address, isAdded, addOrRemoveItem } = item || {};
+    const { item, addOrRemoveItem } = this.props || {};
+    const { iconLarge, symbol, name, address, isAdded } = item.item || {};
     const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
     const _address = `${address.substr(0, 6)}......${address.substr(36, 42)}`;

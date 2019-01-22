@@ -28,6 +28,9 @@ function showToast(message, position, duration, toastHideCallback) {
     onShow: () => {
       // Toast出现动画开始的回调
     },
+    onShown: () => {
+      // Toast出现动画结束的回调
+    },
     onHide: () => {
       // Toast的隐藏动画开始的回调
     },
@@ -46,5 +49,4 @@ function showToast(message, position, duration, toastHideCallback) {
 function hideToast(toast) {
   Toast.hide(toast);
 }
-
 export { showToast, hideToast };

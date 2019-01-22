@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   choseItemIcon: {
-    width: 40,
-    height: 40,
+    width: 15,
+    height: 15,
   },
   choseItemLine: {
     height: 1,

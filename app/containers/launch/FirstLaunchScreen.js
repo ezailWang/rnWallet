@@ -258,10 +258,10 @@ class FirstLaunchScreen extends BaseComponent {
     }
   }
 
-  savePinInfo(isUseTouchId) {
+  savePinInfo(isUseTouch) {
     const object = {
       password: this.pinPassword,
-      isUseTouchId,
+      isUseTouchId: isUseTouch,
     };
     this.props.setPinInfo(object);
     StorageManage.save(StorageKey.PinInfo, object);

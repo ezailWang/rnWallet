@@ -258,7 +258,7 @@ export default class TransactionStep extends Component {
   async saveRecentAddress() {
     const { toAddress, totalAmount } = this.state;
     const symbol = totalAmount.split(' ')[1];
-    const time = this.getCurrentTime();
+    const time = TransactionStep.getCurrentTime();
     const { tokens } = store.getState().Core;
     let iconLargeStr = '';
     for (let i = 0; i < tokens.length; i++) {

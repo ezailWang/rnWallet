@@ -249,7 +249,7 @@ class BindWalletAddressScreen extends BaseComponent {
     showToast('123');
   };
 
-  _renderItem = item => <Item item={item} onPressItem={this._onPressItem} />;
+  _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem(item)} />;
 
   _onPressItem = item => {
     const choseWallet = item.item;
@@ -374,8 +374,8 @@ class BindWalletAddressScreen extends BaseComponent {
 
 class Item extends PureComponent {
   render() {
-    const { item } = this.props;
-    const { name, address, isChecked, bind, onPressItem } = item.item || {};
+    const { item, onPressItem } = this.props;
+    const { name, address, isChecked, bind } = item.item || {};
     const _name = bind ? name + I18n.t('mapping.bind') : name;
     const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
     const checkIcon = isChecked

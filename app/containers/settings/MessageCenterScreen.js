@@ -484,7 +484,7 @@ class MessageCenterScreen extends BaseComponent {
       </View>
     );
 
-  _renderItem = item => <Item item={item} onPressItem={this._onPressItem} />;
+  _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem(item)} />;
 
   renderComponent() {
     return (
@@ -523,14 +523,14 @@ class MessageCenterScreen extends BaseComponent {
 
 class Item extends PureComponent {
   render() {
-    const { item } = this.props || {};
-    const { messageType, updateTime, readStatus, onPressItem } = item || {};
+    const { item, onPressItem } = this.props || {};
+    const { messageType, updateTime, readStatus } = item.item || {};
     let title = '';
     let content = '';
 
     if (messageType === 1) {
       const { transactionType, status, symbol, fromAddress, toAddress, transactionValue } =
-        item || {};
+        item.item || {};
       const title1 =
         transactionType === 1
           ? I18n.t('settings.receipt_notice')
@@ -547,7 +547,7 @@ class Item extends PureComponent {
         transactionType === 1 ? I18n.t('settings.sender') : I18n.t('settings.receiver');
       content = `${content1 + address.substr(0, 8)}......${address.substr(34, 42)}`;
     } else if (messageType === 2) {
-      const { alertSubTitle, sender } = item || {};
+      const { alertSubTitle, sender } = item.item || {};
       title = I18n.t('settings.announcement') + alertSubTitle;
       content = sender;
     }

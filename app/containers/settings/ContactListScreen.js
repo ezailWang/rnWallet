@@ -138,7 +138,7 @@ class ContactListScreen extends BaseComponent {
     </View>
   );
 
-  _renderItem = item => <FlatListItem item={item} onPressItem={this._onPressItem} />;
+  _renderItem = item => <FlatListItem item={item} onPressItem={() => this._onPressItem(item)} />;
 
   addContact = async () => {
     const _this = this;
@@ -175,8 +175,8 @@ class ContactListScreen extends BaseComponent {
 
 class FlatListItem extends PureComponent {
   render() {
-    const { item } = this.props || {};
-    const { name, address, onPressItem } = item || {};
+    const { item, onPressItem } = this.props || {};
+    const { name, address } = item.item || {};
     const letter = name.substr(0, 1);
     let _letter = `${letter}`;
     if (letter >= 'a' && letter <= 'z') {

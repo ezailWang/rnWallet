@@ -510,6 +510,7 @@ class ImportWalletScreen extends BaseComponent {
   }
 
   routeTo() {
+    console.log('import_wallet', this.from);
     this.setState({
       isShowSLoading: false,
     });
@@ -528,6 +529,7 @@ class ImportWalletScreen extends BaseComponent {
         this.props.navigation.navigate('Home');
         this.props.navigation.openDrawer();
       } else if (this.from === 2) {
+        console.log('import_wallet', '23');
         this.props.navigation.navigate('WalletList');
       }
     } else {
