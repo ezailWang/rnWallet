@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     justifyContent: 'center',
+    zIndex: 99999,
   },
 });
 

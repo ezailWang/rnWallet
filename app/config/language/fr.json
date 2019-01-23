@@ -359,6 +359,7 @@
         "vertify_self":"Authentification par empreinte digitale",
         "authentication_required":"Authentification requise",
 
+        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
         "itc_test_warn1":"Ne gardez pas vos affaires dans votre portefeuille pendant la période de test",
         "itc_test_warn2":"La devise ITC est uniquement destinée au testnet et ne doit pas être utilisée comme une véritable crypto-monnaie!",
         "not_remind_again":"Ne plus montrer ça",

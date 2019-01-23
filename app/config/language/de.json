@@ -359,6 +359,7 @@
         "vertify_self":"Authentifizierung über Fingerabdruck",
         "authentication_required":"Authentifizierung erforderlich",
 
+        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
         "itc_test_warn1":"Speichern Sie während der Testphase kein Guthaben auf Ihrer Wallet",
         "itc_test_warn2":"Die ITC Währung ist nur für das Testnetzwerk und somit keine richtige Kryptowährung",
         "not_remind_again":"Nicht noch einmal anzeigen",

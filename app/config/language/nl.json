@@ -359,6 +359,7 @@
         "vertify_self":"Vingerafdrukverificatie",
         "authentication_required":"Autorizacion Requerida",
 
+        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
         "itc_test_warn1":"Bewaar uw bezittingen niet in uw portemonnee gedurende de testperiode",
         "itc_test_warn2":"ITC-munt is alleen voor het testnet en mag niet worden gebruikt als een echte cryptocurrency!",
         "not_remind_again":"Laat dit niet nog een keer zien",

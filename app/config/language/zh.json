@@ -362,6 +362,7 @@
         "vertify_self":"身份验证",
         "authentication_required":"Autorizacion Requerida",
 
+        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
         "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
         "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
         "not_remind_again":"不再提示",

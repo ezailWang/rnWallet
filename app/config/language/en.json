@@ -360,6 +360,7 @@
         "vertify_self":"Fingerprint authentication",
         "authentication_required":"Authentication required",
 
+        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
         "itc_test_warn1":"Do not store your assets on your wallet during the test period!",
         "itc_test_warn2":"ITC coin is testnet-only and should not be used as an actual cryptocurrency!",
         "not_remind_again":"Don't show this again",

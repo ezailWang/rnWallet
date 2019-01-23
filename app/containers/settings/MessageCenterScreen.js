@@ -350,56 +350,56 @@ class MessageCenterScreen extends BaseComponent {
     const { tokens } = this.props;
     let isHaveToken = false;
     const currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
+    let balanceInfo = null;
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
       if (token.symbol.toUpperCase() === itemSymbol) {
         isHaveToken = true;
-        const balanceInfo = {
+        balanceInfo = {
           amount: token.balance,
           price: token.price,
           symbol: token.symbol,
           address: token.address,
           decimal: token.decimal,
         };
-        this.props.setCoinBalance(balanceInfo);
-
-        // const transation = await NetworkManager.getTransaction(item.hashId);
-        const transation = NetworkManager.getTransaction(item.hashId);
-        let status = 2;
-        if (transation.isError === undefined || transation.isError === false) {
-          status = 0;
-        }
-        if (status === 0) {
-          if (currentBlockNumber - transation.blockNumber < 12) {
-            status = 1;
-          }
-        }
-
-        // let address = transation.to.toLowerCase() == this.props.wallet.address.toLowerCase() ? transation.from : transation.to
-        const address =
-          item.fromAddress === this.props.wallet.address.toLowerCase()
-            ? item.fromAddress
-            : item.toAddress;
-        const transactionDetail = {
-          amount: parseFloat(item.transactionValue),
-          transactionType: item.symbol.toUpperCase(),
-          tranStatus: status,
-          fromAddress: item.fromAddress, // transation.from,
-          toAddress: item.toAddress, // transation.to,
-          gasPrice: '',
-          transactionHash: item.hashId, // transation.hash,
-          blockNumber: transation.blockNumber,
-          transactionTime: `${item.updateTime} +0800`,
-          remark: I18n.t('transaction.no'),
-          name: addressToName(address, this.props.contactList),
-        };
-
-        this._hideLoading();
-        this.props.setTransactionDetailParams(transactionDetail);
-        this.props.navigation.navigate('TransactionDetail');
-
         break;
       }
+    }
+
+    if (isHaveToken) {
+      this.props.setCoinBalance(balanceInfo);
+
+      const transation = await NetworkManager.getTransaction(item.hashId);
+      let status = 2;
+      if (transation.isError === undefined || transation.isError === false) {
+        status = 0;
+      }
+      if (status === 0) {
+        if (currentBlockNumber - transation.blockNumber < 12) {
+          status = 1;
+        }
+      }
+      const address =
+        item.fromAddress === this.props.wallet.address.toLowerCase()
+          ? item.fromAddress
+          : item.toAddress;
+      const transactionDetail = {
+        amount: parseFloat(item.transactionValue),
+        transactionType: item.symbol.toUpperCase(),
+        tranStatus: status,
+        fromAddress: item.fromAddress, // transation.from,
+        toAddress: item.toAddress, // transation.to,
+        gasPrice: '',
+        transactionHash: item.hashId, // transation.hash,
+        blockNumber: transation.blockNumber,
+        transactionTime: `${item.updateTime} +0800`,
+        remark: I18n.t('transaction.no'),
+        name: addressToName(address, this.props.contactList),
+      };
+
+      this._hideLoading();
+      this.props.setTransactionDetailParams(transactionDetail);
+      this.props.navigation.navigate('TransactionDetail');
     }
     return isHaveToken;
   }

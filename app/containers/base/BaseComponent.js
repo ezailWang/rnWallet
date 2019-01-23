@@ -105,10 +105,10 @@ export default class BaseComponent extends PureComponent {
   }
 
   // 初始化数据
-  _initData() {}
+  _initData = () => {};
 
   // pin显示的时候，其他的modal必须关系，否则pin显示不出来
-  _closeModal() {}
+  _closeModal = () => {};
 
   // 设置StatusBar的barStyle为light-content,默认为dark-content
   _setStatusBarStyleLight() {
@@ -215,7 +215,7 @@ export default class BaseComponent extends PureComponent {
   }
 
   // 渲染子组件
-  renderComponent() {}
+  renderComponent = () => {};
 
   // 进入后台模糊（仅支持ios）
   _handleAppStateChange = nextAppState => {

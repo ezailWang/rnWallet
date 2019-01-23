@@ -6356,16 +6356,9 @@ react-native-root-siblings@^3.0.0:
     react-redux "*"
     static-container "^1.0.0"
 
-react-native-root-siblings@^3.1.7:
-  version "3.1.7"
-  resolved "https://registry.npmjs.org/react-native-root-siblings/-/react-native-root-siblings-3.1.7.tgz#9af7cf7495311db9fbe929201a3234ed114cfe77"
-  dependencies:
-    prop-types "^15.6.2"
-    static-container "^1.0.0"
-
-react-native-root-toast@^3.0.1:
-  version "3.0.1"
-  resolved "http://registry.npm.taobao.org/react-native-root-toast/download/react-native-root-toast-3.0.1.tgz#ad0a37c46bc72971a229c7784df25147004e5538"
+react-native-root-toast@^3.0.2:
+  version "3.0.2"
+  resolved "http://registry.npm.taobao.org/react-native-root-toast/download/react-native-root-toast-3.0.2.tgz#85c0c50d300c895a35ea98587b4ad4c9540297ee"
   dependencies:
     prop-types "^15.5.10"
     react-native-root-siblings "^3.0.0"
