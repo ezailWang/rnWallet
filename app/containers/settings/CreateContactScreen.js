@@ -68,7 +68,7 @@ class CreateContactScreen extends BaseComponent {
     this.isAddressFocus = false;
   }
 
-  _initData() {
+  _initData = () => {
     const addAddress = this.props.navigation.state.params.address;
     if (addAddress !== undefined) {
       this.setState({
@@ -76,7 +76,7 @@ class CreateContactScreen extends BaseComponent {
       });
       this.address = addAddress;
     }
-  }
+  };
 
   btnIsEnableClick() {
     if (this.name === '' || this.address === '' || this.name.length > 12) {
@@ -172,59 +172,54 @@ class CreateContactScreen extends BaseComponent {
     this.props.navigation.goBack();
   }
 
-  renderComponent() {
-    return (
-      <View
-        style={styles.container}
-        onStartShouldSetResponder={() => true}
-        onResponderGrant={() => {
-          Keyboard.dismiss();
-        }}
-      >
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.create_contact')}
-          rightPress={() => this.scanClick()}
-          rightIcon={require('../../assets/common/scanIcon.png')}
-        />
-        <View style={styles.contentBox}>
-          <Text style={styles.text}>{I18n.t('settings.name')}</Text>
-          <CommonTextInput textInputStyle={styles.textInput} onChangeText={this.nameOnChangeText} />
-          <Text style={this.state.isShowNameWarn ? styles.warnTxt : styles.warnTxtHidden}>
-            {this.state.nameWarn}
-          </Text>
-          <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
-          <CommonTextInput
-            textInputStyle={styles.textInput}
-            onChangeText={this.remarkOnChangeText}
-          />
+  renderComponent = () => (
+    <View
+      style={styles.container}
+      onStartShouldSetResponder={() => true}
+      onResponderGrant={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('settings.create_contact')}
+        rightPress={() => this.scanClick()}
+        rightIcon={require('../../assets/common/scanIcon.png')}
+      />
+      <View style={styles.contentBox}>
+        <Text style={styles.text}>{I18n.t('settings.name')}</Text>
+        <CommonTextInput textInputStyle={styles.textInput} onChangeText={this.nameOnChangeText} />
+        <Text style={this.state.isShowNameWarn ? styles.warnTxt : styles.warnTxtHidden}>
+          {this.state.nameWarn}
+        </Text>
+        <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
+        <CommonTextInput textInputStyle={styles.textInput} onChangeText={this.remarkOnChangeText} />
 
-          <Text style={styles.text}>{I18n.t('settings.wallet_address')}</Text>
-          <CommonTextInput
-            textInputStyle={styles.textInput}
-            returnKeyType="done"
-            onChangeText={this.addressOnChangeText}
-            defaultValue={this.state.address}
-            onFocus={() => {
-              this.isAddressFocus = true;
-            }}
-            onBlur={() => {
-              this.isAddressFocus = false;
-            }}
-          />
-          <Text style={this.state.isShowAddressWarn ? styles.warnTxt : styles.warnTxtHidden}>
-            {this.state.addressWarn}
-          </Text>
-          <BlueButtonBig
-            buttonStyle={styles.button}
-            isDisabled={this.state.isDisabled}
-            onPress={() => this.save()}
-            text={I18n.t('settings.save')}
-          />
-        </View>
+        <Text style={styles.text}>{I18n.t('settings.wallet_address')}</Text>
+        <CommonTextInput
+          textInputStyle={styles.textInput}
+          returnKeyType="done"
+          onChangeText={this.addressOnChangeText}
+          defaultValue={this.state.address}
+          onFocus={() => {
+            this.isAddressFocus = true;
+          }}
+          onBlur={() => {
+            this.isAddressFocus = false;
+          }}
+        />
+        <Text style={this.state.isShowAddressWarn ? styles.warnTxt : styles.warnTxtHidden}>
+          {this.state.addressWarn}
+        </Text>
+        <BlueButtonBig
+          buttonStyle={styles.button}
+          isDisabled={this.state.isDisabled}
+          onPress={() => this.save()}
+          text={I18n.t('settings.save')}
+        />
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const mapStateToProps = state => ({

@@ -91,10 +91,10 @@ class ContactListScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     this.from = this.props.navigation.state.params.from;
     this.loadContactData();
-  }
+  };
 
   loadContactData() {
     // let contactData = await StorageManage.loadAllDataForKey(StorageKey.Contact)
@@ -149,28 +149,26 @@ class ContactListScreen extends BaseComponent {
     });
   };
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.address_book')}
-          rightPress={() => this.addContact()}
-          rightIcon={require('../../assets/set/add.png')}
-        />
-        <FlatList
-          style={styles.listContainer}
-          ref={this.flatList}
-          data={this.state.data}
-          keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-          renderItem={this._renderItem}
-          ListEmptyComponent={this._renderEmptyView}
-          ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(data, index) => ({ length: 60, offset: (60 + 10) * index, index })}
-        />
-      </View>
-    );
-  }
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('settings.address_book')}
+        rightPress={() => this.addContact()}
+        rightIcon={require('../../assets/set/add.png')}
+      />
+      <FlatList
+        style={styles.listContainer}
+        ref={this.flatList}
+        data={this.state.data}
+        keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
+        renderItem={this._renderItem}
+        ListEmptyComponent={this._renderEmptyView}
+        ItemSeparatorComponent={this._renderItemSeparatorComponent}
+        getItemLayout={(data, index) => ({ length: 60, offset: (60 + 10) * index, index })}
+      />
+    </View>
+  );
 }
 
 class FlatListItem extends PureComponent {

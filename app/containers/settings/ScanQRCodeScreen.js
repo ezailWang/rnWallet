@@ -90,9 +90,9 @@ class ScanQRCodeScreen extends BaseComponent {
     this._setStatusBarStyleLight();
   }
 
-  _initData() {
+  _initData = () => {
     this.scanLineMove();
-  }
+  };
 
   // 扫描二维码结果
   _onBarCodeRead(e) {
@@ -145,31 +145,29 @@ class ScanQRCodeScreen extends BaseComponent {
     this.stopLineMove();
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <BlackBgHeader navigation={this.props.navigation} text={I18n.t('settings.scan_qrcode')} />
+  renderComponent = () => (
+    <View style={styles.container}>
+      <BlackBgHeader navigation={this.props.navigation} text={I18n.t('settings.scan_qrcode')} />
 
-        <Camera
-          style={styles.contentContainer}
-          onBarCodeRead={e => this._onBarCodeRead(e)}
-          aspect={Camera.constants.Aspect.fill}
-        >
-          <View style={styles.scanBox}>
+      <Camera
+        style={styles.contentContainer}
+        onBarCodeRead={e => this._onBarCodeRead(e)}
+        aspect={Camera.constants.Aspect.fill}
+      >
+        <View style={styles.scanBox}>
+          <View style={styles.tranView} />
+          <View style={{ flexDirection: 'row' }}>
             <View style={styles.tranView} />
-            <View style={{ flexDirection: 'row' }}>
-              <View style={styles.tranView} />
-              {this._renderQRScanView()}
-              <View style={styles.tranView} />
-            </View>
-            <View style={styles.tranView}>
-              <Text style={styles.text}>{I18n.t('settings.scan_qrcode_prompt')}</Text>
-            </View>
+            {this._renderQRScanView()}
+            <View style={styles.tranView} />
           </View>
-        </Camera>
-      </View>
-    );
-  }
+          <View style={styles.tranView}>
+            <Text style={styles.text}>{I18n.t('settings.scan_qrcode_prompt')}</Text>
+          </View>
+        </View>
+      </Camera>
+    </View>
+  );
 }
 // {this._renderQRScanView()}
 

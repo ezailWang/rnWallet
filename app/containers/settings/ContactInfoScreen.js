@@ -89,7 +89,7 @@ class ContactInfoScreen extends BaseComponent {
     this.isAddressFocus = '';
   }
 
-  _initData() {
+  _initData = () => {
     this.contactInfo = this.props.navigation.state.params.contactInfo;
     this.index = this.props.navigation.state.params.index;
 
@@ -106,7 +106,7 @@ class ContactInfoScreen extends BaseComponent {
     });
 
     this.getStorageId();
-  }
+  };
 
   async getStorageId() {
     const ids = await StorageManage.loadIdsForKey(StorageKey.Contact);
@@ -244,87 +244,85 @@ class ContactInfoScreen extends BaseComponent {
     });
   }
 
-  _closeModal() {
+  _closeModal = () => {
     this.setState({
       isShowDialog: false,
     });
-  }
+  };
 
-  renderComponent() {
-    return (
-      <View
-        style={styles.container}
-        onStartShouldSetResponder={() => true}
-        onResponderGrant={() => {
-          Keyboard.dismiss();
-        }}
-      >
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={this.contactInfo.name}
-          rightPress={() => this.scanClick()}
-          rightIcon={require('../../assets/common/scanIcon.png')}
+  renderComponent = () => (
+    <View
+      style={styles.container}
+      onStartShouldSetResponder={() => true}
+      onResponderGrant={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={this.contactInfo.name}
+        rightPress={() => this.scanClick()}
+        rightIcon={require('../../assets/common/scanIcon.png')}
+      />
+      <RemindDialog
+        content={I18n.t('settings.make_sure_delete_contact')}
+        modalVisible={this.state.isShowDialog}
+        leftPress={() => this.onCancelClick()}
+        rightPress={() => this.onConfirmDelete()}
+        leftTxt={I18n.t('modal.cancel')}
+        rightTxt={I18n.t('modal.confirm')}
+      />
+
+      <View style={styles.contentBox}>
+        <Text style={styles.text}>{I18n.t('settings.name')} </Text>
+        <CommonTextInput
+          textInputStyle={styles.textInput}
+          onChangeText={this.nameOnChangeText}
+          defaultValue={this.name}
         />
-        <RemindDialog
-          content={I18n.t('settings.make_sure_delete_contact')}
-          modalVisible={this.state.isShowDialog}
-          leftPress={() => this.onCancelClick()}
-          rightPress={() => this.onConfirmDelete()}
-          leftTxt={I18n.t('modal.cancel')}
-          rightTxt={I18n.t('modal.confirm')}
+        <Text style={this.state.isShowNameWarn ? styles.warnTxt : styles.warnTxtHidden}>
+          {this.state.nameWarn}
+        </Text>
+        <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
+        <CommonTextInput
+          textInputStyle={styles.textInput}
+          onChangeText={this.remarkOnChangeText}
+          defaultValue={this.remark}
         />
 
-        <View style={styles.contentBox}>
-          <Text style={styles.text}>{I18n.t('settings.name')} </Text>
-          <CommonTextInput
-            textInputStyle={styles.textInput}
-            onChangeText={this.nameOnChangeText}
-            defaultValue={this.name}
-          />
-          <Text style={this.state.isShowNameWarn ? styles.warnTxt : styles.warnTxtHidden}>
-            {this.state.nameWarn}
-          </Text>
-          <Text style={styles.text}>{I18n.t('settings.remarks')}</Text>
-          <CommonTextInput
-            textInputStyle={styles.textInput}
-            onChangeText={this.remarkOnChangeText}
-            defaultValue={this.remark}
-          />
-
-          <Text style={styles.text}>{I18n.t('settings.wallet_address')}</Text>
-          <CommonTextInput
-            textInputStyle={styles.textInput}
-            returnKeyType="done"
-            onChangeText={this.addressOnChangeText}
-            defaultValue={this.address}
-            onFocus={() => {
-              this.isAddressFocus = true;
-              this.vertifyAddress();
-            }}
-            onBlur={() => {
-              this.isAddressFocus = false;
-            }}
-          />
-          <Text style={this.state.isShowAddressWarn ? styles.warnTxt : styles.warnTxtHidden}>
-            {this.state.addressWarn}
-          </Text>
-          <BlueButtonBig
-            buttonStyle={styles.button}
-            isDisabled={this.state.isDisabled}
-            onPress={() => this.saveModify()}
-            text={I18n.t('settings.save_changes')}
-          />
-          <TouchableOpacity
-            style={styles.deleteTouchable}
-            activeOpacity={0.6}
-            onPress={() => this.deleteContact()}
-          >
-            <Text style={styles.deleteText}>{I18n.t('settings.delete_contact')}</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.text}>{I18n.t('settings.wallet_address')}</Text>
+        <CommonTextInput
+          textInputStyle={styles.textInput}
+          returnKeyType="done"
+          onChangeText={this.addressOnChangeText}
+          defaultValue={this.address}
+          onFocus={() => {
+            this.isAddressFocus = true;
+            this.vertifyAddress();
+          }}
+          onBlur={() => {
+            this.isAddressFocus = false;
+          }}
+        />
+        <Text style={this.state.isShowAddressWarn ? styles.warnTxt : styles.warnTxtHidden}>
+          {this.state.addressWarn}
+        </Text>
+        <BlueButtonBig
+          buttonStyle={styles.button}
+          isDisabled={this.state.isDisabled}
+          onPress={() => this.saveModify()}
+          text={I18n.t('settings.save_changes')}
+        />
+        <TouchableOpacity
+          style={styles.deleteTouchable}
+          activeOpacity={0.6}
+          onPress={() => this.deleteContact()}
+        >
+          <Text style={styles.deleteText}>{I18n.t('settings.delete_contact')}</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const mapStateToProps = state => ({

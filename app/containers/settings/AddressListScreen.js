@@ -191,7 +191,7 @@ class AddressListScreen extends BaseComponent {
     this.recentAddressList = React.createRef();
   }
 
-  async _initData() {
+  _initData = async () => {
     this.from = this.props.navigation.state.params.from;
 
     const recentTransferAddress = await StorageManage.loadAllDataForKey(
@@ -199,7 +199,7 @@ class AddressListScreen extends BaseComponent {
     );
     this.recentAddressList = recentTransferAddress.reverse();
     this.refreshData();
-  }
+  };
 
   refreshData() {
     const contactData = this.props.contactList;
@@ -300,7 +300,7 @@ class AddressListScreen extends BaseComponent {
     </View>
   );
 
-  renderComponent() {
+  renderComponent = () => {
     const { isCheckedContactList } = this.state;
     const headerTitleFontSize = I18n.locale === 'zh' ? 15 : 12;
     return (
@@ -406,7 +406,7 @@ class AddressListScreen extends BaseComponent {
         )}
       </View>
     );
-  }
+  };
 }
 
 class ContactItem extends PureComponent {

@@ -494,13 +494,12 @@ export default class Transaction extends BaseComponent {
     this.dialog.showStepView(params);
   };
 
-  _closeModal() {
+  _closeModal = () => {
     this.dialog.closeStepView();
-  }
+  };
 
   // ----视图的事件方法
   sliderValueChanged = value => {
-    console.log('L_____value', value);
     const price = this.getPriceTitle(value);
     this.setState({
       currentGas: value,
@@ -584,7 +583,7 @@ export default class Transaction extends BaseComponent {
     }
   };
 
-  renderComponent() {
+  renderComponent = () => {
     const title = /* params.transferType + ' ' + */ I18n.t('transaction.transfer');
     const alertHeight =
       this.state.toAddress.length === 42 && this.state.toAddress !== this.state.fromAddress
@@ -696,5 +695,5 @@ export default class Transaction extends BaseComponent {
         </View>
       </View>
     );
-  }
+  };
 }

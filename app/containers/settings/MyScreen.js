@@ -175,7 +175,7 @@ class MyScreen extends BaseComponent {
     });
   };
 
-  renderComponent() {
+  renderComponent = () => {
     const { newMessageCounts } = this.state;
     const topBg = require('../../assets/launch/splash_bg.png');
     const topLogo = require('../../assets/launch/splash_logo.png');
@@ -221,7 +221,7 @@ class MyScreen extends BaseComponent {
         />
       </View>
     );
-  }
+  };
 }
 const mapStateToProps = state => ({
   myLanguage: state.Core.myLanguage,

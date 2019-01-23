@@ -45,12 +45,12 @@ class ChoseLanguageScreen extends BaseComponent {
     this.monetaryUnitSymbol = '';
   }
 
-  _initData() {
+  _initData = () => {
     this.lang = I18n.locale;
     this._checkLanguage();
 
     // this.getAllTags()
-  }
+  };
 
   _checkState(isZh, isEn, isKo, isDe, isEs, isNl, isFr, isRu, isUk) {
     this.setState({
@@ -191,72 +191,67 @@ class ChoseLanguageScreen extends BaseComponent {
     });
   };
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.multi_language')}
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.multi_language')} />
+      <View style={styles.contentBox}>
+        <ChoseItem
+          content="简体中文"
+          isCheck={this.state.isCheckZh}
+          itemPress={() => this._saveLanguage('zh')}
+          choseItemContentStyle={styles.choseItemContent}
         />
-        <View style={styles.contentBox}>
-          <ChoseItem
-            content="简体中文"
-            isCheck={this.state.isCheckZh}
-            itemPress={() => this._saveLanguage('zh')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="English"
-            isCheck={this.state.isCheckEn}
-            itemPress={() => this._saveLanguage('en')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="한국어"
-            isCheck={this.state.isCheckKo}
-            itemPress={() => this._saveLanguage('ko')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="Deutsch"
-            isCheck={this.state.isCheckDe}
-            itemPress={() => this._saveLanguage('de')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="Español"
-            isCheck={this.state.isCheckEs}
-            itemPress={() => this._saveLanguage('es')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="Français"
-            isCheck={this.state.isCheckFr}
-            itemPress={() => this._saveLanguage('fr')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="Pусский"
-            isCheck={this.state.isCheckRu}
-            itemPress={() => this._saveLanguage('ru')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="Nederlands"
-            isCheck={this.state.isCheckNl}
-            itemPress={() => this._saveLanguage('nl')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="УКРАЇНА"
-            isCheck={this.state.isCheckUk}
-            itemPress={() => this._saveLanguage('uk')}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-        </View>
+        <ChoseItem
+          content="English"
+          isCheck={this.state.isCheckEn}
+          itemPress={() => this._saveLanguage('en')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="한국어"
+          isCheck={this.state.isCheckKo}
+          itemPress={() => this._saveLanguage('ko')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="Deutsch"
+          isCheck={this.state.isCheckDe}
+          itemPress={() => this._saveLanguage('de')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="Español"
+          isCheck={this.state.isCheckEs}
+          itemPress={() => this._saveLanguage('es')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="Français"
+          isCheck={this.state.isCheckFr}
+          itemPress={() => this._saveLanguage('fr')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="Pусский"
+          isCheck={this.state.isCheckRu}
+          itemPress={() => this._saveLanguage('ru')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="Nederlands"
+          isCheck={this.state.isCheckNl}
+          itemPress={() => this._saveLanguage('nl')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="УКРАЇНА"
+          isCheck={this.state.isCheckUk}
+          itemPress={() => this._saveLanguage('uk')}
+          choseItemContentStyle={styles.choseItemContent}
+        />
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const mapStateToProps = state => ({

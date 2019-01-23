@@ -397,14 +397,14 @@ class ItcMappingServiceScreen extends BaseComponent {
     this.inputText = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     this.setState({
       mappingAddress: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
       initiationAddress: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
       gasCost: `Gas${I18n.t('mapping.cost')}:0.0056 eth`, // Gas费用
     });
     this.inputText.focus();
-  }
+  };
 
   mappingRecord = () => {
     Keyboard.dismiss();
@@ -462,7 +462,7 @@ class ItcMappingServiceScreen extends BaseComponent {
     this.props.navigation.navigate('MappingGuide');
   };
 
-  renderComponent() {
+  renderComponent = () => {
     const topImg = require('../../assets/mapping/mappingService.png');
     return (
       <View
@@ -586,7 +586,7 @@ class ItcMappingServiceScreen extends BaseComponent {
         </KeyboardAvoidingView>
       </View>
     );
-  }
+  };
 }
 
 class ConfirmMappingModal extends PureComponent {

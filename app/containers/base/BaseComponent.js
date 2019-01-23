@@ -380,7 +380,7 @@ export default class BaseComponent extends PureComponent {
     this._showPin();
   }
 
-  _touchIdAuthenticateSuccess() {}
+  _touchIdAuthenticateSuccess = () => {};
 
   _touchIdAuthenticateFail(err) {
     if (err === 'TouchIDError: User canceled authentication') {

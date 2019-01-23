@@ -116,7 +116,7 @@ class ChangeBindAddressScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  _initData() {
+  _initData = async () => {
     const wallets = [];
     for (let i = 0; i < 10; i++) {
       const wallet = {
@@ -130,7 +130,7 @@ class ChangeBindAddressScreen extends BaseComponent {
     this.setState({
       walletList: wallets,
     });
-  }
+  };
 
   confirmBtn() {
     this.props.navigation.state.params.callback({ itcWallet: this.selectedWallet });
@@ -177,50 +177,48 @@ class ChangeBindAddressScreen extends BaseComponent {
     });
   };
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('mapping.binding_replace_address')}
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('mapping.binding_replace_address')}
+      />
+      <View style={styles.contentBox}>
+        <LinearGradient
+          style={styles.contentDescBox}
+          colors={['#3fc1ff', '#66ceff']}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 1 }}
+        >
+          <Text style={styles.contentDescText}>
+            {I18n.t('mapping.binding_replace_address_desc')}
+          </Text>
+        </LinearGradient>
+        <FlatList
+          style={styles.listContainer}
+          ref={this.flatList}
+          data={this.state.walletList}
+          keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
+          renderItem={this._renderItem}
+          ListEmptyComponent={this._renderEmptyView}
+          ItemSeparatorComponent={this._renderItemSeparatorComponent}
+          getItemLayout={(data, index) => ({
+            length: 80,
+            offset: (89 + 1) * index,
+            index,
+          })}
         />
-        <View style={styles.contentBox}>
-          <LinearGradient
-            style={styles.contentDescBox}
-            colors={['#3fc1ff', '#66ceff']}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 1, y: 1 }}
-          >
-            <Text style={styles.contentDescText}>
-              {I18n.t('mapping.binding_replace_address_desc')}
-            </Text>
-          </LinearGradient>
-          <FlatList
-            style={styles.listContainer}
-            ref={this.flatList}
-            data={this.state.walletList}
-            keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-            renderItem={this._renderItem}
-            ListEmptyComponent={this._renderEmptyView}
-            ItemSeparatorComponent={this._renderItemSeparatorComponent}
-            getItemLayout={(data, index) => ({
-              length: 80,
-              offset: (89 + 1) * index,
-              index,
-            })}
-          />
-        </View>
-
-        <View style={styles.bottomBox}>
-          <BlueButtonBig
-            isDisabled={this.state.isDisabled}
-            onPress={() => this.confirmBtn()}
-            text={I18n.t('transaction.determine')}
-          />
-        </View>
       </View>
-    );
-  }
+
+      <View style={styles.bottomBox}>
+        <BlueButtonBig
+          isDisabled={this.state.isDisabled}
+          onPress={() => this.confirmBtn()}
+          text={I18n.t('transaction.determine')}
+        />
+      </View>
+    </View>
+  );
 }
 
 class Item extends PureComponent {

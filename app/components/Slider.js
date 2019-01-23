@@ -217,7 +217,7 @@ export default class Slider extends PureComponent {
     super(props);
     this.state = {
       containerSize: { width: 0, height: 0 },
-      trackSize: { width: 0, height: 0 },
+      // trackSize: { width: 0, height: 0 },
       thumbSize: { width: 0, height: 0 },
       allMeasured: false,
       value: new Animated.Value(props.value),
@@ -275,7 +275,7 @@ export default class Slider extends PureComponent {
       animateTransitions,
       ...other
     } = this.props;
-    const { value, containerSize, trackSize, thumbSize, allMeasured } = this.state;
+    const { value, containerSize, /* trackSize, */ thumbSize, allMeasured } = this.state;
     const mainStyles = styles || defaultStyles;
     const thumbLeft = value.interpolate({
       inputRange: [minimumValue, maximumValue],
@@ -421,7 +421,7 @@ export default class Slider extends PureComponent {
     if (this._containerSize && this._trackSize && this._thumbSize) {
       this.setState({
         containerSize: this._containerSize,
-        trackSize: this._trackSize,
+        // trackSize: this._trackSize,
         thumbSize: this._thumbSize,
         allMeasured: true,
       });
@@ -490,8 +490,9 @@ export default class Slider extends PureComponent {
   };
 
   _fireChangeEvent = event => {
-    if (this.props[event]) {
-      this.props[event](this._getCurrentValue());
+    const { props } = this;
+    if (props[event]) {
+      props[event](this._getCurrentValue());
     }
   };
 

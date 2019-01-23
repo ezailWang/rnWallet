@@ -178,13 +178,13 @@ class CreateWalletScreen extends BaseComponent {
     this.rePwdRef = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     const params = this.props.createWalletParams;
     this.setState({
       walletType: params.walletType,
       from: params.from,
     });
-  }
+  };
 
   _addEventListener() {
     super._addEventListener();
@@ -428,7 +428,7 @@ class CreateWalletScreen extends BaseComponent {
     this.props.navigation.navigate('ImportWallet');
   }
 
-  renderComponent() {
+  renderComponent = () => {
     const pwdIcon = this.state.isShowPassword
       ? require('../../assets/launch/pwdOpenIcon.png')
       : require('../../assets/launch/pwdHideIcon.png');
@@ -574,7 +574,7 @@ class CreateWalletScreen extends BaseComponent {
         </Animated.View>
       </View>
     );
-  }
+  };
 }
 
 class Item extends PureComponent {

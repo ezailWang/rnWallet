@@ -165,10 +165,10 @@ class AddTokenScreen extends BaseComponent {
     }
   };
 
-  async _initData() {
+  _initData = async () => {
     const { tokens } = this.props.navigation.state.params;
     this._loadData(tokens);
-  }
+  };
 
   _loadData(tokens) {
     let allTokens = [];
@@ -258,39 +258,37 @@ class AddTokenScreen extends BaseComponent {
     this.props.navigation.goBack();
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.topBox}>
-          <TouchableOpacity activeOpacity={0.6} style={styles.backBox} onPress={this._backPress}>
-            <Image
-              style={styles.backIcon}
-              source={require('../../assets/common/common_back.png')}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.6} style={styles.searchBox} onPress={this._search}>
-            <Image
-              style={styles.searchIcon}
-              source={require('../../assets/common/search.png')}
-              resizeMode="contain"
-            />
-            <Text style={styles.searchInput}>{I18n.t('settings.input_token_name')}</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.line} />
-        <FlatList
-          style={styles.listContainer}
-          ref={this.flatList}
-          data={this.state.datas}
-          keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-          renderItem={this._renderItem}
-          ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index })}
-        />
+  renderComponent = () => (
+    <View style={styles.container}>
+      <View style={styles.topBox}>
+        <TouchableOpacity activeOpacity={0.6} style={styles.backBox} onPress={this._backPress}>
+          <Image
+            style={styles.backIcon}
+            source={require('../../assets/common/common_back.png')}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.6} style={styles.searchBox} onPress={this._search}>
+          <Image
+            style={styles.searchIcon}
+            source={require('../../assets/common/search.png')}
+            resizeMode="contain"
+          />
+          <Text style={styles.searchInput}>{I18n.t('settings.input_token_name')}</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+      <View style={styles.line} />
+      <FlatList
+        style={styles.listContainer}
+        ref={this.flatList}
+        data={this.state.datas}
+        keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
+        renderItem={this._renderItem}
+        ItemSeparatorComponent={this._renderItemSeparatorComponent}
+        getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index })}
+      />
+    </View>
+  );
 }
 
 class ItemView extends PureComponent {

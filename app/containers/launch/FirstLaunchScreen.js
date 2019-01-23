@@ -60,10 +60,10 @@ class FirstLaunchScreen extends BaseComponent {
     this._setStatusBarStyleLight();
   }
 
-  async _initData() {
+  _initData = async () => {
     SplashScreen.hide();
     this.versionUpdate();
-  }
+  };
 
   componentWillMount() {
     this._isMounted = true;
@@ -194,14 +194,14 @@ class FirstLaunchScreen extends BaseComponent {
     this._toRute();
   }
 
-  _touchIdAuthenticateSuccess() {
+  _touchIdAuthenticateSuccess = () => {
     if (this.props.pinInfo == null) {
       this.savePinInfo(true);
       this._toRute();
     } else {
       super._touchIdAuthenticateSuccess();
     }
-  }
+  };
 
   _touchIdAuthenticateFail(err) {
     if (this.props.pinInfo == null) {
@@ -313,50 +313,48 @@ class FirstLaunchScreen extends BaseComponent {
       });
   }
 
-  renderComponent() {
-    return (
-      // <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
-      //    style={styles.contentContainer}>
-      <ImageBackground
-        style={styles.contentContainer}
-        source={require('../../assets/launch/splash_bg.png')}
-      >
-        <MyAlertComponent
-          visible={this.state.versionUpdateModalVisible}
-          title={I18n.t('toast.update_tip')}
-          contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
-          leftBtnTxt={I18n.t('modal.cancel')}
-          rightBtnTxt={I18n.t('toast.go_update')}
-          leftPress={this.versionUpdateLeftPress}
-          rightPress={this.versionUpdateRightPress}
+  renderComponent = () => (
+    // <LinearGradient colors={['#32beff', '#0095eb', '#2093ff']}
+    //    style={styles.contentContainer}>
+    <ImageBackground
+      style={styles.contentContainer}
+      source={require('../../assets/launch/splash_bg.png')}
+    >
+      <MyAlertComponent
+        visible={this.state.versionUpdateModalVisible}
+        title={I18n.t('toast.update_tip')}
+        contents={this.versionUpdateInfo ? this.versionUpdateInfo.contents : []}
+        leftBtnTxt={I18n.t('modal.cancel')}
+        rightBtnTxt={I18n.t('toast.go_update')}
+        leftPress={this.versionUpdateLeftPress}
+        rightPress={this.versionUpdateRightPress}
+      />
+      <PinModalSet ref={this.pinModalSet} visible={this.state.isShowSetPin} />
+      <RemindDialog
+        content={this.state.remindContent}
+        modalVisible={this.state.isShowRemind}
+        leftPress={() => this.onCancelUse()}
+        rightPress={() => this.onConfirmUse()}
+      />
+      <Image
+        style={styles.logoImg}
+        source={require('../../assets/launch/splash_logo.png')}
+        resizeMode="center"
+      />
+      <View style={styles.btnBox}>
+        <WhiteButtonBig
+          buttonStyle={{ height: 48 }}
+          onPress={() => this.vertifyAndroidPermissions(true)}
+          text={I18n.t('settings.create_itc_wallet')}
         />
-        <PinModalSet ref={this.pinModalSet} visible={this.state.isShowSetPin} />
-        <RemindDialog
-          content={this.state.remindContent}
-          modalVisible={this.state.isShowRemind}
-          leftPress={() => this.onCancelUse()}
-          rightPress={() => this.onConfirmUse()}
+        <WhiteBorderButton
+          onPress={() => this.vertifyAndroidPermissions(false)}
+          text={I18n.t('launch.import_wallet')}
         />
-        <Image
-          style={styles.logoImg}
-          source={require('../../assets/launch/splash_logo.png')}
-          resizeMode="center"
-        />
-        <View style={styles.btnBox}>
-          <WhiteButtonBig
-            buttonStyle={{ height: 48 }}
-            onPress={() => this.vertifyAndroidPermissions(true)}
-            text={I18n.t('settings.create_itc_wallet')}
-          />
-          <WhiteBorderButton
-            onPress={() => this.vertifyAndroidPermissions(false)}
-            text={I18n.t('launch.import_wallet')}
-          />
-        </View>
-      </ImageBackground>
-      // </LinearGradient>
-    );
-  }
+      </View>
+    </ImageBackground>
+    // </LinearGradient>
+  );
 }
 
 const mapStateToProps = state => ({

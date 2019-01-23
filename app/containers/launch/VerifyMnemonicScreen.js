@@ -188,7 +188,7 @@ class VerifyMnemonicScreen extends BaseComponent {
     this.timeIntervalCount = 0;
   }
 
-  _initData() {
+  _initData = () => {
     const params = this.props.createWalletParams;
     if (params) {
       this.walletType = params.walletType;
@@ -200,7 +200,7 @@ class VerifyMnemonicScreen extends BaseComponent {
     this.mnemonics = this.props.mnemonic.split(' ');
     console.log('L_mnemonics', this.mnemonics);
     this.initAllData();
-  }
+  };
 
   initAllData() {
     this.scrollToX = 0;
@@ -424,13 +424,13 @@ class VerifyMnemonicScreen extends BaseComponent {
     this.props.navigation.goBack();
   }
 
-  _closeModal() {
+  _closeModal = () => {
     this.setState({
       isShowSLoading: false,
     });
-  }
+  };
 
-  renderComponent() {
+  renderComponent = () => {
     const numbers = this.state.numberArray;
     const rSMnemonics = this.state.randomSectionMnemonics;
     const checkeds = this.state.checkedNums;
@@ -494,7 +494,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         </View>
       </View>
     );
-  }
+  };
 }
 
 class Item extends PureComponent {

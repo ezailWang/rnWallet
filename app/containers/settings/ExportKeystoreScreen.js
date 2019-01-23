@@ -80,9 +80,9 @@ export default class ExportKeystoreScreen extends BaseComponent {
     };
   }
 
-  _initData() {
+  _initData = () => {
     this.showKeystore();
-  }
+  };
 
   showKeystore() {
     this.setState({
@@ -91,9 +91,9 @@ export default class ExportKeystoreScreen extends BaseComponent {
     });
   }
 
-  _closeModal() {
+  _closeModal = () => {
     this.onCloseModal();
-  }
+  };
 
   /** async exportKeystore(){
         try{
@@ -136,41 +136,36 @@ export default class ExportKeystoreScreen extends BaseComponent {
     showToast(I18n.t('toast.copied_keystore'));
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.export_keystore')}
-        />
-        <ScreenshotWarn
-          content={I18n.t('settings.export_keystore_modal_prompt')}
-          content1={I18n.t('settings.export_keystore_modal_prompt1')}
-          btnText={I18n.t('modal.i_know')}
-          modalVisible={this.state.screenshotWarnVisible}
-          onPress={() => this.onCloseModal()}
-        />
-        <View style={styles.contentBox}>
-          <View style={styles.warnBox}>
-            <Image
-              style={styles.warnIcon}
-              source={require('../../assets/set/ShieldIcon.png')}
-              resizeMode="contain"
-            />
-            <Text style={styles.warnTxt}>{I18n.t('settings.export_keystore_prompt')}</Text>
-          </View>
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.export_keystore')} />
+      <ScreenshotWarn
+        content={I18n.t('settings.export_keystore_modal_prompt')}
+        content1={I18n.t('settings.export_keystore_modal_prompt1')}
+        btnText={I18n.t('modal.i_know')}
+        modalVisible={this.state.screenshotWarnVisible}
+        onPress={() => this.onCloseModal()}
+      />
+      <View style={styles.contentBox}>
+        <View style={styles.warnBox}>
+          <Image
+            style={styles.warnIcon}
+            source={require('../../assets/set/ShieldIcon.png')}
+            resizeMode="contain"
+          />
+          <Text style={styles.warnTxt}>{I18n.t('settings.export_keystore_prompt')}</Text>
+        </View>
 
-          <View style={styles.privateKeyBox}>
-            <ScrollView style={styles.privateKeyScroll}>
-              <Text style={styles.privateKeyText}>{this.state.keystore}</Text>
-            </ScrollView>
-          </View>
+        <View style={styles.privateKeyBox}>
+          <ScrollView style={styles.privateKeyScroll}>
+            <Text style={styles.privateKeyText}>{this.state.keystore}</Text>
+          </ScrollView>
+        </View>
 
-          <View style={styles.buttonBox}>
-            <BlueButtonBig onPress={() => this.copy()} text={I18n.t('settings.copy_keystore')} />
-          </View>
+        <View style={styles.buttonBox}>
+          <BlueButtonBig onPress={() => this.copy()} text={I18n.t('settings.copy_keystore')} />
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }

@@ -72,142 +72,136 @@ class AddAssets extends BaseComponent {
     });
   }
 
-  renderComponent() {
-    return (
-      <View
-        onStartShouldSetResponder={() => true}
-        onResponderGrant={() => {
-          Keyboard.dismiss();
-          this.setState({
-            isFocusAddress: false,
-            isFocusSymbol: false,
-            isFocusDecimal: false,
-          });
-        }}
-        style={{ flex: 1, backgroundColor: 'white' }}
+  renderComponent = () => (
+    <View
+      onStartShouldSetResponder={() => true}
+      onResponderGrant={() => {
+        Keyboard.dismiss();
+        this.setState({
+          isFocusAddress: false,
+          isFocusSymbol: false,
+          isFocusDecimal: false,
+        });
+      }}
+      style={{ flex: 1, backgroundColor: 'white' }}
+    >
+      <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('home.add_token')} />
+      <View style={{ height: 1, backgroundColor: Colors.bgGrayColor }} />
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ paddingTop: 20, width: LayoutConstants.WINDOW_WIDTH }}
+        enabled
       >
-        <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('home.add_token')} />
-        <View style={{ height: 1, backgroundColor: Colors.bgGrayColor }} />
-        <KeyboardAvoidingView
-          behavior="padding"
-          style={{ paddingTop: 20, width: LayoutConstants.WINDOW_WIDTH }}
-          enabled
-        >
-          <AddTokenInput
-            title={`${I18n.t('home.contract_address')}(${store.getState().Core.network})`}
-            onChange={event => {
-              const isValidAddressLet = NetworkManager.isValidAddress(event.nativeEvent.text);
-              if (isValidAddressLet) {
-                this.checkAddress(event.nativeEvent.text);
-              } else {
-                this.setState({
-                  isValidAddress: isValidAddressLet,
-                  tokenAddress: event.nativeEvent.text,
-                  AddressCheckStr: I18n.t('home.address_check'),
-                });
-              }
-            }}
-            onFocus={() => {
+        <AddTokenInput
+          title={`${I18n.t('home.contract_address')}(${store.getState().Core.network})`}
+          onChange={event => {
+            const isValidAddressLet = NetworkManager.isValidAddress(event.nativeEvent.text);
+            if (isValidAddressLet) {
+              this.checkAddress(event.nativeEvent.text);
+            } else {
               this.setState({
-                isFocusAddress: true,
-                isFocusSymbol: false,
-                isFocusDecimal: false,
+                isValidAddress: isValidAddressLet,
+                tokenAddress: event.nativeEvent.text,
+                AddressCheckStr: I18n.t('home.address_check'),
               });
-            }}
-            keyboardType="email-address"
-            checkTextColor={
-              this.state.tokenAddress !== '' && !this.state.isValidAddress
-                ? Colors.RedColor
-                : !this.state.isFocusAddress
-                ? Colors.clearColor
-                : Colors.addTokenCheckTextColor
             }
-            checkText={this.state.AddressCheckStr}
-            editable
-          />
-          <AddTokenInput
-            title={I18n.t('home.token_symbol')}
-            onChange={event => {
-              this.setState({
-                isValidSymbol: !!(
-                  event.nativeEvent.text.length > 0 && event.nativeEvent.text.length < 10
-                ),
-                tokenSymbol: event.nativeEvent.text,
-              });
-            }}
-            onFocus={() => {
-              this.setState({
-                isFocusAddress: false,
-                isFocusSymbol: true,
-                isFocusDecimal: false,
-              });
-            }}
-            checkTextColor={
-              this.state.tokenSymbol !== '' && !this.state.isValidSymbol
-                ? Colors.RedColor
-                : !this.state.isFocusSymbol
-                ? Colors.clearColor
-                : Colors.addTokenCheckTextColor
+          }}
+          onFocus={() => {
+            this.setState({
+              isFocusAddress: true,
+              isFocusSymbol: false,
+              isFocusDecimal: false,
+            });
+          }}
+          keyboardType="email-address"
+          checkTextColor={
+            this.state.tokenAddress !== '' && !this.state.isValidAddress
+              ? Colors.RedColor
+              : !this.state.isFocusAddress
+              ? Colors.clearColor
+              : Colors.addTokenCheckTextColor
+          }
+          checkText={this.state.AddressCheckStr}
+          editable
+        />
+        <AddTokenInput
+          title={I18n.t('home.token_symbol')}
+          onChange={event => {
+            this.setState({
+              isValidSymbol: !!(
+                event.nativeEvent.text.length > 0 && event.nativeEvent.text.length < 10
+              ),
+              tokenSymbol: event.nativeEvent.text,
+            });
+          }}
+          onFocus={() => {
+            this.setState({
+              isFocusAddress: false,
+              isFocusSymbol: true,
+              isFocusDecimal: false,
+            });
+          }}
+          checkTextColor={
+            this.state.tokenSymbol !== '' && !this.state.isValidSymbol
+              ? Colors.RedColor
+              : !this.state.isFocusSymbol
+              ? Colors.clearColor
+              : Colors.addTokenCheckTextColor
+          }
+          checkText={this.state.SymbolCheckStr}
+          editable={!this.state.isValidAddress}
+          defaultValue={this.state.isValidAddress ? this.state.tokenSymbol : ''}
+        />
+        <AddTokenInput
+          title={I18n.t('home.token_decimal')}
+          onChange={event => {
+            this.setState({
+              isValidDecimal: !!(event.nativeEvent.text > 0 && event.nativeEvent.text < 36),
+              tokenDecimal: event.nativeEvent.text,
+            });
+          }}
+          onFocus={() => {
+            this.setState({
+              isFocusAddress: false,
+              isFocusSymbol: false,
+              isFocusDecimal: true,
+            });
+          }}
+          keyboardType="numeric"
+          checkTextColor={
+            this.state.tokenDecimal !== '' &&
+            this.state.tokenDecimal !== 0 &&
+            !this.state.isValidDecimal
+              ? Colors.RedColor
+              : !this.state.isFocusDecimal
+              ? Colors.clearColor
+              : Colors.addTokenCheckTextColor
+          }
+          checkText={this.state.DecimalCheckStr}
+          editable={!this.state.isValidAddress}
+          defaultValue={this.state.isValidAddress ? this.state.tokenDecimal : '0'}
+        />
+        <View style={{ paddingTop: 20, alignItems: 'center' }}>
+          <BlueButtonBig
+            text={I18n.t('home.add')}
+            isDisabled={
+              !(this.state.isValidAddress && this.state.isValidDecimal && this.state.isValidSymbol)
             }
-            checkText={this.state.SymbolCheckStr}
-            editable={!this.state.isValidAddress}
-            defaultValue={this.state.isValidAddress ? this.state.tokenSymbol : ''}
-          />
-          <AddTokenInput
-            title={I18n.t('home.token_decimal')}
-            onChange={event => {
-              this.setState({
-                isValidDecimal: !!(event.nativeEvent.text > 0 && event.nativeEvent.text < 36),
-                tokenDecimal: event.nativeEvent.text,
+            buttonStyle={{ marginTop: 0 }}
+            onPress={() => {
+              Keyboard.dismiss();
+              this.props.navigation.state.params.callback({
+                tokenAddress: this.state.tokenAddress,
+                tokenSymbol: this.state.tokenSymbol,
+                tokenDecimal: this.state.tokenDecimal,
               });
+              this.props.navigation.goBack();
             }}
-            onFocus={() => {
-              this.setState({
-                isFocusAddress: false,
-                isFocusSymbol: false,
-                isFocusDecimal: true,
-              });
-            }}
-            keyboardType="numeric"
-            checkTextColor={
-              this.state.tokenDecimal !== '' &&
-              this.state.tokenDecimal !== 0 &&
-              !this.state.isValidDecimal
-                ? Colors.RedColor
-                : !this.state.isFocusDecimal
-                ? Colors.clearColor
-                : Colors.addTokenCheckTextColor
-            }
-            checkText={this.state.DecimalCheckStr}
-            editable={!this.state.isValidAddress}
-            defaultValue={this.state.isValidAddress ? this.state.tokenDecimal : '0'}
           />
-          <View style={{ paddingTop: 20, alignItems: 'center' }}>
-            <BlueButtonBig
-              text={I18n.t('home.add')}
-              isDisabled={
-                !(
-                  this.state.isValidAddress &&
-                  this.state.isValidDecimal &&
-                  this.state.isValidSymbol
-                )
-              }
-              buttonStyle={{ marginTop: 0 }}
-              onPress={() => {
-                Keyboard.dismiss();
-                this.props.navigation.state.params.callback({
-                  tokenAddress: this.state.tokenAddress,
-                  tokenSymbol: this.state.tokenSymbol,
-                  tokenDecimal: this.state.tokenDecimal,
-                });
-                this.props.navigation.goBack();
-              }}
-            />
-          </View>
-        </KeyboardAvoidingView>
-      </View>
-    );
-  }
+        </View>
+      </KeyboardAvoidingView>
+    </View>
+  );
 }
 
 export default AddAssets;

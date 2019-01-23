@@ -170,20 +170,20 @@ class MappingRecordDetailScreen extends BaseComponent {
     this._setStatusBarStyleLight();
   }
 
-  _initData() {
+  _initData = () => {
     this.mappingDetail = this.props.navigation.state.params.mappingDetail;
     this.setState({
       amount: this.mappingDetail.amount,
       status: this.mappingDetail.status,
       time: this.mappingDetail.time,
     });
-  }
+  };
 
   goBackBtn = () => {
     this.props.navigation.goBack();
   };
 
-  renderComponent() {
+  renderComponent = () => {
     let headerMarginTop = { marginTop: 24 };
     if (Layout.DEVICE_IS_IPHONE_X()) {
       headerMarginTop = { marginTop: 48 };
@@ -283,7 +283,7 @@ class MappingRecordDetailScreen extends BaseComponent {
         </ScrollView>
       </View>
     );
-  }
+  };
 }
 
 class ItemView extends PureComponent {

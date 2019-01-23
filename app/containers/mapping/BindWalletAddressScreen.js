@@ -208,7 +208,7 @@ class BindWalletAddressScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     const wallets = [];
     for (let i = 0; i < 10; i++) {
       const wallet = {
@@ -222,7 +222,7 @@ class BindWalletAddressScreen extends BaseComponent {
     this.setState({
       walletList: wallets,
     });
-  }
+  };
 
   nextBtn() {
     this.props.navigation.navigate('ItcMappingService');
@@ -294,7 +294,7 @@ class BindWalletAddressScreen extends BaseComponent {
     this.props.navigation.navigate('Home');
   }
 
-  renderComponent() {
+  renderComponent = () => {
     const { address, name } = this.state.itcWallet;
     const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
     return (
@@ -369,7 +369,7 @@ class BindWalletAddressScreen extends BaseComponent {
         </View>
       </View>
     );
-  }
+  };
 }
 
 class Item extends PureComponent {

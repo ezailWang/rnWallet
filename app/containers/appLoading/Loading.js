@@ -74,11 +74,13 @@ class Loading extends Component {
 
   async componentDidMount() {
     const { wallet, navigation } = this.props;
+    console.log('L_wallet', wallet);
     let user = null;
     if (!wallet) {
+      console.log('L_user1', user);
       user = await this.loadFromStorege();
     }
-
+    console.log('L_user2', user);
     const userToken = await StorageManage.load(StorageKey.UserToken);
     if (!userToken || userToken === null) {
       JPushModule.getRegistrationID(registrationId => {

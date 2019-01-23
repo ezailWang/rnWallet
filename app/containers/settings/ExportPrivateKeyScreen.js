@@ -80,9 +80,9 @@ export default class ExportPrivateKeyScreen extends BaseComponent {
     };
   }
 
-  _initData() {
+  _initData = () => {
     this.showPrivateKey();
-  }
+  };
 
   showPrivateKey() {
     const _privateKey = this.props.navigation.state.params.privateKey;
@@ -93,9 +93,9 @@ export default class ExportPrivateKeyScreen extends BaseComponent {
     });
   }
 
-  _closeModal() {
+  _closeModal = () => {
     this.onCloseModal();
-  }
+  };
 
   onCloseModal() {
     requestAnimationFrame(() => {
@@ -109,38 +109,36 @@ export default class ExportPrivateKeyScreen extends BaseComponent {
     showToast(I18n.t('toast.copied'));
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.export_private_key')}
-        />
-        <ScreenshotWarn
-          content={I18n.t('settings.export_private_key_modal_prompt')}
-          content1={I18n.t('settings.export_private_key_modal_prompt1')}
-          btnText={I18n.t('modal.i_know')}
-          modalVisible={this.state.screenshotWarnVisible}
-          onPress={() => this.onCloseModal()}
-        />
-        <View style={styles.contentBox}>
-          <View style={styles.warnBox}>
-            <Image
-              style={styles.warnIcon}
-              source={require('../../assets/set/ShieldIcon.png')}
-              resizeMode="contain"
-            />
-            <Text style={styles.warnTxt}>{I18n.t('settings.export_private_key_prompt')}</Text>
-          </View>
-          <View style={styles.privateKeyBox}>
-            <Text style={styles.privateKeyText}>{this.state.privateKey}</Text>
-          </View>
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('settings.export_private_key')}
+      />
+      <ScreenshotWarn
+        content={I18n.t('settings.export_private_key_modal_prompt')}
+        content1={I18n.t('settings.export_private_key_modal_prompt1')}
+        btnText={I18n.t('modal.i_know')}
+        modalVisible={this.state.screenshotWarnVisible}
+        onPress={() => this.onCloseModal()}
+      />
+      <View style={styles.contentBox}>
+        <View style={styles.warnBox}>
+          <Image
+            style={styles.warnIcon}
+            source={require('../../assets/set/ShieldIcon.png')}
+            resizeMode="contain"
+          />
+          <Text style={styles.warnTxt}>{I18n.t('settings.export_private_key_prompt')}</Text>
+        </View>
+        <View style={styles.privateKeyBox}>
+          <Text style={styles.privateKeyText}>{this.state.privateKey}</Text>
+        </View>
 
-          <View style={styles.buttonBox}>
-            <BlueButtonBig onPress={() => this.copy()} text={I18n.t('settings.copy_private_key')} />
-          </View>
+        <View style={styles.buttonBox}>
+          <BlueButtonBig onPress={() => this.copy()} text={I18n.t('settings.copy_private_key')} />
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }

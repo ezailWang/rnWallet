@@ -1,14 +1,6 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
-import React, { Component } from 'react';
+import React from 'react';
+import { View, Text, SafeAreaView, Image, StyleSheet, ScrollView, Platform } from 'react-native';
+
 import { NavigationActions, DrawerActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
@@ -20,6 +12,18 @@ import BaseComponent from '../base/BaseComponent';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import Loading from '../../components/Loading';
 import LayoutConstants from '../../config/LayoutConstants';
+
+const styles = StyleSheet.create({
+  blurStyle: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height: LayoutConstants.WINDOW_HEIGHT,
+    zIndex: 1000,
+  },
+});
 
 class DrawerComponent extends BaseComponent {
   navigateToScreen = (route, params) => () => {
@@ -43,10 +47,9 @@ class DrawerComponent extends BaseComponent {
   }
 
   _messageCountEmitter = data => {
-    const messageCount = data.messageCount;
     this.setState({
-      isShowReminder: messageCount > 0,
-      noticeNumber: messageCount,
+      isShowReminder: data.messageCount > 0,
+      noticeNumber: data.messageCount,
     });
   };
 
@@ -124,25 +127,13 @@ class DrawerComponent extends BaseComponent {
         {Platform.OS === 'ios' && this.state.showBlur && (
           <BlurView style={styles.blurStyle} blurType="light" blurAmount={10} />
         )}
-        {this.state.isShowLoading == undefined ? null : (
+        {this.state.isShowLoading === undefined ? null : (
           <Loading visible={this.state.isShowLoading} />
         )}
       </SafeAreaView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  blurStyle: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    height: LayoutConstants.WINDOW_HEIGHT,
-    zIndex: 1000,
-  },
-});
 
 DrawerComponent.prototypes = {
   navigation: PropTypes.object,

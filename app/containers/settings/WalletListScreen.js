@@ -91,9 +91,9 @@ class WalletListScreen extends BaseComponent {
     };
   }
 
-  _initData() {
+  _initData = () => {
     this.refreshPage();
-  }
+  };
 
   refreshPage() {
     const itcWallets = lodash.cloneDeep(this.props.itcWalletList);
@@ -127,7 +127,7 @@ class WalletListScreen extends BaseComponent {
     this.refreshPage();
   };
 
-  renderComponent() {
+  renderComponent = () => {
     const _this = this;
     const itcWalletsView = [];
 
@@ -174,7 +174,7 @@ class WalletListScreen extends BaseComponent {
         </ScrollView>
       </View>
     );
-  }
+  };
 }
 
 class ItemHeader extends PureComponent {

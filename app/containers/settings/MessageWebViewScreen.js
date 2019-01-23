@@ -70,14 +70,14 @@ export default class MessageWebViewScreen extends BaseComponent {
     };
   }
 
-  _initData() {
+  _initData = () => {
     const _title = this.props.navigation.state.params.title;
     const _url = this.props.navigation.state.params.url;
     this.setState({
       title: _title,
       url: _url,
     });
-  }
+  };
 
   onMessage(event) {
     try {
@@ -103,7 +103,7 @@ export default class MessageWebViewScreen extends BaseComponent {
     return true;
   };
 
-  renderComponent() {
+  renderComponent = () => {
     const contentUrl = this.state.url;
     return (
       <View style={styles.container}>
@@ -131,5 +131,5 @@ export default class MessageWebViewScreen extends BaseComponent {
         </ScrollView>
       </View>
     );
-  }
+  };
 }

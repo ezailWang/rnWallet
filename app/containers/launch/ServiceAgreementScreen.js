@@ -94,7 +94,7 @@ export default class ServiceAgreementScreen extends BaseComponent {
     }
   }
 
-  renderComponent() {
+  renderComponent = () => {
     const checkIcon = this.state.isAgree
       ? require('../../assets/launch/check_on.png')
       : require('../../assets/launch/check_off.png');
@@ -137,5 +137,5 @@ export default class ServiceAgreementScreen extends BaseComponent {
         </ScrollView>
       </View>
     );
-  }
+  };
 }

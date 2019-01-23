@@ -86,9 +86,9 @@ class SystemSetScreen extends BaseComponent {
     };
   }
 
-  _initData() {
+  _initData = () => {
     this._touchIdIsSupported();
-  }
+  };
 
   _supportTouchId() {
     this._initState(true);
@@ -192,43 +192,41 @@ class SystemSetScreen extends BaseComponent {
     this.props.navigation.goBack();
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.system_settings')}
-          leftPress={() => this.backPressed()}
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('settings.system_settings')}
+        leftPress={() => this.backPressed()}
+      />
+      <View style={styles.itemContainer}>
+        <Item
+          title={I18n.t('settings.language')}
+          content={this.state.langStr}
+          onPressed={this._choseLanguage}
         />
-        <View style={styles.itemContainer}>
-          <Item
-            title={I18n.t('settings.language')}
-            content={this.state.langStr}
-            onPressed={this._choseLanguage}
-          />
-          <Item
-            title={I18n.t('settings.currency_unit')}
-            content={this.state.monetaryUnitType}
-            onPressed={this._choseMonetaryUnit}
-          />
-          {this.state.isHaveTouchId ? (
-            <View style={styles.itemTouchable}>
-              <Text style={styles.itemTitle}>Face ID/Touch ID</Text>
-              <Switch
-                value={this.state.isUserTouchID}
-                onTintColor={Colors.bgGrayColor_ed}
-                thumbTintColor={
-                  this.state.isUserTouchID ? Colors.fontBlueColor : Colors.bgGrayColor_e5
-                }
-                tintColor={Colors.bgGrayColor_ed}
-                onValueChange={this.isUseTouchIdChange}
-              />
-            </View>
-          ) : null}
-        </View>
+        <Item
+          title={I18n.t('settings.currency_unit')}
+          content={this.state.monetaryUnitType}
+          onPressed={this._choseMonetaryUnit}
+        />
+        {this.state.isHaveTouchId ? (
+          <View style={styles.itemTouchable}>
+            <Text style={styles.itemTitle}>Face ID/Touch ID</Text>
+            <Switch
+              value={this.state.isUserTouchID}
+              onTintColor={Colors.bgGrayColor_ed}
+              thumbTintColor={
+                this.state.isUserTouchID ? Colors.fontBlueColor : Colors.bgGrayColor_e5
+              }
+              tintColor={Colors.bgGrayColor_ed}
+              onValueChange={this.isUseTouchIdChange}
+            />
+          </View>
+        ) : null}
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 class Item extends PureComponent {

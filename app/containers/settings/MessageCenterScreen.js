@@ -118,14 +118,14 @@ class MessageCenterScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  async _initData() {
+  _initData = async () => {
     // this.unReadMessageCount = this.props.navigation.state.params.newMessageCounts;
     this.userToken = await StorageManage.load(StorageKey.UserToken);
     if (!this.userToken || this.userToken === null) {
       return;
     }
     this.loadData(true);
-  }
+  };
 
   async loadData(isShowLoading) {
     if (isShowLoading) {
@@ -336,8 +336,10 @@ class MessageCenterScreen extends BaseComponent {
       }
 
       if (isMatchToken) {
-        await this.saveTokenToStorage(tokenInfo);
-        await NetworkManager.loadTokenList();
+        // await this.saveTokenToStorage(tokenInfo);
+        // await NetworkManager.loadTokenList();
+        this.props.addToken(tokenInfo);
+        await NetworkManager.getTokensBalance();
         await this.routeToTransactionRecoder(item);
       } else {
         this._hideLoading();
@@ -349,7 +351,6 @@ class MessageCenterScreen extends BaseComponent {
     const itemSymbol = item.symbol.toUpperCase();
     const { tokens } = this.props;
     let isHaveToken = false;
-    const currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
     let balanceInfo = null;
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
@@ -368,7 +369,7 @@ class MessageCenterScreen extends BaseComponent {
 
     if (isHaveToken) {
       this.props.setCoinBalance(balanceInfo);
-
+      const currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
       const transation = await NetworkManager.getTransaction(item.hashId);
       let status = 2;
       if (transation.isError === undefined || transation.isError === false) {
@@ -445,7 +446,7 @@ class MessageCenterScreen extends BaseComponent {
       });
   };
 
-  async saveTokenToStorage(token) {
+  /* async saveTokenToStorage(token) {
     const key = StorageKey.Tokens + this.props.wallet.address;
     let localTokens = await StorageManage.load(key);
     if (!localTokens) {
@@ -460,7 +461,7 @@ class MessageCenterScreen extends BaseComponent {
       address: token.address,
     });
     StorageManage.save(key, localTokens);
-  }
+  } */
 
   // 自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
@@ -486,39 +487,37 @@ class MessageCenterScreen extends BaseComponent {
 
   _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem(item)} />;
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.message_center')}
-          leftPress={() => this.backPressed()}
-          rightPress={() => this._readAll()}
-          rightText={I18n.t('settings.read_all')}
-        />
-        <FlatList
-          style={styles.listContainer}
-          ref={this.flatList}
-          data={this.state.data}
-          keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-          renderItem={this._renderItem}
-          ListEmptyComponent={this._renderEmptyView}
-          ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(data, index) => ({ length: 80, offset: (80 + 1) * index, index })}
-          refreshControl={
-            <RefreshControl
-              onRefresh={this._pulldownRefresh} // 下拉刷新
-              refreshing={this.state.isRefreshing}
-              colors={[Colors.themeColor]}
-              tintColor={Colors.whiteBackgroundColor}
-            />
-          }
-          onEndReachedThreshold={0.1}
-          onEndReached={this._onLoadMore} // 加载更多
-        />
-      </View>
-    );
-  }
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('settings.message_center')}
+        leftPress={() => this.backPressed()}
+        rightPress={() => this._readAll()}
+        rightText={I18n.t('settings.read_all')}
+      />
+      <FlatList
+        style={styles.listContainer}
+        ref={this.flatList}
+        data={this.state.data}
+        keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
+        renderItem={this._renderItem}
+        ListEmptyComponent={this._renderEmptyView}
+        ItemSeparatorComponent={this._renderItemSeparatorComponent}
+        getItemLayout={(data, index) => ({ length: 80, offset: (80 + 1) * index, index })}
+        refreshControl={
+          <RefreshControl
+            onRefresh={this._pulldownRefresh} // 下拉刷新
+            refreshing={this.state.isRefreshing}
+            colors={[Colors.themeColor]}
+            tintColor={Colors.whiteBackgroundColor}
+          />
+        }
+        onEndReachedThreshold={0.1}
+        onEndReached={this._onLoadMore} // 加载更多
+      />
+    </View>
+  );
 }
 
 class Item extends PureComponent {
@@ -575,6 +574,7 @@ const mapStateToProps = state => ({
   wallet: state.Core.wallet,
 });
 const mapDispatchToProps = dispatch => ({
+  addToken: token => dispatch(Actions.addToken(token)),
   setCoinBalance: balanceInfo => dispatch(Actions.setCoinBalance(balanceInfo)),
   setTransactionDetailParams: transactionDetail =>
     dispatch(Actions.setTransactionDetailParams(transactionDetail)),

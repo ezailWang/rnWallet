@@ -80,29 +80,28 @@ export default class AboutUsScreen extends BaseComponent {
     this.version = '';
   }
 
-  _initData() {
+  _initData = () => {
     this.setState({
       version: `${DeviceInfo.getVersion()}(${DeviceInfo.getBuildNumber()})`,
     });
-  }
+  };
 
   _toPrivacyPolicyPage() {
     this.props.navigation.navigate('UseAndPrivacyPolicy');
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.about')} />
-        <Image
-          style={styles.image}
-          source={require('../../assets/set/logo_black.png')}
-          resizeMode="stretch"
-        />
-        <Text style={styles.title}>ITC Wallet</Text>
-        <Text style={styles.version}>{this.state.version}</Text>
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.about')} />
+      <Image
+        style={styles.image}
+        source={require('../../assets/set/logo_black.png')}
+        resizeMode="stretch"
+      />
+      <Text style={styles.title}>ITC Wallet</Text>
+      <Text style={styles.version}>{this.state.version}</Text>
 
-        {/* <TouchableOpacity  style={styles.item}
+      {/* <TouchableOpacity  style={styles.item}
                                    activeOpacity={0.6}
                                    onPress={()=>this._toPrivacyPolicyPage()}>
                     <Text style={styles.itemTitle}>{I18n.t('settings.terms_use_and_privacy_policy')}</Text>
@@ -110,12 +109,11 @@ export default class AboutUsScreen extends BaseComponent {
                 </TouchableOpacity>
         <View style={styles.itemLine10}></View> */}
 
-        <Item title="Website" url="iotchain.io" isDisabled={false} />
-        <Item title="Email" url="support@iotchain.io" isDisabled />
-        <Item title="Telegram" url="https://t.me/IoTChain" isDisabled={false} />
-      </View>
-    );
-  }
+      <Item title="Website" url="iotchain.io" isDisabled={false} />
+      <Item title="Email" url="support@iotchain.io" isDisabled />
+      <Item title="Telegram" url="https://t.me/IoTChain" isDisabled={false} />
+    </View>
+  );
 }
 
 class Item extends PureComponent {

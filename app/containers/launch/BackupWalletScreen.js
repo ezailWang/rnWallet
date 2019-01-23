@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export default class BackupWalletScreen extends BaseComponent {
   constructor(props) {
     super(props);
@@ -100,9 +99,9 @@ export default class BackupWalletScreen extends BaseComponent {
     }));
   }
 
-  renderComponent() {
-    const {navigation} = this.props;
-    const {isCheck} = this.state;
+  renderComponent = () => {
+    const { navigation } = this.props;
+    const { isCheck } = this.state;
     const checkIcon = isCheck
       ? require('../../assets/launch/check_on.png')
       : require('../../assets/launch/check_off.png');
@@ -143,7 +142,7 @@ export default class BackupWalletScreen extends BaseComponent {
         </ScrollView>
       </View>
     );
-  }
+  };
 }
 
 class Item extends PureComponent {

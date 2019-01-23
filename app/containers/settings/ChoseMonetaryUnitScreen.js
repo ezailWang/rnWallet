@@ -40,10 +40,10 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
     this.monetaryUnitSymbol = '';
   }
 
-  _initData() {
+  _initData = () => {
     this.monetaryUnitType = this.props.monetaryUnit.monetaryUnitType;
     this._checkMonetaryUnit();
-  }
+  };
 
   _checkState(isCNY, isUSD, isKRW, isEUR, isRUB, isURA) {
     this.setState({
@@ -123,52 +123,50 @@ class ChoseMonetaryUnitScreen extends BaseComponent {
     this.props.navigation.goBack();
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.currency_unit')} />
-        <View style={styles.contentBox}>
-          <ChoseItem
-            content="CNY"
-            isCheck={this.state.isCheckCNY}
-            itemPress={this._onPressCNY}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="USD"
-            isCheck={this.state.isCheckUSD}
-            itemPress={this._onPressUSD}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="KRW"
-            isCheck={this.state.isCheckKRW}
-            itemPress={this._onPressKRW}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="EUR"
-            isCheck={this.state.isCheckEUR}
-            itemPress={this._onPressEUR}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="RUB"
-            isCheck={this.state.isCheckRUB}
-            itemPress={this._onPressRUB}
-            choseItemContentStyle={styles.choseItemContent}
-          />
-          <ChoseItem
-            content="UAH"
-            isCheck={this.state.isCheckUAH}
-            itemPress={this._onPressUAH}
-            choseItemContentStyle={styles.choseItemContent}
-            isShowLine={false}
-          />
-        </View>
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('settings.currency_unit')} />
+      <View style={styles.contentBox}>
+        <ChoseItem
+          content="CNY"
+          isCheck={this.state.isCheckCNY}
+          itemPress={this._onPressCNY}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="USD"
+          isCheck={this.state.isCheckUSD}
+          itemPress={this._onPressUSD}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="KRW"
+          isCheck={this.state.isCheckKRW}
+          itemPress={this._onPressKRW}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="EUR"
+          isCheck={this.state.isCheckEUR}
+          itemPress={this._onPressEUR}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="RUB"
+          isCheck={this.state.isCheckRUB}
+          itemPress={this._onPressRUB}
+          choseItemContentStyle={styles.choseItemContent}
+        />
+        <ChoseItem
+          content="UAH"
+          isCheck={this.state.isCheckUAH}
+          itemPress={this._onPressUAH}
+          choseItemContentStyle={styles.choseItemContent}
+          isShowLine={false}
+        />
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const mapStateToProps = state => ({

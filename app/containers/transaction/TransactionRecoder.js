@@ -752,7 +752,7 @@ export default class TransactionRecoder extends BaseComponent {
   // 自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
-  async _initData() {
+  _initData = async () => {
     try {
       const isGetTRFromStore = await this.loadStoreTransactionRecoder(); // 从store获取
       if (!isGetTRFromStore) {
@@ -777,7 +777,7 @@ export default class TransactionRecoder extends BaseComponent {
     timer = setInterval(() => {
       this.getRecoder(false);
     }, 3 * 1000);
-  }
+  };
 
   showLoading() {
     this._showLoading();
@@ -837,7 +837,7 @@ export default class TransactionRecoder extends BaseComponent {
     return require('../../assets/home/null.png');
   };
 
-  renderComponent() {
+  renderComponent = () => {
     const { price } = store.getState().Core.balance;
     let { amount } = store.getState().Core.balance;
     let value = parseFloat(amount) * parseFloat(price);
@@ -1110,5 +1110,5 @@ export default class TransactionRecoder extends BaseComponent {
         </View>
       </View>
     );
-  }
+  };
 }

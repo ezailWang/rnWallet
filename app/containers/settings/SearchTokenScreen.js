@@ -209,13 +209,13 @@ class SearchTokenScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     this.allTokens = this.props.allTokens;
     this.addedTokens = this.props.tokens.map(token => {
       token.isAdded = true;
       return token;
     });
-  }
+  };
 
   // 自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
@@ -398,65 +398,63 @@ class SearchTokenScreen extends BaseComponent {
     });
   };
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.topBox}>
-          <TouchableOpacity activeOpacity={0.6} style={styles.backBox} onPress={this._backPress}>
+  renderComponent = () => (
+    <View style={styles.container}>
+      <View style={styles.topBox}>
+        <TouchableOpacity activeOpacity={0.6} style={styles.backBox} onPress={this._backPress}>
+          <Image
+            style={styles.backIcon}
+            source={require('../../assets/common/common_back.png')}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+        <View style={styles.searchBox}>
+          <Image
+            style={styles.searchIcon}
+            source={require('../../assets/common/search.png')}
+            resizeMode="contain"
+          />
+          <TextInput
+            style={styles.searchInput}
+            ref={this.searchInputRef}
+            autoFocus
+            placeholderTextColor={Colors.fontGrayColor_a0}
+            placeholder={I18n.t('settings.input_token_name')}
+            onChangeText={text => {
+              this.setState({
+                searchValue: text,
+              });
+              this._onChangeText(text);
+            }}
+          >
+            {this.state.searchValue}
+          </TextInput>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.cancelBox}
+            onPress={this._cancelPress}
+          >
             <Image
-              style={styles.backIcon}
-              source={require('../../assets/common/common_back.png')}
+              style={styles.cancelIcon}
+              source={require('../../assets/common/delete.png')}
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <View style={styles.searchBox}>
-            <Image
-              style={styles.searchIcon}
-              source={require('../../assets/common/search.png')}
-              resizeMode="contain"
-            />
-            <TextInput
-              style={styles.searchInput}
-              ref={this.searchInputRef}
-              autoFocus
-              placeholderTextColor={Colors.fontGrayColor_a0}
-              placeholder={I18n.t('settings.input_token_name')}
-              onChangeText={text => {
-                this.setState({
-                  searchValue: text,
-                });
-                this._onChangeText(text);
-              }}
-            >
-              {this.state.searchValue}
-            </TextInput>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              style={styles.cancelBox}
-              onPress={this._cancelPress}
-            >
-              <Image
-                style={styles.cancelIcon}
-                source={require('../../assets/common/delete.png')}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
         </View>
-        <View style={styles.line} />
-        <FlatList
-          style={styles.listContainer}
-          ref={this.flatList}
-          data={this.state.datas}
-          keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-          renderItem={this._renderItem}
-          ListEmptyComponent={this._renderEmptyView}
-          ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index })}
-        />
       </View>
-    );
-  }
+      <View style={styles.line} />
+      <FlatList
+        style={styles.listContainer}
+        ref={this.flatList}
+        data={this.state.datas}
+        keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
+        renderItem={this._renderItem}
+        ListEmptyComponent={this._renderEmptyView}
+        ItemSeparatorComponent={this._renderItemSeparatorComponent}
+        getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index })}
+      />
+    </View>
+  );
 }
 
 class ItemView extends PureComponent {

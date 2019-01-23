@@ -190,7 +190,7 @@ class HomeScreen extends BaseComponent {
     });
   };
 
-  formatAddress(address) {
+  static formatAddress(address) {
     return `${address.substr(0, 10)}...${address.slice(-10)}`;
   }
 
@@ -278,7 +278,7 @@ class HomeScreen extends BaseComponent {
       });
   }
 
-  async _initData() {
+  _initData = async () => {
     SplashScreen.hide();
     try {
       if (this.props.isNewWallet === false) {
@@ -305,7 +305,7 @@ class HomeScreen extends BaseComponent {
     } catch (err) {
       this._hideLoading();
     }
-  }
+  };
 
   /* async saveTokenToStorage(token) {
         let key = StorageKey.Tokens + this.props.wallet.address
@@ -397,7 +397,7 @@ class HomeScreen extends BaseComponent {
       });
   }
 
-  renderComponent() {
+  renderComponent = () => {
     if (!this.props.wallet.address) {
       return null;
     }
@@ -571,7 +571,7 @@ class HomeScreen extends BaseComponent {
                 });
               }}
               walletName={this.props.wallet.name}
-              address={this.formatAddress(this.props.wallet.address)}
+              address={HomeScreen.formatAddress(this.props.wallet.address)}
               totalAssets={
                 this.state.isTotalAssetsHidden
                   ? '****'
@@ -614,7 +614,7 @@ class HomeScreen extends BaseComponent {
                 /> */}
       </View>
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({

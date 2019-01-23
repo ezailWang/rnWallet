@@ -113,12 +113,12 @@ class BackupMnemonicScreen extends BaseComponent {
     };
   }
 
-  _initData() {
+  _initData = () => {
     const mnemonicArray = this.props.mnemonic.split(' ');
     this.setState({
       mnemonic: mnemonicArray,
     });
-  }
+  };
 
   onCloseModal() {
     this.setState({ modalVisible: false });
@@ -135,11 +135,11 @@ class BackupMnemonicScreen extends BaseComponent {
     });
   }
 
-  _closeModal() {
+  _closeModal = () => {
     this.onCloseModal();
-  }
+  };
 
-  renderComponent() {
+  renderComponent = () => {
     const mnemonics = this.state.mnemonic;
     return (
       <View style={styles.container}>
@@ -176,7 +176,7 @@ class BackupMnemonicScreen extends BaseComponent {
         </View>
       </View>
     );
-  }
+  };
 }
 
 class Item extends PureComponent {

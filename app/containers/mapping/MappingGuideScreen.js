@@ -173,65 +173,63 @@ export default class MappingGuideScreen extends BaseComponent {
 
   } */
 
-  renderComponent() {
+  renderComponent = () => (
     /* const { isAgree } = this.state;
    const checkIcon = isAgree
      ? require('../../assets/launch/check_on.png')
      : require('../../assets/launch/check_off.png'); */
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('mapping.itc_mapping_service')}
-        />
-        <View style={styles.contentBox}>
-          <View style={styles.contentView}>
-            <View style={styles.contentLeft}>
-              <LiItem num="1" />
-              <LiItem num="2" />
-              <LiItem num="3" isShowLine={false} />
-            </View>
-            <View style={styles.contentRight}>
-              <StepItem
-                title={`STEP 1:${I18n.t('mapping.bind_map_address')}`}
-                desc={I18n.t('mapping.bind_map_address_des')}
-                image={require('../../assets/mapping/mappingStepOne.png')}
-              />
-              <StepItem
-                title={`STEP 2:${I18n.t('mapping.application_mapping')}`}
-                desc={I18n.t('mapping.application_mapping_des')}
-                image={require('../../assets/mapping/mappingStepTwo.png')}
-              />
-              <StepItem
-                title={`STEP 3:${I18n.t('mapping.native_issuance')}`}
-                desc={I18n.t('mapping.native_issuance_des')}
-                image={require('../../assets/mapping/mappingStepThree.png')}
-              />
-            </View>
+    <View style={styles.container}>
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('mapping.itc_mapping_service')}
+      />
+      <View style={styles.contentBox}>
+        <View style={styles.contentView}>
+          <View style={styles.contentLeft}>
+            <LiItem num="1" />
+            <LiItem num="2" />
+            <LiItem num="3" isShowLine={false} />
           </View>
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <View style={styles.bottomBox}>
-              <TouchableOpacity
-                style={styles.bottomBtn}
-                activeOpacity={0.6}
-                onPress={() => console.log('_toTermsService') /* this._toTermsService() */}
-              >
-                <Text style={styles.btnText}>{I18n.t('mapping.terms_service')}</Text>
-              </TouchableOpacity>
-              <View style={styles.bottomLine} />
-              <TouchableOpacity
-                style={styles.bottomBtn}
-                activeOpacity={0.6}
-                onPress={() => console.log('_toMappingTutorial') /* this._toMappingTutorial() */}
-              >
-                <Text style={styles.btnText}>{I18n.t('mapping.mapping_tutorial')}</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.contentRight}>
+            <StepItem
+              title={`STEP 1:${I18n.t('mapping.bind_map_address')}`}
+              desc={I18n.t('mapping.bind_map_address_des')}
+              image={require('../../assets/mapping/mappingStepOne.png')}
+            />
+            <StepItem
+              title={`STEP 2:${I18n.t('mapping.application_mapping')}`}
+              desc={I18n.t('mapping.application_mapping_des')}
+              image={require('../../assets/mapping/mappingStepTwo.png')}
+            />
+            <StepItem
+              title={`STEP 3:${I18n.t('mapping.native_issuance')}`}
+              desc={I18n.t('mapping.native_issuance_des')}
+              image={require('../../assets/mapping/mappingStepThree.png')}
+            />
+          </View>
+        </View>
+        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <View style={styles.bottomBox}>
+            <TouchableOpacity
+              style={styles.bottomBtn}
+              activeOpacity={0.6}
+              onPress={() => console.log('_toTermsService') /* this._toTermsService() */}
+            >
+              <Text style={styles.btnText}>{I18n.t('mapping.terms_service')}</Text>
+            </TouchableOpacity>
+            <View style={styles.bottomLine} />
+            <TouchableOpacity
+              style={styles.bottomBtn}
+              activeOpacity={0.6}
+              onPress={() => console.log('_toMappingTutorial') /* this._toMappingTutorial() */}
+            >
+              <Text style={styles.btnText}>{I18n.t('mapping.mapping_tutorial')}</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 class LiItem extends PureComponent {

@@ -168,7 +168,7 @@ class ImportWalletScreen extends BaseComponent {
     this.rePwdRef = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     const params = this.props.createWalletParams;
     if (params) {
       this.setState({
@@ -176,7 +176,7 @@ class ImportWalletScreen extends BaseComponent {
       });
       this.from = params.from;
     }
-  }
+  };
 
   layout() {
     const handle = findNodeHandle(this.rePwdRef.current);
@@ -547,7 +547,7 @@ class ImportWalletScreen extends BaseComponent {
     this.setState({ isShowRePassword: !isShow });
   }
 
-  renderComponent() {
+  renderComponent = () => {
     const pwdIcon = this.state.isShowPassword
       ? require('../../assets/launch/pwdOpenIcon.png')
       : require('../../assets/launch/pwdHideIcon.png');
@@ -699,7 +699,7 @@ class ImportWalletScreen extends BaseComponent {
         </Animated.View>
       </View>
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({

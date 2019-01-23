@@ -220,7 +220,7 @@ export default class TransactionDetail extends BaseComponent {
     });
   };
 
-  renderComponent() {
+  renderComponent = () => {
     let statusIcon;
     if (this.state.tranStatus === '0') {
       statusIcon = require('../../assets/transfer/trans_ok.png');
@@ -352,5 +352,5 @@ export default class TransactionDetail extends BaseComponent {
         </View>
       </ImageBackground>
     );
-  }
+  };
 }

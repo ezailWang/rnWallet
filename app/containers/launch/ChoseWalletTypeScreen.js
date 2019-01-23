@@ -62,25 +62,23 @@ class ChoseWalletTypeScreen extends BaseComponent {
     this.props.navigation.navigate('ImportWallet');
   };
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgNoTitleHeader navigation={this.props.navigation} />
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgNoTitleHeader navigation={this.props.navigation} />
 
-        <Text style={styles.title}>{I18n.t('settings.chose_wallet_type')}</Text>
-        <Item
-          icon={require('../../assets/common/eth_logo.png')}
-          content={I18n.t('settings.eth_wallet')}
-          itemPress={() => this.toImportWallet('eth')}
-        />
-        <Item
-          icon={require('../../assets/common/itc_logo.png')}
-          content={I18n.t('settings.itc_wallet')}
-          itemPress={() => this.toImportWallet('itc')}
-        />
-      </View>
-    );
-  }
+      <Text style={styles.title}>{I18n.t('settings.chose_wallet_type')}</Text>
+      <Item
+        icon={require('../../assets/common/eth_logo.png')}
+        content={I18n.t('settings.eth_wallet')}
+        itemPress={() => this.toImportWallet('eth')}
+      />
+      <Item
+        icon={require('../../assets/common/itc_logo.png')}
+        content={I18n.t('settings.itc_wallet')}
+        itemPress={() => this.toImportWallet('itc')}
+      />
+    </View>
+  );
 }
 
 class Item extends PureComponent {

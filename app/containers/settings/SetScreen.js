@@ -97,22 +97,22 @@ class SetScreen extends BaseComponent {
     this.inputPasswordDialog = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     const mWallet = this.props.navigation.state.params.wallet;
     this.isCurrentWallet =
       mWallet.address.toLowerCase() === this.props.currentWallet.address.toLowerCase();
     this.setState({
       wallet: mWallet,
     });
-  }
+  };
 
-  _closeModal() {
+  _closeModal = () => {
     this.setState({
       nameModalVisible: false,
       passwordModalVisible: false,
       isShowRemindDialog: false,
     });
-  }
+  };
 
   openNameModal() {
     this.setState({
@@ -416,94 +416,92 @@ class SetScreen extends BaseComponent {
     this.props.navigation.goBack();
   }
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader
-          navigation={this.props.navigation}
-          text={this.state.wallet.name}
-          leftPress={() => this.backPressed()}
-        />
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader
+        navigation={this.props.navigation}
+        text={this.state.wallet.name}
+        leftPress={() => this.backPressed()}
+      />
 
-        <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
+      <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
 
-        <InputTextDialog
-          ref={this.inputTextDialog}
-          placeholder={I18n.t('settings.enter_wallet_name_hint')}
-          leftTxt={I18n.t('modal.cancel')}
-          rightTxt={I18n.t('modal.confirm')}
-          leftPress={() => this.closeNameModal()}
-          rightPress={() => this.nameConfirmClick()}
-          modalVisible={this.state.nameModalVisible}
-          onChangeText={this.nameOnChangeText}
-          defaultValue={this.state.wallet.name}
-          warnText={this.state.nameWarnText}
-          isShowWarn
-          rightBtnDisabled={this.state.rightBtnDisabled}
-        />
-        <InputPasswordDialog
-          ref={this.inputPasswordDialog}
-          placeholder={I18n.t('settings.enter_passowrd_hint')}
-          leftTxt={I18n.t('modal.cancel')}
-          rightTxt={I18n.t('modal.confirm')}
-          leftPress={() => this.closePasswordModal()}
-          rightPress={() => this.passwordConfirmClick()}
-          modalVisible={this.state.passwordModalVisible}
-          rightBtnDisabled={this.state.pwdRightBtnDisabled}
-          onChangeText={this.pwdOnChangeText}
-        />
-        <RemindDialog
-          content={I18n.t('settings.confirm_delete_wallet')}
-          modalVisible={this.state.isShowRemindDialog}
-          leftTxt={I18n.t('modal.cancel')}
-          rightTxt={I18n.t('modal.confirm')}
-          leftPress={() => this.cancelDeleteClick()}
-          rightPress={() => this.confirmDeleteClick()}
-        />
+      <InputTextDialog
+        ref={this.inputTextDialog}
+        placeholder={I18n.t('settings.enter_wallet_name_hint')}
+        leftTxt={I18n.t('modal.cancel')}
+        rightTxt={I18n.t('modal.confirm')}
+        leftPress={() => this.closeNameModal()}
+        rightPress={() => this.nameConfirmClick()}
+        modalVisible={this.state.nameModalVisible}
+        onChangeText={this.nameOnChangeText}
+        defaultValue={this.state.wallet.name}
+        warnText={this.state.nameWarnText}
+        isShowWarn
+        rightBtnDisabled={this.state.rightBtnDisabled}
+      />
+      <InputPasswordDialog
+        ref={this.inputPasswordDialog}
+        placeholder={I18n.t('settings.enter_passowrd_hint')}
+        leftTxt={I18n.t('modal.cancel')}
+        rightTxt={I18n.t('modal.confirm')}
+        leftPress={() => this.closePasswordModal()}
+        rightPress={() => this.passwordConfirmClick()}
+        modalVisible={this.state.passwordModalVisible}
+        rightBtnDisabled={this.state.pwdRightBtnDisabled}
+        onChangeText={this.pwdOnChangeText}
+      />
+      <RemindDialog
+        content={I18n.t('settings.confirm_delete_wallet')}
+        modalVisible={this.state.isShowRemindDialog}
+        leftTxt={I18n.t('modal.cancel')}
+        rightTxt={I18n.t('modal.confirm')}
+        leftPress={() => this.cancelDeleteClick()}
+        rightPress={() => this.confirmDeleteClick()}
+      />
 
-        <TouchableOpacity
-          style={[styles.btnOpacity]}
-          activeOpacity={0.6}
+      <TouchableOpacity
+        style={[styles.btnOpacity]}
+        activeOpacity={0.6}
+        onPress={() => {
+          this.isDeleteWallet = false;
+          this.openNameModal();
+        }}
+      >
+        <Text style={styles.btnTxt}>{I18n.t('settings.modify_wallet_name')}</Text>
+        <Text style={styles.walletName}>{this.state.wallet.name}</Text>
+      </TouchableOpacity>
+
+      <View style={styles.buttonBox}>
+        <NextButton
           onPress={() => {
             this.isDeleteWallet = false;
-            this.openNameModal();
+            this.exportKeystore();
           }}
-        >
-          <Text style={styles.btnTxt}>{I18n.t('settings.modify_wallet_name')}</Text>
-          <Text style={styles.walletName}>{this.state.wallet.name}</Text>
-        </TouchableOpacity>
-
-        <View style={styles.buttonBox}>
-          <NextButton
-            onPress={() => {
-              this.isDeleteWallet = false;
-              this.exportKeystore();
-            }}
-            text={I18n.t('settings.export_keystore')}
-          />
-        </View>
-        <View style={styles.buttonBox}>
-          <NextButton
-            onPress={() => {
-              this.isDeleteWallet = false;
-              this.openPasswordModal();
-            }}
-            text={I18n.t('settings.export_private_key')}
-          />
-        </View>
-        <View style={styles.delButtonBox}>
-          <GreyButtonBig
-            buttonStyle={styles.button}
-            onPress={() => {
-              this.isDeleteWallet = true;
-              this.openPasswordModal();
-            }}
-            text={I18n.t('settings.delete_wallet')}
-          />
-        </View>
+          text={I18n.t('settings.export_keystore')}
+        />
       </View>
-    );
-  }
+      <View style={styles.buttonBox}>
+        <NextButton
+          onPress={() => {
+            this.isDeleteWallet = false;
+            this.openPasswordModal();
+          }}
+          text={I18n.t('settings.export_private_key')}
+        />
+      </View>
+      <View style={styles.delButtonBox}>
+        <GreyButtonBig
+          buttonStyle={styles.button}
+          onPress={() => {
+            this.isDeleteWallet = true;
+            this.openPasswordModal();
+          }}
+          text={I18n.t('settings.delete_wallet')}
+        />
+      </View>
+    </View>
+  );
 }
 const mapStateToProps = state => ({
   currentWallet: state.Core.wallet,

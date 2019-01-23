@@ -146,7 +146,7 @@ class MappingRecordsScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  _initData() {
+  _initData = () => {
     const records = [];
     for (let i = 0; i < 10; i++) {
       let s = 2;
@@ -166,7 +166,7 @@ class MappingRecordsScreen extends BaseComponent {
     this.setState({
       mappingRecords: records,
     });
-  }
+  };
 
   // 自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
@@ -198,51 +198,49 @@ class MappingRecordsScreen extends BaseComponent {
     });
   };
 
-  renderComponent() {
-    return (
-      <View style={styles.container}>
-        <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('mapping.mapping_record')} />
-        <LinearGradient
-          style={styles.descBox}
-          colors={['rgba(63, 193, 255, 0.8)', 'rgba(63, 193, 255, 0.8)']}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 1, y: 1 }}
-        >
-          <View style={styles.descTitleBox}>
+  renderComponent = () => (
+    <View style={styles.container}>
+      <WhiteBgHeader navigation={this.props.navigation} text={I18n.t('mapping.mapping_record')} />
+      <LinearGradient
+        style={styles.descBox}
+        colors={['rgba(63, 193, 255, 0.8)', 'rgba(63, 193, 255, 0.8)']}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <View style={styles.descTitleBox}>
+          <Image
+            style={styles.descTitleIcon}
+            source={require('../../assets/mapping/linkIcon.png')}
+            resizeMode="contain"
+          />
+          <Text style={styles.descTitle}>{I18n.t('mapping.native_itc_receive_address')}</Text>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.changeBox}
+            onPress={this._onChaneAddressPress}
+          >
+            <Text style={styles.changeText}>{I18n.t('mapping.change')}</Text>
             <Image
-              style={styles.descTitleIcon}
-              source={require('../../assets/mapping/linkIcon.png')}
+              style={styles.changeIcon}
+              source={require('../../assets/common/back_white.png')}
               resizeMode="contain"
             />
-            <Text style={styles.descTitle}>{I18n.t('mapping.native_itc_receive_address')}</Text>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              style={styles.changeBox}
-              onPress={this._onChaneAddressPress}
-            >
-              <Text style={styles.changeText}>{I18n.t('mapping.change')}</Text>
-              <Image
-                style={styles.changeIcon}
-                source={require('../../assets/common/back_white.png')}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.descAddress}>{this.state.nativeReceiveAddress}</Text>
-        </LinearGradient>
-        <FlatList
-          style={styles.listContainer}
-          ref={this.flatList}
-          data={this.state.mappingRecords}
-          keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-          renderItem={this._renderItem}
-          ListEmptyComponent={this._renderEmptyView}
-          ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(data, index) => ({ length: 60, offset: (65 + 1) * index, index })}
-        />
-      </View>
-    );
-  }
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.descAddress}>{this.state.nativeReceiveAddress}</Text>
+      </LinearGradient>
+      <FlatList
+        style={styles.listContainer}
+        ref={this.flatList}
+        data={this.state.mappingRecords}
+        keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
+        renderItem={this._renderItem}
+        ListEmptyComponent={this._renderEmptyView}
+        ItemSeparatorComponent={this._renderItemSeparatorComponent}
+        getItemLayout={(data, index) => ({ length: 60, offset: (65 + 1) * index, index })}
+      />
+    </View>
+  );
 }
 
 class Item extends PureComponent {

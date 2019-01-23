@@ -222,7 +222,7 @@ export default class FeedbackScreen extends BaseComponent {
       });
   }
 
-  renderComponent() {
+  renderComponent = () => {
     const photoSelectComponents = [];
     this.state.photoArray.forEach((value, index) => {
       const keyValue = `photo${index}`;
@@ -335,5 +335,5 @@ export default class FeedbackScreen extends BaseComponent {
         </KeyboardAvoidingView>
       </View>
     );
-  }
+  };
 }
