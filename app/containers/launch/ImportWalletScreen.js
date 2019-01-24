@@ -157,6 +157,17 @@ class ImportWalletScreen extends BaseComponent {
         this.timeIntervalCount = 0;
     }
 
+
+    componentWillMount() {
+        super.componentWillMount();
+        this._isMounted = true;
+    }
+    
+    componentWillUnmount() {
+        this._isMounted = false;
+        super.componentWillUnmount();
+    }
+
     _initData() {
         let params = this.props.createWalletParams;
         if (params) {

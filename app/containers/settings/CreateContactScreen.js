@@ -76,6 +76,16 @@ class CreateContactScreen extends BaseComponent {
         this.isAddressFocus = false
     }
 
+    componentWillMount() {
+        super.componentWillMount();
+        this._isMounted = true;
+    }
+    
+    componentWillUnmount() {
+        this._isMounted = false;
+        super.componentWillUnmount();
+    }
+
     _initData() { 
         let addAddress = this.props.navigation.state.params.address;
         if(addAddress != undefined){

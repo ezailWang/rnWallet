@@ -98,6 +98,26 @@ const styles = StyleSheet.create({
     width: Layout.WINDOW_WIDTH * 0.9,
     color: Colors.fontGrayColor_a,
     textAlign: "center"
+  },
+  loadMoreBox:{
+    width: Layout.WINDOW_WIDTH * 0.9,
+    height: 80,
+    alignSelf: "center",
+    justifyContent:'center'
+  },
+  loadMoreTouch:{
+    height: 40,
+    width: Layout.WINDOW_WIDTH * 0.6,
+    borderWidth : 1,
+    borderColor : Colors.bgGrayColor_ed,
+    alignSelf: "center"
+  },
+  loadMoreText:{
+    textAlign : 'center',
+    height: 40,
+    lineHeight : 40,
+    fontSize : 14,
+    color :Colors.fontBlackColor_43,
   }
 });
 
@@ -111,14 +131,22 @@ class MessageCenterScreen extends BaseComponent {
     };
 
     this.page = 1;
-    this.pageCount = 600; //每页显示的10条数据
+    this.pageCount = 20; //每页显示的10条数据
     this.haveNextPage = true; //是否还有下一页
     this.callBackIsNeedRefresh = true;
 
     //this.unReadMessageCount = 0;
     this.userToken = {};
   }
+  componentWillMount() {
+    super.componentWillMount();
+    this._isMounted = true;
+  }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+    super.componentWillUnmount();
+  }
   async _initData() {
     //this.unReadMessageCount = this.props.navigation.state.params.newMessageCounts;
     this.userToken = await StorageManage.load(StorageKey.UserToken);
@@ -171,9 +199,9 @@ class MessageCenterScreen extends BaseComponent {
               data: meaasges
             });
           } else {
-            this.setState({
-              data: this.state.data.concat(meaasges)
-            });
+            this.setState(prevState => ({
+              data: prevState.data.concat(meaasges)
+            }));
           }
         } else {
           Analytics.recordErr("getMessageListRspErr", response);
@@ -216,17 +244,18 @@ class MessageCenterScreen extends BaseComponent {
     }
   };
 
-  _onLoadMore = () => {
+  _onLoadMore = async() => {
     if (!this.userToken || this.userToken === null) {
       return;
     }
     // 不处于正在加载更多 && 有下拉刷新过，因为没数据的时候 会触发加载
-    if (!this.state.isLoadMoreing && this.haveNextPage) {
+    //if (!this.state.isLoadMoreing && this.haveNextPage) {
+    if (this.haveNextPage) {
       this.setState({
         isLoadMoreing: true
       });
       this.page = this.page + 1;
-      this.loadData(true);
+      await this.loadData(true);
 
       this.setState({
         isLoadMoreing: true
@@ -276,7 +305,6 @@ class MessageCenterScreen extends BaseComponent {
       })
       .catch(err => {
         Analytics.recordErr("readMessageCatchErr", err);
-        //console.log('_readMessage err:', err)
         this._hideLoading();
       });
   };
@@ -372,7 +400,7 @@ class MessageCenterScreen extends BaseComponent {
         };
         this.props.setCoinBalance(balanceInfo);
 
-        let transation = await NetworkManager.getTransaction(item.hashId);
+        /*let transation = await NetworkManager.getTransaction(item.hashId);
 
         let status = 2;
         if (transation.isError == undefined || transation.isError == false) {
@@ -383,7 +411,7 @@ class MessageCenterScreen extends BaseComponent {
           if (currentBlockNumber - transation.blockNumber < 12) {
             status = 1;
           }
-        }
+        }*/
 
         //let address = transation.to.toLowerCase() == this.props.wallet.address.toLowerCase() ? transation.from : transation.to
         let address =
@@ -393,12 +421,12 @@ class MessageCenterScreen extends BaseComponent {
         let transactionDetail = {
           amount: parseFloat(item.transactionValue),
           transactionType: item.symbol.toUpperCase(),
-          tranStatus: status,
+          tranStatus: item.status == 2 ? 2 : 0,
           fromAddress: item.fromAddress, //transation.from,
           toAddress: item.toAddress, //transation.to,
           gasPrice: "",
           transactionHash: item.hashId, //transation.hash,
-          blockNumber: transation.blockNumber,
+          blockNumber: "",//transation.blockNumber,
           transactionTime: item.updateTime + " +0800",
           remark: I18n.t("transaction.no"),
           name: addressToName(address, this.props.contactList)
@@ -444,34 +472,14 @@ class MessageCenterScreen extends BaseComponent {
           this._onRefresh(false);
         } else {
           Analytics.recordErr("readAllMessageRspErr", response);
-          //console.log('readAllMessage err msg:', response.msg)
         }
         this._hideLoading();
       })
       .catch(err => {
-        //console.log('readAllMessage err:', err)
         Analytics.recordErr("readAllMessageCatchErr", err);
         this._hideLoading();
       });
   };
-
-  async saveTokenToStorage(token) {
-    /*let key = StorageKey.Tokens + this.props.wallet.address
-        let localTokens = await StorageManage.load(key)
-        if (!localTokens) {
-            localTokens = []
-        }
-
-        localTokens.push({
-            iconLarge: token.iconLarge,
-            symbol: token.symbol,
-            name: token.name,
-            decimal: parseInt(token.decimal, 10),
-            address: token.address,
-        })
-        
-        StorageManage.save(key, localTokens)*/
-  }
 
   //自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
@@ -488,8 +496,17 @@ class MessageCenterScreen extends BaseComponent {
     </View>
   );
 
-  _listFooterView = () =>
-    this.haveNextPage ? null : (
+  _listFooterView = () => 
+    this.haveNextPage ? 
+      <View style={styles.loadMoreBox}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={styles.loadMoreTouch}
+          onPress={this._onLoadMore}
+        >
+           <Text style={styles.loadMoreText}>Load more</Text>
+        </TouchableOpacity>
+      </View> : (
       <View style={styles.listFooter}>
         <Text style={styles.listFooterText}>
           {I18n.t("settings.no_more_data")}
@@ -504,6 +521,7 @@ class MessageCenterScreen extends BaseComponent {
   };
 
   renderComponent() {
+    const {data,isRefreshing,} = this.state;
     return (
       <View style={styles.container}>
         <WhiteBgHeader
@@ -516,7 +534,7 @@ class MessageCenterScreen extends BaseComponent {
         <FlatList
           style={styles.listContainer}
           ref={ref => (this.flatList = ref)}
-          data={this.state.data}
+          data={data}
           keyExtractor={(item, index) => index.toString()} //给定的item生成一个不重复的key
           renderItem={this._renderItem}
           ListEmptyComponent={this._renderEmptyView}
@@ -529,14 +547,14 @@ class MessageCenterScreen extends BaseComponent {
           refreshControl={
             <RefreshControl
               onRefresh={this._pulldownRefresh} //下拉刷新
-              refreshing={this.state.isRefreshing}
+              refreshing={isRefreshing}
               colors={[Colors.themeColor]}
               tintColor={Colors.whiteBackgroundColor}
             />
           }
-          onEndReachedThreshold={0.1}
-          onEndReached={this._onLoadMore} //加载更多
-          //ListFooterComponent={this._listFooterView}
+          //onEndReachedThreshold={0.1}
+          //onEndReached={this._onLoadMore} //加载更多
+         ListFooterComponent={ data && data.length>0 ?  this._listFooterView : null}
         />
       </View>
     );

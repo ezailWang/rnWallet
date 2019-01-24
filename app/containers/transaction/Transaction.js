@@ -331,6 +331,17 @@ export default class Transaction extends BaseComponent {
 
     };
 
+
+    componentWillMount() {
+        super.componentWillMount();
+        this._isMounted = true;
+    }
+    
+    componentWillUnmount() {
+        this._isMounted = false;
+        super.componentWillUnmount();
+    }
+
     /**static navigationOptions = ({navigation}) => ({
         header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
     })**/
@@ -633,10 +644,6 @@ export default class Transaction extends BaseComponent {
                 ></StaticLoading>
                 <View style={styles.contentBox}>
                     <TransactionStep didTapSurePasswordBtn={(password) => {
-                        /*this._showLoading();
-                        setTimeout(async () => {
-                            this.didTapSurePasswordBtn(password)
-                        }, 1200)*/
                         this.timeIntervalCount = 0;
                         this.timeInterval = setInterval(() => {
                             this.timeIntervalCount = this.timeIntervalCount + 1;

@@ -90,6 +90,16 @@ class ContactInfoScreen extends BaseComponent {
         this.isAddressFocus = ''
     }
 
+    componentWillMount() {
+        super.componentWillMount();
+        this._isMounted = true;
+    }
+    
+    componentWillUnmount() {
+        this._isMounted = false;
+        super.componentWillUnmount();
+    }
+
     _initData() { 
         this.contactInfo = this.props.navigation.state.params.contactInfo;
         this.index = this.props.navigation.state.params.index;

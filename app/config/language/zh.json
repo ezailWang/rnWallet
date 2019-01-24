@@ -41,7 +41,6 @@
         "repeat_new_password":"重复新密码",
         "enter_password":"请输入密码",
 
-       
         "password_warn":"密码最少为8位，至少包含大、小写字母、数字、符号中的3种",
         "password_warn_least_8":"密码最少为8位, ",
         "password_warn_1":"还需包含小写字母、数字和符号中的2种",
@@ -65,7 +64,6 @@
         
     },
     "home":{
-
         "tab_wallet":"钱包",
         "tab_mapping":"映射",
         "tab_my":"我的",
@@ -241,7 +239,6 @@
         "create":"创建",
         "import_wallet":"导入钱包",
         "import_wallet_already":"您已经导入该钱包"
-       
     },
     "mapping":{
         "itc_mapping_service":"ITC映射服务",
@@ -360,8 +357,9 @@
         "open_touch_id":"是否开启Touch ID?",
 
         "vertify_self":"身份验证",
-        "authentication_required":"Autorizacion Requerida",
+        "authentication_required":"必要认证",
 
+        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
         "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",
         "itc_test_warn2":"钱包中派发的ITC仅为测试用币，不能作为数字资产。",
         "not_remind_again":"不再提示",

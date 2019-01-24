@@ -360,6 +360,7 @@
         "vertify_self":"지문 인증",
         "authentication_required":"인증",
 
+        "itc_wallet_test_warn":"토큰 스왑 서비스가 아직 시작되지 않아 ITC월렛의 주소로 현재 보유한 ERC20 ITC를 보내지 마세요.",
         "itc_test_warn1":"테스트 기간에 월렛에 자산을 저장하지 마십시오.",
         "itc_test_warn2":"월렛에 있는 ITC 코인은 테스트만을 위한 것이니 암화화폐로 사용할 수 없습니다.",
         "not_remind_again":" 이 메시지를 다시 표시 안 함",

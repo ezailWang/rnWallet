@@ -128,6 +128,16 @@ class ReceiptCodeScreen extends BaseComponent {
 
     }
 
+    componentWillMount() {
+        super.componentWillMount();
+        this._isMounted = true;
+    }
+    
+    componentWillUnmount() {
+        this._isMounted = false;
+        super.componentWillUnmount();
+    }
+
 
     _initData() {
 

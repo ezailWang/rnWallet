@@ -105,6 +105,16 @@ class SetScreen extends BaseComponent {
         this.timeIntervalCount = 0;
     }
 
+    componentWillMount() {
+        super.componentWillMount();
+        this._isMounted = true;
+      }
+    
+      componentWillUnmount() {
+        this._isMounted = false;
+        super.componentWillUnmount();
+      }
+
     _initData() {
         let wallet = this.props.navigation.state.params.wallet;
         this.isCurrentWallet = wallet.address.toLowerCase() == this.props.currentWallet.address.toLowerCase() ? true : false
@@ -308,7 +318,6 @@ class SetScreen extends BaseComponent {
         this._showLoading()
         setTimeout(() => {
             this.deleteWallet()
-            //this.deleteLocalData();
         }, 2000);
 
     }

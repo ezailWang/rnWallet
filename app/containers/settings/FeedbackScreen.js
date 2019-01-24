@@ -93,7 +93,15 @@ export default class FeedbackScreen extends BaseComponent {
     this.isEmailFocus = false;
   }
 
-  _initData() {}
+  componentWillMount() {
+    super.componentWillMount();
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    super.componentWillUnmount();
+  }
 
   _addEventListener() {
     super._addEventListener();

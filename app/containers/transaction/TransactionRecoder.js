@@ -385,9 +385,17 @@ export default class TransactionRecoder extends BaseComponent {
     this.onRefresh = this.onRefresh.bind(this);
   }
 
+  
   componentWillMount() {
     super.componentWillMount();
     Analytics.setCurrentScreen("transactionRecoder");
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    clearInterval(timer);
+    super.componentWillUnmount();
+    this._isMounted = false;
   }
 
   getRecoder = async isFirst => {
@@ -916,16 +924,7 @@ export default class TransactionRecoder extends BaseComponent {
     return imageSource;
   }
 
-  componentWillMount() {
-    super.componentWillMount();
-    this._isMounted = true;
-  }
-
-  componentWillUnmount() {
-    clearInterval(timer);
-    super.componentWillUnmount();
-    this._isMounted = false;
-  }
+  
 
   _onBackPressed = () => {
     this.props.navigation.state.params.callback();
