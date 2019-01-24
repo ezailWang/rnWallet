@@ -1,6 +1,7 @@
 
 import MD5 from 'react-native-md5'
 import NetAddr from './NetAddr'
+import Analytics from '../utils/Analytics'
 const signKey = 'Ub9xq1Ju~T&.g%B7?8!]OpB+ab,b7q19w'
 const signKeyScan = 'Ub1kjkh^800123^&xc%1jjz$89$&0jkz01B+abb'
 
@@ -30,6 +31,7 @@ export default class FetchUtils {
     }
 
     static requestGet(url, params) {
+        Analytics.recordRequest('GET',url)
         if (params) {
             let paramsArray = []
             Object.keys(params).forEach(key => paramsArray.push(key + '=' + params[key]))
@@ -63,6 +65,7 @@ export default class FetchUtils {
     }
 
     static requestPost(url, params, images) {
+        Analytics.recordRequest('POST',url)
         const currentTime = new Date().getTime()
         let sign = MD5.hex_md5(this.getSign(currentTime, url))
         params['sign'] = sign
