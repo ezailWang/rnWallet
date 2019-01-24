@@ -204,7 +204,7 @@ class MessageCenterScreen extends BaseComponent {
             }));
           }
         } else {
-          Analytics.recordErr("getMessageListRspErr", response);
+          Analytics.recordErr("getMessageListRspErr", response.msg);
         }
         this._hideLoading();
       })
@@ -279,6 +279,7 @@ class MessageCenterScreen extends BaseComponent {
         this.announcement(item.item);
       }
     } catch (err) {
+      Analytics.recordErr('messageItemClick',err)
       this._hideLoading();
     } finally {
     }
@@ -300,7 +301,7 @@ class MessageCenterScreen extends BaseComponent {
           this.getMessageCount();
           this._onRefresh(false);
         } else {
-          Analytics.recordErr("readMessageRspErr", response);
+          Analytics.recordErr("readMessageRspErr", response.msg);
         }
       })
       .catch(err => {
@@ -330,7 +331,7 @@ class MessageCenterScreen extends BaseComponent {
             messageCount: messageCount
           });
         } else {
-          Analytics.recordErr("getUnReadMessageCountRspErr", response);
+          Analytics.recordErr("getUnReadMessageCountRspErr", response.msg);
         }
       })
       .catch(err => {
@@ -471,7 +472,7 @@ class MessageCenterScreen extends BaseComponent {
           DeviceEventEmitter.emit("messageCount", { messageCount: 0 });
           this._onRefresh(false);
         } else {
-          Analytics.recordErr("readAllMessageRspErr", response);
+           Analytics.recordErr("readAllMessageRspErr", response.msg);
         }
         this._hideLoading();
       })

@@ -180,10 +180,6 @@ class MyScreen extends BaseComponent {
     });
   };
 
-  componentWillMount() {
-    Analytics.setCurrentScreen("my");
-  }
-
   gotoSet = () => {
     let _this = this;
     this.props.navigation.navigate("SystemSet", {

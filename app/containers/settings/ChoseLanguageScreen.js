@@ -12,6 +12,7 @@ import { ChoseItem } from '../../components/ChoseComponent'
 import BaseComponent from '../base/BaseComponent';
 import NetworkManager from '../../utils/NetworkManager'
 import JPushModule from 'jpush-react-native'
+import Analytics from '../../utils/Analytics'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -158,10 +159,10 @@ class ChoseLanguageScreen extends BaseComponent {
             .then((response) => {
                 if (response.code === 200) {
                 } else {
-                    console.log('userInfoUpdate err msg:', response.msg)
+                    Analytics.recordErr('userInfoUpdateRspErr',response.msg)
                 }
             }).catch((err) => {
-                console.log('userInfoUpdate err:', err)
+                Analytics.recordErr('userInfoUpdateCatchErr',err)
             })
         this.resetJPushTag(preLang)
         this.props.navigation.navigate('Home')

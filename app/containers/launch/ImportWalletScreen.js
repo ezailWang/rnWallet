@@ -19,6 +19,8 @@ import StaticLoading from '../../components/StaticLoading'
 import BaseComponent from '../../containers/base/BaseComponent'
 import { NavigationActions } from 'react-navigation';
 import { defaultTokens, defaultTokensOfITC } from '../../utils/Constants'
+import Analytics from '../../utils/Analytics'
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -486,7 +488,7 @@ class ImportWalletScreen extends BaseComponent {
             })
 
             showToast(I18n.t('toast.import_mnemonic_error'));
-            console.log('createWalletErr:', err)
+            Analytics.recordErr('importWalletCatchErr',err)
         }
     }
 

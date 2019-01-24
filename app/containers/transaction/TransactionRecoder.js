@@ -388,7 +388,6 @@ export default class TransactionRecoder extends BaseComponent {
   
   componentWillMount() {
     super.componentWillMount();
-    Analytics.setCurrentScreen("transactionRecoder");
     this._isMounted = true;
   }
 

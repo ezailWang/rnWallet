@@ -311,7 +311,7 @@ class FirstLaunchScreen extends BaseComponent {
                     })
 
                 } else {
-                    Analytics.recordErr('getVersionUpdateInfoRspErr',response)
+                    Analytics.recordErr('getVersionUpdateInfoRspErr',response.msg)
                 }
             })
             .catch((err) => {

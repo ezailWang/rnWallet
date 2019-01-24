@@ -16,6 +16,7 @@ import { showToast } from '../../utils/Toast';
 import { I18n } from '../../config/language/i18n'
 import Layout from '../../config/LayoutConstants'
 import BaseComponent from '../base/BaseComponent';
+import Analytics from '../../utils/Analytics'
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -146,7 +147,7 @@ class Item extends PureComponent{
             }else{
                 //showToast('打不开')
             }
-        }).catch(err=> console.log('openURLError', err))
+        }).catch(err=> Analytics.recordErr('OpenURLCatchErr',err))
         
     }
 

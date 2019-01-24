@@ -237,11 +237,13 @@ class HomeScreen extends BaseComponent {
             .then((response) => {
                 if (response.code === 200) {
                 } else {
+                    Analytics.recordErr('userInfoUpdateRspErr',response.msg)
                     //console.log('userInfoUpdate err msg:', response.msg)
                 }
             })
             .catch((err) => {
                 this._hideLoading()
+                Analytics.recordErr('userInfoUpdateCatchErr',err)
                 //console.log('userInfoUpdate err:', err)
             })
     }
@@ -267,7 +269,7 @@ class HomeScreen extends BaseComponent {
                 if(type == 2){
                     showToast(I18n.t('toast.net_request_err'))
                 }  
-                Analytics.recordErr('getAllTokensRspErr',response)
+                Analytics.recordErr('getAllTokensRspErr',response.msg)
             }
         }).catch((err) => {
             this._hideLoading()
