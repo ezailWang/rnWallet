@@ -503,7 +503,7 @@ class ItcMappingServiceScreen extends BaseComponent {
                         modalCancelBtn={this.modalCancelBtn}
                         modalConfirmBtn={this.modalConfirmBtn}
                     ></ConfirmMappingModal>
-                    <ImageBackground style={styles.topImg} source={topImg} resizeMode={'center'}>
+                    <ImageBackground style={styles.topImg} source={topImg} resizeMode={'contain'}>
                         <TouchableOpacity activeOpacity={0.6}
                             style={styles.mappingGuideBox}
                             onPress={this._toMappingGuide}>
@@ -520,7 +520,7 @@ class ItcMappingServiceScreen extends BaseComponent {
                             style={styles.changeBox}
                             onPress={this._onChaneAddressPress}>
                             <Text style={styles.changeText}>{I18n.t('mapping.change')}</Text>
-                            <Image style={styles.changeIcon} source={require('../../assets/common/right_gray.png')} resizeMode={'center'} ></Image>
+                            <Image style={styles.changeIcon} source={require('../../assets/common/right_gray.png')} resizeMode={'contain'} ></Image>
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
@@ -666,7 +666,7 @@ class ConfirmMappingModal extends PureComponent {
                                         <TouchableOpacity activeOpacity={0.6}
                                             style={styles.mDetailCancelBtn}
                                             onPress={this.props.modalCancelBtn}>
-                                            <Image style={styles.mDetailCancelIcon} source={require('../../assets/transfer/transfer_cancel.png')} resizeMode={'center'} ></Image>
+                                            <Image style={styles.mDetailCancelIcon} source={require('../../assets/transfer/transfer_cancel.png')} resizeMode={'contain'} ></Image>
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.mVLine}></View>
@@ -731,7 +731,7 @@ class ConfirmMappingModal extends PureComponent {
                                         <TouchableOpacity activeOpacity={0.6}
                                             style={styles.mPwdBackBtn}
                                             onPress={this.toMappingDetail}>
-                                            <Image style={styles.mPwdBackIcon} source={require('../../assets/common/common_back.png')} resizeMode={'center'} ></Image>
+                                            <Image style={styles.mPwdBackIcon} source={require('../../assets/common/common_back.png')} resizeMode={'contain'} ></Image>
                                         </TouchableOpacity>
                                         <Text style={styles.mPwdTitle}>{I18n.t('transaction.wallet_password')}</Text>
                                     </View>

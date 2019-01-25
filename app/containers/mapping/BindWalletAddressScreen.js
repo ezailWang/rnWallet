@@ -333,12 +333,12 @@ class BindWalletAddressScreen extends BaseComponent {
                                 style={styles.topChangeBox}
                                 onPress={this._onChaneAddressPress}>
                                 <Text style={styles.changeText}>{I18n.t('mapping.change')}</Text>
-                                <Image style={styles.changeIcon} source={require('../../assets/common/right_gray.png')} resizeMode={'center'} ></Image>
+                                <Image style={styles.changeIcon} source={require('../../assets/common/right_gray.png')} resizeMode={'contain'} ></Image>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.line}></View>
                         <View style={styles.topConetntBox}>
-                            <Image style={styles.logoIcon} source={require('../../assets/set/itc_icon.png')} resizeMode={'center'} ></Image>
+                            <Image style={styles.logoIcon} source={require('../../assets/set/itc_icon.png')} resizeMode={'contain'} ></Image>
                             <View style={styles.topContent}>
                                 <Text style={styles.topWalletName} >{itcWallet.name}</Text>
                                 <Text style={styles.topWalletAddress} >{_address}</Text>
@@ -405,8 +405,8 @@ class Item extends PureComponent {
                     <Text style={styles.itemAddress}>{_address}</Text>
                 </View>
                 {
-                    bind ? <Image style={styles.itemCheckedImg} source={require('../../assets/mapping/bind_icon.png')} resizeMode={'center'} ></Image> :
-                        <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode={'center'} ></Image>
+                    bind ? <Image style={styles.itemCheckedImg} source={require('../../assets/mapping/bind_icon.png')} resizeMode={'contain'} ></Image> :
+                        <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode={'contain'} ></Image>
                 }
 
             </TouchableOpacity>
@@ -423,7 +423,7 @@ class Footer extends PureComponent {
                 <TouchableOpacity activeOpacity={0.6}
                     style={styles.footerTouch}
                     onPress={this.props.onFooterItem}>
-                    <Image style={styles.footerImg} source={img} resizeMode={'center'} ></Image>
+                    <Image style={styles.footerImg} source={img} resizeMode={'contain'} ></Image>
                 </TouchableOpacity>
                 <Text style={styles.footerTxt}>{I18n.t('mapping.import_erc_wallet')}</Text>
             </View>

@@ -58,7 +58,7 @@ class ChoseItem extends PureComponent {
                 <TouchableOpacity style={[styles.choseItemContent,this.props.choseItemContentStyle]}
                                   onPress = {this.props.itemPress}>
                          <Text style={styles.choseItemText}>{this.props.content}</Text>
-                         <Image style={styles.choseItemIcon} source={checkIcon} resizeMode={'center'}></Image>          
+                         <Image style={styles.choseItemIcon} source={checkIcon} resizeMode={'contain'}></Image>          
                 </TouchableOpacity>  
                 {this.props.isShowLine ? <View style={styles.choseItemLine}></View> : null}                
                 

@@ -343,7 +343,7 @@ class FirstLaunchScreen extends BaseComponent {
                     modalVisible={this.state.isShowRemind}
                     leftPress={() => this.onCancelUse()}
                     rightPress={() => this.onConfirmUse()} />
-                <Image style={styles.logoImg} source={require('../../assets/launch/splash_logo.png')} resizeMode={'center'} />
+                <Image style={styles.logoImg} source={require('../../assets/launch/splash_logo.png')} resizeMode={'contain'} />
                 <View style={styles.btnBox}>
                     <WhiteButtonBig
                         buttonStyle={{ height: 48 }}

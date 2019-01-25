@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   itemNextIcon: {
-    width: 12,
-    height: 18
+    width: 2,
+    height: 3,
   },
   textSize14: {
     fontSize: 14
@@ -153,7 +153,7 @@ class Item extends PureComponent {
             <Image
               style={styles.itemNextIcon}
               source={require("../../assets/set/next.png")}
-              resizeMode={"center"}
+              resizeMode={"contain"}
             />
           </View>
         </TouchableOpacity>

@@ -35,6 +35,14 @@ const styles = StyleSheet.create({
         height: 25,
         width: 25,
     },
+    rightIcon:{
+        height: 20,
+        width: 20,
+    },
+    backWhiteIcon:{
+        height: 16,
+        width: 24,
+    },
     headerButtonBox: {
         height: 40,
         width: 40,
@@ -109,7 +117,7 @@ class BlackBgHeader extends PureComponent {
                 <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]}
                     onPress={() => { this.props.navigation.goBack() }}>
                     <Image style={styles.icon}
-                        resizeMode={'center'}
+                        resizeMode={'contain'}
                         source={require('../assets/common/common_back_white.png')}>
                     </Image>
                 </TouchableOpacity>
@@ -122,7 +130,7 @@ class BlackBgHeader extends PureComponent {
 
                 <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]} onPress={this.props.rightPress}>
                     <Image style={styles.icon}
-                        resizeMode={'center'}
+                        resizeMode={'contain'}
                         source={this.props.rightIcon}>
                     </Image>
                 </TouchableOpacity>
@@ -152,8 +160,8 @@ class TransparentBgHeader extends PureComponent {
             <View style={[styles.transparentBgContainer, { height: height }]}>
                 <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]}
                     onPress={() => { this.props.navigation.goBack() }}>
-                    <Image style={styles.icon}
-                        resizeMode={'center'}
+                    <Image style={styles.backWhiteIcon}
+                        resizeMode={'contain'}
                         source={require('../assets/common/common_back_white.png')}>
                     </Image>
                 </TouchableOpacity>
@@ -166,7 +174,7 @@ class TransparentBgHeader extends PureComponent {
 
                 <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]} onPress={this.props.rightPress}>
                     <Image style={styles.icon}
-                        resizeMode={'center'}
+                        resizeMode={'contain'}
                         source={this.props.rightIcon}>
                     </Image>
                 </TouchableOpacity>
@@ -199,7 +207,7 @@ class WhiteBgHeader extends PureComponent {
                     onPress={this.props.leftPress == undefined ? () => { Keyboard.dismiss(); this.props.navigation.goBack() } : this.props.leftPress}
                 >
                     <Image style={styles.icon}
-                        resizeMode={'center'}
+                        resizeMode={'contain'}
                         source={require('../assets/common/common_back.png')}>
                     </Image>
                 </TouchableOpacity>
@@ -212,8 +220,8 @@ class WhiteBgHeader extends PureComponent {
 
                 <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop, { width: this.props.rightText ? 100 : 40 }]} onPress={this.props.rightPress}>
                     {!this.props.rightText ?
-                        <Image style={styles.icon}
-                            resizeMode={'center'}
+                        <Image style={styles.rightIcon}
+                            resizeMode={'contain'}
                             source={this.props.rightIcon}>
                         </Image>
                         :
@@ -271,7 +279,7 @@ class WhiteBgNoTitleHeader extends Component {
                     onPress={this.props.onPress == undefined ? () => { Keyboard.dismiss(); this.props.navigation.goBack() } : this.props.onPress}>
                     <Image style={styles.icon}
                         //resizeMode={'contain'}
-                        resizeMode={'center'}
+                        resizeMode={'contain'}
                         source={require('../assets/common/common_back.png')}>
                     </Image>
                 </TouchableOpacity>

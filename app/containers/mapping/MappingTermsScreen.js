@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     stepItemBgArrow: {
-        width: 15,
-        height: 24,
+        width: 12,
+        height: 21,
         alignSelf: 'center',
     },
     stepItemTitleBg: {
@@ -242,7 +242,7 @@ class StepItem extends PureComponent {
         return (
             <View style={styles.stepItemBox}>
                 <View style={styles.stepItemTitleBox}>
-                    <Image style={styles.stepItemBgArrow} source={require('../../assets/mapping/leftTriangle.png')} resizeMode={'center'}></Image>
+                    <Image style={styles.stepItemBgArrow} source={require('../../assets/mapping/leftTriangle.png')} resizeMode={'contain'}></Image>
                     <LinearGradient colors={['#3fc1ff', '#66ceff']}
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 1 }}

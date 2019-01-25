@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
         //alignSelf:'center',
     },
     checkImage:{
-        width:18,
-        height:18,
+        width:15,
+        height:15,
         borderRadius:5,
         marginRight:8,
     },
@@ -106,7 +106,7 @@ export default class BackupWalletScreen extends BaseComponent {
             <View style={styles.container}>
                 <WhiteBgHeader  navigation={this.props.navigation} text={I18n.t('launch.backup_wallet')}/>
                 <ScrollView style={styles.contentContainer}>
-                     <Image style={styles.icon} source={require('../../assets/launch/backup.png')} resizeMode={'center'}/>
+                     <Image style={styles.icon} source={require('../../assets/launch/backup.png')} resizeMode={'contain'}/>
     
                      <Text style={styles.blueText}>{I18n.t('launch.why_backup_wallet')}</Text>
                      <Item content={I18n.t('launch.reason_backup_wallet1')}></Item>
@@ -120,7 +120,7 @@ export default class BackupWalletScreen extends BaseComponent {
                 
                      <View style={styles.viewBottom}>
                          <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isReadPress()}>
-                             <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
+                             <Image style={styles.checkImage} source={checkIcon} resizeMode={'contain'} ></Image>
                              <Text style={styles.checkText}>{I18n.t('launch.readed')}</Text>
                          </TouchableOpacity>
                          <BlueButtonBig

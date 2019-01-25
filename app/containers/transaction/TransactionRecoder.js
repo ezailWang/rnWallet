@@ -286,7 +286,7 @@ class Cell extends Component {
           this.props.onPress(this.props.item.index);
         }}
       >
-        <Image style={styles.icon} source={image} resizeMode={"center"} />
+        <Image style={styles.icon} source={image} resizeMode={"contain"} />
         <View style={{ flex: 1 }}>
           <View style={styles.tranContainer}>
             <View style={styles.addressContainer}>
@@ -1036,7 +1036,7 @@ export default class TransactionRecoder extends BaseComponent {
           <Image
             style={{ marginTop: 0 }}
             source={require("../../assets/common/common_back_white.png")}
-            resizeMode={"center"}
+            resizeMode={"contain"}
           />
         </TouchableOpacity>
         <Animated.View

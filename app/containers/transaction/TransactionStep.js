@@ -397,7 +397,7 @@ export default class TransactionStep extends Component {
                             <View style={styles.leftContainer}>
                                 <View style={styles.firstStepTitleView}>
                                     <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
-                                        <Image resizeMode={'center'}
+                                        <Image resizeMode={'contain'}
                                             source={require('../../assets/transfer/transfer_cancel.png')}
                                             style={{ width: 15, height: 15 }}>
                                         </Image>
@@ -428,7 +428,7 @@ export default class TransactionStep extends Component {
                             <View style={styles.rightContainer}>
                                 <View style={[styles.firstStepTitleView, { borderBottomWidth: 0 }]}>
                                     <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
-                                        <Image resizeMode={'center'}
+                                        <Image resizeMode={'contain'}
                                             source={require('../../assets/common/common_back.png')}
                                             style={{ height: 20, width: 20, }}>
                                         </Image>

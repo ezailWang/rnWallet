@@ -604,7 +604,7 @@ class ImportWalletScreen extends BaseComponent {
                             onBlur={() => { this.isPwdFocus = false }}
                         />
                         <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
-                            <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
+                            <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'contain'} />
                         </TouchableOpacity>
                     </View>
                     <Text style={this.state.isShowPwdWarn ? styles.warnTxt : styles.warnTxtHidden}>{this.state.pwdWarn}</Text>
@@ -624,7 +624,7 @@ class ImportWalletScreen extends BaseComponent {
                             onBlur={() => { this.isRePwdFocus = false; this._isShowRePwdWarn() }}
                         />
                         <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenRePwd()}>
-                            <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'center'} />
+                            <Image style={styles.pwdIcon} source={rePwdIcon} resizeMode={'contain'} />
                         </TouchableOpacity>
 
                     </View>

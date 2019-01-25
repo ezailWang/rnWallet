@@ -117,7 +117,7 @@ export default class ServiceAgreementScreen extends BaseComponent {
                      domStorageEnabled={true}
                     />
                 <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={() => this.isAgreePress()}>
-                      <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
+                      <Image style={styles.checkImage} source={checkIcon} resizeMode={'contain'} ></Image>
                       <Text style={styles.checkText}>{I18n.t('launch.agree_service_agreement')}</Text>
                 </TouchableOpacity>
                 <BlueButtonBig

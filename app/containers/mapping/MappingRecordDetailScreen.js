@@ -216,7 +216,7 @@ class MappingRecordDetailScreen extends BaseComponent {
                                 onPress={this.goBackBtn}
                             >
                                 <Image style={styles.backIcon}
-                                    resizeMode={'center'}
+                                    resizeMode={'contain'}
                                     source={require('../../assets/common/common_back_white.png')}>
                                 </Image>
                             </TouchableOpacity>
@@ -289,7 +289,7 @@ class TitleView extends PureComponent {
         let titleIcon = this.props.isCompleted ? require('../../assets/mapping/doneIcon.png') : require('../../assets/mapping/ingIcon.png')
         return (
             <View style={styles.titleView}>
-                <Image style={styles.titleIcon} resizeMode={'center'} source={titleIcon} ></Image>
+                <Image style={styles.titleIcon} resizeMode={'contain'} source={titleIcon} ></Image>
                 <Text style={styles.titleTxt}>{this.props.content}</Text>
             </View>
         )

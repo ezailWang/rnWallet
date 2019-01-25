@@ -166,7 +166,7 @@ class BackButton extends Component {
                 <TouchableOpacity style={[styles.backBtn,backItemStyle]}
                                   onPress = {this.props.onPress}>
                     <Image style={styles.backItem}
-                           resizeMode={'center'}
+                           resizeMode={'contain'}
                            source={require('../assets/common/common_back.png')}>
                     </Image>
                 </TouchableOpacity>
@@ -194,7 +194,7 @@ class BackWhiteButton extends Component {
                 <TouchableOpacity style={[styles.backBtn,backItemStyle]}
                                   onPress = {this.props.onPress}>
                     <Image style={styles.backItem}
-                           resizeMode={'center'}
+                           resizeMode={'contain'}
                            source={require('../assets/common/common_back_white.png')}>
                     </Image>
                 </TouchableOpacity>
@@ -300,7 +300,7 @@ class WhiteButtonMiddle extends Component {
         return (
             <TouchableOpacity style={[styles.normalMiddleBtn,styles.middleWhiteBtn,{flexDirection:"row",alignItems:"center"}]}
                               onPress = { this.props.onPress }>
-                <Image source={this.props.image} style={{marginRight:5,height:20,width:20}} resizeMode={'center'}/>
+                <Image source={this.props.image} style={{marginRight:5,height:20,width:20}} resizeMode={'contain'}/>
                 <Text style={[styles.normalMiddleBtnTitle,styles.middleWhiteBtnTitle]}>{this.props.text}</Text>
             </TouchableOpacity>
         )
@@ -379,7 +379,7 @@ class NextButton extends Component {
         return (
             <TouchableOpacity style={[styles.btnOpacity]} activeOpacity={0.6} onPress = { this.props.onPress }>
                 <Text style={styles.txt}>{this.props.text}</Text>
-                <Image style={styles.icon} source={require('../assets/set/next.png')} resizeMode={'center'}/>
+                <Image style={styles.icon} source={require('../assets/set/next.png')} resizeMode={'contain'}/>
             </TouchableOpacity>
         )
     }
@@ -400,7 +400,7 @@ class HeaderButton extends Component {
                 <TouchableOpacity style={[styles.headerRight,backItemStyle]}
                                   onPress = {this.props.onPress}>
                     <Image style={styles.backItem}
-                           resizeMode={'center'}
+                           resizeMode={'contain'}
                            source={this.props.img}>
                     </Image>
                 </TouchableOpacity>

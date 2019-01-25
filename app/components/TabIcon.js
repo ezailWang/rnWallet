@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
         flex:1,
     },
     icon: {
-        height: 26,
-        width:26,
+        height: 20,
+        width:20,
         alignSelf: 'center',
         margin:0,
         padding:0,
@@ -93,7 +93,7 @@ export default class TabIcon extends PureComponent {
         return (
             <View style={styles.iconBox}>
                 <View style={styles.lfView}></View>
-                <Image style={styles.icon} source={this.props.icon} resizeMode={'center'}></Image>
+                <Image style={styles.icon} source={this.props.icon} resizeMode={'contain'}></Image>
                 <View style={styles.lfView}>
                     {
                         this.props.isShowRedRemind ? 

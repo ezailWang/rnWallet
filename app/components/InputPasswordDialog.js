@@ -149,7 +149,7 @@ export default class InputTextDialog extends Component{
                              onChangeText={this.onChangeText}
                         ></TextInput>
                         <TouchableOpacity style={[styles.pwdBtnOpacity]} activeOpacity={0.6} onPress={() => this.isOpenPwd()}>
-                            <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'center'} />
+                            <Image style={styles.pwdIcon} source={pwdIcon} resizeMode={'contain'} />
                         </TouchableOpacity>
                     </View>
                     

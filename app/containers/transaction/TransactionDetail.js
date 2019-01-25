@@ -75,10 +75,10 @@ const styles = StyleSheet.create({
 
     statusIcon: {
         position: 'absolute',
-        width: 120,
-        height: 120,
+        width: 100,
+        height: 100,
         alignSelf: 'center',
-        marginTop: -60,
+        marginTop: -50,
         zIndex: 10,
     },
 
@@ -288,7 +288,7 @@ export default class TransactionDetail extends BaseComponent {
                                     </View>
                                 </View>
                             </View>
-                            <Image style={styles.statusIcon} source={statusIcon} resizeMode={'center'}></Image>
+                            <Image style={styles.statusIcon} source={statusIcon} resizeMode={'contain'}></Image>
                         </View>
                     </View>
                 </View>

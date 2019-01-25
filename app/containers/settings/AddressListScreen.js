@@ -332,7 +332,7 @@ class AddressListScreen extends BaseComponent {
                 <View style={[styles.headerContainer]}>
                     <TouchableOpacity style={[styles.headerButtonBox]} onPress={() => { this.props.navigation.goBack() }}>
                         <Image style={styles.headerIcon}
-                            resizeMode={'center'}
+                            resizeMode={'contain'}
                             source={require('../../assets/common/common_back.png')}>
                         </Image>
                     </TouchableOpacity>
@@ -353,7 +353,7 @@ class AddressListScreen extends BaseComponent {
                     <TouchableOpacity style={[styles.headerButtonBox]} onPress={isCheckedContactList ? this.addContact : () => { }}>
                         {isCheckedContactList ?
                             <Image style={styles.headerIcon}
-                                resizeMode={'center'}
+                                resizeMode={'contain'}
                                 source={require('../../assets/set/add.png')}>
                             </Image> : null}
                     </TouchableOpacity>

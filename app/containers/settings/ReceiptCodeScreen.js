@@ -234,7 +234,7 @@ class ReceiptCodeScreen extends BaseComponent {
                 />
                 <View style={styles.contentContainer}>
                     <View style={styles.contentBox}>
-                        <Image style={styles.logoIcon} source={require('../../assets/set/logoWhiteBg.png')} resizeMode={'center'}></Image>
+                        <Image style={styles.logoIcon} source={require('../../assets/set/logoWhiteBg.png')} resizeMode={'contain'}></Image>
                         <View style={styles.qrCodeBox}>
 
                             <Text style={styles.titleTxt}>{this.props.wallet.name}</Text>

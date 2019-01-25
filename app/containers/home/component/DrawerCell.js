@@ -23,7 +23,7 @@ class DrawerCell extends Component {
                 <Image
                     style={styles.image}
                     source={this.props.imageSource}
-                    resizeMode={'center'}
+                    resizeMode={'contain'}
                 />
                 <Text
                     style={styles.text}
@@ -54,7 +54,7 @@ class DrawerCellReminder extends Component {
                 <Image
                     style={styles.imageMessage}
                     source={this.props.imageSource}
-                    resizeMode={'center'}
+                    resizeMode={'contain'}
                 />
                 <Text
                     style={styles.text}

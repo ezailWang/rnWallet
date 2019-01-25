@@ -193,7 +193,7 @@ class ItemHeader extends PureComponent {
             <View style={styles.itemHeaderBox}>
                 <View activeOpacity={0.6}
                     style={styles.itemHeaderView}>
-                    <Image style={styles.itemHeaderIcon} source={icon} resizeMode={'center'} />
+                    <Image style={styles.itemHeaderIcon} source={icon} resizeMode={'contain'} />
                     <Text style={styles.itemHeaderText}>{this.props.text}</Text>
                 </View>
                 <View style={styles.itemHeaderLine}></View>
@@ -280,8 +280,8 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     itemHeaderIcon: {
-        height: 30,
-        width: 30,
+        height: 20,
+        width: 20,
     },
     itemHeaderText: {
         fontSize: 15,

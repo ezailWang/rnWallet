@@ -465,7 +465,7 @@ class VerifyMnemonicScreen extends BaseComponent {
                     content={this.state.sLoadingContent}
                 ></StaticLoading>
                 <View style={styles.contentContainer}>
-                    <Image style={styles.icon} source={require('../../assets/launch/confirmWordIcon.png')} resizeMode={'center'} />
+                    <Image style={styles.icon} source={require('../../assets/launch/confirmWordIcon.png')} resizeMode={'contain'} />
                     <Text style={styles.titleTxt}>{I18n.t('launch.confirm_mnemonic')}</Text>
                     <Text style={styles.contentTxt}>{I18n.t('launch.confirm_mnemonic_prompt')}</Text>
 

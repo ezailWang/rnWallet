@@ -155,7 +155,7 @@ class BackupMnemonicScreen extends BaseComponent {
                     onPress={() => this.onCloseModal()}
                 />
                 <View style={styles.contentBox}>
-                    <Image style={styles.icon} source={require('../../assets/launch/backupWordIcon.png')} resizeMode={'center'} />
+                    <Image style={styles.icon} source={require('../../assets/launch/backupWordIcon.png')} resizeMode={'contain'} />
                     <Text style={styles.titleTxt}>{I18n.t('launch.backup_mnemonic')}</Text>
                     <Text style={styles.contentTxt}>{I18n.t('launch.backup_mnemonic_prompt')}</Text>
                     {/*<Text style={styles.mnemonicTxt}>{this.props.mnemonic}</Text> */}

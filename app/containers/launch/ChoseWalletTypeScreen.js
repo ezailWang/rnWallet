@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
         alignSelf:'center'
     },
     itemIcon:{
-        width:40,
-        height:40,
+        width:33,
+        height:32,
     },
     itemContent:{
         flex:1,
@@ -96,9 +96,9 @@ class Item extends PureComponent {
         let icon = this.props.icon
         return (
             <TouchableOpacity style={styles.itemBox} activeOpacity={0.6} onPress={this.props.itemPress}>
-                <Image style={styles.itemIcon} source={icon} resizeMode={'center'} ></Image>
+                <Image style={styles.itemIcon} source={icon} resizeMode={'contain'} ></Image>
                 <Text style={styles.itemContent}>{this.props.content}</Text>
-                <Image style={styles.itemNext} source={require('../../assets/set/next.png')} resizeMode={'center'} ></Image>
+                <Image style={styles.itemNext} source={require('../../assets/set/next.png')} resizeMode={'contain'} ></Image>
             </TouchableOpacity>
         )
     }

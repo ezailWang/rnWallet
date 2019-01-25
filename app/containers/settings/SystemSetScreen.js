@@ -255,7 +255,7 @@ class Item extends PureComponent{
                          <Text style={styles.itemTitle}>{this.props.title}</Text>
                          <View style={styles.itemRightBox}>
                              <Text style={styles.itemContent}>{this.props.content}</Text>
-                             <Image style={styles.itemImage} source={require('../../assets/set/next.png')} resizeMode={'center'}></Image>
+                             <Image style={styles.itemImage} source={require('../../assets/set/next.png')} resizeMode={'contain'}></Image>
                          </View>
                 </TouchableOpacity>
                 <View style={styles.itemLine}></View>

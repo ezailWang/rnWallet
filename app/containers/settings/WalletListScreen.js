@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         marginTop: 12,
     },
     itemHeaderIcon: {
-        width: 30,
-        height: 30,
+        width: 20,
+        height: 20,
     },
     itemHeaderTitle: {
         flex: 1,
@@ -193,7 +193,7 @@ class ItemHeader extends PureComponent {
 
         return (
             <View style={styles.itemHeaderBox}>
-                <Image style={styles.itemHeaderIcon} source={this.props.icon} resizeMode={'center'}></Image>
+                <Image style={styles.itemHeaderIcon} source={this.props.icon} resizeMode={'contain'}></Image>
                 <Text style={styles.itemHeaderTitle}>{this.props.title}</Text>
 
                 {
@@ -244,7 +244,7 @@ class Item extends PureComponent {
                         <Text style={styles.itemAddress}>{address}</Text>
                     </View>
 
-                    <Image style={styles.itemNextIcon} source={require('../../assets/set/next.png')} resizeMode={'center'}></Image>
+                    <Image style={styles.itemNextIcon} source={require('../../assets/set/next.png')} resizeMode={'contain'}></Image>
                 </TouchableOpacity>
                 {
                     this.props.isNeedLine ? <View style={styles.itemLine}></View> : null
