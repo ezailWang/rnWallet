@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
   icon: {
     marginLeft: 21,
     alignSelf: "center",
-    width: 22,
-    height: 22
+    width: 14,
+    height: 13
   },
   addressContainer: {
     width: Layout.WINDOW_WIDTH * 0.4,
@@ -1036,7 +1036,7 @@ export default class TransactionRecoder extends BaseComponent {
           <Image
             style={{ marginTop: 0 }}
             source={require("../../assets/common/common_back_white.png")}
-            resizeMode={"contain"}
+            resizeMode={"center"}
           />
         </TouchableOpacity>
         <Animated.View

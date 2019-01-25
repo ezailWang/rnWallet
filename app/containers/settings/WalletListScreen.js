@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
         color: Colors.fontGrayColor_a,
     },
     itemNextIcon: {
-        width: 12,
-        height: 18,
+        width: 8,
+        height: 12,
     },
     itemLine: {
         width: Layout.WINDOW_WIDTH,

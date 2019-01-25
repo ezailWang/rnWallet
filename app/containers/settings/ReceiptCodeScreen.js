@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
     },
     logoIcon: {
         position: 'absolute',
-        width: 120,
-        height: 120,
+        width: 100,
+        height: 100,
         alignSelf: 'center',
-        marginTop: -30,
+        marginTop: -20,
         zIndex: 10,
     },
     titleTxt: {
@@ -121,11 +121,12 @@ class ReceiptCodeScreen extends BaseComponent {
         this._setStatusBarStyleLight()
         this.state = {
             qrcodeLoading: true,
-            modalVisible: false,
             isNotRemind: false,
             isMainNetwork: true,
+            ethWarnModalVisible: false,
+            itcWarnModalVisible: false,
         }
-
+        this.isRemindAgainArray = [];
     }
 
     componentWillMount() {
@@ -139,45 +140,60 @@ class ReceiptCodeScreen extends BaseComponent {
     }
 
 
-    _initData() {
-
-        const { network } = store.getState().Core;
-        if (network == Network.main) {
-            this.setState({
-                isMainNetwork: true,
-                modalVisible: false,
-            })
+    async _initData() {
+        const { wallet, network } = this.props;
+        const remindAgain = await StorageManage.load(StorageKey.NotRemindAgainTestITC);
+        if (remindAgain) {
+          this.isRemindAgainArray = remindAgain;
         } else {
-            this.setState({
-                isMainNetwork: false,
-            })
-            this.getIsRemindAgain()
+          this.isRemindAgainArray = [];
         }
-
-
+    
+        if (wallet.type === 'itc') {
+          const index = remindAgain ? remindAgain.findIndex(item => item.type === 'itcTestWarn') : -1;
+          if (index === -1) {
+            this.setState({
+              itcWarnModalVisible: true,
+            });
+          } else {
+            this.setState({
+              itcWarnModalVisible: !remindAgain[index].isRemindAgain,
+            });
+          }
+        } else if (wallet.type === 'eth') {
+            console.log('L_network',network + '----' + Network.main)
+          if (network !== Network.main) {
+              const index = remindAgain ? remindAgain.findIndex(item => item.type === 'ethTestWarn') : -1;
+            this.setState({
+              isMainNetwork: true,
+              ethWarnModalVisible: index === -1 ? true : !remindAgain[index].isRemindAgain,
+            });
+          }
+        }
+    
         InteractionManager.runAfterInteractions(() => {
-            if (this._isMounted) {
-                this.setState({ qrcodeLoading: false })
-                if (this.props.firstQR) {
-                    store.dispatch(setFirstQR())
-                }
+          if (this._isMounted) {
+            this.setState({ qrcodeLoading: false });
+            if (this.props.firstQR) {
+              store.dispatch(setFirstQR());
             }
-        })
+          }
+        });
     }
 
     scanClick = async () => {
-        //const {navigate} = this.props.navigation;//页面跳转
-        //navigation('页面');
-        var isAgree = true;
-        if (Platform.OS === 'android') {
-            isAgree = await androidPermission(PermissionsAndroid.PERMISSIONS.CAMERA);
-        }
+        // const {navigate} = this.props.navigation;//页面跳转
+    // navigation('页面');
+    let isAgree = true;
+    if (Platform.OS === 'android') {
+      isAgree = await androidPermission(PermissionsAndroid.PERMISSIONS.CAMERA);
+    }
 
-        if (isAgree) {
-            this.props.navigation.navigate('ScanQRCode')
-        } else {
-            this._showAlert(I18n.t('modal.permission_camera'))
-        }
+    if (isAgree) {
+      this.props.navigation.navigate('ScanQRCode');
+    } else {
+      this._showAlert(I18n.t('modal.permission_camera'));
+    }
     }
 
     copyAddress() {
@@ -186,33 +202,55 @@ class ReceiptCodeScreen extends BaseComponent {
         showToast(I18n.t('toast.copied'));
     }
 
-    async getIsRemindAgain() {
-        var key = StorageKey.NotRemindAgainTestITC
-        var remindAgain = await StorageManage.load(key);
-        this.setState({
-            modalVisible: remindAgain == null ? true : !remindAgain.isRemindAgain
-        })
-    }
-
-    onCloseModal() {
-        var object = {
-            name: 'testWarn',
-            isRemindAgain: this.state.isNotRemind
+    onCloseEthWarnModal() {
+        const object = {
+          type: 'ethTestWarn',
+          isRemindAgain: this.state.isNotRemind,
+        };
+    
+        const index = this.isRemindAgainArray
+          ? this.isRemindAgainArray.findIndex(item => item.type === 'ethTestWarn')
+          : -1;
+    
+        if (index === -1) {
+          this.isRemindAgainArray = this.isRemindAgainArray.concat(object);
+        } else {
+          this.isRemindAgainArray.splice(index, 1, object);
         }
-
-        var key = StorageKey.NotRemindAgainTestITC
-        StorageManage.save(key, object)
-        this.setState({ modalVisible: false });
-    }
-    _closeModal() {
-        this.setState({ modalVisible: false });
-    }
-
-    notRemindPress() {
-        this.setState({
-            isNotRemind: !this.state.isNotRemind
-        })
-    }
+    
+        const key = StorageKey.NotRemindAgainTestITC;
+        StorageManage.save(key, this.isRemindAgainArray);
+    
+        this.setState({ ethWarnModalVisible: false });
+      }
+    
+      onCloseItcWarnModal() {
+        const object = {
+          type: 'itcTestWarn',
+          isRemindAgain: this.state.isNotRemind,
+        };
+    
+        const index = this.isRemindAgainArray
+          ? this.isRemindAgainArray.findIndex(item => item.type === 'itcTestWarn')
+          : -1;
+    
+        if (index === -1) {
+          this.isRemindAgainArray = this.isRemindAgainArray.concat(object);
+        } else {
+          this.isRemindAgainArray.splice(index, 1, object);
+        }
+    
+        const key = StorageKey.NotRemindAgainTestITC;
+        StorageManage.save(key, this.isRemindAgainArray);
+    
+        this.setState({ itcWarnModalVisible: false });
+      }
+    
+      notRemindPress() {
+        this.setState(prevState => ({
+          isNotRemind: !prevState.isNotRemind,
+        }));
+      }
 
     renderComponent() {
         return (
@@ -222,16 +260,25 @@ class ReceiptCodeScreen extends BaseComponent {
                                 /**rightPress = {()=>this.scanClick()}
                                 rightIcon= {require('../../assets/common/scanIcon.png')}**//>
 
-                <ScreenshotWarn
-                    content={I18n.t('modal.itc_test_warn1')}
-                    content1={I18n.t('modal.itc_test_warn2')}
-                    btnText={I18n.t('modal.i_know')}
-                    modalVisible={this.state.modalVisible}
-                    onPress={() => this.onCloseModal()}
-                    isShowNotRemindBtn={true}
-                    isNotRemind={!this.state.isNotRemind}
-                    notRemindPress={() => this.notRemindPress()}
-                />
+<ScreenshotWarn
+        content={I18n.t('modal.itc_test_warn1')}
+        content1={I18n.t('modal.itc_test_warn2')}
+        btnText={I18n.t('modal.i_know')}
+        modalVisible={this.state.ethWarnModalVisible}
+        onPress={() => this.onCloseEthWarnModal()}
+        isShowNotRemindBtn
+        isNotRemind={!this.state.isNotRemind}
+        notRemindPress={() => this.notRemindPress()}
+      />
+      <ScreenshotWarn
+        content={I18n.t('modal.itc_wallet_test_warn')}
+        btnText={I18n.t('modal.i_know')}
+        modalVisible={this.state.itcWarnModalVisible}
+        onPress={() => this.onCloseItcWarnModal()}
+        isShowNotRemindBtn
+        isNotRemind={!this.state.isNotRemind}
+        notRemindPress={() => this.notRemindPress()}
+      />
                 <View style={styles.contentContainer}>
                     <View style={styles.contentBox}>
                         <Image style={styles.logoIcon} source={require('../../assets/set/logoWhiteBg.png')} resizeMode={'contain'}></Image>
@@ -276,13 +323,12 @@ class ReceiptCodeScreen extends BaseComponent {
                             </TouchableOpacity>
                         </ImageBackground>
 
-                        {
-                            this.state.isMainNetwork ? null :
-                                <View style={styles.itcBox}>
-                                    <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>
-                                    <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text>
-                                </View>
-                        }
+                        {this.state.isMainNetwork ? null : (
+            <View style={styles.itcBox}>
+              <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>
+              <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text>
+            </View>
+          )}
 
                     </View>
                 </View>
@@ -296,7 +342,8 @@ class ReceiptCodeScreen extends BaseComponent {
 
 const mapStateToProps = state => ({
     wallet: state.Core.wallet,
-    firstQR: state.Core.firstQR
+    firstQR: state.Core.firstQR,
+    network: state.Core.network,
 });
 
 export default connect(mapStateToProps, {})(ReceiptCodeScreen)

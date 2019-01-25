@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
         marginRight:20,
     },
     itemImage:{
-        width:20,
+        width:8,
+        height:12,
     },
     itemLine:{
         height:1,

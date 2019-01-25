@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     icon: {
-        height: 25,
-        width: 25,
+        height: 20,
+        width: 20,
     },
     rightIcon:{
         height: 20,

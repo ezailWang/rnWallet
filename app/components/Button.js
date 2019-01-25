@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
         textAlign:'left',
     },
     icon:{
-        width:10,
+        width: 8,
+        height: 12,
     },
 
     whiteBorderBtn:{

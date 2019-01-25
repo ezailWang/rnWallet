@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         fontSize:16,
     },
     choseItemIcon:{
-        width:40,
-        height:40,
+        width:13,
+        height:9,
     },
     choseItemLine:{
         height:1,

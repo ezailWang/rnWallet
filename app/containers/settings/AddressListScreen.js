@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     headerIcon: {
-        height: 25,
-        width: 25,
+        height: 20,
+        width: 20,
     },
     headerTitleLeft: {
         borderTopLeftRadius: 5,
