@@ -138,6 +138,16 @@ class ReceiptCodeScreen extends BaseComponent {
     this.isRemindAgainArray = [];
   }
 
+  componentWillMount() {
+    super.componentWillMount();
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    super.componentWillUnmount();
+  }
+
   _initData = async () => {
     const { wallet, network } = this.props;
     const remindAgain = await StorageManage.load(StorageKey.NotRemindAgainTestITC);

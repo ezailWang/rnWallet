@@ -360,7 +360,7 @@
         "open_touch_id":"是否开启Touch ID?",
 
         "vertify_self":"身份验证",
-        "authentication_required":"Autorizacion Requerida",
+        "authentication_required":"必要认证",
 
         "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
         "itc_test_warn1":"请勿于测试期间在钱包上存储您的资产。",

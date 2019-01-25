@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.fontBlackColor_31,
-    marginBottom: 15,
+    marginBottom: 20,
   },
   contentTxt: {
     fontSize: 16,

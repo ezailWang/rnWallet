@@ -285,7 +285,7 @@ class AddTokenScreen extends BaseComponent {
         keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
         renderItem={this._renderItem}
         ItemSeparatorComponent={this._renderItemSeparatorComponent}
-        getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index })}
+        getItemLayout={(datas, i) => ({ length: 72, offset: (72 + 2) * i, index: i })}
       />
     </View>
   );

@@ -90,7 +90,6 @@ export default class BaseComponent extends PureComponent {
         JPushModule.addReceiveOpenNotificationListener((map)=>{
             this.props.navigation.navigate('MessageCenter');
         }) */
-
     this._addEventListener();
   }
 

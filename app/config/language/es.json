@@ -41,7 +41,6 @@
         "repeat_new_password":"Repetir nueva contraseña",
         "enter_password":"Por favor introduce tu contraseña",
 
-       
         "password_warn":"Las contraseñas tienen que tener una longitud de al menos 8 caracteres, además de contener 3 de las 4 normas siguientes: Una mayúscula, una minúscula, un número y un símbolo.",
         "password_warn_least_8":"La contraseña tiene que estar compuesta al menos por una longitud de 8 caracteres. ",
         "password_warn_1":"Las contraseñas tienen que contener al menos una minúscula, un número y un símbolo.",
@@ -62,6 +61,7 @@
         "start_import_wallet":"Importing wallet",
         "generating_key_pairs":"Generating public & private keys",
         "generating_keystore_file":"Generating keystore"
+
     },
     "home":{
         "tab_wallet":"Wallet",
@@ -201,7 +201,6 @@
 
         "delete_wallet":"Eliminar monedero",
         "confirm_delete_wallet":"¿Estás seguro de que deseas eliminar el monedero?",
-
 
         "input_token_name":"Introduzca el nombre del activo",
         "add":"Añadir",
@@ -359,14 +358,11 @@
         "vertify_self":"Autenticación por huella",
         "authentication_required":"Autenticación requerida",
 
-        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
+        "itc_wallet_test_warn":"Swap Service has not been activated yet. Please do not transfer your current ERC20 ITC to the ITC wallet address.",
         "itc_test_warn1":"No almacenes tus activos en el monedero durante el periodo de prueba",
         "itc_test_warn2":"ITC coin es una moneda de prueba, no se puede usar como criptomoneda",
         "not_remind_again":"No volver a mostrar este mensaje.",
 
         "prompt":"Observación"
-
-
-
     }
 }

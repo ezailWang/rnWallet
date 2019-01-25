@@ -97,6 +97,16 @@ class SetScreen extends BaseComponent {
     this.inputPasswordDialog = React.createRef();
   }
 
+  componentWillMount() {
+    super.componentWillMount();
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    super.componentWillUnmount();
+  }
+
   _initData = () => {
     const mWallet = this.props.navigation.state.params.wallet;
     this.isCurrentWallet =

@@ -257,21 +257,24 @@ export default class TransactionStep extends Component {
   // 保存最近转账的地址
   async saveRecentAddress() {
     const { toAddress, totalAmount } = this.state;
-    const symbol = totalAmount.split(' ')[1];
-    const time = TransactionStep.getCurrentTime();
+    const _symbol = totalAmount.split(' ')[1];
+    const _currentTime = TransactionStep.getCurrentTime();
     const { tokens } = store.getState().Core;
-    let iconLargeStr = '';
+    let _iconLargeStr = '';
     for (let i = 0; i < tokens.length; i++) {
-      if (symbol.toUpperCase() === tokens[i].symbol.toUpperCase()) {
+      if (_symbol.toUpperCase() === tokens[i].symbol.toUpperCase()) {
         const { iconLarge } = tokens[i];
-        iconLargeStr = iconLarge;
+        _iconLargeStr = iconLarge;
         break;
       }
     }
 
-    const recentTransferAddress = await StorageManage.loadAllDataForKey(
+    let recentTransferAddress = await StorageManage.loadAllDataForKey(
       StorageKey.RecentTransferAddress
     );
+    if (!recentTransferAddress) {
+      recentTransferAddress = [];
+    }
     let isSavedAddress = false;
     for (let i = 0; i < recentTransferAddress.length; i++) {
       if (recentTransferAddress[i].address.toUpperCase() === toAddress.toUpperCase()) {
@@ -280,17 +283,17 @@ export default class TransactionStep extends Component {
       }
     }
 
-    const id = toAddress; // 用地址作为存储的id
+    const keyId = toAddress; // 用地址作为存储的id
     const object = {
-      toAddress,
-      symbol,
-      time,
-      iconLargeStr,
+      address: toAddress,
+      symbol: _symbol,
+      time: _currentTime,
+      iconLargeStr: _iconLargeStr,
     };
     if (isSavedAddress) {
-      StorageManage.remove(StorageKey.RecentTransferAddress, id);
+      StorageManage.remove(StorageKey.RecentTransferAddress, keyId);
     }
-    StorageManage.save(StorageKey.RecentTransferAddress, object, id);
+    StorageManage.save(StorageKey.RecentTransferAddress, object, keyId);
     // let recentTransferAddressss = await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress)
   }
 

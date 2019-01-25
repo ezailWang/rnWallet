@@ -10,8 +10,8 @@ import {
   DeviceEventEmitter,
   Platform,
 } from 'react-native';
-import { connect } from 'react-redux';
 import JPushModule from 'jpush-react-native';
+import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage';
 import * as Actions from '../../config/action/Actions';
 import { Colors, StorageKey } from '../../config/GlobalConfig';
@@ -97,6 +97,26 @@ const styles = StyleSheet.create({
     color: Colors.fontGrayColor_a,
     textAlign: 'center',
   },
+  loadMoreBox: {
+    width: Layout.WINDOW_WIDTH * 0.9,
+    height: 80,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  loadMoreTouch: {
+    height: 40,
+    width: Layout.WINDOW_WIDTH * 0.6,
+    borderWidth: 1,
+    borderColor: Colors.bgGrayColor_ed,
+    alignSelf: 'center',
+  },
+  loadMoreText: {
+    textAlign: 'center',
+    height: 40,
+    lineHeight: 40,
+    fontSize: 14,
+    color: Colors.fontBlackColor_43,
+  },
 });
 
 class MessageCenterScreen extends BaseComponent {
@@ -109,23 +129,32 @@ class MessageCenterScreen extends BaseComponent {
     };
 
     this.page = 1;
-    this.pageCount = 600; // 每页显示的10条数据
+    this.pageCount = 20; // 每页显示的10条数据
     this.haveNextPage = true; // 是否还有下一页
     this.callBackIsNeedRefresh = true;
 
     // this.unReadMessageCount = 0;
     this.userToken = {};
-    this.flatList = React.createRef();
   }
 
-  _initData = async () => {
+  componentWillMount() {
+    super.componentWillMount();
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    super.componentWillUnmount();
+  }
+
+  async _initData() {
     // this.unReadMessageCount = this.props.navigation.state.params.newMessageCounts;
     this.userToken = await StorageManage.load(StorageKey.UserToken);
     if (!this.userToken || this.userToken === null) {
       return;
     }
     this.loadData(true);
-  };
+  }
 
   async loadData(isShowLoading) {
     if (isShowLoading) {
@@ -174,13 +203,10 @@ class MessageCenterScreen extends BaseComponent {
               data: prevState.data.concat(meaasges),
             }));
           }
-        } else {
-          console.log('getMessageList err msg:', response.msg);
         }
         this._hideLoading();
       })
-      .catch(err => {
-        console.log('getMessageList err:', err);
+      .catch(() => {
         this._hideLoading();
       });
   }
@@ -214,17 +240,18 @@ class MessageCenterScreen extends BaseComponent {
     }
   };
 
-  _onLoadMore = () => {
+  _onLoadMore = async () => {
     if (!this.userToken || this.userToken === null) {
       return;
     }
     // 不处于正在加载更多 && 有下拉刷新过，因为没数据的时候 会触发加载
-    if (!this.state.isLoadMoreing && this.haveNextPage) {
+    // if (!this.state.isLoadMoreing && this.haveNextPage) {
+    if (this.haveNextPage) {
       this.setState({
         isLoadMoreing: true,
       });
       this.page = this.page + 1;
-      this.loadData(true);
+      await this.loadData(true);
 
       this.setState({
         isLoadMoreing: true,
@@ -270,7 +297,6 @@ class MessageCenterScreen extends BaseComponent {
         }
       })
       .catch(() => {
-        // console.log('_readMessage err:', err)
         this._hideLoading();
       });
   };
@@ -290,15 +316,14 @@ class MessageCenterScreen extends BaseComponent {
           const messageCount = response.data.account;
           // ios
           if (Platform.OS === 'ios') {
-            JPushModule.setBadge(messageCount /* success => {} */);
+            JPushModule.setBadge(messageCount, () => {});
           }
-          DeviceEventEmitter.emit('messageCount', { messageCount });
-        } else {
-          console.log('getMessageCounts err msg:', response.msg);
+          DeviceEventEmitter.emit('messageCount', {
+            messageCount,
+          });
         }
       })
-      .catch(err => {
-        console.log('getMessageCounts err:', err);
+      .catch(() => {
         this._hideLoading();
       });
   }
@@ -328,16 +353,15 @@ class MessageCenterScreen extends BaseComponent {
             iconLarge: token.iconLarge,
             symbol: token.symbol,
             name: token.name,
-            decimal: token.decimal,
+            decimal: parseInt(token.decimal, 10),
             address: token.address,
           };
           break;
         }
       }
-
       if (isMatchToken) {
-        // await this.saveTokenToStorage(tokenInfo);
-        // await NetworkManager.loadTokenList();
+        // await this.saveTokenToStorage(tokenInfo)
+        // await NetworkManager.loadTokenList()
         this.props.addToken(tokenInfo);
         await NetworkManager.getTokensBalance();
         await this.routeToTransactionRecoder(item);
@@ -351,56 +375,57 @@ class MessageCenterScreen extends BaseComponent {
     const itemSymbol = item.symbol.toUpperCase();
     const { tokens } = this.props;
     let isHaveToken = false;
-    let balanceInfo = null;
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
       if (token.symbol.toUpperCase() === itemSymbol) {
         isHaveToken = true;
-        balanceInfo = {
+        const balanceInfo = {
           amount: token.balance,
           price: token.price,
           symbol: token.symbol,
           address: token.address,
           decimal: token.decimal,
         };
+        this.props.setCoinBalance(balanceInfo);
+
+        /* let transation = await NetworkManager.getTransaction(item.hashId);
+
+        let status = 2;
+        if (transation.isError == undefined || transation.isError == false) {
+          status = 0;
+        }
+        if (status == 0) {
+          let currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
+          if (currentBlockNumber - transation.blockNumber < 12) {
+            status = 1;
+          }
+        } */
+
+        // let address = transation.to.toLowerCase() == this.props.wallet.address.toLowerCase() ? transation.from : transation.to
+        const address =
+          item.fromAddress === this.props.wallet.address.toLowerCase()
+            ? item.fromAddress
+            : item.toAddress;
+        const transactionDetail = {
+          amount: parseFloat(item.transactionValue),
+          transactionType: item.symbol.toUpperCase(),
+          tranStatus: item.status === 2 ? 2 : 0,
+          fromAddress: item.fromAddress, // transation.from,
+          toAddress: item.toAddress, // transation.to,
+          gasPrice: '',
+          transactionHash: item.hashId, // transation.hash,
+          blockNumber: '', // transation.blockNumber,
+          transactionTime: `${item.updateTime} +0800`,
+          remark: I18n.t('transaction.no'),
+          name: addressToName(address, this.props.contactList),
+        };
+
+        this._hideLoading();
+        this.props.setTransactionDetailParams(transactionDetail);
+        this.props.navigation.navigate('TransactionDetail');
+
         break;
       }
-    }
-
-    if (isHaveToken) {
-      this.props.setCoinBalance(balanceInfo);
-      const currentBlockNumber = await NetworkManager.getCurrentBlockNumber();
-      const transation = await NetworkManager.getTransaction(item.hashId);
-      let status = 2;
-      if (transation.isError === undefined || transation.isError === false) {
-        status = 0;
-      }
-      if (status === 0) {
-        if (currentBlockNumber - transation.blockNumber < 12) {
-          status = 1;
-        }
-      }
-      const address =
-        item.fromAddress === this.props.wallet.address.toLowerCase()
-          ? item.fromAddress
-          : item.toAddress;
-      const transactionDetail = {
-        amount: parseFloat(item.transactionValue),
-        transactionType: item.symbol.toUpperCase(),
-        tranStatus: status,
-        fromAddress: item.fromAddress, // transation.from,
-        toAddress: item.toAddress, // transation.to,
-        gasPrice: '',
-        transactionHash: item.hashId, // transation.hash,
-        blockNumber: transation.blockNumber,
-        transactionTime: `${item.updateTime} +0800`,
-        remark: I18n.t('transaction.no'),
-        name: addressToName(address, this.props.contactList),
-      };
-
-      this._hideLoading();
-      this.props.setTransactionDetailParams(transactionDetail);
-      this.props.navigation.navigate('TransactionDetail');
     }
     return isHaveToken;
   }
@@ -410,9 +435,7 @@ class MessageCenterScreen extends BaseComponent {
     this.props.navigation.navigate('MessageWebView', {
       url: item.contentUrl,
       title: item.alertTitle,
-      callback() {
-        // console.log('callback', data);
-      },
+      callback() {},
     });
   }
 
@@ -431,37 +454,17 @@ class MessageCenterScreen extends BaseComponent {
           // JPushModule.clearAllNotifications();
           // ios
           if (Platform.OS === 'ios') {
-            JPushModule.setBadge(0 /* , success => { } */);
+            JPushModule.setBadge(0, () => {});
           }
           DeviceEventEmitter.emit('messageCount', { messageCount: 0 });
           this._onRefresh(false);
-        } else {
-          // console.log('readAllMessage err msg:', response.msg)
         }
         this._hideLoading();
       })
       .catch(() => {
-        // console.log('readAllMessage err:', err)
         this._hideLoading();
       });
   };
-
-  /* async saveTokenToStorage(token) {
-    const key = StorageKey.Tokens + this.props.wallet.address;
-    let localTokens = await StorageManage.load(key);
-    if (!localTokens) {
-      localTokens = [];
-    }
-
-    localTokens.push({
-      iconLarge: token.iconLarge,
-      symbol: token.symbol,
-      name: token.name,
-      decimal: parseInt(token.decimal, 10),
-      address: token.address,
-    });
-    StorageManage.save(key, localTokens);
-  } */
 
   // 自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
@@ -479,7 +482,17 @@ class MessageCenterScreen extends BaseComponent {
   );
 
   _listFooterView = () =>
-    this.haveNextPage ? null : (
+    this.haveNextPage ? (
+      <View style={styles.loadMoreBox}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={styles.loadMoreTouch}
+          onPress={this._onLoadMore}
+        >
+          <Text style={styles.loadMoreText}>Load more</Text>
+        </TouchableOpacity>
+      </View>
+    ) : (
       <View style={styles.listFooter}>
         <Text style={styles.listFooterText}>{I18n.t('settings.no_more_data')}</Text>
       </View>
@@ -487,37 +500,44 @@ class MessageCenterScreen extends BaseComponent {
 
   _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem(item)} />;
 
-  renderComponent = () => (
-    <View style={styles.container}>
-      <WhiteBgHeader
-        navigation={this.props.navigation}
-        text={I18n.t('settings.message_center')}
-        leftPress={() => this.backPressed()}
-        rightPress={() => this._readAll()}
-        rightText={I18n.t('settings.read_all')}
-      />
-      <FlatList
-        style={styles.listContainer}
-        ref={this.flatList}
-        data={this.state.data}
-        keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-        renderItem={this._renderItem}
-        ListEmptyComponent={this._renderEmptyView}
-        ItemSeparatorComponent={this._renderItemSeparatorComponent}
-        getItemLayout={(data, index) => ({ length: 80, offset: (80 + 1) * index, index })}
-        refreshControl={
-          <RefreshControl
-            onRefresh={this._pulldownRefresh} // 下拉刷新
-            refreshing={this.state.isRefreshing}
-            colors={[Colors.themeColor]}
-            tintColor={Colors.whiteBackgroundColor}
-          />
-        }
-        onEndReachedThreshold={0.1}
-        onEndReached={this._onLoadMore} // 加载更多
-      />
-    </View>
-  );
+  renderComponent() {
+    const { data, isRefreshing } = this.state;
+    return (
+      <View style={styles.container}>
+        <WhiteBgHeader
+          navigation={this.props.navigation}
+          text={I18n.t('settings.message_center')}
+          leftPress={() => this.backPressed()}
+          rightPress={() => this._readAll()}
+          rightText={I18n.t('settings.read_all')}
+        />
+        <FlatList
+          style={styles.listContainer}
+          data={data}
+          keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
+          renderItem={this._renderItem}
+          ListEmptyComponent={this._renderEmptyView}
+          ItemSeparatorComponent={this._renderItemSeparatorComponent}
+          getItemLayout={(d, i) => ({
+            length: 80,
+            offset: (80 + 1) * i,
+            index: i,
+          })}
+          refreshControl={
+            <RefreshControl
+              onRefresh={this._pulldownRefresh} // 下拉刷新
+              refreshing={isRefreshing}
+              colors={[Colors.themeColor]}
+              tintColor={Colors.whiteBackgroundColor}
+            />
+          }
+          // onEndReachedThreshold={0.1}
+          // onEndReached={this._onLoadMore} //加载更多
+          ListFooterComponent={data && data.length > 0 ? this._listFooterView : null}
+        />
+      </View>
+    );
+  }
 }
 
 class Item extends PureComponent {
@@ -535,10 +555,9 @@ class Item extends PureComponent {
           ? I18n.t('settings.receipt_notice')
           : I18n.t('settings.transfer_notice');
       const title2 = `${transactionValue + symbol.toUpperCase()} `;
-
-      const t3transfer =
+      const title3Tran =
         status === 1 ? I18n.t('settings.successful_transfer') : I18n.t('settings.transfer_failed');
-      const title3 = transactionType === 2 ? t3transfer : I18n.t('settings.successful_payment');
+      const title3 = transactionType === 2 ? title3Tran : I18n.t('settings.successful_payment');
       title = title1 + title2 + title3;
 
       const address = transactionType === 1 ? fromAddress : toAddress;

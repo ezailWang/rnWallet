@@ -237,7 +237,7 @@ class MappingRecordsScreen extends BaseComponent {
         renderItem={this._renderItem}
         ListEmptyComponent={this._renderEmptyView}
         ItemSeparatorComponent={this._renderItemSeparatorComponent}
-        getItemLayout={(data, index) => ({ length: 60, offset: (65 + 1) * index, index })}
+        getItemLayout={(data, i) => ({ length: 60, offset: (65 + 1) * i, index: i })}
       />
     </View>
   );

@@ -41,7 +41,6 @@
         "repeat_new_password":"Repeat new password",
         "enter_password":"Please enter your password",
 
-    
         "password_warn":"Passwords must be at least 8 characters in length, contain at least 3 out of 4 of the following: one uppercase, one lowercase, one digit and one symbol.",
         "password_warn_least_8":"The password must be at lease 8 characters in length, ",
         "password_warn_1":"passwords must contain at least one lowercase, one digit and one symbol.",
@@ -62,6 +61,7 @@
         "start_import_wallet":"Importing wallet",
         "generating_key_pairs":"Generating public & private keys",
         "generating_keystore_file":"Generating keystore"
+
     },
     "home":{
         "tab_wallet":"Wallet",
@@ -239,7 +239,6 @@
         "create":"Create",
         "import_wallet":"Import wallet",
         "import_wallet_already":"You have imported the wallet"
-
     },
     "mapping":{
         "itc_mapping_service":"ITC swap service",
@@ -360,7 +359,7 @@
         "vertify_self":"Fingerprint authentication",
         "authentication_required":"Authentication required",
 
-        "itc_wallet_test_warn":"映射暂未启动，请勿向ITC钱包地址转入您当前的ERC20 ITC。",
+        "itc_wallet_test_warn":"Swap Service has not been activated yet. Please do not transfer your current ERC20 ITC to the ITC wallet address.",
         "itc_test_warn1":"Do not store your assets on your wallet during the test period!",
         "itc_test_warn2":"ITC coin is testnet-only and should not be used as an actual cryptocurrency!",
         "not_remind_again":"Don't show this again",

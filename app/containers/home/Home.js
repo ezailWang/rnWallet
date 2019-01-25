@@ -544,7 +544,7 @@ class HomeScreen extends BaseComponent {
           ])}
           ItemSeparatorComponent={ItemDivideComponent}
           ListEmptyComponent={EmptyComponent}
-          getItemLayout={(data, index) => ({ length: 50, offset: 60 * index, index })}
+          getItemLayout={(data, i) => ({ length: 50, offset: 60 * i, index: i })}
           renderItem={this.renderItem}
           keyExtractor={item => item.id}
           data={this.props.tokens}

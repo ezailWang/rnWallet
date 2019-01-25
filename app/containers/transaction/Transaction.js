@@ -309,6 +309,16 @@ export default class Transaction extends BaseComponent {
     };
   }
 
+  componentWillMount() {
+    super.componentWillMount();
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    super.componentWillUnmount();
+  }
+
   /** static navigationOptions = ({navigation}) => ({
         header:<WhiteBgHeader navigation={navigation} text={ComponentTitle()}/>
     })* */

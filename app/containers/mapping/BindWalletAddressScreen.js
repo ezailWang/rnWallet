@@ -352,10 +352,10 @@ class BindWalletAddressScreen extends BaseComponent {
             ListEmptyComponent={this._renderEmptyView}
             ListFooterComponent={this._renderFooterView}
             ItemSeparatorComponent={this._renderItemSeparatorComponent}
-            getItemLayout={(data, index) => ({
+            getItemLayout={(data, i) => ({
               length: 80,
-              offset: (89 + 1) * index,
-              index,
+              offset: (89 + 1) * i,
+              index: i,
             })}
           />
         </View>

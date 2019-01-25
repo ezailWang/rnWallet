@@ -1064,7 +1064,7 @@ export default class TransactionRecoder extends BaseComponent {
               tintColor={Colors.whiteBackgroundColor}
             />
           }
-          getItemLayout={(data, index) => ({ length: 60, offset: (60 + 7) * index, index })}
+          getItemLayout={(data, i) => ({ length: 60, offset: (60 + 7) * i, index: i })}
           ItemSeparatorComponent={this._renderItemSeparatorComponent}
           scrollEventThrottle={1}
           onScroll={Animated.event([

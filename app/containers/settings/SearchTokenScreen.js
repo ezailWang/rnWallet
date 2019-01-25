@@ -451,7 +451,7 @@ class SearchTokenScreen extends BaseComponent {
         renderItem={this._renderItem}
         ListEmptyComponent={this._renderEmptyView}
         ItemSeparatorComponent={this._renderItemSeparatorComponent}
-        getItemLayout={(datas, index) => ({ length: 72, offset: (72 + 2) * index, index })}
+        getItemLayout={(datas, i) => ({ length: 72, offset: (72 + 2) * i, index: i })}
       />
     </View>
   );

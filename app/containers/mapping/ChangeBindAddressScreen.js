@@ -202,10 +202,10 @@ class ChangeBindAddressScreen extends BaseComponent {
           renderItem={this._renderItem}
           ListEmptyComponent={this._renderEmptyView}
           ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(data, index) => ({
+          getItemLayout={(data, i) => ({
             length: 80,
-            offset: (89 + 1) * index,
-            index,
+            offset: (89 + 1) * i,
+            index: i,
           })}
         />
       </View>

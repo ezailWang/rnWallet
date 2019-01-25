@@ -187,8 +187,8 @@ class AddressListScreen extends BaseComponent {
 
     this.recentAddressList = [];
     this.from = undefined; // 从哪个页面跳转过来的
-    this.contactList = React.createRef();
-    this.recentAddressList = React.createRef();
+    this.contactFlatList = React.createRef();
+    this.addressFlatList = React.createRef();
   }
 
   _initData = async () => {
@@ -376,31 +376,31 @@ class AddressListScreen extends BaseComponent {
         {isCheckedContactList ? (
           <FlatList
             style={styles.listContainer}
-            ref={this.contactList}
+            ref={this.contactFlatList}
             data={this.state.contactDatas}
             keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
             renderItem={this._renderItemContact}
             ListEmptyComponent={() => this._renderEmptyView(true)}
             ItemSeparatorComponent={() => this._renderItemSeparatorComponent(true)}
-            getItemLayout={(data, index) => ({
+            getItemLayout={(data, i) => ({
               length: 60,
-              offset: (60 + 10) * index,
-              index,
+              offset: (60 + 10) * i,
+              index: i,
             })}
           />
         ) : (
           <FlatList
             style={styles.listContainer}
-            ref={this.recentAddressList}
+            ref={this.addressFlatList}
             data={this.state.recentAddressDatas}
             keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
             renderItem={this._renderItemRecentAddress}
             ListEmptyComponent={() => this._renderEmptyView(false)}
             ItemSeparatorComponent={() => this._renderItemSeparatorComponent(false)}
-            getItemLayout={(data, index) => ({
+            getItemLayout={(data, i) => ({
               length: 60,
-              offset: (60 + 1) * index,
-              index,
+              offset: (60 + 1) * i,
+              index: i,
             })}
           />
         )}
@@ -467,8 +467,8 @@ class RecentAddressItem extends PureComponent {
   };
 
   render() {
-    const { item } = this.props || {};
-    const { address, symbol, time, iconLarge, name, onPressItem } = item.item || {};
+    const { item, onPressItem } = this.props || {};
+    const { address, symbol, time, iconLarge, name } = item.item || {};
     const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
     const _name = name === '' ? '' : ` (${name.trim()})`;
