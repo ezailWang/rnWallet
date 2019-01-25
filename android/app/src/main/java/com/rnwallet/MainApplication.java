@@ -23,7 +23,6 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 import cn.jpush.reactnativejpush.JPushPackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 
 
 public class MainApplication extends Application implements ReactApplication {

@@ -12,6 +12,21 @@ export default class Analytics {
     firebase.analytics().setCurrentScreen(screenClass);
   }
 
+  static recordRequest(method, url) {
+    try {
+      const urlStr = url.length > 100 ? url.substring(0, 99) : url;
+      firebase.analytics().logEvent("request", {
+        reqMethod: method,
+        reqUrl: urlStr
+      });
+    } catch (err) {
+      firebase.analytics().logEvent("customErr", {
+        errName: "recordRequest",
+        errDetsail: reqName
+      });
+    }
+  }
+
   static recordErr(errName, err) {
     if (err === "No transactions found") {
       return;
@@ -24,8 +39,8 @@ export default class Analytics {
         errStr = JSON.stringify(err);
       }
       console.log(errName, errStr);
-      if (errStr.length > 50) {
-        errStr = errStr.substring(0, 49);
+      if (errStr.length > 100) {
+        errStr = errStr.substring(0, 99);
       }
       firebase.analytics().logEvent("customErr", {
         errName: errName,
