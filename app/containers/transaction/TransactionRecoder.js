@@ -974,7 +974,7 @@ export default class TransactionRecoder extends BaseComponent {
       elevation: 4
     };
 
-    if (Layout.DEVICE_IS_ANDROID) {
+    if (Layout.DEVICE_IS_ANDROID()) {
       btnShadowStyle = {};
     }
 
