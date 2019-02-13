@@ -69,13 +69,17 @@ const styles = StyleSheet.create({
   itemTitle: {
     color: Colors.fontBlackColor_43,
     fontSize: 16,
-    marginBottom: 8
+    height:18,
+    lineHeight: 18,
+    width: Layout.WINDOW_WIDTH-50,
   },
   itemAddress: {
+    width: Layout.WINDOW_WIDTH-50,
     color: Colors.fontGrayColor_a1,
     fontSize: 13
   },
   itemTime: {
+    width: Layout.WINDOW_WIDTH-50,
     color: Colors.fontGrayColor_a1,
     fontSize: 13
   },
@@ -385,7 +389,8 @@ class MessageCenterScreen extends BaseComponent {
 
   async routeToTransactionRecoder(item) {
     let _this = this;
-    let itemSymbol = item.symbol.toUpperCase();
+    let sy = item.symbol.substring(0, 3).toUpperCase();//itc(erc20)
+    let itemSymbol = sy == 'ITC' || sy == 'ETH' ? sy : item.symbol.toUpperCase();
     let tokens = this.props.tokens;
     let isHaveToken = false;
     for (let i = 0; i < tokens.length; i++) {
@@ -617,9 +622,9 @@ class Item extends PureComponent {
         onPress={this._onPress}
       >
         <View style={styles.itemContentBox}>
-          <Text style={styles.itemTitle}>{title}</Text>
-          <Text style={styles.itemAddress}>{content}</Text>
-          <Text style={styles.itemTime}>{updateTime}</Text>
+          <Text style={styles.itemTitle} numberOfLines={1}>{title}</Text>
+          <Text style={styles.itemAddress} numberOfLines={1}>{content}</Text>
+          <Text style={styles.itemTime} numberOfLines={1}>{updateTime}</Text>
         </View>
       </TouchableOpacity>
     );

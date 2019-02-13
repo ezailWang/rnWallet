@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   itemNextIcon: {
-    width: 2,
-    height: 3,
+    width: 8,
+    height: 12,
   },
   textSize14: {
     fontSize: 14

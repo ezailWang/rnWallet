@@ -19,29 +19,29 @@ const styles = StyleSheet.create({
     },
     countBox: {
         flexDirection: 'row',
-        //marginTop: Layout.WINDOW_HEIGHT * 0.03,
+        width: Layout.WINDOW_WIDTH * 0.9,
+        alignSelf:'center',
         marginBottom: Layout.WINDOW_HEIGHT * 0.08,
         justifyContent: 'center',
-        //alignItems:'flex-end',
     },
     countTxt: {
+        marginLeft: 25,
         fontSize: 39,
         color: 'white',
         fontWeight: '700',
-        lineHeight: 39,
-        height: 39,
-        //alignItems: 'flex-end',
-        //textAlignVertical:'bottom',
-        //textAlign:'center'
+        //lineHeight: 39,
+        //height: 39,
     },
     coinTypeTxt: {
-        fontSize: 15,
+        marginRight:26,
+        fontSize: 18,
         marginLeft: 6,
         color: 'white',
-        lineHeight: 15,
+        lineHeight: 18,
         alignSelf: 'flex-end',
-        height: 15,
-        marginBottom: 7
+        height: 18,
+        marginBottom: 3
+        //marginBottom: 7
     },
     fromAddressTitleBox: {
         flexDirection: 'row',
