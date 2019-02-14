@@ -155,10 +155,10 @@ android {
 }
 
 dependencies {
-    compile project(':jcore-react-native')
-    compile project(':jpush-react-native')
-    compile project(':react-native-touch-id')
-    compile project(':react-native-image-picker')
+    implementation project(':jcore-react-native')
+    implementation project(':jpush-react-native')
+    implementation project(':react-native-touch-id')
+    implementation project(':react-native-image-picker')
     implementation project(':react-native-device-info')
     implementation project(':react-native-blur')
     implementation project(':react-native-i18n')

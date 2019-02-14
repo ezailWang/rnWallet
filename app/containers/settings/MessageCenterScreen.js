@@ -10,8 +10,8 @@ import {
   DeviceEventEmitter,
   Platform,
 } from 'react-native';
-import JPushModule from 'jpush-react-native';
 import { connect } from 'react-redux';
+import JPushModule from 'jpush-react-native';
 import StorageManage from '../../utils/StorageManage';
 import * as Actions from '../../config/action/Actions';
 import { Colors, StorageKey } from '../../config/GlobalConfig';
@@ -274,7 +274,7 @@ class MessageCenterScreen extends BaseComponent {
       } else if (item.item.messageType === 2) {
         this.announcement(item.item);
       }
-    } catch (err) {
+    } catch (error) {
       this._hideLoading();
     }
   };
