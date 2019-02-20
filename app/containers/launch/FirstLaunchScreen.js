@@ -306,8 +306,6 @@ class FirstLaunchScreen extends BaseComponent {
           this.setState({
             versionUpdateModalVisible: true,
           });
-        } else {
-          Analytics.recordErr('getVersionUpdateInfoRspErr', response.msg);
         }
       })
       .catch(err => {

@@ -390,8 +390,6 @@ class HomeScreen extends BaseComponent {
           this.setState({
             versionUpdateModalVisible: true,
           });
-        } else {
-          Analytics.recordErr('getVersionUpdateInfoResErr', response);
         }
       })
       .catch(err => {

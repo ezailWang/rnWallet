@@ -17,7 +17,7 @@ import Analytics from './Analytics';
 
 // const Ether = new BigNumber(10e17);
 const api = etherscan.init(LayoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000);
-const jbokSdlUrl = NetAddr.jbokWs;
+const jbokSdlUrl = NetAddr.jbokHttp;
 const client = jbokSdk.Client;
 // const hasher = jbokSdk.Hasher;
 const jsonCodec = jbokSdk.JsonCodec;
@@ -33,17 +33,17 @@ export default class NetworkManager {
   static async getJbokSdkInstance() {
     try {
       if (jbokSdkClient === undefined || jbokSdkClient === null) {
-        jbokSdkClient = await client.ws(jbokSdlUrl);
+        jbokSdkClient = client.http(jbokSdlUrl);
       }
     } catch (err) {
       Analytics.recordErr('getJbokSdkInstance', err);
     }
   }
 
-  static async jsonrpc(params) {
+  static async jsonrpc(method, params) {
     try {
-      await this.getJbokSdkInstance();
-      return jbokSdkClient.jsonrpc(params);
+      this.getJbokSdkInstance();
+      return jbokSdkClient.jsonrpc(method, JSON.stringify(params));
     } catch (err) {
       Analytics.recordErr('jsonrpcErr', err);
       jbokSdkClient = null;
@@ -104,16 +104,13 @@ export default class NetworkManager {
         // WithNumber:{n:'830'}    //查询某个区块高度时的余额
         Latest: {}, // 查询最新余额状态
       };
-      const params = {
-        method: 'getBalance',
-        params: [wallet.address, blockParam],
-      };
-      const balanceJson = await this.jsonrpc(JSON.stringify(params));
-      const balance = JSON.parse(balanceJson).result;
-      if (balance) {
+      const params = [wallet.address, blockParam];
+      const balanceJson = JSON.parse(await this.jsonrpc('getBalance', params));
+      if (balanceJson.code === 200) {
+        const balance = balanceJson.body;
         return parseFloat(balance / Math.pow(10, 18)).toFixed(4);
       }
-      Analytics.recordErr('getItcBalanceRspErr', balanceJson);
+      Analytics.recordErr('getItcBalanceRspErr', balanceJson.message);
       return 0.0;
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
@@ -334,22 +331,17 @@ export default class NetworkManager {
       const blockParam = {
         Latest: {},
       };
-      const params = {
-        method: 'getAccount',
-        params: [wallet.address, blockParam],
-      };
-      const accountRsp = await this.jsonrpc(JSON.stringify(params));
-      const accountRes = JSON.parse(accountRsp).result;
-      const { nonce } = accountRes;
-      // const preNonce = await StorageManage.load(StorageKey.ItcWalletNonce, wallet.address)
-      // console.log('nonce:', nonce, '\npreNonce:', preNonce)
-      // if (preNonce) {
-      //     nonce = nonce <= preNonce ? preNonce + 1 : nonce
-      // }
-      return nonce;
+      const params = [wallet.address, blockParam];
+      const accountJson = JSON.parse(await this.jsonrpc('getAccount', params));
+      if (accountJson.code === 200) {
+        const { nonce } = accountJson.body;
+        return nonce;
+      }
+      Analytics.recordErr('getItcAccountRspErr', accountJson.message);
+      return -1;
     } catch (err) {
-      Analytics.recordErr('getItcAccountErr', err);
-      return 0;
+      Analytics.recordErr('getItcAccountCatErr', err);
+      return -1;
     }
   }
 
@@ -358,6 +350,10 @@ export default class NetworkManager {
       web3 = this.getWeb3Instance();
       // const wallet = store.getState().Core.wallet;
       const nonce = await this.getItcNonce();
+      if (nonce === -1) {
+        callBackHash(null);
+        return null;
+      }
       const tx = {
         nonce,
         gasPrice: web3.utils.toHex(gasPrice * Math.pow(10, 9)),
@@ -369,21 +365,18 @@ export default class NetworkManager {
       const txRow = jsonCodec.decodeTransaction(JSON.stringify(tx));
       const signedTx = signer.signTx(txRow, privateKey, ItcChainId.default);
       const signedTxJson = jsonCodec.encodeSignedTransaction(signedTx);
-      const params = {
-        method: 'sendSignedTransaction',
-        params: JSON.parse(signedTxJson),
-      };
-      const rsp = await this.jsonrpc(JSON.stringify(params));
-      const rspO = JSON.parse(rsp);
-      if (rspO.result) {
+      const params = JSON.parse(signedTxJson);
+      const rspJson = JSON.parse(await this.jsonrpc('sendSignedTransaction', params));
+      if (rspJson.code === 200) {
         // StorageManage.save(StorageKey.ItcWalletNonce, tx['nonce'], wallet.address) //发出交易后，存储nonce在本地
-        callBackHash(rspO.result);
+        callBackHash(rspJson.body);
       } else {
+        Analytics.recordErr('sendItcTransactionRspErr', rspJson.message);
         callBackHash(null);
       }
-      return rsp;
+      return rspJson;
     } catch (err) {
-      Analytics.recordErr('sendItcTransactionErr', err);
+      Analytics.recordErr('sendItcTransactionCatErr', err);
       callBackHash(null);
       return null;
     }
@@ -471,22 +464,18 @@ export default class NetworkManager {
     try {
       const { wallet } = store.getState().Core;
       if (wallet.type === 'itc') {
-        const params = {
-          method: 'bestBlockNumber',
-          params: {},
-        };
-        const jsondata = await this.jsonrpc(JSON.stringify(params));
-        const { result } = JSON.parse(jsondata);
-        if (result) {
-          return result;
+        const dataJson = JSON.parse(await this.jsonrpc('bestBlockNumber', {}));
+        if (dataJson.code === 200) {
+          return dataJson.body;
         }
+        Analytics.recordErr('getCurrentBlockNumberRspErr', dataJson.body);
         return 0;
       }
       web3 = this.getWeb3Instance();
       return await web3.eth.getBlockNumber();
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
-      Analytics.recordErr('getCurrentBlockNumberErr', err);
+      Analytics.recordErr('getCurrentBlockNumberCatErr', err);
       return 0;
     }
   }
@@ -690,24 +679,21 @@ export default class NetworkManager {
       const { wallet } = store.getState().Core;
       web3 = this.getWeb3Instance();
       if (wallet.type === 'itc') {
-        const params = {
-          method: 'getGasPrice',
-          params: {},
-        };
-        const jsondata = await this.jsonrpc(JSON.stringify(params));
-        let { result } = JSON.parse(jsondata);
-        result = result === 0 ? 1 : result;
-        if (result) {
+        const dataJson = JSON.parse(await this.jsonrpc('getGasPrice', {}));
+        if (dataJson.code === 200) {
+          let result = dataJson.body;
+          result = result === 0 ? 1 : result;
           const price = web3.utils.fromWei(result, 'gwei');
           return price;
         }
+        Analytics.recordErr('getSuggestGasPriceRspErr', dataJson.message);
         return 0;
       }
       const price = await web3.eth.getGasPrice();
       return web3.utils.fromWei(price, 'gwei');
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
-      Analytics.recordErr('getSuggestGasPriceErr', err);
+      Analytics.recordErr('getSuggestGasPriceCatErr', err);
       return 0;
     }
   }
