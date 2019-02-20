@@ -1,38 +1,30 @@
-import Web3 from "web3";
-import jbokSdk from "./jbok-sdk/src";
-import { store } from "../config/store/ConfigureStore";
-import { erc20Abi } from "./Constants";
-import BigNumber from "bignumber.js";
-import etherscan from "etherscan-api";
-import LayoutConstants from "../config/LayoutConstants";
-import StorageManage from "./StorageManage";
-import { StorageKey, Network } from "../config/GlobalConfig";
-import {
-  addToken,
-  loadTokenBalance,
-  setTotalAssets,
-  setTransactionDetailParams
-} from "../config/action/Actions";
-import lodash from "lodash";
-import { TransferGasLimit, ItcChainId } from "../config/GlobalConfig";
-import { I18n } from "../config/language/i18n";
-import { DeviceEventEmitter } from "react-native";
-import FetchUtils from "./FetchUtils";
-import NetAddr from "./NetAddr";
-import Analytics from "./Analytics";
-const Ether = new BigNumber(10e17);
-var api = etherscan.init(
-  LayoutConstants.ETHERSCAN_API_KEY,
-  store.getState().Core.network,
-  10000
-);
+import Web3 from 'web3';
+import BigNumber from 'bignumber.js';
+import etherscan from 'etherscan-api';
+import lodash from 'lodash';
+import { DeviceEventEmitter } from 'react-native';
+import jbokSdk from './jbok-sdk/src';
+import store from '../config/store/ConfigureStore';
+import { erc20Abi } from './Constants';
+import LayoutConstants from '../config/LayoutConstants';
+import StorageManage from './StorageManage';
+import { StorageKey, Network, TransferGasLimit, ItcChainId } from '../config/GlobalConfig';
+import { addToken, loadTokenBalance, setTotalAssets } from '../config/action/Actions';
+import { I18n } from '../config/language/i18n';
+import FetchUtils from './FetchUtils';
+import NetAddr from './NetAddr';
+import Analytics from './Analytics';
+
+// const Ether = new BigNumber(10e17);
+const api = etherscan.init(LayoutConstants.ETHERSCAN_API_KEY, store.getState().Core.network, 10000);
 const jbokSdlUrl = NetAddr.jbokWs;
 const client = jbokSdk.Client;
-const hasher = jbokSdk.Hasher;
+// const hasher = jbokSdk.Hasher;
 const jsonCodec = jbokSdk.JsonCodec;
-const binaryCodec = jbokSdk.BinaryCodec;
+// const binaryCodec = jbokSdk.BinaryCodec;
 const signer = jbokSdk.Signer;
 let jbokSdkClient;
+let web3;
 export default class NetworkManager {
   static getWeb3Instance() {
     return new Web3(this.getWeb3HTTPProvider());
@@ -44,7 +36,7 @@ export default class NetworkManager {
         jbokSdkClient = await client.ws(jbokSdlUrl);
       }
     } catch (err) {
-      Analytics.recordErr("getJbokSdkInstance", err);
+      Analytics.recordErr('getJbokSdkInstance', err);
     }
   }
 
@@ -53,7 +45,7 @@ export default class NetworkManager {
       await this.getJbokSdkInstance();
       return jbokSdkClient.jsonrpc(params);
     } catch (err) {
-      Analytics.recordErr("jsonrpcErr", err);
+      Analytics.recordErr('jsonrpcErr', err);
       jbokSdkClient = null;
       return null;
     }
@@ -86,17 +78,16 @@ export default class NetworkManager {
    * @param {Object} token
    */
   static getBalance({ address, symbol, decimal }) {
-    //token数据结构
-    const wallet = store.getState().Core.wallet;
-    if (wallet.type === "eth") {
-      return this.getBalanceOfETH({ address, symbol, decimal });
-    } else if (wallet.type === "itc") {
+    // token数据结构
+    const { wallet } = store.getState().Core;
+    if (wallet.type === 'itc') {
       return this.getBalanceOfITC();
     }
+    return this.getBalanceOfETH({ address, symbol, decimal });
   }
 
   static getBalanceOfETH({ address, symbol, decimal }) {
-    if (symbol === "ETH") {
+    if (symbol === 'ETH') {
       return this.getEthBalance();
     }
     return this.getEthERC20Balance(address, decimal);
@@ -110,23 +101,23 @@ export default class NetworkManager {
     try {
       const { wallet } = store.getState().Core;
       const blockParam = {
-        //WithNumber:{n:'830'}    //查询某个区块高度时的余额
-        Latest: {} //查询最新余额状态
+        // WithNumber:{n:'830'}    //查询某个区块高度时的余额
+        Latest: {}, // 查询最新余额状态
       };
       const params = {
-        method: "getBalance",
-        params: [wallet.address, blockParam]
+        method: 'getBalance',
+        params: [wallet.address, blockParam],
       };
       const balanceJson = await this.jsonrpc(JSON.stringify(params));
       const balance = JSON.parse(balanceJson).result;
       if (balance) {
         return parseFloat(balance / Math.pow(10, 18)).toFixed(4);
       }
-      Analytics.recordErr("getItcBalanceRspErr", balanceJson);
+      Analytics.recordErr('getItcBalanceRspErr', balanceJson);
       return 0.0;
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getItcBalanceCatchErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getItcBalanceCatchErr', err);
       return 0.0;
     }
   }
@@ -138,11 +129,11 @@ export default class NetworkManager {
     try {
       const { wallet } = store.getState().Core;
       web3 = this.getWeb3Instance();
-      var balance = await web3.eth.getBalance(wallet.address);
+      const balance = await web3.eth.getBalance(wallet.address);
       return parseFloat(balance / Math.pow(10, 18)).toFixed(4);
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getEthBalanceErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getEthBalanceErr', err);
       return 0.0;
     }
   }
@@ -157,14 +148,13 @@ export default class NetworkManager {
     try {
       const { wallet } = store.getState().Core;
       web3 = this.getWeb3Instance();
+      const ether = new BigNumber(Math.pow(10, decimal - 1));
       const contract = new web3.eth.Contract(erc20Abi, address);
-      const bigBalance = new BigNumber(
-        await contract.methods.balanceOf(wallet.address).call()
-      );
-      return parseFloat(bigBalance.dividedBy(Ether)).toFixed(2);
+      const bigBalance = new BigNumber(await contract.methods.balanceOf(wallet.address).call());
+      return parseFloat(bigBalance.dividedBy(ether)).toFixed(2);
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getEthERC20BalanceErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getEthERC20BalanceErr', err);
       return 0.0;
     }
   }
@@ -177,49 +167,32 @@ export default class NetworkManager {
    * @param {number/string} endBlock   default 'latest'
    */
   static getTransations({ address, symbol, decimal }, startBlock, endBlock) {
-    const wallet = store.getState().Core.wallet;
-    if (wallet.type === "eth") {
-      return this.getTransactionsOfETH(
-        { address, symbol, decimal },
-        startBlock,
-        endBlock
-      );
-    } else if (wallet.type === "itc") {
-      return this.getTransactionOfITC(
-        { address, symbol, decimal },
-        startBlock,
-        endBlock
-      );
+    const { wallet } = store.getState().Core;
+    if (wallet.type === 'itc') {
+      return this.getTransactionOfITC({ address, symbol, decimal }, startBlock, endBlock);
     }
+    return this.getTransactionsOfETH({ address, symbol, decimal }, startBlock, endBlock);
   }
 
-  static getTransactionsOfETH(
-    { address, symbol, decimal },
-    startBlock,
-    endBlock
-  ) {
-    if (symbol == "ETH") {
+  static getTransactionsOfETH({ address, symbol, decimal }, startBlock, endBlock) {
+    if (symbol === 'ETH') {
       return this.getEthTransations(startBlock, endBlock);
     }
     return this.getERC20Transations(address, decimal, startBlock, endBlock);
   }
 
-  static getTransactionOfITC(
-    { address, symbol, decimal },
-    startBlock,
-    endBlock
-  ) {
-    return this.getItcTransations(startBlock, endBlock);
+  static getTransactionOfITC() {
+    return this.getItcTransations();
   }
 
-  static async getItcTransations(startBlock, endBlock) {
-    const wallet = store.getState().Core.wallet;
-    const web3 = this.getWeb3Instance();
+  static async getItcTransations() {
+    const { wallet } = store.getState().Core;
+    web3 = this.getWeb3Instance();
     try {
       const params = {
         address: wallet.address,
         size: 100,
-        page: 1
+        page: 1,
       };
       const rsp = await this.getTransactionForItc(params);
       if (rsp.code === 200) {
@@ -228,23 +201,20 @@ export default class NetworkManager {
           to: t.receivingAddress,
           timeStamp: t.unixTimestamp,
           hash: t.hash,
-          value: web3.utils.fromWei(t.value, "ether"),
+          value: web3.utils.fromWei(t.value, 'ether'),
           gasPrice:
             t.gasPrice === 0
               ? 0
-              : web3.utils.fromWei(
-                  ((t.gasUsed || t.gasLimit) * t.gasPrice).toString(),
-                  "ether"
-                ),
+              : web3.utils.fromWei(((t.gasUsed || t.gasLimit) * t.gasPrice).toString(), 'ether'),
           blockNumber: t.blockNumber,
-          isError: "0"
+          isError: '0',
         }));
-      } else {
-        Analytics.recordErr("getItcTransationsRspErr", rsp);
       }
+      Analytics.recordErr('getItcTransationsRspErr', rsp);
+
       return [];
     } catch (err) {
-      Analytics.recordErr("getItcTransationsCatchErr", err);
+      Analytics.recordErr('getItcTransationsCatchErr', err);
       return [];
     }
   }
@@ -255,36 +225,36 @@ export default class NetworkManager {
   static async getEthTransations(startBlock, endBlock) {
     try {
       const { wallet } = store.getState().Core;
-      var data = await api.account.txlist(wallet.address, startBlock, endBlock);
-      if (data.message !== "OK") {
+      const data = await api.account.txlist(wallet.address, startBlock, endBlock);
+      if (data.message !== 'OK') {
         return [];
       }
 
-      let dataArr = [];
+      const dataArr = [];
 
-      for (const index in data.result) {
-        let transaction = data.result[index];
-        if (transaction.isError != 0 || transaction.value != 0) {
+      for (let i = 0; i < data.result.length; i++) {
+        const transaction = data.result[i];
+        if (transaction.isError !== 0 || transaction.value !== 0) {
           dataArr.push(transaction);
         }
       }
-      const web3 = this.getWeb3Instance();
+      web3 = this.getWeb3Instance();
       return dataArr.map(t => ({
         from: t.from,
         to: t.to,
         timeStamp: t.timeStamp,
         hash: t.hash,
-        value: web3.utils.fromWei(t.value, "ether"),
+        value: web3.utils.fromWei(t.value, 'ether'),
         isError: t.isError,
         gasPrice: web3.utils.fromWei(
-          (parseInt(t.gasUsed) * parseInt(t.gasPrice)).toString(),
-          "ether"
+          (parseInt(t.gasUsed, 10) * parseInt(t.gasPrice, 10)).toString(),
+          'ether'
         ),
-        blockNumber: t.blockNumber
+        blockNumber: t.blockNumber,
       }));
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getEthTransationsErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getEthTransationsErr', err);
       return [];
     }
   }
@@ -298,33 +268,28 @@ export default class NetworkManager {
   static async getERC20Transations(address, decimal, startBlock, endBlock) {
     try {
       const { wallet } = store.getState().Core;
-      var data = await api.account.tokentx(
-        wallet.address,
-        address,
-        startBlock,
-        endBlock
-      );
-      if (data.message !== "OK") {
+      const data = await api.account.tokentx(wallet.address, address, startBlock, endBlock);
+      if (data.message !== 'OK') {
         return [];
       }
-      const web3 = this.getWeb3Instance();
+      web3 = this.getWeb3Instance();
 
       return data.result.map(t => ({
         from: t.from,
         to: t.to,
         timeStamp: t.timeStamp,
         hash: t.hash,
-        value: web3.utils.fromWei(t.value, "ether"),
+        value: web3.utils.fromWei(t.value, 'ether'),
         gasPrice: web3.utils.fromWei(
-          (parseInt(t.gasUsed) * parseInt(t.gasPrice)).toString(),
-          "ether"
+          (parseInt(t.gasUsed, 10) * parseInt(t.gasPrice, 10)).toString(),
+          'ether'
         ),
         blockNumber: t.blockNumber,
-        isError: "0"
+        isError: '0',
       }));
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getERC20TransationsErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getERC20TransationsErr', err);
       return [];
     }
   }
@@ -345,50 +310,37 @@ export default class NetworkManager {
     privateKey,
     callBackHash
   ) {
-    const wallet = store.getState().Core.wallet;
-    if (wallet.type === "itc") {
-      return this.sendItcTransaction(
-        toAddress,
-        amout,
-        gasPrice,
-        privateKey,
-        callBackHash
-      );
-    } else if (wallet.type === "eth") {
-      if (symbol === "ETH") {
-        return this.sendETHTransaction(
-          toAddress,
-          amout,
-          gasPrice,
-          privateKey,
-          callBackHash
-        );
-      }
-      return this.sendERC20Transaction(
-        address,
-        decimal,
-        toAddress,
-        amout,
-        gasPrice,
-        privateKey,
-        callBackHash
-      );
+    const { wallet } = store.getState().Core;
+    if (wallet.type === 'itc') {
+      return this.sendItcTransaction(toAddress, amout, gasPrice, privateKey, callBackHash);
     }
+    if (symbol === 'ETH') {
+      return this.sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash);
+    }
+    return this.sendERC20Transaction(
+      address,
+      decimal,
+      toAddress,
+      amout,
+      gasPrice,
+      privateKey,
+      callBackHash
+    );
   }
 
   static async getItcNonce() {
     try {
       const { wallet } = store.getState().Core;
       const blockParam = {
-        Latest: {}
+        Latest: {},
       };
       const params = {
-        method: "getAccount",
-        params: [wallet.address, blockParam]
+        method: 'getAccount',
+        params: [wallet.address, blockParam],
       };
       const accountRsp = await this.jsonrpc(JSON.stringify(params));
       const accountRes = JSON.parse(accountRsp).result;
-      let nonce = accountRes.nonce;
+      const { nonce } = accountRes;
       // const preNonce = await StorageManage.load(StorageKey.ItcWalletNonce, wallet.address)
       // console.log('nonce:', nonce, '\npreNonce:', preNonce)
       // if (preNonce) {
@@ -396,36 +348,30 @@ export default class NetworkManager {
       // }
       return nonce;
     } catch (err) {
-      Analytics.recordErr("getItcAccountErr", err);
+      Analytics.recordErr('getItcAccountErr', err);
       return 0;
     }
   }
 
-  static async sendItcTransaction(
-    toAddress,
-    amout,
-    gasPrice,
-    privateKey,
-    callBackHash
-  ) {
+  static async sendItcTransaction(toAddress, amout, gasPrice, privateKey, callBackHash) {
     try {
-      const web3 = this.getWeb3Instance();
-      const wallet = store.getState().Core.wallet;
+      web3 = this.getWeb3Instance();
+      // const wallet = store.getState().Core.wallet;
       const nonce = await this.getItcNonce();
       const tx = {
-        nonce: nonce,
+        nonce,
         gasPrice: web3.utils.toHex(gasPrice * Math.pow(10, 9)),
         gasLimit: web3.utils.toHex(TransferGasLimit.itcGasLimit),
         receivingAddress: toAddress,
-        value: web3.utils.toWei(amout.toString(), "ether").toString(),
-        payload: ""
+        value: web3.utils.toWei(amout.toString(), 'ether').toString(),
+        payload: '',
       };
       const txRow = jsonCodec.decodeTransaction(JSON.stringify(tx));
       const signedTx = signer.signTx(txRow, privateKey, ItcChainId.default);
       const signedTxJson = jsonCodec.encodeSignedTransaction(signedTx);
       const params = {
-        method: "sendSignedTransaction",
-        params: JSON.parse(signedTxJson)
+        method: 'sendSignedTransaction',
+        params: JSON.parse(signedTxJson),
       };
       const rsp = await this.jsonrpc(JSON.stringify(params));
       const rspO = JSON.parse(rsp);
@@ -437,7 +383,7 @@ export default class NetworkManager {
       }
       return rsp;
     } catch (err) {
-      Analytics.recordErr("sendItcTransactionErr", err);
+      Analytics.recordErr('sendItcTransactionErr', err);
       callBackHash(null);
       return null;
     }
@@ -450,36 +396,28 @@ export default class NetworkManager {
    * @param {String} amout
    * @param {Number} gasPrice
    */
-  static async sendETHTransaction(
-    toAddress,
-    amout,
-    gasPrice,
-    privateKey,
-    callBackHash
-  ) {
+  static async sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash) {
     try {
-      const web3 = this.getWeb3Instance();
+      web3 = this.getWeb3Instance();
       web3.eth.accounts.wallet.add(privateKey);
-      let price = web3.utils.toWei(gasPrice.toString(), "gwei");
-      let value = web3.utils.toWei(amout.toString(), "ether");
-      let gasLimit = web3.utils.toHex(TransferGasLimit.ethGasLimit);
-      let transactionGasPrice = web3.utils.toHex(price);
-      let transactionConfig = {
+      const price = web3.utils.toWei(gasPrice.toString(), 'gwei');
+      const value = web3.utils.toWei(amout.toString(), 'ether');
+      const gasLimit = web3.utils.toHex(TransferGasLimit.ethGasLimit);
+      const transactionGasPrice = web3.utils.toHex(price);
+      const transactionConfig = {
         from: store.getState().Core.wallet.address,
         to: toAddress,
-        value: value,
+        value,
         gas: gasLimit,
-        gasPrice: transactionGasPrice
+        gasPrice: transactionGasPrice,
       };
-      var cb = await web3.eth
-        .sendTransaction(transactionConfig)
-        .on("transactionHash", hash => {
-          callBackHash(hash);
-        });
+      const cb = await web3.eth.sendTransaction(transactionConfig).on('transactionHash', hash => {
+        callBackHash(hash);
+      });
       return cb;
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("sendETHTransactionErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('sendETHTransactionErr', err);
       callBackHash(null);
       return null;
     }
@@ -503,80 +441,74 @@ export default class NetworkManager {
     callBackHash
   ) {
     try {
-      const web3 = this.getWeb3Instance();
+      web3 = this.getWeb3Instance();
       web3.eth.accounts.wallet.add(privateKey);
-      const price = web3.utils.toWei(gasPrice.toString(), "gwei");
+      const price = web3.utils.toWei(gasPrice.toString(), 'gwei');
       const contract = new web3.eth.Contract(erc20Abi, address);
       const BNAmout = new BigNumber(amout * Math.pow(10, decimal));
-      var data = contract.methods.transfer(toAddress, BNAmout).encodeABI();
-      var tx = {
+      const data = contract.methods.transfer(toAddress, BNAmout).encodeABI();
+      const tx = {
         from: store.getState().Core.wallet.address,
         to: address,
-        value: "0x0",
-        data: data,
+        value: '0x0',
+        data,
         gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
-        gasPrice: web3.utils.toHex(price)
+        gasPrice: web3.utils.toHex(price),
       };
       // tx['gasLimit'] = await web3.eth.estimateGas(tx)
-      var cb = await web3.eth
-        .sendTransaction(tx)
-        .on("transactionHash", hash => {
-          callBackHash(hash);
-        });
+      const cb = await web3.eth.sendTransaction(tx).on('transactionHash', hash => {
+        callBackHash(hash);
+      });
       return cb;
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("sendERC20TransactionErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('sendERC20TransactionErr', err);
       return null;
     }
   }
 
   static async getCurrentBlockNumber() {
     try {
-      const wallet = store.getState().Core.wallet;
-      if (wallet.type === "itc") {
+      const { wallet } = store.getState().Core;
+      if (wallet.type === 'itc') {
         const params = {
-          method: "bestBlockNumber",
-          params: {}
+          method: 'bestBlockNumber',
+          params: {},
         };
         const jsondata = await this.jsonrpc(JSON.stringify(params));
-        const result = JSON.parse(jsondata).result;
+        const { result } = JSON.parse(jsondata);
         if (result) {
           return result;
         }
         return 0;
-      } else {
-        const web3 = this.getWeb3Instance();
-        return await web3.eth.getBlockNumber();
       }
+      web3 = this.getWeb3Instance();
+      return await web3.eth.getBlockNumber();
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getCurrentBlockNumberErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getCurrentBlockNumberErr', err);
       return 0;
     }
   }
 
   static isValidAddress(address) {
     try {
-      const web3 = this.getWeb3Instance();
+      web3 = this.getWeb3Instance();
       return web3.utils.isAddress(address);
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("isValidAddressErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('isValidAddressErr', err);
       return false;
     }
   }
 
   static getContractAddressInfo(address) {
     try {
-      let contract = new web3.eth.Contract(erc20Abi, address);
-      return Promise.all([
-        contract.methods.symbol().call(),
-        contract.methods.decimal().call()
-      ]);
+      const contract = new web3.eth.Contract(erc20Abi, address);
+      return Promise.all([contract.methods.symbol().call(), contract.methods.decimal().call()]);
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getContractAddressInfoErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getContractAddressInfoErr', err);
       return Promise.reject(err);
     }
   }
@@ -587,16 +519,15 @@ export default class NetworkManager {
   static async getEthPrice() {
     try {
       const { wallet } = store.getState().Core;
-      if (wallet.type === "itc") {
-        return await this.getPrice("itc");
-      } else if (wallet.type === "eth") {
-        const data = await api.stats.ethprice();
-        ethusd = data.result.ethusd;
-        return ethusd;
+      if (wallet.type === 'itc') {
+        return await this.getPrice('itc');
       }
+      const data = await api.stats.ethprice();
+      const { ethusd } = data.result;
+      return ethusd;
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getEthPriceErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getEthPriceErr', err);
       return 0;
     }
   }
@@ -610,55 +541,60 @@ export default class NetworkManager {
       const result = await FetchUtils.timeoutFetch(
         fetch(`https://api.iotchain.io/tokenPrice?symbol=${symbol}`)
       );
-      //const result = await FetchUtils.timeoutFetch(fetch(`http://47.75.16.97:3001/tokenPrice?symbol=${symbol}`))
+      // const result = await FetchUtils.timeoutFetch(fetch(`http://47.75.16.97:3001/tokenPrice?symbol=${symbol}`))
       const resJson = await result.json();
       if (resJson.code === 200) {
-        //优先判断货币 如果货币本地没有再使用语言
-        //const currentLocale = I18n.currentLocale()
-        //var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
-        const monetaryUnit = store.getState().Core.monetaryUnit;
+        // 优先判断货币 如果货币本地没有再使用语言
+        // const currentLocale = I18n.currentLocale()
+        // var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
+        const { monetaryUnit } = store.getState().Core;
         if (monetaryUnit) {
-          let monetaryUnitType = monetaryUnit.monetaryUnitType;
-          if (monetaryUnitType == "CNY") {
+          const { monetaryUnitType } = monetaryUnit;
+          if (monetaryUnitType === 'CNY') {
             return resJson.data.cny;
-          } else if (monetaryUnitType == "KRW") {
-            return resJson.data.krw;
-          } else if (monetaryUnitType == "EUR") {
-            return resJson.data.eur;
-          } else if (monetaryUnitType == "RUB") {
-            return resJson.data.rub;
-          } else if (monetaryUnitType == "UAH") {
-            return resJson.data.uah;
-          } else {
-            return resJson.data.usd;
           }
-        } else {
-          const currentLocale = I18n.locale;
-          if (currentLocale.includes("zh")) {
-            return resJson.data.cny;
-          } else if (currentLocale.includes("ko")) {
+          if (monetaryUnitType === 'KRW') {
             return resJson.data.krw;
-          } else if (currentLocale.includes("ru")) {
-            return resJson.data.rub;
-          } else if (currentLocale.includes("uk")) {
-            return resJson.data.uah;
-          } else if (
-            currentLocale.includes("de") ||
-            currentLocale.includes("es") ||
-            currentLocale.includes("nl") ||
-            currentLocale.includes("fr")
-          ) {
-            return resJson.data.eur;
-          } else {
-            //默认美元
-            return resJson.data.usd;
           }
+          if (monetaryUnitType === 'EUR') {
+            return resJson.data.eur;
+          }
+          if (monetaryUnitType === 'RUB') {
+            return resJson.data.rub;
+          }
+          if (monetaryUnitType === 'UAH') {
+            return resJson.data.uah;
+          }
+          return resJson.data.usd;
         }
+        const currentLocale = I18n.locale;
+        if (currentLocale.includes('zh')) {
+          return resJson.data.cny;
+        }
+        if (currentLocale.includes('ko')) {
+          return resJson.data.krw;
+        }
+        if (currentLocale.includes('ru')) {
+          return resJson.data.rub;
+        }
+        if (currentLocale.includes('uk')) {
+          return resJson.data.uah;
+        }
+        if (
+          currentLocale.includes('de') ||
+          currentLocale.includes('es') ||
+          currentLocale.includes('nl') ||
+          currentLocale.includes('fr')
+        ) {
+          return resJson.data.eur;
+        }
+        // 默认美元
+        return resJson.data.usd;
       }
       return 0.0;
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getPriceErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getPriceErr', err);
       return 0.0;
     }
   }
@@ -668,19 +604,19 @@ export default class NetworkManager {
    */
   static async loadTokenList() {
     try {
-      //如果是itc钱包，暂不支持erc20
+      // 如果是itc钱包，暂不支持erc20
       const { wallet } = store.getState().Core;
-      if (wallet.type === "itc") {
+      if (wallet.type === 'itc') {
         const { tokens } = store.getState().Core;
         const completeTokens = lodash.cloneDeep(tokens);
-        var totalAssets = 0.0;
+        let totalAssets = 0.0;
         await Promise.all(
           completeTokens.map(async token => {
             const balance = await this.getBalanceOfITC();
-            token["balance"] = balance;
+            token.balance = balance;
             const price = await this.getPrice(token.symbol.toLowerCase());
-            token["price"] = price;
-            token["itcPrice"] = price; //暂时使用eth erc20代币的价格
+            token.price = price;
+            token.itcPrice = price; // 暂时使用eth erc20代币的价格
             totalAssets = balance * price;
           })
         );
@@ -691,19 +627,17 @@ export default class NetworkManager {
         await this.getTokensBalance();
       }
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("loadTokenListErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('loadTokenListErr', err);
     }
   }
 
   static async loadTokensFromStorage() {
     const { tokens, wallet } = store.getState().Core;
     const tokensAddresses = tokens
-      .filter(token => token.symbol !== "ETH")
+      .filter(token => token.symbol !== 'ETH')
       .map(token => token.address);
-    var localTokens = await StorageManage.load(
-      StorageKey.Tokens + wallet.address
-    );
+    const localTokens = await StorageManage.load(StorageKey.Tokens + wallet.address);
     if (localTokens) {
       localTokens
         .filter(token => !tokensAddresses.includes(token.address))
@@ -716,35 +650,35 @@ export default class NetworkManager {
   static async getTokensBalance() {
     const { tokens } = store.getState().Core;
     const completeTokens = lodash.cloneDeep(tokens);
-    var totalAssets = 0.0;
+    let totalAssets = 0.0;
     await Promise.all(
       completeTokens.map(async token => {
         const balance = await this.getBalance({
           address: token.address,
           symbol: token.symbol,
-          decimal: token.decimal
+          decimal: token.decimal,
         });
-        token["balance"] = balance;
-        token["price"] = 0;
-        const ethPrice = await this.getPrice("eth");
-        token["ethPrice"] = ethPrice;
+        token.balance = balance;
+        token.price = 0;
+        const ethPrice = await this.getPrice('eth');
+        token.ethPrice = ethPrice;
 
-        if (token.symbol === "ETH") {
+        if (token.symbol === 'ETH') {
           const ethTotal = balance * ethPrice;
-          token["price"] = ethPrice;
-          totalAssets = totalAssets + ethTotal;
+          token.price = ethPrice;
+          totalAssets += ethTotal;
         } else {
           const price = await this.getPrice(token.symbol.toLowerCase());
           const total = balance * price;
-          token["price"] = price;
-          totalAssets = totalAssets + total;
+          token.price = price;
+          totalAssets += total;
         }
-        /*if (token.symbol === 'ITC') {
+        /* if (token.symbol === 'ITC') {
                 const itcPrice = await this.getPrice('itc')
                 const itcTotal = balance * itcPrice
                 token["price"] = itcPrice
                 totalAssets = totalAssets + itcTotal
-            }*/
+            } */
       })
     );
     store.dispatch(setTotalAssets(totalAssets));
@@ -754,27 +688,26 @@ export default class NetworkManager {
   static async getSuggestGasPrice() {
     try {
       const { wallet } = store.getState().Core;
-      const web3 = this.getWeb3Instance();
-      if (wallet.type === "itc") {
+      web3 = this.getWeb3Instance();
+      if (wallet.type === 'itc') {
         const params = {
-          method: "getGasPrice",
-          params: {}
+          method: 'getGasPrice',
+          params: {},
         };
         const jsondata = await this.jsonrpc(JSON.stringify(params));
-        let result = JSON.parse(jsondata).result;
+        let { result } = JSON.parse(jsondata);
         result = result === 0 ? 1 : result;
         if (result) {
-          const price = web3.utils.fromWei(result, "gwei");
+          const price = web3.utils.fromWei(result, 'gwei');
           return price;
         }
         return 0;
-      } else if (wallet.type === "eth") {
-        let price = await web3.eth.getGasPrice();
-        return web3.utils.fromWei(price, "gwei");
       }
+      const price = await web3.eth.getGasPrice();
+      return web3.utils.fromWei(price, 'gwei');
     } catch (err) {
-      DeviceEventEmitter.emit("netRequestErr", err);
-      Analytics.recordErr("getSuggestGasPriceErr", err);
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getSuggestGasPriceErr', err);
       return 0;
     }
   }
@@ -831,11 +764,7 @@ export default class NetworkManager {
    */
 
   static uploadFeedback(params, images) {
-    return FetchUtils.requestPost(
-      NetAddr.feedback,
-      params,
-      images.length > 0 ? images : null
-    );
+    return FetchUtils.requestPost(NetAddr.feedback, params, images.length > 0 ? images : null);
   }
 
   /**
@@ -867,11 +796,11 @@ export default class NetworkManager {
    */
 
   static async userInfoUpdate(params) {
-    let userToken = await StorageManage.load(StorageKey.UserToken);
+    const userToken = await StorageManage.load(StorageKey.UserToken);
     if (!userToken || userToken === null) {
-      return new Promise.reject("userToken not found");
+      return new Promise.reject('userToken not found');
     }
-    params["userToken"] = userToken["userToken"];
+    params.userToken = userToken.userToken;
     return FetchUtils.requestPost(NetAddr.userInfoUpdate, params);
   }
 
@@ -880,7 +809,8 @@ export default class NetworkManager {
    */
 
   static async getTransaction(hashId) {
-    let web3 = this.getWeb3Instance();
-    return await web3.eth.getTransaction(hashId);
+    web3 = this.getWeb3Instance();
+    const tran = await web3.eth.getTransaction(hashId);
+    return tran;
   }
 }

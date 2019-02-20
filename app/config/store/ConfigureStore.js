@@ -5,10 +5,10 @@ import rootReducer from '../reducer/Reducer';
 const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 
 const initalState = {
-    //config initalState
-}
+  // config initalState
+};
 
 const store = createStoreWithMiddleware(rootReducer, initalState);
 
-//persist to do
-export { store }
+// persist to do
+export default store;

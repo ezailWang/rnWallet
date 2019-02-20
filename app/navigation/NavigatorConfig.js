@@ -20,26 +20,25 @@
         gesturesEnabled：是否支持滑动返回手势，iOS默认支持，安卓默认关闭
 */
 import React from 'react';
-import { StyleSheet, Text, DeviceEventEmitter } from 'react-native';
-import { Colors, Common } from '../config/GlobalConfig';
-import PropType from 'prop-types'
-import RightDrawer from '../containers/home/RightDrawer'
-import LayoutConstants from '../config/LayoutConstants'
-import TabIcon from '../components/TabIcon'
-import { I18n } from '../config/language/i18n'
-const StackNavigationConfig = {
-    initialRouteName: 'Set'
-    //initialRouteName: 'Home',
-    //initialRouteName: 'Wallet',
-    //initialRouteName: 'FirstLaunch',
-    //initialRouteName: 'Transfer',
-}
+import { StyleSheet, Text } from 'react-native';
+import { Colors } from '../config/GlobalConfig';
+import RightDrawer from '../containers/home/RightDrawer';
+import LayoutConstants from '../config/LayoutConstants';
+import TabIcon from '../components/TabIcon';
+import { I18n } from '../config/language/i18n';
 
+const StackNavigationConfig = {
+  initialRouteName: 'Set',
+  // initialRouteName: 'Home',
+  // initialRouteName: 'Wallet',
+  // initialRouteName: 'FirstLaunch',
+  // initialRouteName: 'Transfer',
+};
 
 const HomeStackNavigationConfig = {
-    initialRouteName: 'HomeTab',
-    headerMode: 'none',
-    /**navigationOptions: ({ navigation }) => ({
+  initialRouteName: 'HomeTab',
+  headerMode: 'none',
+  /** navigationOptions: ({ navigation }) => ({
         headerStyle:{
             //height:{height},
             backgroundColor: Colors.backgroundWhiteColor
@@ -53,140 +52,142 @@ const HomeStackNavigationConfig = {
             fontWeight:"400"
         }
 
-    })**/
-}
+    })* */
+};
 
 const HomeDrawerConfig = {
-    initialRouteName: 'HomeNav',
-    drawerPosition: 'right',
-    contentComponent: RightDrawer,
-    drawerWidth: LayoutConstants.HOME_DRAWER_WIDTH
-
-}
+  initialRouteName: 'HomeNav',
+  drawerPosition: 'right',
+  contentComponent: RightDrawer,
+  drawerWidth: LayoutConstants.HOME_DRAWER_WIDTH,
+};
 
 const FirstLaunchStackNavigationConfig = {
-    initialRouteName: 'FirstLaunch',
-    headerMode: 'none',
-}
-
-const HomeBottomTabNavigationConfig = {
-    initialRouteName: 'Home',
-    tabBarPosition: 'bottom',//设置TabNavigator的位置
-    animationEnabled: true,//是否在更改标签时显示动画
-    swipeEnabled: true,//是否允许在标签之间进行滑动
-    lazy: false,//是否在app打开的时候将底部标签栏全部加载
-    backBehavior: "none",//按back键是否跳转到第一个Tab(首页)， none 为不跳转
-    tabBarOptions: {
-        activeBackgroundColor: 'white',//活动标签的背景颜色
-        inactiveBackgroundColor: 'white',//非活动选项卡的背景颜色
-        activeTintColor: Colors.fontBlueColor, //label和icon的前景色 活跃状态下（选中）
-        inactiveTintColor: Colors.fontGrayColor_a, //label和icon的前景色 活跃状态下（未选中）
-        showLabel: true, //是否显示图标，默认关闭
-        showIcon: true, //是否显示label，默认开启
-        upperCaseLabel: false,//Android属性  是否使标签大写，默认为true
-        style: { //整体TabBar的样式
-            backgroundColor: 'white',
-            height: 48,
-            borderTopWidth: 0.5,
-            borderTopColor: Colors.borderColor_e
-        },
-        tabStyle: { //选项卡的样式
-            height: 48,
-        },
-        labelStyle: { //选项卡标签的样式
-            fontSize: 12,
-        },
-        indicatorStyle: { //android 线的样式
-            height: 0,
-        },
-    },
-    navigationOptions: ({ navigation }) => ({
-        tabBarOnPress: () => { // 使用tabBarOnPress点击事件
-            if (!navigation.isFocused()) {
-                navigation.navigate(navigation.state.routeName, {
-                    title: navigation.state.routeName
-                })
-            }
-        },
-        tabBarLabel: ({ focused, tintColor }) => {
-            const { routeName } = navigation.state;
-
-            switch (routeName) {
-                case "Home":
-                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_wallet')}</Text>
-                    break;
-                case "Mapping":
-                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_mapping')}</Text>
-                    break
-                case "My":
-                    return <Text style={focused ? styles.blueText : styles.grayText}>{I18n.t('home.tab_my')}</Text>
-                    break
-            }
-        },
-        tabBarIcon: ({ focused, tintColor }) => {
-            const { routeName } = navigation.state;
-            switch (routeName) {
-                case "Home":
-                    let homeIcon = focused ? require('../assets/home/wallet_on.png') : require('../assets/home/wallet_off.png')
-                    return (
-                        <TabIcon
-                            icon={homeIcon}
-                        />
-                    );
-                    break;
-                case "Mapping":
-                    let mappingIcon = focused ? require('../assets/home/mapping_on.png') : require('../assets/home/mapping_off.png')
-                    return (
-                        <TabIcon
-                            icon={mappingIcon}
-                        />
-                    );
-                    break
-                case "My":
-                    let myIcon = focused ? require('../assets/home/my_on.png') : require('../assets/home/my_off.png')
-                    return (
-                        <TabIcon
-                            icon={myIcon}
-                            isShowRedRemind={false}
-                            count={0}
-                        />
-                    );
-                    break
-            }
-        }
-    }),
-    
-}
-
-
-
+  initialRouteName: 'FirstLaunch',
+  headerMode: 'none',
+};
 
 const styles = StyleSheet.create({
-    blueText: {
-        fontSize: 12,
-        color: '#01a1e6',
-        textAlign: 'center',
-        alignSelf: 'center',
-        marginBottom: 2,
-        marginTop: 0,
-    },
-    grayText: {
-        fontSize: 12,
-        color: '#aaaaaa',
-        textAlign: 'center',
-        alignSelf: 'center',
-        marginBottom: 2,
-        marginTop: 0,
-    }
+  blueText: {
+    fontSize: 12,
+    color: '#01a1e6',
+    textAlign: 'center',
+    alignSelf: 'center',
+    marginBottom: 2,
+    marginTop: 0,
+  },
+  grayText: {
+    fontSize: 12,
+    color: '#aaaaaa',
+    textAlign: 'center',
+    alignSelf: 'center',
+    marginBottom: 2,
+    marginTop: 0,
+  },
+});
 
-})
+const HomeBottomTabNavigationConfig = {
+  initialRouteName: 'Home',
+  tabBarPosition: 'bottom', // 设置TabNavigator的位置
+  animationEnabled: true, // 是否在更改标签时显示动画
+  swipeEnabled: true, // 是否允许在标签之间进行滑动
+  lazy: false, // 是否在app打开的时候将底部标签栏全部加载
+  backBehavior: 'none', // 按back键是否跳转到第一个Tab(首页)， none 为不跳转
+  tabBarOptions: {
+    activeBackgroundColor: 'white', // 活动标签的背景颜色
+    inactiveBackgroundColor: 'white', // 非活动选项卡的背景颜色
+    activeTintColor: Colors.fontBlueColor, // label和icon的前景色 活跃状态下（选中）
+    inactiveTintColor: Colors.fontGrayColor_a, // label和icon的前景色 活跃状态下（未选中）
+    showLabel: true, // 是否显示图标，默认关闭
+    showIcon: true, // 是否显示label，默认开启
+    upperCaseLabel: false, // Android属性  是否使标签大写，默认为true
+    style: {
+      // 整体TabBar的样式
+      backgroundColor: 'white',
+      height: 48,
+      borderTopWidth: 0.5,
+      borderTopColor: Colors.borderColor_e,
+    },
+    tabStyle: {
+      // 选项卡的样式
+      height: 48,
+    },
+    labelStyle: {
+      // 选项卡标签的样式
+      fontSize: 12,
+    },
+    indicatorStyle: {
+      // android 线的样式
+      height: 0,
+    },
+  },
+  navigationOptions: ({ navigation }) => ({
+    tabBarOnPress: () => {
+      // 使用tabBarOnPress点击事件
+      if (!navigation.isFocused()) {
+        navigation.navigate(navigation.state.routeName, {
+          title: navigation.state.routeName,
+        });
+      }
+    },
+    tabBarLabel: ({ focused }) => {
+      const { routeName } = navigation.state;
+
+      switch (routeName) {
+        case 'Home':
+          return (
+            <Text style={focused ? styles.blueText : styles.grayText} numberOfLines={1}>
+              {I18n.t('home.tab_wallet')}
+            </Text>
+          );
+        case 'Mapping':
+          return (
+            <Text style={focused ? styles.blueText : styles.grayText} numberOfLines={1}>
+              {I18n.t('home.tab_mapping')}
+            </Text>
+          );
+        case 'My':
+          return (
+            <Text style={focused ? styles.blueText : styles.grayText} numberOfLines={1}>
+              {I18n.t('home.tab_my')}
+            </Text>
+          );
+        default:
+          return null;
+      }
+    },
+    tabBarIcon: ({ focused }) => {
+      const { routeName } = navigation.state;
+      switch (routeName) {
+        case 'Home': {
+          const homeIcon = focused
+            ? require('../assets/home/wallet_on.png')
+            : require('../assets/home/wallet_off.png');
+          return <TabIcon icon={homeIcon} />;
+        }
+        case 'Mapping': {
+          const mappingIcon = focused
+            ? require('../assets/home/mapping_on.png')
+            : require('../assets/home/mapping_off.png');
+          return <TabIcon icon={mappingIcon} />;
+        }
+        case 'My': {
+          const myIcon = focused
+            ? require('../assets/home/my_on.png')
+            : require('../assets/home/my_off.png');
+          return <TabIcon icon={myIcon} isShowRedRemind={false} count={0} />;
+        }
+        default:
+          return null;
+      }
+    },
+  }),
+};
 
 export {
-    HomeStackNavigationConfig,
-    FirstLaunchStackNavigationConfig,
-    StackNavigationConfig,
-    HomeDrawerConfig,
-    HomeBottomTabNavigationConfig
-}
-
-
+  HomeStackNavigationConfig,
+  FirstLaunchStackNavigationConfig,
+  StackNavigationConfig,
+  HomeDrawerConfig,
+  HomeBottomTabNavigationConfig,
+};

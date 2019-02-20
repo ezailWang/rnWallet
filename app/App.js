@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import { Provider } from "react-redux";
-import { StackNavigator } from "react-navigation";
-import { store } from "./config/store/ConfigureStore";
-import Navigator from "./navigation";
-import Analytics from "./utils/Analytics";
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import store from './config/store/ConfigureStore';
+import Navigator from './navigation';
+import Analytics from './utils/Analytics';
 
 function getCurrentRouteName(navigationState) {
   if (!navigationState) {

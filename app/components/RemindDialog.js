@@ -1,75 +1,64 @@
-import React, {Component} from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    Modal,
-    TextInput,
-    TouchableOpacity,
-} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Modal } from 'react-native';
 import PropTypes from 'prop-types';
-import {Colors} from '../config/GlobalConfig'
-import {BlueButtonSmall,WhiteButtonSmall} from './Button'
-import Layout from '../config/LayoutConstants'
-import { I18n } from '../config/language/i18n'
+import { Colors } from '../config/GlobalConfig';
+import { BlueButtonSmall, WhiteButtonSmall } from './Button';
+import { I18n } from '../config/language/i18n';
 
 const styles = StyleSheet.create({
-    modeBox:{
-        flex:1,
-        // justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:Colors.blackOpacityColor,
-        justifyContent:'center',
-    },
-    contentBox:{
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'#fff',
-        paddingLeft:25,
-        paddingRight:25,
-        paddingTop:40,
-        paddingBottom:30,
-        //marginTop:Layout.WINDOW_HEIGHT*0.23,
-        marginLeft:20,
-        marginRight:20,
-        //borderRadius:5,
-    },
-    text:{
-        fontSize:15,
-        color:Colors.fontBlackColor,
-        textAlign:'center',
-    },
-    buttonBox:{
-        flexDirection:'row',
-        marginTop:40,
-    },
-    leftBtnBox:{
-        flex:1,
-    },
-    rightBtnBox:{
-        flex:1,
-        marginLeft:20,
-    },
-   
+  modeBox: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: Colors.blackOpacityColor,
+    justifyContent: 'center',
+  },
+  contentBox: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 40,
+    paddingBottom: 30,
+    // marginTop:Layout.WINDOW_HEIGHT*0.23,
+    marginLeft: 20,
+    marginRight: 20,
+    // borderRadius:5,
+  },
+  text: {
+    fontSize: 15,
+    color: Colors.fontBlackColor,
+    textAlign: 'center',
+  },
+  buttonBox: {
+    flexDirection: 'row',
+    marginTop: 40,
+  },
+  leftBtnBox: {
+    flex: 1,
+  },
+  rightBtnBox: {
+    flex: 1,
+    marginLeft: 20,
+  },
 });
-export default class RemindDialog extends Component{
-    static propTypes = {
-        content:PropTypes.string.isRequired,
-        leftPress: PropTypes.func.isRequired,
-        rightPress: PropTypes.func.isRequired,
-        modalVisible: PropTypes.bool.isRequired,
-        rightTxt: PropTypes.string,
-        leftTxt:PropTypes.string,
-    }
+export default class RemindDialog extends Component {
+  static propTypes = {
+    content: PropTypes.string.isRequired,
+    leftPress: PropTypes.func.isRequired,
+    rightPress: PropTypes.func.isRequired,
+    modalVisible: PropTypes.bool.isRequired,
+    rightTxt: PropTypes.string,
+    leftTxt: PropTypes.string,
+  };
 
-    static defaultProps = {
-        leftTxt: I18n.t('modal.cancel'),
-        rightTxt: I18n.t('modal.confirm'),
-    }
+  static defaultProps = {
+    leftTxt: I18n.t('modal.cancel'),
+    rightTxt: I18n.t('modal.confirm'),
+  };
 
-    /**constructor(props){
+  /** constructor(props){
         super(props);
         this.state = {
             isVisible : false,
@@ -114,41 +103,33 @@ export default class RemindDialog extends Component{
     
     rightPressed=()=>{
         this.props.rightPress
-    }**/
+    }* */
 
-    render(){
-        return(
-            <Modal
-                  onStartShouldSetResponder={() => false}
-                  animationType={'fade'}
-                  transparent={true}
-                  visible={this.props.modalVisible}
-                  onRequestClose={()=>{
-                    
-                  }}
-                  onShow={()=>{
-                    
-                  }}
-            >
-                <View style={styles.modeBox}>
-                <View style={styles.contentBox}>
-                    <Text style={styles.text}>{this.props.content}</Text>
-                    <View style={styles.buttonBox}>
-                        <View style={styles.leftBtnBox}>
-                            <WhiteButtonSmall onPress={this.props.leftPress}
-                                              text={this.props.leftTxt}>
-                            </WhiteButtonSmall>
-                        </View>
-                        <View style={styles.rightBtnBox}>
-                            <BlueButtonSmall onPress = {this.props.rightPress}
-                                             text = {this.props.rightTxt}>
-                            </BlueButtonSmall>
-                        </View> 
-                    </View>
-                </View>    
-                </View>     
-            </Modal>      
-
-        );
-    }
+  render() {
+    const { modalVisible, content, leftPress, leftTxt, rightTxt, rightPress } = this.props;
+    return (
+      <Modal
+        onStartShouldSetResponder={() => false}
+        animationType="fade"
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {}}
+        onShow={() => {}}
+      >
+        <View style={styles.modeBox}>
+          <View style={styles.contentBox}>
+            <Text style={styles.text}>{content}</Text>
+            <View style={styles.buttonBox}>
+              <View style={styles.leftBtnBox}>
+                <WhiteButtonSmall onPress={leftPress} text={leftTxt} />
+              </View>
+              <View style={styles.rightBtnBox}>
+                <BlueButtonSmall onPress={rightPress} text={rightTxt} />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
 }

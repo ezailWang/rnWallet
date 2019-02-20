@@ -39,20 +39,9 @@
 
     path：路由中设置的路径的覆盖映射配置
 */
-import { I18n } from "../config/language/i18n";
+import { createBottomTabNavigator } from 'react-navigation';
+import { HomeBottomTabNavigationConfig } from './NavigatorConfig';
 import {
-  createBottomTabNavigator,
-  createSwitchNavigator
-} from "react-navigation";
-import { HomeBottomTabNavigationConfig } from "./NavigatorConfig";
-import {
-  walletTest,
-  rpcTest,
-  keystoreTest,
-  networkTest,
-  FirstLaunchContainers,
-  mainContainers,
-  Wallet,
   Transaction,
   FirstLaunchScreen,
   ServiceAgreementScreen,
@@ -64,7 +53,6 @@ import {
   HomeScreen,
   MyScreen,
   SetScreen,
-  ModifyPasswordScreen,
   ExportPrivateKeyScreen,
   ExportKeystoreScreen,
   ReceiptCodeScreen,
@@ -96,49 +84,47 @@ import {
   MappingGuideScreen,
   WalletListScreen,
   ChoseWalletTypeScreen,
-  Mapping
-} from "../containers/Containers";
-import { getMessageCount } from "../utils/CommonUtil";
-import NetworkManager from "../utils/NetworkManager";
-import firebase from "react-native-firebase";
-import Analytics from "../utils/Analytics";
-//首次启动导航栈
+  Mapping,
+} from '../containers/Containers';
+import { getMessageCount } from '../utils/CommonUtil';
+import Analytics from '../utils/Analytics';
+// 首次启动导航栈
 const FirstLaunchRouteConfig = {
   FirstLaunch: {
     screen: FirstLaunchScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: () => ({
       header: null,
       cardStack: {
         // gesturesEnabled: false
-      }
-    })
+      },
+    }),
   },
   CreateWallet: {
-    screen: CreateWalletScreen
-    /**navigationOptions: ({navigation}) => ({
+    screen: CreateWalletScreen,
+    /** navigationOptions: ({navigation}) => ({
             header:<BlueHeader navigation={navigation}/>
-        })**/
+        })* */
   },
   ServiceAgreement: {
-    screen: ServiceAgreementScreen
+    screen: ServiceAgreementScreen,
   },
   BackupMnemonic: {
-    screen: BackupMnemonicScreen
+    screen: BackupMnemonicScreen,
   },
   VerifyMnemonic: {
     screen: VerifyMnemonicScreen,
-    navigationOptions: { gesturesEnabled: false }
+    navigationOptions: { gesturesEnabled: false },
   },
   BackupWallet: {
-    screen: BackupWalletScreen
+    screen: BackupWalletScreen,
   },
   ImportWallet: {
-    screen: ImportWalletScreen
+    screen: ImportWalletScreen,
   },
   ChoseWalletType: {
-    screen: ChoseWalletTypeScreen
-  }
-  /**UserRegulation: {
+    screen: ChoseWalletTypeScreen,
+  },
+  /** UserRegulation: {
         screen: UserRegulationScreen,
         navigationOptions: ({navigation}) => ({
             headerTitle:"用户条例",
@@ -149,10 +135,10 @@ const FirstLaunchRouteConfig = {
                 navigation.goBack()
             }}/>,
         })
-    },**/
+    },* */
 };
 
-//首页Tab
+// 首页Tab
 
 const HomeBottomTabNavigation = createBottomTabNavigator(
   {
@@ -162,178 +148,169 @@ const HomeBottomTabNavigation = createBottomTabNavigator(
         header: null,
         tabBarOnPress: () => {
           // 使用tabBarOnPress点击事件
-          Analytics.recordClick("Tab", "home");
-          navigation.navigate("Home");
-        }
-      })
+          Analytics.recordClick('Tab', 'home');
+          navigation.navigate('Home');
+        },
+      }),
     },
     Mapping: {
       screen: Mapping,
       navigationOptions: ({ navigation }) => ({
         tabBarOnPress: () => {
-          Analytics.recordClick("Tab", "mapping");
-          navigation.navigate("Mapping");
-        }
-      })
+          Analytics.recordClick('Tab', 'mapping');
+          navigation.navigate('Mapping');
+        },
+      }),
     },
     My: {
       screen: MyScreen,
       navigationOptions: ({ navigation }) => ({
         tabBarOnPress: () => {
           getMessageCount();
-          Analytics.recordClick("Tab", "my");
-          navigation.navigate("My");
-        }
-      })
-    }
+          Analytics.recordClick('Tab', 'my');
+          navigation.navigate('My');
+        },
+      }),
+    },
   },
   HomeBottomTabNavigationConfig
 );
 
-//主页导航栈
+// 主页导航栈
 const HomeRouteConfig = {
   HomeTab: {
     screen: HomeBottomTabNavigation,
     navigationOptions: {
-      header: null
-      //gesturesEnabled:false
-    }
+      header: null,
+      // gesturesEnabled:false
+    },
   },
-  /*HomeScreen: {
+  /* HomeScreen: {
         screen: HomeScreen,
         navigationOptions: {
             header: null,
             //gesturesEnabled:false
         }
-    },*/
+    }, */
   AddAssets: {
-    screen: AddAssets
+    screen: AddAssets,
   },
   Set: {
-    screen: SetScreen
-  },
-  ModifyPassword: {
-    screen: ModifyPasswordScreen
+    screen: SetScreen,
   },
   ReceiptCode: {
-    screen: ReceiptCodeScreen
+    screen: ReceiptCodeScreen,
   },
   TransactionDetail: {
-    screen: TransactionDetail
-    /**navigationOptions: ({navigation}) => ({
+    screen: TransactionDetail,
+    /** navigationOptions: ({navigation}) => ({
             header:<WhiteBgHeader navigation={navigation} text='交易记录'/>
-        })**/
+        })* */
   },
   ScanQRCode: {
-    screen: ScanQRCodeScreen
-  },
-  BackupMnemonic: {
-    screen: BackupMnemonicScreen
-  },
-  VerifyMnemonic: {
-    screen: VerifyMnemonicScreen
+    screen: ScanQRCodeScreen,
   },
   CreateWallet: {
-    screen: CreateWalletScreen
+    screen: CreateWalletScreen,
   },
   TransactionRecoder: {
-    screen: TransactionRecoder
+    screen: TransactionRecoder,
   },
   Transaction: {
-    screen: Transaction
+    screen: Transaction,
   },
   ExportPrivateKey: {
-    screen: ExportPrivateKeyScreen
+    screen: ExportPrivateKeyScreen,
   },
   ExportKeystore: {
-    screen: ExportKeystoreScreen
+    screen: ExportKeystoreScreen,
   },
   CreateContact: {
-    screen: CreateContactScreen
+    screen: CreateContactScreen,
   },
   ContactList: {
-    screen: ContactListScreen
+    screen: ContactListScreen,
   },
   ContactInfo: {
-    screen: ContactInfoScreen
+    screen: ContactInfoScreen,
   },
   AboutUs: {
-    screen: AboutUsScreen
+    screen: AboutUsScreen,
   },
   Feedback: {
-    screen: FeedbackScreen
+    screen: FeedbackScreen,
   },
   ChoseLanguage: {
-    screen: ChoseLanguageScreen
+    screen: ChoseLanguageScreen,
   },
   ChoseMonetaryUnit: {
-    screen: ChoseMonetaryUnitScreen
+    screen: ChoseMonetaryUnitScreen,
   },
   SystemSet: {
-    screen: SystemSetScreen
+    screen: SystemSetScreen,
   },
   UseAndPrivacyPolicy: {
-    screen: UseAndPrivacyPolicyScreen
+    screen: UseAndPrivacyPolicyScreen,
   },
   AddToken: {
-    screen: AddTokenScreen
+    screen: AddTokenScreen,
   },
   SearchToken: {
-    screen: SearchTokenScreen
+    screen: SearchTokenScreen,
   },
   MessageCenter: {
-    screen: MessageCenterScreen
+    screen: MessageCenterScreen,
   },
   MessageWebView: {
-    screen: MessageWebViewScreen
+    screen: MessageWebViewScreen,
   },
   AddressList: {
-    screen: AddressListScreen
+    screen: AddressListScreen,
   },
 
   MappingTerms: {
-    screen: MappingTermsScreen
+    screen: MappingTermsScreen,
   },
   ChangeBindAddress: {
-    screen: ChangeBindAddressScreen
+    screen: ChangeBindAddressScreen,
   },
   BindWalletAddress: {
-    screen: BindWalletAddressScreen
+    screen: BindWalletAddressScreen,
   },
   ItcMappingService: {
-    screen: ItcMappingServiceScreen
+    screen: ItcMappingServiceScreen,
   },
   MappingRecords: {
-    screen: MappingRecordsScreen
+    screen: MappingRecordsScreen,
   },
   MappingRecordDetail: {
-    screen: MappingRecordDetailScreen
+    screen: MappingRecordDetailScreen,
   },
   MappingGuide: {
-    screen: MappingGuideScreen
+    screen: MappingGuideScreen,
   },
   WalletList: {
-    screen: WalletListScreen
+    screen: WalletListScreen,
   },
   ServiceAgreement: {
-    screen: ServiceAgreementScreen
+    screen: ServiceAgreementScreen,
   },
   BackupMnemonic: {
-    screen: BackupMnemonicScreen
+    screen: BackupMnemonicScreen,
   },
   VerifyMnemonic: {
     screen: VerifyMnemonicScreen,
-    navigationOptions: { gesturesEnabled: false }
+    navigationOptions: { gesturesEnabled: false },
   },
   BackupWallet: {
-    screen: BackupWalletScreen
+    screen: BackupWalletScreen,
   },
   ImportWallet: {
-    screen: ImportWalletScreen
+    screen: ImportWalletScreen,
   },
   ChoseWalletType: {
-    screen: ChoseWalletTypeScreen
-  }
+    screen: ChoseWalletTypeScreen,
+  },
 };
 
 export { HomeRouteConfig, FirstLaunchRouteConfig, Loading };

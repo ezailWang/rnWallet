@@ -1,17 +1,13 @@
-import firebase from "react-native-firebase";
-import LayoutConstants from "../config/LayoutConstants";
-import { Platform } from "react-native";
-//firebase.utils().errorOnMissingPlayServices = false;
-//firebase.utils().promptOnMissingPlayServices = false;
+import {} from 'react-native';
+import firebase from 'react-native-firebase';
+import LayoutConstants from '../config/LayoutConstants';
+// firebase.utils().errorOnMissingPlayServices = false;
+// firebase.utils().promptOnMissingPlayServices = false;
 
 async function checkPlayServicesBasic() {
   const utils = firebase.utils();
 
-  const {
-    isAvailable,
-    hasResolution,
-    isUserResolvableError
-  } = utils.playServicesAvailability;
+  const { isAvailable, hasResolution, isUserResolvableError } = utils.playServicesAvailability;
 
   // all good and valid \o/
   if (isAvailable) return Promise.resolve();
@@ -29,9 +25,7 @@ async function checkPlayServicesBasic() {
 
   // There's no way to resolve play services on this device
   // probably best to show a dialog / force crash the app
-  return Promise.reject(
-    new Error("Unable to find a valid play services version.")
-  );
+  return Promise.reject(new Error('Unable to find a valid play services version.'));
 }
 
 let enableGoogleServer = false;
@@ -48,11 +42,11 @@ export default class Analytics {
               firebase.analytics().setAnalyticsCollectionEnabled(true);
             },
             err => {
-              console.log("checkPlayServicesBasicRejectErr", err);
+              console.log('checkPlayServicesBasicRejectErr', err);
             }
           )
           .catch(err => {
-            console.log("checkPlayServicesBasicCatchErr", err);
+            console.log('checkPlayServicesBasicCatchErr', err);
           });
       } else {
         enableGoogleServer = true;
@@ -77,14 +71,14 @@ export default class Analytics {
     if (enableGoogleServer) {
       try {
         const urlStr = url.length > 100 ? url.substring(0, 99) : url;
-        firebase.analytics().logEvent("request", {
+        firebase.analytics().logEvent('request', {
           reqMethod: method,
-          reqUrl: urlStr
+          reqUrl: urlStr,
         });
       } catch (err) {
-        firebase.analytics().logEvent("customErr", {
-          errName: "recordRequest",
-          errDetsail: reqName
+        firebase.analytics().logEvent('customErr', {
+          errName: 'recordRequest',
+          errDetsail: method,
         });
       }
     }
@@ -92,7 +86,7 @@ export default class Analytics {
 
   static recordErr(errName, err) {
     if (enableGoogleServer) {
-      if (err === "No transactions found") {
+      if (err === 'No transactions found') {
         return;
       }
       try {
@@ -106,14 +100,12 @@ export default class Analytics {
         if (errStr.length > 100) {
           errStr = errStr.substring(0, 99);
         }
-        firebase.analytics().logEvent("customErr", {
-          errName: errName,
-          errDetail: errStr
+        firebase.analytics().logEvent('customErr', {
+          errName,
+          errDetail: errStr,
         });
-      } catch (err) {
-        firebase
-          .analytics()
-          .logEvent("customErr", { errName: "recordErr", errDetail: errName });
+      } catch (e) {
+        firebase.analytics().logEvent('customErr', { errName: 'recordErr', errDetail: errName });
       }
     }
   }
@@ -121,14 +113,14 @@ export default class Analytics {
   static recordClick(category, detail) {
     if (enableGoogleServer) {
       try {
-        firebase.analytics().logEvent("click", {
-          category: category,
-          detail: detail
+        firebase.analytics().logEvent('click', {
+          category,
+          detail,
         });
       } catch (err) {
-        firebase.analytics().logEvent("customErr", {
-          errName: "recordClick",
-          errDetail: category
+        firebase.analytics().logEvent('customErr', {
+          errName: 'recordClick',
+          errDetail: category,
         });
       }
     }
