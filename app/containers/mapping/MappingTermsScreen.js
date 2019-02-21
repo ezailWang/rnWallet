@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgNoBackHeader } from '../../components/NavigaionHeader';
@@ -157,9 +157,10 @@ export default class MappingTermsScreen extends BaseComponent {
     this.setState({ isAgree: !agree });
   };
 
-  startBtn() {
-    this.props.navigation.navigate('BindWalletAddress');
-  }
+  startBtn = () => {
+    const { _this } = this.props;
+    _this.props.navigation.navigate('BindWalletAddress');
+  };
 
   renderComponent = () => (
     /* const checkIcon = this.state.isAgree
@@ -195,17 +196,36 @@ export default class MappingTermsScreen extends BaseComponent {
               />
             </View>
           </View>
-          {/* <View style={styles.bottomBox}>
-            <TouchableOpacity style={styles.checkBox} activeOpacity={0.6} onPress={this.isAgreePress}>
-                            <Image style={styles.checkImage} source={checkIcon} resizeMode={'center'} ></Image>
-                            <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
-        </TouchableOpacity> */}
-          <BlueButtonBig
+          <View style={styles.bottomBox}>
+            <TouchableOpacity
+              style={styles.checkBox}
+              activeOpacity={0.6}
+              onPress={this.isAgreePress}
+            >
+              <Image
+                style={styles.checkImage}
+                source={
+                  this.state.isAgree
+                    ? require('../../assets/launch/check_on.png')
+                    : require('../../assets/launch/check_off.png')
+                }
+                resizeMode="center"
+              />
+              <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
+            </TouchableOpacity>
+            <BlueButtonBig
+              buttonStyle={styles.button}
+              isDisabled={!this.state.isAgree}
+              onPress={this.startBtn}
+              text={I18n.t('mapping.upcoming_start')}
+            />
+          </View>
+          {/*  <BlueButtonBig
             buttonStyle={styles.button}
             isDisabled={!this.state.isAgree}
             onPress={() => this.startBtn()}
             text={I18n.t('mapping.upcoming_start')}
-          />
+          /> */}
         </View>
       </ScrollView>
     </View>

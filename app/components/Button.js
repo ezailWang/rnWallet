@@ -209,7 +209,9 @@ class ClarityWhiteButtonBig extends Component {
     const { onPress, text } = this.props;
     return (
       <TouchableOpacity style={[styles.normalBtn, styles.clearBtn]} onPress={onPress}>
-        <Text style={[styles.clearBtnTitle, styles.normalBtnTitle]}>{text}</Text>
+        <Text style={[styles.clearBtnTitle, styles.normalBtnTitle]} numberOfLines={1}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   }
@@ -239,7 +241,9 @@ class BlueButtonBig extends Component {
           end={{ x: 1, y: 1 }}
           style={[styles.normalBtnGradient, { flex: 1 }]}
         >
-          <Text style={[styles.blueBtnTitle, styles.normalBtnTitle]}>{text}</Text>
+          <Text style={[styles.blueBtnTitle, styles.normalBtnTitle]} numberOfLines={1}>
+            {text}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -270,7 +274,9 @@ class GreyButtonBig extends Component {
           end={{ x: 1, y: 1 }}
           style={[styles.normalBtnGradient, { flex: 1 }]}
         >
-          <Text style={[styles.GreyBtnText, styles.normalBtnTitle]}>{text}</Text>
+          <Text style={[styles.GreyBtnText, styles.normalBtnTitle]} numberOfLines={1}>
+            {text}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -292,7 +298,9 @@ class WhiteButtonBig extends Component {
         activeOpacity={0.6}
         onPress={onPress}
       >
-        <Text style={[styles.whiteBtnTitle, styles.normalBtnTitle]}>{text}</Text>
+        <Text style={[styles.whiteBtnTitle, styles.normalBtnTitle]} numberOfLines={1}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   }
@@ -321,7 +329,9 @@ class WhiteButtonMiddle extends Component {
           style={{ marginRight: 5, height: 20, width: 20 }}
           resizeMode="contain"
         />
-        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]}>{text}</Text>
+        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]} numberOfLines={1}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   }
@@ -343,7 +353,9 @@ class BlueButtonMiddle extends Component {
           end={{ x: 1, y: 1 }}
           style={[styles.normalMiddleBtn, { flex: 1 }]}
         >
-          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]}>{text}</Text>
+          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]} numberOfLines={1}>
+            {text}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -360,7 +372,9 @@ class WhiteButtonSmall extends Component {
     const { onPress, text } = this.props;
     return (
       <TouchableOpacity style={[styles.normalSmallBtn, styles.middleWhiteBtn]} onPress={onPress}>
-        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]}>{text}</Text>
+        <Text style={[styles.normalMiddleBtnTitle, styles.middleWhiteBtnTitle]} numberOfLines={1}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   }
@@ -387,7 +401,9 @@ class BlueButtonSmall extends Component {
           end={{ x: 1, y: 1 }}
           style={[styles.normalSmallBtn, { flex: 1 }]}
         >
-          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]}>{text}</Text>
+          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]} numberOfLines={1}>
+            {text}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
     );
@@ -404,7 +420,9 @@ class NextButton extends Component {
     const { onPress, text } = this.props;
     return (
       <TouchableOpacity style={[styles.btnOpacity]} activeOpacity={0.6} onPress={onPress}>
-        <Text style={styles.txt}>{text}</Text>
+        <Text style={styles.txt} numberOfLines={1}>
+          {text}
+        </Text>
         <Image
           style={styles.icon}
           source={require('../assets/set/next.png')}
@@ -452,7 +470,9 @@ class WhiteBorderButton extends Component {
         activeOpacity={0.6}
         onPress={onPress}
       >
-        <Text style={[styles.normalBtnTitle, styles.whiteTxt]}>{text}</Text>
+        <Text style={[styles.normalBtnTitle, styles.whiteTxt]} numberOfLines={1}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   }

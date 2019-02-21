@@ -30,7 +30,7 @@ class Mapping extends PureComponent {
             backgroundColor: 'white',
           }}
         >
-          <MappingTermsScreen />
+          <MappingTermsScreen _this={this} />
         </View>
       </LinearGradient>
     );

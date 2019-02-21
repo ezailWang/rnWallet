@@ -393,8 +393,8 @@ class ItcMappingServiceScreen extends BaseComponent {
     this.ethAmount = '0.008';
     this.gasAmount = '600';
 
-    this.scroll = React.createRef();
-    this.inputText = React.createRef();
+    // this.scroll = React.createRef();
+    // this.inputText = React.createRef();
   }
 
   _initData = () => {
@@ -403,7 +403,7 @@ class ItcMappingServiceScreen extends BaseComponent {
       initiationAddress: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
       gasCost: `Gas${I18n.t('mapping.cost')}:0.0056 eth`, // Gas费用
     });
-    this.inputText.focus();
+    this.INPUT.focus();
   };
 
   mappingRecord = () => {
@@ -412,7 +412,7 @@ class ItcMappingServiceScreen extends BaseComponent {
   };
 
   confirmBtn = () => {
-    this.inputText.blur();
+    this.INPUT.blur();
     this.setState({
       isShowMappingDetail: true,
     });
@@ -528,7 +528,9 @@ class ItcMappingServiceScreen extends BaseComponent {
           <View style={styles.mAmountInputView}>
             <TextInput
               style={[styles.mAmountInput]}
-              ref={this.inputText}
+              ref={textinput => {
+                this.INPUT = textinput;
+              }}
               placeholderTextColor={Colors.fontGrayColor_a0}
               placeholder=""
               underlineColorAndroid="transparent"
@@ -600,11 +602,11 @@ class ConfirmMappingModal extends PureComponent {
   }
 
   toInputPwd = () => {
-    this.scroll.scrollTo({ x: Layout.WINDOW_WIDTH, y: 0, animated: true });
+    this.SCROLL.scrollTo({ x: Layout.WINDOW_WIDTH, y: 0, animated: true });
   };
 
   toMappingDetail = () => {
-    this.scroll.scrollTo({ x: 0, y: 0, animated: true });
+    this.SCROLL.scrollTo({ x: 0, y: 0, animated: true });
   };
 
   pwdInputChangeText = text => {
@@ -644,7 +646,9 @@ class ConfirmMappingModal extends PureComponent {
               behavior="padding"
             >
               <ScrollView
-                ref={this.scroll}
+                ref={scroll => {
+                  this.SCROLL = scroll;
+                }}
                 style={styles.modalScrollView}
                 keyboardShouldPersistTaps="handled"
                 horizontal

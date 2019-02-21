@@ -136,12 +136,16 @@ export default class MyAlertComponent extends Component {
             <View style={styles.buttonBox}>
               {leftBtnTxt ? (
                 <TouchableOpacity style={styles.leftBtnTouch} onPress={leftPress}>
-                  <Text style={styles.leftBtnTxt}>{leftBtnTxt}</Text>
+                  <Text style={styles.leftBtnTxt} numberOfLines={1}>
+                    {leftBtnTxt}
+                  </Text>
                 </TouchableOpacity>
               ) : null}
 
               <TouchableOpacity style={styles.rightBtnTouch} onPress={rightPress}>
-                <Text style={styles.rightBtnTxt}>{rightBtnTxt}</Text>
+                <Text style={styles.rightBtnTxt} numberOfLines={1}>
+                  {rightBtnTxt}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

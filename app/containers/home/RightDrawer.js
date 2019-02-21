@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   addIcon: {
     width: 12,
     height: 12,
+    marginLeft: 20,
   },
   addButtonText: {
     lineHeight: 38,
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
     color: Colors.fontGrayColor_a,
     fontSize: 14,
     marginLeft: 10,
+    marginRight: 10,
   },
 
   itemHeaderBox: {
@@ -302,7 +304,10 @@ class Item extends PureComponent {
           <View
             style={[styles.itemCircle, isSelected ? styles.itemBlueCircle : styles.itemGrayCircle]}
           />
-          <Text style={[styles.itemText, isSelected ? styles.itemBlueText : styles.itemGrayText]}>
+          <Text
+            style={[styles.itemText, isSelected ? styles.itemBlueText : styles.itemGrayText]}
+            numberOfLines={1}
+          >
             {wallet.name}
           </Text>
         </TouchableOpacity>
@@ -325,7 +330,9 @@ class ItemHeader extends PureComponent {
       <View style={styles.itemHeaderBox}>
         <View activeOpacity={0.6} style={styles.itemHeaderView}>
           <Image style={styles.itemHeaderIcon} source={icon} resizeMode="contain" />
-          <Text style={styles.itemHeaderText}>{text}</Text>
+          <Text style={styles.itemHeaderText} numberOfLines={1}>
+            {text}
+          </Text>
         </View>
         <View style={styles.itemHeaderLine} />
       </View>
@@ -353,7 +360,9 @@ class AddButton extends PureComponent {
             source={require('../../assets/common/add_icon.png')}
             resizeMode="contain"
           />
-          <Text style={styles.addButtonText}>{text}</Text>
+          <Text style={styles.addButtonText} numberOfLines={1}>
+            {text}
+          </Text>
         </ImageBackground>
         {/* <Image style={styles.addImage} source={addBg} resizeMode={'center'} /> */}
       </TouchableOpacity>
