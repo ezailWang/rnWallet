@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 
   stepItemBox: {
     width: stepItemWidth,
-    height: stepItemHeight,
+    // height: stepItemHeight,
     marginRight: 20,
     alignItems: 'center',
   },
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
   liItemBox: {
     width: 60,
-    height: stepItemHeight,
+    // height: stepItemHeight,
     alignItems: 'center',
   },
   liItemNum: {
@@ -148,8 +148,12 @@ export default class MappingTermsScreen extends BaseComponent {
     super(props);
     this.state = {
       isAgree: false,
+      stepItem1Height: 0,
+      stepItem2Height: 0,
     };
     this._setStatusBarStyleDark();
+    this.stepItem1Ref = React.createRef();
+    this.stepItem2Ref = React.createRef();
   }
 
   isAgreePress = () => {
@@ -173,17 +177,29 @@ export default class MappingTermsScreen extends BaseComponent {
         <View style={styles.contentBox}>
           <View style={styles.contentView}>
             <View style={styles.contentLeft}>
-              <LiItem num="1" />
-              <LiItem num="2" />
+              <LiItem newHeight={this.state.stepItem1Height} num="1" />
+              <LiItem newHeight={this.state.stepItem2Height} num="2" />
               <LiItem num="3" isShowLine={false} />
             </View>
             <View style={styles.contentRight}>
               <StepItem
+                onLayout={e => {
+                  const { height } = e.nativeEvent.layout;
+                  this.setState({
+                    stepItem1Height: height,
+                  });
+                }}
                 title={`STEP 1: ${I18n.t('mapping.bind_map_address')}`}
                 desc={I18n.t('mapping.bind_map_address_des')}
                 image={require('../../assets/mapping/mappingStepOne.png')}
               />
               <StepItem
+                onLayout={e => {
+                  const { height } = e.nativeEvent.layout;
+                  this.setState({
+                    stepItem2Height: height,
+                  });
+                }}
                 title={`STEP 2: ${I18n.t('mapping.application_mapping')}`}
                 desc={I18n.t('mapping.application_mapping_des')}
                 image={require('../../assets/mapping/mappingStepTwo.png')}
@@ -218,9 +234,9 @@ class LiItem extends PureComponent {
   };
 
   render() {
-    const { num, isShowLine } = this.props;
+    const { num, isShowLine, newHeight } = this.props;
     return (
-      <View style={styles.liItemBox}>
+      <View style={[styles.liItemBox, { height: newHeight === 0 ? stepItemHeight : newHeight }]}>
         <View style={styles.liItemNum}>
           <Text style={styles.liItemNumText}>{num}</Text>
         </View>
@@ -232,9 +248,9 @@ class LiItem extends PureComponent {
 
 class StepItem extends PureComponent {
   render() {
-    const { image, title, desc } = this.props;
+    const { image, title, desc, onLayout } = this.props;
     return (
-      <View style={styles.stepItemBox}>
+      <View onLayout={onLayout} style={styles.stepItemBox}>
         <View style={styles.stepItemTitleBox}>
           <Image
             style={styles.stepItemBgArrow}
