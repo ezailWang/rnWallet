@@ -15,12 +15,12 @@ async function checkPlayServicesBasic() {
   // if the user can resolve the issue i.e by updating play services
   // then call Google Play's own/default prompting functionality
   if (isUserResolvableError) {
-    return utils.promptForPlayServices();
+    return Promise.reject('play services unAvailable');
   }
 
   // call Google Play's own/default resolution functionality
   if (hasResolution) {
-    return utils.resolutionForPlayServices();
+    return Promise.reject('play services unAvailable');
   }
 
   // There's no way to resolve play services on this device
@@ -29,8 +29,6 @@ async function checkPlayServicesBasic() {
 }
 
 let enableGoogleServer = false;
-firebase.utils().errorOnMissingPlayServices = false;
-firebase.utils().promptOnMissingPlayServices = false;
 export default class Analytics {
   static enable() {
     if (!enableGoogleServer) {

@@ -183,7 +183,7 @@ class MappingRecordsScreen extends BaseComponent {
     </View>
   );
 
-  _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem()} />;
+  _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem(item)} />;
 
   _onPressItem = item => {
     const mappingDetail = item.item;

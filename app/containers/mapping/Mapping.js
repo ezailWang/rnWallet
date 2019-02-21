@@ -3,24 +3,36 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import Layout from '../../config/LayoutConstants';
+import BaseComponent from '../base/BaseComponent';
 import MappingTermsScreen from './MappingTermsScreen';
 
-class Mapping extends PureComponent {
+class Mapping extends BaseComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      refresh: false,
+    };
     this._isMounted = false;
   }
 
   componentWillMount() {
     this._isMounted = true;
+    super.componentWillMount();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+    super.componentWillUnmount();
   }
 
+  _monetaryUnitChange = () => {
+    this.setState(prevState => ({
+      refresh: !prevState.refresh,
+    }));
+  };
+
   render() {
+    const { refresh } = this.state;
     return (
       <LinearGradient style={{ flex: 1 }} colors={['#32beff', '#32beff']}>
         <View
@@ -30,7 +42,7 @@ class Mapping extends PureComponent {
             backgroundColor: 'white',
           }}
         >
-          <MappingTermsScreen _this={this} />
+          <MappingTermsScreen _this={this} refresh={refresh} />
         </View>
       </LinearGradient>
     );
