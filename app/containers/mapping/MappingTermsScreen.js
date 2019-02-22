@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgNoBackHeader } from '../../components/NavigaionHeader';

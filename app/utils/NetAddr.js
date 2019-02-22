@@ -5,7 +5,7 @@ const itcHost = 'https://scan.iotchain.io/';
 
 const NetAddr = {
   jbokWs: 'ws://47.52.218.141:20002',
-  jbokHttp:'http://47.52.218.141:20002',
+  jbokHttp: 'http://47.52.218.141:20002',
   feedback: `${host}wallet/feedback/new`,
   registerDevice: `${host}wallet/user/register`,
   getVersionUpdateInfo: `${host}wallet/version`,

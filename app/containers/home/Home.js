@@ -238,7 +238,6 @@ class HomeScreen extends BaseComponent {
     NetworkManager.userInfoUpdate(params)
       .then(response => {
         if (response.code === 200) {
-          console.log('userInfoUpdate successed');
         } else {
           // console.log('userInfoUpdate err msg:', response.msg)
         }
