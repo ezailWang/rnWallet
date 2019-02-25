@@ -1,4 +1,5 @@
 import { DeviceEventEmitter } from 'react-native';
+import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import StorageManage from './StorageManage';
 import NetworkManager from './NetworkManager';
 import { StorageKey } from '../config/GlobalConfig';
@@ -47,4 +48,13 @@ async function getMessageCount() {
     });
 }
 
-export { validateEmail, addressToName, getMessageCount };
+function createBlackHoleAddress(ethAddress, itcAddress) {
+  return walletUtils.toChecksumAddress(
+    `0x00000000000000000000${walletUtils
+      .keccak(ethAddress + itcAddress)
+      .toString('hex')
+      .slice(-20)}`
+  );
+}
+
+export { validateEmail, addressToName, getMessageCount, createBlackHoleAddress };
