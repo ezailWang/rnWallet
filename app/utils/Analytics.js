@@ -66,7 +66,7 @@ export default class Analytics {
 
   static setUserProperty(name, value) {
     if (enableGoogleServer) {
-      firebase.analytics.setUserProperty(name, value);
+      firebase.analytics().setUserProperty(name, value);
     }
   }
 
