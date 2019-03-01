@@ -199,12 +199,6 @@ class HomeScreen extends BaseComponent {
     this._showLoading();
     try {
       store.dispatch(setNewTransaction(null));
-      const localUser = await StorageManage.load(StorageKey.User);
-      if (localUser && localUser.isTotalAssetsHidden) {
-        this.setState({
-          isTotalAssetsHidden: localUser.isTotalAssetsHidden,
-        });
-      }
       await NetworkManager.loadTokenList();
       if (data.isChangeWalletList) {
         // 钱包列表发生变化，更新推送服务器数据
@@ -217,6 +211,8 @@ class HomeScreen extends BaseComponent {
         this.props.navigation.openDrawer();
       }
     } catch (err) {
+      console.log('home changeWallet err:', err);
+      Analytics.recordErr('homeChangeWalletErr', err);
       this._hideLoading();
     }
   };
@@ -294,10 +290,10 @@ class HomeScreen extends BaseComponent {
       this.setState({
         monetaryUnitSymbol: this.props.monetaryUnit.symbol,
       });
-      const localUser = await StorageManage.load(StorageKey.User);
-      if (localUser && localUser.isTotalAssetsHidden) {
+      const hiddenAssets = await StorageManage.load(StorageKey.HiddenAssets);
+      if (hiddenAssets) {
         this.setState({
-          isTotalAssetsHidden: localUser.isTotalAssetsHidden,
+          isTotalAssetsHidden: hiddenAssets,
         });
       }
       await NetworkManager.loadTokenList();
@@ -306,6 +302,8 @@ class HomeScreen extends BaseComponent {
       this.userInfoUpdate();
       this.getAllTokens(1);
     } catch (err) {
+      console.log('home initData err:', err);
+      Analytics.recordErr('homeInitDataErr', err);
       this._hideLoading();
     }
   };
@@ -337,13 +335,7 @@ class HomeScreen extends BaseComponent {
     } */
 
   static async saveIsTotalAssetsHiddenToStorage(isHidden) {
-    const localUser = await StorageManage.load(StorageKey.User);
-    if (localUser == null) {
-      console.error('load user is miss');
-    } else {
-      localUser.isTotalAssetsHidden = isHidden;
-    }
-    StorageManage.save(StorageKey.User, localUser);
+    StorageManage.save(StorageKey.HiddenAssets, isHidden);
   }
 
   _monetaryUnitChange = async data => {

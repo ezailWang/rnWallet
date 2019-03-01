@@ -83,6 +83,7 @@ const FontSize = {
 
 const StorageKey = {
   User: 'user', // 当前钱包
+  HiddenAssets: 'hiddenAssets',
   Tokens: 'tokens',
   Network: 'network',
   Language: 'language',
