@@ -109,31 +109,25 @@ class ChangeBindAddressScreen extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      walletList: [],
+      itcWallets: [],
       isDisabled: true,
+      selectedWallet: null,
     };
-    this.selectedWallet = null;
     this.flatList = React.createRef();
   }
 
-  _initData = async () => {
-    const wallets = [];
-    for (let i = 0; i < 10; i++) {
-      const wallet = {
-        name: `wallet${i}`,
-        address: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
-        isChecked: false,
-        bind: i === 2,
-      };
-      wallets.push(wallet);
-    }
+  _initData = () => {
+    const { itcWalletList } = this.props;
+    const { chosedItcWallet } = this.props.navigation.state.params;
     this.setState({
-      walletList: wallets,
+      itcWallets: itcWalletList,
+      selectedWallet: chosedItcWallet,
     });
   };
 
   confirmBtn() {
-    this.props.navigation.state.params.callback({ itcWallet: this.selectedWallet });
+    const { selectedWallet } = this.state;
+    this.props.navigation.state.params.callback({ itcWallet: selectedWallet });
     this.props.navigation.goBack();
     // this.props.navigation.navigate('BindWalletAddress')
   }
@@ -153,28 +147,33 @@ class ChangeBindAddressScreen extends BaseComponent {
     </View>
   );
 
-  _renderItem = item => <Item item={item} onPressItem={() => this._onPressItem(item)} />;
+  _renderItem = item => (
+    <Item
+      item={item}
+      choseWalletAddress={
+        this.state.selectedWallet === null ? '' : this.state.selectedWallet.address
+      }
+      onPressItem={() => this._onPressItem(item)}
+    />
+  );
 
   _onPressItem = item => {
     const choseWallet = item.item;
-    this.selectedWallet = choseWallet;
-
-    const wallets = this.state.walletList;
-    const newWallets = [];
-    for (let i = 0; i < wallets.length; i++) {
-      const wallet = wallets[i];
-      if (wallet.isChecked) {
-        wallet.isChecked = false;
-      }
-      if (choseWallet.name === wallet.name) {
-        wallet.isChecked = true;
-      }
-      newWallets.push(wallet);
+    const { selectedWallet } = this.state;
+    if (
+      selectedWallet === null ||
+      selectedWallet.address.toUpperCase() !== choseWallet.address.toUpperCase()
+    ) {
+      this.setState({
+        selectedWallet: choseWallet,
+        isDisabled: false,
+      });
+    } else {
+      this.setState({
+        selectedWallet: null,
+        isDisabled: true,
+      });
     }
-    this.setState({
-      walletList: newWallets,
-      isDisabled: false,
-    });
   };
 
   renderComponent = () => (
@@ -197,12 +196,12 @@ class ChangeBindAddressScreen extends BaseComponent {
         <FlatList
           style={styles.listContainer}
           ref={this.flatList}
-          data={this.state.walletList}
+          data={this.state.itcWallets}
           keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
           renderItem={this._renderItem}
           ListEmptyComponent={this._renderEmptyView}
           ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(data, index) => ({ length: 80, offset: (89 + 1) * index, index })}
+          getItemLayout={(d, index) => ({ length: 80, offset: (80 + 1) * index, index })}
         />
       </View>
 
@@ -219,15 +218,16 @@ class ChangeBindAddressScreen extends BaseComponent {
 
 class Item extends PureComponent {
   render() {
-    const { item, onPressItem } = this.props || {};
-    const { name, address, isChecked, bind } = item.item || {};
+    const { item, choseWalletAddress, onPressItem } = this.props || {};
+    const { name, address, bind } = item.item || {};
 
     const _name = bind ? name + I18n.t('mapping.bind') : name;
     const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
 
-    const checkIcon = isChecked
-      ? require('../../assets/launch/check_on.png')
-      : require('../../assets/launch/check_off.png');
+    const checkIcon =
+      choseWalletAddress.toUpperCase() === address.toUpperCase()
+        ? require('../../assets/launch/check_on.png')
+        : require('../../assets/launch/check_off.png');
     const icon = bind ? require('../../assets/mapping/bind_icon.png') : checkIcon;
     return (
       <TouchableOpacity
@@ -249,6 +249,7 @@ class Item extends PureComponent {
 
 const mapStateToProps = state => ({
   contactList: state.Core.contactList,
+  itcWalletList: state.Core.itcWalletList,
 });
 const mapDispatchToProps = dispatch => ({
   setContactList: contacts => dispatch(Actions.setContactList(contacts)),

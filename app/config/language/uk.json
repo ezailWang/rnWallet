@@ -343,7 +343,7 @@
         "backup_fail":"Помилка бекапа",
 
 
-        "export_private_key_error":"Помилка! Неможливо експортувати приватний ключ",
+        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly",
         "password_error":"Пароль невірний. Спробуйте знову",
 
         "cancel":"Скасувати",

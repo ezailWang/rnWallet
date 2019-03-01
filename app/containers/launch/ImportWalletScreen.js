@@ -149,7 +149,7 @@ class ImportWalletScreen extends BaseComponent {
       sLoadingContent: '',
       walletType: 'eth',
     };
-    this.from = 0; // 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入
+    this.from = 0; // 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入 3.从映射（绑定钱包地址）进入  4.ITC映射服务页面进入
     this.nametxt = '';
     this.mnemonictxt = '';
     this.pwdtxt = '';
@@ -453,7 +453,7 @@ class ImportWalletScreen extends BaseComponent {
 
       let isExist = false;
       let wallets = [];
-      if (this.from === 1 || this.from === 2) {
+      if (this.from === 1 || this.from === 2 || this.from === 3 || this.from === 4) {
         const itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
         const ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
 
@@ -530,7 +530,7 @@ class ImportWalletScreen extends BaseComponent {
     } else {
       this.props.loadTokenBalance(defaultTokens);
     }
-    if (this.from === 1 || this.from === 2) {
+    if (this.from === 1 || this.from === 2 || this.from === 3 || this.from === 4) {
       this.props.setTransactionRecordList([]);
       StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo);
 
@@ -541,6 +541,13 @@ class ImportWalletScreen extends BaseComponent {
         this.props.navigation.openDrawer();
       } else if (this.from === 2) {
         this.props.navigation.navigate('WalletList');
+      } else if (this.from === 3) {
+        // this.props.navigation.navigate('BindWalletAddress');
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack();
+      } else if (this.from === 4) {
+        // ITC映射服务页面进入
+        this.props.navigation.navigate('BindWalletAddress');
       }
     } else {
       this.props.navigation.navigate('Home');

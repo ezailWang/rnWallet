@@ -175,7 +175,7 @@ class VerifyMnemonicScreen extends BaseComponent {
       sLoadingContent: '',
     };
 
-    this.from = 0; // 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入
+    this.from = 0; // 0.第一次创建   1.从侧滑点击进入   2.从钱包工具点击进入 3.从映射（绑定钱包地址）进入  4.ITC映射服务页面进入
     this.walletType = 'eth';
     this.password = '';
     this.name = '';
@@ -349,7 +349,7 @@ class VerifyMnemonicScreen extends BaseComponent {
         type: this.walletType, // 钱包类型
       };
       let wallets = [];
-      if (this.from === 1 || this.from === 2) {
+      if (this.from === 1 || this.from === 2 || this.from === 4) {
         let preWalletList = [];
         if (this.walletType === 'itc') {
           preWalletList = await StorageManage.load(StorageKey.ItcWalletList);
@@ -396,7 +396,7 @@ class VerifyMnemonicScreen extends BaseComponent {
     } else {
       this.props.loadTokenBalance(defaultTokens);
     }
-    if (this.from === 1 || this.from === 2) {
+    if (this.from === 1 || this.from === 2 || this.from === 4) {
       this.props.setTransactionRecordList([]);
       StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo);
 
@@ -411,6 +411,9 @@ class VerifyMnemonicScreen extends BaseComponent {
       // this.props.navigation.openDrawer()
     } else if (this.from === 2) {
       this.props.navigation.navigate('WalletList');
+    } else if (this.from === 4) {
+      // ITC映射服务页面进入
+      this.props.navigation.navigate('BindWalletAddress');
     } else {
       this.props.navigation.navigate('Home');
     }

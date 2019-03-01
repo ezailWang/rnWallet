@@ -341,7 +341,7 @@
         "backup_fail":"Ошибка бэкапа",
 
 
-        "export_private_key_error":"Ошибка! Не возможно экспортировать приватный ключ",
+        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly",
         "password_error":"Пароль неверен. Попробуйте снова",
 
         "cancel":"Отменить",

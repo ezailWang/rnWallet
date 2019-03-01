@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgNoBackHeader } from '../../components/NavigaionHeader';
@@ -8,6 +8,8 @@ import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
 import { BlueButtonBig } from '../../components/Button';
 import StatusBarComponent from '../../components/StatusBarComponent';
+import store from '../../config/store/ConfigureStore';
+import { setCreateWalletParams } from '../../config/action/Actions';
 
 const rightViewHeight = Layout.WINDOW_HEIGHT - 100 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64);
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20;
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor: 'white',
     // todo height: 120,
-    height: 100,
+    // height: 100,
     margin: 0,
     padding: 0,
   },
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: Layout.WINDOW_WIDTH * 0.9 - 20,
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: 30,
   },
   checkImage: {
     width: 18,
@@ -68,8 +70,7 @@ const styles = StyleSheet.create({
   button: {
     // width:Layout.WINDOW_WIDTH*0.8,
     width: Layout.WINDOW_WIDTH * 0.9,
-    marginTop: 30,
-    marginBottom: 20,
+    marginTop: 40,
     padding: 0,
     alignSelf: 'center',
   },
@@ -141,6 +142,87 @@ const styles = StyleSheet.create({
     width: 1.5,
     backgroundColor: '#D7F0FF',
   },
+  modeBox: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(179,179,179,0.8)',
+  },
+  modeContentBox: {
+    backgroundColor: 'white',
+    flexDirection: 'column',
+    borderRadius: 6,
+    paddingTop: 15,
+    paddingBottom: 30,
+    width: Layout.WINDOW_WIDTH * 0.8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalCanceBox: {
+    width: 40,
+    height: 40,
+    alignSelf: 'flex-end',
+  },
+  modalCancelIcon: {
+    width: 19,
+    height: 18,
+  },
+  modalIcon: {
+    width: 80,
+    height: 80,
+  },
+  modalTitleTxt: {
+    width: Layout.WINDOW_WIDTH * 0.7,
+    fontSize: 16,
+    color: Colors.fontBlackColor,
+    marginTop: 20,
+    textAlign: 'center',
+  },
+  modalContentTxt: {
+    width: Layout.WINDOW_WIDTH * 0.7,
+    fontSize: 14,
+    color: Colors.fontBlackColor_43,
+    marginTop: 12,
+  },
+  modalBtnBox: {
+    width: Layout.WINDOW_WIDTH * 0.7,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  modalLeftBtnBox: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: Colors.btn_bg_blue,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    borderRadius: 5,
+  },
+  modalRightBtnBox: {
+    flex: 1,
+    height: 40,
+    backgroundColor: Colors.btn_bg_blue,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+    borderRadius: 5,
+  },
+  modalLeftBtnText: {
+    fontSize: 15,
+    color: Colors.btn_bg_blue,
+  },
+  modalRightBtnText: {
+    fontSize: 15,
+    color: 'white',
+  },
+  linearGradient: {
+    height: 40,
+    alignSelf: 'stretch',
+    borderRadius: 5,
+  },
 });
 
 export default class MappingTermsScreen extends BaseComponent {
@@ -150,6 +232,7 @@ export default class MappingTermsScreen extends BaseComponent {
       isAgree: false,
       stepItem1Height: 0,
       stepItem2Height: 0,
+      modalVisible: false,
     };
     this._setStatusBarStyleDark();
     this.stepItem1Ref = React.createRef();
@@ -162,8 +245,33 @@ export default class MappingTermsScreen extends BaseComponent {
   };
 
   startBtn = () => {
+    const { itcWalletList } = store.getState().Core;
+    if (!itcWalletList || itcWalletList.length <= 0) {
+      this.setState({
+        modalVisible: true,
+      });
+    } else {
+      const { _this } = this.props;
+      _this.props.navigation.navigate('BindWalletAddress');
+    }
+  };
+
+  cancleModal = () => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
+
+  routeTo = toPage => {
     const { _this } = this.props;
-    _this.props.navigation.navigate('BindWalletAddress');
+    const params = {
+      walletType: 'itc',
+      from: 4,
+    };
+    this.setState({ modalVisible: false }, () => {
+      store.dispatch(setCreateWalletParams(params));
+      _this.props.navigation.navigate(toPage);
+    });
   };
 
   renderComponent = () => (
@@ -172,8 +280,14 @@ export default class MappingTermsScreen extends BaseComponent {
       : require('../../assets/launch/check_off.png'); */
     <View style={styles.container}>
       <StatusBarComponent barStyle="light-content" />
-
       <WhiteBgNoBackHeader text={I18n.t('mapping.itc_mapping_service')} />
+
+      <WarnModal
+        modalVisible={this.state.modalVisible}
+        cancleModalPress={this.cancleModal}
+        importItcWalletModalPress={() => this.routeTo('ImportWallet')}
+        createItcWalletModalPress={() => this.routeTo('CreateWallet')}
+      />
       <ScrollView style={styles.scrollView}>
         <View style={styles.contentBox}>
           <View style={styles.contentView}>
@@ -212,7 +326,7 @@ export default class MappingTermsScreen extends BaseComponent {
               />
             </View>
           </View>
-          <View style={styles.bottomBox}>
+          {/* <View style={styles.bottomBox}>
             <TouchableOpacity
               style={styles.checkBox}
               activeOpacity={0.6}
@@ -235,13 +349,13 @@ export default class MappingTermsScreen extends BaseComponent {
               onPress={this.startBtn}
               text={I18n.t('mapping.upcoming_start')}
             />
-          </View>
-          {/* <BlueButtonBig
+          </View> */}
+          <BlueButtonBig
             buttonStyle={styles.button}
             isDisabled={!this.state.isAgree}
             onPress={() => this.startBtn()}
             text={I18n.t('mapping.upcoming_start')}
-          /> */}
+          />
         </View>
       </ScrollView>
     </View>
@@ -291,6 +405,68 @@ class StepItem extends PureComponent {
         <Text style={styles.stepItemBgDesc}>{desc}</Text>
         <Image style={styles.stepItemImg} source={image} resizeMode="contain" />
       </View>
+    );
+  }
+}
+
+class WarnModal extends PureComponent {
+  render() {
+    const {
+      modalVisible,
+      cancleModalPress,
+      importItcWalletModalPress,
+      createItcWalletModalPress,
+    } = this.props;
+    return (
+      <Modal
+        onStartShouldSetResponder={() => false}
+        animationType="fade"
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {}}
+        onShow={() => {}}
+      >
+        <View style={styles.modeBox}>
+          <View style={styles.modeContentBox}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={styles.modalCanceBox}
+              onPress={cancleModalPress}
+            >
+              <Image
+                style={styles.modalCancelIcon}
+                source={require('../../assets/common/cancel.png')}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+
+            <Image
+              style={styles.modalIcon}
+              source={require('../../assets/common/warningIcon.png')}
+            />
+            <Text style={styles.modalTitleTxt}>{I18n.t('modal.no_itc_wallet_detected')}</Text>
+            <Text style={styles.modalContentTxt}>
+              {I18n.t('modal.create_import_itc_wallet_first')}
+            </Text>
+            <View style={styles.modalBtnBox}>
+              <TouchableOpacity
+                style={styles.modalLeftBtnBox}
+                activeOpacity={0.6}
+                onPress={importItcWalletModalPress}
+              >
+                <Text style={styles.modalLeftBtnText}>{I18n.t('launch.import')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalRightBtnBox}
+                activeOpacity={0.6}
+                onPress={createItcWalletModalPress}
+              >
+                <Text style={styles.modalRightBtnText}>{I18n.t('launch.create')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     );
   }
 }

@@ -341,7 +341,7 @@
         "backup_fail":"Backup failed.",
 
 
-        "export_private_key_error":"Error! Cannot Export Private Key.",
+        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly.",
         "password_error":"Password incorrect. Please try again.",
 
         "cancel":"Cancel",

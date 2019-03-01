@@ -76,7 +76,7 @@ class Loading extends Component {
             this.props.navigation.navigate('MessageCenter')
         }) */
 
-    if (user) {
+    if (user || wallet) {
       return navigation.navigate('HomeTab');
     }
     return navigation.navigate('FirstLaunch', {
@@ -177,7 +177,6 @@ class Loading extends Component {
       dispatch(setCurrentWallet(user));
       return user;
     }
-    console.log('user = null');
     return null;
   };
 

@@ -341,7 +341,7 @@
         "backup_fail":"Bestätigen fehlgeschlagen",
        
 
-        "export_private_key_error":"Fehler beim Exportieren des privaten Schlüssels.",
+        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly.",
         "password_error":"Falsches Passwort",
 
         "cancel":"Abbrechen",

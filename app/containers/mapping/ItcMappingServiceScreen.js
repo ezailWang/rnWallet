@@ -376,15 +376,11 @@ class ItcMappingServiceScreen extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      mappingAddress: '', // 专属映射地址
       initiationAddress: '', // 发起地址
       gasCost: '', // Gas费用
       isShowPrompt: false,
       isDisabled: true,
-      itcWallet: {
-        name: 'wallet',
-        address: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
-      },
+      itcWallet: {},
 
       isShowMappingDetail: false,
     };
@@ -393,14 +389,18 @@ class ItcMappingServiceScreen extends BaseComponent {
     this.ethAmount = '0.008';
     this.gasAmount = '600';
 
+    this.stepItem1Ref = React.createRef();
+    this.stepItem2Ref = React.createRef();
+
     // this.scroll = React.createRef();
     // this.inputText = React.createRef();
   }
 
   _initData = () => {
+    const { mappingData } = this.props.navigation.state.params;
     this.setState({
-      mappingAddress: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
-      initiationAddress: '0xf6C9e322b688A434833dE530E4c23CFA4e579a7a',
+      initiationAddress: mappingData.initiationAddress,
+      itcWallet: mappingData.itcWallet,
       gasCost: `Gas${I18n.t('mapping.cost')}:0.0056 eth`, // Gas费用
     });
     this.INPUT.focus();
@@ -448,8 +448,10 @@ class ItcMappingServiceScreen extends BaseComponent {
   };
 
   _onChaneAddressPress = () => {
+    const { itcWallet } = this.state;
     const _this = this;
     this.props.navigation.navigate('ChangeBindAddress', {
+      chosedItcWallet: itcWallet,
       callback(data) {
         _this.setState({
           itcWallet: data.itcWallet,
@@ -463,6 +465,7 @@ class ItcMappingServiceScreen extends BaseComponent {
   };
 
   renderComponent = () => {
+    const { initiationAddress, itcWallet, gasCost } = this.state;
     const topImg = require('../../assets/mapping/mappingService.png');
     return (
       <View
@@ -487,7 +490,7 @@ class ItcMappingServiceScreen extends BaseComponent {
           <ConfirmMappingModal
             visible={this.state.isShowMappingDetail}
             amount={this.inputAmount}
-            payAddress={this.state.mappingAddress}
+            payAddress={itcWallet.address}
             ethAmount={this.ethAmount}
             gasAmount={this.gasAmount}
             pwdInputChangeText={this.pwdInputChangeText}
@@ -508,7 +511,7 @@ class ItcMappingServiceScreen extends BaseComponent {
               <Text style={styles.mAddressTitle}>
                 {I18n.t('mapping.native_itc_receive_address')}
               </Text>
-              <Text style={styles.mAddressText}>{this.state.itcWallet.address}</Text>
+              <Text style={styles.mAddressText}>{itcWallet.address}</Text>
             </View>
 
             <TouchableOpacity
@@ -569,8 +572,8 @@ class ItcMappingServiceScreen extends BaseComponent {
                 ) : null}
               </View>
             </View>
-            <Text style={styles.commonText}>{this.state.initiationAddress}</Text>
-            <Text style={styles.commonText}>{this.state.gasCost}</Text>
+            <Text style={styles.commonText}>{initiationAddress}</Text>
+            <Text style={styles.commonText}>{gasCost}</Text>
 
             {this.state.isShowPrompt ? (
               <View style={styles.promptDescView}>
@@ -669,7 +672,7 @@ class ConfirmMappingModal extends PureComponent {
                     >
                       <Image
                         style={styles.mDetailCancelIcon}
-                        source={require('../../assets/transfer/transfer_cancel.png')}
+                        source={require('../../assets/common/cancel.png')}
                         resizeMode="center"
                       />
                     </TouchableOpacity>

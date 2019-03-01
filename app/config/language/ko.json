@@ -342,7 +342,7 @@
 
         "backup_fail":"백업이 실패했습니다.",
 
-        "export_private_key_error":"개인 키 내보낼 때 오류가 발생했습니다.",
+        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly.",
         "password_error":"잘못된 비밀번호입니다. 정확한 비밀번호를 입력해주세요",
 
         "cancel":"취소",

@@ -341,7 +341,7 @@
 
         "backup_fail":"Back-up mislukt",
 
-        "export_private_key_error":"Fout bij het exporteren van de persoonlijke sleutel.",
+        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly.",
         "password_error":"Verkeerd wachtwoord",
 
         "cancel":"Annuleer",

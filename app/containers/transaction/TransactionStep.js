@@ -393,7 +393,7 @@ export default class TransactionStep extends Component {
                   <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
                     <Image
                       resizeMode="contain"
-                      source={require('../../assets/transfer/transfer_cancel.png')}
+                      source={require('../../assets/common/cancel.png')}
                       style={{ width: 15, height: 15 }}
                     />
                   </TouchableOpacity>
