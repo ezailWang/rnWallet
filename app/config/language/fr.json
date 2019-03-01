@@ -364,6 +364,9 @@
         "itc_test_warn2":"La devise ITC est uniquement destinée au testnet et ne doit pas être utilisée comme une véritable crypto-monnaie!",
         "not_remind_again":"Ne plus montrer ça",
 
-        "prompt":"Note"
+        "prompt":"Note",
+
+        "no_itc_wallet_detected":"未检测到ITC钱包",
+        "create_import_itc_wallet_first":"为了正常使用ITC映射功能，请先创建或导入ITC钱包。"
     }
 }

@@ -364,6 +364,9 @@
         "itc_test_warn2":"ITC-munt is alleen voor het testnet en mag niet worden gebruikt als een echte cryptocurrency!",
         "not_remind_again":"Laat dit niet nog een keer zien",
 
-        "prompt":"Notitie"
+        "prompt":"Notitie",
+
+        "no_itc_wallet_detected":"未检测到ITC钱包",
+        "create_import_itc_wallet_first":"为了正常使用ITC映射功能，请先创建或导入ITC钱包。"
     }
 }

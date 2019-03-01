@@ -364,6 +364,9 @@
         "itc_test_warn2":"ITC валюта только для тестовой сети и не должна использоваться как настоящая криптовалюта!",
         "not_remind_again":"Не показывать это снова",
 
-        "prompt":"Заметка"
+        "prompt":"Заметка",
+
+        "no_itc_wallet_detected":"未检测到ITC钱包",
+        "create_import_itc_wallet_first":"为了正常使用ITC映射功能，请先创建或导入ITC钱包。"
     }
 }
