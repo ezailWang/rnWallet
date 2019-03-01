@@ -1,4 +1,3 @@
-import {} from 'react-native';
 import firebase from 'react-native-firebase';
 import LayoutConstants from '../config/LayoutConstants';
 // firebase.utils().errorOnMissingPlayServices = false;
@@ -62,6 +61,12 @@ export default class Analytics {
   static setCurrentScreen(screenClass) {
     if (enableGoogleServer) {
       firebase.analytics().setCurrentScreen(screenClass);
+    }
+  }
+
+  static setUserProperty(name, value) {
+    if (enableGoogleServer) {
+      firebase.analytics.setUserProperty(name, value);
     }
   }
 

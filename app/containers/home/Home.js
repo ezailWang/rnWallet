@@ -286,6 +286,7 @@ class HomeScreen extends BaseComponent {
       if (this.props.isNewWallet === false) {
         this._verifyIdentidy();
         this.versionUpdate();
+        Analytics.setUserProperty('buildVersion', DeviceInfo.getBrand());
       } else {
         this.props.setIsNewWallet(false);
         this._showLoading();
