@@ -106,6 +106,7 @@
         "enter_transfer_address":"输入收款地址",
         "remarks":"备注",
         "enter_remarks":"输入备注",
+        "send_all":"全部发送",
         "next_step":"下一步",
         
         "address_list":"地址簿",
@@ -142,6 +143,8 @@
         "alert_3":"请输入有效的转账金额",
         "alert_4":"手续费不足",
         "alert_5":"请先打开使用摄像头权限"
+
+        
     },
     "settings":{
         "set":"钱包工具",

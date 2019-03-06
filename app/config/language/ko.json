@@ -107,6 +107,7 @@
         "enter_transfer_address":"입금 주소를 입력해주세요",
         "remarks":"메모",
         "enter_remarks":"메모를 입력하기",
+        "send_all":"Send all",
         "next_step":"다음",
         
         "address_list":"주소록",
@@ -367,7 +368,7 @@
 
         "prompt":"참고",
 
-        "no_itc_wallet_detected":"未检测到ITC钱包",
-        "create_import_itc_wallet_first":"为了正常使用ITC映射功能，请先创建或导入ITC钱包。"
+        "no_itc_wallet_detected":"No ITC wallet detected",
+        "create_import_itc_wallet_first":"In order to use the ITC mapping function normally, please create or import an ITC wallet first."
     }
 }

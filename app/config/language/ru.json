@@ -106,6 +106,7 @@
         "enter_transfer_address":"Введите адрес получателя",
         "remarks":"Заметка",
         "enter_remarks":"Ввести заметку",
+        "send_all":"Send all",
         "next_step":"Следующий",
         
         "address_list":"Контракты",
@@ -366,7 +367,7 @@
 
         "prompt":"Заметка",
 
-        "no_itc_wallet_detected":"未检测到ITC钱包",
-        "create_import_itc_wallet_first":"为了正常使用ITC映射功能，请先创建或导入ITC钱包。"
+        "no_itc_wallet_detected":"No ITC wallet detected",
+        "create_import_itc_wallet_first":"In order to use the ITC mapping function normally, please create or import an ITC wallet first."
     }
 }
