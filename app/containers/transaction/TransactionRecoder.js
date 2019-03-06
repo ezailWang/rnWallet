@@ -241,9 +241,18 @@ class Cell extends Component {
     // onPress:PropTypes.any.isRequested
   };
 
+  transcationStatusText = (transcationStatus, isGasTransaction) => {
+    if (transcationStatus === '1') {
+      return <Text style={styles.transactionFailed}>{I18n.t('transaction.transaction_fail')}</Text>;
+    }
+    return isGasTransaction ? (
+      <Text style={styles.transactionFailed}>{I18n.t('transaction.transaction_send_token')}</Text>
+    ) : null;
+  };
+
   render() {
     const { item, onPress } = this.props;
-    const { address, time, income, amount, symbol, name } = item.item || {};
+    const { address, time, income, amount, symbol, name, isGasTransaction } = item.item || {};
     let image = require('../../assets/transfer/recoder/direction_left.png');
     let showText = `-${amount} ${symbol}`;
     let colorStyle = { color: Colors.fontRedColor };
@@ -291,11 +300,7 @@ class Cell extends Component {
             </View>
             <View style={styles.transcationStatusContainer}>
               <Text style={[colorStyle, styles.transactionValue]}>{showText}</Text>
-              {transcationStatus === '1' ? (
-                <Text style={styles.transactionFailed}>
-                  {I18n.t('transaction.transaction_fail')}
-                </Text>
-              ) : null}
+              {this.transcationStatusText(transcationStatus, isGasTransaction)}
             </View>
           </View>
           {item.item.sureBlock < 12 ? (
@@ -494,7 +499,7 @@ export default class TransactionRecoder extends BaseComponent {
         sureBlock: currentBlock - item.blockNumber,
         isError: item.isError,
         name: addressToName(address, contactList),
-
+        isGasTransaction: item.isGasTransaction,
         blockNumber: item.blockNumber,
         from: item.from,
         to: item.to,
@@ -505,7 +510,6 @@ export default class TransactionRecoder extends BaseComponent {
       newItemList.push(data);
       return data;
     });
-
     return newItemList;
   };
 
@@ -803,7 +807,7 @@ export default class TransactionRecoder extends BaseComponent {
 
     timer = setInterval(() => {
       this.getRecoder(false);
-    }, 3 * 1000);
+    }, 5 * 1000);
   };
 
   showLoading() {
@@ -919,6 +923,7 @@ export default class TransactionRecoder extends BaseComponent {
 
     const iconUri = this.state.icon;
     const icon = this._getLogo(this.symbol, iconUri);
+    const { itemList } = this.state;
     return (
       <View style={styles.container}>
         <StatusBarComponent barStyle="light-content" />
@@ -1073,7 +1078,7 @@ export default class TransactionRecoder extends BaseComponent {
             />
           }
           ListEmptyComponent={<EmptyComponent show={this.state.showNoData} />}
-          data={this.state.itemList}
+          data={itemList}
           renderItem={this.renderItem}
           refreshControl={
             <RefreshControl

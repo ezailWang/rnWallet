@@ -136,6 +136,7 @@
         "broadcasting_transaction":"正在广播交易",
        
         "transaction_fail":"交易失败",
+        "transaction_send_token":"发送代币",
         "alert_0":"秘钥获取失败",
         "alert_1":"交易发送失败，请检查参数",
         "alert_2":"请输入有效的转账地址",

@@ -136,6 +136,7 @@
         "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"Transaction Failed",
+        "transaction_send_token":"Send Token",
         "alert_0":"Failed to acquire the private key.",
         "alert_1":"Transaction failed. Please check the parameters.",
         "alert_2":"Please enter a valid transfer address.",

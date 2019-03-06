@@ -231,15 +231,15 @@ export default class NetworkManager {
 
       for (let i = 0; i < data.result.length; i++) {
         const transaction = data.result[i];
-        if (transaction.isError !== 0 || transaction.value !== 0) {
-          dataArr.push(transaction);
-        }
+        transaction.isGasTransaction = transaction.input !== '0x';
+        dataArr.push(transaction);
       }
       web3 = this.getWeb3Instance();
       return dataArr.map(t => ({
         from: t.from,
         to: t.to,
         timeStamp: t.timeStamp,
+        isGasTransaction: t.isGasTransaction,
         hash: t.hash,
         value: web3.utils.fromWei(t.value, 'ether'),
         isError: t.isError,
