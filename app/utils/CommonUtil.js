@@ -3,6 +3,8 @@ import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import StorageManage from './StorageManage';
 import NetworkManager from './NetworkManager';
 import { StorageKey } from '../config/GlobalConfig';
+import store from '../config/store/ConfigureStore';
+import { I18n } from '../config/language/i18n';
 
 function validateEmail(email) {
   const mailRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
@@ -57,4 +59,45 @@ function createBlackHoleAddress(ethAddress, itcAddress) {
   );
 }
 
-export { validateEmail, addressToName, getMessageCount, createBlackHoleAddress };
+function getMonetaryUnitSymbol() {
+  // 优先判断货币 如果货币本地没有再使用语言
+  // const currentLocale = I18n.currentLocale()
+  // var monetaryUnit = await StorageManage.load(StorageKey.MonetaryUnit)
+  const { monetaryUnit } = store.getState().Core;
+
+  if (monetaryUnit) {
+    const { symbol } = monetaryUnit;
+    return symbol;
+  }
+  const currentLocale = I18n.locale;
+  if (currentLocale.includes('zh')) {
+    return '¥';
+  }
+  if (currentLocale.includes('ko')) {
+    return '₩';
+  }
+  if (currentLocale.includes('ru')) {
+    return '₽';
+  }
+  if (currentLocale.includes('uk')) {
+    return '₴';
+  }
+  if (
+    currentLocale.includes('de') ||
+    currentLocale.includes('es') ||
+    currentLocale.includes('nl') ||
+    currentLocale.includes('fr')
+  ) {
+    return '€';
+  }
+  // 默认美元
+  return '$';
+}
+
+export {
+  validateEmail,
+  addressToName,
+  getMessageCount,
+  createBlackHoleAddress,
+  getMonetaryUnitSymbol,
+};

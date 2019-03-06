@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   cancelBtn: {
     width: 30,
     height: 30,
-    marginLeft: 25,
+    marginLeft: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },

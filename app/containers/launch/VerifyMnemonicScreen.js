@@ -312,16 +312,24 @@ class VerifyMnemonicScreen extends BaseComponent {
     } else {
       content = I18n.t('launch.generating_keystore_file');
     }
-    this.setState({
-      isShowSLoading: true,
-      sLoadingContent: content,
-    });
-    if (num === 3) {
+    this.setState(
+      {
+        isShowSLoading: true,
+        sLoadingContent: content,
+      },
+      () => {
+        if (num === 3) {
+          clearInterval(this.timeInterval);
+          this.startCreateEthWallet();
+        }
+      }
+    );
+    /* if (num === 3) {
       clearInterval(this.timeInterval);
       setTimeout(() => {
         this.startCreateEthWallet();
       }, 0);
-    }
+    } */
   }
 
   async startCreateEthWallet() {
@@ -402,21 +410,24 @@ class VerifyMnemonicScreen extends BaseComponent {
 
       DeviceEventEmitter.emit('changeWallet', { openRightDrawer: false, isChangeWalletList: true });
     }
-    this.setState({
-      isShowSLoading: false,
-    });
-
-    if (this.from === 1) {
-      this.props.navigation.navigate('Home');
-      // this.props.navigation.openDrawer()
-    } else if (this.from === 2) {
-      this.props.navigation.navigate('WalletList');
-    } else if (this.from === 4) {
-      // ITC映射服务页面进入
-      this.props.navigation.navigate('BindWalletAddress');
-    } else {
-      this.props.navigation.navigate('Home');
-    }
+    this.setState(
+      {
+        isShowSLoading: false,
+      },
+      () => {
+        if (this.from === 1) {
+          this.props.navigation.navigate('Home');
+          // this.props.navigation.openDrawer()
+        } else if (this.from === 2) {
+          this.props.navigation.navigate('WalletList');
+        } else if (this.from === 4) {
+          // ITC映射服务页面进入
+          this.props.navigation.navigate('BindWalletAddress');
+        } else {
+          this.props.navigation.navigate('Home');
+        }
+      }
+    );
   }
 
   _onBackPressed = () => {

@@ -260,11 +260,20 @@ class SearchTokenScreen extends BaseComponent {
         this.props.removeToken(token.address);
         this.addedTokens.splice(addIndex, 1);
       }
-      this.setState({
-        datas: lodash.cloneDeep(this.searchTokens),
-        isShowEmptyView: true,
-      });
-      this.changeTokensEmitter();
+      this.setState(
+        {
+          datas: lodash.cloneDeep(this.searchTokens),
+          isShowEmptyView: true,
+        },
+        () => {
+          const newTokens = this.props.tokens;
+          DeviceEventEmitter.emit('changeTokens', {
+            tokens: newTokens,
+            from: 'searchTokenPage',
+          });
+        }
+      );
+      // this.changeTokensEmitter();
     } catch (e) {
       console.log('add_remove_token_err', e);
     }

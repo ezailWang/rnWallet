@@ -108,20 +108,23 @@ class ContactInfoScreen extends BaseComponent {
     this.address = this.contactInfo.address;
 
     const { contentChangeCount } = this.state;
-    this.setState({
-      contentChangeCount: contentChangeCount + 1,
-      // name:this.contactInfo.name,
-      // remark:this.contactInfo.remark,
-      // address:this.contactInfo.address,
-    });
+    this.setState(
+      {
+        contentChangeCount: contentChangeCount + 1,
+        // name:this.contactInfo.name,
+        // remark:this.contactInfo.remark,
+        // address:this.contactInfo.address,
+      },
+      this.getStorageId
+    );
 
-    this.getStorageId();
+    // this.getStorageId();
   };
 
-  async getStorageId() {
+  getStorageId = async () => {
     const ids = await StorageManage.loadIdsForKey(StorageKey.Contact);
     this.storageId = ids[this.index];
-  }
+  };
 
   btnIsEnableClick() {
     if (
@@ -147,7 +150,8 @@ class ContactInfoScreen extends BaseComponent {
   vertifyAddress() {
     let addressIsOK = true;
     if (this.address !== '') {
-      addressIsOK = NetworkManager.isValidAddress(this.address);
+      addressIsOK = this.address.length === 42;
+      // addressIsOK = NetworkManager.isValidAddress(this.address);
       const disabled =
         this.name === '' ||
         (this.name === this.contactInfo.name &&
@@ -212,7 +216,7 @@ class ContactInfoScreen extends BaseComponent {
 
   async saveModify() {
     Keyboard.dismiss();
-    if (NetworkManager.isValidAddress(this.address) === false) {
+    if (this.address.length !== 42) {
       showToast(I18n.t('toast.enter_valid_transfer_address'));
       return;
     }

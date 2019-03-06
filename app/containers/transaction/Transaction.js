@@ -17,7 +17,7 @@ import { Colors, TransferGasLimit, TransferType } from '../../config/GlobalConfi
 import TransactionStep from './TransactionStep';
 import NetworkManager from '../../utils/NetworkManager';
 import store from '../../config/store/ConfigureStore';
-
+import Layout from '../../config/LayoutConstants';
 import { BlueButtonBig } from '../../components/Button';
 import Slider from '../../components/Slider';
 import { androidPermission } from '../../utils/PermissionsAndroid';
@@ -26,7 +26,7 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import BaseComponent from '../base/BaseComponent';
 import { showToast } from '../../utils/Toast';
 import StaticLoading from '../../components/StaticLoading';
-
+import { getMonetaryUnitSymbol } from '../../utils/CommonUtil';
 import { setNewTransaction } from '../../config/action/Actions';
 import Analytics from '../../utils/Analytics';
 
@@ -45,24 +45,17 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundColor,
   },
   sectionView: {
-    marginTop: 0,
-    marginLeft: 0,
-    marginRight: 0,
-    height: 90,
+    marginTop: 12,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+    backgroundColor: 'white',
   },
   sectionViewTopView: {
     flexDirection: 'row',
-    marginTop: 0,
-    marginLeft: 0,
-    marginRight: 0,
-    height: 42,
   },
   sectionViewBottomView: {
-    marginTop: 3,
-    marginLeft: 0,
-    marginRight: 0,
-    height: 46,
-    backgroundColor: 'white',
     justifyContent: 'center',
   },
   shadowStyle: {
@@ -74,34 +67,32 @@ const styles = StyleSheet.create({
   },
   sectionViewTitleText: {
     flex: 1,
-    marginLeft: 20,
-    marginTop: 20,
-    height: 20,
-    // width: ScreenWidth / 3,
+    fontSize: 14,
     color: Colors.fontBlackColor_43,
-    // backgroundColor:"green"
+    alignSelf: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
 
   infoViewDetailTitleTouchable: {
     alignSelf: 'center',
-    // textAlign: "right",
-    height: 42,
-    marginLeft: 0,
-    paddingRight: 20,
     justifyContent: 'flex-end',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   blueText: {
     color: Colors.fontBlueColor,
-    height: 20,
+    fontSize: 14,
     textAlign: 'center',
-    // width: 2 * ScreenWidth / 3 - 40,
   },
   sectionViewTextInput: {
-    marginLeft: 20,
-    height: 38,
-    marginRight: 20,
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.fontBlackColor_43,
+
+    paddingVertical: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
   },
   sliderBottomView: {
     marginTop: 12,
@@ -128,29 +119,85 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   sliderContainerView: {
-    width: ScreenWidth - 50 * 2,
+    width: ScreenWidth - 50 * 2 + 20,
     height: 40,
     marginTop: 20,
     marginLeft: 50,
-    // backgroundColor:Colors.RedColor
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   sliderAlertView: {
     alignSelf: 'center',
     width: ScreenWidth - 80,
     marginTop: 5,
-    // marginLeft: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   transferPrice: {
     textAlign: 'center',
-    color: Colors.fontBlackColor_43,
+    color: Colors.fontGrayColor_a,
   },
   buttonBox: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginBottom: 80,
+  },
+
+  amountBox: {
+    width: Layout.WINDOW_WIDTH,
+    backgroundColor: 'white',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+    marginTop: 12,
+  },
+  amountTitle: {
+    color: Colors.fontBlackColor_43,
+    marginBottom: 12,
+  },
+  amountInputBox: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  amountInput: {
+    flex: 1,
+    fontSize: 30,
+    color: Colors.fontBlackColor_43,
+    paddingVertical: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+  },
+  amountType: {
+    fontSize: 20,
+    color: Colors.fontBlueColor,
+    marginBottom: 5,
+  },
+  curBalanceBox: {
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  curBalance: {
+    color: Colors.fontGrayColor_a,
+    fontSize: 14,
+  },
+  sendAll: {
+    height: 40,
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  sendAllTxt: {
+    color: Colors.fontBlueColor,
+    fontSize: 14,
+  },
+  vLine: {
+    width: Layout.WINDOW_WIDTH - 40,
+    height: 1,
+    backgroundColor: Colors.bgGrayColor_e5,
   },
 });
 
@@ -277,16 +324,12 @@ export default class Transaction extends BaseComponent {
     super(props);
     // 参数
     const params = store.getState().Core.walletTransfer;
-
     this.didTapSurePasswordBtn = this.didTapSurePasswordBtn.bind(this);
     this.didTapNextBtn = this.didTapNextBtn.bind(this);
     this.getPriceTitle = this.getPriceTitle.bind(this);
     this.sliderValueChanged = this.sliderValueChanged.bind(this);
     this.getDetailPriceTitle = this.getDetailPriceTitle.bind(this);
     this.params = params;
-
-    this.inputTransferValue = 0;
-    this.inputToAddress = '';
 
     this.timeInterval = null;
     this.timeIntervalCount = 0;
@@ -296,13 +339,11 @@ export default class Transaction extends BaseComponent {
       minGasPrice: 1,
       maxGasPrice: 100,
       currentGas: params.suggestGasPrice,
-      gasStr: this.getPriceTitle(params.suggestGasPrice, params.ethPrice),
-      transferValue: -1,
-      // toAddress: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
+      gasStr: this.getPriceTitle(params.suggestGasPrice),
+      transferValue: undefined,
       toAddress: '',
       fromAddress: params.fromAddress,
       detailData: '',
-      defaultTransferValue: '',
       isDisabled: true,
 
       isShowSLoading: false,
@@ -326,25 +367,27 @@ export default class Transaction extends BaseComponent {
 
   getPriceTitle = gasPrice => {
     const { wallet } = store.getState().Core;
-    let gasLimit;
-    if (wallet.type === 'itc') {
-      gasLimit = TransferGasLimit.itcGasLimit;
-    } else if (wallet.type === 'eth') {
-      gasLimit =
-        this.params.transferType === TransferType.ETH
-          ? TransferGasLimit.ethGasLimit
-          : TransferGasLimit.tokenGasLimit;
-    }
-    let totalGas = gasPrice * 0.001 * 0.001 * 0.001 * gasLimit;
-    totalGas = Number(totalGas.toFixed(8));
+    const totalGas = this.getGas(gasPrice);
     // let totalGasPrice = totalGas * ethPrice;
     // totalGasPrice = totalGasPrice.toFixed(8);
     // return totalGas + "ether≈" + totalGasPrice + "$";
 
-    return totalGas + (wallet.type === 'itc' ? ' itc' : ' ether');
+    const totalGasPrice = (this.params.ethPrice * totalGas).toFixed(6);
+    const walletType = wallet.type === 'itc' ? ' itc' : ' ether';
+    const gasStr = `${totalGas + walletType} ≈ ${getMonetaryUnitSymbol()}${totalGasPrice}`;
+
+    return gasStr;
   };
 
   getDetailPriceTitle = () => {
+    const gasLimit = this.getGas();
+    // let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
+    // totalGas = Number(totalGas.toFixed(8));
+
+    return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
+  };
+
+  getGas = gasPrice => {
     const { wallet } = store.getState().Core;
     let gasLimit;
     if (wallet.type === 'itc') {
@@ -355,10 +398,12 @@ export default class Transaction extends BaseComponent {
           ? TransferGasLimit.ethGasLimit
           : TransferGasLimit.tokenGasLimit;
     }
-    // let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
-    // totalGas = Number(totalGas.toFixed(8));
-
-    return `=Gas(${gasLimit})*Gas Price(${this.state.currentGas})gwei`;
+    if (gasPrice === undefined) {
+      return gasLimit;
+    }
+    let totalGas = gasPrice * 0.001 * 0.001 * 0.001 * gasLimit;
+    totalGas = Number(totalGas.toFixed(8));
+    return totalGas;
   };
 
   async startSendTransaction(privateKey) {
@@ -464,7 +509,6 @@ export default class Transaction extends BaseComponent {
       }
     } catch (err) {
       this.hideLoading();
-      // console.log('exportKeyPrivateErr:', err)
     }
   }
 
@@ -476,6 +520,8 @@ export default class Transaction extends BaseComponent {
   }
 
   didTapNextBtn = () => {
+    this.INPUT_ADDRESS.blur();
+
     // 计算gas消耗
     const { wallet } = store.getState().Core;
     let gasLimit;
@@ -491,17 +537,18 @@ export default class Transaction extends BaseComponent {
     totalGas = totalGas.toFixed(8);
 
     if (this.params.ethBalance < totalGas) {
-      // alert(I18n.t('transaction.alert_4'));
       this._showAlert(I18n.t('transaction.alert_4'));
       return;
     }
 
+    const gas = this.getGas(this.state.currentGas);
+    const walletType = wallet.type === 'itc' ? ' itc' : ' ether';
     const params = {
       fromAddress: this.state.fromAddress,
       toAddress: this.state.toAddress,
       totalAmount: `${this.state.transferValue} ${this.params.transferType}`,
-      payType: /* this.params.transferType + */ I18n.t('transaction.transfer'),
-      gasPrice: this.getPriceTitle(this.state.currentGas),
+      payType: I18n.t('transaction.transfer'),
+      gasPrice: `${gas}${walletType}`,
       gasPriceInfo: this.getDetailPriceTitle(),
     };
 
@@ -513,45 +560,68 @@ export default class Transaction extends BaseComponent {
   };
 
   // ----视图的事件方法
-  sliderValueChanged = value => {
-    const price = this.getPriceTitle(value, this.params.ethPrice);
-    this.setState({
-      currentGas: value,
-      gasStr: price,
-    });
+  sliderValueChanged = async value => {
+    const gasStr = this.getPriceTitle(value);
+    this.setState(
+      {
+        currentGas: value,
+        gasStr,
+      },
+      this.judgeCanSendInfoCorrect
+    );
   };
 
-  valueTextInputChangeText = () => {
-    const value = parseFloat(this.inputTransferValue);
-    this.setState({
-      transferValue: value,
-    });
-    this.judgeCanSendInfoCorrect();
+  valueTextInputChangeText = txt => {
+    const value = txt.trim();
+    this.setState(
+      {
+        // transferValue: Number.isNaN(value) ? '' : txt,
+        transferValue: value,
+      },
+      this.judgeCanSendInfoCorrect
+    );
   };
 
-  toAddressTextInputChangeText = () => {
-    const address = this.inputToAddress;
-    this.setState({
-      toAddress: address,
-    });
-    this.judgeCanSendInfoCorrect();
+  toAddressTextInputChangeText = txt => {
+    const address = txt.trim();
+    this.setState(
+      {
+        toAddress: address,
+      },
+      this.judgeCanSendInfoCorrect
+    );
   };
 
-  judgeCanSendInfoCorrect() {
-    const totalValue = this.params.balance;
-    // console.log('######'+this.inputTransferValue)
+  judgeCanSendInfoCorrect = () => {
+    const { wallet } = store.getState().Core;
+    const { balance, transferType, ethBalance } = this.params;
+
+    const { transferValue, toAddress, fromAddress, currentGas } = this.state;
+
+    const gas = this.getGas(currentGas);
+    let curBalance;
+    let curMainBalance;
+    if (wallet.type === transferType.toLowerCase()) {
+      curBalance = parseFloat(balance - transferValue - gas).toFixed(8);
+      curMainBalance = curBalance;
+    } else {
+      curBalance = parseFloat(balance - transferValue).toFixed(8);
+      curMainBalance = parseFloat(ethBalance - gas).toFixed(8);
+    }
+
     const amountIsNotValid =
-      this.inputTransferValue === undefined ||
-      Number.isNaN(this.inputTransferValue) ||
-      parseFloat(this.inputTransferValue) > totalValue ||
-      parseFloat(this.inputTransferValue) <= 0;
-    const addressIsNotValid = this.inputToAddress.length !== 42;
-    const addressIsSame = this.inputToAddress === this.state.fromAddress;
+      transferValue === undefined ||
+      Number.isNaN(transferValue) ||
+      parseFloat(transferValue) <= 0 ||
+      curBalance < 0 ||
+      curMainBalance < 0;
+    const addressIsNotValid = toAddress.length !== 42;
+    const addressIsSame = toAddress === fromAddress;
 
     this.setState({
       isDisabled: amountIsNotValid || addressIsNotValid || addressIsSame,
     });
-  }
+  };
 
   routeContactList = () => {
     Analytics.recordClick('Transaction', 'contactList');
@@ -560,11 +630,12 @@ export default class Transaction extends BaseComponent {
       from: 'transaction',
       callback(data) {
         const address = data.toAddress;
-        _this.inputToAddress = address;
-        _this.setState({
-          toAddress: address,
-        });
-        _this.judgeCanSendInfoCorrect();
+        _this.setState(
+          {
+            toAddress: address,
+          },
+          _this.judgeCanSendInfoCorrect
+        );
       },
     });
   };
@@ -578,8 +649,6 @@ export default class Transaction extends BaseComponent {
   scanClick = async () => {
     Analytics.recordClick('Transaction', 'san');
     const _this = this;
-    // const {navigate} = this.props.navigation;//页面跳转
-    // navigation('页面');
     let isAgree = true;
     if (Platform.OS === 'android') {
       isAgree = await androidPermission(PermissionsAndroid.PERMISSIONS.CAMERA);
@@ -588,11 +657,12 @@ export default class Transaction extends BaseComponent {
       this.props.navigation.navigate('ScanQRCode', {
         callback(data) {
           const address = data.toAddress;
-          _this.inputToAddress = address;
-          _this.setState({
-            toAddress: address,
-          });
-          _this.judgeCanSendInfoCorrect();
+          _this.setState(
+            {
+              toAddress: address,
+            },
+            _this.judgeCanSendInfoCorrect
+          );
         },
       });
     } else {
@@ -600,14 +670,42 @@ export default class Transaction extends BaseComponent {
     }
   };
 
-  renderComponent = () => {
-    const title = /* params.transferType + ' ' + */ I18n.t('transaction.transfer');
-    const alertHeight =
-      this.state.toAddress.length === 42 && this.state.toAddress !== this.state.fromAddress
-        ? 0
-        : 18;
-    const isShowAddressWarn = this.state.toAddress !== '' && alertHeight === 18;
+  sendAllPress = () => {
+    const { wallet } = store.getState().Core;
+    const { balance, transferType } = this.params;
+    const { currentGas } = this.state;
+    const gas = this.getGas(currentGas);
 
+    let curBalance;
+
+    if (wallet.type === transferType.toLowerCase()) {
+      curBalance = Number(parseFloat(balance - gas).toFixed(8));
+    } else {
+      curBalance = Number(parseFloat(balance).toFixed(8));
+    }
+    this.setState(
+      {
+        transferValue: curBalance,
+      },
+      this.judgeCanSendInfoCorrect
+    );
+  };
+
+  renderComponent = () => {
+    const {
+      toAddress,
+      fromAddress,
+      transferValue,
+      isDisabled,
+      isShowSLoading,
+      sLoadingContent,
+    } = this.state;
+    const title = /* params.transferType + ' ' + */ I18n.t('transaction.transfer');
+    const alertHeight = toAddress.length === 42 && toAddress !== fromAddress ? 0 : 18;
+    const isShowAddressWarn = toAddress !== '' && alertHeight === 18;
+    const curBalance = `${I18n.t('transaction.balance')}:${Number(
+      parseFloat(this.params.balance).toFixed(4)
+    )} ${this.params.transferType}`;
     return (
       <View
         style={styles.container}
@@ -624,7 +722,7 @@ export default class Transaction extends BaseComponent {
         {/** <ScrollView style={styles.scrollView}
                     bounces={false}
                     keyboardShouldPersistTaps={'handled'}>* */}
-        <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
+        <StaticLoading visible={isShowSLoading} content={sLoadingContent} />
         <View style={styles.contentBox}>
           <TransactionStep
             didTapSurePasswordBtn={password => {
@@ -638,23 +736,6 @@ export default class Transaction extends BaseComponent {
               this.dialog = dialog;
             }}
           />
-          <InfoView
-            title={I18n.t('transaction.amount')}
-            detailTitle={`${I18n.t('transaction.balance')}:${Number(
-              parseFloat(this.params.balance).toFixed(4)
-            )} ${this.params.transferType}`}
-            placeholder={
-              I18n.t(
-                'transaction.enter'
-              ) /* + this.params.transferType + I18n.t('transaction.amount') */
-            }
-            returnKeyType="next"
-            keyboardType="numeric"
-            onChangeText={txt => {
-              this.inputTransferValue = parseFloat(txt);
-              this.valueTextInputChangeText();
-            }}
-          />
           {/* 转账地址栏 */}
           <InfoView
             title={I18n.t('transaction.collection_address')}
@@ -662,18 +743,11 @@ export default class Transaction extends BaseComponent {
             placeholder={I18n.t('transaction.enter_transfer_address')}
             returnKeyType="next"
             onChangeText={txt => {
-              this.inputToAddress = txt;
-              this.toAddressTextInputChangeText();
+              this.toAddressTextInputChangeText(txt);
             }}
-            defaultValue={this.state.toAddress}
+            defaultValue={toAddress}
             detailTitlePress={this.routeContactList}
           />
-          {/* 备注栏 */}
-          {/* <InfoView title={"备注"}
-                        placeholder={"输入备注"}
-                        returnKeyType={"done"}
-                        onChangeText={this.detailTextInputChangeText} /> */}
-          {/* 滑竿视图 */}
           {isShowAddressWarn ? (
             <Text
               style={{
@@ -689,6 +763,42 @@ export default class Transaction extends BaseComponent {
               {I18n.t('modal.enter_valid_transfer_address')}
             </Text>
           ) : null}
+          <View style={styles.amountBox}>
+            <Text style={styles.amountTitle}>{I18n.t('transaction.amount')}</Text>
+            <View style={styles.amountInputBox}>
+              <TextInput
+                style={styles.amountInput}
+                placeholderTextColor={Colors.fontGrayColor_a0}
+                // placeholder={I18n.t('transaction.enter')}
+                // selectionColor={Colors.fontBlueColor}
+                ref={textinput => {
+                  this.INPUT_ADDRESS = textinput;
+                }}
+                returnKeyType="next"
+                keyboardType="numeric"
+                onChangeText={txt => {
+                  this.valueTextInputChangeText(txt);
+                }}
+              >
+                {transferValue}
+              </TextInput>
+              <Text style={styles.amountType}>{this.params.transferType}</Text>
+            </View>
+            <View style={styles.vLine} />
+            <View style={styles.curBalanceBox}>
+              <Text style={styles.curBalance}>{curBalance}</Text>
+              <TouchableOpacity
+                style={styles.sendAll}
+                activeOpacity={0.6}
+                // disabled={detailTitlePress === undefined}
+                onPress={this.sendAllPress}
+              >
+                <Text style={styles.sendAllTxt}>全部发送</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* 滑竿视图 */}
           <SliderView
             gasStr={this.state.gasStr}
             minGasPrice={this.state.minGasPrice}
@@ -700,7 +810,7 @@ export default class Transaction extends BaseComponent {
           <View style={styles.buttonBox}>
             <BlueButtonBig
               buttonStyle={styles.button}
-              isDisabled={this.state.isDisabled}
+              isDisabled={isDisabled}
               onPress={() => this.didTapNextBtn()}
               text={I18n.t('transaction.next_step')}
             />

@@ -181,35 +181,27 @@ export default class BaseComponent extends PureComponent {
   }
 
   // 显示Loading
-  _showLoading() {
+  _showLoading(showed) {
     if (this._isMounted) {
-      this.setState({
-        isShowLoading: true,
-      });
+      this.setState({ isShowLoading: true }, showed);
     }
   }
 
   // 隐藏Loading
-  _hideLoading() {
+  _hideLoading(hided) {
     if (this._isMounted) {
-      this.setState({
-        isShowLoading: false,
-      });
+      this.setState({ isShowLoading: false }, hided);
     }
   }
 
   // 显示PinCode
-  _showPin() {
-    this.setState({
-      isShowPin: true,
-    });
+  _showPin(showPined) {
+    this.setState({ isShowPin: true }, showPined);
   }
 
   // 隐藏PinCode
-  _hidePin() {
-    this.setState({
-      isShowPin: false,
-    });
+  _hidePin(hidePined) {
+    this.setState({ isShowPin: false }, hidePined);
   }
 
   // pin显示的时候，其他的modal必须关系，否则pin显示不出来
@@ -338,8 +330,8 @@ export default class BaseComponent extends PureComponent {
       .then(() => {
         // 身份验证成功
         Common.touchIDVertifing = false;
-        this._hidePin();
-        this._touchIdAuthenticateSuccess();
+        this._hidePin(this._touchIdAuthenticateSuccess);
+        // this._touchIdAuthenticateSuccess();
       })
       .catch(err => {
         // 身份验证失败
@@ -494,6 +486,13 @@ export default class BaseComponent extends PureComponent {
   _verifyIdentidy() {
     const { pinInfo } = store.getState().Core;
     if (pinInfo != null) {
+      this._showPin(() => {
+        if (pinInfo.isUseTouchId) {
+          this._touchIdIsSupported();
+        }
+      });
+    }
+    /* if (pinInfo != null) {
       setTimeout(() => {
         this._showPin();
         if (pinInfo.isUseTouchId) {
@@ -506,6 +505,6 @@ export default class BaseComponent extends PureComponent {
           }
         }
       }, 100);
-    }
+    } */
   }
 }

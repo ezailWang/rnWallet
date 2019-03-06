@@ -351,7 +351,7 @@ export default class TransactionRecoder extends BaseComponent {
     this.isGetRecodering = false;
     this.isLoadMoreing = false;
 
-    this.suggestGas = -1;
+    this.suggestGas = 0;
     this.ethBalance = -1;
     this.flatListRef = React.createRef();
     this.onRefresh = this.onRefresh.bind(this);
@@ -707,13 +707,12 @@ export default class TransactionRecoder extends BaseComponent {
 
     const transferProps = {
       transferType: symbol,
-      ethBalance: this.ethBalance,
-      balance: amount,
+      ethBalance: this.ethBalance, // ETH钱包下：当前钱包的ETH余额， ITC钱包下：当前钱包的ITC余额
+      balance: amount, // 余额
       suggestGasPrice: parseFloat(this.suggestGas),
-      ethPrice: price,
+      ethPrice: price, // 当前Token对应当前货币单位的价格
       fromAddress: wallet.address,
     };
-
     store.dispatch(setWalletTransferParams(transferProps));
     this.props.navigation.navigate('Transaction', {
       onGoBack: () => {
@@ -789,34 +788,38 @@ export default class TransactionRecoder extends BaseComponent {
         if (!isGetTRFromLocal) {
           await this.getRecoder(true); // 从远端获取
         }
-        this.hideLoading();
+        await this.hideLoading(this.getInfo);
       }
     } catch (err) {
-      this.hideLoading();
+      await this.hideLoading(this.getInfo);
     }
+
+    timer = setInterval(() => {
+      this.getRecoder(false);
+    }, 5 * 1000);
+  };
+
+  getInfo = async () => {
     const { wallet } = store.getState().Core;
     this.suggestGas = await NetworkManager.getSuggestGasPrice();
     this.ethBalance =
       wallet.type === 'itc'
         ? await NetworkManager.getBalanceOfITC()
         : await NetworkManager.getEthBalance();
-
-    timer = setInterval(() => {
-      this.getRecoder(false);
-    }, 3 * 1000);
   };
 
   showLoading() {
-    this._showLoading();
-    if (this.state.showNoData) {
-      this.setState({
-        showNoData: false,
-      });
-    }
+    this._showLoading(() => {
+      if (this.state.showNoData) {
+        this.setState({
+          showNoData: false,
+        });
+      }
+    });
   }
 
-  hideLoading() {
-    this._hideLoading();
+  async hideLoading(hided) {
+    await this._hideLoading(hided);
     if (this.state.itemList.length === [] && !this.state.showNoData && this._isMounted) {
       this.setState({
         showNoData: true,
@@ -1130,13 +1133,6 @@ export default class TransactionRecoder extends BaseComponent {
               {I18n.t('transaction.receipt')}
             </Text>
           </TouchableOpacity>
-          {/* <WhiteButtonMiddle  onPress={this.didTapTransactionButton}
-                                        text={I18n.t('transaction.transfer')}
-                                        image={require('../../assets/transfer/recoder/zhuanzhang_icon.png')}/> */}
-
-          {/* <WhiteButtonMiddle  onPress={this.didTapShowQrCodeButton}
-                                        text={I18n.t('transaction.receipt')}
-                                        image={require('../../assets/transfer/recoder/shoukuan_icon.png')}/> */}
         </View>
       </View>
     );

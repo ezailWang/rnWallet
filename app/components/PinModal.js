@@ -38,19 +38,21 @@ export default class PinModal extends PureComponent {
       const correct = this.inputPassword === password;
       this.isAnimation = !correct;
       this.inputPassword = '';
-      this.setState({
-        pointsCkeckedCount: 0,
-        delDisabled: true,
-      });
-      setTimeout(() => {
-        if (correct) {
-          const object = {
-            pinType: 'PinModal',
-            visible: false,
-          };
-          DeviceEventEmitter.emit('pinIsShow', { pinObject: object });
+      this.setState(
+        {
+          pointsCkeckedCount: 0,
+          delDisabled: true,
+        },
+        () => {
+          if (correct) {
+            const object = {
+              pinType: 'PinModal',
+              visible: false,
+            };
+            DeviceEventEmitter.emit('pinIsShow', { pinObject: object });
+          }
         }
-      }, 150);
+      );
     } else {
       this.isAnimation = false;
       this.setState({

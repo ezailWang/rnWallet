@@ -172,7 +172,8 @@ export default class FeedbackScreen extends BaseComponent {
 
   vertifyAddress() {
     if (this.address !== '') {
-      const validAddress = NetworkManager.isValidAddress(this.address);
+      // const validAddress = NetworkManager.isValidAddress(this.address);
+      const validAddress = this.address.length === 42;
       const { isShowEmailWarn } = this.state;
       this.setState({
         isShowAddressWarn: !validAddress,
@@ -225,14 +226,15 @@ export default class FeedbackScreen extends BaseComponent {
     };
     NetworkManager.uploadFeedback(params, this.state.photoArray)
       .then(res => {
-        this._hideLoading();
-        if (res.code === 200) {
-          showToast(I18n.t('toast.submitted_successfully'));
-          this.props.navigation.goBack();
-        } else {
-          showToast(res.msg);
-          Analytics.recordErr('uploadFeedbackResErr', res);
-        }
+        this._hideLoading(() => {
+          if (res.code === 200) {
+            showToast(I18n.t('toast.submitted_successfully'));
+            this.props.navigation.goBack();
+          } else {
+            showToast(res.msg);
+            Analytics.recordErr('uploadFeedbackResErr', res);
+          }
+        });
       })
       .catch(err => {
         showToast(I18n.t('toast.submitted_failed'));

@@ -226,12 +226,17 @@ class AddTokenScreen extends BaseComponent {
         this.props.removeToken(token.address);
         this.addedTokens.splice(addIndex, 1);
       }
-      this.setState({
-        datas: lodash.cloneDeep(this.tokenList),
-      });
-      setTimeout(() => {
+      this.setState(
+        {
+          datas: lodash.cloneDeep(this.tokenList),
+        },
+        () => {
+          DeviceEventEmitter.emit('changeTokens', { from: 'addTokenPage' });
+        }
+      );
+      /* setTimeout(() => {
         DeviceEventEmitter.emit('changeTokens', { from: 'addTokenPage' });
-      }, 0);
+      }, 0); */
     } catch (e) {
       Analytics.recordErr('addOrRemoveItemCatchErr', e);
     }
