@@ -169,7 +169,6 @@ class ReceiptCodeScreen extends BaseComponent {
         });
       }
     } else if (wallet.type === 'eth') {
-      console.log('L_network', `${network}----${Network.main}`);
       if (network !== Network.main) {
         const index = remindAgain ? remindAgain.findIndex(item => item.type === 'ethTestWarn') : -1;
         this.setState({
@@ -261,55 +260,52 @@ class ReceiptCodeScreen extends BaseComponent {
   }
 
   renderComponent = () => (
-      <ImageBackground
-        style={styles.container}
-        source={require('../../assets/launch/splash_bg.png')}
-      >
-        <TransparentBgHeader
-          navigation={this.props.navigation}
-          text={I18n.t('settings.collection_code')}
-          /** rightPress = {()=>this.scanClick()}
+    <ImageBackground style={styles.container} source={require('../../assets/launch/splash_bg.png')}>
+      <TransparentBgHeader
+        navigation={this.props.navigation}
+        text={I18n.t('settings.collection_code')}
+        /** rightPress = {()=>this.scanClick()}
                                 rightIcon= {require('../../assets/common/scanIcon.png')}* */
-        />
+      />
 
-        <ScreenshotWarn
-          content={I18n.t('modal.itc_test_warn1')}
-          content1={I18n.t('modal.itc_test_warn2')}
-          btnText={I18n.t('modal.i_know')}
-          modalVisible={this.state.ethWarnModalVisible}
-          onPress={() => this.onCloseEthWarnModal()}
-          isShowNotRemindBtn
-          isNotRemind={!this.state.isNotRemind}
-          notRemindPress={() => this.notRemindPress()}
-        />
-        <ScreenshotWarn
-          content={I18n.t('modal.itc_wallet_test_warn')}
-          btnText={I18n.t('modal.i_know')}
-          modalVisible={this.state.itcWarnModalVisible}
-          onPress={() => this.onCloseItcWarnModal()}
-          isShowNotRemindBtn
-          isNotRemind={!this.state.isNotRemind}
-          notRemindPress={() => this.notRemindPress()}
-        />
-        <View style={styles.contentContainer}>
-          <View style={styles.contentBox}>
-            <Image
-              style={styles.logoIcon}
-              source={require('../../assets/set/logoWhiteBg.png')}
-              resizeMode="contain"
-            />
-            <View style={styles.qrCodeBox}>
-              <Text style={styles.titleTxt}>{this.props.wallet.name}</Text>
-              <View style={styles.qrCode}>
-                <QRCode
-                  value={this.props.wallet.address}
-                  size={180}
-                  bgColor="#000"
-                  fgColor="#fff"
-                  onLoad={() => {}}
-                  onLoadEnd={() => {}}
-                />
-                {/* {this.state.qrcodeLoading && this.props.firstQR ? <View
+      <ScreenshotWarn
+        content={I18n.t('modal.itc_test_warn1')}
+        content1={I18n.t('modal.itc_test_warn2')}
+        btnText={I18n.t('modal.i_know')}
+        modalVisible={this.state.ethWarnModalVisible}
+        onPress={() => this.onCloseEthWarnModal()}
+        isShowNotRemindBtn
+        isNotRemind={!this.state.isNotRemind}
+        notRemindPress={() => this.notRemindPress()}
+      />
+      <ScreenshotWarn
+        content={I18n.t('modal.itc_wallet_test_warn')}
+        btnText={I18n.t('modal.i_know')}
+        modalVisible={this.state.itcWarnModalVisible}
+        onPress={() => this.onCloseItcWarnModal()}
+        isShowNotRemindBtn
+        isNotRemind={!this.state.isNotRemind}
+        notRemindPress={() => this.notRemindPress()}
+      />
+      <View style={styles.contentContainer}>
+        <View style={styles.contentBox}>
+          <Image
+            style={styles.logoIcon}
+            source={require('../../assets/set/logoWhiteBg.png')}
+            resizeMode="contain"
+          />
+          <View style={styles.qrCodeBox}>
+            <Text style={styles.titleTxt}>{this.props.wallet.name}</Text>
+            <View style={styles.qrCode}>
+              <QRCode
+                value={this.props.wallet.address}
+                size={180}
+                bgColor="#000"
+                fgColor="#fff"
+                onLoad={() => {}}
+                onLoadEnd={() => {}}
+              />
+              {/* {this.state.qrcodeLoading && this.props.firstQR ? <View
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <Text
                                     style={{ color: 'black' }}>Loading...</Text>
@@ -323,35 +319,35 @@ class ReceiptCodeScreen extends BaseComponent {
                                     onLoad={() => {}}
                                     onLoadEnd={() => { }}
                             />} */}
-              </View>
-
-              <Text style={styles.adderssTxt}>{this.props.wallet.address}</Text>
             </View>
 
-            <ImageBackground
-              style={styles.btnImageBackground}
-              source={require('../../assets/set/qrBtnBg.png')}
-              resizeMode="contain"
-            >
-              <TouchableOpacity
-                style={[styles.btnOpacity]}
-                activeOpacity={0.6}
-                onPress={() => this.copyAddress()}
-              >
-                <Text style={styles.btnTxt}>{I18n.t('settings.copy_payment_address')}</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-
-            {this.state.isMainNetwork ? null : (
-              <View style={styles.itcBox}>
-                <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>
-                <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text>
-              </View>
-            )}
+            <Text style={styles.adderssTxt}>{this.props.wallet.address}</Text>
           </View>
+
+          <ImageBackground
+            style={styles.btnImageBackground}
+            source={require('../../assets/set/qrBtnBg.png')}
+            resizeMode="contain"
+          >
+            <TouchableOpacity
+              style={[styles.btnOpacity]}
+              activeOpacity={0.6}
+              onPress={() => this.copyAddress()}
+            >
+              <Text style={styles.btnTxt}>{I18n.t('settings.copy_payment_address')}</Text>
+            </TouchableOpacity>
+          </ImageBackground>
+
+          {this.state.isMainNetwork ? null : (
+            <View style={styles.itcBox}>
+              <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn1')}</Text>
+              <Text style={styles.itcTextWarn}>*{I18n.t('modal.itc_test_warn2')}</Text>
+            </View>
+          )}
         </View>
-      </ImageBackground>
-    );
+      </View>
+    </ImageBackground>
+  );
 }
 
 const mapStateToProps = state => ({

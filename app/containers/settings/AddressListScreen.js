@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList, Text, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, SectionList, Text, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import StorageManage from '../../utils/StorageManage';
@@ -38,52 +38,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  headerIcon: {
+  headerLeftIcon: {
     height: 20,
     width: 20,
   },
-  headerTitleLeft: {
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
-    height: 30,
-    paddingTop: 5,
-    paddingBottom: 5,
-    width: 120,
-  },
-  headerTitleRight: {
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-    height: 30,
-    paddingTop: 5,
-    paddingBottom: 5,
-    width: 120,
-  },
-  headerTitleChecked: {
-    backgroundColor: Colors.fontBlueColor,
-  },
-  headerTitleUnChecked: {
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: Colors.fontBlueColor,
+  headerRightIcon: {
+    height: 15,
+    width: 15,
   },
   headerTitleText: {
-    // fontSize: I18n.locale == 'zh' ? 15 : 12,
+    fontSize: 16,
     height: 20,
     lineHeight: 20,
     textAlign: 'center',
-  },
-  headerTitleCheckedText: {
-    color: 'white',
-  },
-  headerTitleUnCheckedText: {
-    color: Colors.fontBlueColor,
+    color: Colors.fontBlackColor_43,
   },
 
   listContainer: {
     flex: 1,
     width: Layout.WINDOW_WIDTH,
-    // alignItems:'center',
-    paddingTop: 12,
     paddingBottom: 15,
   },
   emptyListContainer: {
@@ -108,12 +81,9 @@ const styles = StyleSheet.create({
     height: 60,
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 5,
-    borderColor: Colors.borderColor_e,
-    borderWidth: 1,
     backgroundColor: 'white',
-    marginLeft: 15,
-    marginRight: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   itemCircle: {
     width: 40,
@@ -121,8 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 15,
-    marginRight: 12,
+    marginRight: 15,
   },
   itemLetter: {
     fontSize: 18,
@@ -142,17 +111,12 @@ const styles = StyleSheet.create({
     color: Colors.fontGrayColor_a1,
   },
   itemSeparator: {
-    height: 10,
+    height: 1,
     backgroundColor: 'transparent',
+    marginLeft: 15,
+    marginRight: 15,
   },
-  rAItem: {
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    paddingLeft: 30,
-    paddingRight: 30,
-  },
+
   rAItemIcon: {
     width: 40,
     height: 40,
@@ -168,11 +132,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Colors.fontGrayColor_a1,
   },
-  rAItemSeparator: {
-    height: 1,
-    backgroundColor: 'transparent',
-    marginLeft: 15,
-    marginRight: 15,
+  itemHeader: {
+    height: 40,
+    marginTop: 15,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+  },
+  itemHeaderTxt: {
+    width: Layout.WINDOW_WIDTH - 40,
+    fontSize: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: Colors.fontBlackColor_43,
   },
 });
 
@@ -180,111 +151,81 @@ class AddressListScreen extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      contactDatas: [],
-      recentAddressDatas: [],
-      isCheckedContactList: true,
+      addressList: [],
     };
-
     this.recentAddressList = [];
-    this.from = undefined; // 从哪个页面跳转过来的
-    this.contactFlatList = React.createRef();
-    this.addressFlatList = React.createRef();
   }
 
   _initData = async () => {
-    this.from = this.props.navigation.state.params.from;
-
+    // this.from = this.props.navigation.state.params.from;
     const recentTransferAddress = await StorageManage.loadAllDataForKey(
       StorageKey.RecentTransferAddress
     );
-    this.recentAddressList = recentTransferAddress.reverse();
+    if (recentTransferAddress) {
+      if (recentTransferAddress.length > 3) {
+        this.recentAddressList = recentTransferAddress.reverse().slice(0, 2);
+      } else {
+        this.recentAddressList = recentTransferAddress.reverse();
+      }
+    } else {
+      this.recentAddressList = [];
+    }
+
     this.refreshData();
   };
 
   refreshData() {
-    const contactData = this.props.contactList;
+    const { contactList } = this.props;
     this.recentAddressList.forEach(recentAddress => {
       const { address } = recentAddress;
       let isMathAddressName = '';
-      for (let i = 0; i < contactData.length; i++) {
-        if (address.toUpperCase() === contactData[i].address.toUpperCase()) {
-          isMathAddressName = contactData[i].name;
+      for (let i = 0; i < contactList.length; i++) {
+        if (address.toUpperCase() === contactList[i].address.toUpperCase()) {
+          isMathAddressName = contactList[i].name;
           break;
         }
       }
       recentAddress.name = isMathAddressName;
     });
 
+    const datas = [];
+    if (this.recentAddressList.length > 0) {
+      datas.push({ key: I18n.t('settings.recent_transfers'), data: this.recentAddressList });
+    }
+    if (contactList.length > 0) {
+      datas.push({ key: I18n.t('settings.address_book'), data: contactList });
+    }
+
     this.setState({
-      contactDatas: contactData,
-      recentAddressDatas: this.recentAddressList,
+      addressList: datas,
     });
   }
 
-  loadContactData() {
-    this.refreshData();
-  }
-
-  _onContactPressItem = item => {
-    const _this = this;
-    // this.props.navigation.navigate('',{contactInfo:item.item,index:item.index});
-    if (this.from === 'transaction') {
-      // 返回转账页面
-      this.props.navigation.state.params.callback({ toAddress: item.item.address });
-      this.props.navigation.goBack();
-    } else {
-      // 跳转到联系人详情页
-      this.props.navigation.navigate('ContactInfo', {
-        contactInfo: item.item,
-        index: item.index,
-        callback() {
-          _this.loadContactData();
-        },
-      });
-    }
+  _onItemPress = info => {
+    // 返回转账页面
+    this.props.navigation.state.params.callback({ toAddress: info.item.address });
+    this.props.navigation.goBack();
   };
 
-  _onRecentAddressItem = item => {
-    if (this.from === 'transaction') {
-      // 返回转账页面
-      this.props.navigation.state.params.callback({ toAddress: item.item.address });
-      this.props.navigation.goBack();
-    }
-  };
+  _renderItem = info => <Item info={info} onPressItem={() => this._onItemPress(info)} />;
 
-  _renderItemContact = item => (
-    <ContactItem item={item} onPressItem={() => this._onContactPressItem(item)} />
-  );
-
-  _renderItemRecentAddress = item => (
-    <RecentAddressItem item={item} onPressItem={() => this._onRecentAddressItem(item)} />
+  _renderItemHeader = info => (
+    <View style={styles.itemHeader}>
+      <Text style={styles.itemHeaderTxt}>{info.section.key}</Text>
+    </View>
   );
 
   addContact = async () => {
     const _this = this;
     this.props.navigation.navigate('CreateContact', {
       callback() {
-        _this.loadContactData();
+        _this.refreshData();
       },
     });
   };
 
-  _checkedContact = () => {
-    this.setState({
-      isCheckedContactList: true,
-    });
-  };
-
-  _checkedRecentTransfersAddress = () => {
-    this.setState({
-      isCheckedContactList: false,
-    });
-  };
-
   // 自定义分割线
-  _renderItemSeparatorComponent = isContactList => (
-    <View style={isContactList ? styles.itemSeparator : styles.rAItemSeparator} />
-  );
+  _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
   // 空布局
   _renderEmptyView = isContactList => (
@@ -301,8 +242,7 @@ class AddressListScreen extends BaseComponent {
   );
 
   renderComponent = () => {
-    const { isCheckedContactList } = this.state;
-    const headerTitleFontSize = I18n.locale === 'zh' ? 15 : 12;
+    const { addressList } = this.state;
     return (
       <View style={styles.container}>
         <View style={[styles.headerContainer]}>
@@ -313,98 +253,57 @@ class AddressListScreen extends BaseComponent {
             }}
           >
             <Image
-              style={styles.headerIcon}
+              style={styles.headerLeftIcon}
               resizeMode="contain"
               source={require('../../assets/common/common_back.png')}
             />
           </TouchableOpacity>
 
           <View style={[styles.headerTitleBox]}>
-            <TouchableOpacity
-              style={[
-                styles.headerTitleLeft,
-                isCheckedContactList ? styles.headerTitleChecked : styles.headerTitleUnChecked,
-              ]}
-              onPress={this._checkedContact}
-            >
-              <Text
-                style={[
-                  styles.headerTitleText,
-                  { fontSize: headerTitleFontSize },
-                  isCheckedContactList
-                    ? styles.headerTitleCheckedText
-                    : styles.headerTitleUnCheckedText,
-                ]}
-              >
-                {I18n.t('settings.address_book')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.headerTitleRight,
-                isCheckedContactList ? styles.headerTitleUnChecked : styles.headerTitleChecked,
-              ]}
-              onPress={this._checkedRecentTransfersAddress}
-            >
-              <Text
-                style={[
-                  styles.headerTitleText,
-                  { fontSize: headerTitleFontSize },
-                  isCheckedContactList
-                    ? styles.headerTitleUnCheckedText
-                    : styles.headerTitleCheckedText,
-                ]}
-              >
-                {I18n.t('settings.recent_transfers')}
-              </Text>
-            </TouchableOpacity>
+            <Text style={styles.headerTitleText}>{I18n.t('settings.address_book')}</Text>
           </View>
 
-          <TouchableOpacity
-            style={[styles.headerButtonBox]}
-            onPress={isCheckedContactList ? this.addContact : () => {}}
-          >
-            {isCheckedContactList ? (
-              <Image
-                style={styles.headerIcon}
-                resizeMode="contain"
-                source={require('../../assets/set/add.png')}
-              />
-            ) : null}
+          <TouchableOpacity style={[styles.headerButtonBox]} onPress={this.addContact}>
+            <Image
+              style={styles.headerRightIcon}
+              resizeMode="contain"
+              source={require('../../assets/set/add.png')}
+            />
           </TouchableOpacity>
         </View>
-        {isCheckedContactList ? (
-          <FlatList
-            style={styles.listContainer}
-            ref={this.contactFlatList}
-            data={this.state.contactDatas}
-            keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-            renderItem={this._renderItemContact}
-            ListEmptyComponent={() => this._renderEmptyView(true)}
-            ItemSeparatorComponent={() => this._renderItemSeparatorComponent(true)}
-            getItemLayout={(data, index) => ({ length: 60, offset: (60 + 10) * index, index })}
-          />
-        ) : (
-          <FlatList
-            style={styles.listContainer}
-            ref={this.addressFlatList}
-            data={this.state.recentAddressDatas}
-            keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
-            renderItem={this._renderItemRecentAddress}
-            ListEmptyComponent={() => this._renderEmptyView(false)}
-            ItemSeparatorComponent={() => this._renderItemSeparatorComponent(false)}
-            getItemLayout={(data, index) => ({ length: 60, offset: (60 + 1) * index, index })}
-          />
-        )}
+
+        <SectionList
+          style={styles.listContainer}
+          sections={addressList}
+          keyExtractor={(item, index) => index.toString()}
+          renderSectionHeader={this._renderItemHeader}
+          renderItem={this._renderItem}
+          ListEmptyComponent={() => this._renderEmptyView(true)}
+          ItemSeparatorComponent={() => this._renderItemSeparatorComponent(true)}
+          getItemLayout={(data, index) => ({ length: 60, offset: (60 + 1) * index, index })}
+        />
       </View>
     );
   };
 }
 
+class Item extends PureComponent {
+  render() {
+    const { info, onPressItem } = this.props || {};
+    const item = info.item || {};
+
+    return info.section.key === I18n.t('settings.recent_transfers') ? (
+      <RecentAddressItem item={item} onPressItem={onPressItem} />
+    ) : (
+      <ContactItem item={item} onPressItem={onPressItem} />
+    );
+  }
+}
+
 class ContactItem extends PureComponent {
   render() {
     const { item, onPressItem } = this.props || {};
-    const { name, address } = item.item || {};
+    const { name, address } = item || {};
     const letter = name.substr(0, 1);
     let _letter = `${letter}`;
     if (letter >= 'a' && letter <= 'z') {
@@ -460,14 +359,13 @@ class RecentAddressItem extends PureComponent {
 
   render() {
     const { item, onPressItem } = this.props || {};
-    const { address, symbol, time, iconLarge, name } = item.item || {};
+    const { address, symbol, time, iconLarge, name } = item || {};
     const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
-    const _name = name === '' ? '' : ` (${name.trim()})`;
-    const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}${_name}`;
+    const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}${name}`;
     const _time = `${time} +0800`;
     return (
-      <TouchableOpacity activeOpacity={0.6} style={styles.rAItem} onPress={onPressItem}>
+      <TouchableOpacity activeOpacity={0.6} style={styles.item} onPress={onPressItem}>
         <Image
           style={styles.rAItemIcon}
           iosdefaultSource={require('../../assets/home/null.png')}

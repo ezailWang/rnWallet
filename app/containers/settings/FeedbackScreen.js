@@ -225,14 +225,15 @@ export default class FeedbackScreen extends BaseComponent {
     };
     NetworkManager.uploadFeedback(params, this.state.photoArray)
       .then(res => {
-        this._hideLoading();
-        if (res.code === 200) {
-          showToast(I18n.t('toast.submitted_successfully'));
-          this.props.navigation.goBack();
-        } else {
-          showToast(res.msg);
-          Analytics.recordErr('uploadFeedbackResErr', res);
-        }
+        this._hideLoading(() => {
+          if (res.code === 200) {
+            showToast(I18n.t('toast.submitted_successfully'));
+            this.props.navigation.goBack();
+          } else {
+            showToast(res.msg);
+            Analytics.recordErr('uploadFeedbackResErr', res);
+          }
+        });
       })
       .catch(err => {
         showToast(I18n.t('toast.submitted_failed'));

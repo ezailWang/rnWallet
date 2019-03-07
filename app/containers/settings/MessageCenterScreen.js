@@ -429,7 +429,6 @@ class MessageCenterScreen extends BaseComponent {
         this._hideLoading();
         this.props.setTransactionDetailParams(transactionDetail);
         this.props.navigation.navigate('TransactionDetail');
-
         break;
       }
     }

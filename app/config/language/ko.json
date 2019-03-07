@@ -107,6 +107,7 @@
         "enter_transfer_address":"입금 주소를 입력해주세요",
         "remarks":"메모",
         "enter_remarks":"메모를 입력하기",
+        "send_all":"Send all",
         "next_step":"다음",
         
         "address_list":"주소록",
@@ -137,6 +138,7 @@
         "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"거래가 실패했습니다.",
+        "transaction_send_token":"Send Token",
         "alert_0":"개인 키 획득에 실패했습니다.",
         "alert_1":"거래 발송이 실패했습니다. 네트워크 상태나 매개 변수를 확인해주세요",
         "alert_2":"유효한 이체 주소를 입력해주세요",
@@ -367,7 +369,7 @@
 
         "prompt":"참고",
 
-        "no_itc_wallet_detected":"未检测到ITC钱包",
-        "create_import_itc_wallet_first":"为了正常使用ITC映射功能，请先创建或导入ITC钱包。"
+        "no_itc_wallet_detected":"No ITC wallet detected",
+        "create_import_itc_wallet_first":"In order to use the ITC mapping function normally, please create or import an ITC wallet first."
     }
 }

@@ -140,10 +140,7 @@ class FirstLaunchScreen extends BaseComponent {
     }
 
     if (pinType === 'PinModalSet' && !isVisible) {
-      this.setState({
-        isShowSetPin: false,
-      });
-      this._touchIdIsSupported();
+      this.setState({ isShowSetPin: false }, this._touchIdIsSupported);
     }
   };
 
@@ -179,20 +176,19 @@ class FirstLaunchScreen extends BaseComponent {
   }
 
   onConfirmUse() {
-    this.setState({
-      isShowRemind: false,
-    });
-    setTimeout(() => {
-      this._touchIdAuthenticate();
-    }, 300);
+    this.setState(
+      {
+        isShowRemind: false,
+      },
+      this._touchIdAuthenticate
+    );
   }
 
   onCancelUse() {
-    this.setState({
-      isShowRemind: false,
+    this.setState({ isShowRemind: false }, () => {
+      this.savePinInfo(false);
+      this._toRute();
     });
-    this.savePinInfo(false);
-    this._toRute();
   }
 
   _touchIdAuthenticateSuccess = () => {
@@ -276,16 +272,20 @@ class FirstLaunchScreen extends BaseComponent {
   };
 
   versionUpdateRightPress = () => {
-    this.setState({
-      versionUpdateModalVisible: false,
-    });
-    const { updateUrl } = this.versionUpdateInfo;
-    Linking.canOpenURL(updateUrl).then(supported => {
-      if (supported) {
-        Linking.openURL(updateUrl);
+    this.setState(
+      {
+        versionUpdateModalVisible: false,
+      },
+      () => {
+        const { updateUrl } = this.versionUpdateInfo;
+        Linking.canOpenURL(updateUrl).then(supported => {
+          if (supported) {
+            Linking.openURL(updateUrl);
+          }
+        });
+        this.versionUpdateInfo = null;
       }
-    });
-    this.versionUpdateInfo = null;
+    );
   };
 
   async versionUpdate() {

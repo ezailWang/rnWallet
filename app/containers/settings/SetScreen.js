@@ -303,13 +303,10 @@ class SetScreen extends BaseComponent {
     this.setState({
       isShowRemindDialog: false,
     });
-    this._showLoading();
-    setTimeout(() => {
-      this.deleteWallet();
-    }, 2000);
+    this._showLoading(this.deleteWallet);
   }
 
-  async deleteWallet() {
+  deleteWallet = async () => {
     try {
       const { wallet } = this.state;
 
@@ -376,7 +373,7 @@ class SetScreen extends BaseComponent {
       console.log('deleteWallet err', e);
       this._hideLoading();
     }
-  }
+  };
 
   /* async deleteLocalData() {
         await KeystoreUtils.removeKeyFile(this.state.wallet.address)

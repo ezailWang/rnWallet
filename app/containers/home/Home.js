@@ -205,11 +205,11 @@ class HomeScreen extends BaseComponent {
         this.userInfoUpdate();
       }
 
-      this._hideLoading();
-
-      if (data.openRightDrawer) {
-        this.props.navigation.openDrawer();
-      }
+      this._hideLoading(() => {
+        if (data.openRightDrawer) {
+          this.props.navigation.openDrawer();
+        }
+      });
     } catch (err) {
       console.log('home changeWallet err:', err);
       Analytics.recordErr('homeChangeWalletErr', err);
@@ -255,18 +255,20 @@ class HomeScreen extends BaseComponent {
       .then(response => {
         if (response.code === 200) {
           this.props.setAllTokens(response.data);
-          this._hideLoading();
-          if (type === 2) {
-            this.props.navigation.navigate('AddToken', {
-              tokens: _this.props.tokens,
-              callback: async () => {},
-            });
-          }
+          this._hideLoading(() => {
+            if (type === 2) {
+              this.props.navigation.navigate('AddToken', {
+                tokens: _this.props.tokens,
+                callback: async () => {},
+              });
+            }
+          });
         } else {
-          this._hideLoading();
-          if (type === 2) {
-            showToast(I18n.t('toast.net_request_err'));
-          }
+          this._hideLoading(() => {
+            if (type === 2) {
+              showToast(I18n.t('toast.net_request_err'));
+            }
+          });
           Analytics.recordErr('getAllTokensRspErr', response.msg);
         }
       })
