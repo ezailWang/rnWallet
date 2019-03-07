@@ -615,7 +615,7 @@ export default class Transaction extends BaseComponent {
       parseFloat(transferValue) <= 0 ||
       curBalance < 0 ||
       curMainBalance < 0;
-    const addressIsNotValid = toAddress.length !== 42;
+    const addressIsNotValid = !NetworkManager.isValidAddress(toAddress);
     const addressIsSame = toAddress === fromAddress;
 
     this.setState({
@@ -701,7 +701,8 @@ export default class Transaction extends BaseComponent {
       sLoadingContent,
     } = this.state;
     const title = /* params.transferType + ' ' + */ I18n.t('transaction.transfer');
-    const alertHeight = toAddress.length === 42 && toAddress !== fromAddress ? 0 : 18;
+    const alertHeight =
+      NetworkManager.isValidAddress(toAddress) && toAddress !== fromAddress ? 0 : 18;
     const isShowAddressWarn = toAddress !== '' && alertHeight === 18;
     const curBalance = `${I18n.t('transaction.balance')}:${Number(
       parseFloat(this.params.balance).toFixed(4)

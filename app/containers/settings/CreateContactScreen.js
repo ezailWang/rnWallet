@@ -105,8 +105,7 @@ class CreateContactScreen extends BaseComponent {
   vertifyAddress() {
     let addressIsOK = true;
     if (this.address !== '') {
-      // addressIsOK = NetworkManager.isValidAddress(this.address);
-      addressIsOK = this.address.length === 42;
+      addressIsOK = NetworkManager.isValidAddress(this.address);
       const disabled = this.name === '' || !addressIsOK || this.name.length > 12;
       this.setState({
         isShowAddressWarn: !addressIsOK,
@@ -163,8 +162,7 @@ class CreateContactScreen extends BaseComponent {
 
   async save() {
     Keyboard.dismiss();
-    // if (NetworkManager.isValidAddress(this.address) === false) {
-    if (this.address.length !== 42) {
+    if (NetworkManager.isValidAddress(this.address) === false) {
       showToast(I18n.t('toast.enter_valid_transfer_address'));
       return;
     }

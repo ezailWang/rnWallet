@@ -172,8 +172,7 @@ export default class FeedbackScreen extends BaseComponent {
 
   vertifyAddress() {
     if (this.address !== '') {
-      // const validAddress = NetworkManager.isValidAddress(this.address);
-      const validAddress = this.address.length === 42;
+      const validAddress = NetworkManager.isValidAddress(this.address);
       const { isShowEmailWarn } = this.state;
       this.setState({
         isShowAddressWarn: !validAddress,
