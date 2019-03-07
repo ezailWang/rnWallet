@@ -351,7 +351,7 @@ export default class TransactionRecoder extends BaseComponent {
     this.isGetRecodering = false;
     this.isLoadMoreing = false;
 
-    this.suggestGas = 0;
+    this.suggestGas = -1;
     this.ethBalance = -1;
     this.flatListRef = React.createRef();
     this.onRefresh = this.onRefresh.bind(this);
@@ -693,10 +693,7 @@ export default class TransactionRecoder extends BaseComponent {
     Analytics.recordClick('TransactionRecoder', 'transaction');
     if (this.ethBalance === -1) {
       this._showLoading();
-      this.ethBalance =
-        wallet.type === 'itc'
-          ? await NetworkManager.getBalanceOfITC()
-          : await NetworkManager.getEthBalance();
+      await this.getInfo();
       this._hideLoading();
     }
 
@@ -788,25 +785,25 @@ export default class TransactionRecoder extends BaseComponent {
         if (!isGetTRFromLocal) {
           await this.getRecoder(true); // 从远端获取
         }
-        await this.hideLoading(this.getInfo);
+        this.hideLoading();
       }
     } catch (err) {
-      await this.hideLoading(this.getInfo);
+      this.hideLoading();
     }
-
+    this.getInfo();
     timer = setInterval(() => {
       this.getRecoder(false);
     }, 5 * 1000);
   };
 
-  getInfo = async () => {
+  async getInfo() {
     const { wallet } = store.getState().Core;
     this.suggestGas = await NetworkManager.getSuggestGasPrice();
     this.ethBalance =
       wallet.type === 'itc'
         ? await NetworkManager.getBalanceOfITC()
         : await NetworkManager.getEthBalance();
-  };
+  }
 
   showLoading() {
     this._showLoading(() => {

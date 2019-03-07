@@ -331,7 +331,6 @@ export default class BaseComponent extends PureComponent {
         // 身份验证成功
         Common.touchIDVertifing = false;
         this._hidePin(this._touchIdAuthenticateSuccess);
-        // this._touchIdAuthenticateSuccess();
       })
       .catch(err => {
         // 身份验证失败
