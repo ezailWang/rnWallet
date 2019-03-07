@@ -137,6 +137,7 @@
         "broadcasting_transaction":"Transaction de radiodiffusion",
 
         "transaction_fail":"La transaction a échoué",
+        "transaction_send_token":"Send Token",
         "alert_0":"Échec de l'acquisition de la clé privée.",
         "alert_1":"La transaction a échoué. S'il vous plaît vérifier les paramètres.",
         "alert_2":"Veuillez entrer une adresse de transfert valide.",

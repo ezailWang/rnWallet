@@ -137,6 +137,7 @@
         "broadcasting_transaction":"Transaktion übertragen",
 
         "transaction_fail":"Transaktion fehlgeschlagen",
+        "transaction_send_token":"Send Token",
         "alert_0":"Der private Schlüssel wurde nicht erhalten.",
         "alert_1":"Transaktion fehlgeschlagen. Bitte überprüfen Sie die Parameter.",
         "alert_2":"Bitte geben Sie eine korrekte Transferadresse an.",

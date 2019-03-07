@@ -137,6 +137,7 @@
         "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"Error en la transacción",
+        "transaction_send_token":"Send Token",
         "alert_0":"Error al obtener la clave privada",
         "alert_1":"Error de transacción. Por favor comprueba los parámetros",
         "alert_2":"Por favor, introduce una dirección valida de transferencia.",

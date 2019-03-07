@@ -138,6 +138,7 @@
         "broadcasting_transaction":"Broadcasting transaction",
         
         "transaction_fail":"거래가 실패했습니다.",
+        "transaction_send_token":"Send Token",
         "alert_0":"개인 키 획득에 실패했습니다.",
         "alert_1":"거래 발송이 실패했습니다. 네트워크 상태나 매개 변수를 확인해주세요",
         "alert_2":"유효한 이체 주소를 입력해주세요",

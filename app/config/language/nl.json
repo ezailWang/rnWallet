@@ -137,6 +137,7 @@
         "broadcasting_transaction":"Broadcasting transactie",
         
         "transaction_fail":"Transactie mislukt",
+        "transaction_send_token":"Send Token",
         "alert_0":"De privésleutel is niet ontvangen.",
         "alert_1":"Transactie mislukt. Controleer de parameters.",
         "alert_2":"Voer een correct overdrachtsadres in.",

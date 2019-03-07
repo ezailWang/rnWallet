@@ -260,7 +260,9 @@ class InfoView extends Component {
           </TouchableOpacity>
         </View>
         <View
-          style={[styles.sectionViewBottomView, Platform.OS === 'ios' ? styles.shadowStyle : {}]}
+          style={[
+            styles.sectionViewBottomView /* Platform.OS === 'ios' ? styles.shadowStyle : {} */,
+          ]}
         >
           <TextInput
             style={styles.sectionViewTextInput}
@@ -290,7 +292,7 @@ class SliderView extends Component {
   render() {
     const { onValueChange, initValue, minGasPrice, maxGasPrice, gasStr } = this.props;
     return (
-      <View style={[styles.sliderBottomView, styles.shadowStyle]}>
+      <View style={[styles.sliderBottomView /* styles.shadowStyle */]}>
         <View style={styles.sliderTitleContainerView}>
           <Text style={styles.sliderTitle}>{I18n.t('transaction.miner_fee')}</Text>
         </View>
