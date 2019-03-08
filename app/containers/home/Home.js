@@ -204,12 +204,12 @@ class HomeScreen extends BaseComponent {
         // 钱包列表发生变化，更新推送服务器数据
         this.userInfoUpdate();
       }
-
-      this._hideLoading(() => {
+      this._hideLoading();
+      /* this._hideLoading(() => {
         if (data.openRightDrawer) {
           this.props.navigation.openDrawer();
         }
-      });
+      }); */
     } catch (err) {
       console.log('home changeWallet err:', err);
       Analytics.recordErr('homeChangeWalletErr', err);

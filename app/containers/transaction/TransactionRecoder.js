@@ -701,10 +701,12 @@ export default class TransactionRecoder extends BaseComponent {
       this._hideLoading();
     }
 
-    if (this.ethBalance <= 0) {
+    /* 
+      //没有余额时，不能进入转账页面
+      if (this.ethBalance <= 0) {
       showToast(I18n.t('transaction.alert_4'));
       return;
-    }
+    } */
 
     const transferProps = {
       transferType: symbol,
