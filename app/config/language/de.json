@@ -106,7 +106,7 @@
         "enter_transfer_address":"Empfangsadresse eingeben",
         "remarks":"Notiz",
         "enter_remarks":"Notiz eingeben",
-        "send_all":"Send all",
+        "send_all":"Alles",
         "next_step":"Weiter",
         
         "address_list":"Kontakte",
@@ -137,7 +137,7 @@
         "broadcasting_transaction":"Transaktion übertragen",
 
         "transaction_fail":"Transaktion fehlgeschlagen",
-        "transaction_send_token":"Send Token",
+        "transaction_send_token":"Senden Sie Token",
         "alert_0":"Der private Schlüssel wurde nicht erhalten.",
         "alert_1":"Transaktion fehlgeschlagen. Bitte überprüfen Sie die Parameter.",
         "alert_2":"Bitte geben Sie eine korrekte Transferadresse an.",
@@ -254,46 +254,46 @@
         "start":"Start",
         "upcoming_start":"Demnächst",
 
-        "binding_replace_address":"绑定置换地址",
-        "binding_replace_address_desc":"选择接收原生ITC的主网钱包地址",
-        "next":"下一步",
-        "change":"更换",
+        "binding_replace_address":"Brieftasche Adresse binden",
+        "binding_replace_address_desc":"Wählen Sie die Mainnet-Wallet-Adresse aus, um ITC zu erhalten",
+        "next":"Nächster",
+        "change":"Schalter",
 
-        "binding_wallet_address":"绑定钱包地址",
-        "binding_wallet_address_title":"接收原生ITC的主网钱包地址",
-        "binding_wallet_address_desc":"选择当前持有ITC的Erc20钱包",
-        "binding_wallet_address_warn":"(上方主网钱包地址仅能接收此以太坊钱包的映射请求)",
-        "import_erc_wallet":"导入Erc20钱包",
-        "bind":"[已绑定]",
+        "binding_wallet_address":"Brieftasche Adresse binden",
+        "binding_wallet_address_title":"Mainnet-Wallet-Adresse für den Empfang von ITC.",
+        "binding_wallet_address_desc":"Wählen Sie die Erc20-Wallet-Adresse aus, die derzeit den ITC enthält",
+        "binding_wallet_address_warn":"(Die obige Mainnet-Wallet-Adresse kann nur die Swap-Anforderung der ETH-Wallet empfangen.)",
+        "import_erc_wallet":"Importieren Sie die Erc20-Geldbörse",
+        "bind":"[Gebunden]",
 
-        "mapping_record":"映射记录",
-        "dedicated_mapping_address":"专属映射地址",
-        "dedicated_mapping_address_desc":"专属映射地址是根据您选择的ITC主网钱包地址通过算法直接创建生成，无任何人拥有私钥。转入的资金将永久锁定不可提取。",
-        "map_amount":"映射金额",
-        "initiation_address":"发起地址",
-        "initiation_address_prompt":"发起地址是与您选择的ITC主网钱包地址绑定的Erc20地址，一经绑定不可更改。",
-        "cost":"费用",
-        "confirm_mapping":"确认映射",
-        "mapping_detail":"映射详情",
-        "payment_infor":"支付信息",
-        "itc_mapping":"ITC映射",
+        "mapping_record":"Geschichte austauschen",
+        "dedicated_mapping_address":"Angegebene Auslagerungsadresse",
+        "dedicated_mapping_address_desc":"Die angegebene Auslagerungsadresse wird direkt durch einen Algorithmus entsprechend der von Ihnen gewählten ITC-Mainnet-Wallet-Adresse generiert. Niemand hat den privaten Schlüssel. Der überwiesene Betrag wird dauerhaft gesperrt und kann nicht abgezogen werden.",
+        "map_amount":"Betrag zu tauschen",
+        "initiation_address":"Erc20 Adresse",
+        "initiation_address_prompt":"Die Erc20-Adresse kann nicht geändert werden, sobald sie an die ITC-Mainnet-Adresse gebunden ist.",
+        "cost":"Gas",
+        "confirm_mapping":"Bestätigen",
+        "mapping_detail":"Details austauschen",
+        "payment_infor":"Zahlungsinformationen",
+        "itc_mapping":"ITC-Swap",
         "":"",
-        "mapping_guide":"映射指引",
-        "terms_service":"服务条款",
-        "mapping_tutorial":"映射教程",
+        "mapping_guide":"Anleitung austauschen",
+        "terms_service":"Nutzungsbedingungen",
+        "mapping_tutorial":"Tutorial austauschen",
 
-        "native_itc_receive_address":"原生ITC接收地址",
-        "destroy_itc":"Erc20 ITC 销毁",
-        "send_address":"发送地址",
-        "destroy_address":"销毁地址",
-        "transaction_hour":"交易时间",
-        "native_itc_issuance":"原生ITC发放",
-        "collection_address":"收款地址",
-        "transfer_unsuccess_title":"Erc20 ITC 转账尚未成功",
-        "transfer_unsuccess_desc":"转账完成后，原生ITC将在审计后发放",
-        "already_applied":"已申请",
-        "in_the_audit":"审计中",
-        "completed":"已完成"
+        "native_itc_receive_address":"ITC-Mainnet-Adresse",
+        "destroy_itc":"Erc20 ITC zerstört",
+        "send_address":"Absenderadresse",
+        "destroy_address":"Zerstörte Adresse",
+        "transaction_hour":"Transaktionszeit",
+        "native_itc_issuance":"Mainnet ITC-Verteilung",
+        "collection_address":"Adresse erhalten",
+        "transfer_unsuccess_title":"Die Erc20-ITC-Übertragung war nicht erfolgreich",
+        "transfer_unsuccess_desc":"Transaktion abgeschlossen Das mainnet ITC wird nach dem Audit gesendet.",
+        "already_applied":"Angewendet",
+        "in_the_audit":"In Bearbeitung",
+        "completed":"Abgeschlossen"
 
     },
     "toast":{
@@ -343,7 +343,7 @@
         "backup_fail":"Bestätigen fehlgeschlagen",
        
 
-        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly.",
+        "export_private_key_error":"Fehler beim Exportieren des privaten Schlüssels. Bitte überprüfen Sie, ob das Passwort richtig eingegeben wurde.",
         "password_error":"Falsches Passwort",
 
         "cancel":"Abbrechen",
@@ -361,14 +361,14 @@
         "vertify_self":"Authentifizierung über Fingerabdruck",
         "authentication_required":"Authentifizierung erforderlich",
 
-        "itc_wallet_test_warn":"Swap Service has not been activated yet. Please do not transfer your current ERC20 ITC to the ITC wallet address.",
+        "itc_wallet_test_warn":"Swap Service wurde noch nicht aktiviert. Bitte übertragen Sie Ihren aktuellen ERC20 ITC nicht an die ITC-Wallet-Adresse.",
         "itc_test_warn1":"Speichern Sie während der Testphase kein Guthaben auf Ihrer Wallet",
         "itc_test_warn2":"Die ITC Währung ist nur für das Testnetzwerk und somit keine richtige Kryptowährung",
         "not_remind_again":"Nicht noch einmal anzeigen",
 
         "prompt":"Notiz",
 
-        "no_itc_wallet_detected":"No ITC wallet detected",
-        "create_import_itc_wallet_first":"In order to use the ITC mapping function normally, please create or import an ITC wallet first."
+        "no_itc_wallet_detected":"Es wurde keine ITC-Geldbörse festgestellt",
+        "create_import_itc_wallet_first":"Um die ITC-Austauschfunktion ordnungsgemäß zu verwenden, erstellen oder importieren Sie zunächst die ITC-Geldbörse."
     }
 }

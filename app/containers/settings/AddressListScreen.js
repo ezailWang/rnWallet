@@ -362,7 +362,8 @@ class RecentAddressItem extends PureComponent {
     const { address, symbol, time, iconLarge, name } = item || {};
     const { loadIconError } = this.state;
     const icon = this._getLogo(symbol, iconLarge);
-    const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}${name}`;
+    const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
+    const _addressTxt = name === '' ? _address : `${_address} (${name})`;
     const _time = `${time} +0800`;
     return (
       <TouchableOpacity activeOpacity={0.6} style={styles.item} onPress={onPressItem}>
@@ -384,7 +385,7 @@ class RecentAddressItem extends PureComponent {
         />
 
         <View style={styles.itemRightView}>
-          <Text style={styles.rAItemAddress}>{_address}</Text>
+          <Text style={styles.rAItemAddress}>{_addressTxt}</Text>
           <Text style={styles.rAItemTime}>{_time}</Text>
         </View>
       </TouchableOpacity>

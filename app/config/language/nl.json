@@ -106,7 +106,7 @@
         "enter_transfer_address":"Voer ontvangend adres in",
         "remarks":"Memo",
         "enter_remarks":"Voer Memo in",
-        "send_all":"Send all",
+        "send_all":"Allemaal",
         "next_step":"Volgende",
         
         "address_list":"Contacten",
@@ -137,7 +137,7 @@
         "broadcasting_transaction":"Broadcasting transactie",
         
         "transaction_fail":"Transactie mislukt",
-        "transaction_send_token":"Send Token",
+        "transaction_send_token":"Stuur tokens",
         "alert_0":"De privésleutel is niet ontvangen.",
         "alert_1":"Transactie mislukt. Controleer de parameters.",
         "alert_2":"Voer een correct overdrachtsadres in.",
@@ -255,46 +255,46 @@
         "start":"Start",
         "upcoming_start":"Komt binnenkort",
 
-        "binding_replace_address":"绑定置换地址",
-        "binding_replace_address_desc":"选择接收原生ITC的主网钱包地址",
-        "next":"下一步",
-        "change":"更换",
+        "binding_replace_address":"Bind het adres van de portefeuille",
+        "binding_replace_address_desc":"Selecteer het hoofdportefeuille-adres om ITC te ontvangen",
+        "next":"Volgende",
+        "change":"Schakelaar",
 
-        "binding_wallet_address":"绑定钱包地址",
-        "binding_wallet_address_title":"接收原生ITC的主网钱包地址",
-        "binding_wallet_address_desc":"选择当前持有ITC的Erc20钱包",
-        "binding_wallet_address_warn":"(上方主网钱包地址仅能接收此以太坊钱包的映射请求)",
-        "import_erc_wallet":"导入Erc20钱包",
-        "bind":"[已绑定]",
+        "binding_wallet_address":"Bind het adres van de portefeuille",
+        "binding_wallet_address_title":"Mainnet-portefeuilleadres om ITC te ontvangen.",
+        "binding_wallet_address_desc":"Selecteer het adres van de Erc20-portefeuille dat momenteel de ITC bevat",
+        "binding_wallet_address_warn":"(Het bovenstaande mainnet-wallet-adres kan alleen de swap-aanvraag van de ETH-portefeuille ontvangen.)",
+        "import_erc_wallet":"Importeer de Erc20-portemonnee",
+        "bind":"[Gebonden]",
 
-        "mapping_record":"映射记录",
-        "dedicated_mapping_address":"专属映射地址",
-        "dedicated_mapping_address_desc":"专属映射地址是根据您选择的ITC主网钱包地址通过算法直接创建生成，无任何人拥有私钥。转入的资金将永久锁定不可提取。",
-        "map_amount":"映射金额",
-        "initiation_address":"发起地址",
-        "initiation_address_prompt":"发起地址是与您选择的ITC主网钱包地址绑定的Erc20地址，一经绑定不可更改。",
-        "cost":"费用",
-        "confirm_mapping":"确认映射",
-        "mapping_detail":"映射详情",
-        "payment_infor":"支付信息",
-        "itc_mapping":"ITC映射",
+        "mapping_record":"Geschiedenis omwisselen",
+        "dedicated_mapping_address":"Opgegeven omruiladres",
+        "dedicated_mapping_address_desc":"Het opgegeven omwisseladres wordt rechtstreeks gegenereerd door het algoritme volgens het ITC-adres voor de portefeuillewebsite dat u kiest. Niemand heeft de privésleutel. Het overgedragen bedrag wordt permanent geblokkeerd en kan niet worden ingetrokken.",
+        "map_amount":"Bedrag om te wisselen",
+        "initiation_address":"Erc20-adres",
+        "initiation_address_prompt":"Het Erc20-adres kan niet worden gewijzigd eenmaal gebonden met het ITC-hoofdmenu-adres.",
+        "cost":"Gas",
+        "confirm_mapping":"Bevestigen",
+        "mapping_detail":"Gegevens omwisselen",
+        "payment_infor":"Betalingsinformatie",
+        "itc_mapping":"ITC-swap",
         "":"",
-        "mapping_guide":"映射指引",
-        "terms_service":"服务条款",
-        "mapping_tutorial":"映射教程",
+        "mapping_guide":"Richting van begeleiding",
+        "terms_service":"Servicevoorwaarden",
+        "mapping_tutorial":"Zelfstudie wisselen",
 
-        "native_itc_receive_address":"原生ITC接收地址",
-        "destroy_itc":"Erc20 ITC 销毁",
-        "send_address":"发送地址",
-        "destroy_address":"销毁地址",
-        "transaction_hour":"交易时间",
-        "native_itc_issuance":"原生ITC发放",
-        "collection_address":"收款地址",
-        "transfer_unsuccess_title":"Erc20 ITC 转账尚未成功",
-        "transfer_unsuccess_desc":"转账完成后，原生ITC将在审计后发放",
-        "already_applied":"已申请",
-        "in_the_audit":"审计中",
-        "completed":"已完成"
+        "native_itc_receive_address":"ITC mainnet-adres",
+        "destroy_itc":"Erc20 ITC vernietigd",
+        "send_address":"Adres verzenden",
+        "destroy_address":"Vernietigd adres",
+        "transaction_hour":"Transactietijd",
+        "native_itc_issuance":"ITC-distributie van Mainnet",
+        "collection_address":"Ontvangend adres",
+        "transfer_unsuccess_title":"Erc20 ITC-overdracht is niet succesvol geweest",
+        "transfer_unsuccess_desc":"Transactie voltooid. Het hoofd ITC wordt na de audit verzonden.",
+        "already_applied":"Toegepast",
+        "in_the_audit":"Bezig",
+        "completed":"Voltooid"
 
     },
     "toast":{
@@ -343,7 +343,7 @@
 
         "backup_fail":"Back-up mislukt",
 
-        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly.",
+        "export_private_key_error":"Kon de private sleutel niet exporteren, controleer of het wachtwoord correct is ingevoerd.",
         "password_error":"Verkeerd wachtwoord",
 
         "cancel":"Annuleer",
@@ -361,14 +361,14 @@
         "vertify_self":"Vingerafdrukverificatie",
         "authentication_required":"Autorizacion Requerida",
 
-        "itc_wallet_test_warn":"Swap Service has not been activated yet. Please do not transfer your current ERC20 ITC to the ITC wallet address.",
+        "itc_wallet_test_warn":"Swap Service is nog niet geactiveerd. Breng uw huidige ERC20 ITC niet over naar het ITC-portemonnee-adres.",
         "itc_test_warn1":"Bewaar uw bezittingen niet in uw portemonnee gedurende de testperiode",
         "itc_test_warn2":"ITC-munt is alleen voor het testnet en mag niet worden gebruikt als een echte cryptocurrency!",
         "not_remind_again":"Laat dit niet nog een keer zien",
 
         "prompt":"Notitie",
 
-        "no_itc_wallet_detected":"No ITC wallet detected",
-        "create_import_itc_wallet_first":"In order to use the ITC mapping function normally, please create or import an ITC wallet first."
+        "no_itc_wallet_detected":"Geen ITC-portemonnee gedetecteerd",
+        "create_import_itc_wallet_first":"Om de ITC-ruilfunctie goed te gebruiken, moet u eerst de ITC-portefeuille maken of importeren."
     }
 }

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   sectionViewTitleText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.fontBlackColor_43,
     alignSelf: 'center',
     paddingTop: 10,
@@ -82,13 +82,12 @@ const styles = StyleSheet.create({
   },
   blueText: {
     color: Colors.fontBlueColor,
-    fontSize: 14,
+    fontSize: 13,
     textAlign: 'center',
   },
   sectionViewTextInput: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.fontBlackColor_43,
-
     paddingVertical: 0,
     paddingTop: 0,
     paddingBottom: 0,
@@ -182,7 +181,7 @@ const styles = StyleSheet.create({
   },
   curBalance: {
     color: Colors.fontGrayColor_a,
-    fontSize: 14,
+    fontSize: 13,
   },
   sendAll: {
     height: 40,
@@ -192,7 +191,7 @@ const styles = StyleSheet.create({
   },
   sendAllTxt: {
     color: Colors.fontBlueColor,
-    fontSize: 14,
+    fontSize: 13,
   },
   vLine: {
     width: Layout.WINDOW_WIDTH - 40,
@@ -271,6 +270,7 @@ class InfoView extends Component {
             returnKeyType={returnKeyType}
             keyboardType={keyboardType}
             onChangeText={onChangeText}
+            multiline
           >
             {defaultValue}
           </TextInput>
@@ -759,7 +759,7 @@ export default class Transaction extends BaseComponent {
                 marginTop: 8,
                 marginLeft: 20,
                 marginRight: 20,
-                fontSize: 14,
+                fontSize: 13,
               }}
               adjustsFontSizeToFit
             >
