@@ -236,7 +236,7 @@ export default class FeedbackScreen extends BaseComponent {
         });
       })
       .catch(err => {
-        showToast(I18n.t('toast.submitted_failed'));
+        showToast(I18n.t('toast.submission_failed'));
         this._hideLoading();
         Analytics.recordErr('uploadFeedbackCatchErr', err);
       });
