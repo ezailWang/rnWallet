@@ -279,7 +279,6 @@
         "mapping_detail":"映射详情",
         "payment_infor":"支付信息",
         "itc_mapping":"ITC映射",
-        "":"",
         "mapping_guide":"映射指引",
         "terms_service":"服务条款",
         "mapping_tutorial":"映射教程",
@@ -296,7 +295,6 @@
         "already_applied":"已申请",
         "in_the_audit":"审计中",
         "completed":"已完成"
-
     },
     "toast":{
         "exit_app":"再按一次退出应用",

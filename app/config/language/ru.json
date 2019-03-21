@@ -106,7 +106,7 @@
         "enter_transfer_address":"Введите адрес получателя",
         "remarks":"Заметка",
         "enter_remarks":"Ввести заметку",
-        "send_all":"Send all",
+        "send_all":"Все",
         "next_step":"Следующий",
         
         "address_list":"Контракты",
@@ -137,7 +137,7 @@
         "broadcasting_transaction":"Вещание транзакции",
 
         "transaction_fail":"Транзакция не прошла",
-        "transaction_send_token":"Send Token",
+        "transaction_send_token":"Отправить токены",
         "alert_0":"Не получилось прочитать приватный ключ",
         "alert_1":"Транзакция не прошла. Проверьте параметры",
         "alert_2":"Введите правильный адрес транзакции",
@@ -254,46 +254,45 @@
         "start":"Начать",
         "upcoming_start":"Ожидается вскоре",
 
-        "binding_replace_address":"绑定置换地址",
-        "binding_replace_address_desc":"选择接收原生ITC的主网钱包地址",
-        "next":"下一步",
-        "change":"更换",
+        "binding_replace_address":"Привязать адрес кошелька",
+        "binding_replace_address_desc":"Выберите адрес кошелька основной сети для получения ITC",
+        "next":"следующий",
+        "change":"переключатель",
 
-        "binding_wallet_address":"绑定钱包地址",
-        "binding_wallet_address_title":"接收原生ITC的主网钱包地址",
-        "binding_wallet_address_desc":"选择当前持有ITC的Erc20钱包",
-        "binding_wallet_address_warn":"(上方主网钱包地址仅能接收此以太坊钱包的映射请求)",
-        "import_erc_wallet":"导入Erc20钱包",
-        "bind":"[已绑定]",
+        "binding_wallet_address":"Привязать адрес кошелька",
+        "binding_wallet_address_title":"Адрес кошелька Mainnet для получения ITC.",
+        "binding_wallet_address_desc":"Выберите адрес кошелька Erc20, который в настоящее время содержит ITC",
+        "binding_wallet_address_warn":"(Приведенный выше адрес кошелька в основном кошельке может принимать только запрос на обмен кошелька ETH.)",
+        "import_erc_wallet":"Импортировать кошелек Erc20",
+        "bind":"[граница]",
 
-        "mapping_record":"映射记录",
-        "dedicated_mapping_address":"专属映射地址",
-        "dedicated_mapping_address_desc":"专属映射地址是根据您选择的ITC主网钱包地址通过算法直接创建生成，无任何人拥有私钥。转入的资金将永久锁定不可提取。",
-        "map_amount":"映射金额",
-        "initiation_address":"发起地址",
-        "initiation_address_prompt":"发起地址是与您选择的ITC主网钱包地址绑定的Erc20地址，一经绑定不可更改。",
-        "cost":"费用",
-        "confirm_mapping":"确认映射",
-        "mapping_detail":"映射详情",
-        "payment_infor":"支付信息",
-        "itc_mapping":"ITC映射",
-        "":"",
-        "mapping_guide":"映射指引",
-        "terms_service":"服务条款",
-        "mapping_tutorial":"映射教程",
+        "mapping_record":"Обмен истории",
+        "dedicated_mapping_address":"Указанный адрес обмена",
+        "dedicated_mapping_address_desc":"Указанный адрес подкачки генерируется напрямую алгоритмом в соответствии с выбранным вами адресом кошелька в сети ITC. Ни у кого нет закрытого ключа. Перечисленная сумма будет заблокирована навсегда и не может быть снята.",
+        "map_amount":"Сумма для обмена",
+        "initiation_address":"Erc20 адрес",
+        "initiation_address_prompt":"Адрес Erc20 не может быть изменен после привязки к адресу ITC mainnet.",
+        "cost":"газ",
+        "confirm_mapping":"подтвердить",
+        "mapping_detail":"Обмен деталями",
+        "payment_infor":"Платежная информация",
+        "itc_mapping":"ITC своп",
+        "mapping_guide":"Замена руководства",
+        "terms_service":"Условия обслуживания",
+        "mapping_tutorial":"Учебник по обмену",
 
-        "native_itc_receive_address":"原生ITC接收地址",
-        "destroy_itc":"Erc20 ITC 销毁",
-        "send_address":"发送地址",
-        "destroy_address":"销毁地址",
-        "transaction_hour":"交易时间",
-        "native_itc_issuance":"原生ITC发放",
-        "collection_address":"收款地址",
-        "transfer_unsuccess_title":"Erc20 ITC 转账尚未成功",
-        "transfer_unsuccess_desc":"转账完成后，原生ITC将在审计后发放",
-        "already_applied":"已申请",
-        "in_the_audit":"审计中",
-        "completed":"已完成"
+        "native_itc_receive_address":"Адрес ITC в сети",
+        "destroy_itc":"Erc20 ITC уничтожен",
+        "send_address":"Адрес для отправки",
+        "destroy_address":"Разрушенный адрес",
+        "transaction_hour":"Время транзакции",
+        "native_itc_issuance":"Mainnet ITC дистрибуция",
+        "collection_address":"Получающий адрес",
+        "transfer_unsuccess_title":"Erc20 ITC перевод не был успешным",
+        "transfer_unsuccess_desc":"Транзакция завершена. ITC основной сети будет отправлен после аудита.",
+        "already_applied":"прикладной",
+        "in_the_audit":"В ходе выполнения",
+        "completed":"Завершенный"
 
     },
     "toast":{
@@ -343,7 +342,7 @@
         "backup_fail":"Ошибка бэкапа",
 
 
-        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly",
+        "export_private_key_error":"Не удалось экспортировать закрытый ключ, проверьте, правильно ли введен пароль.",
         "password_error":"Пароль неверен. Попробуйте снова",
 
         "cancel":"Отменить",
@@ -361,14 +360,14 @@
         "vertify_self":"Авторизация по отпечаткам пальцев",
         "authentication_required":"Авторизация обязательно",
 
-        "itc_wallet_test_warn":"Swap Service has not been activated yet. Please do not transfer your current ERC20 ITC to the ITC wallet address.",
+        "itc_wallet_test_warn":"Своп Сервис еще не активирован. Пожалуйста, не переводите ваш текущий ERC20 ITC на адрес кошелька ITC.",
         "itc_test_warn1":"Не отправляйте и не храните ваши активы в кошельке во время тестового периода!",
         "itc_test_warn2":"ITC валюта только для тестовой сети и не должна использоваться как настоящая криптовалюта!",
         "not_remind_again":"Не показывать это снова",
 
         "prompt":"Заметка",
 
-        "no_itc_wallet_detected":"No ITC wallet detected",
-        "create_import_itc_wallet_first":"In order to use the ITC mapping function normally, please create or import an ITC wallet first."
+        "no_itc_wallet_detected":"Кошелек ITC не обнаружен",
+        "create_import_itc_wallet_first":"Чтобы правильно использовать функцию обмена ITC, сначала создайте или импортируйте кошелек ITC."
     }
 }
