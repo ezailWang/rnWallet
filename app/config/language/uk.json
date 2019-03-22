@@ -107,7 +107,7 @@
         "enter_transfer_address":"Введіть адресу одержувача",
         "remarks":"Замітка",
         "enter_remarks":"Ввести замітку",
-        "send_all":"Send all",
+        "send_all":"Все",
         "next_step":"Наступний",
         
         "address_list":"Контракти",
@@ -138,7 +138,7 @@
         "broadcasting_transaction":"Мовлення транзакції",
        
         "transaction_fail":"Транзакція не пройшла",
-        "transaction_send_token":"Send Token",
+        "transaction_send_token":"Надіслати маркери",
         "alert_0":"Не вийшло прочитати приватний ключ",
         "alert_1":"Транзакція не пройшла. Перевірте параметри",
         "alert_2":"Введіть правильну адресу транзакції",
@@ -256,46 +256,45 @@
         "upcoming_start":"Очікується незабаром",
 
         
-        "binding_replace_address":"绑定置换地址",
-        "binding_replace_address_desc":"选择接收原生ITC的主网钱包地址",
-        "next":"下一步",
-        "change":"更换",
+        "binding_replace_address":"Адреса прив'язки гаманця",
+        "binding_replace_address_desc":"Виберіть адресу гаманця для отримання ITC",
+        "next":"Далі",
+        "change":"Перемикач",
 
-        "binding_wallet_address":"绑定钱包地址",
-        "binding_wallet_address_title":"接收原生ITC的主网钱包地址",
-        "binding_wallet_address_desc":"选择当前持有ITC的Erc20钱包",
-        "binding_wallet_address_warn":"(上方主网钱包地址仅能接收此以太坊钱包的映射请求)",
-        "import_erc_wallet":"导入Erc20钱包",
-        "bind":"[已绑定]",
+        "binding_wallet_address":"Адреса прив'язки гаманця",
+        "binding_wallet_address_title":"Адреса головного телефону для отримання ITC.",
+        "binding_wallet_address_desc":"Виберіть адресу гаманця Erc20, яка наразі містить ITC",
+        "binding_wallet_address_warn":"(Вищезгадана адреса гаманця може отримувати лише запит на заміну кошика ETH.)",
+        "import_erc_wallet":"Імпортуйте гаманець Erc20",
+        "bind":"[Зв'язаний]",
 
-        "mapping_record":"映射记录",
-        "dedicated_mapping_address":"专属映射地址",
-        "dedicated_mapping_address_desc":"专属映射地址是根据您选择的ITC主网钱包地址通过算法直接创建生成，无任何人拥有私钥。转入的资金将永久锁定不可提取。",
-        "map_amount":"映射金额",
-        "initiation_address":"发起地址",
-        "initiation_address_prompt":"发起地址是与您选择的ITC主网钱包地址绑定的Erc20地址，一经绑定不可更改。",
-        "cost":"费用",
-        "confirm_mapping":"确认映射",
-        "mapping_detail":"映射详情",
-        "payment_infor":"支付信息",
-        "itc_mapping":"ITC映射",
-        "":"",
-        "mapping_guide":"映射指引",
-        "terms_service":"服务条款",
-        "mapping_tutorial":"映射教程",
+        "mapping_record":"Зміна історії",
+        "dedicated_mapping_address":"Зазначена адреса обміну",
+        "dedicated_mapping_address_desc":"Зазначена адреса обміну безпосередньо генерується алгоритмом відповідно до обраної вами гаманця ITC. Ніхто не має приватного ключа. Передана сума буде остаточно заблокована і не може бути відкликана.",
+        "map_amount":"Сума для заміни",
+        "initiation_address":"Адреса Erc20",
+        "initiation_address_prompt":"Адреса Erc20 не може бути змінена після того, як вона буде пов'язана з основною адресою ITC.",
+        "cost":"Газ",
+        "confirm_mapping":"Підтвердьте",
+        "mapping_detail":"Деталі обміну",
+        "payment_infor":"Інформація про оплату",
+        "itc_mapping":"ІТЦ своп",
+        "mapping_guide":"Зміна керівництва",
+        "terms_service":"Умови надання послуг",
+        "mapping_tutorial":"Підручник з обміну",
 
-        "native_itc_receive_address":"原生ITC接收地址",
-        "destroy_itc":"Erc20 ITC 销毁",
-        "send_address":"发送地址",
-        "destroy_address":"销毁地址",
-        "transaction_hour":"交易时间",
-        "native_itc_issuance":"原生ITC发放",
-        "collection_address":"收款地址",
-        "transfer_unsuccess_title":"Erc20 ITC 转账尚未成功",
-        "transfer_unsuccess_desc":"转账完成后，原生ITC将在审计后发放",
-        "already_applied":"已申请",
-        "in_the_audit":"审计中",
-        "completed":"已完成"
+        "native_itc_receive_address":"Головний адреса ІТЦ",
+        "destroy_itc":"Erc20 ITC знищено",
+        "send_address":"Адреса для надсилання",
+        "destroy_address":"Зруйнована адреса",
+        "transaction_hour":"Час транзакції",
+        "native_itc_issuance":"Mainnet ITC розподіл",
+        "collection_address":"Адреса отримання",
+        "transfer_unsuccess_title":"Передача Erc20 ITC не була успішною",
+        "transfer_unsuccess_desc":"Операцію завершено. Основний ITC буде відправлений після аудиту.",
+        "already_applied":"Застосовується",
+        "in_the_audit":"В процесі",
+        "completed":"Завершено"
 
     },
     "toast":{
@@ -345,7 +344,7 @@
         "backup_fail":"Помилка бекапа",
 
 
-        "export_private_key_error":"Failed to export private key, please check if the password is entered correctly",
+        "export_private_key_error":"Не вдалося експортувати закритий ключ, перевірте, чи правильно введено пароль.",
         "password_error":"Пароль невірний. Спробуйте знову",
 
         "cancel":"Скасувати",
@@ -363,14 +362,14 @@
         "vertify_self":"Авторизація за відбитками пальців",
         "authentication_required":"Необхідно авторизуватися",
 
-        "itc_wallet_test_warn":"Swap Service has not been activated yet. Please do not transfer your current ERC20 ITC to the ITC wallet address.",
+        "itc_wallet_test_warn":"Послуга обміну ще не активована. Будь ласка, не переказуйте свій поточний ITC ERC20 до адреси ITC.",
         "itc_test_warn1":"Не відправляйте і не зберігайте ваші активи в гаманці під час тестового періоду",
         "itc_test_warn2":"ITC валюта тільки для тестової мережі і не повинна використовуватися як справжня криптовалюта!",
         "not_remind_again":"Не показувати це знову",
 
         "prompt":"Замітка",
 
-        "no_itc_wallet_detected":"No ITC wallet detected",
-        "create_import_itc_wallet_first":"In order to use the ITC mapping function normally, please create or import an ITC wallet first."
+        "no_itc_wallet_detected":"Не було виявлено жодного гаманця ITC",
+        "create_import_itc_wallet_first":"Щоб правильно використовувати функцію обміну ІТЦ, спершу створіть або імпортуйте гаманець ITC."
     }
 }
