@@ -26,7 +26,6 @@ import StatusBarComponent from '../../components/StatusBarComponent';
 import { I18n } from '../../config/language/i18n';
 import BaseComponent from '../base/BaseComponent';
 import { addressToName } from '../../utils/CommonUtil';
-import { showToast } from '../../utils/Toast';
 import Layout from '../../config/LayoutConstants';
 import Analytics from '../../utils/Analytics';
 
@@ -465,6 +464,9 @@ export default class TransactionRecoder extends BaseComponent {
     const balanceInfo = await this.loadBalanceInfo(isFirst);
     if (this._isMounted) {
       // store.dispatch(setTransactionRecoders(recoders));
+      if (balanceInfo.balance !== this.state.balance) {
+        NetworkManager.loadTokenList();
+      }
       this.setState({
         showNoData: true,
         itemList,
@@ -1089,13 +1091,12 @@ export default class TransactionRecoder extends BaseComponent {
               tintColor={Colors.whiteBackgroundColor}
             />
           }
-          getItemLayout={(data, index) => ({ length: 60, offset: (60 + 7) * index, index })}
+          // getItemLayout={(data, index) => ({ length: 60, offset: (60 + 7) * index, index })}
           ItemSeparatorComponent={this._renderItemSeparatorComponent}
           scrollEventThrottle={1}
           onScroll={Animated.event([
             { nativeEvent: { contentOffset: { y: this.state.scroollY } } },
           ])}
-          // keyExtractor={(item)=>{item.key}}
           keyExtractor={(item, index) => index.toString()}
           ref={this.flatListRef}
           onEndReachedThreshold={1}

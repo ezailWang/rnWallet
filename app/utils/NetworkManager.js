@@ -145,7 +145,7 @@ export default class NetworkManager {
     try {
       const { wallet } = store.getState().Core;
       web3 = this.getWeb3Instance();
-      const ether = new BigNumber(Math.pow(10, decimal - 1));
+      const ether = new BigNumber(Math.pow(10, decimal));
       const contract = new web3.eth.Contract(erc20Abi, address);
       const bigBalance = new BigNumber(await contract.methods.balanceOf(wallet.address).call());
       return parseFloat(bigBalance.dividedBy(ether)).toFixed(2);
