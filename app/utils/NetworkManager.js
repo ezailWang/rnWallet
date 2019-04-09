@@ -148,7 +148,7 @@ export default class NetworkManager {
       const ether = new BigNumber(Math.pow(10, decimal));
       const contract = new web3.eth.Contract(erc20Abi, address);
       const bigBalance = new BigNumber(await contract.methods.balanceOf(wallet.address).call());
-      return parseFloat(bigBalance.dividedBy(ether)).toFixed(2);
+      return parseFloat(bigBalance.dividedBy(ether)).toFixed(4);
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
       Analytics.recordErr('getEthERC20BalanceErr', err);
