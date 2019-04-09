@@ -47,8 +47,6 @@
 	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Need to access your album</string>
 	<key>UIAppFonts</key>
@@ -78,5 +76,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs Location access for "some feature"!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs Location access for "some feature"!</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs Location access for "some feature"!</string>
 </dict>
 </plist>
