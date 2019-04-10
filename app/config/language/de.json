@@ -66,6 +66,7 @@
     "home":{
         "tab_wallet":"Wallet",
         "tab_mapping":"Token Tauschservice",
+        "tab_exchange":"Token exchange",
         "tab_my":"Ich",
         "my":"Ich",
 

@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     height: 26,
     backgroundColor: 'transparent',
     marginRight: 10,
-    borderRadius: 15,
   },
   emptyView: {
     flex: 1,
@@ -209,17 +208,18 @@ class ExchangeCell extends Component {
               }}
             />
             <View style={styles.leftTextViews}>
-              <Text style={{ fontSize: 15, color: Colors.themeColor }}>
+              <Text style={{ fontSize: 14, color: Colors.themeColor }}>
                 {'0.888ETH -> 8888ITC'}
               </Text>
-              <Text style={{ fontSize: 13, color: Colors.fontDarkGrayColor }}>04-10 18:88</Text>
+              <Text style={{ fontSize: 12, color: Colors.fontDarkGrayColor }}>04-10 18:88</Text>
             </View>
           </View>
           <View style={styles.rightView}>
-            <Text style={{ fontSize: 15, color: Colors.themeColor }}>兑换成功</Text>
+            <Text style={{ fontSize: 13, color: Colors.fontGrayColor_a }}>兑换成功</Text>
             <Image
-              style={{ width: 20, height: 20 }}
-              source={require('../../../assets/home/null.png')}
+              resizeMode="contain"
+              style={{ width: 9, height: 15, marginLeft: 10 }}
+              source={require('../../../assets/exchange/back_g.png')}
             />
           </View>
         </View>

@@ -143,7 +143,7 @@ const HomeBottomTabNavigationConfig = {
         case 'Exchange':
           return (
             <Text style={focused ? styles.blueText : styles.grayText} numberOfLines={1}>
-              {I18n.t('home.tab_mapping')}
+              {I18n.t('home.tab_exchange')}
             </Text>
           );
         case 'Mapping':
@@ -172,10 +172,10 @@ const HomeBottomTabNavigationConfig = {
           return <TabIcon icon={homeIcon} />;
         }
         case 'Exchange': {
-          const mappingIcon = focused
-            ? require('../assets/home/mapping_on.png')
-            : require('../assets/home/mapping_off.png');
-          return <TabIcon icon={mappingIcon} />;
+          const exchangeIcon = focused
+            ? require('../assets/exchange/exchange.png')
+            : require('../assets/exchange/exchange_huise.png');
+          return <TabIcon icon={exchangeIcon} />;
         }
         case 'Mapping': {
           const mappingIcon = focused

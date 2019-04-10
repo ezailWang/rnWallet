@@ -66,6 +66,7 @@
     "home":{
         "tab_wallet":"Кошелек",
         "tab_mapping":"Сервис обмена токенов",
+        "tab_exchange":"Token exchange",
         "tab_my":"Я",
         "my":"Я",
         

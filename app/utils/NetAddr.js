@@ -1,6 +1,8 @@
 // let host = 'http://47.75.16.97:9000/'
 const host = 'https://wallet.iotchain.io/';
 const itcHost = 'https://scan.iotchain.io/';
+// const swftHost = 'https://transfer.swft.pro/';
+const swftHost = 'https://test.swftcoin.com/';
 // const itcHost = 'http://192.168.50.83:7777/'
 
 const NetAddr = {
@@ -17,6 +19,11 @@ const NetAddr = {
   getUnReadMessageCount: `${host}wallet/user/newMessageAccount`,
   userInfoUpdate: `${host}wallet/user/update`,
   getTransactionByAddress: `${itcHost}v1/transaction/address`,
+  queryCoinList: `${swftHost}api/v1/queryCoinList`,
+  getBaseInfo: `${swftHost}api/v1/getBaseInfo`,
+  accountExchange: `${swftHost}api/v2/accountExchange`,
+  queryOrderState: `${swftHost}api/v2/queryOrderState`,
+  queryAllTrade: `${swftHost}api/v2/queryAllTrade`,
   // transactionDetail:itcHost + 'v1/transavtion/hash'
 };
 

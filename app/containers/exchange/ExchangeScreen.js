@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, Animated, View } from 'react-native';
+// import DeviceInfo from 'react-native-device-info';
 import { ExchangeCell, ExchangeEmptyComponent } from './component/ExchangeCell';
 import { ItemDivideComponent } from '../home/component/HomeCell';
 import ExchangeHeadView from './component/ExchangeHeadView';
@@ -9,6 +10,7 @@ import LayoutConstants from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
 import ExchangeFlatListModal from './component/ExchangeFlatListModal';
 import ExchangeStepModal from './component/ExchangeStepModal';
+// import NetworkManager from '../../utils/NetworkManager';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +42,64 @@ export default class ExchangeScreen extends BaseComponent {
     this.listRef = React.createRef();
   }
 
+  componentDidMount() {
+    super.componentDidMount();
+
+    // NetworkManager.queryOrderState({
+    //   equipmentNo: DeviceInfo.getUniqueID(),
+    //   sourceType: Platform.OS.toUpperCase(),
+    //   orderId: '62195fb5-e22e-4bf0-9c8f-9490b1da9eca',
+    // })
+    //   .then(data => {
+    //     console.log('queryOrderState data:', data);
+    //   })
+    //   .catch(e => {
+    //     console.log('queryOrderState e', e);
+    //   });
+    // NetworkManager.queryAllTrade({
+    //   equipmentNo: DeviceInfo.getUniqueID(),
+    //   sourceType: Platform.OS.toUpperCase(),
+    // })
+    //   .then(data => {
+    //     console.log('queryAllTrade data--:', data);
+    //   })
+    //   .catch(e => {
+    //     console.log('queryAllTrade e--:', e);
+    //   });
+    // NetworkManager.getBaseInfo({ depositCoinCode: 'ETH', receiveCoinCode: 'ITC' })
+    //   .then(getBaseInfoData => {
+    //     console.log('getBaseInfoData:---', getBaseInfoData);
+    //     if (getBaseInfoData.resCode === '800') {
+    //       const contentData = getBaseInfoData.data;
+    //       const params = {
+    //         equipmentNo: DeviceInfo.getUniqueID(),
+    //         sessionUuid: '',
+    //         sourceType: Platform.OS.toUpperCase(),
+    //         userNo: '',
+    //         depositCoinCode: 'ETH',
+    //         receiveCoinCode: 'ITC',
+    //         depositCoinAmt: '8',
+    //         receiveCoinAmt: (8 * contentData.instantRate).toString(),
+    //         receiveSwftAmt: '0',
+    //         destinationAddr: '0xF16bCF19B170e692d967b1AC5dc2c8c8F7B1b72f',
+    //         refundAddr: '0xF16bCF19B170e692d967b1AC5dc2c8c8F7B1b72f',
+    //       };
+    //       NetworkManager.accountExchange(params)
+    //         .then(accountExchangeData => {
+    //           console.log('accountExchange data--:', accountExchangeData);
+    //         })
+    //         .catch(e => {
+    //           console.log('accountExchange e--:', e);
+    //         });
+    //     } else {
+    //       console.log(' getBaseInfo resMsg', getBaseInfoData.resMsg);
+    //     }
+    //   })
+    //   .catch(e => {
+    //     console.log('e:---', e);
+    //   });
+  }
+
   renderItem = item => <ExchangeCell item={item} onClick={() => this.onClickCell(item)} />;
 
   onClickCell = item => {
@@ -49,7 +109,7 @@ export default class ExchangeScreen extends BaseComponent {
 
   renderComponent = () => {
     const { dataTest, statusbarStyle, scroollY } = this.state;
-    const topBg = require('../../assets/home/hp_bg.png');
+    const topBg = require('../../assets/exchange/bg1.png');
     const headerHeight = scroollY.interpolate({
       inputRange: [
         -LayoutConstants.WINDOW_HEIGHT + LayoutConstants.EXCHANGE_HEADER_MAX_HEIGHT,

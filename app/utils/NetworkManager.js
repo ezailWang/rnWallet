@@ -799,4 +799,29 @@ export default class NetworkManager {
     const tran = await web3.eth.getTransaction(hashId);
     return tran;
   }
+
+  // SWFT Interface
+  static async queryCoinList() {
+    return FetchUtils.requestSWFTPost(
+      NetAddr.queryCoinList,
+      { supportType: 'advanced' },
+      'application/x-www-form-urlencoded'
+    );
+  }
+
+  static async getBaseInfo(params) {
+    return FetchUtils.requestSWFTPost(NetAddr.getBaseInfo, params);
+  }
+
+  static async accountExchange(params) {
+    return FetchUtils.requestSWFTPost(NetAddr.accountExchange, params);
+  }
+
+  static async queryOrderState(params) {
+    return FetchUtils.requestSWFTPost(NetAddr.queryOrderState, params);
+  }
+
+  static async queryAllTrade(params) {
+    return FetchUtils.requestSWFTPost(NetAddr.queryAllTrade, params);
+  }
 }

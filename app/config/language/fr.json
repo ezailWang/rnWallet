@@ -66,6 +66,7 @@
     "home":{
         "tab_wallet":"portefeuille",
         "tab_mapping":"Service d'échange de jetons",
+        "tab_exchange":"Token exchange",
         "tab_my":"moi",
         "my":"moi",
         

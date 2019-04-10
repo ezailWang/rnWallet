@@ -26,6 +26,55 @@ export default class FetchUtils {
     return abortablePromise;
   }
 
+  static requestSWFTGET(url, params) {
+    Analytics.recordRequest('GET', url);
+    if (params) {
+      const paramsArray = [];
+      Object.keys(params).forEach(key => paramsArray.push(`${key}=${params[key]}`));
+      if (url.search(/\?/) === -1) {
+        url += `?${paramsArray.join('&')}`;
+      } else {
+        url += `&${paramsArray.join('&')}`;
+      }
+    }
+    return new Promise((resolve, reject) => {
+      this.timeoutFetch(
+        fetch(url, {
+          method: 'GET',
+        })
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          resolve(responseJson);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  static requestSWFTPost(url, params, contentType) {
+    // Analytics.recordRequest('POST', url);
+    return new Promise((resolve, reject) => {
+      this.timeoutFetch(
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': contentType || 'application/json;charset=UTF-8',
+          },
+          body: JSON.stringify(params),
+        })
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          resolve(responseJson);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   static requestGet(url, params) {
     Analytics.recordRequest('GET', url);
     if (params) {
