@@ -41,6 +41,8 @@ import MappingGuideScreen from './mapping/MappingGuideScreen';
 import WalletListScreen from './settings/WalletListScreen';
 import ChoseWalletTypeScreen from './launch/ChoseWalletTypeScreen';
 import Mapping from './mapping/Mapping';
+import ExchangeScreen from './exchange/ExchangeScreen';
+import ExchangeDetail from './exchange/ExchangeDetail';
 
 export {
   HomeScreen,
@@ -87,4 +89,6 @@ export {
   WalletListScreen,
   ChoseWalletTypeScreen,
   Mapping,
+  ExchangeScreen,
+  ExchangeDetail,
 };

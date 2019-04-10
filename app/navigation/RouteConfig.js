@@ -85,6 +85,8 @@ import {
   WalletListScreen,
   ChoseWalletTypeScreen,
   Mapping,
+  ExchangeScreen,
+  ExchangeDetail,
 } from '../containers/Containers';
 import { getMessageCount } from '../utils/CommonUtil';
 import Analytics from '../utils/Analytics';
@@ -150,6 +152,15 @@ const HomeBottomTabNavigation = createBottomTabNavigator(
           // 使用tabBarOnPress点击事件
           Analytics.recordClick('Tab', 'home');
           navigation.navigate('Home');
+        },
+      }),
+    },
+    Exchange: {
+      screen: ExchangeScreen,
+      navigationOptions: ({ navigation }) => ({
+        tabBarOnPress: () => {
+          Analytics.recordClick('Tab', 'Exchange');
+          navigation.navigate('Exchange');
         },
       }),
     },
@@ -310,6 +321,9 @@ const HomeRouteConfig = {
   },
   ChoseWalletType: {
     screen: ChoseWalletTypeScreen,
+  },
+  ExchangeDetail: {
+    screen: ExchangeDetail,
   },
 };
 

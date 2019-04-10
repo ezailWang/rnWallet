@@ -5,7 +5,6 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Dimensions,
   Image,
   TouchableOpacity,
   Text,
@@ -15,13 +14,10 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
-import StorageManage from '../../utils/StorageManage';
-import { Colors, StorageKey } from '../../config/GlobalConfig';
-import store from '../../config/store/ConfigureStore';
-import { I18n } from '../../config/language/i18n';
+import { Colors } from '../../../config/GlobalConfig';
+import { I18n } from '../../../config/language/i18n';
+import LayoutConstants from '../../../config/LayoutConstants';
 
-const ScreenWidth = Dimensions.get('window').width;
-const ScreenHeight = Dimensions.get('window').height;
 const StatusBarHeight = StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
@@ -32,7 +28,9 @@ const styles = StyleSheet.create({
   },
   KeyboardContainer: {
     marginTop:
-      Platform.OS === 'android' ? ScreenHeight - 400 - StatusBarHeight : ScreenHeight - 400,
+      Platform.OS === 'android'
+        ? LayoutConstants.WINDOW_HEIGHT - 400 - StatusBarHeight
+        : LayoutConstants.WINDOW_HEIGHT - 400,
     height: 400,
     marginBottom: 0,
     marginRight: 0,
@@ -47,7 +45,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     backgroundColor: 'white',
     height: 400,
-    width: ScreenWidth,
+    width: LayoutConstants.WINDOW_WIDTH,
     alignItems: 'center',
   },
   rightContainer: {
@@ -55,12 +53,12 @@ const styles = StyleSheet.create({
     marginTop: 0,
     backgroundColor: 'white',
     height: 400,
-    width: ScreenWidth,
+    width: LayoutConstants.WINDOW_WIDTH,
     alignItems: 'center',
   },
   firstStepTitleView: {
     height: 44,
-    width: ScreenWidth,
+    width: LayoutConstants.WINDOW_WIDTH,
     marginRight: 0,
     borderBottomColor: Colors.fontGrayColor,
     borderBottomWidth: 0.5,
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
   titleView: {
     color: Colors.fontBlackColor,
     // marginLeft:0,
-    width: ScreenWidth - (30 + 25) * 2,
+    width: LayoutConstants.WINDOW_WIDTH - (30 + 25) * 2,
     fontSize: 17,
     textAlign: 'center',
   },
@@ -92,14 +90,14 @@ const styles = StyleSheet.create({
   leftInfoView: {
     height: 210,
     // backgroundColor:"red",
-    width: ScreenWidth - 50,
+    width: LayoutConstants.WINDOW_WIDTH - 50,
   },
   infoTextViewFirst: {
     height: 30,
     flexDirection: 'row',
     alignItems: 'center',
     // backgroundColor:"red",
-    width: ScreenWidth - 60,
+    width: LayoutConstants.WINDOW_WIDTH - 60,
   },
   infoTitle: {
     fontSize: 13,
@@ -139,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     height: 44,
     borderRadius: 25,
-    width: ScreenWidth - 100,
+    width: LayoutConstants.WINDOW_WIDTH - 100,
     backgroundColor: Colors.themeColor,
     justifyContent: 'center',
   },
@@ -154,7 +152,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.fontGrayColor,
     borderRadius: 5,
-    width: ScreenWidth - 50,
+    width: LayoutConstants.WINDOW_WIDTH - 50,
     marginTop: 20,
     height: 40,
   },
@@ -169,32 +167,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const InfoTextView = ({ transferType, fromAddress, toAddress, gasPrice, detailGas }) => (
+const InfoTextView = () => (
   <View style={styles.leftInfoView}>
     <View style={styles.infoTextViewFirst}>
-      <Text style={styles.infoTitle}>{I18n.t('transaction.payment_information')}</Text>
-      <Text style={styles.infoDetailTitle}>{transferType}</Text>
+      <Text style={styles.infoTitle}>支付</Text>
+      <Text style={styles.infoDetailTitle}>0.18ETH</Text>
     </View>
-    <InfoContentView title={I18n.t('transaction.pay_to')} deatilContent={toAddress} />
-    <InfoContentView title={I18n.t('transaction.payment_address')} deatilContent={fromAddress} />
-    {/* <InfoContentView
-            title={"矿工费用"}
-            deatilContent={gasPrice}>
-        </InfoContentView> */}
-    <View style={{ flex: 1 }}>
-      <View style={styles.lineView} />
-      <View style={styles.infoContent}>
-        <View style={styles.infoContentTitle}>
-          <Text style={[styles.infoTitle]}>{I18n.t('transaction.miner_cost')}</Text>
-        </View>
-        <View style={styles.infoContentDetailView}>
-          <Text style={styles.infoContentDetailTitle}>{gasPrice}</Text>
-          <Text style={[styles.infoContentDetailTitle, { color: Colors.fontDarkGrayColor }]}>
-            {detailGas}
-          </Text>
-        </View>
-      </View>
-    </View>
+    <InfoContentView title={I18n.t('transaction.pay_to')} deatilContent="123333333" />
+    <InfoContentView
+      title={I18n.t('transaction.payment_address')}
+      deatilContent="12333333333333333333333333333333333333333"
+    />
+    <InfoContentView title={I18n.t('transaction.payment_address')} deatilContent="123333333" />
+    <InfoContentView
+      title={I18n.t('transaction.payment_address')}
+      deatilContent="12333333333333333333333333333333333333333"
+    />
   </View>
 );
 
@@ -212,7 +200,7 @@ const InfoContentView = ({ title, deatilContent }) => (
   </View>
 );
 
-export default class TransactionStep extends Component {
+export default class ExchangeStepMadal extends Component {
   static propsType = {
     didTapSurePasswordBtn: PropTypes.func.isRequired,
   };
@@ -223,12 +211,6 @@ export default class TransactionStep extends Component {
     this.state = {
       show: false,
       step: false,
-      fromAddress: '0x',
-      toAddress: '0x',
-      totalAmount: '0',
-      payType: '',
-      gasPrice: '',
-      gasPriceInfo: '',
       password: '',
     };
     this.showStepView = this.showStepView.bind(this);
@@ -244,70 +226,11 @@ export default class TransactionStep extends Component {
 
   // }
 
-  // 保存最近转账的地址
-  async saveRecentAddress() {
-    const { toAddress, totalAmount } = this.state;
-    const _symbol = totalAmount.split(' ')[1];
-    const _currentTime = TransactionStep.getCurrentTime();
-    const { tokens } = store.getState().Core;
-    let _iconLargeStr = '';
-    for (let i = 0; i < tokens.length; i++) {
-      if (_symbol.toUpperCase() === tokens[i].symbol.toUpperCase()) {
-        const { iconLarge } = tokens[i];
-        _iconLargeStr = iconLarge;
-        break;
-      }
-    }
-
-    let recentTransferAddress = await StorageManage.loadAllDataForKey(
-      StorageKey.RecentTransferAddress
-    );
-    if (!recentTransferAddress) {
-      recentTransferAddress = [];
-    }
-    let isSavedAddress = false;
-    for (let i = 0; i < recentTransferAddress.length; i++) {
-      if (recentTransferAddress[i].address.toUpperCase() === toAddress.toUpperCase()) {
-        isSavedAddress = true;
-        break;
-      }
-    }
-
-    const keyId = toAddress; // 用地址作为存储的id
-    const object = {
-      address: toAddress,
-      symbol: _symbol,
-      time: _currentTime,
-      iconLargeStr: _iconLargeStr,
-    };
-    if (isSavedAddress) {
-      StorageManage.remove(StorageKey.RecentTransferAddress, keyId);
-    }
-    StorageManage.save(StorageKey.RecentTransferAddress, object, keyId);
-    // let recentTransferAddressss = await StorageManage.loadAllDataForKey(StorageKey.RecentTransferAddress)
-  }
-
-  static getCurrentTime() {
-    const date = new Date();
-    const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
-    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-    const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
-    return `${date.getFullYear()}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
-
   showStepView(params) {
     const { show } = this.state;
     if (params) {
       this.setState({
         show: !show,
-        fromAddress: params.fromAddress,
-        toAddress: params.toAddress,
-        totalAmount: params.totalAmount,
-        payType: params.payType,
-        gasPrice: params.gasPrice,
-        gasPriceInfo: params.gasPriceInfo,
       });
     } else {
       this.setState({
@@ -331,7 +254,7 @@ export default class TransactionStep extends Component {
           this.scroll.scrollTo({ x: 0, y: 0, animated: true });
           this.INPUT.blur();
         } else {
-          this.scroll.scrollTo({ x: ScreenWidth, y: 0, animated: true });
+          this.scroll.scrollTo({ x: LayoutConstants.WINDOW_WIDTH, y: 0, animated: true });
           this.INPUT.focus();
         }
       }
@@ -346,16 +269,7 @@ export default class TransactionStep extends Component {
 
   render() {
     // const { walletPasswordPrompt } = store.getState().Core
-    const {
-      show,
-      totalAmount,
-      payType,
-      toAddress,
-      fromAddress,
-      gasPrice,
-      gasPriceInfo,
-      password,
-    } = this.state;
+    const { show, password } = this.state;
     const { didTapSurePasswordBtn } = this.props;
     return (
       <Modal
@@ -393,22 +307,16 @@ export default class TransactionStep extends Component {
                   <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
                     <Image
                       resizeMode="contain"
-                      source={require('../../assets/common/cancel.png')}
+                      source={require('../../../assets/common/cancel.png')}
                       style={{ width: 15, height: 15 }}
                     />
                   </TouchableOpacity>
-                  <Text style={styles.titleView}>{I18n.t('transaction.payment_details')}</Text>
+                  <Text style={styles.titleView}>兑换详情</Text>
                 </View>
                 <View style={styles.costTextContainer}>
-                  <Text style={styles.costText}>{totalAmount}</Text>
+                  <Text style={styles.costText}>{'EHT -> ITC'}</Text>
                 </View>
-                <InfoTextView
-                  transferType={payType}
-                  fromAddress={fromAddress}
-                  toAddress={toAddress}
-                  gasPrice={gasPrice}
-                  detailGas={gasPriceInfo}
-                />
+                <InfoTextView />
 
                 <TouchableOpacity style={styles.nextBtn} onPress={this.changeStepPage}>
                   <Text style={styles.buttonTitle}>{I18n.t('transaction.next_step')}</Text>
@@ -421,7 +329,7 @@ export default class TransactionStep extends Component {
                   <TouchableOpacity style={styles.cancelBtn} onPress={this.changeStepPage}>
                     <Image
                       resizeMode="contain"
-                      source={require('../../assets/common/common_back.png')}
+                      source={require('../../../assets/common/common_back.png')}
                       style={{ height: 20, width: 20 }}
                     />
                   </TouchableOpacity>
@@ -440,19 +348,9 @@ export default class TransactionStep extends Component {
                     }}
                   />
                 </View>
-                {/* <Text
-                                style={{
-                                    fontSize: 13,
-                                    paddingLeft: 25,
-                                    paddingTop: 5,
-                                    alignSelf: 'stretch',
-                                    color:Colors.fontGrayColor_a0
-                                }}
-                            >密码提示: {walletPasswordPrompt}</Text> */}
                 <TouchableOpacity
                   style={styles.nextBtn}
                   onPress={() => {
-                    this.saveRecentAddress();
                     this.showStepView();
                     didTapSurePasswordBtn(password);
                   }}

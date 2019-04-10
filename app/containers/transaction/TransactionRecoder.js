@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
   },
   backImage: {
     position: 'absolute',
-    // width:25,
-    // height:25,
+    width: 38,
+    height: 38,
     left: 12,
     top: Layout.DEVICE_IS_IPHONE_X() ? 48 : 24,
     zIndex: 10,
@@ -964,7 +964,7 @@ export default class TransactionRecoder extends BaseComponent {
           <Animated.Text
             style={{
               position: 'absolute',
-              left: 40,
+              left: 50,
               width: 100,
               height: 30,
               top: Layout.NAVIGATION_HEIGHT() - 32,
@@ -1071,6 +1071,19 @@ export default class TransactionRecoder extends BaseComponent {
           >
             {priceStr}
           </Animated.Text>
+          <Text
+            style={{
+              position: 'absolute',
+              left: 50,
+              width: Layout.WINDOW_WIDTH - 45,
+              height: 40,
+              top: Layout.NAVIGATION_HEIGHT() - 32,
+              color: 'transparent',
+            }}
+            onPress={() => {
+              this.flatListRef.current.scrollToOffset(0);
+            }}
+          />
         </Animated.View>
         <FlatList
           style={[styles.flatList]}

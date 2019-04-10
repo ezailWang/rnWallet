@@ -134,8 +134,8 @@ class HomeScreen extends BaseComponent {
     };
     store.dispatch(setCoinBalance(balanceInfo));
     this.props.navigation.navigate('TransactionRecoder', {
-      callback() {
-        NetworkManager.loadTokenList();
+      async callback() {
+        // await NetworkManager.loadTokenList()
       },
     });
   };

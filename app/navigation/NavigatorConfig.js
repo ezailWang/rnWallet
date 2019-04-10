@@ -140,6 +140,12 @@ const HomeBottomTabNavigationConfig = {
               {I18n.t('home.tab_wallet')}
             </Text>
           );
+        case 'Exchange':
+          return (
+            <Text style={focused ? styles.blueText : styles.grayText} numberOfLines={1}>
+              {I18n.t('home.tab_mapping')}
+            </Text>
+          );
         case 'Mapping':
           return (
             <Text style={focused ? styles.blueText : styles.grayText} numberOfLines={1}>
@@ -164,6 +170,12 @@ const HomeBottomTabNavigationConfig = {
             ? require('../assets/home/wallet_on.png')
             : require('../assets/home/wallet_off.png');
           return <TabIcon icon={homeIcon} />;
+        }
+        case 'Exchange': {
+          const mappingIcon = focused
+            ? require('../assets/home/mapping_on.png')
+            : require('../assets/home/mapping_off.png');
+          return <TabIcon icon={mappingIcon} />;
         }
         case 'Mapping': {
           const mappingIcon = focused
