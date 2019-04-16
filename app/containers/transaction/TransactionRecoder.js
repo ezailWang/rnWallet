@@ -526,9 +526,9 @@ export default class TransactionRecoder extends BaseComponent {
       balanceAmount = await NetworkManager.getBalanceOfITC();
     } else if (wallet.type === 'eth') {
       if (symbol !== 'ETH') {
-        balanceAmount = await NetworkManager.getEthERC20Balance(address, decimal);
+        balanceAmount = await NetworkManager.getEthERC20Balance(wallet.address, address, decimal);
       } else {
-        balanceAmount = await NetworkManager.getEthBalance();
+        balanceAmount = await NetworkManager.getEthBalance(wallet.address);
       }
     }
     const balanceInfo = {
@@ -806,11 +806,11 @@ export default class TransactionRecoder extends BaseComponent {
 
   async getInfo() {
     const { wallet } = store.getState().Core;
-    this.suggestGas = await NetworkManager.getSuggestGasPrice();
+    this.suggestGas = await NetworkManager.getSuggestGasPrice(wallet);
     this.ethBalance =
       wallet.type === 'itc'
         ? await NetworkManager.getBalanceOfITC()
-        : await NetworkManager.getEthBalance();
+        : await NetworkManager.getEthBalance(wallet.address);
   }
 
   showLoading() {

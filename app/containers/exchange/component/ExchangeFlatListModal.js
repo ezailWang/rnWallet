@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import LayoutConstants from '../../../config/LayoutConstants';
 import { Colors } from '../../../config/GlobalConfig';
 import { ItemDivideComponent } from '../../home/component/HomeCell';
-import { ExchangeModalCoinSelectCell, ExchangeModalWalletSelectCell } from './ExchangeCell';
+import {
+  ExchangeModalCoinSelectCell,
+  ExchangeModalWalletSelectCell,
+  ExchangeWalletEmptyComponent,
+} from './ExchangeCell';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,15 +23,6 @@ export default class ExchangeFlatListModal extends Component {
     super(props);
     this.state = {
       show: false,
-      dataTest: [
-        { name: 'itc0', address: '1123131...123123', select: false, symbol: 'ETH', iconLarge: '' },
-        { name: 'itc0', address: '1123131...123123', select: false, symbol: 'ETH', iconLarge: '' },
-        { name: 'itc0', address: '1123131...123123', select: false, symbol: 'ETH', iconLarge: '' },
-        { name: 'itc0', address: '1123131...123123', select: false, symbol: 'ETH', iconLarge: '' },
-        { name: 'itc0', address: '1123131...123123', select: true, symbol: 'ETH', iconLarge: '' },
-        { name: 'itc0', address: '1123131...123123', select: false, symbol: 'ETH', iconLarge: '' },
-        { name: 'itc0', address: '1123131...123123', select: false, symbol: 'ETH', iconLarge: '' },
-      ],
     };
   }
 
@@ -73,8 +68,14 @@ export default class ExchangeFlatListModal extends Component {
   }
 
   render() {
-    const { show, dataTest } = this.state;
-    const { selectCategory } = this.props;
+    const { show } = this.state;
+    const { selectCategory, items, onEmptyCreatWallet } = this.props;
+    let bottomHeight = 300;
+    if (items.length > 0 && items.length < 4) {
+      bottomHeight = (items.length + 1) * 60;
+    } else if (items.length === 0) {
+      bottomHeight = 120;
+    }
     return (
       <Modal animationType="fade" visible={show} transparent>
         <View style={styles.container}>
@@ -87,16 +88,25 @@ export default class ExchangeFlatListModal extends Component {
               style={{
                 backgroundColor: 'transparent',
                 width: LayoutConstants.WINDOW_WIDTH,
-                height: LayoutConstants.WINDOW_HEIGHT - 300,
+                height: LayoutConstants.WINDOW_HEIGHT - bottomHeight,
               }}
             />
           </TouchableWithoutFeedback>
           <View
-            style={{ backgroundColor: 'white', width: LayoutConstants.WINDOW_WIDTH, height: 300 }}
+            style={{
+              backgroundColor: 'white',
+              width: LayoutConstants.WINDOW_WIDTH,
+              height: bottomHeight,
+            }}
           >
             <FlatList
-              data={dataTest}
+              data={items}
               renderItem={this.renderItem}
+              ListEmptyComponent={
+                selectCategory === 'walletSelect' ? (
+                  <ExchangeWalletEmptyComponent onEmptyCreatWallet={onEmptyCreatWallet} />
+                ) : null
+              }
               ItemSeparatorComponent={ItemDivideComponent}
               keyExtractor={(item, index) => index.toString()}
               getItemLayout={(data, index) => ({ length: 50, offset: 60 * index, index })}

@@ -303,7 +303,8 @@ class SetScreen extends BaseComponent {
     this.setState({
       isShowRemindDialog: false,
     });
-    this._showLoading(this.deleteWallet);
+    this._showLoading();
+    await this.deleteWallet();
   }
 
   deleteWallet = async () => {
@@ -337,7 +338,6 @@ class SetScreen extends BaseComponent {
         this.props.setEthWalletList(ethWalletList);
       }
       StorageManage.remove(StorageKey.Tokens + wallet.address);
-      this._hideLoading();
 
       const allWalletList = itcWalletList.concat(ethWalletList);
       if (this.isCurrentWallet) {
@@ -371,6 +371,7 @@ class SetScreen extends BaseComponent {
       }
     } catch (e) {
       console.log('deleteWallet err', e);
+    } finally {
       this._hideLoading();
     }
   };

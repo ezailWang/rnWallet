@@ -38,18 +38,11 @@ const styles = StyleSheet.create({
   },
   emptyView: {
     flex: 1,
-    height: LayoutConstants.WINDOW_HEIGHT - LayoutConstants.HOME_HEADER_HEIGHT,
+    height: LayoutConstants.WINDOW_HEIGHT - LayoutConstants.HOME_HEADER_CONTENT_HEIGHT,
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
-
-// const tokeniCon = {
-//   ETH: require('../../../assets/home/ETH.png'),
-//   ITC: require('../../../assets/home/ITC.png'),
-//   MANA: require('../../../assets/home/MANA.png'),
-//   DPY: require('../../../assets/home/DPY.png'),
-// };
 
 class ItemDivideComponent extends Component {
   render() {

@@ -83,14 +83,14 @@ export default class NetworkManager {
     if (wallet.type === 'itc') {
       return this.getBalanceOfITC();
     }
-    return this.getBalanceOfETH({ address, symbol, decimal });
+    return this.getBalanceOfETH(wallet, { address, symbol, decimal });
   }
 
-  static getBalanceOfETH({ address, symbol, decimal }) {
+  static getBalanceOfETH(wallet, { address, symbol, decimal }) {
     if (symbol === 'ETH') {
-      return this.getEthBalance();
+      return this.getEthBalance(wallet.address);
     }
-    return this.getEthERC20Balance(address, decimal);
+    return this.getEthERC20Balance(wallet.address, address, decimal);
   }
 
   static getBalanceOfITC() {
@@ -122,11 +122,10 @@ export default class NetworkManager {
   /**
    * Get the user's wallet ETH balance
    */
-  static async getEthBalance() {
+  static async getEthBalance(walletAddress) {
     try {
-      const { wallet } = store.getState().Core;
       web3 = this.getWeb3Instance();
-      const balance = await web3.eth.getBalance(wallet.address);
+      const balance = await web3.eth.getBalance(walletAddress);
       return parseFloat(balance / Math.pow(10, 18)).toFixed(4);
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
@@ -141,13 +140,12 @@ export default class NetworkManager {
    * @param {String} address
    * @param {Number} decimal
    */
-  static async getEthERC20Balance(address, decimal) {
+  static async getEthERC20Balance(walletAddress, address, decimal) {
     try {
-      const { wallet } = store.getState().Core;
       web3 = this.getWeb3Instance();
       const ether = new BigNumber(Math.pow(10, decimal));
       const contract = new web3.eth.Contract(erc20Abi, address);
-      const bigBalance = new BigNumber(await contract.methods.balanceOf(wallet.address).call());
+      const bigBalance = new BigNumber(await contract.methods.balanceOf(walletAddress).call());
       return parseFloat(bigBalance.dividedBy(ether)).toFixed(4);
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
@@ -305,10 +303,11 @@ export default class NetworkManager {
     amout,
     gasPrice,
     privateKey,
-    callBackHash
+    callBackHash,
+    isExchange
   ) {
     const { wallet } = store.getState().Core;
-    if (wallet.type === 'itc') {
+    if (wallet.type === 'itc' && !isExchange) {
       return this.sendItcTransaction(toAddress, amout, gasPrice, privateKey, callBackHash);
     }
     if (symbol === 'ETH') {
@@ -674,9 +673,8 @@ export default class NetworkManager {
     store.dispatch(loadTokenBalance(completeTokens));
   }
 
-  static async getSuggestGasPrice() {
+  static async getSuggestGasPrice(wallet) {
     try {
-      const { wallet } = store.getState().Core;
       web3 = this.getWeb3Instance();
       if (wallet.type === 'itc') {
         const dataJson = JSON.parse(await this.jsonrpc('getGasPrice', {}));

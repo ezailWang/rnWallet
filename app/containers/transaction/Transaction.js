@@ -462,7 +462,8 @@ export default class Transaction extends BaseComponent {
           // 回调刷新
           this.props.navigation.state.params.onGoBack();
           this.props.navigation.goBack();
-        }
+        },
+        false
       );
     } catch (err) {
       this.hideLoading();

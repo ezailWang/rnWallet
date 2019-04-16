@@ -1,5 +1,53 @@
 import uuid from 'react-native-uuid';
 
+const defaultSupportExchangeTokens = [
+  {
+    id: uuid.v4(),
+    symbol: 'ETH',
+    decimal: 18,
+    address: '0x0000000000000000000000000000000000000000',
+    coinIcon: require('../assets/home/ETH.png'),
+    balance: 0,
+    isSelect: false,
+  },
+  {
+    id: uuid.v4(),
+    symbol: 'ITC',
+    decimal: 18,
+    address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940',
+    coinIcon: require('../assets/home/ITC.png'),
+    balance: 0,
+    isSelect: false,
+  },
+  {
+    id: uuid.v4(),
+    symbol: 'SWFTC',
+    decimal: 8,
+    address: '0x0bb217e40f8a5cb79adf04e1aab60e5abd0dfc1e',
+    coinIcon: require('../assets/exchange/swftc_icon.png'),
+    balance: 0,
+    isSelect: false,
+  },
+  {
+    id: uuid.v4(),
+    symbol: 'BIX',
+    decimal: 18,
+    address: '0xb3104b4b9da82025e8b9f8fb28b3553ce2f67069',
+    coinIcon: require('../assets/exchange/bix_icon.png'),
+    balance: 0,
+    isSelect: false,
+  },
+  {
+    id: uuid.v4(),
+    symbol: 'HT ',
+    decimal: 18,
+    address: '0x6f259637dcd74c767781e37bc6133cd6a68aa161',
+    coinIcon: require('../assets/exchange/ht_icon.png'),
+    balance: 0,
+    isSelect: false,
+  },
+];
+
 const defaultTokensOfITC = [
   {
     id: uuid.v4(),
@@ -118,4 +166,4 @@ const erc20Abi = [
   },
 ];
 
-export { defaultTokens, defaultTokensOfITC, erc20Abi };
+export { defaultTokens, defaultTokensOfITC, erc20Abi, defaultSupportExchangeTokens };

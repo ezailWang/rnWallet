@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   infoDetailTitle: {
     fontSize: 13,
     color: Colors.fontBlackColor,
-    marginLeft: 20,
+    marginLeft: 44,
     // marginRight:60
   },
   infoContent: {
@@ -167,33 +167,39 @@ const styles = StyleSheet.create({
   },
 });
 
-const InfoTextView = () => (
+const InfoTextView = ({
+  depositSymbol,
+  receiveSymbol,
+  depositValue,
+  receiveValue,
+  instantRate,
+  fromAddress,
+  depositCoinFeeAmt,
+}) => (
   <View style={styles.leftInfoView}>
     <View style={styles.infoTextViewFirst}>
       <Text style={styles.infoTitle}>支付</Text>
-      <Text style={styles.infoDetailTitle}>0.18ETH</Text>
+      <Text style={styles.infoDetailTitle}>{`${depositValue} ${depositSymbol}`}</Text>
     </View>
-    <InfoContentView title={I18n.t('transaction.pay_to')} deatilContent="123333333" />
+    <InfoContentView margin={44} title="换取" deatilContent={`${receiveValue} ${receiveSymbol}`} />
+    <InfoContentView margin={20} title="兑换比例" deatilContent={instantRate} />
+    <InfoContentView margin={20} title="付款地址" deatilContent={fromAddress} />
     <InfoContentView
-      title={I18n.t('transaction.payment_address')}
-      deatilContent="12333333333333333333333333333333333333333"
-    />
-    <InfoContentView title={I18n.t('transaction.payment_address')} deatilContent="123333333" />
-    <InfoContentView
-      title={I18n.t('transaction.payment_address')}
-      deatilContent="12333333333333333333333333333333333333333"
+      margin={34}
+      title="手续费"
+      deatilContent={`${depositCoinFeeAmt} ${depositSymbol}`}
     />
   </View>
 );
 
-const InfoContentView = ({ title, deatilContent }) => (
-  <View style={{ flex: 1 }}>
+const InfoContentView = ({ title, deatilContent, margin }) => (
+  <View style={{ flex: 1, alignItems: 'center' }}>
     <View style={styles.lineView} />
     <View style={styles.infoContent}>
       <View style={styles.infoContentTitle}>
         <Text style={[styles.infoTitle]}>{title}</Text>
       </View>
-      <View style={styles.infoContentDetailView}>
+      <View style={[styles.infoContentDetailView, { marginLeft: margin }]}>
         <Text style={styles.infoContentDetailTitle}>{deatilContent}</Text>
       </View>
     </View>
@@ -270,7 +276,16 @@ export default class ExchangeStepMadal extends Component {
   render() {
     // const { walletPasswordPrompt } = store.getState().Core
     const { show, password } = this.state;
-    const { didTapSurePasswordBtn } = this.props;
+    const {
+      didTapSurePasswordBtn,
+      depositSymbol,
+      receiveSymbol,
+      depositValue,
+      receiveValue,
+      instantRate,
+      fromAddress,
+      depositCoinFeeAmt,
+    } = this.props;
     return (
       <Modal
         animationType="fade"
@@ -314,9 +329,17 @@ export default class ExchangeStepMadal extends Component {
                   <Text style={styles.titleView}>兑换详情</Text>
                 </View>
                 <View style={styles.costTextContainer}>
-                  <Text style={styles.costText}>{'EHT -> ITC'}</Text>
+                  <Text style={styles.costText}>{`${depositSymbol}->${receiveSymbol}`}</Text>
                 </View>
-                <InfoTextView />
+                <InfoTextView
+                  depositSymbol={depositSymbol}
+                  receiveSymbol={receiveSymbol}
+                  depositValue={depositValue}
+                  receiveValue={receiveValue}
+                  instantRate={instantRate}
+                  fromAddress={fromAddress}
+                  depositCoinFeeAmt={depositCoinFeeAmt}
+                />
 
                 <TouchableOpacity style={styles.nextBtn} onPress={this.changeStepPage}>
                   <Text style={styles.buttonTitle}>{I18n.t('transaction.next_step')}</Text>
@@ -351,7 +374,6 @@ export default class ExchangeStepMadal extends Component {
                 <TouchableOpacity
                   style={styles.nextBtn}
                   onPress={() => {
-                    this.showStepView();
                     didTapSurePasswordBtn(password);
                   }}
                 >

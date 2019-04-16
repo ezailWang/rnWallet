@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     marginRight: 3,
   },
   coinType: {
-    width: 90,
+    width: 100,
     height: 35,
     marginRight: 5,
     borderWidth: 1,
@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   coinTypeText: {
+    width: 50,
+    textAlign: 'center',
+    fontSize: 12,
     marginRight: 3,
   },
   input: {
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   balanceText: {
-    width: 160,
+    width: 170,
     marginRight: 5,
     fontSize: 12,
   },
@@ -88,61 +91,90 @@ export default class ExchangeHeadView extends Component {
   };
 
   render() {
-    const { onCoinTypeSelect, onWalletSelect, onExchange } = this.props;
+    const {
+      onCoinTypeSelectDeposit,
+      onCoinTypeSelectRecevie,
+      onWalletSelectDeposit,
+      onWalletSelectRecevie,
+      onExchange,
+      currentDepositCoin,
+      currentReceiveCoin,
+      currentDepositWallet,
+      currentReceiveWallet,
+      onDepositInputChange,
+      depositInputValue,
+      onReceiveInputChange,
+      receiveInputValue,
+      depositPlaceholder,
+      receivePlaceholder,
+      titleInstantRate,
+    } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.whiteContainer}>
           <View style={styles.childViewContainer}>
-            <Text style={styles.titleText}>1 Eth = 888 ITC</Text>
+            <Text style={styles.titleText}>{titleInstantRate}</Text>
           </View>
           <View style={[styles.childViewContainer, { marginTop: 5 }]}>
-            <TouchableOpacity onPress={onCoinTypeSelect} style={styles.coinType}>
-              <Image source={this._getLogo('ETH')} style={styles.coinTypeIcon} />
-              <Text style={styles.coinTypeText}>ETH</Text>
+            <TouchableOpacity onPress={onCoinTypeSelectDeposit} style={styles.coinType}>
+              <Image source={currentDepositCoin.coinIcon} style={styles.coinTypeIcon} />
+              <Text style={styles.coinTypeText} numberOfLines={1}>
+                {currentDepositCoin.symbol}
+              </Text>
               <Image source={require('../../../assets/exchange/icon_tr.png')} style={styles.tr} />
             </TouchableOpacity>
             <TextInput
               returnKeyType="next"
               keyboardType="numeric"
               textAlign="right"
-              placeholder="转出数量"
+              placeholder={`转出数量${depositPlaceholder}`}
               style={styles.input}
+              defaultValue={depositInputValue}
+              onChange={e => {
+                onDepositInputChange(e.nativeEvent.text);
+              }}
             />
           </View>
           <View style={[styles.childViewContainer, { alignItems: 'flex-start', marginTop: 5 }]}>
-            <Text style={styles.balanceText}>可用余额：888</Text>
-            <TouchableOpacity style={styles.walletSelect} onPress={onWalletSelect}>
-              <Text style={styles.walletSelectText}>钱包 name1</Text>
+            <Text style={styles.balanceText}>{`可用余额: ${currentDepositCoin.balance}`}</Text>
+            <TouchableOpacity style={styles.walletSelect} onPress={onWalletSelectDeposit}>
+              <Text style={styles.walletSelectText} numberOfLines={1}>
+                {currentDepositWallet.name}
+              </Text>
               <Image source={require('../../../assets/exchange/icon_tr.png')} style={styles.tr} />
             </TouchableOpacity>
           </View>
           <View style={[styles.childViewContainer, { marginTop: -10 }]}>
-            <TouchableOpacity onPress={onCoinTypeSelect} style={styles.coinType}>
-              <Image source={this._getLogo('ITC')} style={styles.coinTypeIcon} />
-              <Text style={styles.coinTypeText}>ITC</Text>
+            <TouchableOpacity onPress={onCoinTypeSelectRecevie} style={styles.coinType}>
+              <Image source={currentReceiveCoin.coinIcon} style={styles.coinTypeIcon} />
+              <Text style={styles.coinTypeText}>{currentReceiveCoin.symbol}</Text>
               <Image source={require('../../../assets/exchange/icon_tr.png')} style={styles.tr} />
             </TouchableOpacity>
             <TextInput
               keyboardType="numeric"
               returnKeyType="done"
               textAlign="right"
-              placeholder="接收数量"
+              placeholder={`接收数量${receivePlaceholder}`}
               style={styles.input}
+              defaultValue={receiveInputValue}
+              onChange={e => {
+                onReceiveInputChange(e.nativeEvent.text);
+              }}
             />
           </View>
           <View style={[styles.childViewContainer, { alignItems: 'flex-start', marginTop: 5 }]}>
             <TouchableOpacity
-              style={[styles.walletSelect, { width: 285 }]}
-              onPress={onWalletSelect}
+              style={[styles.walletSelect, { width: 295 }]}
+              onPress={onWalletSelectRecevie}
             >
-              <Text style={styles.walletSelectText}>钱包 name2</Text>
+              <Text style={styles.walletSelectText}>{currentReceiveWallet.name}</Text>
               <Image source={require('../../../assets/exchange/icon_tr.png')} style={styles.tr} />
             </TouchableOpacity>
           </View>
           <View style={[styles.childViewContainer, { alignItems: 'flex-start', marginBottom: 10 }]}>
             <TouchableOpacity
               style={{
-                width: 285,
+                width: 295,
                 height: 40,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -150,14 +182,14 @@ export default class ExchangeHeadView extends Component {
               onPress={onExchange}
             >
               <Image
-                style={{ width: 285, height: 40 }}
+                style={{ width: 295, height: 40 }}
                 source={require('../../../assets/exchange/icon_buttom.png')}
               />
               <Text
                 style={{
                   position: 'absolute',
                   backgroundColor: 'transparent',
-                  width: 285,
+                  width: 295,
                   top: 10,
                   height: 40,
                   color: 'white',
