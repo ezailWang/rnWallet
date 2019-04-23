@@ -168,6 +168,13 @@ function setCreateWalletParams(createWalletParams) {
   };
 }
 
+function setExchangeDepositStatus(depositStatus) {
+  return {
+    type: types.EXCHANGE_DEPOSITED,
+    depositStatus,
+  };
+}
+
 export {
   generateMnemonic,
   setWalletTransferParams,
@@ -192,4 +199,5 @@ export {
   setEthWalletList,
   setCurrentWallet,
   setCreateWalletParams,
+  setExchangeDepositStatus,
 };

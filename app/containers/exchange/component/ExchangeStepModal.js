@@ -285,6 +285,7 @@ export default class ExchangeStepMadal extends Component {
       instantRate,
       fromAddress,
       depositCoinFeeAmt,
+      onCancelClick,
     } = this.props;
     return (
       <Modal
@@ -319,7 +320,7 @@ export default class ExchangeStepMadal extends Component {
               {/* 步骤一 确认交易信息 */}
               <View style={styles.leftContainer}>
                 <View style={styles.firstStepTitleView}>
-                  <TouchableOpacity style={styles.cancelBtn} onPress={this.showStepView}>
+                  <TouchableOpacity style={styles.cancelBtn} onPress={onCancelClick}>
                     <Image
                       resizeMode="contain"
                       source={require('../../../assets/common/cancel.png')}

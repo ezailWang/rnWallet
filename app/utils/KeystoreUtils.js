@@ -11,10 +11,10 @@ function keccak256(buffer) {
 }
 const rootPath = RNFS.DocumentDirectoryPath;
 export default class KeystoreUtils {
-  static async exportToFile(keyObject, dirName) {
+  static async exportToFile(keyObject, walletType, dirName) {
     try {
       dirName = dirName || 'keystore';
-      const outfile = this.generateKeystoreFilename(keyObject.address);
+      const outfile = this.generateKeystoreFilename(walletType + keyObject.address);
       const json = JSON.stringify(keyObject);
       const dirPath = path.join(rootPath, dirName);
       const outpath = path.join(rootPath, dirName, outfile);
@@ -29,14 +29,17 @@ export default class KeystoreUtils {
     }
   }
 
-  static async importFromFile(address, dirName) {
+  static async importFromFile(address, walletType, dirName) {
     try {
       address = address.replace('0x', '');
       address = address.toLowerCase();
       dirName = dirName || 'keystore';
       const dirPath = path.join(rootPath, dirName);
       const dirItems = await RNFS.readDir(dirPath);
-      const filepath = this.findKeyFile(dirPath, address, dirItems);
+      let filepath = this.findKeyFile(dirPath, walletType + address, dirItems);
+      if (filepath === null) {
+        filepath = this.findKeyFile(dirPath, address, dirItems);
+      }
       return RNFS.readFile(filepath, 'utf8');
     } catch (err) {
       console.log('importFromFileErr:', err);
@@ -44,14 +47,14 @@ export default class KeystoreUtils {
     }
   }
 
-  static async removeKeyFile(address, dirName) {
+  static async removeKeyFile(address, walletType, dirName) {
     try {
       address = address.replace('0x', '');
       address = address.toLowerCase();
       dirName = dirName || 'keystore';
       const dirPath = path.join(rootPath, dirName);
       const dirItems = await RNFS.readDir(dirPath);
-      const filepath = this.findKeyFile(dirPath, address, dirItems);
+      const filepath = this.findKeyFile(dirPath, walletType + address, dirItems);
       RNFS.unlink(filepath);
     } catch (err) {
       console.log('removeKeyFile:', err);
@@ -82,9 +85,9 @@ export default class KeystoreUtils {
     return filename;
   }
 
-  static async getPrivateKey(password, address) {
+  static async getPrivateKey(password, address, walletType) {
     try {
-      const keyStoreStr = await KeystoreUtils.importFromFile(address);
+      const keyStoreStr = await KeystoreUtils.importFromFile(address, walletType);
       const keyStoreObject = JSON.parse(keyStoreStr);
       const privateKey = await this.recover(password, keyStoreObject);
       return `0x${privateKey.toString('hex')}`;

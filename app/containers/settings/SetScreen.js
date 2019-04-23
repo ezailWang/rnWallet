@@ -251,9 +251,9 @@ class SetScreen extends BaseComponent {
 
   async exportKeyPrivate(password) {
     let privateKey;
-    const { address } = this.state.wallet;
+    const { address, type } = this.state.wallet;
     try {
-      privateKey = await KeystoreUtils.getPrivateKey(password, address);
+      privateKey = await KeystoreUtils.getPrivateKey(password, address, type);
       this.hideStaticLoading(); // 关闭Loading
       if (privateKey == null) {
         showToast(
@@ -284,8 +284,8 @@ class SetScreen extends BaseComponent {
 
   async exportKeystore() {
     try {
-      const { address } = this.state.wallet;
-      const keystore = await KeystoreUtils.importFromFile(address);
+      const { address, type } = this.state.wallet;
+      const keystore = await KeystoreUtils.importFromFile(address, type);
       this.props.navigation.navigate('ExportKeystore', { keystore });
     } catch (err) {
       this._showAlert(I18n.t('modal.password_error'));
@@ -303,7 +303,6 @@ class SetScreen extends BaseComponent {
     this.setState({
       isShowRemindDialog: false,
     });
-    this._showLoading();
     await this.deleteWallet();
   }
 
@@ -311,7 +310,7 @@ class SetScreen extends BaseComponent {
     try {
       const { wallet } = this.state;
 
-      await KeystoreUtils.removeKeyFile(wallet.address);
+      await KeystoreUtils.removeKeyFile(wallet.address, wallet.type);
 
       let itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
       let ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
@@ -358,11 +357,13 @@ class SetScreen extends BaseComponent {
             openRightDrawer: true,
             isChangeWalletList: true,
           });
+
           this.props.navigation.navigate('Home');
         } else {
           StorageManage.remove(StorageKey.User);
           this.props.setCurrentWallet({});
           this.props.setTransactionRecordList([]);
+
           this.props.navigation.navigate('FirstLaunch');
         }
       } else {
@@ -370,9 +371,8 @@ class SetScreen extends BaseComponent {
         this.props.navigation.goBack();
       }
     } catch (e) {
+      showToast(I18n.t('modal.password_error'));
       console.log('deleteWallet err', e);
-    } finally {
-      this._hideLoading();
     }
   };
 

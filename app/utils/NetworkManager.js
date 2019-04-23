@@ -304,14 +304,22 @@ export default class NetworkManager {
     gasPrice,
     privateKey,
     callBackHash,
-    isExchange
+    isExchange,
+    fromAddress
   ) {
     const { wallet } = store.getState().Core;
     if (wallet.type === 'itc' && !isExchange) {
       return this.sendItcTransaction(toAddress, amout, gasPrice, privateKey, callBackHash);
     }
     if (symbol === 'ETH') {
-      return this.sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash);
+      return this.sendETHTransaction(
+        toAddress,
+        amout,
+        gasPrice,
+        privateKey,
+        callBackHash,
+        fromAddress
+      );
     }
     return this.sendERC20Transaction(
       address,
@@ -320,7 +328,8 @@ export default class NetworkManager {
       amout,
       gasPrice,
       privateKey,
-      callBackHash
+      callBackHash,
+      fromAddress
     );
   }
 
@@ -388,7 +397,14 @@ export default class NetworkManager {
    * @param {String} amout
    * @param {Number} gasPrice
    */
-  static async sendETHTransaction(toAddress, amout, gasPrice, privateKey, callBackHash) {
+  static async sendETHTransaction(
+    toAddress,
+    amout,
+    gasPrice,
+    privateKey,
+    callBackHash,
+    fromAddress
+  ) {
     try {
       web3 = this.getWeb3Instance();
       web3.eth.accounts.wallet.add(privateKey);
@@ -397,7 +413,7 @@ export default class NetworkManager {
       const gasLimit = web3.utils.toHex(TransferGasLimit.ethGasLimit);
       const transactionGasPrice = web3.utils.toHex(price);
       const transactionConfig = {
-        from: store.getState().Core.wallet.address,
+        from: fromAddress || store.getState().Core.wallet.address,
         to: toAddress,
         value,
         gas: gasLimit,
@@ -430,7 +446,8 @@ export default class NetworkManager {
     amout,
     gasPrice,
     privateKey,
-    callBackHash
+    callBackHash,
+    fromAddress
   ) {
     try {
       web3 = this.getWeb3Instance();
@@ -440,7 +457,7 @@ export default class NetworkManager {
       const BNAmout = new BigNumber(amout * Math.pow(10, decimal));
       const data = contract.methods.transfer(toAddress, BNAmout).encodeABI();
       const tx = {
-        from: store.getState().Core.wallet.address,
+        from: fromAddress || store.getState().Core.wallet.address,
         to: address,
         value: '0x0',
         data,

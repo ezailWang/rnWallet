@@ -209,7 +209,9 @@ class RightDrawer extends BaseComponent {
 
     const ethWalletsView = [];
     itcWalletList.forEach((itcWallet, index) => {
-      const isSelected = itcWallet.address.toLowerCase() === currentWallet.address.toLowerCase();
+      const isSelected =
+        itcWallet.address.toLowerCase() === currentWallet.address.toLowerCase() &&
+        currentWallet.type === 'itc';
       const keyValue = `itc${index}`;
       itcWalletsView.push(
         <Item
@@ -222,7 +224,9 @@ class RightDrawer extends BaseComponent {
     });
 
     ethWalletList.forEach((ethWallet, index) => {
-      const isSelected = ethWallet.address.toLowerCase() === currentWallet.address.toLowerCase();
+      const isSelected =
+        ethWallet.address.toLowerCase() === currentWallet.address.toLowerCase() &&
+        currentWallet.type === 'eth';
       const keyValue = `eth${index}`;
       ethWalletsView.push(
         <Item

@@ -503,7 +503,7 @@ export default class Transaction extends BaseComponent {
 
     let privateKey;
     try {
-      privateKey = await KeystoreUtils.getPrivateKey(password, wallet.address);
+      privateKey = await KeystoreUtils.getPrivateKey(password, wallet.address, wallet.type);
       if (privateKey == null) {
         this.hideLoading();
         showToast(I18n.t('modal.password_error'));

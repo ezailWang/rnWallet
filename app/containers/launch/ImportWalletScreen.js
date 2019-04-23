@@ -442,7 +442,7 @@ class ImportWalletScreen extends BaseComponent {
       const dk = keythereum.create(params);
 
       const keyObject = await KeystoreUtils.dump(password, privateKey, dk.salt, dk.iv);
-      await KeystoreUtils.exportToFile(keyObject, 'keystore');
+      await KeystoreUtils.exportToFile(keyObject, this.state.walletType, 'keystore');
 
       const wallet = {
         name: this.nametxt,
@@ -457,7 +457,7 @@ class ImportWalletScreen extends BaseComponent {
         const itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
         const ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
 
-        if (itcWalletList && itcWalletList.length > 0) {
+        if (wallet.type === 'itc' && itcWalletList && itcWalletList.length > 0) {
           for (let i = 0; i < itcWalletList.length; i++) {
             if (checksumAddress.toLowerCase() === itcWalletList[i].address.toLowerCase()) {
               isExist = true;
@@ -465,7 +465,7 @@ class ImportWalletScreen extends BaseComponent {
             }
           }
         }
-        if (ethWalletList && ethWalletList.length > 0) {
+        if (wallet.type === 'eth' && ethWalletList && ethWalletList.length > 0) {
           for (let i = 0; i < ethWalletList.length; i++) {
             if (checksumAddress.toLowerCase() === ethWalletList[i].address.toLowerCase()) {
               isExist = true;

@@ -431,7 +431,7 @@ export default class BaseComponent extends PureComponent {
         return;
       } else {
         const errMessage = err.message === undefined ? err : err.message;
-        this.toast = showToast(errMessage, Toast.positions.TOP + 10);
+        // this.toast = showToast(errMessage, Toast.positions.TOP + 10);
         console.log('errMessage:', errMessage);
       }
     } catch (error) {

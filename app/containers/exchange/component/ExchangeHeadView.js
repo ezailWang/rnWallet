@@ -198,7 +198,7 @@ export default class ExchangeHeadView extends Component {
                   fontSize: 16,
                 }}
               >
-                兑换
+                创建兑换订单
               </Text>
             </TouchableOpacity>
           </View>

@@ -346,7 +346,7 @@ class VerifyMnemonicScreen extends BaseComponent {
       const params = { keyBytes: 32, ivBytes: 16 };
       const dk = keythereum.create(params);
       const keyObject = await KeystoreUtils.dump(this.password, privateKey, dk.salt, dk.iv);
-      await KeystoreUtils.exportToFile(keyObject, 'keystore');
+      await KeystoreUtils.exportToFile(keyObject, this.walletType, 'keystore');
       // var str = await KeystoreUtils.importFromFile(keyObject.address)
       // var newKeyObject = JSON.parse(str)
 

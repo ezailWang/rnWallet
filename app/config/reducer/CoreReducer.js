@@ -24,6 +24,7 @@ import {
   SET_ETH_WALLET_LIST,
   SET_CURRENT_WALLET,
   CREATE_WALLET_PARAM,
+  EXCHANGE_DEPOSITED,
 } from '../action/ActionType';
 import StorageManage from '../../utils/StorageManage';
 import { StorageKey, Network } from '../GlobalConfig';
@@ -48,6 +49,7 @@ const defaultState = {
   ethWalletList: [],
   wallet: null, // 当前正在使用的钱包
   createWalletParams: null,
+  depositStatus: false,
 };
 
 function coreReducer(state = defaultState, action) {
@@ -196,6 +198,11 @@ function coreReducer(state = defaultState, action) {
       return {
         ...state,
         createWalletParams: action.createWalletParams,
+      };
+    case EXCHANGE_DEPOSITED:
+      return {
+        ...state,
+        depositStatus: action.depositStatus,
       };
     default:
       return state;

@@ -26,7 +26,7 @@ import ExchangeStepModal from './component/ExchangeStepModal';
 import NetworkManager from '../../utils/NetworkManager';
 import { defaultSupportExchangeTokens } from '../../utils/Constants';
 import store from '../../config/store/ConfigureStore';
-import { setCreateWalletParams } from '../../config/action/Actions';
+import { setCreateWalletParams, setExchangeDepositStatus } from '../../config/action/Actions';
 import KeystoreUtils from '../../utils/KeystoreUtils';
 
 const styles = StyleSheet.create({
@@ -59,8 +59,6 @@ class ExchangeScreen extends BaseComponent {
       statusbarStyle: 'light-content',
       scroollY: new Animated.Value(0),
       isRefreshing: false,
-      isShowSLoading: false,
-      sLoadingContent: '',
     };
     this.listRef = React.createRef();
     this.depositInput = 0;
@@ -320,7 +318,7 @@ class ExchangeScreen extends BaseComponent {
         return false;
       }
     } else if (
-      (await NetworkManager.getEthBalance(this.state.currentDepositCoin.wallet.address)) <
+      (await NetworkManager.getEthBalance(this.state.currentDepositWallet.address)) <
       (await this.getCurrentGas())
     ) {
       showToast('服务费不足', 30);
@@ -333,6 +331,7 @@ class ExchangeScreen extends BaseComponent {
     await NetworkManager.accountExchange(params)
       .then(accountExchangeData => {
         if (accountExchangeData.resCode === '800') {
+          this.props.setExchangeDepositStatus(false);
           this.setState(
             {
               depositCoinFeeAmt: accountExchangeData.data.depositCoinFeeAmt,
@@ -375,7 +374,11 @@ class ExchangeScreen extends BaseComponent {
 
   getPriKey = async password => {
     try {
-      return await KeystoreUtils.getPrivateKey(password, this.state.currentDepositWallet.address);
+      return await KeystoreUtils.getPrivateKey(
+        password,
+        this.state.currentDepositWallet.address,
+        this.state.currentDepositWallet.type
+      );
     } catch (err) {
       showToast('check privateKey error', 30);
       return null;
@@ -383,10 +386,11 @@ class ExchangeScreen extends BaseComponent {
   };
 
   startSendTransaction = async privateKey => {
+    let txHash;
     try {
       await NetworkManager.sendTransaction(
         {
-          address: this.state.currentDepositWallet.address,
+          address: this.state.currentDepositCoin.address,
           symbol: this.state.currentDepositCoin.symbol,
           decimal: this.state.currentDepositCoin.decimal,
         },
@@ -394,28 +398,27 @@ class ExchangeScreen extends BaseComponent {
         this.depositInput,
         await NetworkManager.getSuggestGasPrice(this.state.currentDepositWallet),
         privateKey,
-        hash => {
-          this._hideLoading();
-          if (hash === null) {
-            this._showAlert(I18n.t('transaction.alert_1'));
-            return;
-          }
-          this._showAlert('存币交易发出', '提示');
+        async hash => {
+          txHash = hash;
         },
-        true
+        true,
+        this.state.currentDepositWallet.address
       );
     } catch (e) {
       this._hideLoading();
       showToast('transaction error', 30);
     }
+    await this.updateOrderList();
+    this.updateWalletList(true);
+    this.updateWalletList(false);
+    this._hideLoading();
+    if (txHash) {
+      showToast('存币成功', -30);
+      this.props.setExchangeDepositStatus(true);
+    } else {
+      showToast('存币失败', -30);
+    }
   };
-
-  hideSLoading() {
-    this.setState({
-      isShowSLoading: false,
-      sLoadingContent: '',
-    });
-  }
 
   onRefresh = async () => {
     this.setState({
@@ -621,6 +624,11 @@ class ExchangeScreen extends BaseComponent {
               await this.startSendTransaction(priKey);
             }
           }}
+          onCancelClick={() => {
+            this.modalExchangeStep.closeStepView();
+            this.updateOrderList();
+            showToast('订单尙未完成，可在兑换记录中查看详情继续', 30);
+          }}
           depositSymbol={this.state.currentDepositCoin.symbol}
           receiveSymbol={this.state.currentReceiveCoin.symbol}
           depositValue={this.depositInput}
@@ -629,7 +637,6 @@ class ExchangeScreen extends BaseComponent {
           fromAddress={this.state.currentDepositWallet.address}
           depositCoinFeeAmt={this.state.depositCoinFeeAmt}
         />
-        {/* <StaticLoading visible={isShowSLoading} content={sLoadingContent} /> */}
         <Animated.View
           style={{
             position: 'absolute',
@@ -790,7 +797,11 @@ const mapStateToProps = state => ({
   ethWallets: state.Core.ethWalletList,
 });
 
+const mapDispatchToProps = dispatch => ({
+  setExchangeDepositStatus: depositStatus => dispatch(setExchangeDepositStatus(depositStatus)),
+});
+
 export default connect(
   mapStateToProps,
-  {}
+  mapDispatchToProps
 )(ExchangeScreen);
