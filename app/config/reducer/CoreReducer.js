@@ -49,7 +49,7 @@ const defaultState = {
   ethWalletList: [],
   wallet: null, // 当前正在使用的钱包
   createWalletParams: null,
-  depositStatus: false,
+  depositStatusList: [],
 };
 
 function coreReducer(state = defaultState, action) {
@@ -199,11 +199,14 @@ function coreReducer(state = defaultState, action) {
         ...state,
         createWalletParams: action.createWalletParams,
       };
-    case EXCHANGE_DEPOSITED:
+    case EXCHANGE_DEPOSITED: {
+      const newDepositStatus = lodash.clone(state.depositStatusList);
+      newDepositStatus.push(action.orderId);
       return {
         ...state,
-        depositStatus: action.depositStatus,
+        depositStatusList: newDepositStatus,
       };
+    }
     default:
       return state;
   }

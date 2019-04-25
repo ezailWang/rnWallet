@@ -84,7 +84,6 @@ class ExChangeDetail extends BaseComponent {
       depositAddr: '',
       recevieAddr: '',
       beginDate: '',
-      dealReceiveCoinAmt: '',
       platformAddr: '',
       instantRate: '',
       depositCoinFeeAmt: '',
@@ -174,7 +173,7 @@ class ExChangeDetail extends BaseComponent {
     this._hideLoading();
     if (txHash) {
       showToast('存币成功', -30);
-      this.props.setExchangeDepositStatus(true);
+      this.props.setExchangeDepositStatus(this.state.orderId);
     } else {
       showToast('存币失败', -30);
     }
@@ -231,7 +230,6 @@ class ExChangeDetail extends BaseComponent {
               depositAddr: rsp.data.refundAddr,
               recevieAddr: rsp.data.destinationAddr,
               beginDate: orderItem.beginDate,
-              dealReceiveCoinAmt: rsp.data.dealReceiveCoinAmt,
               platformAddr: rsp.data.platformAddr,
               depositCoinFeeAmt: rsp.data.depositCoinFeeAmt,
             },
@@ -296,7 +294,9 @@ class ExChangeDetail extends BaseComponent {
             >
               {statusTitle}
             </Text>
-            {this.state.orderState === 'wait_deposits' && !this.props.depositStatus ? (
+            {this.state.orderState === 'wait_deposits' &&
+            this.props.depositStatusList.findIndex(orderId => orderId === this.state.orderId) ===
+              -1 ? (
               <TouchableOpacity
                 style={{ alignSelf: 'center', marginTop: 5 }}
                 onPress={() => {
@@ -315,9 +315,7 @@ class ExChangeDetail extends BaseComponent {
             <View style={styles.cellView}>
               <Text style={styles.leftText}>换取金额</Text>
               <Text style={[styles.rightText, { fontSize: 24, fontWeight: 'bold' }]}>{`${
-                this.state.dealReceiveCoinAmt === ''
-                  ? this.state.receiveCoinAmt
-                  : this.state.dealReceiveCoinAmt
+                this.state.receiveCoinAmt
               } ${this.state.receiveCoinCode}`}</Text>
             </View>
             <View style={styles.cellView}>
@@ -350,11 +348,11 @@ class ExChangeDetail extends BaseComponent {
 }
 
 const mapStateToProps = state => ({
-  depositStatus: state.Core.depositStatus,
+  depositStatusList: state.Core.depositStatusList,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setExchangeDepositStatus: depositStatus => dispatch(setExchangeDepositStatus(depositStatus)),
+  setExchangeDepositStatus: orderId => dispatch(setExchangeDepositStatus(orderId)),
 });
 
 export default connect(

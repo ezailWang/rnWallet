@@ -196,8 +196,8 @@ class ExchangeCell extends Component {
               iosdefaultSource={require('../../../assets/home/null.png')}
             />
             <View style={styles.leftTextViews}>
-              <Text style={{ fontSize: 14, color: Colors.themeColor }} numberOfLines={1}>
-                {`${fromCoinAmt} ${fromCoinCode} -> ${toCoinAmt} ${toCoinCode}`}
+              <Text style={{ fontSize: 14, color: 'black' }} numberOfLines={1}>
+                {`${fromCoinAmt} ${fromCoinCode} → ${toCoinAmt} ${toCoinCode}`}
               </Text>
               <Text style={{ fontSize: 12, color: Colors.fontDarkGrayColor }}>{beginDate}</Text>
             </View>

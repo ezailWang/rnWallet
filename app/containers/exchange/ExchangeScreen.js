@@ -59,6 +59,7 @@ class ExchangeScreen extends BaseComponent {
       statusbarStyle: 'light-content',
       scroollY: new Animated.Value(0),
       isRefreshing: false,
+      currentOrderId: '',
     };
     this.listRef = React.createRef();
     this.depositInput = 0;
@@ -69,22 +70,28 @@ class ExchangeScreen extends BaseComponent {
   reSetCoinList = async isDeposit => {
     try {
       let newCoinList = [];
-      let newCurrentCoin = '';
+      let newCurrentCoin = {};
+      const currentDeCoinSymbol =
+        this.state.currentDepositCoin === '' ? 'ETH' : this.state.currentDepositCoin.symbol;
+
+      const currentReCoinSymbol =
+        this.state.currentReceiveCoin === '' ? 'ITC' : this.state.currentReceiveCoin.symbol;
+
       const depositCoinList = lodash.cloneDeep(
-        defaultSupportExchangeTokens.filter(token => token.symbol !== (isDeposit ? 'ITC' : 'ETH'))
+        defaultSupportExchangeTokens.filter(
+          token => token.symbol !== (isDeposit ? currentReCoinSymbol : currentDeCoinSymbol)
+        )
       );
       if (this.state.currentDepositWallet === '' && this.state.currentReceiveWallet === '') {
         newCoinList = depositCoinList;
         newCoinList.some(coin => {
-          if (coin.symbol === (isDeposit ? 'ETH' : 'ITC')) {
+          if (coin.symbol === (isDeposit ? currentDeCoinSymbol : currentReCoinSymbol)) {
             coin.isSelect = true;
+            newCurrentCoin = coin;
             return true;
           }
           return false;
         });
-        newCurrentCoin = isDeposit
-          ? defaultSupportExchangeTokens[0]
-          : defaultSupportExchangeTokens[1];
       } else {
         newCoinList = await Promise.all(
           depositCoinList.map(async coin => {
@@ -96,7 +103,7 @@ class ExchangeScreen extends BaseComponent {
                 decimal: coin.decimal,
               }
             );
-            if (isDeposit ? coin.symbol === 'ETH' : coin.symbol === 'ITC') {
+            if (coin.symbol === (isDeposit ? currentDeCoinSymbol : currentReCoinSymbol)) {
               coin.isSelect = true;
               newCurrentCoin = coin;
             } else {
@@ -266,6 +273,58 @@ class ExchangeScreen extends BaseComponent {
     }
   };
 
+  reforeCoin = async () => {
+    // 兑换币对调
+    const afterReforeDepositCoinArray = lodash.cloneDeep(this.state.receiveCoinArray);
+    const afterReforeReceiveCoinArray = lodash.cloneDeep(this.state.depositCoinArray);
+    const afterReforeDepositCurrentCoinSymbol = this.state.currentReceiveCoin.symbol;
+    const afterReforeReceiveCurrentCoinSymbol = this.state.currentDepositCoin.symbol;
+    let afterReforeDepositCurrentCoin;
+    let afterReforeReceiveCurrentCoin;
+    const newDepositCoinArray = await Promise.all(
+      afterReforeDepositCoinArray.map(async coin => {
+        coin.balance = await NetworkManager.getBalanceOfETH(this.state.currentDepositWallet, {
+          address: coin.address,
+          symbol: coin.symbol,
+          decimal: coin.decimal,
+        });
+        if (coin.symbol === afterReforeDepositCurrentCoinSymbol) {
+          coin.isSelect = true;
+          afterReforeDepositCurrentCoin = coin;
+        } else {
+          coin.isSelect = false;
+        }
+        return coin;
+      })
+    );
+    const newReceiveCoinArray = await Promise.all(
+      afterReforeReceiveCoinArray.map(async coin => {
+        coin.balance = await NetworkManager.getBalanceOfETH(this.state.currentReceiveWallet, {
+          address: coin.address,
+          symbol: coin.symbol,
+          decimal: coin.decimal,
+        });
+        if (coin.symbol === afterReforeReceiveCurrentCoinSymbol) {
+          coin.isSelect = true;
+          afterReforeReceiveCurrentCoin = coin;
+        } else {
+          coin.isSelect = false;
+        }
+        return coin;
+      })
+    );
+    this.setState({
+      depositCoinArray: newDepositCoinArray,
+      receiveCoinArray: newReceiveCoinArray,
+      currentDepositCoin: afterReforeDepositCurrentCoin,
+      currentReceiveCoin: afterReforeReceiveCurrentCoin,
+    });
+    await this.updateCoinInfo(
+      afterReforeDepositCurrentCoin.symbol,
+      afterReforeReceiveCurrentCoin.symbol
+    );
+  };
+
   updateCoinInfo = async (depositCoinCode, receiveCoinCode) => {
     await NetworkManager.getBaseInfo({
       depositCoinCode,
@@ -331,11 +390,11 @@ class ExchangeScreen extends BaseComponent {
     await NetworkManager.accountExchange(params)
       .then(accountExchangeData => {
         if (accountExchangeData.resCode === '800') {
-          this.props.setExchangeDepositStatus(false);
           this.setState(
             {
               depositCoinFeeAmt: accountExchangeData.data.depositCoinFeeAmt,
               platformAddr: accountExchangeData.data.platformAddr,
+              currentOrderId: accountExchangeData.data.orderId,
             },
             () => {
               this.modalExchangeStep.showStepView();
@@ -414,7 +473,7 @@ class ExchangeScreen extends BaseComponent {
     this._hideLoading();
     if (txHash) {
       showToast('存币成功', -30);
-      this.props.setExchangeDepositStatus(true);
+      this.props.setExchangeDepositStatus(this.state.currentOrderId);
     } else {
       showToast('存币失败', -30);
     }
@@ -720,11 +779,7 @@ class ExchangeScreen extends BaseComponent {
                   : ''
               }
               receivePlaceholder=""
-              titleInstantRate={`1 ${this.state.currentDepositCoin.symbol} ≈ ${
-                this.state.instantRate !== ''
-                  ? parseFloat(this.state.instantRate).toFixed(6)
-                  : 'unkown'
-              } ${this.state.currentReceiveCoin.symbol}`}
+              instantRate={this.state.instantRate}
               onDepositInputChange={value => {
                 this.depositInput = value === '' ? 0 : parseFloat(value).toFixed(6);
                 this.receiveInput = (value === ''
@@ -758,6 +813,11 @@ class ExchangeScreen extends BaseComponent {
               }}
               onWalletSelectRecevie={() => {
                 this.modalWalletListReceive.showFlatModal();
+              }}
+              onRefore={async () => {
+                this._showLoading();
+                await this.reforeCoin();
+                this._hideLoading();
               }}
               onExchange={async () => {
                 this._showLoading();
@@ -798,7 +858,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setExchangeDepositStatus: depositStatus => dispatch(setExchangeDepositStatus(depositStatus)),
+  setExchangeDepositStatus: orderId => dispatch(setExchangeDepositStatus(orderId)),
 });
 
 export default connect(

@@ -168,10 +168,10 @@ function setCreateWalletParams(createWalletParams) {
   };
 }
 
-function setExchangeDepositStatus(depositStatus) {
+function setExchangeDepositStatus(orderId) {
   return {
     type: types.EXCHANGE_DEPOSITED,
-    depositStatus,
+    orderId,
   };
 }
 

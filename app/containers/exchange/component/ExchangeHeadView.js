@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     height: LayoutConstants.EXCHANGE_HEADER_CONTENT_HEIGHT,
   },
   whiteContainer: {
-    marginTop: 50,
+    marginTop: 65,
     marginLeft: 20,
     marginRight: 20,
     height: 240,
@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   coinTypeText: {
-    width: 50,
+    width: 40,
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 13,
     marginRight: 3,
   },
   input: {
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   tr: {
-    width: 14,
-    height: 8,
+    width: 10,
+    height: 6,
   },
   walletSelect: {
     flexDirection: 'row',
@@ -66,13 +66,14 @@ const styles = StyleSheet.create({
   },
   walletSelectText: {
     color: Colors.themeColor,
-    fontSize: 12,
+    fontSize: 13,
     marginRight: 5,
   },
   balanceText: {
     width: 170,
     marginRight: 5,
     fontSize: 12,
+    color: '#d2d2d2',
   },
   titleText: {
     marginTop: 10,
@@ -96,7 +97,6 @@ export default class ExchangeHeadView extends Component {
       onCoinTypeSelectRecevie,
       onWalletSelectDeposit,
       onWalletSelectRecevie,
-      onExchange,
       currentDepositCoin,
       currentReceiveCoin,
       currentDepositWallet,
@@ -107,13 +107,24 @@ export default class ExchangeHeadView extends Component {
       receiveInputValue,
       depositPlaceholder,
       receivePlaceholder,
-      titleInstantRate,
+      instantRate,
+      onExchange,
+      onRefore,
     } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.whiteContainer}>
           <View style={styles.childViewContainer}>
-            <Text style={styles.titleText}>{titleInstantRate}</Text>
+            <Text style={styles.titleText}>{`1 ${currentDepositCoin.symbol}`}</Text>
+            <TouchableOpacity onPress={onRefore}>
+              <Image
+                source={require('../../../assets/exchange/refore.png')}
+                style={[styles.coinTypeIcon, { marginLeft: 3 }]}
+              />
+            </TouchableOpacity>
+            <Text style={styles.titleText}>{`${
+              instantRate !== '' ? parseFloat(instantRate).toFixed(6) : '?'
+            } ${currentReceiveCoin.symbol}`}</Text>
           </View>
           <View style={[styles.childViewContainer, { marginTop: 5 }]}>
             <TouchableOpacity onPress={onCoinTypeSelectDeposit} style={styles.coinType}>
@@ -195,7 +206,7 @@ export default class ExchangeHeadView extends Component {
                   color: 'white',
                   textAlign: 'center',
                   fontWeight: 'bold',
-                  fontSize: 16,
+                  fontSize: 15,
                 }}
               >
                 创建兑换订单
@@ -217,7 +228,7 @@ export default class ExchangeHeadView extends Component {
             marginTop: 10,
           }}
         >
-          <Text style={{ marginTop: 10, marginLeft: 20, color: 'gray' }}>兑换记录</Text>
+          <Text style={{ marginTop: 20, marginLeft: 20, color: 'gray' }}>兑换记录</Text>
         </View>
       </View>
     );
