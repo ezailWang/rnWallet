@@ -9,10 +9,12 @@ const styles = StyleSheet.create({
     height: LayoutConstants.EXCHANGE_HEADER_CONTENT_HEIGHT,
   },
   whiteContainer: {
-    marginTop: 65,
+    marginTop: LayoutConstants.DEVICE_IS_IPHONE_X ? 80 : 55,
     marginLeft: 20,
     marginRight: 20,
-    height: 240,
+    height:
+      LayoutConstants.EXCHANGE_HEADER_CONTENT_HEIGHT -
+      (LayoutConstants.DEVICE_IS_IPHONE_X ? 150 : 125),
     backgroundColor: 'white',
     borderRadius: 10,
   },
@@ -24,10 +26,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   coinTypeIcon: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     backgroundColor: 'transparent',
     marginRight: 3,
+    marginTop: 5,
   },
   coinType: {
     width: 100,

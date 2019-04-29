@@ -330,7 +330,7 @@ export default class ExchangeStepMadal extends Component {
                   <Text style={styles.titleView}>兑换详情</Text>
                 </View>
                 <View style={styles.costTextContainer}>
-                  <Text style={styles.costText}>{`${depositSymbol}->${receiveSymbol}`}</Text>
+                  <Text style={styles.costText}>{`${depositSymbol}→${receiveSymbol}`}</Text>
                 </View>
                 <InfoTextView
                   depositSymbol={depositSymbol}

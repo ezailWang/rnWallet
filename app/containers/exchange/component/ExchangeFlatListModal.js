@@ -70,11 +70,11 @@ export default class ExchangeFlatListModal extends Component {
   render() {
     const { show } = this.state;
     const { selectCategory, items, onEmptyCreatWallet } = this.props;
-    let bottomHeight = 300;
+    let bottomHeight = LayoutConstants.DEVICE_IS_IPHONE_X ? 320 : 300;
     if (items.length > 0 && items.length < 4) {
-      bottomHeight = (items.length + 1) * 60;
+      bottomHeight = (items.length + 1) * 60 + (LayoutConstants.DEVICE_IS_IPHONE_X ? 20 : 0);
     } else if (items.length === 0) {
-      bottomHeight = 120;
+      bottomHeight = LayoutConstants.DEVICE_IS_IPHONE_X ? 140 : 120;
     }
     return (
       <Modal animationType="fade" visible={show} transparent>
