@@ -178,15 +178,27 @@ const InfoTextView = ({
 }) => (
   <View style={styles.leftInfoView}>
     <View style={styles.infoTextViewFirst}>
-      <Text style={styles.infoTitle}>支付</Text>
+      <Text style={styles.infoTitle}>{I18n.t('exchange.pay')}</Text>
       <Text style={styles.infoDetailTitle}>{`${depositValue} ${depositSymbol}`}</Text>
     </View>
-    <InfoContentView margin={44} title="换取" deatilContent={`${receiveValue} ${receiveSymbol}`} />
-    <InfoContentView margin={20} title="兑换比例" deatilContent={instantRate} />
-    <InfoContentView margin={20} title="付款地址" deatilContent={fromAddress} />
+    <InfoContentView
+      margin={44}
+      title={I18n.t('exchange.exchange')}
+      deatilContent={`${receiveValue} ${receiveSymbol}`}
+    />
+    <InfoContentView
+      margin={20}
+      title={I18n.t('exchange.exchange_ratio')}
+      deatilContent={instantRate}
+    />
+    <InfoContentView
+      margin={20}
+      title={I18n.t('exchange.payment_address')}
+      deatilContent={fromAddress}
+    />
     <InfoContentView
       margin={34}
-      title="手续费"
+      title={I18n.t('exchange.fees')}
       deatilContent={`${depositCoinFeeAmt} ${depositSymbol}`}
     />
   </View>
@@ -327,7 +339,7 @@ export default class ExchangeStepMadal extends Component {
                       style={{ width: 15, height: 15 }}
                     />
                   </TouchableOpacity>
-                  <Text style={styles.titleView}>兑换详情</Text>
+                  <Text style={styles.titleView}>{I18n.t('exchange_details')}</Text>
                 </View>
                 <View style={styles.costTextContainer}>
                   <Text style={styles.costText}>{`${depositSymbol}→${receiveSymbol}`}</Text>

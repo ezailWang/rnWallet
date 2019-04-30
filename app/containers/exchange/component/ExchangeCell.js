@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import LayoutConstants from '../../../config/LayoutConstants';
 import { Colors } from '../../../config/GlobalConfig';
+import { I18n } from '../../../config/language/i18n';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,7 +57,9 @@ class ExchangeEmptyComponent extends Component {
   render() {
     return (
       <View style={styles.emptyView}>
-        <Text style={{ fontSize: 18, color: Colors.bgGrayColor_e5 }}>暂无兑换记录</Text>
+        <Text style={{ fontSize: 18, color: Colors.bgGrayColor_e5 }}>
+          {I18n.t('exchange.no_exchange_history')}
+        </Text>
       </View>
     );
   }
@@ -68,7 +71,9 @@ class ExchangeWalletEmptyComponent extends Component {
     return (
       <View style={styles.emptyWaleetView}>
         <TouchableOpacity onPress={onEmptyCreatWallet}>
-          <Text style={{ fontSize: 16, color: Colors.themeColor }}>创建/导入ETH钱包</Text>
+          <Text style={{ fontSize: 16, color: Colors.themeColor }}>
+            {I18n.t('exchange.creat_import_eth_wallet')}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -87,7 +92,7 @@ class ExchangeModalCoinSelectCell extends Component {
             <View style={styles.leftTextViews}>
               <Text style={{ fontSize: 15, color: Colors.themeColor }}>{symbol}</Text>
               <Text style={{ fontSize: 13, color: Colors.fontDarkGrayColor }}>
-                {`余额 ${balance} ${symbol}`}
+                {`${I18n.t('exchange.balance')} ${balance} ${symbol}`}
               </Text>
             </View>
           </View>
@@ -165,15 +170,15 @@ class ExchangeCell extends Component {
   _getStatusTitle = state => {
     switch (state) {
       case 'not_complete':
-        return '未完成';
+        return I18n.t('exchange.unfinished');
       case 'exchange':
-        return '交换中';
+        return I18n.t('exchange.exchanging');
       case 'trade_fail':
-        return '兑换失败';
+        return I18n.t('exchange.exchange_failed');
       case 'timeout':
-        return '超时';
+        return I18n.t('exchange.time_out');
       case 'complete':
-        return '完成';
+        return I18n.t('exchange.completed');
       default:
         return 'unknow';
     }

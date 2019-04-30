@@ -9,6 +9,7 @@ import {
   ExchangeModalWalletSelectCell,
   ExchangeWalletEmptyComponent,
 } from './ExchangeCell';
+import { I18n } from '../../../config/language/i18n';
 
 const styles = StyleSheet.create({
   container: {
@@ -122,7 +123,9 @@ export default class ExchangeFlatListModal extends Component {
                     alignItems: 'center',
                   }}
                 >
-                  {selectCategory === 'coinSelect' ? '币种选择' : '钱包选择'}
+                  {selectCategory === 'coinSelect'
+                    ? I18n.t('exchange.select_currency')
+                    : I18n.t('exchange.select_wallet')}
                 </Text>
               }
             />

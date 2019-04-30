@@ -358,14 +358,17 @@ class ExchangeScreen extends BaseComponent {
 
   checkBalance = async () => {
     if (this.depositInput > parseFloat(this.state.currentDepositCoin.balance)) {
-      showToast('余额不足', 20);
+      showToast(I18n.t('exchange.insufficient_balance'), 20);
       return false;
     }
     if (
       this.depositInput < parseFloat(this.state.depositMin) ||
       this.depositInput > parseFloat(this.state.depositMax)
     ) {
-      showToast(`兑换范围${this.state.depositMin}-${this.state.depositMax}`, 30);
+      showToast(
+        `${I18n.t('exchange.exchange_range')}${this.state.depositMin}-${this.state.depositMax}`,
+        30
+      );
       return false;
     }
     if (this.state.currentDepositCoin.symbol === 'ETH') {
@@ -373,14 +376,14 @@ class ExchangeScreen extends BaseComponent {
         parseFloat(this.state.currentDepositCoin.balance) - this.depositInput <
         (await this.getCurrentGas())
       ) {
-        showToast('服务费不足', 30);
+        showToast(I18n.t('exchange.insufficient_service_fee'), 30);
         return false;
       }
     } else if (
       (await NetworkManager.getEthBalance(this.state.currentDepositWallet.address)) <
       (await this.getCurrentGas())
     ) {
-      showToast('服务费不足', 30);
+      showToast(I18n.t('exchange.insufficient_service_fee'), 30);
       return false;
     }
     return true;
@@ -472,10 +475,10 @@ class ExchangeScreen extends BaseComponent {
     this.updateWalletList(false);
     this._hideLoading();
     if (txHash) {
-      showToast('存币成功', -30);
+      showToast(I18n.t('exchange.successfully_deposited'), -30);
       this.props.setExchangeDepositStatus(this.state.currentOrderId);
     } else {
-      showToast('存币失败', -30);
+      showToast(I18n.t('exchange.deposit_failed'), -30);
     }
   };
 
@@ -517,6 +520,10 @@ class ExchangeScreen extends BaseComponent {
     this.updateCoinInfo('ETH', 'ITC');
     this.updateOrderList();
   }
+
+  _monetaryUnitChange = () => {
+    this.forceUpdate();
+  };
 
   renderItem = item => <ExchangeCell item={item} onClick={() => this.onClickCell(item)} />;
 
@@ -686,7 +693,7 @@ class ExchangeScreen extends BaseComponent {
           onCancelClick={() => {
             this.modalExchangeStep.closeStepView();
             this.updateOrderList();
-            showToast('订单尙未完成，可在兑换记录中查看详情继续', 30);
+            showToast(I18n.t('exchange.order_tip'), 30);
           }}
           depositSymbol={this.state.currentDepositCoin.symbol}
           receiveSymbol={this.state.currentReceiveCoin.symbol}
@@ -763,19 +770,19 @@ class ExchangeScreen extends BaseComponent {
               currentReceiveCoin={this.state.currentReceiveCoin}
               currentDepositWallet={
                 this.state.currentDepositWallet === ''
-                  ? { name: '创建ETH钱包' }
+                  ? { name: I18n.t('exchange.create_eth_wallet') }
                   : this.state.currentDepositWallet
               }
               currentReceiveWallet={
                 this.state.currentReceiveWallet === ''
-                  ? { name: '创建ETH钱包' }
+                  ? { name: I18n.t('exchange.create_eth_wallet') }
                   : this.state.currentReceiveWallet
               }
               depositInputValue={this.state.depositInputValue}
               receiveInputValue={this.state.receiveInputValue}
               depositPlaceholder={
                 this.state.depositMin !== ''
-                  ? `范围${this.state.depositMin}-${this.state.depositMax}`
+                  ? `${I18n.t('exchange.range')}${this.state.depositMin}-${this.state.depositMax}`
                   : ''
               }
               receivePlaceholder=""

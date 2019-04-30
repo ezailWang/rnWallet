@@ -125,19 +125,19 @@ class ExChangeDetail extends BaseComponent {
 
   _getStatusTitle = () => {
     if (this.state.tradeState === 'complete') {
-      return '已完成';
+      return I18n.t('exchange.completed');
     }
     switch (this.state.orderState) {
       case 'wait_deposits':
-        return '待存币';
+        return I18n.t('exchange.deposit_pending');
       case 'wait_exchange':
-        return '交换中';
+        return I18n.t('exchange.exchanging');
       case 'fial':
-        return '兑换失败';
+        return I18n.t('exchange.exchange_failed');
       case 'timeout':
-        return '超时';
+        return I18n.t('exchange.time_out');
       case 'wait_send':
-        return '待发币';
+        return I18n.t('exchange.transfer_pending');
       default:
         return '';
     }
@@ -172,10 +172,10 @@ class ExChangeDetail extends BaseComponent {
     }
     this._hideLoading();
     if (txHash) {
-      showToast('存币成功', -30);
+      showToast(I18n.t('exchange.successfully_deposited'), -30);
       this.props.setExchangeDepositStatus(this.state.orderId);
     } else {
-      showToast('存币失败', -30);
+      showToast(I18n.t('exchange.deposit_failed'), -30);
     }
   };
 
@@ -279,7 +279,7 @@ class ExChangeDetail extends BaseComponent {
           fromAddress={this.state.depositAddr}
           depositCoinFeeAmt={this.state.depositCoinFeeAmt}
         />
-        <TransparentBgHeader navigation={this.props.navigation} text="详情" />
+        <TransparentBgHeader navigation={this.props.navigation} text={I18n.t('exchange.details')} />
         <ScrollView style={styles.scrollView}>
           <View style={styles.content}>
             <Image style={styles.statusIcon} source={statusIcon} resizeMode="contain" />
@@ -303,36 +303,38 @@ class ExChangeDetail extends BaseComponent {
                   this.modalExchangeStep.showStepView();
                 }}
               >
-                <Text style={{ color: Colors.themeColor }}>继续交易</Text>
+                <Text style={{ color: Colors.themeColor }}>
+                  {I18n.t('exchange.continue_exchanging')}
+                </Text>
               </TouchableOpacity>
             ) : null}
             <View style={styles.cellView}>
-              <Text style={styles.leftText}>支付金额</Text>
+              <Text style={styles.leftText}>{I18n.t('exchange.payment_amount')}</Text>
               <Text style={[styles.rightText, { fontSize: 24, fontWeight: 'bold' }]}>{`${
                 this.state.depositCoinAmt
               } ${this.state.depositCoinCode}`}</Text>
             </View>
             <View style={styles.cellView}>
-              <Text style={styles.leftText}>换取金额</Text>
+              <Text style={styles.leftText}>{I18n.t('exchange.exchange_amount')}</Text>
               <Text style={[styles.rightText, { fontSize: 24, fontWeight: 'bold' }]}>{`${
                 this.state.receiveCoinAmt
               } ${this.state.receiveCoinCode}`}</Text>
             </View>
             <View style={styles.cellView}>
-              <Text style={styles.leftText}>付款地址</Text>
+              <Text style={styles.leftText}>{I18n.t('exchange.payment_address')}</Text>
               <Text style={styles.rightText}>{this.state.depositAddr}</Text>
             </View>
             <View style={styles.cellView}>
-              <Text style={styles.leftText}>收款地址</Text>
+              <Text style={styles.leftText}>{I18n.t('exchange.receving_address')}</Text>
               <Text style={styles.rightText}>{this.state.recevieAddr}</Text>
             </View>
             <View style={styles.lineView} />
             <View style={styles.cellView}>
-              <Text style={styles.leftText}>兑换时间</Text>
+              <Text style={styles.leftText}>{I18n.t('exchange.exchange_time')}</Text>
               <Text style={styles.rightText}>{this.state.beginDate}</Text>
             </View>
             <View style={[styles.cellView, { alignItems: 'flex-start' }]}>
-              <Text style={styles.leftText}>交易号</Text>
+              <Text style={styles.leftText}>{I18n.t('exchange.exchange_number')}</Text>
               <Text
                 style={[styles.rightText, { color: Colors.themeColor, marginLeft: 33 }]}
                 numberOfLines={1}

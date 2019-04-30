@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
 import LayoutConstants from '../../../config/LayoutConstants';
 import { Colors } from '../../../config/GlobalConfig';
+import { I18n } from '../../../config/language/i18n';
 
 const styles = StyleSheet.create({
   container: {
@@ -141,7 +142,7 @@ export default class ExchangeHeadView extends Component {
               returnKeyType="next"
               keyboardType="numeric"
               textAlign="right"
-              placeholder={`转出数量${depositPlaceholder}`}
+              placeholder={`${I18n.t('exchange.transfer_amount')}${depositPlaceholder}`}
               style={styles.input}
               defaultValue={depositInputValue}
               onChange={e => {
@@ -150,7 +151,9 @@ export default class ExchangeHeadView extends Component {
             />
           </View>
           <View style={[styles.childViewContainer, { alignItems: 'flex-start', marginTop: 5 }]}>
-            <Text style={styles.balanceText}>{`可用余额: ${currentDepositCoin.balance}`}</Text>
+            <Text style={styles.balanceText}>{`${I18n.t('exchange.available_balance')}: ${
+              currentDepositCoin.balance
+            }`}</Text>
             <TouchableOpacity style={styles.walletSelect} onPress={onWalletSelectDeposit}>
               <Text style={styles.walletSelectText} numberOfLines={1}>
                 {currentDepositWallet.name}
@@ -168,7 +171,7 @@ export default class ExchangeHeadView extends Component {
               keyboardType="numeric"
               returnKeyType="done"
               textAlign="right"
-              placeholder={`接收数量${receivePlaceholder}`}
+              placeholder={`${I18n.t('exchange.receiving_quantity')}${receivePlaceholder}`}
               style={styles.input}
               defaultValue={receiveInputValue}
               onChange={e => {
@@ -212,7 +215,7 @@ export default class ExchangeHeadView extends Component {
                   fontSize: 15,
                 }}
               >
-                创建兑换订单
+                {I18n.t('exchange.create_exchange_order')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -231,7 +234,9 @@ export default class ExchangeHeadView extends Component {
             marginTop: 10,
           }}
         >
-          <Text style={{ marginTop: 20, marginLeft: 20, color: 'gray' }}>兑换记录</Text>
+          <Text style={{ marginTop: 20, marginLeft: 20, color: 'gray' }}>
+            {I18n.t('exchange.exchange_record')}
+          </Text>
         </View>
       </View>
     );
