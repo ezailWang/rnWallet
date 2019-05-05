@@ -797,7 +797,7 @@ export default class Transaction extends BaseComponent {
                 // disabled={detailTitlePress === undefined}
                 onPress={this.sendAllPress}
               >
-                <Text style={styles.sendAllTxt}>全部发送</Text>
+                <Text style={styles.sendAllTxt}>{I18n.t('transaction.send_all')}</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -101,12 +101,14 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: 13,
+    width: 100,
     color: Colors.fontDarkGrayColor,
   },
   infoDetailTitle: {
     fontSize: 13,
     color: Colors.fontBlackColor,
-    marginLeft: 44,
+    marginLeft: 10,
+    width: LayoutConstants.WINDOW_WIDTH - 200,
     // marginRight:60
   },
   infoContent: {
@@ -120,15 +122,17 @@ const styles = StyleSheet.create({
   },
   infoContentTitle: {
     marginTop: 10,
+    width: 100,
     // backgroundColor:"red"
   },
   infoContentDetailTitle: {
     fontSize: 13,
     color: Colors.fontBlackColor,
+    width: LayoutConstants.WINDOW_WIDTH - 200,
   },
   infoContentDetailView: {
+    width: LayoutConstants.WINDOW_WIDTH - 180,
     marginTop: 10,
-    marginLeft: 20,
     marginRight: 10,
     flex: 1,
     // backgroundColor:"blue"
@@ -136,8 +140,8 @@ const styles = StyleSheet.create({
   nextBtn: {
     marginTop: 25,
     height: 44,
-    borderRadius: 25,
-    width: LayoutConstants.WINDOW_WIDTH - 100,
+    borderRadius: 5,
+    width: LayoutConstants.WINDOW_WIDTH - 60,
     backgroundColor: Colors.themeColor,
     justifyContent: 'center',
   },
@@ -182,36 +186,26 @@ const InfoTextView = ({
       <Text style={styles.infoDetailTitle}>{`${depositValue} ${depositSymbol}`}</Text>
     </View>
     <InfoContentView
-      margin={44}
       title={I18n.t('exchange.exchange')}
       deatilContent={`${receiveValue} ${receiveSymbol}`}
     />
+    <InfoContentView title={I18n.t('exchange.exchange_ratio')} deatilContent={instantRate} />
+    <InfoContentView title={I18n.t('exchange.payment_address')} deatilContent={fromAddress} />
     <InfoContentView
-      margin={20}
-      title={I18n.t('exchange.exchange_ratio')}
-      deatilContent={instantRate}
-    />
-    <InfoContentView
-      margin={20}
-      title={I18n.t('exchange.payment_address')}
-      deatilContent={fromAddress}
-    />
-    <InfoContentView
-      margin={34}
       title={I18n.t('exchange.fees')}
       deatilContent={`${depositCoinFeeAmt} ${depositSymbol}`}
     />
   </View>
 );
 
-const InfoContentView = ({ title, deatilContent, margin }) => (
+const InfoContentView = ({ title, deatilContent }) => (
   <View style={{ flex: 1, alignItems: 'center' }}>
     <View style={styles.lineView} />
     <View style={styles.infoContent}>
       <View style={styles.infoContentTitle}>
         <Text style={[styles.infoTitle]}>{title}</Text>
       </View>
-      <View style={[styles.infoContentDetailView, { marginLeft: margin }]}>
+      <View style={styles.infoContentDetailView}>
         <Text style={styles.infoContentDetailTitle}>{deatilContent}</Text>
       </View>
     </View>
@@ -339,10 +333,10 @@ export default class ExchangeStepMadal extends Component {
                       style={{ width: 15, height: 15 }}
                     />
                   </TouchableOpacity>
-                  <Text style={styles.titleView}>{I18n.t('exchange_details')}</Text>
+                  <Text style={styles.titleView}>{I18n.t('exchange.exchange_details')}</Text>
                 </View>
                 <View style={styles.costTextContainer}>
-                  <Text style={styles.costText}>{`${depositSymbol}→${receiveSymbol}`}</Text>
+                  <Text style={styles.costText}>{`${depositSymbol} → ${receiveSymbol}`}</Text>
                 </View>
                 <InfoTextView
                   depositSymbol={depositSymbol}

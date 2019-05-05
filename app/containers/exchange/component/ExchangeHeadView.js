@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   },
   childViewContainer: {
     flex: 1,
+    paddingTop: 10,
     flexDirection: 'row',
     backgroundColor: 'transparent',
     alignItems: 'center',
@@ -123,7 +124,7 @@ export default class ExchangeHeadView extends Component {
             <TouchableOpacity onPress={onRefore}>
               <Image
                 source={require('../../../assets/exchange/refore.png')}
-                style={[styles.coinTypeIcon, { marginLeft: 3 }]}
+                style={[styles.coinTypeIcon, { marginLeft: 7, marginRight: 7 }]}
               />
             </TouchableOpacity>
             <Text style={styles.titleText}>{`${
@@ -150,7 +151,12 @@ export default class ExchangeHeadView extends Component {
               }}
             />
           </View>
-          <View style={[styles.childViewContainer, { alignItems: 'flex-start', marginTop: 5 }]}>
+          <View
+            style={[
+              styles.childViewContainer,
+              { paddingTop: 5, alignItems: 'flex-start', marginTop: 5 },
+            ]}
+          >
             <Text style={styles.balanceText}>{`${I18n.t('exchange.available_balance')}: ${
               currentDepositCoin.balance
             }`}</Text>
@@ -179,7 +185,12 @@ export default class ExchangeHeadView extends Component {
               }}
             />
           </View>
-          <View style={[styles.childViewContainer, { alignItems: 'flex-start', marginTop: 5 }]}>
+          <View
+            style={[
+              styles.childViewContainer,
+              { paddingTop: 5, alignItems: 'flex-start', marginTop: 5 },
+            ]}
+          >
             <TouchableOpacity
               style={[styles.walletSelect, { width: 295 }]}
               onPress={onWalletSelectRecevie}
@@ -188,7 +199,12 @@ export default class ExchangeHeadView extends Component {
               <Image source={require('../../../assets/exchange/icon_tr.png')} style={styles.tr} />
             </TouchableOpacity>
           </View>
-          <View style={[styles.childViewContainer, { alignItems: 'flex-start', marginBottom: 10 }]}>
+          <View
+            style={[
+              styles.childViewContainer,
+              { paddingTop: 0, alignItems: 'flex-start', marginBottom: 15 },
+            ]}
+          >
             <TouchableOpacity
               style={{
                 width: 295,

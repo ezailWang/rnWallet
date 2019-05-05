@@ -55,10 +55,11 @@ const styles = StyleSheet.create({
   },
   leftText: {
     marginLeft: 20,
+    width: 100,
     color: Colors.blackOpacityColor,
   },
   rightText: {
-    width: LayoutConstants.WINDOW_WIDTH - 150,
+    width: LayoutConstants.WINDOW_WIDTH - 200,
     marginLeft: 20,
   },
   lineView: {
@@ -325,7 +326,7 @@ class ExChangeDetail extends BaseComponent {
               <Text style={styles.rightText}>{this.state.depositAddr}</Text>
             </View>
             <View style={styles.cellView}>
-              <Text style={styles.leftText}>{I18n.t('exchange.receving_address')}</Text>
+              <Text style={styles.leftText}>{I18n.t('exchange.receiving_address')}</Text>
               <Text style={styles.rightText}>{this.state.recevieAddr}</Text>
             </View>
             <View style={styles.lineView} />
@@ -335,10 +336,7 @@ class ExChangeDetail extends BaseComponent {
             </View>
             <View style={[styles.cellView, { alignItems: 'flex-start' }]}>
               <Text style={styles.leftText}>{I18n.t('exchange.exchange_number')}</Text>
-              <Text
-                style={[styles.rightText, { color: Colors.themeColor, marginLeft: 33 }]}
-                numberOfLines={1}
-              >
+              <Text style={[styles.rightText, { color: Colors.themeColor }]} numberOfLines={1}>
                 {this.state.orderId}
               </Text>
             </View>

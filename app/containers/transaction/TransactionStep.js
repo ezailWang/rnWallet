@@ -138,8 +138,8 @@ const styles = StyleSheet.create({
   nextBtn: {
     marginTop: 25,
     height: 44,
-    borderRadius: 25,
-    width: ScreenWidth - 100,
+    borderRadius: 5,
+    width: ScreenWidth - 60,
     backgroundColor: Colors.themeColor,
     justifyContent: 'center',
   },
