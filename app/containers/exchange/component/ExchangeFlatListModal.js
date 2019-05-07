@@ -78,7 +78,14 @@ export default class ExchangeFlatListModal extends Component {
       bottomHeight = LayoutConstants.DEVICE_IS_IPHONE_X ? 140 : 120;
     }
     return (
-      <Modal animationType="fade" visible={show} transparent>
+      <Modal
+        animationType="fade"
+        visible={show}
+        transparent
+        onRequestClose={() => {
+          // console.log('安卓物理返回');
+        }}
+      >
         <View style={styles.container}>
           <TouchableWithoutFeedback
             onPress={() => {

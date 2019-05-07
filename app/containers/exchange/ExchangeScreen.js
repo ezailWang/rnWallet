@@ -782,7 +782,9 @@ class ExchangeScreen extends BaseComponent {
               receiveInputValue={this.state.receiveInputValue}
               depositPlaceholder={
                 this.state.depositMin !== ''
-                  ? `${I18n.t('exchange.range')}${this.state.depositMin}-${this.state.depositMax}`
+                  ? `${this.state.depositMin}~${this.state.depositMax}${
+                      this.state.currentDepositCoin.symbol
+                    }`
                   : ''
               }
               receivePlaceholder=""

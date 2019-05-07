@@ -4,6 +4,13 @@ import LayoutConstants from '../../../config/LayoutConstants';
 import { Colors } from '../../../config/GlobalConfig';
 import { I18n } from '../../../config/language/i18n';
 
+const whiteContainerHeight =
+  LayoutConstants.EXCHANGE_HEADER_CONTENT_HEIGHT - (LayoutConstants.DEVICE_IS_IPHONE_X ? 150 : 125);
+
+const whiteContainerWidth = LayoutConstants.WINDOW_WIDTH - 40;
+
+const childViewHight = whiteContainerHeight / 6;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
@@ -13,18 +20,15 @@ const styles = StyleSheet.create({
     marginTop: LayoutConstants.DEVICE_IS_IPHONE_X ? 80 : 55,
     marginLeft: 20,
     marginRight: 20,
-    height:
-      LayoutConstants.EXCHANGE_HEADER_CONTENT_HEIGHT -
-      (LayoutConstants.DEVICE_IS_IPHONE_X ? 150 : 125),
+    height: whiteContainerHeight,
     backgroundColor: 'white',
     borderRadius: 10,
   },
   childViewContainer: {
-    flex: 1,
-    paddingTop: 10,
+    flex: 10,
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
   },
   coinTypeIcon: {
@@ -32,11 +36,10 @@ const styles = StyleSheet.create({
     height: 20,
     backgroundColor: 'transparent',
     marginRight: 3,
-    marginTop: 5,
   },
   coinType: {
-    width: 100,
-    height: 35,
+    width: (whiteContainerWidth - 45) / 3,
+    height: childViewHight - 5 > 40 ? 40 : childViewHight - 5,
     marginRight: 5,
     borderWidth: 1,
     borderColor: Colors.bgGrayColor_ed,
@@ -52,12 +55,14 @@ const styles = StyleSheet.create({
     marginRight: 3,
   },
   input: {
-    width: 190,
-    height: 35,
+    width: ((whiteContainerWidth - 45) * 2) / 3,
+    height: childViewHight - 5 > 40 ? 40 : childViewHight - 5,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: Colors.bgGrayColor_ed,
-    padding: 5,
+    paddingRight: 5,
+    padding: 0,
+    fontSize: 13,
   },
   tr: {
     width: 10,
@@ -65,23 +70,35 @@ const styles = StyleSheet.create({
   },
   walletSelect: {
     flexDirection: 'row',
-    width: 120,
+    width: (whiteContainerWidth - 45) / 2,
     justifyContent: 'flex-end',
+    backgroundColor: 'transparent',
     alignItems: 'center',
+    height: 15,
   },
   walletSelectText: {
     color: Colors.themeColor,
     fontSize: 13,
-    marginRight: 5,
   },
   balanceText: {
-    width: 170,
-    marginRight: 5,
+    width: (whiteContainerWidth - 45) / 2,
     fontSize: 12,
+    // height: childViewHight - 5 > 40 ? 40 : childViewHight - 5,
     color: '#d2d2d2',
+    backgroundColor: 'transparent',
+    height: 15,
   },
   titleText: {
     marginTop: 10,
+  },
+  createExchangeBtn: {
+    width: whiteContainerWidth - 40,
+    height: childViewHight - 5 > 40 ? 40 : childViewHight - 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(62,192,253)',
+    borderRadius: 5,
+    marginBottom: childViewHight - 5 > 40 ? 25 : 8,
   },
 });
 
@@ -119,19 +136,19 @@ export default class ExchangeHeadView extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.whiteContainer}>
-          <View style={styles.childViewContainer}>
+          <View style={[styles.childViewContainer, { alignItems: 'center' }]}>
             <Text style={styles.titleText}>{`1 ${currentDepositCoin.symbol}`}</Text>
             <TouchableOpacity onPress={onRefore}>
               <Image
                 source={require('../../../assets/exchange/refore.png')}
-                style={[styles.coinTypeIcon, { marginLeft: 7, marginRight: 7 }]}
+                style={[styles.coinTypeIcon, { marginTop: 5, marginLeft: 7, marginRight: 7 }]}
               />
             </TouchableOpacity>
             <Text style={styles.titleText}>{`${
               instantRate !== '' ? parseFloat(instantRate).toFixed(6) : '?'
             } ${currentReceiveCoin.symbol}`}</Text>
           </View>
-          <View style={[styles.childViewContainer, { marginTop: 5 }]}>
+          <View style={[styles.childViewContainer, { alignItems: 'center' }]}>
             <TouchableOpacity onPress={onCoinTypeSelectDeposit} style={styles.coinType}>
               <Image source={currentDepositCoin.coinIcon} style={styles.coinTypeIcon} />
               <Text style={styles.coinTypeText} numberOfLines={1}>
@@ -143,7 +160,7 @@ export default class ExchangeHeadView extends Component {
               returnKeyType="next"
               keyboardType="numeric"
               textAlign="right"
-              placeholder={`${I18n.t('exchange.transfer_amount')}${depositPlaceholder}`}
+              placeholder={depositPlaceholder}
               style={styles.input}
               defaultValue={depositInputValue}
               onChange={e => {
@@ -151,12 +168,7 @@ export default class ExchangeHeadView extends Component {
               }}
             />
           </View>
-          <View
-            style={[
-              styles.childViewContainer,
-              { paddingTop: 5, alignItems: 'flex-start', marginTop: 5 },
-            ]}
-          >
+          <View style={[styles.childViewContainer, { flex: childViewHight > 40 ? 7 : 10 }]}>
             <Text style={styles.balanceText}>{`${I18n.t('exchange.available_balance')}: ${
               currentDepositCoin.balance
             }`}</Text>
@@ -164,10 +176,13 @@ export default class ExchangeHeadView extends Component {
               <Text style={styles.walletSelectText} numberOfLines={1}>
                 {currentDepositWallet.name}
               </Text>
-              <Image source={require('../../../assets/exchange/icon_tr.png')} style={styles.tr} />
+              <Image
+                source={require('../../../assets/exchange/icon_tr.png')}
+                style={[styles.tr, { marginLeft: 5 }]}
+              />
             </TouchableOpacity>
           </View>
-          <View style={[styles.childViewContainer, { marginTop: -10 }]}>
+          <View style={[styles.childViewContainer, { alignItems: 'center' }]}>
             <TouchableOpacity onPress={onCoinTypeSelectRecevie} style={styles.coinType}>
               <Image source={currentReceiveCoin.coinIcon} style={styles.coinTypeIcon} />
               <Text style={styles.coinTypeText}>{currentReceiveCoin.symbol}</Text>
@@ -185,50 +200,26 @@ export default class ExchangeHeadView extends Component {
               }}
             />
           </View>
-          <View
-            style={[
-              styles.childViewContainer,
-              { paddingTop: 5, alignItems: 'flex-start', marginTop: 5 },
-            ]}
-          >
+          <View style={[styles.childViewContainer]}>
             <TouchableOpacity
-              style={[styles.walletSelect, { width: 295 }]}
+              style={[styles.walletSelect, { width: whiteContainerWidth - 40 }]}
               onPress={onWalletSelectRecevie}
             >
               <Text style={styles.walletSelectText}>{currentReceiveWallet.name}</Text>
-              <Image source={require('../../../assets/exchange/icon_tr.png')} style={styles.tr} />
+              <Image
+                source={require('../../../assets/exchange/icon_tr.png')}
+                style={[styles.tr, { marginLeft: 5 }]}
+              />
             </TouchableOpacity>
           </View>
-          <View
-            style={[
-              styles.childViewContainer,
-              { paddingTop: 0, alignItems: 'flex-start', marginBottom: 15 },
-            ]}
-          >
-            <TouchableOpacity
-              style={{
-                width: 295,
-                height: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              onPress={onExchange}
-            >
-              <Image
-                style={{ width: 295, height: 40 }}
-                source={require('../../../assets/exchange/icon_buttom.png')}
-              />
+          <View style={[styles.childViewContainer, { alignItems: 'center' }]}>
+            <TouchableOpacity style={styles.createExchangeBtn} onPress={onExchange}>
               <Text
                 style={{
-                  position: 'absolute',
-                  backgroundColor: 'transparent',
-                  width: 295,
-                  top: 10,
-                  height: 40,
                   color: 'white',
                   textAlign: 'center',
                   fontWeight: 'bold',
-                  fontSize: 15,
+                  fontSize: 14,
                 }}
               >
                 {I18n.t('exchange.create_exchange_order')}

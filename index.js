@@ -7,6 +7,7 @@ YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
   'Module RCTImageLoader',
   'Module RNRandomBytes',
+  'Class RNFaceDetectorModuleMLKit',
 ]);
 
 AppRegistry.registerComponent('rnWallet', () => App);
