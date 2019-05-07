@@ -7,7 +7,7 @@ Then do the following at the terminal.
 
 1. git clone git@github.com:c-block/rnWallet.git
 2. cd rnWallet
-3. npm install
+3. yarn
 4. react-native run-ios / run-android
 
 If you do not install node. You may not be able to use npm. 
