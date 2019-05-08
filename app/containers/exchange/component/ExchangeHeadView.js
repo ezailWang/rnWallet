@@ -11,6 +11,8 @@ const whiteContainerWidth = LayoutConstants.WINDOW_WIDTH - 40;
 
 const childViewHight = whiteContainerHeight / 6;
 
+const iosCreateExchangeBtnMarginTop = childViewHight - 5 > 40 ? -20 : -8;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
@@ -28,7 +30,6 @@ const styles = StyleSheet.create({
     flex: 10,
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    // alignItems: 'center',
     justifyContent: 'center',
   },
   coinTypeIcon: {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgb(62,192,253)',
     borderRadius: 5,
-    marginBottom: childViewHight - 5 > 40 ? 25 : 8,
+    marginTop: LayoutConstants.DEVICE_IS_ANDROID() ? 0 : iosCreateExchangeBtnMarginTop,
   },
 });
 
@@ -168,7 +169,7 @@ export default class ExchangeHeadView extends Component {
               }}
             />
           </View>
-          <View style={[styles.childViewContainer, { flex: childViewHight > 40 ? 7 : 10 }]}>
+          <View style={[styles.childViewContainer, { flex: 5 }]}>
             <Text style={styles.balanceText}>{`${I18n.t('exchange.available_balance')}: ${
               currentDepositCoin.balance
             }`}</Text>
@@ -200,7 +201,7 @@ export default class ExchangeHeadView extends Component {
               }}
             />
           </View>
-          <View style={[styles.childViewContainer]}>
+          <View style={[styles.childViewContainer, { flex: 6 }]}>
             <TouchableOpacity
               style={[styles.walletSelect, { width: whiteContainerWidth - 40 }]}
               onPress={onWalletSelectRecevie}

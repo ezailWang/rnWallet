@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     height: 30,
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor:"red",
     width: LayoutConstants.WINDOW_WIDTH - 60,
   },
   infoTitle: {
@@ -107,13 +106,10 @@ const styles = StyleSheet.create({
   infoDetailTitle: {
     fontSize: 13,
     color: Colors.fontBlackColor,
-    marginLeft: 10,
     width: LayoutConstants.WINDOW_WIDTH - 200,
-    // marginRight:60
   },
   infoContent: {
     height: 210.0 / 3,
-    // backgroundColor:"green",
     flexDirection: 'row',
   },
   lineView: {
@@ -123,7 +119,6 @@ const styles = StyleSheet.create({
   infoContentTitle: {
     marginTop: 10,
     width: 100,
-    // backgroundColor:"red"
   },
   infoContentDetailTitle: {
     fontSize: 13,
