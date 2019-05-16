@@ -15,6 +15,7 @@ import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
 
+const contentWidth = Layout.WINDOW_WIDTH * 0.9;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -156,6 +157,54 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     height: 5,
   },
+  initiationAddressText: {
+    color: Colors.fontBlackColor_43,
+    fontSize: 15,
+    marginTop: 5,
+  },
+  initiationAddressBox: {
+    width: Layout.WINDOW_WIDTH - 70,
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
+  initiationAddressContent: {
+    width: Layout.WINDOW_WIDTH - 70,
+    flexDirection: 'row',
+    height: 30,
+  },
+  promptBox: {
+    flex: 1,
+  },
+  promptTouch: {
+    width: 40,
+    height: 30,
+    paddingLeft: 5,
+    paddingTop: 6,
+  },
+  promptIcon: {
+    width: 12,
+    height: 12,
+  },
+  triangleIcon: {
+    width: 12,
+    height: 10,
+    marginTop: -8,
+    marginLeft: 5,
+  },
+  promptDescView: {
+    position: 'absolute',
+    width: contentWidth,
+    alignSelf: 'center',
+    backgroundColor: 'rgba(63,193,255,0.8)',
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 30,
+    zIndex: 10,
+  },
+  promptDesc: {
+    fontSize: 13,
+    color: 'white',
+  },
 });
 
 class MappingRecordDetailScreen extends BaseComponent {
@@ -165,6 +214,7 @@ class MappingRecordDetailScreen extends BaseComponent {
       amount: '',
       status: -1,
       time: '',
+      isShowPrompt: false,
     };
     this.mappingDetail = null; // status 0 已申请 1 申请中  2 已完成
     this._setStatusBarStyleLight();
@@ -176,6 +226,13 @@ class MappingRecordDetailScreen extends BaseComponent {
       amount: this.mappingDetail.amount,
       status: this.mappingDetail.status,
       time: this.mappingDetail.time,
+    });
+  };
+
+  warnBtn = () => {
+    const isShow = this.state.isShowPrompt;
+    this.setState({
+      isShowPrompt: !isShow,
     });
   };
 
@@ -234,10 +291,49 @@ class MappingRecordDetailScreen extends BaseComponent {
                   title={`${I18n.t('mapping.send_address')}(Erc20)`}
                   content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78"
                 />
-                <ItemView
+                <View style={styles.itemView}>
+                  <View style={styles.initiationAddressBox}>
+                    <View style={styles.initiationAddressContent}>
+                      <Text style={styles.initiationAddressText}>
+                        {I18n.t('mapping.dedicated_mapping_address')}
+                      </Text>
+                      <View style={styles.promptBox}>
+                        <TouchableOpacity
+                          activeOpacity={0.6}
+                          style={styles.promptTouch}
+                          onPress={this.warnBtn}
+                        >
+                          <Image
+                            style={styles.promptIcon}
+                            source={require('../../assets/mapping/sighIcon.png')}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        {this.state.isShowPrompt ? (
+                          <Image
+                            style={styles.triangleIcon}
+                            source={require('../../assets/common/up_triangle.png')}
+                            resizeMode="contain"
+                          />
+                        ) : null}
+                      </View>
+                    </View>
+                    <Text style={styles.itemContent}>
+                      {'0xf6C9e322b688A434833dE530E4c23CFA4e579a78'}
+                    </Text>
+                    {this.state.isShowPrompt ? (
+                      <View style={styles.promptDescView}>
+                        <Text style={styles.promptDesc}>
+                          {I18n.t('mapping.dedicated_mapping_address_desc')}
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
+                </View>
+                {/* <ItemView
                   title={I18n.t('mapping.destroy_address')}
                   content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78"
-                />
+                /> */}
                 <ItemView title="TxHash" content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78" />
                 <ItemView
                   title={I18n.t('mapping.transaction_hour')}

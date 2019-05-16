@@ -88,8 +88,6 @@ import {
   ExchangeScreen,
   ExchangeDetail,
 } from '../containers/Containers';
-import { getMessageCount } from '../utils/CommonUtil';
-import Analytics from '../utils/Analytics';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
   FirstLaunch: {
@@ -146,42 +144,15 @@ const HomeBottomTabNavigation = createBottomTabNavigator(
   {
     Home: {
       screen: HomeScreen,
-      navigationOptions: ({ navigation }) => ({
-        header: null,
-        tabBarOnPress: () => {
-          // 使用tabBarOnPress点击事件
-          Analytics.recordClick('Tab', 'home');
-          navigation.navigate('Home');
-        },
-      }),
     },
     Exchange: {
       screen: ExchangeScreen,
-      navigationOptions: ({ navigation }) => ({
-        tabBarOnPress: () => {
-          Analytics.recordClick('Tab', 'Exchange');
-          navigation.navigate('Exchange');
-        },
-      }),
     },
     Mapping: {
       screen: Mapping,
-      navigationOptions: ({ navigation }) => ({
-        tabBarOnPress: () => {
-          Analytics.recordClick('Tab', 'mapping');
-          navigation.navigate('Mapping');
-        },
-      }),
     },
     My: {
       screen: MyScreen,
-      navigationOptions: ({ navigation }) => ({
-        tabBarOnPress: () => {
-          getMessageCount();
-          Analytics.recordClick('Tab', 'my');
-          navigation.navigate('My');
-        },
-      }),
     },
   },
   HomeBottomTabNavigationConfig

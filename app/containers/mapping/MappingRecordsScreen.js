@@ -214,7 +214,7 @@ class MappingRecordsScreen extends BaseComponent {
             resizeMode="contain"
           />
           <Text style={styles.descTitle}>{I18n.t('mapping.native_itc_receive_address')}</Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.6}
             style={styles.changeBox}
             onPress={this._onChaneAddressPress}
@@ -225,7 +225,7 @@ class MappingRecordsScreen extends BaseComponent {
               source={require('../../assets/common/back_white.png')}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <Text style={styles.descAddress}>{this.state.nativeReceiveAddress}</Text>
       </LinearGradient>

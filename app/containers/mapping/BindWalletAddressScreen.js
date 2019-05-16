@@ -10,6 +10,8 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
+import NetworkManager from '../../utils/NetworkManager';
+import { defaultTokens } from '../../utils/Constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -204,16 +206,38 @@ class BindWalletAddressScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  _initData = () => {
+  componentWillMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  _initData = async () => {
     const { currentWallet, itcWalletList, ethWalletList } = this.props;
     let itcWallet = itcWalletList[0];
     if (currentWallet.type === 'itc') {
       itcWallet = currentWallet;
     }
+    // todo 请求获取itc主链钱包的绑定信息
+    this._showLoading();
+    const newEthWalletList = await Promise.all(
+      ethWalletList.map(async wal => {
+        const itcBalance = await NetworkManager.getEthERC20Balance(
+          wal.address,
+          defaultTokens[1].address,
+          defaultTokens[1].decimal
+        );
+        wal.itcBalance = itcBalance;
+        return wal;
+      })
+    );
     this.setState({
       itcWallet,
-      ethWallets: ethWalletList,
+      ethWallets: newEthWalletList,
     });
+    this._hideLoading();
   };
 
   refreshPage() {
@@ -323,7 +347,7 @@ class BindWalletAddressScreen extends BaseComponent {
         <WhiteBgHeader
           navigation={this.props.navigation}
           text={I18n.t('mapping.binding_wallet_address')}
-          leftPress={() => this.backPressed()}
+          // leftPress={() => this.backPressed()}
         />
         <View style={styles.contentBox}>
           <View style={styles.topBox}>
@@ -392,9 +416,10 @@ class BindWalletAddressScreen extends BaseComponent {
 class Item extends PureComponent {
   render() {
     const { item, choseWalletAddress, onPressItem } = this.props;
-    const { name, address, bind } = item.item || {};
+    const { name, address, bind, itcBalance } = item.item || {};
     const _name = bind ? name + I18n.t('mapping.bind') : name;
-    const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
+    // const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
+    const itcBalanceText = `${I18n.t('exchange.balance')}: ${itcBalance} ITC`;
     const checkIcon =
       choseWalletAddress.toUpperCase() === address.toUpperCase()
         ? require('../../assets/launch/check_on.png')
@@ -410,7 +435,7 @@ class Item extends PureComponent {
       >
         <View style={styles.itemConetntView}>
           <Text style={bind ? styles.itemBindName : styles.itemName}>{_name}</Text>
-          <Text style={styles.itemAddress}>{_address}</Text>
+          <Text style={styles.itemAddress}>{itcBalanceText}</Text>
         </View>
         <Image style={styles.itemCheckedImg} source={icon} resizeMode="center" />
       </TouchableOpacity>

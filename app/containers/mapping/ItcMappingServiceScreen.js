@@ -514,7 +514,7 @@ class ItcMappingServiceScreen extends BaseComponent {
               <Text style={styles.mAddressText}>{itcWallet.address}</Text>
             </View>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               activeOpacity={0.6}
               style={styles.changeBox}
               onPress={this._onChaneAddressPress}
@@ -525,7 +525,7 @@ class ItcMappingServiceScreen extends BaseComponent {
                 source={require('../../assets/common/right_gray.png')}
                 resizeMode="center"
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
           <View style={styles.mAmountInputView}>
@@ -599,7 +599,6 @@ class ConfirmMappingModal extends PureComponent {
     super(props);
     this.state = {
       confirmBtnIsDisabled: true,
-      isShowPromptModal: false,
     };
     this.inputPwd = '';
   }
@@ -627,7 +626,7 @@ class ConfirmMappingModal extends PureComponent {
 
   render() {
     const { amount, payAddress, ethAmount, gasAmount, visible, modalCancelBtn } = this.props;
-    const { isShowPromptModal, confirmBtnIsDisabled } = this.state;
+    const { confirmBtnIsDisabled } = this.state;
     const amountInfo = `${amount} ITC`;
     const ethAmountInfo = `${ethAmount}ether`;
     const gasAmountInfo = `= Gas(${gasAmount})*Gas price(`; // + `11.00 gewl)`;
@@ -681,9 +680,7 @@ class ConfirmMappingModal extends PureComponent {
                   <Text style={styles.mDetailAmount}>{amountInfo}</Text>
                   <View style={styles.mDetailItemView}>
                     <Text style={styles.mDetailItemTitle}>{I18n.t('mapping.payment_infor')}</Text>
-                    <Text style={[styles.mDetailItemDesc, styles.mDetailItemGray]}>
-                      {I18n.t('mapping.itc_mapping')}
-                    </Text>
+                    <Text style={[styles.mDetailItemDesc, styles.mDetailItemBlack]}>1 : 1</Text>
                   </View>
                   <View style={styles.mItenLine} />
                   <View style={styles.mDetailItemView}>
@@ -695,61 +692,22 @@ class ConfirmMappingModal extends PureComponent {
                     </Text>
                   </View>
                   <View style={styles.mItenLine} />
-                  <View>
-                    <View style={styles.mDetailItemView}>
-                      <View style={styles.modalPromptBox}>
-                        <Text style={styles.mPropmptDetailItemTitle}>
-                          {I18n.t('mapping.dedicated_mapping_address')}
-                        </Text>
-                        <View>
-                          <TouchableOpacity
-                            activeOpacity={0.6}
-                            style={styles.modalPromptTouch}
-                            onPress={() => {
-                              const isShow = isShowPromptModal;
-                              this.setState({
-                                isShowPromptModal: !isShow,
-                              });
-                            }}
-                          >
-                            <Image
-                              style={styles.promptIcon}
-                              source={require('../../assets/mapping/sighIcon.png')}
-                              resizeMode="contain"
-                            />
-                          </TouchableOpacity>
-                          {isShowPromptModal ? (
-                            <Image
-                              style={styles.modalTriangleIcon}
-                              source={require('../../assets/common/up_triangle.png')}
-                              resizeMode="contain"
-                            />
-                          ) : null}
-                        </View>
-                      </View>
-                      <Text style={[styles.mDetailItemDesc, styles.mDetailItemBlack]}>
-                        {payAddress}
-                      </Text>
-                    </View>
-                    <View style={styles.mItenLine} />
-                    <View style={styles.mDetailItemView}>
-                      <Text style={styles.mDetailItemTitle}>
-                        {I18n.t('transaction.miner_cost')}
-                      </Text>
-                      <View style={styles.mDetailItemDesc}>
-                        <Text style={styles.mDetailItemBlack}>{ethAmountInfo}</Text>
-                        <Text style={styles.mDetailItemGray}>{gasAmountInfo}</Text>
-                      </View>
-                    </View>
-                    {isShowPromptModal ? (
-                      <View style={styles.modalPromptDescView}>
-                        <Text style={styles.promptDesc}>
-                          {I18n.t('mapping.dedicated_mapping_address_desc')}
-                        </Text>
-                      </View>
-                    ) : null}
+                  <View style={styles.mDetailItemView}>
+                    <Text style={styles.mDetailItemTitle}>
+                      {I18n.t('mapping.native_itc_receive_address')}
+                    </Text>
+                    <Text style={[styles.mDetailItemDesc, styles.mDetailItemBlack]}>
+                      {payAddress}
+                    </Text>
                   </View>
-
+                  <View style={styles.mItenLine} />
+                  <View style={styles.mDetailItemView}>
+                    <Text style={styles.mDetailItemTitle}>{I18n.t('transaction.miner_cost')}</Text>
+                    <View style={styles.mDetailItemDesc}>
+                      <Text style={styles.mDetailItemBlack}>{ethAmountInfo}</Text>
+                      <Text style={styles.mDetailItemGray}>{gasAmountInfo}</Text>
+                    </View>
+                  </View>
                   <BlueButtonBig
                     buttonStyle={styles.modalNextBtn}
                     onPress={this.toInputPwd}

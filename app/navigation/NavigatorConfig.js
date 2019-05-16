@@ -26,6 +26,7 @@ import RightDrawer from '../containers/home/RightDrawer';
 import LayoutConstants from '../config/LayoutConstants';
 import TabIcon from '../components/TabIcon';
 import { I18n } from '../config/language/i18n';
+import { getMessageCount } from '../utils/CommonUtil';
 
 const StackNavigationConfig = {
   initialRouteName: 'Set',
@@ -125,6 +126,9 @@ const HomeBottomTabNavigationConfig = {
     tabBarOnPress: () => {
       // 使用tabBarOnPress点击事件
       if (!navigation.isFocused()) {
+        if (navigation.state.routeName === 'My') {
+          getMessageCount();
+        }
         navigation.navigate(navigation.state.routeName, {
           title: navigation.state.routeName,
         });
