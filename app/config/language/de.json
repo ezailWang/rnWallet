@@ -244,6 +244,14 @@
         "import_wallet_already":"Sie haben die Wallet importiert"
     },
     "mapping":{
+        "ratio":"Abbildungsverhältnis",
+        "binding_error":"Beim Binden ist ein unbekannter Fehler aufgetreten",
+        "successful":"Erfolgreich getauscht",
+        "failed":"Swap fehlgeschlagen",
+        "auditing":"Bitte haben Sie während des Audits etwas Geduld",
+        "delay_time":"Es wird voraussichtlich 5 Werktage dauern",
+        "audit_error":"Während des Audits ist eine Ausnahme aufgetreten",
+        "get_help":"Hilfe holen",
         "itc_mapping_service":"ITC Tauschservice",
         "bind_map_address":"Wählen Sie die aktuelle Adresse",
         "bind_map_address_des":"Binden der Erc20 Adresse an die aktuelle Adresse",

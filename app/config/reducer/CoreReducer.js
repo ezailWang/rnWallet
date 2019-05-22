@@ -30,7 +30,7 @@ import StorageManage from '../../utils/StorageManage';
 import { StorageKey, Network } from '../GlobalConfig';
 
 const defaultState = {
-  network: Network.main,
+  network: Network.rinkeby,
   walletPasswordPrompt: '',
   mnemonic: '',
   // tokens: defaultTokens,

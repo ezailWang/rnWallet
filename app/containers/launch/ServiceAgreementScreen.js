@@ -48,19 +48,19 @@ const styles = StyleSheet.create({
 });
 
 // const GetWebviewHeight = `(function(){
-// var height = null;
-// function changeHeight(){
-// if(document.body.scrollHeight != height){
-// height = document.body.scrollHeight;
-// if(window.postMessage){
-// window.postMessage(JSON.stringify({
-// type:'setHeight',
-// height:height,
-// }))
-// }
-// }
-// }
-// setInterval(changeHeight,300);
+//     var height = null;
+//     function changeHeight(){
+//         if(document.body.scrollHeight != height){
+//             height = document.body.scrollHeight;
+//             if(window.postMessage){
+//                 window.postMessage(JSON.stringify({
+//                     type:'setHeight',
+//                     height:height,
+//                 }))
+//             }
+//         }
+//     }
+//     setInterval(changeHeight,300);
 // } ())
 // `;
 export default class ServiceAgreementScreen extends BaseComponent {
@@ -88,14 +88,14 @@ export default class ServiceAgreementScreen extends BaseComponent {
       isDisabled: false,
     });
     // try {
-    // const action = JSON.parse(event.nativeEvent.data);
-    // if (action.type === 'setHeight' && action.height > 0) {
-    // this.setState({
-    // webviewHeight: action.height,
-    // });
-    // }
+    //   const action = JSON.parse(event.nativeEvent.data);
+    //   if (action.type === 'setHeight' && action.height > 0) {
+    //     this.setState({
+    //       webviewHeight: action.height,
+    //     });
+    //   }
     // } catch (err) {
-    // console.log('onMessage', err);
+    //   console.log('onMessage', err);
     // }
   };
 

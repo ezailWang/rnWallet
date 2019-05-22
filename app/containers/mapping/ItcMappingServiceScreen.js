@@ -16,11 +16,15 @@ import {
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
 import { BlueButtonBig } from '../../components/Button';
-import { Colors } from '../../config/GlobalConfig';
+import { Colors, TransferGasLimit } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
+import NetworkManager from '../../utils/NetworkManager';
+import { showToast } from '../../utils/Toast';
+import KeystoreUtils from '../../utils/KeystoreUtils';
+import { defaultTokens } from '../../utils/Constants';
 
 const StatusBarHeight = StatusBar.currentHeight;
 const contentWidth = Layout.WINDOW_WIDTH * 0.9;
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
   commonText: {
     width: contentWidth,
     color: Colors.fontGrayColor_a,
-    fontSize: 14,
+    fontSize: 13,
     marginTop: 5,
     alignSelf: 'center',
   },
@@ -250,7 +254,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   mDetailAmount: {
-    height: 60,
+    height: 50,
     lineHeight: 60,
     color: Colors.fontBlackColor_43,
     fontSize: 22,
@@ -332,7 +336,7 @@ const styles = StyleSheet.create({
     color: Colors.fontGrayColor_a,
   },
   modalNextBtn: {
-    marginTop: 30,
+    marginBottom: 30,
   },
   modalConfirmBtnView: {
     flex: 1,
@@ -370,17 +374,24 @@ const styles = StyleSheet.create({
     top: 38,
     zIndex: 10,
   },
+  convertEthWalletItcBalance: {
+    color: Colors.fontBlackColor_0a,
+    fontSize: 14,
+    marginTop: 5,
+    marginRight: 0,
+  },
 });
 
 class ItcMappingServiceScreen extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      initiationAddress: '', // 发起地址
-      gasCost: '', // Gas费用
+      convertEthWallet: {}, // 发起钱包
+      gasCost: 0, // Gas费用
       isShowPrompt: false,
       isDisabled: true,
-      itcWallet: {},
+      convertItcWallet: {},
+      suggestGasPrice: 0,
 
       isShowMappingDetail: false,
     };
@@ -396,23 +407,55 @@ class ItcMappingServiceScreen extends BaseComponent {
     // this.inputText = React.createRef();
   }
 
-  _initData = () => {
+  componentWillMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  _initData = async () => {
     const { mappingData } = this.props.navigation.state.params;
+    this._showLoading();
+    const { gasCost, gasPrice } = await this.getCurrentGas(mappingData.convertEthWallet);
     this.setState({
-      initiationAddress: mappingData.initiationAddress,
-      itcWallet: mappingData.itcWallet,
-      gasCost: `Gas${I18n.t('mapping.cost')}:0.0056 eth`, // Gas费用
+      convertEthWallet: mappingData.convertEthWallet,
+      convertItcWallet: mappingData.itcWallet,
+      gasCost, // Gas费用
+      suggestGasPrice: gasPrice,
     });
+    this._hideLoading();
     this.INPUT.focus();
+  };
+
+  getCurrentGas = async wallet => {
+    const gasPrice = await NetworkManager.getSuggestGasPrice(wallet);
+    return { gasCost: gasPrice * 0.001 * 0.001 * 0.001 * TransferGasLimit.tokenGasLimit, gasPrice };
   };
 
   mappingRecord = () => {
     Keyboard.dismiss();
-    this.props.navigation.navigate('MappingRecords');
+    const convertAddress = {
+      ethAddress: this.state.convertEthWallet.address,
+      itcAddress: this.state.convertItcWallet.address,
+    };
+    this.props.navigation.navigate('MappingRecords', { convertAddress });
   };
 
   confirmBtn = () => {
     this.INPUT.blur();
+    const { convertEthWallet, gasCost } = this.state;
+    if (convertEthWallet.itcBalance < parseFloat(this.inputAmount)) {
+      // 余额不够
+      showToast(I18n.t('exchange.insufficient_balance'), 30);
+      return;
+    }
+    if (convertEthWallet.ethBalance < gasCost) {
+      // eth 不够gas
+      showToast(I18n.t('exchange.insufficient_service_fee'), 30);
+      return;
+    }
     this.setState({
       isShowMappingDetail: true,
     });
@@ -440,33 +483,75 @@ class ItcMappingServiceScreen extends BaseComponent {
     });
   };
 
-  modalConfirmBtn = () => {
-    this.setState({
-      isShowMappingDetail: false,
-    });
-    this.props.navigation.navigate('MappingRecords');
+  getPriKey = async password => {
+    try {
+      return await KeystoreUtils.getPrivateKey(
+        password,
+        this.state.convertEthWallet.address,
+        this.state.convertEthWallet.type
+      );
+    } catch (err) {
+      console.log('getPriKey err:', err);
+      showToast('check privateKey error', 30);
+      return null;
+    }
   };
 
-  _onChaneAddressPress = () => {
-    const { itcWallet } = this.state;
-    const _this = this;
-    this.props.navigation.navigate('ChangeBindAddress', {
-      chosedItcWallet: itcWallet,
-      callback(data) {
-        _this.setState({
-          itcWallet: data.itcWallet,
-        });
+  modalConfirmBtn = password => {
+    this.setState(
+      {
+        isShowMappingDetail: false,
       },
-    });
+      async () => {
+        const priKey = await this.getPriKey(password);
+        if (priKey == null) {
+          showToast(I18n.t('modal.password_error'), 30);
+        } else {
+          const { convertItcWallet, convertEthWallet } = this.state;
+          const blackHoleAddress = NetworkManager.createBlackHoleAddress(
+            convertEthWallet.address,
+            convertItcWallet.address
+          );
+          this._showLoading();
+          await this.startSendTransaction(priKey, blackHoleAddress);
+          this._hideLoading();
+        }
+      }
+    );
+    // this.props.navigation.navigate('MappingRecords');
   };
 
-  _toMappingGuide = () => {
-    this.props.navigation.navigate('MappingGuide');
+  startSendTransaction = async (privateKey, blackHoleAddress) => {
+    let txHash;
+    let result;
+    console.log('this.state.suggestGasPrice:', this.state.suggestGasPrice);
+    try {
+      result = await NetworkManager.sendERC20Transaction(
+        defaultTokens[1].address,
+        defaultTokens[1].decimal,
+        blackHoleAddress,
+        parseFloat(this.inputAmount),
+        this.state.suggestGasPrice,
+        privateKey,
+        async hash => {
+          txHash = hash;
+        },
+        this.state.convertEthWallet.address
+      );
+    } catch (e) {
+      showToast('transaction error', 30);
+    }
+    if (txHash && result) {
+      showToast(I18n.t('mapping.successful'), -30);
+    } else {
+      showToast(I18n.t('mapping.failed'), -30);
+    }
   };
 
   renderComponent = () => {
-    const { initiationAddress, itcWallet, gasCost } = this.state;
+    const { convertEthWallet, convertItcWallet, gasCost } = this.state;
     const topImg = require('../../assets/mapping/mappingService.png');
+    const itcBalanceText = `${I18n.t('exchange.balance')}: ${convertEthWallet.itcBalance} ITC`;
     return (
       <View
         style={styles.container}
@@ -490,28 +575,30 @@ class ItcMappingServiceScreen extends BaseComponent {
           <ConfirmMappingModal
             visible={this.state.isShowMappingDetail}
             amount={this.inputAmount}
-            payAddress={itcWallet.address}
-            ethAmount={this.ethAmount}
-            gasAmount={this.gasAmount}
+            payAddress={convertEthWallet.address}
+            receiveAddress={convertItcWallet.address}
+            rec
+            ethAmount={this.state.gasCost}
+            gasPrice={this.state.suggestGasPrice}
             pwdInputChangeText={this.pwdInputChangeText}
             modalCancelBtn={this.modalCancelBtn}
             modalConfirmBtn={this.modalConfirmBtn}
           />
           <ImageBackground style={styles.topImg} source={topImg} resizeMode="center">
-            <TouchableOpacity
+            {/* <TouchableOpacity
               activeOpacity={0.6}
               style={styles.mappingGuideBox}
               onPress={this._toMappingGuide}
             >
               <Text style={styles.mappingGuideText}>{I18n.t('mapping.mapping_guide')}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </ImageBackground>
           <View style={styles.mAddressBox}>
             <View style={styles.mAddressContent}>
               <Text style={styles.mAddressTitle}>
                 {I18n.t('mapping.native_itc_receive_address')}
               </Text>
-              <Text style={styles.mAddressText}>{itcWallet.address}</Text>
+              <Text style={styles.mAddressText}>{convertItcWallet.address}</Text>
             </View>
 
             {/* <TouchableOpacity
@@ -571,9 +658,10 @@ class ItcMappingServiceScreen extends BaseComponent {
                   />
                 ) : null}
               </View>
+              <Text style={styles.convertEthWalletItcBalance}>{itcBalanceText}</Text>
             </View>
-            <Text style={styles.commonText}>{initiationAddress}</Text>
-            <Text style={styles.commonText}>{gasCost}</Text>
+            <Text style={styles.commonText}>{convertEthWallet.address}</Text>
+            <Text style={styles.commonText}>{`Gas${I18n.t('mapping.cost')}:${gasCost} eth`}</Text>
 
             {this.state.isShowPrompt ? (
               <View style={styles.promptDescView}>
@@ -625,11 +713,21 @@ class ConfirmMappingModal extends PureComponent {
   };
 
   render() {
-    const { amount, payAddress, ethAmount, gasAmount, visible, modalCancelBtn } = this.props;
+    const {
+      amount,
+      payAddress,
+      ethAmount,
+      gasPrice,
+      visible,
+      receiveAddress,
+      modalCancelBtn,
+    } = this.props;
     const { confirmBtnIsDisabled } = this.state;
     const amountInfo = `${amount} ITC`;
     const ethAmountInfo = `${ethAmount}ether`;
-    const gasAmountInfo = `= Gas(${gasAmount})*Gas price(`; // + `11.00 gewl)`;
+    const gasAmountInfo = `= GasLimt(${
+      TransferGasLimit.tokenGasLimit
+    })*Gas price(${gasPrice} gwei)`;
 
     return (
       <Modal
@@ -679,7 +777,7 @@ class ConfirmMappingModal extends PureComponent {
                   <View style={styles.mVLine} />
                   <Text style={styles.mDetailAmount}>{amountInfo}</Text>
                   <View style={styles.mDetailItemView}>
-                    <Text style={styles.mDetailItemTitle}>{I18n.t('mapping.payment_infor')}</Text>
+                    <Text style={styles.mDetailItemTitle}>{I18n.t('mapping.ratio')}</Text>
                     <Text style={[styles.mDetailItemDesc, styles.mDetailItemBlack]}>1 : 1</Text>
                   </View>
                   <View style={styles.mItenLine} />
@@ -697,7 +795,7 @@ class ConfirmMappingModal extends PureComponent {
                       {I18n.t('mapping.native_itc_receive_address')}
                     </Text>
                     <Text style={[styles.mDetailItemDesc, styles.mDetailItemBlack]}>
-                      {payAddress}
+                      {receiveAddress}
                     </Text>
                   </View>
                   <View style={styles.mItenLine} />
@@ -708,11 +806,13 @@ class ConfirmMappingModal extends PureComponent {
                       <Text style={styles.mDetailItemGray}>{gasAmountInfo}</Text>
                     </View>
                   </View>
-                  <BlueButtonBig
-                    buttonStyle={styles.modalNextBtn}
-                    onPress={this.toInputPwd}
-                    text={I18n.t('mapping.next')}
-                  />
+                  <View style={styles.modalConfirmBtnView}>
+                    <BlueButtonBig
+                      buttonStyle={styles.modalNextBtn}
+                      onPress={this.toInputPwd}
+                      text={I18n.t('mapping.next')}
+                    />
+                  </View>
                 </View>
 
                 <View style={styles.mPwdBox}>
@@ -749,7 +849,7 @@ class ConfirmMappingModal extends PureComponent {
                       buttonStyle={styles.modalConfirmBtn}
                       onPress={this.confirmBtn}
                       isDisabled={confirmBtnIsDisabled}
-                      text={I18n.t('mapping.next')}
+                      text={I18n.t('modal.confirm')}
                     />
                   </View>
                 </View>

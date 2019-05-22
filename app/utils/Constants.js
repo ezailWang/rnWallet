@@ -68,24 +68,21 @@ const defaultTokens = [
     decimal: 18,
     address: '0x0000000000000000000000000000000000000000',
   },
-  {
-    address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940', // 主网
-    decimal: 18,
-    id: uuid.v4(),
-    name: 'IOT on Chain',
-    symbol: 'ITC',
-  },
-  // test net ERC20Token
   // {
-  // address: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',//测试网
-  //     id: uuid.v4(),
-  // iconLarge: 'http://47.75.16.97:9000/images/token/0x5e6b6d9abad9093fdc861ea1600eba1b355cd940@3x.png',
-  //     iconLarge :'',
-  //     symbol: 'ITC',
-  //     name: 'IoT Chain',
-  //     decimal: 18,
-  //     address: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994',
+  //   address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940', // 主网
+  //   decimal: 18,
+  //   id: uuid.v4(),
+  //   name: 'IOT on Chain',
+  //   symbol: 'ITC',
   // },
+  // test net ERC20Token
+  {
+    address: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994', // 测试网
+    id: uuid.v4(),
+    symbol: 'ITC',
+    name: 'IoT Chain',
+    decimal: 18,
+  },
   // {
   //     address: '0xb4f8192668d8f2ee3b5b82bdb98f68848ba39ece',
   //     decimal: 18,

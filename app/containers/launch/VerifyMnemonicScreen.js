@@ -422,7 +422,7 @@ class VerifyMnemonicScreen extends BaseComponent {
           this.props.navigation.navigate('WalletList');
         } else if (this.from === 4) {
           // ITC映射服务页面进入
-          this.props.navigation.navigate('BindWalletAddress');
+          this.props.navigation.popToTop();
         } else {
           this.props.navigation.navigate('Home');
         }

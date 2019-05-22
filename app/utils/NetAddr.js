@@ -24,6 +24,9 @@ const NetAddr = {
   accountExchange: `${swftHost}api/v2/accountExchange`,
   queryOrderState: `${swftHost}api/v2/queryOrderState`,
   queryAllTrade: `${swftHost}api/v2/queryAllTrade`,
+  bindConvertAddress: `${host}bindConvertAddress`,
+  queryConvertAddress: `${host}convertAddressList`,
+  queryConvertTxList: `${host}userConvertList`,
   // transactionDetail:itcHost + 'v1/transavtion/hash'
 };
 

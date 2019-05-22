@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import BigNumber from 'bignumber.js';
 import * as Actions from '../../config/action/Actions';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
@@ -9,6 +10,8 @@ import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
 import ProgressView from '../../components/ProgressView';
+import NetworkManager from '../../utils/NetworkManager';
+import { showToast } from '../../utils/Toast';
 
 const styles = StyleSheet.create({
   container: {
@@ -135,7 +138,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
-
 class MappingRecordsScreen extends BaseComponent {
   constructor(props) {
     super(props);
@@ -146,26 +148,34 @@ class MappingRecordsScreen extends BaseComponent {
     this.flatList = React.createRef();
   }
 
-  _initData = () => {
-    const records = [];
-    for (let i = 0; i < 10; i++) {
-      let s = 2;
-      if (i === 0) {
-        s = 0;
-      }
-      if (i === 1) {
-        s = 1;
-      }
-      const record = {
-        time: '2018-11-06 18:18:06 +0800',
-        status: s, // 0 已申请 1 申请中  2 已完成
-        amount: i,
-      };
-      records.push(record);
-    }
+  componentWillMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  _initData = async () => {
+    const { convertAddress } = this.props.navigation.state.params;
     this.setState({
-      mappingRecords: records,
+      nativeReceiveAddress: convertAddress.itcAddress,
     });
+    this._showLoading();
+    try {
+      const rsp = await NetworkManager.queryConvertTxList(convertAddress);
+      if (rsp.code === 200) {
+        console.log('data:', rsp.data);
+        this.setState({
+          mappingRecords: rsp.data,
+        });
+      } else {
+        showToast(rsp.msg);
+      }
+    } catch (e) {
+      console.log(' queryConvertTxList error:', e);
+    }
+    this._hideLoading();
   };
 
   // 自定义分割线
@@ -244,23 +254,31 @@ class MappingRecordsScreen extends BaseComponent {
 }
 
 class Item extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.ether = new BigNumber(Math.pow(10, 18));
+  }
+
   _status = status => {
     if (status === 0) {
       return I18n.t('mapping.already_applied');
     }
-    if (status === 1) {
+    if (status === 1 || status === 2) {
       return I18n.t('mapping.in_the_audit');
     }
-    return I18n.t('mapping.completed');
+    if (status === 3) {
+      return I18n.t('mapping.completed');
+    }
+    return '审批异常';
   };
 
   render() {
     // status 0 已申请 1 申请中  2 已完成
     const { item, onPressItem } = this.props || {};
-    const { amount, time, status } = item.item || {};
-
-    const amountTxt = `${amount} ITC`;
-    const timeTxt = time;
+    const { value, createTime, status } = item.item || {};
+    const valueBN = new BigNumber(value);
+    const amountTxt = `${parseFloat(valueBN.dividedBy(this.ether)).toFixed(4)} ITC`;
+    const timeTxt = createTime;
     const statusTxt = this._status(status);
     return (
       <TouchableOpacity
@@ -277,7 +295,7 @@ class Item extends PureComponent {
           <Text
             style={[
               styles.itemStatus,
-              { color: status === 2 ? Colors.fontGreenColor_46 : Colors.fontGrayColor_a },
+              { color: status === 3 ? Colors.fontGreenColor_46 : Colors.fontGrayColor_a },
             ]}
           >
             {statusTxt}

@@ -246,6 +246,14 @@
         
     },
     "mapping":{
+        "ratio":"토큰 스왑 비율",
+        "binding_error":"바인딩과에서 알 수없는 오류가 발생했습니다",
+        "successful":"성공적으로 스왑되었습니다",
+        "failed":"스왑이 실패하였습니다",
+        "auditing":"감사하는 동안 기다려주십시오",
+        "delay_time":"근무일 기준 5 일이 소요될 것으로 예상됩니다",
+        "audit_error":"감사 과정에서 이상이 발생하였습니다",
+        "get_help":"도움 받기",
         "itc_mapping_service":"ITC 토큰스왑 서비스",
         "bind_map_address":"토큰스왑 주소를 바인딩",
         "bind_map_address_des":"현재 보유한 ITC ERC20 월렛을 토큰스왑의 주소와 바인딩",

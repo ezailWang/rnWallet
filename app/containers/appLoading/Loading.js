@@ -42,13 +42,14 @@ class Loading extends Component {
     }
     Analytics.enable();
     const userToken = await StorageManage.load(StorageKey.UserToken);
+
     if (!userToken || userToken === null) {
       JPushModule.getRegistrationID(registrationId => {
         const params = {
           system: Platform.OS,
           systemVersion: DeviceInfo.getSystemVersion(),
           deviceModel: DeviceInfo.getModel(),
-          deviceToken: registrationId,
+          deviceToken: DeviceInfo.isEmulator() ? DeviceInfo.getUniqueID() : registrationId,
           deviceId: DeviceInfo.getUniqueID(),
         };
         Analytics.recordUserId(DeviceInfo.getUniqueID());

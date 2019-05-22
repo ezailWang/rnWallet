@@ -146,8 +146,9 @@ class ExChangeDetail extends BaseComponent {
 
   startSendTransaction = async privateKey => {
     let txHash;
+    let result;
     try {
-      await NetworkManager.sendTransaction(
+      result = await NetworkManager.sendTransaction(
         {
           address: defaultSupportExchangeTokens.find(
             token => token.symbol === this.state.depositCoinCode
@@ -172,7 +173,7 @@ class ExChangeDetail extends BaseComponent {
       showToast('transaction error', 30);
     }
     this._hideLoading();
-    if (txHash) {
+    if (txHash && result) {
       showToast(I18n.t('exchange.successfully_deposited'), -30);
       this.props.setExchangeDepositStatus(this.state.orderId);
     } else {

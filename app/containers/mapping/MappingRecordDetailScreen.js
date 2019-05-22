@@ -8,12 +8,14 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import BigNumber from 'bignumber.js';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
 import { Colors, FontSize } from '../../config/GlobalConfig';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
+import NetworkManager from '../../utils/NetworkManager';
 
 const contentWidth = Layout.WINDOW_WIDTH * 0.9;
 const styles = StyleSheet.create({
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     color: Colors.fontGrayColor_a,
     width: Layout.WINDOW_WIDTH - 70,
-    fontSize: 13,
+    fontSize: 11,
   },
   lineView: {
     width: Layout.WINDOW_WIDTH - 40,
@@ -195,15 +197,44 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: contentWidth,
     alignSelf: 'center',
-    backgroundColor: 'rgba(63,193,255,0.8)',
+    backgroundColor: 'rgba(63,193,255,0.9)',
     borderRadius: 5,
     padding: 10,
     marginTop: 30,
-    zIndex: 10,
   },
   promptDesc: {
     fontSize: 13,
     color: 'white',
+  },
+  bottomView: {
+    width: Layout.WINDOW_WIDTH - 70,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  getHelpBtn: {
+    width: 90,
+    height: 30,
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: Colors.themeColor,
+    backgroundColor: 'transparent',
+    marginTop: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  getHelpBtnText: {
+    color: Colors.themeColor,
+    fontSize: 13,
+  },
+  auditTitle: {
+    color: Colors.fontBlackColor_43,
+    fontSize: 15,
+  },
+  auditContentText: {
+    color: Colors.fontGrayColor_a,
+    fontSize: 11,
+    marginTop: 5,
   },
 });
 
@@ -215,17 +246,49 @@ class MappingRecordDetailScreen extends BaseComponent {
       status: -1,
       time: '',
       isShowPrompt: false,
+      ethTxHash: '',
+      itcTxHash: '',
+      updateTime: '',
+      itcReciveAddress: '',
+      fromAddress: '',
+      destoryAddress: '',
+      fee: '',
     };
-    this.mappingDetail = null; // status 0 已申请 1 申请中  2 已完成
+    this.mappingDetail = null;
+    this.ether = new BigNumber(Math.pow(10, 18));
     this._setStatusBarStyleLight();
   }
 
-  _initData = () => {
+  componentWillMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  _initData = async () => {
     this.mappingDetail = this.props.navigation.state.params.mappingDetail;
+    this._showLoading();
+    const tra = await NetworkManager.getTransaction(this.mappingDetail.ethTxHash);
+    this._hideLoading();
+    let fee = '';
+    if (tra) {
+      fee = `${tra.gas * parseFloat(tra.gasPrice) * Math.pow(10, -18)} ETH`;
+    }
+    const valueBN = new BigNumber(this.mappingDetail.value);
     this.setState({
-      amount: this.mappingDetail.amount,
+      amount: parseFloat(valueBN.dividedBy(this.ether)).toFixed(4),
+      // status: this.mappingDetail.status,
       status: this.mappingDetail.status,
-      time: this.mappingDetail.time,
+      time: this.mappingDetail.createTime,
+      updateTime: this.mappingDetail.updateTime,
+      ethTxHash: this.mappingDetail.ethTxHash,
+      itcTxHash: this.mappingDetail.itcTxHash || '',
+      fromAddress: this.mappingDetail.ethAddress,
+      destoryAddress: this.mappingDetail.destoryAddress,
+      itcReciveAddress: this.mappingDetail.itcAddress,
+      fee,
     });
   };
 
@@ -240,6 +303,44 @@ class MappingRecordDetailScreen extends BaseComponent {
     this.props.navigation.goBack();
   };
 
+  onGetHelp = () => {
+    const content = `1. Erc20 address【${this.mappingDetail.ethAddress}】
+2. Swap address【${this.mappingDetail.destoryAddress}】
+3. Txhash【${this.mappingDetail.ethTxHash}】`;
+    this.props.navigation.navigate('Feedback', { content });
+  };
+
+  getBottomView = status => {
+    switch (status) {
+      case 0:
+        return (
+          <ItemView
+            title={I18n.t('mapping.transfer_unsuccess_title')}
+            content={I18n.t('mapping.transfer_unsuccess_desc')}
+          />
+        );
+      case 1:
+      case 2:
+        return (
+          <View style={styles.bottomView}>
+            <Text style={styles.auditTitle}>{I18n.t('mapping.auditing')}</Text>
+            <Text style={styles.auditContentText}>{I18n.t('mapping.delay_time')}</Text>
+          </View>
+        );
+      case 4:
+        return (
+          <View style={styles.bottomView}>
+            <Text style={styles.auditTitle}>{I18n.t('mapping.audit_error')}</Text>
+            <TouchableOpacity style={styles.getHelpBtn} onPress={this.onGetHelp}>
+              <Text style={styles.getHelpBtnText}>{I18n.t('mapping.get_help')}</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
+
   renderComponent = () => {
     let headerMarginTop = { marginTop: 24 };
     if (Layout.DEVICE_IS_IPHONE_X()) {
@@ -248,7 +349,7 @@ class MappingRecordDetailScreen extends BaseComponent {
     const headerBg = require('../../assets/home/top_bg.png');
 
     const info1IsDone = this.state.status !== 0;
-    const info2IsDone = this.state.status === 2;
+    const info2IsDone = this.state.status === 3;
 
     return (
       <View style={styles.container}>
@@ -289,9 +390,9 @@ class MappingRecordDetailScreen extends BaseComponent {
                 <View style={styles.vLine} />
                 <ItemView
                   title={`${I18n.t('mapping.send_address')}(Erc20)`}
-                  content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78"
+                  content={this.state.fromAddress}
                 />
-                <View style={styles.itemView}>
+                <View style={[styles.itemView, { zIndex: 2 }]}>
                   <View style={styles.initiationAddressBox}>
                     <View style={styles.initiationAddressContent}>
                       <Text style={styles.initiationAddressText}>
@@ -318,9 +419,7 @@ class MappingRecordDetailScreen extends BaseComponent {
                         ) : null}
                       </View>
                     </View>
-                    <Text style={styles.itemContent}>
-                      {'0xf6C9e322b688A434833dE530E4c23CFA4e579a78'}
-                    </Text>
+                    <Text style={styles.itemContent}>{this.state.destoryAddress}</Text>
                     {this.state.isShowPrompt ? (
                       <View style={styles.promptDescView}>
                         <Text style={styles.promptDesc}>
@@ -334,13 +433,11 @@ class MappingRecordDetailScreen extends BaseComponent {
                   title={I18n.t('mapping.destroy_address')}
                   content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78"
                 /> */}
-                <ItemView title="TxHash" content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78" />
-                <ItemView
-                  title={I18n.t('mapping.transaction_hour')}
-                  content="2018-11-06 18:18:06 +0800"
-                />
+                <ItemView title={I18n.t('transaction.miner_fee')} content={this.state.fee} />
+                <ItemView title="TxHash" content={this.state.ethTxHash} />
+                <ItemView title={I18n.t('mapping.transaction_hour')} content={this.state.time} />
               </View>
-              <Line type={this.state.status === 0 ? 1 : 2} />
+              <Line type={this.state.status} />
             </View>
             <View
               style={[
@@ -354,23 +451,20 @@ class MappingRecordDetailScreen extends BaseComponent {
                   content={I18n.t('mapping.native_itc_issuance')}
                 />
                 <View style={styles.vLine} />
-                {this.state.status === 0 ? (
-                  <ItemView
-                    title={I18n.t('mapping.transfer_unsuccess_title')}
-                    content={I18n.t('mapping.transfer_unsuccess_desc')}
-                  />
-                ) : (
+                {this.state.status === 3 ? (
                   <View>
                     <ItemView
                       title={I18n.t('mapping.collection_address')}
-                      content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78"
+                      content={this.state.itcReciveAddress}
                     />
-                    <ItemView title="TxHash" content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78" />
+                    <ItemView title="TxHash" content={this.state.itcTxHash} />
                     <ItemView
                       title={I18n.t('mapping.transaction_hour')}
-                      content="2018-11-06 18:18:06 +0800"
+                      content={this.state.updateTime}
                     />
                   </View>
+                ) : (
+                  this.getBottomView(this.state.status)
                 )}
               </View>
               <Line type={this.state.status} />
@@ -412,7 +506,17 @@ class TitleView extends PureComponent {
 class Line extends PureComponent {
   render() {
     const { type } = this.props;
-    const bgColor = type === 1 ? '#0094ff' : '#fff';
+    let bgColor = '#fff';
+    switch (type) {
+      case 0:
+        bgColor = '#fff';
+        break;
+      case 3:
+        bgColor = '#95C06D';
+        break;
+      default:
+        bgColor = '#0094ff';
+    }
     return (
       /* <LinearGradient
                 style={[styles.lineView,{borderColor:type == 2 ? '#95C06D' : type == 1 ? '#0094ff' : '#fff'}]}
@@ -424,8 +528,8 @@ class Line extends PureComponent {
         style={[
           styles.lineView,
           {
-            borderColor: type === 2 ? '#95C06D' : bgColor,
-            backgroundColor: type === 2 ? '#95C06D' : bgColor,
+            borderColor: bgColor,
+            backgroundColor: bgColor,
           },
         ]}
       />

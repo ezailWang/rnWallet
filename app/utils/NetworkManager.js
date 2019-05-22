@@ -464,6 +464,7 @@ export default class NetworkManager {
         gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
         gasPrice: web3.utils.toHex(price),
       };
+      console.log('tx--:', tx);
       // tx['gasLimit'] = await web3.eth.estimateGas(tx)
       const cb = await web3.eth.sendTransaction(tx).on('transactionHash', hash => {
         callBackHash(hash);
@@ -704,13 +705,29 @@ export default class NetworkManager {
         Analytics.recordErr('getSuggestGasPriceRspErr', dataJson.message);
         return 0;
       }
-      const price = await web3.eth.getGasPrice();
+      const price =
+        store.getState().Core.network === Network.main ? await web3.eth.getGasPrice() : '10';
       return web3.utils.fromWei(price, 'gwei');
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
       Analytics.recordErr('getSuggestGasPriceCatErr', err);
       return 0;
     }
+  }
+
+  /**
+   * get transaction detail with hashid
+   */
+
+  static async getTransaction(hashId) {
+    web3 = this.getWeb3Instance();
+    let tran = null;
+    try {
+      tran = await web3.eth.getTransaction(hashId);
+    } catch (e) {
+      console.log('getTransaction error:', e);
+    }
+    return tran;
   }
 
   /**
@@ -805,14 +822,38 @@ export default class NetworkManager {
     return FetchUtils.requestPost(NetAddr.userInfoUpdate, params);
   }
 
-  /**
-   * get transaction detail with hashid
-   */
+  // token swap Interface
 
-  static async getTransaction(hashId) {
+  static async bindConvertAddress(params) {
+    const userToken = await StorageManage.load(StorageKey.UserToken);
+    if (!userToken || userToken === null) {
+      return new Promise.reject('userToken not found');
+    }
+    params.userToken = userToken.userToken;
+    return FetchUtils.requestPost(NetAddr.bindConvertAddress, params);
+  }
+
+  static async queryConvertAddress(params) {
+    const userToken = await StorageManage.load(StorageKey.UserToken);
+    if (!userToken || userToken === null) {
+      return new Promise.reject('userToken not found');
+    }
+    params.userToken = userToken.userToken;
+    return FetchUtils.requestGet(NetAddr.queryConvertAddress, params);
+  }
+
+  static async queryConvertTxList(params) {
+    return FetchUtils.requestGet(NetAddr.queryConvertTxList, params);
+  }
+
+  static createBlackHoleAddress(ethAddress, itcAddress) {
     web3 = this.getWeb3Instance();
-    const tran = await web3.eth.getTransaction(hashId);
-    return tran;
+    return web3.utils.toChecksumAddress(
+      `0x00000000000000000000${web3.utils
+        .keccak256(ethAddress + itcAddress)
+        .toString('hex')
+        .slice(-20)}`
+    );
   }
 
   // SWFT Interface

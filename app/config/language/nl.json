@@ -245,6 +245,14 @@
 
     },
     "mapping":{
+        "ratio":"Kaartverhouding",
+        "binding_error":"W wiązaniu wystąpił nieznany błąd",
+        "successful":"Succesvol geruild",
+        "failed":"Swap mislukt",
+        "auditing":"Even geduld tijdens de audit",
+        "delay_time":"Het wordt naar verwachting 5 werkdagen.",
+        "audit_error":"Tijdens de audit heeft zich een uitzondering voorgedaan",
+        "get_help":"Krijg hulp",
         "itc_mapping_service":"ITC-swapservice",
         "bind_map_address":"Selecteer het huidige adres",
         "bind_map_address_des":"Het Erc20-adres binden met het huidige adres",

@@ -245,6 +245,14 @@
         "import_wallet_already":"Vous avez importé le portefeuille"
     },
     "mapping":{
+        "ratio":"Ratio de cartographie",
+        "binding_error":"Une erreur inconnue s'est produite dans la liaison",
+        "successful":"Succès échangé",
+        "failed":"Échange a échoué",
+        "auditing":"S'il vous plaît soyez patient lors de l'audit",
+        "delay_time":"Cela devrait prendre 5 jours ouvrables",
+        "audit_error":"Une exception s'est produite lors de l'audit",
+        "get_help":"Obtenir de l'aide",
         "itc_mapping_service":"Service d'échange de CTI",
         "bind_map_address":"Sélectionnez l'adresse actuelle",
         "bind_map_address_des":"Pour lier l'adresse Erc20 à l'adresse actuelle",

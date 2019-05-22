@@ -208,10 +208,7 @@ export default class FeedbackScreen extends BaseComponent {
   async submit() {
     Keyboard.dismiss();
     this._showLoading();
-    let userToken = await StorageManage.load(StorageKey.UserToken);
-    if (!userToken || userToken === null) {
-      userToken = { userToken: 1 };
-    }
+    const userToken = await StorageManage.load(StorageKey.UserToken);
     const params = {
       userToken: userToken.userToken,
       name: this.name,
@@ -317,6 +314,7 @@ export default class FeedbackScreen extends BaseComponent {
               </Text>
               <Text style={styles.text}>{I18n.t('settings.problem_description')}</Text>
               <CommonTextInput
+                defaultValue={this.props.navigation.state.params.content || ''}
                 textInputStyle={styles.desTextInput}
                 returnKeyType="done"
                 onChangeText={this.descriptionOnChangeText}

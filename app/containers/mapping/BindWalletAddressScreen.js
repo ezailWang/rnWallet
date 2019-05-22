@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import lodash from 'lodash';
 import * as Actions from '../../config/action/Actions';
 import { BlueButtonBig } from '../../components/Button';
 import { Colors } from '../../config/GlobalConfig';
@@ -12,6 +11,7 @@ import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
 import NetworkManager from '../../utils/NetworkManager';
 import { defaultTokens } from '../../utils/Constants';
+import { showToast } from '../../utils/Toast';
 
 const styles = StyleSheet.create({
   container: {
@@ -215,24 +215,13 @@ class BindWalletAddressScreen extends BaseComponent {
   }
 
   _initData = async () => {
-    const { currentWallet, itcWalletList, ethWalletList } = this.props;
+    const { currentWallet, itcWalletList } = this.props;
     let itcWallet = itcWalletList[0];
     if (currentWallet.type === 'itc') {
       itcWallet = currentWallet;
     }
-    // todo 请求获取itc主链钱包的绑定信息
     this._showLoading();
-    const newEthWalletList = await Promise.all(
-      ethWalletList.map(async wal => {
-        const itcBalance = await NetworkManager.getEthERC20Balance(
-          wal.address,
-          defaultTokens[1].address,
-          defaultTokens[1].decimal
-        );
-        wal.itcBalance = itcBalance;
-        return wal;
-      })
-    );
+    const newEthWalletList = await this.reFreshEthWalletListInfoOfItcAddress(itcWallet);
     this.setState({
       itcWallet,
       ethWallets: newEthWalletList,
@@ -240,21 +229,90 @@ class BindWalletAddressScreen extends BaseComponent {
     this._hideLoading();
   };
 
-  refreshPage() {
-    const ethWalletList = lodash.cloneDeep(this.props.ethWalletList);
-    this.setState({
-      ethWallets: ethWalletList,
-    });
-  }
+  reFreshEthWalletListInfoOfItcAddress = async itcWallet => {
+    const { ethWalletList } = this.props;
+    const newEthWalletList = await Promise.all(
+      ethWalletList.map(async wal => {
+        const itcBalance = await NetworkManager.getEthERC20Balance(
+          wal.address,
+          defaultTokens[1].address,
+          defaultTokens[1].decimal
+        );
+        const ethBalance = await NetworkManager.getEthBalance(wal.address);
+        wal.itcBalance = itcBalance;
+        wal.ethBalance = ethBalance;
+        return wal;
+      })
+    );
+    try {
+      const bindInfo = await NetworkManager.queryConvertAddress({ itcAddress: itcWallet.address });
+      if (bindInfo && bindInfo.code === 200) {
+        const bindArray = bindInfo.data;
+        bindArray.forEach(obj => {
+          newEthWalletList.some(ethWallet => {
+            if (ethWallet.address === obj.ethAddress) {
+              ethWallet.bind = true;
+              return true;
+            }
+            return false;
+          });
+        });
+      } else if (bindInfo) {
+        showToast(bindInfo.msg);
+      }
+    } catch (e) {
+      console.log('queryConvertAddress error:', e);
+    }
+    return newEthWalletList;
+  };
 
-  nextBtn() {
+  bindConvertAddress = async (itcAddress, ethAddress) => {
+    try {
+      const bindRes = await NetworkManager.bindConvertAddress({ itcAddress, ethAddress });
+      console.log('binRes:', bindRes);
+      if (bindRes && bindRes.code === 200) {
+        return { enable: true };
+      }
+      if (bindRes) {
+        return { enable: false, msg: bindRes.msg };
+      }
+    } catch (e) {
+      console.log('bindConvertAddress error:', e);
+    }
+    return { enable: false, msg: I18n.t('mapping.binding_error') };
+  };
+
+  refreshPage = async () => {
+    const { itcWallet } = this.state;
+    const newEthWalletList = await this.reFreshEthWalletListInfoOfItcAddress(itcWallet);
+    this.setState({
+      ethWallets: newEthWalletList,
+    });
+  };
+
+  nextBtn = async () => {
     const { selectedWallet, itcWallet } = this.state;
-    const mappingData = {
-      initiationAddress: selectedWallet.address,
-      itcWallet,
-    };
-    this.props.navigation.navigate('ItcMappingService', { mappingData });
-  }
+    if (selectedWallet.bind) {
+      const mappingData = {
+        convertEthWallet: selectedWallet,
+        itcWallet,
+      };
+      this.props.navigation.navigate('ItcMappingService', { mappingData });
+    } else {
+      this._showLoading();
+      const bindRes = await this.bindConvertAddress(itcWallet.address, selectedWallet.address);
+      this._hideLoading();
+      if (bindRes.enable) {
+        const mappingData = {
+          convertEthWallet: selectedWallet,
+          itcWallet,
+        };
+        this.props.navigation.navigate('ItcMappingService', { mappingData });
+      } else {
+        showToast(bindRes.msg);
+      }
+    }
+  };
 
   // 自定义分割线
   _renderItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
@@ -322,10 +380,14 @@ class BindWalletAddressScreen extends BaseComponent {
     const { itcWallet } = this.state;
     this.props.navigation.navigate('ChangeBindAddress', {
       chosedItcWallet: itcWallet,
-      callback(data) {
+      callback: async data => {
+        _this._showLoading();
+        const newEthWalletList = await _this.reFreshEthWalletListInfoOfItcAddress(data.itcWallet);
         _this.setState({
           itcWallet: data.itcWallet,
+          ethWallets: newEthWalletList,
         });
+        _this._hideLoading();
       },
     });
   };
@@ -386,7 +448,7 @@ class BindWalletAddressScreen extends BaseComponent {
             end={{ x: 1, y: 1 }}
           >
             <Text style={styles.descText}>{I18n.t('mapping.binding_wallet_address_desc')}</Text>
-            <Text style={styles.warnText}>{I18n.t('mapping.binding_wallet_address_warn')}</Text>
+            {/* <Text style={styles.warnText}>{I18n.t('mapping.binding_wallet_address_warn')}</Text> */}
           </LinearGradient>
           <FlatList
             style={styles.listContainer}
@@ -424,20 +486,27 @@ class Item extends PureComponent {
       choseWalletAddress.toUpperCase() === address.toUpperCase()
         ? require('../../assets/launch/check_on.png')
         : require('../../assets/launch/check_off.png');
-    const icon = bind ? require('../../assets/mapping/bind_icon.png') : checkIcon;
+    // const icon = bind ? require('../../assets/mapping/bind_icon.png') : checkIcon;
     return (
       <TouchableOpacity
         activeOpacity={0.6}
         {...this.props}
         style={styles.item}
         onPress={onPressItem}
-        disabled={bind}
+        // disabled={bind}
       >
         <View style={styles.itemConetntView}>
           <Text style={bind ? styles.itemBindName : styles.itemName}>{_name}</Text>
           <Text style={styles.itemAddress}>{itcBalanceText}</Text>
         </View>
-        <Image style={styles.itemCheckedImg} source={icon} resizeMode="center" />
+        {bind ? (
+          <Image
+            style={styles.itemCheckedImg}
+            source={require('../../assets/mapping/bind_icon.png')}
+            resizeMode="center"
+          />
+        ) : null}
+        <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode="center" />
       </TouchableOpacity>
     );
   }

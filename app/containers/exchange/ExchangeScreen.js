@@ -358,7 +358,7 @@ class ExchangeScreen extends BaseComponent {
 
   checkBalance = async () => {
     if (this.depositInput > parseFloat(this.state.currentDepositCoin.balance)) {
-      showToast(I18n.t('exchange.insufficient_balance'), 20);
+      showToast(I18n.t('exchange.insufficient_balance'), 30);
       return false;
     }
     if (
@@ -449,8 +449,9 @@ class ExchangeScreen extends BaseComponent {
 
   startSendTransaction = async privateKey => {
     let txHash;
+    let result;
     try {
-      await NetworkManager.sendTransaction(
+      result = await NetworkManager.sendTransaction(
         {
           address: this.state.currentDepositCoin.address,
           symbol: this.state.currentDepositCoin.symbol,
@@ -474,7 +475,7 @@ class ExchangeScreen extends BaseComponent {
     this.updateWalletList(true);
     this.updateWalletList(false);
     this._hideLoading();
-    if (txHash) {
+    if (txHash && result) {
       showToast(I18n.t('exchange.successfully_deposited'), -30);
       this.props.setExchangeDepositStatus(this.state.currentOrderId);
     } else {

@@ -244,6 +244,14 @@
         "import_wallet_already":"Has importado la billetera."
     },
     "mapping":{
+        "ratio":"Proporción de intercambio de fichas",
+        "binding_error":"Ocurrió un error desconocido en el enlace",
+        "successful":"Mapeo exitoso",
+        "failed":"Error al cambiar",
+        "auditing":"Por favor sea paciente durante la auditoría",
+        "delay_time":"Se espera que tome 5 días hábiles",
+        "audit_error":"Se produjo una excepción durante la auditoría.",
+        "get_help":"Obtener ayuda",
         "itc_mapping_service":"ITC swap service",
         "bind_map_address":"Seleccione la dirección actual",
         "bind_map_address_des":"Enlace de la dirección Erc20 con la dirección actual",
