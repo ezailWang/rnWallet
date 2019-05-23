@@ -327,7 +327,7 @@ export default class MappingTermsScreen extends BaseComponent {
               />
             </View>
           </View>
-          <View style={styles.bottomBox}>
+          {/* <View style={styles.bottomBox}>
             <TouchableOpacity
               style={styles.checkBox}
               activeOpacity={0.6}
@@ -350,13 +350,13 @@ export default class MappingTermsScreen extends BaseComponent {
               onPress={this.startBtn}
               text={I18n.t('mapping.start')}
             />
-          </View>
-          {/* <BlueButtonBig
+          </View> */}
+          <BlueButtonBig
             buttonStyle={styles.button}
             isDisabled={!this.state.isAgree}
             onPress={() => this.startBtn()}
             text={I18n.t('mapping.upcoming_start')}
-          /> */}
+          />
         </View>
       </ScrollView>
     </View>
