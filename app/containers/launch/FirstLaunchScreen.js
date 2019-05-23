@@ -97,37 +97,36 @@ class FirstLaunchScreen extends BaseComponent {
   }
 
   nextRoute(isCreateWallet) {
-    /* if(isCreateWallet){
-            this.routeTo = 'createWallet'
-        }else{
-            this.routeTo = 'importWallet'
-        }
-        let _this = this;
-        if(this.props.pinInfo == null){
-            this.props.navigation.navigate('ServiceAgreement', {
-                callback: function (data) {
-                    let isShowPin = data.isShowPin;
-                    _this.setState({
-                        isShowSetPin:isShowPin
-                    })
-                }
-            })
-        }else{
-            this._toRute()
-        } */
-
     if (isCreateWallet) {
       this.routeTo = 'createWallet';
     } else {
       this.routeTo = 'importWallet';
     }
     if (this.props.pinInfo == null) {
-      this.setState({
-        isShowSetPin: true,
+      this.props.navigation.navigate('ServiceAgreement', {
+        callback: data => {
+          const { isShowPin } = data;
+          this.setState({
+            isShowSetPin: isShowPin,
+          });
+        },
       });
     } else {
       this._toRute();
     }
+
+    // if (isCreateWallet) {
+    //   this.routeTo = 'createWallet';
+    // } else {
+    //   this.routeTo = 'importWallet';
+    // }
+    // if (this.props.pinInfo == null) {
+    //   this.setState({
+    //     isShowSetPin: true,
+    //   });
+    // } else {
+    //   this._toRute();
+    // }
   }
 
   _pinIsShowEmitter = data => {
