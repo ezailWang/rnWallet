@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   webview: {
     width: Layout.WINDOW_WIDTH * 0.9,
     alignSelf: 'center',
+    backgroundColor: 'transparent',
   },
   checkBox: {
     flexDirection: 'row',
@@ -102,7 +103,7 @@ export default class ServiceAgreementScreen extends BaseComponent {
     const checkIcon = this.state.isAgree
       ? require('../../assets/launch/check_on.png')
       : require('../../assets/launch/check_off.png');
-    const lang = I18n.locae;
+    const lang = I18n.locale;
     const webUri =
       lang === 'zh'
         ? 'https://iotchain.io/agreement/wallet-zh.html'
@@ -118,14 +119,14 @@ export default class ServiceAgreementScreen extends BaseComponent {
             style={[styles.webview, { height: this.state.webviewHeight }]}
             source={{ uri: webUri, method: 'GET' }}
             // injectedJavaScript={GetWebviewHeight}
-            scalesPageToFit
-            javaScriptEnabled
+            // scalesPageToFit
+            // javaScriptEnabled
             decelerationState="normal"
             startInLoadingState
             bounces={false}
             scrollEnabled
             automaticallyAdjustContentInsets
-            contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
+            // contentInset={{ top: 0, left: 0, bottom: 0, right: 0 }}
             // onMessage={this.onMessage}
             domStorageEnabled
             onLoadEnd={this.onLoadEnd}
