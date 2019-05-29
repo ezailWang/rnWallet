@@ -524,7 +524,6 @@ class ItcMappingServiceScreen extends BaseComponent {
   startSendTransaction = async (privateKey, blackHoleAddress) => {
     let txHash;
     let result;
-    console.log('this.state.suggestGasPrice:', this.state.suggestGasPrice);
     try {
       result = await NetworkManager.sendERC20Transaction(
         defaultTokens[1].address,

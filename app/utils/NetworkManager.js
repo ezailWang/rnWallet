@@ -464,7 +464,6 @@ export default class NetworkManager {
         gasLimit: web3.utils.toHex(TransferGasLimit.tokenGasLimit),
         gasPrice: web3.utils.toHex(price),
       };
-      console.log('tx--:', tx);
       // tx['gasLimit'] = await web3.eth.estimateGas(tx)
       const cb = await web3.eth.sendTransaction(tx).on('transactionHash', hash => {
         callBackHash(hash);
@@ -706,7 +705,9 @@ export default class NetworkManager {
         return 0;
       }
       const price =
-        store.getState().Core.network === Network.main ? await web3.eth.getGasPrice() : '10';
+        store.getState().Core.network === Network.main
+          ? await web3.eth.getGasPrice()
+          : '10000000000';
       return web3.utils.fromWei(price, 'gwei');
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);

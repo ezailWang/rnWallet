@@ -165,7 +165,6 @@ class MappingRecordsScreen extends BaseComponent {
     try {
       const rsp = await NetworkManager.queryConvertTxList(convertAddress);
       if (rsp.code === 200) {
-        console.log('data:', rsp.data);
         this.setState({
           mappingRecords: rsp.data,
         });
