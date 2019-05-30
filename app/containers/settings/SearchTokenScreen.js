@@ -226,7 +226,8 @@ class SearchTokenScreen extends BaseComponent {
     ) : null;
 
   _toFeedbackPress = () => {
-    this.props.navigation.navigate('Feedback');
+    const content = '';
+    this.props.navigation.navigate('Feedback', { content });
   };
 
   _renderItem = item => (

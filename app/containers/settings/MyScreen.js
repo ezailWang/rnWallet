@@ -215,7 +215,10 @@ class MyScreen extends BaseComponent {
         <Item
           title={I18n.t('home.feedback')}
           icon={require('../../assets/home/menu/menu_feedback.png')}
-          itemOnPress={() => this.props.navigation.navigate('Feedback')}
+          itemOnPress={() => {
+            const content = '';
+            this.props.navigation.navigate('Feedback', { content });
+          }}
           itemStyle={styles.marginTop10}
         />
         <Item

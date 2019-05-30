@@ -204,12 +204,12 @@ const styles = StyleSheet.create({
   modalContent: {
     // height: 450,
     flex: 1,
-    marginTop: Layout.WINDOW_HEIGHT - 450,
+    marginTop: Layout.WINDOW_HEIGHT - 500,
     width: Layout.WINDOW_WIDTH,
   },
   modalKeyboardContainer: {
     width: Layout.WINDOW_WIDTH,
-    height: 450,
+    height: 500,
     // marginTop:Layout.WINDOW_HEIGHT - 450,
     margin: 0,
   },
@@ -219,12 +219,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Layout.WINDOW_WIDTH,
     marginBottom: 0,
-    height: 450,
+    height: 500,
     backgroundColor: 'white',
   },
   mDetailBox: {
     width: Layout.WINDOW_WIDTH,
-    height: 450,
+    height: 500,
     alignItems: 'center',
   },
   mTitleView: {
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
 
   mPwdBox: {
     width: Layout.WINDOW_WIDTH,
-    height: 450,
+    height: 500,
     alignItems: 'center',
     marginRight: 0,
     marginBottom: 0,
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     width: Layout.WINDOW_WIDTH - 40,
     fontSize: 15,
-    color: Colors.fontGrayColor_a,
+    // color: Colors.fontGrayColor_a,
   },
   modalNextBtn: {
     marginBottom: 30,
@@ -392,6 +392,7 @@ class ItcMappingServiceScreen extends BaseComponent {
       isDisabled: true,
       convertItcWallet: {},
       suggestGasPrice: 0,
+      defaultInputAmount: '',
 
       isShowMappingDetail: false,
     };
@@ -448,12 +449,12 @@ class ItcMappingServiceScreen extends BaseComponent {
     const { convertEthWallet, gasCost } = this.state;
     if (convertEthWallet.itcBalance < parseFloat(this.inputAmount)) {
       // 余额不够
-      showToast(I18n.t('exchange.insufficient_balance'), 30);
+      this._showAlert(I18n.t('exchange.insufficient_balance'));
       return;
     }
     if (convertEthWallet.ethBalance < gasCost) {
       // eth 不够gas
-      showToast(I18n.t('exchange.insufficient_service_fee'), 30);
+      this._showAlert(I18n.t('exchange.insufficient_service_fee'));
       return;
     }
     this.setState({
@@ -473,6 +474,7 @@ class ItcMappingServiceScreen extends BaseComponent {
     if (this.inputAmount !== '') {
       this.setState({
         isDisabled: false,
+        defaultInputAmount: text,
       });
     }
   };
@@ -491,7 +493,6 @@ class ItcMappingServiceScreen extends BaseComponent {
         this.state.convertEthWallet.type
       );
     } catch (err) {
-      console.log('getPriKey err:', err);
       showToast('check privateKey error', 30);
       return null;
     }
@@ -500,7 +501,9 @@ class ItcMappingServiceScreen extends BaseComponent {
   modalConfirmBtn = password => {
     this.setState(
       {
+        isDisabled: true,
         isShowMappingDetail: false,
+        defaultInputAmount: '',
       },
       async () => {
         const priKey = await this.getPriKey(password);
@@ -541,7 +544,12 @@ class ItcMappingServiceScreen extends BaseComponent {
       showToast('transaction error', 30);
     }
     if (txHash && result) {
-      showToast(I18n.t('mapping.successful'), -30);
+      // showToast(I18n.t('mapping.successful'), -30);
+      const convertAddress = {
+        ethAddress: this.state.convertEthWallet.address,
+        itcAddress: this.state.convertItcWallet.address,
+      };
+      this.props.navigation.navigate('MappingRecords', { convertAddress });
     } else {
       showToast(I18n.t('mapping.failed'), -30);
     }
@@ -622,6 +630,7 @@ class ItcMappingServiceScreen extends BaseComponent {
               }}
               placeholderTextColor={Colors.fontGrayColor_a0}
               placeholder=""
+              value={this.state.defaultInputAmount}
               underlineColorAndroid="transparent"
               selectionColor="#00bfff"
               multiline={false}

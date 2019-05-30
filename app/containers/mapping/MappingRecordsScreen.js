@@ -9,7 +9,6 @@ import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
-import ProgressView from '../../components/ProgressView';
 import NetworkManager from '../../utils/NetworkManager';
 import { showToast } from '../../utils/Toast';
 
@@ -143,7 +142,7 @@ class MappingRecordsScreen extends BaseComponent {
     super(props);
     this.state = {
       mappingRecords: [],
-      nativeReceiveAddress: '0xf6C9e322b688A434833dE530E4c23CFA4e579a78', // 原生itc接收地址
+      nativeReceiveAddress: '', // 原生itc接收地址
     };
     this.flatList = React.createRef();
   }
@@ -163,10 +162,12 @@ class MappingRecordsScreen extends BaseComponent {
     });
     this._showLoading();
     try {
-      const rsp = await NetworkManager.queryConvertTxList(convertAddress);
+      const rsp = await NetworkManager.queryConvertTxList({
+        itcAddress: convertAddress.itcAddress,
+      });
       if (rsp.code === 200) {
         this.setState({
-          mappingRecords: rsp.data,
+          mappingRecords: rsp.data.reverse(),
         });
       } else {
         showToast(rsp.msg);
@@ -246,7 +247,7 @@ class MappingRecordsScreen extends BaseComponent {
         renderItem={this._renderItem}
         ListEmptyComponent={this._renderEmptyView}
         ItemSeparatorComponent={this._renderItemSeparatorComponent}
-        getItemLayout={(data, index) => ({ length: 60, offset: (65 + 1) * index, index })}
+        getItemLayout={(data, index) => ({ length: 60, offset: (60 + 1) * index, index })}
       />
     </View>
   );
@@ -268,7 +269,7 @@ class Item extends PureComponent {
     if (status === 3) {
       return I18n.t('mapping.completed');
     }
-    return '审批异常';
+    return I18n.t('mapping.audit_error');
   };
 
   render() {
@@ -283,7 +284,7 @@ class Item extends PureComponent {
       <TouchableOpacity
         activeOpacity={0.6}
         {...this.props}
-        style={[styles.item, { height: status === 0 ? 84 : 60 }]}
+        style={[styles.item, { height: 60 }]}
         onPress={onPressItem}
       >
         <View style={[styles.itemContentView]}>
@@ -300,9 +301,6 @@ class Item extends PureComponent {
             {statusTxt}
           </Text>
         </View>
-        {status === 0 ? (
-          <ProgressView progresView={styles.progresView} totalProgress={100} curProgress={30} />
-        ) : null}
       </TouchableOpacity>
     );
   }

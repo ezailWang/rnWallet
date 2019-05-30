@@ -66,7 +66,7 @@
     "home":{
         "tab_wallet":"Portemonnee",
         "tab_mapping":"Token-swapservice",
-        "tab_exchange":"onmiddellijke uitwisseling",
+        "tab_exchange":"Uitwisseling",
         "tab_my":"Ik",
         "my":"Ik",
         
@@ -264,12 +264,12 @@
         "start":"Start",
         "upcoming_start":"Komt binnenkort",
 
-        "binding_replace_address":"Bind het adres van de portefeuille",
+        "binding_replace_address":"Kies een portemonnee",
         "binding_replace_address_desc":"Selecteer het hoofdportefeuille-adres om ITC te ontvangen",
         "next":"Volgende",
         "change":"Schakelaar",
 
-        "binding_wallet_address":"Bind het adres van de portefeuille",
+        "binding_wallet_address":"Kies een portemonnee",
         "binding_wallet_address_title":"Mainnet-portefeuilleadres om ITC te ontvangen.",
         "binding_wallet_address_desc":"Selecteer het adres van de Erc20-portefeuille dat momenteel de ITC bevat",
         "binding_wallet_address_warn":"(Het bovenstaande mainnet-wallet-adres kan alleen de swap-aanvraag van de ETH-portefeuille ontvangen.)",
@@ -302,7 +302,9 @@
         "transfer_unsuccess_desc":"Transactie voltooid. Het hoofd ITC wordt na de audit verzonden.",
         "already_applied":"Toegepast",
         "in_the_audit":"Bezig",
-        "completed":"Voltooid"
+        "completed":"Voltooid",
+        "service_agreement":"ITC Token Swap Service Agreement",
+        "service_agreement_title":"Agreement"
 
     },
     "toast":{

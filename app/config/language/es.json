@@ -66,7 +66,7 @@
     "home":{
         "tab_wallet":"Billetera",
         "tab_mapping":"Servicio de intercambio de fichas",
-        "tab_exchange":"intercambio instantáneo",
+        "tab_exchange":"intercambio",
         "tab_my":"Yo",
         "my":"Yo",
         
@@ -263,12 +263,12 @@
         "start":"comienzo",
         "upcoming_start":"Próximamente",
 
-        "binding_replace_address":"Dirección de la carpeta de enlace",
+        "binding_replace_address":"Elegir billetera",
         "binding_replace_address_desc":"Seleccione la dirección de cartera de mainnet para recibir ITC",
         "next":"Siguiente",
         "change":"Cambiar",
 
-        "binding_wallet_address":"Dirección de la carpeta de enlace",
+        "binding_wallet_address":"Elegir billetera",
         "binding_wallet_address_title":"Dirección de monedero de la red principal para recibir ITC.",
         "binding_wallet_address_desc":"Seleccione la dirección de cartera de Erc20 que actualmente tiene el ITC",
         "binding_wallet_address_warn":"(La dirección de billetera de red principal anterior solo puede recibir la solicitud de intercambio de la billetera ETH.)",
@@ -301,7 +301,9 @@
         "transfer_unsuccess_desc":"Transacción completada. El mainnet ITC se enviará después de la auditoría.",
         "already_applied":"Aplicado",
         "in_the_audit":"En progreso",
-        "completed":"Terminado"
+        "completed":"Terminado",
+        "service_agreement":"ITC Token Swap Service Agreement",
+        "service_agreement_title":"Agreement"
 
     },
     "toast":{

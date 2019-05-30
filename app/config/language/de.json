@@ -66,7 +66,7 @@
     "home":{
         "tab_wallet":"Wallet",
         "tab_mapping":"Token Tauschservice",
-        "tab_exchange":"Sofortiger Austausch",
+        "tab_exchange":"Austausch",
         "tab_my":"Ich",
         "my":"Ich",
 
@@ -263,12 +263,12 @@
         "start":"Start",
         "upcoming_start":"Demnächst",
 
-        "binding_replace_address":"Brieftasche Adresse binden",
+        "binding_replace_address":"Brieftasche auswählen",
         "binding_replace_address_desc":"Wählen Sie die Mainnet-Wallet-Adresse aus, um ITC zu erhalten",
         "next":"Nächster",
         "change":"Schalter",
 
-        "binding_wallet_address":"Brieftasche Adresse binden",
+        "binding_wallet_address":"Brieftasche auswählen",
         "binding_wallet_address_title":"Mainnet-Wallet-Adresse für den Empfang von ITC.",
         "binding_wallet_address_desc":"Wählen Sie die Erc20-Wallet-Adresse aus, die derzeit den ITC enthält",
         "binding_wallet_address_warn":"(Die obige Mainnet-Wallet-Adresse kann nur die Swap-Anforderung der ETH-Wallet empfangen.)",
@@ -301,8 +301,9 @@
         "transfer_unsuccess_desc":"Transaktion abgeschlossen Das mainnet ITC wird nach dem Audit gesendet.",
         "already_applied":"Angewendet",
         "in_the_audit":"In Bearbeitung",
-        "completed":"Abgeschlossen"
-
+        "completed":"Abgeschlossen",
+        "service_agreement":"ITC Token Swap Service Agreement",
+        "service_agreement_title":"Agreement"
     },
     "toast":{
         "exit_app":"Drücken Sie nochmals um die App zu schließen.",

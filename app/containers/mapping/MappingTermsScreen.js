@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors } from '../../config/GlobalConfig';
+import { Colors, StorageKey } from '../../config/GlobalConfig';
 import { WhiteBgNoBackHeader } from '../../components/NavigaionHeader';
 import Layout from '../../config/LayoutConstants';
 import { I18n } from '../../config/language/i18n';
@@ -10,6 +10,7 @@ import { BlueButtonBig } from '../../components/Button';
 import StatusBarComponent from '../../components/StatusBarComponent';
 import store from '../../config/store/ConfigureStore';
 import { setCreateWalletParams } from '../../config/action/Actions';
+import StorageManage from '../../utils/StorageManage';
 
 const rightViewHeight = Layout.WINDOW_HEIGHT - 100 - 48 - (Layout.DEVICE_IS_IPHONE_X() ? 118 : 64);
 const stepItemWidth = Layout.WINDOW_WIDTH - 50 - 20;
@@ -56,6 +57,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 30,
   },
+  checkBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 200,
+    alignSelf: 'center',
+  },
   checkImage: {
     width: 18,
     height: 18,
@@ -63,7 +70,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   checkText: {
-    width: Layout.WINDOW_WIDTH * 0.9 - 20 - 26,
+    width: 150,
     color: Colors.fontBlueColor,
     fontSize: 14,
   },
@@ -101,13 +108,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stepItemTitle: {
-    width: stepItemWidth - 50,
+    width: stepItemWidth - 40,
     lineHeight: 32,
     fontSize: 15,
     fontWeight: '600',
     color: 'white',
-    paddingLeft: 15,
-    paddingRight: 20,
+    paddingLeft: 10,
+    paddingRight: 5,
   },
   stepItemBgDesc: {
     color: Colors.fontBlackColor_43,
@@ -245,6 +252,15 @@ export default class MappingTermsScreen extends BaseComponent {
     this.setState({ isAgree: !agree });
   };
 
+  _initData = async () => {
+    const enable = await StorageManage.load(StorageKey.MappingServiceAgreement);
+    if (enable) {
+      this.setState({
+        isAgree: true,
+      });
+    }
+  };
+
   startBtn = () => {
     const { itcWalletList } = store.getState().Core;
     if (!itcWalletList || itcWalletList.length <= 0) {
@@ -328,22 +344,36 @@ export default class MappingTermsScreen extends BaseComponent {
             </View>
           </View>
           <View style={styles.bottomBox}>
-            <TouchableOpacity
-              style={styles.checkBox}
-              activeOpacity={0.6}
-              onPress={this.isAgreePress}
-            >
-              <Image
-                style={styles.checkImage}
-                source={
-                  this.state.isAgree
-                    ? require('../../assets/launch/check_on.png')
-                    : require('../../assets/launch/check_off.png')
-                }
-                resizeMode="center"
-              />
-              <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
-            </TouchableOpacity>
+            <View style={styles.checkBox}>
+              <TouchableOpacity
+                style={styles.checkBtn}
+                activeOpacity={0.6}
+                onPress={this.isAgreePress}
+              >
+                <Image
+                  style={styles.checkImage}
+                  source={
+                    this.state.isAgree
+                      ? require('../../assets/launch/check_on.png')
+                      : require('../../assets/launch/check_off.png')
+                  }
+                  resizeMode="center"
+                />
+                <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ marginLeft: 10 }}
+                onPress={() => {
+                  const { _this } = this.props;
+                  _this.props.navigation.navigate('MappingServiceAgreement');
+                  StorageManage.save(StorageKey.MappingServiceAgreement, true);
+                }}
+              >
+                <Text style={[styles.checkText, { textDecorationLine: 'underline' }]}>
+                  {I18n.t('mapping.service_agreement')}
+                </Text>
+              </TouchableOpacity>
+            </View>
             <BlueButtonBig
               buttonStyle={styles.button}
               isDisabled={!this.state.isAgree}
@@ -443,7 +473,7 @@ class WarnModal extends PureComponent {
 
             <Image
               style={styles.modalIcon}
-              source={require('../../assets/common/warningIcon.png')}
+              source={require('../../assets/common/wal_warning.png')}
             />
             <Text style={styles.modalTitleTxt}>{I18n.t('modal.no_itc_wallet_detected')}</Text>
             <Text style={styles.modalContentTxt}>

@@ -66,7 +66,7 @@
     "home":{
         "tab_wallet":"Кошелек",
         "tab_mapping":"Сервис обмена токенов",
-        "tab_exchange":"мгновенный обмен",
+        "tab_exchange":"обмен",
         "tab_my":"Я",
         "my":"Я",
         
@@ -263,12 +263,12 @@
         "start":"Начать",
         "upcoming_start":"Ожидается вскоре",
 
-        "binding_replace_address":"Привязать адрес кошелька",
+        "binding_replace_address":"Выберите кошелек",
         "binding_replace_address_desc":"Выберите адрес кошелька основной сети для получения ITC",
         "next":"следующий",
         "change":"переключатель",
 
-        "binding_wallet_address":"Привязать адрес кошелька",
+        "binding_wallet_address":"Выберите кошелек",
         "binding_wallet_address_title":"Адрес кошелька Mainnet для получения ITC.",
         "binding_wallet_address_desc":"Выберите адрес кошелька Erc20, который в настоящее время содержит ITC",
         "binding_wallet_address_warn":"(Приведенный выше адрес кошелька в основном кошельке может принимать только запрос на обмен кошелька ETH.)",
@@ -301,7 +301,9 @@
         "transfer_unsuccess_desc":"Транзакция завершена. ITC основной сети будет отправлен после аудита.",
         "already_applied":"прикладной",
         "in_the_audit":"В ходе выполнения",
-        "completed":"Завершенный"
+        "completed":"Завершенный",
+        "service_agreement":"ITC Token Swap Service Agreement",
+        "service_agreement_title":"Agreement"
 
     },
     "toast":{

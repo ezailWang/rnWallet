@@ -280,9 +280,9 @@ class MappingRecordDetailScreen extends BaseComponent {
     this.setState({
       amount: parseFloat(valueBN.dividedBy(this.ether)).toFixed(4),
       // status: this.mappingDetail.status,
-      status: this.mappingDetail.status,
-      time: this.mappingDetail.createTime,
-      updateTime: this.mappingDetail.updateTime,
+      status: this.mappingDetail.status === 0 ? 1 : this.mappingDetail.status,
+      time: `${this.mappingDetail.createTime}+0800`,
+      updateTime: `${this.mappingDetail.updateTime}+0800`,
       ethTxHash: this.mappingDetail.ethTxHash,
       itcTxHash: this.mappingDetail.itcTxHash || '',
       fromAddress: this.mappingDetail.ethAddress,
@@ -324,7 +324,7 @@ class MappingRecordDetailScreen extends BaseComponent {
         return (
           <View style={styles.bottomView}>
             <Text style={styles.auditTitle}>{I18n.t('mapping.auditing')}</Text>
-            <Text style={styles.auditContentText}>{I18n.t('mapping.delay_time')}</Text>
+            {/* <Text style={styles.auditContentText}>{I18n.t('mapping.delay_time')}</Text> */}
           </View>
         );
       case 4:
@@ -437,7 +437,7 @@ class MappingRecordDetailScreen extends BaseComponent {
                 <ItemView title="TxHash" content={this.state.ethTxHash} />
                 <ItemView title={I18n.t('mapping.transaction_hour')} content={this.state.time} />
               </View>
-              <Line type={this.state.status} />
+              <Line type={3} />
             </View>
             <View
               style={[
@@ -508,9 +508,9 @@ class Line extends PureComponent {
     const { type } = this.props;
     let bgColor = '#fff';
     switch (type) {
-      case 0:
-        bgColor = '#fff';
-        break;
+      // case 0:
+      //   bgColor = '#fff';
+      //   break;
       case 3:
         bgColor = '#95C06D';
         break;

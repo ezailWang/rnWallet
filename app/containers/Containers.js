@@ -43,6 +43,7 @@ import ChoseWalletTypeScreen from './launch/ChoseWalletTypeScreen';
 import Mapping from './mapping/Mapping';
 import ExchangeScreen from './exchange/ExchangeScreen';
 import ExchangeDetail from './exchange/ExchangeDetail';
+import MappingServiceAgreement from './mapping/MappingServiceAgreementScreen';
 
 export {
   HomeScreen,
@@ -91,4 +92,5 @@ export {
   Mapping,
   ExchangeScreen,
   ExchangeDetail,
+  MappingServiceAgreement,
 };

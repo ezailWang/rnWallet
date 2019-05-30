@@ -66,7 +66,7 @@
     "home":{
         "tab_wallet":"portefeuille",
         "tab_mapping":"Service d'échange de jetons",
-        "tab_exchange":"échange instantané",
+        "tab_exchange":"l'échange",
         "tab_my":"moi",
         "my":"moi",
         
@@ -264,12 +264,12 @@
         "start":"Start",
         "upcoming_start":"À venir",
 
-        "binding_replace_address":"Relier l'adresse du portefeuille",
+        "binding_replace_address":"Choisissez portefeuille",
         "binding_replace_address_desc":"Sélectionnez l'adresse du portefeuille principal pour recevoir le CTI",
         "next":"Suivant",
         "change":"Commutateur",
 
-        "binding_wallet_address":"Relier l'adresse du portefeuille",
+        "binding_wallet_address":"Choisissez portefeuille",
         "binding_wallet_address_title":"Adresse du portefeuille Mainnet pour recevoir le CTI.",
         "binding_wallet_address_desc":"Sélectionnez l'adresse du portefeuille Erc20 qui contient actuellement le CTI.",
         "binding_wallet_address_warn":"(L'adresse du portefeuille principal ci-dessus ne peut recevoir que la demande d'échange du portefeuille ETH.)",
@@ -302,7 +302,9 @@
         "transfer_unsuccess_desc":"La transaction est terminée. Le CIT Mainnet sera envoyé après l’audit.",
         "already_applied":"Appliqué",
         "in_the_audit":"En cours",
-        "completed":"Terminé"
+        "completed":"Terminé",
+        "service_agreement":"ITC Token Swap Service Agreement",
+        "service_agreement_title":"Agreement"
         
     },
     "toast":{

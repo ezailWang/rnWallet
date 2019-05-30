@@ -121,7 +121,6 @@ export default class ServiceAgreementScreen extends BaseComponent {
             // injectedJavaScript={GetWebviewHeight}
             // scalesPageToFit
             // javaScriptEnabled
-            decelerationState="normal"
             startInLoadingState
             bounces={false}
             scrollEnabled

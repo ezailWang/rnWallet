@@ -66,7 +66,7 @@
     "home":{
         "tab_wallet":"월렛",
         "tab_mapping":"토큰스왑",
-        "tab_exchange":"실시간 교환",
+        "tab_exchange":"교환",
         "tab_my":"내 프로필",
         "my":"내 프로필",
         
@@ -265,12 +265,12 @@
         "start":"시작",
         "upcoming_start":"곧 시작됩니다.",
 
-        "binding_replace_address":"월렛 주소 바인딩",
+        "binding_replace_address":"지갑 선택",
         "binding_replace_address_desc":"메인넷 ITC를 받을 메인넷 월렛 주소를 선택합니다.",
         "next":"다음",
         "change":"대체합니다.",
 
-        "binding_wallet_address":"월렛 주소 바인딩",
+        "binding_wallet_address":"지갑 선택",
         "binding_wallet_address_title":"메인넷 ITC를 받는 메인넷 월렛 주소",
         "binding_wallet_address_desc":"현재  ITC를 보유하고 있는 ERC20 월렛을 선택합니다.",
         "binding_wallet_address_warn":"(위 메인넷 월렛 주소는 해당 ETH 월렛의 스왑 요청만 받을 수 있습니다.)",
@@ -303,7 +303,9 @@
         "transfer_unsuccess_desc":"이체가 완료 후 메인넷 ITC는 심사 후 지급됩니다.",
         "already_applied":"요청하였습니다.",
         "in_the_audit":"심사 중입니다.",
-        "completed":"완료"
+        "completed":"완료",
+        "service_agreement":"ITC Token Swap Service Agreement",
+        "service_agreement_title":"Agreement"
 
     },
     "toast":{

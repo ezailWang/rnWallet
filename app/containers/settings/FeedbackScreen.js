@@ -314,7 +314,7 @@ export default class FeedbackScreen extends BaseComponent {
               </Text>
               <Text style={styles.text}>{I18n.t('settings.problem_description')}</Text>
               <CommonTextInput
-                defaultValue={this.props.navigation.state.params.content || ''}
+                defaultValue={this.props.navigation.state.params.content}
                 textInputStyle={styles.desTextInput}
                 returnKeyType="done"
                 onChangeText={this.descriptionOnChangeText}

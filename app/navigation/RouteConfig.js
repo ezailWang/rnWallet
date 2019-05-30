@@ -87,6 +87,7 @@ import {
   Mapping,
   ExchangeScreen,
   ExchangeDetail,
+  MappingServiceAgreement,
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -94,6 +95,7 @@ const FirstLaunchRouteConfig = {
     screen: FirstLaunchScreen,
     navigationOptions: () => ({
       header: null,
+      headerTitleAllowFontScaling: false,
       cardStack: {
         // gesturesEnabled: false
       },
@@ -164,6 +166,7 @@ const HomeRouteConfig = {
     screen: HomeBottomTabNavigation,
     navigationOptions: {
       header: null,
+      headerTitleAllowFontScaling: false,
       // gesturesEnabled:false
     },
   },
@@ -295,6 +298,9 @@ const HomeRouteConfig = {
   },
   ExchangeDetail: {
     screen: ExchangeDetail,
+  },
+  MappingServiceAgreement: {
+    screen: MappingServiceAgreement,
   },
 };
 
