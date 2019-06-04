@@ -19,7 +19,8 @@ import NavHeader from '../../components/NavHeader';
 import BaseComponent from '../base/BaseComponent';
 
 export default class WLHome extends BaseComponent {
-  render() {
+  
+  renderComponent  = () => {
     const { navigation } = this.props;
     const chartWidth = 100;
     const series = [862, 116, 23, 1892];
