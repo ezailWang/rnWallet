@@ -19,12 +19,32 @@ import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 
 export default class WLHome extends BaseComponent {
-  
-  renderComponent  = () => {
+
+  constructor(){
+    super()
+  }
+
+  renderComponent = () => {
+
+    console.log(this.props)
+
+    //数据
+    let { info } = this.props.navigation.state.params;
+    let {activeNum, benefitNum, bonusReward, normalNum, paidReward, poolReward, poolRewardTarget, sequence, startTime, totalPoolReward, vipNum} = info
+    let time = new Date(startTime).valueOf()
+    let nowTime = new Date()
+    let leftTimeStamp = parseInt(( 180 * 24 * 60 * 60 * 1000 - (nowTime - time) ) / 1000)
+    let leftDay = parseInt(leftTimeStamp / (24 * 60 * 60))
+    let leftHour =  parseInt((leftTimeStamp % (24 * 60 * 60))/(60 * 60))
+    let leftMinte = parseInt((leftTimeStamp % (60*60))/60)
+    let leftTime = leftDay + ':' + leftHour + ":" + leftMinte
+
+    // let series = [1, 2, 3, 4];
+    let series = [activeNum, benefitNum, vipNum,normalNum];
+    const sliceColor = ['#0597fb', '#ffa235', '#fff100', '#7be1ff'];
+
     const { navigation } = this.props;
     const chartWidth = 100;
-    const series = [862, 116, 23, 1892];
-    const sliceColor = ['#0597fb', '#ffa235', '#fff100', '#7be1ff'];
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -40,11 +60,11 @@ export default class WLHome extends BaseComponent {
             <Image source={require('./images/title.png')} style={{ width: '100%' }} />
           </ImageBackground>
           <View style={styles.infoContainer}>
-            <Tag text="第5轮" color="#46b6fe" />
-            <Bonus bonus={30000} total={3000} current={1000} color="#46b6fe" style={{ marginVertical: 10 }} />
-            <DetailItem title="结束倒计时" text="177:19:54" />
-            <DetailItem title="涡轮池奖金" text="5310 ITC" />
-            <DetailItem title="已发放奖励" text="165,789 ITC" />
+            <Tag text={`第${sequence}轮`} color="#46b6fe" />
+            <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
+            <DetailItem title="结束倒计时" text={leftTime} />
+            <DetailItem title="涡轮池奖金" text={totalPoolReward} />
+            <DetailItem title="已发放奖励" text={paidReward} />
 
             <View style={styles.divider} />
 
@@ -52,25 +72,25 @@ export default class WLHome extends BaseComponent {
               <ChartLabel
                 label="普通节点"
                 color="#7be1ff"
-                number={1892}
+                number={normalNum}
                 style={{ position: 'absolute', top: 0, left: 0 }}
               />
               <ChartLabel
                 label="激活节点"
                 color="#0597fb"
-                number={862}
+                number={activeNum}
                 style={{ position: 'absolute', top: 0, right: 0 }}
               />
               <ChartLabel
                 label="权益节点"
                 color="#ffa235"
-                number={116}
+                number={benefitNum}
                 style={{ position: 'absolute', bottom: 0, right: 0 }}
               />
               <ChartLabel
                 label="超级节点"
                 color="#fff100"
-                number={23}
+                number={vipNum}
                 style={{ position: 'absolute', bottom: 0, left: 0 }}
               />
 
