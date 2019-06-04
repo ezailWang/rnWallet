@@ -5,10 +5,10 @@ import NodeInfo from './components/NodeInfo';
 import BenefitInfo from './components/BenefitInfo';
 import ChildNodeItem from './components/ChildNodeItem';
 import Button from './components/Button';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
-export default class WLActiveSuper extends BaseComponent {
+export default class WLActiveAuth extends BaseComponent {
   render() {
     const { navigation } = this.props;
     const childNodes = [
@@ -43,8 +43,8 @@ export default class WLActiveSuper extends BaseComponent {
         <NavHeader navigation={navigation} color="white" text="涡轮计划" />
         <ScrollView>
           <NodeInfo
-            icon={<Image source={require('./images/super.png')} />}
-            name="超级节点"
+            icon={<Image source={require('./images/quanyi.png')} />}
+            name="权益节点"
             address="0x000005cd940.....5cd9405cd940"
           />
           <BenefitInfo total="3,458" forest="2,560" cycle="8" invite="105" source="367" />
@@ -60,9 +60,9 @@ export default class WLActiveSuper extends BaseComponent {
                 <ChildNodeItem key={item.no} no={item.no} value={item.value} />
               ))}
             </View>
-            <Button text="拓展子节点" />
           </View>
         </ScrollView>
+        <Button text="拓展子节点" style={{ position: 'absolute', bottom: 15 }} />
       </View>
     );
   }

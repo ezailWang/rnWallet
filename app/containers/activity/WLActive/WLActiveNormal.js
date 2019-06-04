@@ -2,13 +2,12 @@
 import React, { Component } from 'react';
 import { View, Text, Image, ScrollView,StatusBar } from 'react-native';
 import NodeInfo from './components/NodeInfo';
-import BenefitInfo from './components/BenefitInfo';
 import DescView from './components/DescView';
 import Button from './components/Button';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
-export default class WLActiveActivate extends BaseComponent {
+export default class WLActiveNormal extends BaseComponent {
   render() {
     const { navigation } = this.props;
     return (
@@ -17,33 +16,31 @@ export default class WLActiveActivate extends BaseComponent {
         <NavHeader navigation={navigation} color="white" text="涡轮计划" />
         <ScrollView>
           <NodeInfo
-            icon={<Image source={require('./images/active.png')} />}
-            name="激活节点"
+            icon={<Image source={require('./images/normal.png')} />}
+            name="普通节点"
             address="0x000005cd940.....5cd9405cd940"
           />
-          <BenefitInfo total="10" forest="---" cycle="---" invite="10" source="10" />
-
-          <View style={styles.rightNode}>
-            <View style={styles.rightNodeHeader}>
+          <View style={styles.activateNode}>
+            <View style={styles.activateNodeHeader}>
               <Image source={require('./images/backdate-l.png')} />
-              <Text style={styles.headerText}>升级成为权益节点</Text>
+              <Text style={styles.headerText}>升级成为激活节点</Text>
             </View>
             <View style={styles.divider} />
-            <Image source={require('./images/up5L1.png')} />
+            <Image source={require('./images/levelUP15.png')} />
             <View style={styles.activeLabel}>
+              <Text>普通节点</Text>
               <Text>激活节点</Text>
-              <Text>权益节点</Text>
             </View>
             <DescView
               descArr={[
-                '激活节点的第一层5个节点充满后，激活节点成为权益节点',
-                '权益节点可参与森林收益、溯源收益、邀请收益',
+                '普通节点花费15ITC升级成为激活节点',
+                '升级花费的ITC不会返还',
+                '激活节点可享受子节点的邀请收益',
               ]}
             />
-            <Image source={require('./images/zt1.png')} style={{ marginVertical: 15 }} />
-            <Button text="拓展子节点" />
           </View>
         </ScrollView>
+        <Button text="激活" style={{ position: 'absolute', bottom: 20 }} />
       </View>
     );
   }
@@ -52,15 +49,16 @@ export default class WLActiveActivate extends BaseComponent {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: 'white',
   },
-  rightNode: {
+  activateNode: {
+    // flex: 1,
     alignItems: 'center',
     backgroundColor: 'white',
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
-  rightNodeHeader: {
+  activateNodeHeader: {
     width: '90%',
     flexDirection: 'row',
     alignItems: 'center',

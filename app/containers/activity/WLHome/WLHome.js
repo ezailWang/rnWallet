@@ -12,11 +12,11 @@ import {
 import Tag from './components/Tag';
 import Bonus from './components/Bonus';
 import DetailItem from './components/DetailItem';
-import TextLink from '../../components/TextLink';
+import TextLink from '../../../components/TextLink';
 import Chart from './components/Chart';
 import ChartLabel from './components/ChartLabel';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
 export default class WLHome extends BaseComponent {
   
@@ -29,7 +29,9 @@ export default class WLHome extends BaseComponent {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <NavHeader navigation={navigation} color="transparent" />
-        <ScrollView>
+        <ScrollView
+          scrollEnabled={false}
+        >
           <ImageBackground
             resizeMode="cover"
             source={require('./images/banner.png')}

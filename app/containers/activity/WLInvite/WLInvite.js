@@ -1,10 +1,10 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight, Image, StatusBar } from 'react-native';
-import DescView from '../../components/DescView';
-import TextLink from '../../components/TextLink';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import DescView from '../../../components/DescView';
+import TextLink from '../../../components/TextLink';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
 export default class WLInvite extends BaseComponent {
   render() {

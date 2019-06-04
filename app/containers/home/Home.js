@@ -560,7 +560,8 @@ class HomeScreen extends BaseComponent {
                 this.props.navigation.navigate('ReceiptCode');
               }}
               onBanner={() => {
-                this.props.navigation.navigate('WLPages');
+                // this.props.navigation.navigate('WLPages');
+                this.props.navigation.navigate('WLHome');
               }}
               onHideAssets={() => {
                 this.setState(previousState => {

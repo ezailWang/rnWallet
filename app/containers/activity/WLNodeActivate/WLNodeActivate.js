@@ -1,8 +1,8 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight, TextInput, Image,StatusBar } from 'react-native';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
 export default class WLNodeActivate extends BaseComponent {
   render() {

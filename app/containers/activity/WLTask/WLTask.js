@@ -4,8 +4,8 @@ import { View, Text, Image, ImageBackground, TouchableHighlight, StatusBar } fro
 import GroupButton from './components/GroupButton';
 import IconTextItem from './components/IconTextItem';
 import PageScroller from './components/PageScroller';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
 export default class WLTask extends BaseComponent {
   constructor(props) {

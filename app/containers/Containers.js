@@ -44,21 +44,21 @@ import Mapping from './mapping/Mapping';
 import ExchangeScreen from './exchange/ExchangeScreen';
 import ExchangeDetail from './exchange/ExchangeDetail';
 
-import WLHome from './WLHome/WLHome';
-import WLTask from './WLTask/WLTask';
-import WLLock from './WLLockVote/WLLock'; // 锁仓
-import WLVote from './WLLockVote/WLVote'; // 投票
-import WLAuth from './WLAuth/WLAuth'; // 合约授权
-import WLNode from './WLNode/WLNode'; // 选择节点
-import WLActiveSuper from './WLActive/WLActiveSuper'; // 活动首页-超级
-import WLActiveActivate from './WLActive/WLActiveActivate'; // 活动首页-激活
-import WLActiveNormal from './WLActive/WLActiveNormal';
-import WLActiveAuth from './WLActive/WLActiveAuth'; // 活动首页-权益
-import WLNodeActivate from './WLNodeActivate/WLNodeActivate'; // 激活节点
-import WLNodeInfo from './WLNodeInfo/WLNodeInfo'; // 节点信息
-import WLInvite from './WLInvite/WLInvite';
-import WLBenefit from './WLBenefit/WLBenefit';
-import WLPages from './WLPages/WLPages'; // 路由浏览列表
+import WLHome from './activity/WLHome/WLHome';
+import WLTask from './activity/WLTask/WLTask';
+import WLLock from './activity/WLLockVote/WLLock'; // 锁仓
+import WLVote from './activity/WLLockVote/WLVote'; // 投票
+import WLAuth from './activity/WLAuth/WLAuth'; // 合约授权
+import WLNode from './activity/WLNode/WLNode'; // 选择节点
+import WLActiveSuper from './activity/WLActive/WLActiveSuper'; // 活动首页-超级
+import WLActiveActivate from './activity/WLActive/WLActiveActivate'; // 活动首页-激活
+import WLActiveNormal from './activity/WLActive/WLActiveNormal';
+import WLActiveAuth from './activity/WLActive/WLActiveAuth'; // 活动首页-权益
+import WLNodeActivate from './activity/WLNodeActivate/WLNodeActivate'; // 激活节点
+import WLNodeInfo from './activity/WLNodeInfo/WLNodeInfo'; // 节点信息
+import WLInvite from './activity/WLInvite/WLInvite';
+import WLBenefit from './activity/WLBenefit/WLBenefit';
+import WLPages from './activity/WLPages/WLPages'; // 路由浏览列表
 
 export {
   HomeScreen,
