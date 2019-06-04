@@ -881,4 +881,9 @@ export default class NetworkManager {
   static async queryAllTrade(params) {
     return FetchUtils.requestSWFTPost(NetAddr.queryAllTrade, params);
   }
+
+  static async queryActivityInfo() {
+
+    return FetchUtils.requestGet(NetAddr.queryActivityInfo,{});
+  }
 }

@@ -38,6 +38,7 @@ import { I18n } from '../../config/language/i18n';
 import MyAlertComponent from '../../components/MyAlertComponent';
 import BaseComponent from '../base/BaseComponent';
 import Analytics from '../../utils/Analytics';
+import { async } from 'rsvp';
 
 const hiddenIconInvi = require('../../assets/home/psd_invi_w.png');
 const hiddenIconVi = require('../../assets/home/psd_vi_w.png');
@@ -559,9 +560,29 @@ class HomeScreen extends BaseComponent {
               onQRCode={() => {
                 this.props.navigation.navigate('ReceiptCode');
               }}
-              onBanner={() => {
+              onBanner={ async () => {
+                
                 // this.props.navigation.navigate('WLPages');
-                this.props.navigation.navigate('WLHome');
+                // return
+
+                this._showLoading()
+                
+                try {
+                  var result = await NetworkManager.queryActivityInfo();
+                  // console.warn(result)
+                } catch (e) {
+                  this._hideLoading();  
+                  showToast('query avtivity info error', 30);
+                }
+
+                this._hideLoading();
+
+                if(result && Number(result.code) == 200){
+                  this.props.navigation.navigate('WLHome',{ 
+                    info:result.data
+                  });
+                }
+
               }}
               onHideAssets={() => {
                 this.setState(previousState => {

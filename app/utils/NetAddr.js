@@ -5,6 +5,8 @@ const swftHost = 'https://transfer.swft.pro/';
 // const swftHost = 'https://test.swftcoin.com/';
 // const itcHost = 'http://192.168.50.83:7777/'
 
+const activityHost = "http://192.168.1.4:9998/"
+
 const NetAddr = {
   jbokWs: 'ws://47.52.218.141:20002',
   jbokHttp: 'http://47.52.218.141:20002',
@@ -28,6 +30,7 @@ const NetAddr = {
   queryConvertAddress: `${host}convertAddressList`,
   queryConvertTxList: `${host}userConvertList`,
   // transactionDetail:itcHost + 'v1/transavtion/hash'
+  queryActivityInfo:`${activityHost}/api/v1/round/info`
 };
 
 export default NetAddr;
