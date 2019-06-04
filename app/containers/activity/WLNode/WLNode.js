@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, Dimensions, StatusBar } from 'react-native';
 import NodeItem from './components/NodeItem';
-import HeaderBackButton from '../../components/HeaderBackButton';
-import NavHeader from '../../components/NavHeader';
-import LayoutConstants from '../../config/LayoutConstants';
-import BaseComponent from '../base/BaseComponent';
+import HeaderBackButton from '../../../components/HeaderBackButton';
+import NavHeader from '../../../components/NavHeader';
+import LayoutConstants from '../../../config/LayoutConstants';
+import BaseComponent from '../../base/BaseComponent';
 
 const { height } = Dimensions.get('window');
 export default class WLNode extends BaseComponent {

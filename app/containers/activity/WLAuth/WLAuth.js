@@ -4,8 +4,8 @@ import { View, Text, TouchableHighlight, Image,StatusBar } from 'react-native';
 
 import AddressItem from './components/AddressItem';
 import DescItem from './components/DescItem';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
 export default class WLAuth extends BaseComponent {
   render() {

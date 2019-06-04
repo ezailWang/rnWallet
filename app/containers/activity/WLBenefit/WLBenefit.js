@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { View, ImageBackground, ScrollView, Dimensions, StatusBar } from 'react-native';
 import BenefitOverview from './components/BenefitOverview';
 import BenefitItem from './components/BenefitItem';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
 const { height } = Dimensions.get('window');
 export default class WLBenefit extends BaseComponent {

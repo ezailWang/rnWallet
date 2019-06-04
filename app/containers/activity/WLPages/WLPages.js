@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableHighlight, Dimensions,StatusBar } from 'react-native';
-import NavHeader from '../../components/NavHeader';
+import NavHeader from '../../../components/NavHeader';
 
 export default class WLPages extends React.Component {
   render() {

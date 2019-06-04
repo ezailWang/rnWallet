@@ -1,10 +1,10 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
 import { View, Image, ScrollView,StatusBar } from 'react-native';
-import NodeCard from '../../components/NodeCard';
+import NodeCard from '../../../components/NodeCard';
 import DisplayForm from './components/DisplayForm';
-import NavHeader from '../../components/NavHeader';
-import BaseComponent from '../base/BaseComponent';
+import NavHeader from '../../../components/NavHeader';
+import BaseComponent from '../../base/BaseComponent';
 
 export default class WLNodeActivate extends BaseComponent {
   render() {

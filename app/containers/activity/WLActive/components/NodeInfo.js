@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import NodeCard from '../../../components/NodeCard';
+import NodeCard from '../../../../components/NodeCard';
 
 export default ({ icon, name, address }) => {
   return (
