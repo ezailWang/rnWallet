@@ -28,7 +28,9 @@ export default class WLHome extends BaseComponent {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <NavHeader navigation={navigation} color="transparent" />
-        <ScrollView>
+        <ScrollView
+          scrollEnabled={false}
+        >
           <ImageBackground
             resizeMode="cover"
             source={require('./images/banner.png')}
