@@ -66,6 +66,8 @@ export default class HeadView extends Component {
       onQRCode,
       onAddAssets,
       isHaveAddTokenBtn,
+      bannerImage,
+      onBanner,
     } = this.props;
     return (
       <View style={styles.container}>
@@ -116,6 +118,23 @@ export default class HeadView extends Component {
               backgroundImageSource={QRCodeIcon}
             />
           </View>
+        </View>
+        <View
+          style={{
+            height: 100,
+            paddingLeft: 21,
+            paddingRight: 21,
+            paddingTop: 10,
+            paddingBottom: 10,
+            marginTop: 20,
+          }}
+        >
+          <ImageButton
+            btnStyle={{ width: '100%', height: '100%' }}
+            imageStyle={{ width: '100%', height: '100%' }}
+            onClick={onBanner}
+            backgroundImageSource={bannerImage}
+          />
         </View>
         <View style={styles.bottomAddAssetsContainer}>
           <Text

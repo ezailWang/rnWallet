@@ -559,6 +559,9 @@ class HomeScreen extends BaseComponent {
               onQRCode={() => {
                 this.props.navigation.navigate('ReceiptCode');
               }}
+              onBanner={() => {
+                this.props.navigation.navigate('WLPages');
+              }}
               onHideAssets={() => {
                 this.setState(previousState => {
                   HomeScreen.saveIsTotalAssetsHiddenToStorage(!previousState.isTotalAssetsHidden);
@@ -576,6 +579,7 @@ class HomeScreen extends BaseComponent {
               QRCodeIcon={require('../../assets/home/hp_qrc.png')}
               isHaveAddTokenBtn={this.props.wallet.type === 'eth'}
               addAssetsIcon={require('../../assets/home/plus_icon.png')}
+              bannerImage={require('../../assets/home/banner.png')}
             />
           }
         />

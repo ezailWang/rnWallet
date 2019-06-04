@@ -87,6 +87,21 @@ import {
   Mapping,
   ExchangeScreen,
   ExchangeDetail,
+  WLHome,
+  WLTask,
+  WLLock,
+  WLVote,
+  WLAuth,
+  WLNode,
+  WLActiveSuper,
+  WLActiveActivate,
+  WLActiveNormal,
+  WLActiveAuth,
+  WLNodeActivate,
+  WLNodeInfo,
+  WLInvite,
+  WLBenefit,
+  WLPages
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -295,6 +310,52 @@ const HomeRouteConfig = {
   },
   ExchangeDetail: {
     screen: ExchangeDetail,
+  },
+  WLPages: {
+    screen: WLPages,
+  },
+  WLHome: {
+    screen: WLHome,
+  },
+  WLBenefit: {
+    screen: WLBenefit,
+  },
+  WLInvite: {
+    screen: WLInvite,
+  },
+  WLNodeInfo: {
+    screen: WLNodeInfo,
+  },
+  WLNodeActivate: {
+    screen: WLNodeActivate,
+  },
+  WLActiveAuth: {
+    screen: WLActiveAuth,
+  },
+  WLActiveNormal: {
+    screen: WLActiveNormal,
+  },
+  WLActiveActivate: {
+    screen: WLActiveActivate,
+  },
+  WLActiveSuper: {
+    screen: WLActiveSuper,
+  },
+  WLVote: {
+    screen: WLVote,
+  },
+  WLAuth: {
+    screen: WLAuth,
+  },
+
+  WLLock: {
+    screen: WLLock,
+  },
+  WLTask: {
+    screen: WLTask,
+  },
+  WLNode: {
+    screen: WLNode,
   },
 };
 
