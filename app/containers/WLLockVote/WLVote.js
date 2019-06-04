@@ -77,7 +77,7 @@ const styles = {
     marginTop: 10,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderColor: '#9ab1c2',
+    borderColor: '#959595',
   },
   desc: {
     padding: 10,

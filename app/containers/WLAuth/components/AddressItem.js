@@ -17,14 +17,15 @@ const styles = {
     alignItems: 'center',
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
+    color: '#000000',
     marginTop: 15,
     marginBottom: 6,
   },
   address: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#a6a6a6',
-    width: 130,
+    width: 140,
   },
 };

@@ -89,7 +89,7 @@ const styles = {
     paddingVertical: 25,
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
   },
   numberText: {
     color: '#00b7fe',
