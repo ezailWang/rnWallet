@@ -183,6 +183,29 @@ const erc20Abi = [
 		payable: false,
 		stateMutability: "view",
 		type: "function"
+  },
+  {
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ];
 
@@ -625,4 +648,11 @@ const nodeBallotAbi = [
 	}
 ]
 
-export { defaultTokens, defaultTokensOfITC, erc20Abi, defaultSupportExchangeTokens , nodeBallotAbi};
+//rinkeby网络
+const contractInfo = {
+  nodeBallot:{
+    address:'0x3d1b62a595feb18160d5bf721b0b0cf59d94eef5'
+  }
+}
+
+export { defaultTokens, defaultTokensOfITC, erc20Abi, defaultSupportExchangeTokens , nodeBallotAbi, contractInfo};

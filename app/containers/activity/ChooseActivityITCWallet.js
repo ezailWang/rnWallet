@@ -153,7 +153,7 @@ class ChooseActivityITCWallet extends BaseComponent {
         eth:this.props.activityEthAddress,
         itc:selectedWallet.address
       });
-      console.warn(result)
+      // console.warn(result)
 
     } catch (e) {
       this._hideLoading();  

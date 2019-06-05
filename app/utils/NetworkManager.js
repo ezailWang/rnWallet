@@ -157,13 +157,14 @@ export default class NetworkManager {
   /**
    * Get the  ERC20 token allowance of a address to another address
    *
+   * @param {String} contractAddress
    * @param {String} ownerAddress
    * @param {String} approveAddress
    */
-  static async getAllowance(ownerAddress, approveAddress) {
+  static async getAllowance(contractAddress,ownerAddress, approveAddress) {
     try {
       web3 = this.getWeb3Instance();
-      const contract = new web3.eth.Contract(erc20Abi, address);
+      const contract = new web3.eth.Contract(erc20Abi, contractAddress);
       const bigBalance = new BigNumber(await contract.methods.allowance(ownerAddress,approveAddress).call());
       return parseFloat(bigBalance.dividedBy(ether)).toFixed(4);
     } catch (err) {
@@ -736,9 +737,59 @@ export default class NetworkManager {
   }
 
   /**
+   * generalContractApproveTrxData
+   * @param {*} contractAddress 
+   * @param {*} toAddress 
+   * @param {*} amout 
+   */
+  static generalApproveTrxData(contractAddress,toAddress,amout){
+
+    const contract = new web3.eth.Contract(erc20Abi, contractAddress);
+    const BNAmout = new BigNumber(amout * Math.pow(10, 18));
+    const data = contract.methods.approve(toAddress, BNAmout).encodeABI();
+    return {
+        to: contractAddress,
+        value: '0x00',
+        data:data
+    }
+  }
+
+  /**
+   * getContractOrNormalTransactionEstimateGas
+   * @param {*} fromAddress 
+   * @param {*} t 
+    t = {
+        to: airContractAddress,
+        value: '0x00',
+        data: airdropContract.methods.airDrop(erc20TokenContractAddress).encodeABI()
+    };
+   */
+  static async getTransactionEstimateGas(fromAddress,t){
+
+    web3 = this.getWeb3Instance();
+
+    //get current gasPrice, you can use default gasPrice or custom gasPrice!
+    let price = await web3.eth.getGasPrice()
+    //花费平常的1.2倍gas
+    price = parseInt(price * 1.2)
+    t.gasPrice = web3.utils.toHex(price)
+
+    //get nonce value
+    let nonce = await web3.eth.getTransactionCount(fromAddress)
+    t.nonce = web3.utils.toHex(nonce);
+    t.from = fromAddress;
+    let estimateGas = await web3.eth.estimateGas(t);
+
+    let estimateGasUsed = estimateGas * price / Math.pow(10,18)
+    return Promise.resolve({
+      trx:t,
+      gasUsed:estimateGasUsed
+    })
+}
+
+  /**
    * get transaction detail with hashid
    */
-
   static async getTransaction(hashId) {
     web3 = this.getWeb3Instance();
     let tran = null;

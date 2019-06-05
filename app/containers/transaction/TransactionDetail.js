@@ -199,7 +199,6 @@ export default class TransactionDetail extends BaseComponent {
         if (!supported) {
           // todo 弹toast
           return null;
-          // console.warn('Can\'t handle url: ' + detailUrl);
         }
         return Linking.openURL(detailUrl);
       })

@@ -21,7 +21,6 @@ function checkAndroidPermission(permission) {
           data
       )
       .catch(err => {
-        console.warn(err);
       });
   } catch (exception) {
     console.log('checkAndroidPermission exception', exception);
