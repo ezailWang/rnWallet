@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export default ({ no, value, total = 15 }) => {
+export default ({ no, value, total = 100 }) => {
   const rate = (value * 100) / total;
   return (
     <View style={styles.container}>
@@ -25,6 +25,7 @@ const styles = {
   left: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1
   },
   no: {
     width: 20,
@@ -34,5 +35,6 @@ const styles = {
     backgroundColor: '#60B1F5',
     height: 10,
     borderRadius: 5,
+    maxWidth: '82%'
   },
 };

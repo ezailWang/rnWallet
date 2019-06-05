@@ -11,6 +11,7 @@ export default class WLPages extends React.Component {
         <StatusBar barStyle="dark-content" />
         <NavHeader navigation={navigation} text="导航示例" color="white" />
         <ScrollView style={{ height: Dimensions.get('window').height - 70 }}>
+          <PageItem name="涡轮计划（整合后）" onPress={() => navigate('NodeSummary')} />
           <PageItem name="首页" onPress={() => navigate('WLHome')} />
           <PageItem name="前置任务" onPress={() => navigate('WLTask')} />
           <PageItem name="锁仓" onPress={() => navigate('WLLock')} />

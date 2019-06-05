@@ -98,7 +98,11 @@ export default class WLHome extends BaseComponent {
             </View>
           </View>
           <TextLink color="#00afc9" text="完整规则" style={{ marginVertical: 20 }} />
-          <TouchableHighlight style={[styles.button, { backgroundColor: '#01a1f1' }]}>
+          <TouchableHighlight style={[styles.button, { backgroundColor: '#01a1f1' }]} 
+            onPress={()=>{
+              this.props.navigation.navigate('NodeSummary');
+            }}
+          >
             <Text style={{ color: 'white' }}>我的涡轮计划</Text>
           </TouchableHighlight>
         </ScrollView>

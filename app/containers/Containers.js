@@ -50,6 +50,7 @@ import WLLock from './activity/WLLockVote/WLLock'; // 锁仓
 import WLVote from './activity/WLLockVote/WLVote'; // 投票
 import WLAuth from './activity/WLAuth/WLAuth'; // 合约授权
 import WLNode from './activity/WLNode/WLNode'; // 选择节点
+import NodeSummary from './activity/WLActive/NodeSummary'; // 活动首页-超级
 import WLActiveSuper from './activity/WLActive/WLActiveSuper'; // 活动首页-超级
 import WLActiveActivate from './activity/WLActive/WLActiveActivate'; // 活动首页-激活
 import WLActiveNormal from './activity/WLActive/WLActiveNormal';
@@ -122,4 +123,5 @@ export {
   WLInvite,
   WLBenefit,
   WLPages,
+  NodeSummary,
 };

@@ -101,7 +101,8 @@ import {
   WLNodeInfo,
   WLInvite,
   WLBenefit,
-  WLPages
+  WLPages,
+  NodeSummary,
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -357,6 +358,9 @@ const HomeRouteConfig = {
   WLNode: {
     screen: WLNode,
   },
+  NodeSummary: {
+    screen: NodeSummary,
+  }
 };
 
 export { HomeRouteConfig, FirstLaunchRouteConfig, Loading };
