@@ -1,17 +1,17 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image,TouchableHighlight } from 'react-native';
 
-export default ({ total, forest, cycle, invite, source }) => {
+export default ({ total, forest, cycle, invite, source, onPress }) => {
   return (
-    <View style={styles.body}>
+    <TouchableHighlight style={styles.body} onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.total}>
             <Text>总收益(ITC)</Text>
             <Text style={styles.totalText}>{total}</Text>
           </View>
-          <Image source={require('../images/rightBlue.png')} />
+          <Image source={require('../images/rightBlue.png')} style={{width:20,height:20}} />
         </View>
         <View style={styles.divider} />
         <View style={styles.detailInfo}>
@@ -23,7 +23,7 @@ export default ({ total, forest, cycle, invite, source }) => {
           <DetailInfo label="溯源收益" value={source} />
         </View>
       </View>
-    </View>
+    </TouchableHighlight>
   );
 };
 
