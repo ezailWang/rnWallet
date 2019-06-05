@@ -34,7 +34,8 @@ const NetAddr = {
   queryActivityAddressInfo:`${activityHost}/api/v1/mapping/query`,
   updateActivityBindAddress:`${activityHost}/api/v1/mapping/set`,
   querySuperNodeList:`${activityHost}/api/v1/vipnodes`,
-  queryNodeInfo:`${activityHost}/api/v1/node/info`
+  queryNodeInfo:`${activityHost}/api/v1/node/info`,
+  queryRewardList:`${activityHost}/api/v1/reward/list`
 };
 
 export default NetAddr;

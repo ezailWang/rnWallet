@@ -906,4 +906,11 @@ export default class NetworkManager {
 
     return FetchUtils.requestGet(NetAddr.queryNodeInfo,params);
   }
+
+  static async queryRewardList(params) {
+
+    return FetchUtils.requestGet(NetAddr.queryRewardList,params);
+  }
+
+
 }

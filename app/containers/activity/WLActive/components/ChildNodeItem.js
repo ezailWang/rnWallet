@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text} from 'react-native';
 
 export default ({ no, value, total = 100 }) => {
   const rate = (value * 100) / total;

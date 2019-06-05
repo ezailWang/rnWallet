@@ -24,7 +24,7 @@ export default class NodeSummary extends BaseComponent {
       this._hideLoading();
     } catch (e) {
       this._hideLoading();  
-      showToast('query avtivity info error', 30);
+      showToast('query node info error', 30);
     }
   }
   renderComponent = () => {
@@ -78,7 +78,15 @@ export default class NodeSummary extends BaseComponent {
           />
           {
             type=='benefit' || type=='active'?
-            <BenefitInfo total={totalReward} forest={type=='active'?'--':bonusReward} cycle={type=='active'?'--':activeRound} invite={inviteReward} source={treeReward} />
+            <BenefitInfo 
+              total={totalReward} 
+              forest={type=='active'?'--':bonusReward} 
+              cycle={type=='active'?'--':activeRound} 
+              invite={inviteReward} 
+              source={treeReward}
+              onPress={() => {
+                navigation.navigate("WLBenefit")
+              }} />
             :null
           }
 
