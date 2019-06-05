@@ -51,10 +51,6 @@ import WLVote from './activity/WLLockVote/WLVote'; // 投票
 import WLAuth from './activity/WLAuth/WLAuth'; // 合约授权
 import WLNode from './activity/WLNode/WLNode'; // 选择节点
 import NodeSummary from './activity/WLActive/NodeSummary'; // 活动首页-超级
-import WLActiveSuper from './activity/WLActive/WLActiveSuper'; // 活动首页-超级
-import WLActiveActivate from './activity/WLActive/WLActiveActivate'; // 活动首页-激活
-import WLActiveNormal from './activity/WLActive/WLActiveNormal';
-import WLActiveAuth from './activity/WLActive/WLActiveAuth'; // 活动首页-权益
 import WLNodeActivate from './activity/WLNodeActivate/WLNodeActivate'; // 激活节点
 import WLNodeInfo from './activity/WLNodeInfo/WLNodeInfo'; // 节点信息
 import WLInvite from './activity/WLInvite/WLInvite';
@@ -63,7 +59,7 @@ import WLPages from './activity/WLPages/WLPages'; // 路由浏览列表
 
 import ChooseActivityETHWallet from './activity/ChooseActivityETHWallet'
 import ChooseActivityITCWallet from './activity/ChooseActivityITCWallet'
-import ActivityExplain from './activity/ActivityExplain'
+import WebViewScreen from './activity/WebViewScreen'
 
 export {
   HomeScreen,
@@ -118,10 +114,6 @@ export {
   WLVote,
   WLAuth,
   WLNode,
-  WLActiveSuper,
-  WLActiveActivate,
-  WLActiveNormal,
-  WLActiveAuth,
   WLNodeActivate,
   WLNodeInfo,
   WLInvite,
@@ -129,6 +121,6 @@ export {
   WLPages,
   ChooseActivityETHWallet,
   ChooseActivityITCWallet,
-  ActivityExplain,
+  WebViewScreen,
   NodeSummary,
 };

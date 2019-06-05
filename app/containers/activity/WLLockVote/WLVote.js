@@ -14,7 +14,7 @@ export default class WLVote extends BaseComponent {
   didTapDetailExplainBtn = ()=>{
 
     console.warn('跳转至web页面')
-    this.props.navigation.navigate('ActivityExplain',{
+    this.props.navigation.navigate('WebViewScreen',{
       webType:'0'
     })
   }

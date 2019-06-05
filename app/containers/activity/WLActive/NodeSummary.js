@@ -75,6 +75,16 @@ export default class NodeSummary extends BaseComponent {
             icon={<Image source={require('./images/super.png')} />}
             name={nodeType}
             address={address}
+            onRankPress={() => {
+              navigation.navigate('WebViewScreen',{
+                webType:'1'
+              })
+            }}
+            onPoolPress={() => {
+              navigation.navigate('WebViewScreen',{
+                webType:'2'
+              })
+            }}
           />
           {
             type=='benefit' || type=='active'?
