@@ -901,4 +901,9 @@ export default class NetworkManager {
 
     return FetchUtils.requestGet(NetAddr.querySuperNodeList,params);
   }
+  
+  static async queryNodeInfo(params) {
+
+    return FetchUtils.requestGet(NetAddr.queryNodeInfo,params);
+  }
 }

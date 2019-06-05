@@ -30,7 +30,7 @@ export default class WLHome extends BaseComponent {
     this.props.navigation.navigate('ChooseActivityETHWallet');
   }
 
-  render() {
+  renderComponent = () => {
 
     console.log(this.props)
 

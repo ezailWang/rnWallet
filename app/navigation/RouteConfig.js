@@ -104,7 +104,8 @@ import {
   WLPages,
   ChooseActivityETHWallet,
   ChooseActivityITCWallet,
-  ActivityExplain
+  ActivityExplain,
+  NodeSummary,
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -367,6 +368,9 @@ const HomeRouteConfig = {
   },
   ActivityExplain:{
     screen:ActivityExplain
+  },
+  NodeSummary: {
+    screen: NodeSummary,
   }
 };
 
