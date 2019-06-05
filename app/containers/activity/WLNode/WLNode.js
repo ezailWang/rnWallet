@@ -45,10 +45,11 @@ export default class WLNode extends BaseComponent {
 
       let nodeArr = []
 
-      result.data.map((value)=>{
+      result.data.map((value,idx)=>{
 
         nodeArr.push({
           ...value,
+          idx:idx,
           rank:'No.'+value.rank,
           amount:value.pledge+value.voteAmount
         })
@@ -63,8 +64,14 @@ export default class WLNode extends BaseComponent {
 
   selectNode = (idx)=>{
 
+    let selNode = this.state.nodeList[idx]
+
     console.warn('select node -> '+idx)
-    this.props.navigation.navigate('WLVote')
+    this.props.navigation.navigate('WLVote',{
+      nodeInfo:{
+        ...selNode
+      }
+    })
   }
 
   render() {
@@ -82,7 +89,7 @@ export default class WLNode extends BaseComponent {
         <View style={styles.nodeList}>
           <ScrollView>
             {nodeList.map(item => (
-              <NodeItem key={item.rank} no={item.rank} address={item.address} count={item.voteAmount} onPress={this.selectNode}/>
+              <NodeItem idx={item.idx} key={item.rank} no={item.rank} address={item.address} count={item.voteAmount} onPress={this.selectNode}/>
             ))}
             <View style={{'height':20}}></View>
           </ScrollView>

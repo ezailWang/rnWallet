@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, WebView} from 'react-native';
 import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import Layout from '../../config/LayoutConstants';
+import LayoutConstants from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
 
 const styles = StyleSheet.create({
@@ -14,7 +14,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
-  }
+  },
+  webviewBox: {
+    flex: 1,
+    width:LayoutConstants.WINDOW_WIDTH ,
+    backgroundColor: Colors.backgroundColor,
+  },
 });
 
 class ActivityExplain extends BaseComponent {
@@ -27,7 +32,7 @@ class ActivityExplain extends BaseComponent {
     let { webType } = this.props.navigation.state.params;
 
 
-    console.warn('选择的type是：'+webType)
+    // console.warn('选择的type是：'+webType)
 
     switch(Number(webType)){
         case 0:{
@@ -47,8 +52,8 @@ class ActivityExplain extends BaseComponent {
           />
           <View style={styles.contentBox}>
             <WebView
-                source={{uri:link}}
-                style={{marginTop: 20}}
+                source={{uri:'https://wallet.iotchain.io/VotePolicy.html'}}
+                style={styles.webviewBox}
             />
           </View>
         </View>

@@ -3,70 +3,11 @@ import React, { Component } from 'react';
 import { View, Text, TouchableHighlight, TextInput,StatusBar } from 'react-native';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
+import NetworkManager from '../../../utils/NetworkManager';
+import { defaultTokens } from '../../../utils/Constants';
+import { connect } from 'react-redux';
+import { showToast } from '../../../utils/Toast';
 
-export default class WLVote extends BaseComponent {
-
-  constructor(){
-    super()
-
-  }
-
-  didTapDetailExplainBtn = ()=>{
-
-    console.warn('跳转至web页面')
-    this.props.navigation.navigate('ActivityExplain',{
-      webType:'0'
-    })
-  }
-
-  render() {
-    const { navigation } = this.props;
-    return (
-      <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="投票" rightText="详细说明" rightAction={()=>{this.didTapDetailExplainBtn()}}/>
-        <View style={styles.editor}>
-          <Text style={styles.title}>投票数量</Text>
-          <TextInput style={styles.input} placeholder="600 ITC起，1 ITC递增" placeholderTextColor="#e6e6e6"/>
-          <View style={styles.desc}>
-            <View style={styles.descItem}>
-              <Text style={styles.descItemTitle}>锁定期限</Text>
-              <Text style={styles.descItemValue}>90天</Text>
-            </View>
-            <View style={styles.descItem}>
-              <Text style={styles.descItemTitle}>对应身份</Text>
-              <Text style={styles.descItemValue}>涡轮超级节点</Text>
-            </View>
-            <View style={styles.descItem}>
-              <Text style={styles.descItemTitle}>节点编号</Text>
-              <Text style={styles.descItemValue}>No1</Text>
-            </View>
-            <View style={styles.descItem}>
-              <Text style={styles.descItemTitle}>总锁仓</Text>
-              <Text style={styles.descItemValue}>186,758 ITC</Text>
-            </View>
-          </View>
-          <Text style={styles.title}>支付地址</Text>
-          <View style={styles.divider} />
-
-          <View style={styles.payInfo}>
-            <View>
-              <Text style={styles.payInfoTitle}>ETH Wallet Name01</Text>
-              <Text style={styles.payInfoSubTitle}>0x000005...405cd940</Text>
-            </View>
-            <View>
-              <Text style={styles.payInfoTitle}>1,000 ITC</Text>
-              <Text style={[styles.payInfoSubTitle, { alignSelf: 'flex-end' }]}>余额</Text>
-            </View>
-          </View>
-          <TouchableHighlight style={[styles.button, { backgroundColor: '#01a1f1' }]}>
-            <Text style={{ color: 'white' }}>投票</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    );
-  }
-}
 
 const styles = {
   container: {
@@ -139,3 +80,130 @@ const styles = {
     paddingVertical: 15,
   },
 };
+
+class WLVote extends BaseComponent {
+
+  constructor(){
+    super()
+
+    this.state={
+      itcErc20Balance:0,
+      currentWallet:{},
+      value:''
+    }
+  }
+
+  didTapDetailExplainBtn = ()=>{
+
+    this.props.navigation.navigate('ActivityExplain',{
+      webType:'0'
+    })
+  }
+
+  didTapVoteBtn = ()=>{
+
+    if(Number(this.state.value)<600){
+
+      showToast('投票数量不少于600个ITC',30)
+    }
+
+    //判断授权额度，如果不够则跳转至合约授权界面，如果够则不需要跳转
+
+  }
+
+  componentDidMount(){
+    let {activityEthAddress, ethWalletList} = this.props
+
+    ethWalletList.map((wallet,id)=>{
+      if(wallet.address == activityEthAddress){
+        this.setState({
+          currentWallet:wallet
+        })
+      }
+    })
+
+    console.warn(this.state.currentWallet)
+
+    //获取余额
+    NetworkManager.getEthERC20Balance(
+      activityEthAddress,
+      defaultTokens[1].address,
+      defaultTokens[1].decimal
+    ).then(balance=>{
+      this.setState({
+        itcErc20Balance:balance
+      })
+    }).catch(err=>{
+
+    })
+  }
+
+  render() {
+    const { navigation, activityEthAddress} = this.props
+    const {itcErc20Balance, currentWallet} = this.state
+
+    let { nodeInfo } = this.props.navigation.state.params;
+    let {rank,amount} = nodeInfo
+
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
+        <NavHeader navigation={navigation} color="white" text="投票" rightText="详细说明" rightAction={()=>{this.didTapDetailExplainBtn()}}/>
+        <View style={styles.editor}>
+          <Text style={styles.title}>投票数量</Text>
+          <TextInput keyboardType={'number-pad'} style={styles.input} placeholder="600 ITC起，1 ITC递增" placeholderTextColor="#e6e6e6"
+            onChangeText={(text) => {
+                this.state.value = text
+            }}
+          >
+          </TextInput>
+          <View style={styles.desc}>
+            <View style={styles.descItem}>
+              <Text style={styles.descItemTitle}>锁定期限</Text>
+              <Text style={styles.descItemValue}>90天</Text>
+            </View>
+            <View style={styles.descItem}>
+              <Text style={styles.descItemTitle}>对应身份</Text>
+              <Text style={styles.descItemValue}>涡轮超级节点</Text>
+            </View>
+            <View style={styles.descItem}>
+              <Text style={styles.descItemTitle}>节点编号</Text>
+              <Text style={styles.descItemValue}>{rank}</Text>
+            </View>
+            <View style={styles.descItem}>
+              <Text style={styles.descItemTitle}>总锁仓</Text>
+              <Text style={styles.descItemValue}>{amount+' ITC'}</Text>
+            </View>
+          </View>
+          <Text style={styles.title}>支付地址</Text>
+          <View style={styles.divider} />
+
+          <View style={styles.payInfo}>
+            <View style={{flex:6,marginRight:20}}>
+              <Text style={styles.payInfoTitle}>{currentWallet.name}</Text>
+              <Text style={styles.payInfoSubTitle}>{currentWallet.address}</Text>
+            </View>
+            <View style={{flex:4}}>
+              <Text style={[styles.payInfoTitle,{alignSelf: 'flex-end'}]}>{itcErc20Balance + ' ITC'}</Text>
+              <Text style={[styles.payInfoSubTitle, { alignSelf: 'flex-end' }]}>余额</Text>
+            </View>
+          </View>
+          <TouchableHighlight onPress={this.didTapVoteBtn} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
+            <Text style={{ color: 'white' }}>投票</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    );
+  }
+}
+
+
+const mapStateToProps = state => ({
+  ethWalletList: state.Core.ethWalletList,
+  activityEthAddress : state.Core.activityEthAddress
+});
+export default connect(
+  mapStateToProps,
+)(WLVote);
+
+// export default WLVote

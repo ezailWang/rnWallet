@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import { DeviceEventEmitter } from 'react-native';
 import jbokSdk from './jbok-sdk/src';
 import store from '../config/store/ConfigureStore';
-import { erc20Abi } from './Constants';
+import { erc20Abi, nodeBallotAbi } from './Constants';
 import LayoutConstants from '../config/LayoutConstants';
 import StorageManage from './StorageManage';
 import { StorageKey, Network, TransferGasLimit, ItcChainId } from '../config/GlobalConfig';
@@ -150,6 +150,25 @@ export default class NetworkManager {
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
       Analytics.recordErr('getEthERC20BalanceErr', err);
+      return 0.0;
+    }
+  }
+
+  /**
+   * Get the  ERC20 token allowance of a address to another address
+   *
+   * @param {String} ownerAddress
+   * @param {String} approveAddress
+   */
+  static async getAllowance(ownerAddress, approveAddress) {
+    try {
+      web3 = this.getWeb3Instance();
+      const contract = new web3.eth.Contract(erc20Abi, address);
+      const bigBalance = new BigNumber(await contract.methods.allowance(ownerAddress,approveAddress).call());
+      return parseFloat(bigBalance.dividedBy(ether)).toFixed(4);
+    } catch (err) {
+      DeviceEventEmitter.emit('netRequestErr', err);
+      Analytics.recordErr('getAllowance', err);
       return 0.0;
     }
   }
@@ -901,7 +920,7 @@ export default class NetworkManager {
 
     return FetchUtils.requestGet(NetAddr.querySuperNodeList,params);
   }
-  
+
   static async queryNodeInfo(params) {
 
     return FetchUtils.requestGet(NetAddr.queryNodeInfo,params);

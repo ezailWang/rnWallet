@@ -2,9 +2,9 @@
 import React from 'react';
 import { View, Text , TouchableOpacity} from 'react-native';
 
-export default ({ no, address, count , onPress}) => {
+export default ({idx,no, address, count , onPress}) => {
   return (
-    <TouchableOpacity onPress={()=>{onPress(no)}} style={styles.container}>
+    <TouchableOpacity onPress={()=>{onPress(idx)}} style={styles.container}>
       <View>
         <Text style={styles.no}>{no}</Text>
         <Text style={styles.address}>{address}</Text>
