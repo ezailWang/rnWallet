@@ -93,10 +93,6 @@ import {
   WLVote,
   WLAuth,
   WLNode,
-  WLActiveSuper,
-  WLActiveActivate,
-  WLActiveNormal,
-  WLActiveAuth,
   WLNodeActivate,
   WLNodeInfo,
   WLInvite,
@@ -104,7 +100,7 @@ import {
   WLPages,
   ChooseActivityETHWallet,
   ChooseActivityITCWallet,
-  ActivityExplain,
+  WebViewScreen,
   NodeSummary,
 } from '../containers/Containers';
 // 首次启动导航栈
@@ -333,18 +329,6 @@ const HomeRouteConfig = {
   WLNodeActivate: {
     screen: WLNodeActivate,
   },
-  WLActiveAuth: {
-    screen: WLActiveAuth,
-  },
-  WLActiveNormal: {
-    screen: WLActiveNormal,
-  },
-  WLActiveActivate: {
-    screen: WLActiveActivate,
-  },
-  WLActiveSuper: {
-    screen: WLActiveSuper,
-  },
   WLVote: {
     screen: WLVote,
   },
@@ -366,8 +350,8 @@ const HomeRouteConfig = {
   ChooseActivityETHWallet:{
     screen:ChooseActivityETHWallet
   },
-  ActivityExplain:{
-    screen:ActivityExplain
+  WebViewScreen:{
+    screen:WebViewScreen
   },
   NodeSummary: {
     screen: NodeSummary,

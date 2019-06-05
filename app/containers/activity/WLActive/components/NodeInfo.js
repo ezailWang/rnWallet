@@ -1,35 +1,29 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 import NodeCard from '../../../../components/NodeCard';
 
-export default ({ icon, name, address }) => {
+export default ({ icon, name, address,onRankPress,onPoolPress }) => {
   return (
     <View style={styles.container}>
       <View style={styles.nodeInfo}>
         <NodeCard icon={icon} name={name} address={address} />
       </View>
-      {/* <View style={styles.nodeInfo}>
-        <View style={styles.infoBody}>
-          {icon}
-          <View style={styles.infoDetail}>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.address}>{address}</Text>
-          </View>
-        </View>
-        <Image source={require('../images/arrow-right-white.png')} />
-      </View> */}
       <View style={styles.options}>
-        <View style={styles.optionItem}>
-          <Image source={require('../images/rank.png')} />
-          <Text>邀请排行榜</Text>
-          <Image source={require('../images/arrow-right-black.png')} />
-        </View>
-        <View style={styles.optionItem}>
-          <Image source={require('../images/wolunchi.png')} />
-          <Text>涡轮池</Text>
-          <Image source={require('../images/arrow-right-black.png')} />
-        </View>
+        <TouchableHighlight style={styles.optionContainer} onPress={onRankPress}>
+          <View style={styles.optionItem}>
+            <Image source={require('../images/rank.png')} />
+            <Text>邀请排行榜</Text>
+            <Image source={require('../images/arrow-right-black.png')} />
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.optionContainer} onPress={onPoolPress}>
+          <View style={styles.optionItem}>
+            <Image source={require('../images/wolunchi.png')} />
+            <Text>涡轮池</Text>
+            <Image source={require('../images/arrow-right-black.png')} />
+          </View>
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -74,18 +68,21 @@ const styles = {
     alignSelf: 'center',
     marginVertical: 10,
   },
-  optionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  optionContainer: {
+    width: '48%',
     backgroundColor: 'white',
     padding: 15,
-    width: '48%',
     borderRadius: 5,
     elevation: 3,
     shadowColor: 'gray',
     shadowOffset: { height: 1, width: 0 },
     shadowRadius: 1,
     shadowOpacity: 0.5,
+  },
+  optionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%'
   },
 };

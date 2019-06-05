@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class ActivityExplain extends BaseComponent {
+class WebViewScreen extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -31,14 +31,21 @@ class ActivityExplain extends BaseComponent {
 
     let { webType } = this.props.navigation.state.params;
 
-
-    // console.warn('选择的type是：'+webType)
-
     switch(Number(webType)){
         case 0:{
             var title = '投票说明'
             var link = 'https://wallet.iotchain.io/VotePolicy.html'
             break
+        }
+        case 1:{
+            var title = '邀请排行榜'
+            var link = 'https://wallet.iotchain.io/InviteRank.html'
+            break
+        }
+        case 2:{
+          var title = '涡轮池'
+          var link = 'https://wallet.iotchain.io/InviteRank.html'
+          break
         }
         default:
             break
@@ -62,4 +69,4 @@ class ActivityExplain extends BaseComponent {
 }
 
 
-export default ActivityExplain;
+export default WebViewScreen;
