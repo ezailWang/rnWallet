@@ -60,6 +60,10 @@ import WLInvite from './activity/WLInvite/WLInvite';
 import WLBenefit from './activity/WLBenefit/WLBenefit';
 import WLPages from './activity/WLPages/WLPages'; // 路由浏览列表
 
+import ChooseActivityETHWallet from './activity/ChooseActivityETHWallet'
+import ChooseActivityITCWallet from './activity/ChooseActivityITCWallet'
+import ActivityExplain from './activity/ActivityExplain'
+
 export {
   HomeScreen,
   Transaction,
@@ -122,4 +126,7 @@ export {
   WLInvite,
   WLBenefit,
   WLPages,
+  ChooseActivityETHWallet,
+  ChooseActivityITCWallet,
+  ActivityExplain,
 };

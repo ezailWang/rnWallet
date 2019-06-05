@@ -886,4 +886,19 @@ export default class NetworkManager {
 
     return FetchUtils.requestGet(NetAddr.queryActivityInfo,{});
   }
+
+  static async queryActivityAddressInfo(params) {
+
+    return FetchUtils.requestGet(NetAddr.queryActivityAddressInfo,params);
+  }
+  
+  static async updateActivityBindAddress(params) {
+
+    return FetchUtils.requestPost(NetAddr.updateActivityBindAddress,params);
+  }
+
+  static async querySuperNodeList(params) {
+
+    return FetchUtils.requestGet(NetAddr.querySuperNodeList,params);
+  }
 }

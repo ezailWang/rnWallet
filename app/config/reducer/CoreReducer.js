@@ -25,6 +25,7 @@ import {
   SET_CURRENT_WALLET,
   CREATE_WALLET_PARAM,
   EXCHANGE_DEPOSITED,
+  ACTIVITY_ADDRESS,
 } from '../action/ActionType';
 import StorageManage from '../../utils/StorageManage';
 import { StorageKey, Network } from '../GlobalConfig';
@@ -207,6 +208,11 @@ function coreReducer(state = defaultState, action) {
         depositStatusList: newDepositStatus,
       };
     }
+    case ACTIVITY_ADDRESS:
+      return {
+        ...state,
+        activityEthAddress: action.address,
+      };
     default:
       return state;
   }

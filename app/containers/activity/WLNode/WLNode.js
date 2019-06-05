@@ -6,9 +6,19 @@ import HeaderBackButton from '../../../components/HeaderBackButton';
 import NavHeader from '../../../components/NavHeader';
 import LayoutConstants from '../../../config/LayoutConstants';
 import BaseComponent from '../../base/BaseComponent';
+import NetworkManager from '../../../utils/NetworkManager';
+import { showToast } from '../../../utils/Toast';
 
 const { height } = Dimensions.get('window');
 export default class WLNode extends BaseComponent {
+
+  constructor(){
+    super()
+    this.state = {
+      nodeList:[]
+    }
+  }
+
   static navigationOptions = {
     headerStyle: {
       backgroundColor: '#00a8f3',
@@ -18,40 +28,49 @@ export default class WLNode extends BaseComponent {
     headerBackImage: <HeaderBackButton />,
   };
 
+  _initData = async () => {
+    this._showLoading()
+                
+    try {
+      var result = await NetworkManager.querySuperNodeList();
+      // console.warn(result)
+    } catch (e) {
+      this._hideLoading();  
+      showToast('query avtivity info error', 30);
+    }
+
+    this._hideLoading();
+
+    if(result && Number(result.code) == 200){
+
+      let nodeArr = []
+
+      result.data.map((value)=>{
+
+        nodeArr.push({
+          ...value,
+          rank:'No.'+value.rank,
+          amount:value.pledge+value.voteAmount
+        })
+      })
+
+      this.setState({
+        nodeList:nodeArr
+      })
+    }
+
+  };
+
+  selectNode = (idx)=>{
+
+    console.warn('select node -> '+idx)
+    this.props.navigation.navigate('WLVote')
+  }
+
   render() {
     const { navigation } = this.props;
-    const nodeList = [
-      {
-        no: 'NO.1',
-        address: '0X5E6B6D...355CD940',
-        count: '189,365',
-      },
-      {
-        no: 'NO.2',
-        address: '0X5E6B6D...355CD940',
-        count: '215,978',
-      },
-      {
-        no: 'NO.3',
-        address: '0X5E6B6D...355CD940',
-        count: '189,365',
-      },
-      {
-        no: 'NO.4',
-        address: '0X5E6B6D...355CD940',
-        count: '215,978',
-      },
-      {
-        no: 'NO.5',
-        address: '0X5E6B6D...355CD940',
-        count: '189,365',
-      },
-      {
-        no: 'NO.6',
-        address: '0X5E6B6D...355CD940',
-        count: '215,978',
-      },
-    ];
+    const {nodeList} = this.state;
+    
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -63,8 +82,9 @@ export default class WLNode extends BaseComponent {
         <View style={styles.nodeList}>
           <ScrollView>
             {nodeList.map(item => (
-              <NodeItem key={item.no} no={item.no} address={item.address} count={item.count} />
+              <NodeItem key={item.rank} no={item.rank} address={item.address} count={item.voteAmount} onPress={this.selectNode}/>
             ))}
+            <View style={{'height':20}}></View>
           </ScrollView>
         </View>
       </View>

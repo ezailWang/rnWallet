@@ -23,3 +23,4 @@ export const SET_ETH_WALLET_LIST = 'SET_ETH_WALLET_LIST'; // eth钱包列表
 export const SET_CURRENT_WALLET = 'SET_CURRENT_WALLET'; // 当前正在使用的钱包
 export const CREATE_WALLET_PARAM = 'CREATE_WALLET_PARAM'; // 创建钱包参数
 export const EXCHANGE_DEPOSITED = 'EXCHANGE_DEPOSITED'; // 兑换存币状态
+export const ACTIVITY_ADDRESS = 'ACTIVITY_ADDRESS'; //涡轮活动ETH地址地址

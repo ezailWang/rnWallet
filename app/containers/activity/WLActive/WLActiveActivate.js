@@ -9,6 +9,7 @@ import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 
 export default class WLActiveActivate extends BaseComponent {
+
   render() {
     const { navigation } = this.props;
     return (

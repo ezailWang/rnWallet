@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground, TouchableHighlight, StatusBar } from 'react-native';
+import { View, Text, Image, ImageBackground, TouchableOpacity, StatusBar } from 'react-native';
 import GroupButton from './components/GroupButton';
 import IconTextItem from './components/IconTextItem';
 import PageScroller from './components/PageScroller';
@@ -13,6 +13,17 @@ export default class WLTask extends BaseComponent {
     this.state = {
       activeIndex: 0,
     };
+  }
+
+  selectTask = ()=>{
+
+    let {activeIndex} = this.state
+
+    if(activeIndex == 1){
+
+      this.props.navigation.navigate('WLNode')
+    }
+
   }
 
   render() {
@@ -115,9 +126,9 @@ export default class WLTask extends BaseComponent {
             </PageScroller>
           </View>
         </View>
-        <TouchableHighlight style={[styles.button, { backgroundColor: '#01a1f1' }]}>
+        <TouchableOpacity onPress={this.selectTask} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
           <Text style={{ color: 'white' }}>去完成</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -101,7 +101,10 @@ import {
   WLNodeInfo,
   WLInvite,
   WLBenefit,
-  WLPages
+  WLPages,
+  ChooseActivityETHWallet,
+  ChooseActivityITCWallet,
+  ActivityExplain
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -347,7 +350,6 @@ const HomeRouteConfig = {
   WLAuth: {
     screen: WLAuth,
   },
-
   WLLock: {
     screen: WLLock,
   },
@@ -357,6 +359,15 @@ const HomeRouteConfig = {
   WLNode: {
     screen: WLNode,
   },
+  ChooseActivityITCWallet:{
+    screen:ChooseActivityITCWallet
+  },
+  ChooseActivityETHWallet:{
+    screen:ChooseActivityETHWallet
+  },
+  ActivityExplain:{
+    screen:ActivityExplain
+  }
 };
 
 export { HomeRouteConfig, FirstLaunchRouteConfig, Loading };

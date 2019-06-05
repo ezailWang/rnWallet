@@ -1,10 +1,10 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text , TouchableOpacity} from 'react-native';
 
-export default ({ no, address, count }) => {
+export default ({ no, address, count , onPress}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={()=>{onPress(no)}} style={styles.container}>
       <View>
         <Text style={styles.no}>{no}</Text>
         <Text style={styles.address}>{address}</Text>
@@ -14,7 +14,7 @@ export default ({ no, address, count }) => {
         {count}
         <Text style={styles.unit}> ITC</Text>
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

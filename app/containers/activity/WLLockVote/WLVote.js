@@ -5,12 +5,26 @@ import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 
 export default class WLVote extends BaseComponent {
+
+  constructor(){
+    super()
+
+  }
+
+  didTapDetailExplainBtn = ()=>{
+
+    console.warn('跳转至web页面')
+    this.props.navigation.navigate('ActivityExplain',{
+      webType:'0'
+    })
+  }
+
   render() {
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="投票" rightText="详细说明" />
+        <NavHeader navigation={navigation} color="white" text="投票" rightText="详细说明" rightAction={()=>{this.didTapDetailExplainBtn()}}/>
         <View style={styles.editor}>
           <Text style={styles.title}>投票数量</Text>
           <TextInput style={styles.input} placeholder="600 ITC起，1 ITC递增" placeholderTextColor="#e6e6e6"/>

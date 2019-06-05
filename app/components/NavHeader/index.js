@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Layout from '../../config/LayoutConstants';
 
-export default ({ text, color, rightText, navigation }) => {
+export default ({ text, color, rightText, navigation ,rightAction}) => {
   const backIcon =
     color === 'white'
       ? require('../../assets/common/common_back.png')
@@ -30,7 +30,7 @@ export default ({ text, color, rightText, navigation }) => {
         <Image source={backIcon} style={{ width: 18, height: 18 }} />
       </TouchableOpacity>
       <Text style={{ color: 'black', fontSize: 16 }}>{text}</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={rightAction}>
         <Text style={{ color: '#05b3eb' }}>{rightText}</Text>
       </TouchableOpacity>
     </View>

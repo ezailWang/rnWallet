@@ -1,18 +1,18 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableOpacity} from 'react-native';
 
 export default ({ buttons = [], activeIndex, onPress }) => {
   return (
     <View style={styles.container}>
       {buttons.map((item, index) => (
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => onPress(index)}
           key={item}
           style={[styles.item, activeIndex === index ? styles.active : {}]}
         >
           <Text style={{ color: 'white', fontSize: 12 }}>{item}</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       ))}
     </View>
   );

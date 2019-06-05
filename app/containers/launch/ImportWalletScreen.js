@@ -453,7 +453,7 @@ class ImportWalletScreen extends BaseComponent {
 
       let isExist = false;
       let wallets = [];
-      if (this.from === 1 || this.from === 2 || this.from === 3 || this.from === 4) {
+      if (this.from === 1 || this.from === 2 || this.from === 3 || this.from === 4 || this.from === 5) {
         const itcWalletList = await StorageManage.load(StorageKey.ItcWalletList);
         const ethWalletList = await StorageManage.load(StorageKey.EthWalletList);
 
@@ -530,7 +530,7 @@ class ImportWalletScreen extends BaseComponent {
     } else {
       this.props.loadTokenBalance(defaultTokens);
     }
-    if (this.from === 1 || this.from === 2 || this.from === 3 || this.from === 4) {
+    if (this.from === 1 || this.from === 2 || this.from === 3 || this.from === 4 || this.from === 5 || this.from === 6) {
       this.props.setTransactionRecordList([]);
       StorageManage.clearMapForkey(StorageKey.TransactionRecoderInfo);
 
@@ -545,9 +545,19 @@ class ImportWalletScreen extends BaseComponent {
         // this.props.navigation.navigate('BindWalletAddress');
         this.props.navigation.state.params.callback();
         this.props.navigation.goBack();
-      } else if (this.from === 4) {
+      } else if (this.from === 4 ) {
         // ITC映射服务页面进入
         this.props.navigation.popToTop();
+      }
+      //活动选择ETH钱包进入
+      else if(this.from === 5){
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack();
+      }
+      //活动选择ITC钱包进入
+      else if(this.from === 6){
+        this.props.navigation.state.params.callback();
+        this.props.navigation.goBack();
       }
     } else {
       this.props.navigation.navigate('Home');

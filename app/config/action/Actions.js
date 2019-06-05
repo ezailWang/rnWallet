@@ -175,6 +175,13 @@ function setExchangeDepositStatus(orderId) {
   };
 }
 
+function setActivityEthAddress(address){
+  return {
+    type: types.ACTIVITY_ADDRESS,
+    address,
+  };
+}
+
 export {
   generateMnemonic,
   setWalletTransferParams,
@@ -200,4 +207,5 @@ export {
   setCurrentWallet,
   setCreateWalletParams,
   setExchangeDepositStatus,
+  setActivityEthAddress
 };

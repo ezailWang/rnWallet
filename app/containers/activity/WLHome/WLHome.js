@@ -5,7 +5,7 @@ import {
   Text,
   Image,
   ImageBackground,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
   StatusBar,
 } from 'react-native';
@@ -17,11 +17,17 @@ import Chart from './components/Chart';
 import ChartLabel from './components/ChartLabel';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
+import Button from '../WLActive/components/Button';
 
 export default class WLHome extends BaseComponent {
 
   constructor(){
     super()
+  }
+
+  didTapActivityButton = ()=>{
+
+    this.props.navigation.navigate('ChooseActivityETHWallet');
   }
 
   render() {
@@ -30,14 +36,7 @@ export default class WLHome extends BaseComponent {
 
     //数据
     let { info } = this.props.navigation.state.params;
-    let {activeNum, benefitNum, bonusReward, normalNum, paidReward, poolReward, poolRewardTarget, sequence, startTime, totalPoolReward, vipNum} = info
-    let time = new Date(startTime).valueOf()
-    let nowTime = new Date()
-    let leftTimeStamp = parseInt(( 180 * 24 * 60 * 60 * 1000 - (nowTime - time) ) / 1000)
-    let leftDay = parseInt(leftTimeStamp / (24 * 60 * 60))
-    let leftHour =  parseInt((leftTimeStamp % (24 * 60 * 60))/(60 * 60))
-    let leftMinte = parseInt((leftTimeStamp % (60*60))/60)
-    let leftTime = leftDay + ':' + leftHour + ":" + leftMinte
+    let {activeNum, benefitNum, bonusReward, normalNum, paidReward, poolReward, poolRewardTarget, sequence, timeLeft, totalPoolReward, vipNum} = info
 
     // let series = [1, 2, 3, 4];
     let series = [activeNum, benefitNum, vipNum,normalNum];
@@ -62,7 +61,7 @@ export default class WLHome extends BaseComponent {
           <View style={styles.infoContainer}>
             <Tag text={`第${sequence}轮`} color="#46b6fe" />
             <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
-            <DetailItem title="结束倒计时" text={leftTime} />
+            <DetailItem title="结束倒计时" text={timeLeft} />
             <DetailItem title="涡轮池奖金" text={totalPoolReward} />
             <DetailItem title="已发放奖励" text={paidReward} />
 
@@ -98,9 +97,9 @@ export default class WLHome extends BaseComponent {
             </View>
           </View>
           <TextLink color="#00afc9" text="完整规则" style={{ marginVertical: 20 }} />
-          <TouchableHighlight style={[styles.button, { backgroundColor: '#01a1f1' }]}>
+          <TouchableOpacity onPress={this.didTapActivityButton} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
             <Text style={{ color: 'white' }}>我的涡轮计划</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );

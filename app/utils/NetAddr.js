@@ -30,7 +30,10 @@ const NetAddr = {
   queryConvertAddress: `${host}convertAddressList`,
   queryConvertTxList: `${host}userConvertList`,
   // transactionDetail:itcHost + 'v1/transavtion/hash'
-  queryActivityInfo:`${activityHost}/api/v1/round/info`
+  queryActivityInfo:`${activityHost}/api/v1/round/info`,
+  queryActivityAddressInfo:`${activityHost}/api/v1/mapping/query`,
+  updateActivityBindAddress:`${activityHost}/api/v1/mapping/set`,
+  querySuperNodeList:`${activityHost}/api/v1/vipnodes`,
 };
 
 export default NetAddr;
