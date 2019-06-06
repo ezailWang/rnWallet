@@ -19,7 +19,6 @@ export default class NodeSummary extends BaseComponent {
       var result = await NetworkManager.queryNodeInfo({
         address: '00001'
       });
-      console.log(result)
       this.setState(result.data)
       this._hideLoading();
     } catch (e) {
@@ -75,8 +74,11 @@ export default class NodeSummary extends BaseComponent {
             icon={<Image source={require('./images/super.png')} />}
             name={nodeType}
             address={address}
+            onNodePress={() => {
+              navigation.navigate('WLNodeInfo')
+            }}
             onRankPress={() => {
-              navigation.navigate('WebViewScreen',{
+              this.props.navigation.navigate('WebViewScreen',{
                 webType:'1'
               })
             }}
@@ -114,7 +116,9 @@ export default class NodeSummary extends BaseComponent {
                   <ChildNodeItem key={item.level} no={'L'+item.level} value={item.nodeNum} total={maxNodeNum} />
                 ))}
               </View>
-              <Button text="拓展子节点" />
+              <Button text="拓展子节点" onPress={() => {
+                navigation.navigate("WLInvite")
+              }}/>
             </View>
             :null
           }
@@ -157,7 +161,9 @@ export default class NodeSummary extends BaseComponent {
               {
                 childNum>=5?<Image source={require("./images/zt5.png")} style={{ marginVertical: 15 }} />:null
               }
-              <Button text="拓展子节点" />
+              <Button text="拓展子节点" onPress={() => {
+                navigation.navigate("WLInvite")
+              }}/>
             </View>
             :null
           }

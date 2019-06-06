@@ -30,8 +30,7 @@ class WebViewScreen extends BaseComponent {
   render(){
 
     let { webType } = this.props.navigation.state.params;
-
-    switch(Number(webType)){
+    switch(parseInt(webType)){
         case 0:{
             var title = '投票说明'
             var link = 'https://wallet.iotchain.io/VotePolicy.html'
@@ -59,7 +58,7 @@ class WebViewScreen extends BaseComponent {
           />
           <View style={styles.contentBox}>
             <WebView
-                source={{uri:'https://wallet.iotchain.io/VotePolicy.html'}}
+                source={{uri:link}}
                 style={styles.webviewBox}
             />
           </View>

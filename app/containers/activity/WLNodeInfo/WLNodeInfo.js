@@ -5,23 +5,68 @@ import NodeCard from '../../../components/NodeCard';
 import DisplayForm from './components/DisplayForm';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
+import NetworkManager from '../../../utils/NetworkManager';
+import { showToast } from '../../../utils/Toast';
 
 export default class WLNodeActivate extends BaseComponent {
-  render() {
+  constructor(props) {
+    super(props);
+    this.address = '00031'
+    this.state = {
+      task: {}
+    };
+  }
+
+  _initData = async () => {
+    this._showLoading()
+    try {
+      var result = await NetworkManager.queryTaskInfo({
+        address: this.address
+      });
+      this.setState({
+        task: result.data
+      })
+      this._hideLoading();
+    } catch (e) {
+      this._hideLoading();  
+      showToast('query task info error', 30);
+    }
+  }
+
+  renderComponent = () => {
     const { navigation } = this.props;
+    let { task } = this.state;
     const taskInfos = [
-      { label: '节点编号', value: 'NO.1' },
-      { label: '总额度', value: '182,356 ITC' },
-      { label: '我的投票', value: '600 ITC' },
-      { label: '解锁日期', value: '2019-09-15' },
-      { label: '转入记录', value: '0x07f79c...a5552c86', valueStyle: { color: '#50A6E5' } },
+      // { label: '节点编号', value: 'NO.1' },
+      { label: '总额度', value: task.totalAmount+' ITC' },
+      { label: '我的投票', value: task.myVote+' ITC' },
+      { label: '解锁日期', value: task.unlockTime },
+      { label: '转入记录', value: task.txHash, valueStyle: { color: '#50A6E5' } },
     ];
     const activateInfos = [
-      { label: '邀请人', value: '0x6071455cfd0x6071455cfd0x6071455cfd' },
-      { label: '激活时间', value: '2019-09-15 15:12:36' },
-      { label: '激活记录', value: '0x07f79c...a5552c86', valueStyle: { color: '#50A6E5' } },
-      { label: '晋级时间', value: '2019-09-15 15:12:36' },
+      { label: '邀请人', value: task.inviter },
+      { label: '激活时间', value: task.activeTime },
+      { label: '激活记录', value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
+      { label: '晋级时间', value: task.benefitTime },
     ];
+
+    let nodeType = '普通节点';
+    if (task.vip){
+      nodeType = '超级节点'
+    } else{
+      switch(task.nodeType){
+        case 'normal':
+          nodeType = '普通节点'
+          break
+        case 'benefit':
+          nodeType = '权益节点'
+          break
+        case 'active':
+          nodeType = '激活节点'
+          break
+      }
+    }
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
@@ -30,13 +75,18 @@ export default class WLNodeActivate extends BaseComponent {
           <View style={styles.node}>
             <NodeCard
               icon={<Image source={require('./images/quanyi.png')} style={styles.icon} resizeMode='contain'/>}
-              name="权益节点"
-              address="0x607140ff5747426tdfsf0x607140ff5747426tdfsf"
+              name={nodeType}
+              address={task.address}
               showArrow={false}
             />
           </View>
           <DisplayForm title="任务信息" items={taskInfos} />
-          <DisplayForm title="激活信息" items={activateInfos} />
+          {
+            !task.vip && task.actived?
+            <DisplayForm title="激活信息" items={activateInfos} />
+            :null
+          }
+          
         </ScrollView>
       </View>
     );

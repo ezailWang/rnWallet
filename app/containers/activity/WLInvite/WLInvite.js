@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, Image, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
 import DescView from '../../../components/DescView';
 import TextLink from '../../../components/TextLink';
 import NavHeader from '../../../components/NavHeader';
@@ -23,9 +23,9 @@ export default class WLInvite extends BaseComponent {
         </View>
         <Text style={styles.title}>邀请好友，领取更多奖励</Text>
         <DescView descArr={descArr} />
-        <TouchableHighlight style={styles.button}>
+        <TouchableOpacity style={styles.button}>
           <Text style={{ color: 'white' }}>复制邀请口令</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <TextLink color="#01a1f1" text="我的二维码" />
       </View>
     );
