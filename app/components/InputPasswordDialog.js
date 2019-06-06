@@ -139,6 +139,7 @@ export default class InputTextDialog extends Component {
         }}
         onShow={() => {}}
       >
+        
         <View style={styles.modeBox}>
           <View style={styles.contentBox}>
             <View style={styles.inputBox}>

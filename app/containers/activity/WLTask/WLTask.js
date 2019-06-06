@@ -20,10 +20,11 @@ export default class WLTask extends BaseComponent {
     let {activeIndex} = this.state
 
     if(activeIndex == 1){
-
       this.props.navigation.navigate('WLNode')
     }
-
+    else if(activeIndex == 0){
+      this.props.navigation.navigate('WLLock')
+    }
   }
 
   render() {

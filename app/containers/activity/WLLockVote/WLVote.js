@@ -7,7 +7,11 @@ import NetworkManager from '../../../utils/NetworkManager';
 import { defaultTokens, contractInfo} from '../../../utils/Constants';
 import { connect } from 'react-redux';
 import { showToast } from '../../../utils/Toast';
-
+import VoteTrxComfirm from './VoteTrxComfirm'
+import MyAlertComponent from '../../../components/MyAlertComponent';
+import KeystoreUtils from '../../../utils/KeystoreUtils';
+import StaticLoading from '../../../components/StaticLoading';
+import { I18n } from '../../../config/language/i18n';
 
 const styles = {
   container: {
@@ -89,7 +93,19 @@ class WLVote extends BaseComponent {
     this.state={
       itcErc20Balance:0,
       currentWallet:{},
-      value:''
+      value:'',
+      allowance:0,
+      isShowVoteTrx:false,
+      inputAmount:0,
+      payAddress:'',
+      lockDate:'',
+      nodeNumber:'',
+      showApproveModalVisible:false,
+      totalGasUser:'',
+      detailGas:'',
+      trxData:{},
+      isShowSLoading: false,
+      sLoadingContent: '',
     }
   }
 
@@ -104,7 +120,7 @@ class WLVote extends BaseComponent {
 
     let voteValue = Number(this.state.value)
 
-    if(voteValue<600){
+    if(voteValue<600 || isNaN(voteValue)){
 
       showToast('投票数量不少于600个ITC',30)
     }
@@ -112,18 +128,201 @@ class WLVote extends BaseComponent {
 
       showToast('ITC余额不足',30)
     }
-    
-    let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
-    //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
-    if(allowance < voteValue){
-
-      this.props.navigation.navigate('WLAuth',{
-        voteValue
-      })
-    }
     else{
 
+      let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+      //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
+      if(allowance < voteValue){
+  
+        this.setState({
+          showApproveModalVisible:true
+        })
+      }
+      else{
+        this.showPayView()
+      }
     }
+  }
+
+  didTapModalLeftPress = ()=>{
+
+    this.setState({
+      showApproveModalVisible:false
+    })
+  }
+
+  didTapModalRightPress = ()=>{
+    
+    this.setState({
+      showApproveModalVisible:false
+    })
+    
+    let voteValue = parseFloat(this.state.value)
+    this.props.navigation.navigate('WLAuth',{
+      voteValue,
+      callback:async ()=>{
+        console.log('一些刷新操作')
+
+        this._showLoading()
+        let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+        //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
+        this.setState({
+          allowance:allowance
+        })
+        this._hideLoading()
+
+      }
+    })
+  }
+
+  didTapCancelPayBtn = ()=>{
+
+    this.setState({
+      isShowVoteTrx:false
+    })
+  }
+
+  showPayView = async ()=>{
+
+    let { nodeInfo } = this.props.navigation.state.params;
+    let address = nodeInfo.address
+    let voteValue = parseFloat(this.state.value)
+    let {activityEthAddress} = this.props    
+
+    this._showLoading()
+
+    //测试超级节点地址
+    address = '0x19cc9D7CdD78248c8a141D8968397754ce24797d'
+
+    let trxData = NetworkManager.generalVoteTrxData(contractInfo.nodeBallot.address,address,voteValue)
+      
+    NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(res=>{
+     
+      this._hideLoading()
+
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+      
+      let detailGas = `Gas(${res.gas})*Gas Price(${parseInt(res.gasPrice)/Math.pow(10,9)} gwei) `
+
+      this.setState({
+        trxData:res.trx,
+        estimateGas:res.gasUsed.toFixed(6),
+        isShowVoteTrx:true,
+        inputAmount:voteValue,
+        payAddress:activityEthAddress,
+        lockDate:year+':'+month+':'+day,
+        nodeNumber:nodeInfo.rank,
+        amount:voteValue,
+        totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
+        detailGas:detailGas
+      })
+    })
+  }
+
+  didTapSurePasswordBtn = (password)=>{
+
+    this.setState({
+      isShowVoteTrx:false,
+    },async ()=>{
+
+      if (password === '' || password === undefined) {
+        showToast(I18n.t('toast.enter_password'));
+      } else {
+        this.timeIntervalCount = 0;
+        this.timeInterval = setInterval(() => {
+          this.timeIntervalCount = this.timeIntervalCount + 1;
+          this.changeLoading(this.timeIntervalCount, password);
+        }, 500);
+      }
+    })
+}
+
+changeLoading(num, password) {
+  let content = '';
+  if (num === 1) {
+    content = I18n.t('settings.verifying_password');
+  } else if (num === 2) {
+    content = I18n.t('settings.decrypting_keystore');
+  }
+  this.setState({
+    isShowSLoading: true,
+    sLoadingContent: content,
+  });
+  const n = 2;
+  if (num === n) {
+    clearInterval(this.timeInterval);
+    setTimeout(() => {
+      this.handleTrx(password);
+    }, 0);
+  }
+}
+
+async handleTrx(password) {
+  
+  let {activityEthAddress} = this.props
+
+  try {
+    var privateKey = await KeystoreUtils.getPrivateKey(password, activityEthAddress, 'eth');
+    console.log('privateKey'+privateKey)
+    if (privateKey == null) {
+      this.hideStaticLoading(); // 关闭Loading
+      showToast(I18n.t('modal.password_error'));
+    }
+    else{
+      console.log('开始发送交易'+privateKey+this.state.trxData)
+      NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
+        this.hideStaticLoading(); // 关闭Loading
+        console.log('txHash'+hash)
+        if(hash){
+          this.queryTXStatus(hash)
+        }
+      })
+    }
+  }
+  catch(err){
+    showToast(err);
+    this.hideStaticLoading(); // 关闭Loading
+  }
+}
+
+hideStaticLoading() {
+  this.setState({
+    isShowSLoading: false,
+    sLoadingContent: '',
+  });
+}
+
+queryTXStatus = (hash)=>{
+
+  this._showLoading()
+
+  let time = new Date().valueOf()
+  NetworkManager.listenETHTransaction(hash,time,(status)=>{
+
+    this._hideLoading()
+
+    if(status == 1){
+      content = '授权成功'
+    }
+    else{
+      content = '交易正在确认中..'
+    }
+
+    showToast(content,30)
+
+    this.props.navigation.navigate('NodeSummary')
+  })
+}
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
   }
 
   componentDidMount(){
@@ -135,6 +334,12 @@ class WLVote extends BaseComponent {
           currentWallet:wallet
         })
       }
+    })
+
+    NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address).then(allowance=>{
+      this.setState({
+        allowance:allowance
+      })
     })
 
     // console.warn(this.state.currentWallet)
@@ -153,9 +358,9 @@ class WLVote extends BaseComponent {
     })
   }
 
-  render() {
+  renderComponent = () => {
     const { navigation, activityEthAddress} = this.props
-    const {itcErc20Balance, currentWallet} = this.state
+    const {itcErc20Balance, currentWallet, isShowVoteTrx,inputAmount,payAddress,lockDate,nodeNumber,showApproveModalVisible,totalGasUsed,detailGas} = this.state
 
     let { nodeInfo } = this.props.navigation.state.params;
     let {rank,amount} = nodeInfo
@@ -206,12 +411,33 @@ class WLVote extends BaseComponent {
           <TouchableHighlight onPress={this.didTapVoteBtn} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
             <Text style={{ color: 'white' }}>投票</Text>
           </TouchableHighlight>
+          <VoteTrxComfirm
+            show={isShowVoteTrx}
+            didTapSurePasswordBtn={this.didTapSurePasswordBtn}
+            amount={inputAmount}
+            nodeNumber={nodeNumber}
+            lockDate={lockDate}
+            lockDay={'90天'}
+            fromAddress={payAddress}
+            totalGasUsed={totalGasUsed}
+            detailGas={detailGas}
+            onCancelClick={this.didTapCancelPayBtn}
+          />
+          <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
+          <MyAlertComponent
+            visible={showApproveModalVisible}
+            title={'提示'}
+            contents={['投票数量超出授权额度，请先授权节点合约足够数量的投票额度']}
+            leftBtnTxt={'取消'}
+            rightBtnTxt={'去授权'}
+            leftPress={this.didTapModalLeftPress}
+            rightPress={this.didTapModalRightPress}
+          />
         </View>
       </View>
     );
   }
 }
-
 
 const mapStateToProps = state => ({
   ethWalletList: state.Core.ethWalletList,

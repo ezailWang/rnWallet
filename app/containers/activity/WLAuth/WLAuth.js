@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, Image,StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image,StatusBar } from 'react-native';
 import AddressItem from './components/AddressItem';
 import DescItem from './components/DescItem';
 import NavHeader from '../../../components/NavHeader';
@@ -8,6 +8,12 @@ import BaseComponent from '../../base/BaseComponent';
 import { contractInfo, defaultTokens} from '../../../utils/Constants';
 import { connect } from 'react-redux';
 import NetworkManager from '../../../utils/NetworkManager'
+import { showToast } from '../../../utils/Toast';
+import InputPasswordDialog from '../../../components/InputPasswordDialog';
+import { I18n } from '../../../config/language/i18n';
+import StaticLoading from '../../../components/StaticLoading';
+import KeystoreUtils from '../../../utils/KeystoreUtils';
+
 
 const styles = {
   container: {
@@ -54,18 +60,149 @@ class WLAuth extends BaseComponent {
     this.state = {
       estimateGas:'0',
       trxData:{},
+      passwordModalVisible:false,
+      pwdRightBtnDisabled:true,
+      password:'',
+      isShowSLoading: false,
+      sLoadingContent: '',
+      showResultModalVisible:false,
+      resultContent:''
     }
+
+    this.inputPasswordDialog = React.createRef();
+
+  }
+
+
+  pwdOnChangeText = text => {
+    
+    const isDisabled = !!(text === '' || text.length < 8);
+    this.setState({
+      pwdRightBtnDisabled: isDisabled,
+      password:text
+    });
+  };
+
+  passwordConfirmClick() {
+    // var password = this.refs.inputPasswordDialog.state.text;
+    const {password} = this.state;
+    this.closePasswordModal();
+    if (password === '' || password === undefined) {
+      showToast(I18n.t('toast.enter_password'));
+    } else {
+      this.timeIntervalCount = 0;
+      this.timeInterval = setInterval(() => {
+        this.timeIntervalCount = this.timeIntervalCount + 1;
+        this.changeLoading(this.timeIntervalCount, password);
+      }, 500);
+    }
+  }
+
+  changeLoading(num, password) {
+    let content = '';
+    if (num === 1) {
+      content = I18n.t('settings.verifying_password');
+    } else if (num === 2) {
+      content = I18n.t('settings.decrypting_keystore');
+    }
+    this.setState({
+      isShowSLoading: true,
+      sLoadingContent: content,
+    });
+    const n = 2;
+    if (num === n) {
+      clearInterval(this.timeInterval);
+      setTimeout(() => {
+        this.handleTrx(password);
+      }, 0);
+    }
+  }
+
+  async handleTrx(password) {
+    let privateKey;
+
+    let {activityEthAddress} = this.props
+
+    try {
+      privateKey = await KeystoreUtils.getPrivateKey(password, activityEthAddress, 'eth');
+      console.log('privateKey'+privateKey)
+      if (privateKey == null) {
+        this.hideStaticLoading(); // 关闭Loading
+        showToast(I18n.t('modal.password_error'));
+      }
+      else{
+        console.log('开始发送交易'+privateKey+this.state.trxData)
+        NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
+          this.hideStaticLoading(); // 关闭Loading
+          // console.warn(hash)
+          if(hash){
+            this.queryTXStatus(hash)
+          }
+        })
+      }
+    }
+    catch(err){
+      showToast(err);
+      this.hideStaticLoading(); // 关闭Loading
+    }
+  }
+
+  queryTXStatus = (hash)=>{
+
+    this._showLoading()
+
+    let time = new Date().valueOf()
+    NetworkManager.listenETHTransaction(hash,time,(status)=>{
+
+      this._hideLoading()
+
+      if(status == 1){
+        content = '授权成功'
+      }
+      else{
+        content = '交易正在确认中..'
+      }
+
+
+      this.props.navigation.state.params.callback();
+      this.props.navigation.goBack();
+      
+      showToast(content,30)
+    })
+  }
+
+  hideStaticLoading() {
+    this.setState({
+      isShowSLoading: false,
+      sLoadingContent: '',
+    });
+  }
+
+  closePasswordModal() {
+    this.setState({ passwordModalVisible: false });
+  }
+
+
+  componentWillUnmount(){
+    super.componentWillUnmount()
   }
 
   componentWillMount(){
     super.componentWillMount()
-    this._showLoading()
-    try {
+    this._isMounted=true
+    
+  }
 
+  _initData = async () => {
+
+    this._showLoading()
+
+    try {
       const {activityEthAddress} = this.props;
+      
       const {voteValue} = this.props.navigation.state.params
 
-      let trxData = NetworkManager.generalApproveTrxData(defaultTokens[1].address,activityEthAddress,voteValue)
+      let trxData = NetworkManager.generalApproveTrxData(defaultTokens[1].address,contractInfo.nodeBallot.address,voteValue)
       
       NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(res=>{
         this.setState({
@@ -82,15 +219,23 @@ class WLAuth extends BaseComponent {
     }
   }
 
-  _initData = async () => {
-    
+  didTapApproveBtn = ()=>{
+
+    this.setState({
+      passwordModalVisible:true
+    })
+  }
+
+  didTapResultSureBtn = ()=>{
+
   }
 
   renderComponent = () => {
+    
     const { navigation, activityEthAddress} = this.props;
-    const {estimateGas} = this.state
+    const {estimateGas, resultContent, showResultModalVisible} = this.state
     const {voteValue} = this.props.navigation.state.params
-
+  
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
@@ -141,9 +286,21 @@ class WLAuth extends BaseComponent {
           />
         </View>
 
-        <TouchableHighlight style={[styles.button, { backgroundColor: '#01a1f1' }]}>
+        <TouchableOpacity onPress={this.didTapApproveBtn} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
           <Text style={{ color: 'white' }}>确认授权</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
+        <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
+        <InputPasswordDialog
+          ref={this.inputPasswordDialog}
+          placeholder={I18n.t('settings.enter_passowrd_hint')}
+          leftTxt={I18n.t('modal.cancel')}
+          rightTxt={I18n.t('modal.confirm')}
+          leftPress={() => this.closePasswordModal()}
+          rightPress={() => this.passwordConfirmClick()}
+          modalVisible={this.state.passwordModalVisible}
+          rightBtnDisabled={this.state.pwdRightBtnDisabled}
+          onChangeText={this.pwdOnChangeText}
+        />
       </View>
     );
   }

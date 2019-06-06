@@ -16,7 +16,9 @@ export default class WLPages extends React.Component {
           <PageItem name="前置任务" onPress={() => navigate('WLTask')} />
           <PageItem name="锁仓" onPress={() => navigate('WLLock')} />
           <PageItem name="投票" onPress={() => navigate('WLVote')} />
-          <PageItem name="合约授权" onPress={() => navigate('WLAuth')} />
+          <PageItem name="合约授权" onPress={() => navigate('WLAuth',{
+            voteValue:900
+          })} />
           <PageItem name="选择节点" onPress={() => navigate('WLNode')} />
           <PageItem name="激活节点" onPress={() => navigate('WLNodeActivate')} />
           <PageItem name="节点信息" onPress={() => navigate('WLNodeInfo')} />

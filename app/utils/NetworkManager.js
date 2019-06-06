@@ -165,8 +165,10 @@ export default class NetworkManager {
     try {
       web3 = this.getWeb3Instance();
       const contract = new web3.eth.Contract(erc20Abi, contractAddress);
-      const bigBalance = new BigNumber(await contract.methods.allowance(ownerAddress,approveAddress).call());
-      return parseFloat(bigBalance.dividedBy(ether)).toFixed(4);
+      let amount = await contract.methods.allowance(ownerAddress,approveAddress).call()
+      const bigBalance = new BigNumber(amount);
+      const ether = new BigNumber(Math.pow(10, 18));
+      return Promise.resolve(parseFloat(bigBalance.dividedBy(ether)).toFixed(4));
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
       Analytics.recordErr('getAllowance', err);
@@ -496,6 +498,7 @@ export default class NetworkManager {
     }
   }
 
+
   static async getCurrentBlockNumber() {
     try {
       const { wallet } = store.getState().Core;
@@ -736,6 +739,22 @@ export default class NetworkManager {
     }
   }
 
+
+  /**
+   * 发送ETH网络交易
+   * @param {*} privateKey 
+   * @param {*} trxData 
+   * @param {*} callBackHash 
+   */
+  static async sendETHTrx(privateKey,trxData,callBackHash){
+
+    web3.eth.accounts.wallet.add(privateKey);
+    const cb = await web3.eth.sendTransaction(trxData).on('transactionHash', hash => {
+      callBackHash(hash);
+    });
+    return cb;
+  }
+
   /**
    * generalContractApproveTrxData
    * @param {*} contractAddress 
@@ -747,6 +766,42 @@ export default class NetworkManager {
     const contract = new web3.eth.Contract(erc20Abi, contractAddress);
     const BNAmout = new BigNumber(amout * Math.pow(10, 18));
     const data = contract.methods.approve(toAddress, BNAmout).encodeABI();
+    return {
+        to: contractAddress,
+        value: '0x00',
+        data:data
+    }
+  }
+
+  /**
+   * generalVoteTrxData
+   * @param {*} contractAddress 
+   * @param {*} toAddress 
+   * @param {*} amout 
+   */
+  static generalSuperNodeLockTrxData(contractAddress,amout){
+
+    const contract = new web3.eth.Contract(nodeBallotAbi, contractAddress);
+    const BNAmout = new BigNumber(amout * Math.pow(10, 18));
+    const data = contract.methods.generalSuperNode(BNAmout).encodeABI();
+    return {
+        to: contractAddress,
+        value: '0x00',
+        data:data
+    }
+  }
+
+   /**
+   * generalVoteTrxData
+   * @param {*} contractAddress 
+   * @param {*} toAddress 
+   * @param {*} amout 
+   */
+  static generalVoteTrxData(contractAddress,toAddress,amout){
+
+    const contract = new web3.eth.Contract(nodeBallotAbi, contractAddress);
+    const BNAmout = new BigNumber(amout * Math.pow(10, 18));
+    const data = contract.methods.ballot(toAddress, BNAmout).encodeABI();
     return {
         to: contractAddress,
         value: '0x00',
@@ -779,11 +834,14 @@ export default class NetworkManager {
     t.nonce = web3.utils.toHex(nonce);
     t.from = fromAddress;
     let estimateGas = await web3.eth.estimateGas(t);
+    t.gas = web3.utils.toHex(estimateGas);
 
     let estimateGasUsed = estimateGas * price / Math.pow(10,18)
     return Promise.resolve({
       trx:t,
-      gasUsed:estimateGasUsed
+      gasUsed:estimateGasUsed,
+      gasPrice:price,
+      gas:estimateGas
     })
 }
 
@@ -925,6 +983,35 @@ export default class NetworkManager {
         .toString('hex')
         .slice(-20)}`
     );
+  }
+
+  /**
+   * 监听eth交易
+   * @param {*} hash 
+   * @param {*} call 
+   */
+  static async listenETHTransaction(hash,date,call){
+
+    web3 = this.getWeb3Instance();
+    let tx = await web3.eth.getTransactionReceipt(hash)
+
+    if(tx){
+      console.log('已查询到->'+tx)
+      call(1)
+    }
+    else{
+      console.log('未查找到该交易凭证->'+hash)
+
+      let nowTime = new Date().valueOf()
+
+      if(nowTime - date > 3 * 60 * 1000 ){
+        call(0)
+      }else{
+        setTimeout(() => {
+          this.listenETHTransaction(hash,date,call)
+        }, 5 * 1000);
+      }
+    }
   }
 
   // SWFT Interface

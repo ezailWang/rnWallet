@@ -154,14 +154,12 @@ class ChooseActivityETHWallet extends BaseComponent {
       var result = await NetworkManager.queryActivityAddressInfo({
         eth:selectedWallet.address
       });
-      // console.warn(result)
 
     } catch (e) {
       this._hideLoading();  
       showToast('query avtivity info error', 30);
     }
 
-    this._hideLoading();
 
     if(result && Number(result.code) == 200){
 
@@ -172,10 +170,24 @@ class ChooseActivityETHWallet extends BaseComponent {
       //2，用户如果还未完成某个活动，则进入活动选择界面，
       //3，用户如果完成了某个活动，则进入活动界面
       if(result.data == null || result.data.itc.length == 0){
+
+        this._hideLoading();
         this.props.navigation.navigate('ChooseActivityITCWallet');
       }
       else{
-        this.props.navigation.navigate('WLTask');
+        let nodeInfo = await NetworkManager.queryNodeInfo({
+          address:selectedWallet.address
+        });
+
+        this._hideLoading();
+        if(nodeInfo.data){
+          this.props.navigation.navigate('NodeSummary',{
+            nodeData:nodeInfo.data
+          })
+        }
+        else{
+          this.props.navigation.navigate('WLTask');
+        }
       }
     }
   }
@@ -248,6 +260,14 @@ class ChooseActivityETHWallet extends BaseComponent {
       });
     }
   };
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
+  }
 
   renderComponent = () => (
     <View style={styles.container}>

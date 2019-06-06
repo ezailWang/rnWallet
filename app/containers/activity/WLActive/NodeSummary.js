@@ -14,19 +14,22 @@ import { showToast } from '../../../utils/Toast';
 export default class NodeSummary extends BaseComponent {
   
   _initData = async () => {
-    this._showLoading()
-    try {
-      var result = await NetworkManager.queryNodeInfo({
-        address: '00001'
-      });
-      console.log(result)
-      this.setState(result.data)
-      this._hideLoading();
-    } catch (e) {
-      this._hideLoading();  
-      showToast('query node info error', 30);
-    }
+   
+      let { nodeData } = this.props.navigation.state.params;
+
+      this.setState({
+        ...nodeData
+      })
   }
+  
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
+  }
+
   renderComponent = () => {
     const { navigation } = this.props;
     let { activeRound,address,bonusReward,children,inviteReward,totalReward,treeReward,type,vip,childNum } = this.state;

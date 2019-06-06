@@ -47,6 +47,11 @@ class WebViewScreen extends BaseComponent {
           var link = 'https://wallet.iotchain.io/InviteRank.html'
           break
         }
+        case 3:{
+          var title = '超级节点'
+          var link = 'https://wallet.iotchain.io/SuperNodePolicy.html'
+          break
+        }
         default:
             break
     }

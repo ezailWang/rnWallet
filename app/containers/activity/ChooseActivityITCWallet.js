@@ -144,6 +144,14 @@ class ChooseActivityITCWallet extends BaseComponent {
     });
   };
 
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
+  }
+  
   async confirmBtn() {
     const { selectedWallet } = this.state;
     
