@@ -33,7 +33,6 @@ export default class WLNode extends BaseComponent {
                 
     try {
       var result = await NetworkManager.querySuperNodeList();
-      // console.warn(result)
     } catch (e) {
       this._hideLoading();  
       showToast('query avtivity info error', 30);
@@ -66,7 +65,6 @@ export default class WLNode extends BaseComponent {
 
     let selNode = this.state.nodeList[idx]
 
-    console.warn('select node -> '+idx)
     this.props.navigation.navigate('WLVote',{
       nodeInfo:{
         ...selNode

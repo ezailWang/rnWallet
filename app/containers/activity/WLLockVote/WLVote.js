@@ -4,7 +4,7 @@ import { View, Text, TouchableHighlight, TextInput,StatusBar } from 'react-nativ
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
-import { defaultTokens } from '../../../utils/Constants';
+import { defaultTokens, contractInfo} from '../../../utils/Constants';
 import { connect } from 'react-redux';
 import { showToast } from '../../../utils/Toast';
 
@@ -95,20 +95,35 @@ class WLVote extends BaseComponent {
 
   didTapDetailExplainBtn = ()=>{
 
-    this.props.navigation.navigate('ActivityExplain',{
-      webType:'0'
+    this.props.navigation.navigate('WebViewScreen',{
+      webType:'1'
     })
   }
 
-  didTapVoteBtn = ()=>{
+  didTapVoteBtn = async ()=>{
 
-    if(Number(this.state.value)<600){
+    let voteValue = Number(this.state.value)
+
+    if(voteValue<600){
 
       showToast('投票数量不少于600个ITC',30)
     }
+    else if (voteValue > this.state.itcErc20Balance){
 
-    //判断授权额度，如果不够则跳转至合约授权界面，如果够则不需要跳转
+      showToast('ITC余额不足',30)
+    }
+    
+    let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+    //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
+    if(allowance < voteValue){
 
+      this.props.navigation.navigate('WLAuth',{
+        voteValue
+      })
+    }
+    else{
+
+    }
   }
 
   componentDidMount(){
@@ -122,7 +137,7 @@ class WLVote extends BaseComponent {
       }
     })
 
-    console.warn(this.state.currentWallet)
+    // console.warn(this.state.currentWallet)
 
     //获取余额
     NetworkManager.getEthERC20Balance(

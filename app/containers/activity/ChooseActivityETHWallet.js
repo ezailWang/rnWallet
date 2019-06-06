@@ -154,7 +154,7 @@ class ChooseActivityETHWallet extends BaseComponent {
       var result = await NetworkManager.queryActivityAddressInfo({
         eth:selectedWallet.address
       });
-      console.warn(result)
+      // console.warn(result)
 
     } catch (e) {
       this._hideLoading();  
