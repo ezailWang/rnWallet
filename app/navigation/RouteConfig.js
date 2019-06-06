@@ -102,6 +102,7 @@ import {
   ChooseActivityITCWallet,
   WebViewScreen,
   NodeSummary,
+  MappingServiceAgreement,
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -109,6 +110,7 @@ const FirstLaunchRouteConfig = {
     screen: FirstLaunchScreen,
     navigationOptions: () => ({
       header: null,
+      headerTitleAllowFontScaling: false,
       cardStack: {
         // gesturesEnabled: false
       },
@@ -179,6 +181,7 @@ const HomeRouteConfig = {
     screen: HomeBottomTabNavigation,
     navigationOptions: {
       header: null,
+      headerTitleAllowFontScaling: false,
       // gesturesEnabled:false
     },
   },
@@ -355,7 +358,10 @@ const HomeRouteConfig = {
   },
   NodeSummary: {
     screen: NodeSummary,
-  }
+  },
+  MappingServiceAgreement: {
+    screen: MappingServiceAgreement,
+  },
 };
 
 export { HomeRouteConfig, FirstLaunchRouteConfig, Loading };

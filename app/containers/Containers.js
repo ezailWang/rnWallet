@@ -43,6 +43,7 @@ import ChoseWalletTypeScreen from './launch/ChoseWalletTypeScreen';
 import Mapping from './mapping/Mapping';
 import ExchangeScreen from './exchange/ExchangeScreen';
 import ExchangeDetail from './exchange/ExchangeDetail';
+import MappingServiceAgreement from './mapping/MappingServiceAgreementScreen';
 
 import WLHome from './activity/WLHome/WLHome';
 import WLTask from './activity/WLTask/WLTask';
@@ -123,4 +124,5 @@ export {
   ChooseActivityITCWallet,
   WebViewScreen,
   NodeSummary,
+  MappingServiceAgreement,
 };

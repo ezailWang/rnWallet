@@ -67,7 +67,7 @@
     "home":{
         "tab_wallet":"Гаманець",
         "tab_mapping":"Сервіс обміну токенов",
-        "tab_exchange":"Швидкий обмін",
+        "tab_exchange":"обмен",
         "tab_my":"Я",
         "my":"Я",
         
@@ -265,12 +265,12 @@
         "upcoming_start":"Очікується незабаром",
 
         
-        "binding_replace_address":"Адреса прив'язки гаманця",
+        "binding_replace_address":"Виберіть гаманець",
         "binding_replace_address_desc":"Виберіть адресу гаманця для отримання ITC",
         "next":"Далі",
         "change":"Перемикач",
 
-        "binding_wallet_address":"Адреса прив'язки гаманця",
+        "binding_wallet_address":"Виберіть гаманець",
         "binding_wallet_address_title":"Адреса головного телефону для отримання ITC.",
         "binding_wallet_address_desc":"Виберіть адресу гаманця Erc20, яка наразі містить ITC",
         "binding_wallet_address_warn":"(Вищезгадана адреса гаманця може отримувати лише запит на заміну кошика ETH.)",
@@ -303,7 +303,9 @@
         "transfer_unsuccess_desc":"Операцію завершено. Основний ITC буде відправлений після аудиту.",
         "already_applied":"Застосовується",
         "in_the_audit":"В процесі",
-        "completed":"Завершено"
+        "completed":"Завершено",
+        "service_agreement":"ITC Token Swap Service Agreement",
+        "service_agreement_title":"Agreement"
 
     },
     "toast":{

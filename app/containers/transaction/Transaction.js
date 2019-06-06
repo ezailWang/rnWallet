@@ -525,25 +525,10 @@ export default class Transaction extends BaseComponent {
   didTapNextBtn = () => {
     this.INPUT_ADDRESS.blur();
 
-    // 计算gas消耗
-    const { wallet } = store.getState().Core;
-    let gasLimit;
-    if (wallet.type === 'itc') {
-      gasLimit = TransferGasLimit.itcGasLimit;
-    } else if (wallet.type === 'eth') {
-      gasLimit =
-        this.params.transferType === TransferType.ETH
-          ? TransferGasLimit.ethGasLimit
-          : TransferGasLimit.tokenGasLimit;
-    }
-    let totalGas = this.state.currentGas * 0.001 * 0.001 * 0.001 * gasLimit;
-    totalGas = totalGas.toFixed(8);
-
-    if (this.params.ethBalance < totalGas) {
-      this._showAlert(I18n.t('transaction.alert_4'));
+    if (!this.checkBalanceAndGas()) {
       return;
     }
-
+    const { wallet } = store.getState().Core;
     const gas = this.getGas(this.state.currentGas);
     const walletType = wallet.type === 'itc' ? ' itc' : ' ether';
     const params = {
@@ -595,12 +580,11 @@ export default class Transaction extends BaseComponent {
     );
   };
 
-  judgeCanSendInfoCorrect = () => {
+  checkBalanceAndGas = () => {
     const { wallet } = store.getState().Core;
     const { balance, transferType, ethBalance } = this.params;
 
-    const { transferValue, toAddress, fromAddress, currentGas } = this.state;
-
+    const { transferValue, currentGas } = this.state;
     const gas = this.getGas(currentGas);
     let curBalance;
     let curMainBalance;
@@ -611,13 +595,24 @@ export default class Transaction extends BaseComponent {
       curBalance = parseFloat(balance - transferValue).toFixed(8);
       curMainBalance = parseFloat(ethBalance - gas).toFixed(8);
     }
+    if (curBalance < 0) {
+      // 余额不足
+      this._showAlert(I18n.t('exchange.insufficient_balance'));
+      return false;
+    }
+    if (curMainBalance < 0) {
+      // 服务费不足
+      this._showAlert(I18n.t('exchange.insufficient_service_fee'));
+      return false;
+    }
+    return true;
+  };
+
+  judgeCanSendInfoCorrect = () => {
+    const { transferValue, toAddress, fromAddress } = this.state;
 
     const amountIsNotValid =
-      transferValue === undefined ||
-      Number.isNaN(transferValue) ||
-      parseFloat(transferValue) <= 0 ||
-      curBalance < 0 ||
-      curMainBalance < 0;
+      transferValue === undefined || Number.isNaN(transferValue) || parseFloat(transferValue) <= 0;
     const addressIsNotValid = !NetworkManager.isValidAddress(toAddress);
     const addressIsSame = toAddress === fromAddress;
 

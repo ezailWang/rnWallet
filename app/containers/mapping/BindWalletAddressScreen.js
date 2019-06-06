@@ -241,6 +241,7 @@ class BindWalletAddressScreen extends BaseComponent {
         const ethBalance = await NetworkManager.getEthBalance(wal.address);
         wal.itcBalance = itcBalance;
         wal.ethBalance = ethBalance;
+        wal.bind = false;
         return wal;
       })
     );
@@ -287,6 +288,7 @@ class BindWalletAddressScreen extends BaseComponent {
     const newEthWalletList = await this.reFreshEthWalletListInfoOfItcAddress(itcWallet);
     this.setState({
       ethWallets: newEthWalletList,
+      selectedWallet: null,
     });
   };
 
@@ -303,6 +305,10 @@ class BindWalletAddressScreen extends BaseComponent {
       const bindRes = await this.bindConvertAddress(itcWallet.address, selectedWallet.address);
       this._hideLoading();
       if (bindRes.enable) {
+        selectedWallet.bind = true;
+        this.setState({
+          selectedWallet,
+        });
         const mappingData = {
           convertEthWallet: selectedWallet,
           itcWallet,
@@ -386,6 +392,7 @@ class BindWalletAddressScreen extends BaseComponent {
         _this.setState({
           itcWallet: data.itcWallet,
           ethWallets: newEthWalletList,
+          selectedWallet: null,
         });
         _this._hideLoading();
       },
@@ -456,10 +463,10 @@ class BindWalletAddressScreen extends BaseComponent {
             data={this.state.ethWallets}
             keyExtractor={(item, index) => index.toString()} // 给定的item生成一个不重复的key
             renderItem={this._renderItem}
-            ListEmptyComponent={this._renderEmptyView}
+            // ListEmptyComponent={this._renderEmptyView}
             ListFooterComponent={this._renderFooterView}
             ItemSeparatorComponent={this._renderItemSeparatorComponent}
-            getItemLayout={(data, index) => ({ length: 80, offset: (80 + 1) * index, index })}
+            getItemLayout={(data, index) => ({ length: 66, offset: 0 * index, index })}
           />
         </View>
 
@@ -478,8 +485,8 @@ class BindWalletAddressScreen extends BaseComponent {
 class Item extends PureComponent {
   render() {
     const { item, choseWalletAddress, onPressItem } = this.props;
-    const { name, address, bind, itcBalance } = item.item || {};
-    const _name = bind ? name + I18n.t('mapping.bind') : name;
+    const { name, address, itcBalance } = item.item || {};
+    // const _name = bind ? name + I18n.t('mapping.bind') : name;
     // const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
     const itcBalanceText = `${I18n.t('exchange.balance')}: ${itcBalance} ITC`;
     const checkIcon =
@@ -496,16 +503,16 @@ class Item extends PureComponent {
         // disabled={bind}
       >
         <View style={styles.itemConetntView}>
-          <Text style={bind ? styles.itemBindName : styles.itemName}>{_name}</Text>
+          <Text style={styles.itemName}>{name}</Text>
           <Text style={styles.itemAddress}>{itcBalanceText}</Text>
         </View>
-        {bind ? (
+        {/* {bind ? (
           <Image
             style={styles.itemCheckedImg}
             source={require('../../assets/mapping/bind_icon.png')}
             resizeMode="center"
           />
-        ) : null}
+        ) : null} */}
         <Image style={styles.itemCheckedImg} source={checkIcon} resizeMode="center" />
       </TouchableOpacity>
     );

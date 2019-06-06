@@ -238,8 +238,6 @@ queryTXStatus = (hash)=>{
   let time = new Date().valueOf()
   NetworkManager.listenETHTransaction(hash,time,(status)=>{
 
-    this._hideLoading()
-
     if(status == 1){
       content = '授权成功'
     }
@@ -249,7 +247,23 @@ queryTXStatus = (hash)=>{
 
     showToast(content,30)
 
-    this.props.navigation.navigate('NodeSummary')
+    //5秒后查询服务器
+    setTimeout(async () => {
+      
+      let nodeInfo = await NetworkManager.queryNodeInfo({
+        address:this.props.activityEthAddress
+      });
+  
+      this._hideLoading();
+      if(nodeInfo.data){
+        this.props.navigation.navigate('NodeSummary',{
+          nodeData:nodeInfo.data
+        })
+      }
+      else{
+        this.props.navigation.goBack();
+      }
+    }, 5 * 1000);
   })
 }
 

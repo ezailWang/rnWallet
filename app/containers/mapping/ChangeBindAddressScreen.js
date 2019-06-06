@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   contentDescBox: {
     width: Layout.WINDOW_WIDTH * 0.9,
-    height: 40,
+    // height: 40,
     borderRadius: 5,
     backgroundColor: Colors.bg_blue,
     justifyContent: 'center',
@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     paddingLeft: 10,
     paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
     alignSelf: 'center',
   },
   listContainer: {

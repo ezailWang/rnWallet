@@ -60,9 +60,9 @@ export default class MyAlert extends Component {
     okPress: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    title: I18n.t('modal.prompt'),
-  };
+  // static defaultProps = {
+  //   title: I18n.t('modal.prompt'),
+  // };
 
   render() {
     const { modalVisible, title, content, okPress } = this.props;
@@ -77,7 +77,7 @@ export default class MyAlert extends Component {
       >
         <View style={styles.modeBox}>
           <View style={styles.contentBox}>
-            <Text style={styles.title}>{title}</Text>
+            {title ? <Text style={styles.title}>{title}</Text> : null}
             <Text style={styles.content}>{content}</Text>
             <View style={styles.line} />
             <TouchableOpacity style={styles.buttonBox} onPress={okPress}>

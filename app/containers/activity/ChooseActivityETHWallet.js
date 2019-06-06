@@ -330,26 +330,25 @@ class Footer extends PureComponent {
 class Item extends PureComponent {
   render() {
     const { item, choseWalletAddress, onPressItem } = this.props || {};
-    const { name, address, bind } = item.item || {};
+    const { name, address} = item.item || {};
 
-    const _name = bind ? name + I18n.t('mapping.bind') : name;
+    const _name = name;
     const _address = `${address.substr(0, 8)}...${address.substr(34, 42)}`;
 
     const checkIcon =
       choseWalletAddress.toUpperCase() === address.toUpperCase()
         ? require('../../assets/launch/check_on.png')
         : require('../../assets/launch/check_off.png');
-    const icon = bind ? require('../../assets/mapping/bind_icon.png') : checkIcon;
+    const icon = checkIcon;
     return (
       <TouchableOpacity
         activeOpacity={0.6}
         {...this.props}
         style={styles.item}
         onPress={onPressItem}
-        disabled={bind}
       >
         <View style={styles.itemConetntView}>
-          <Text style={bind ? styles.itemBindName : styles.itemName}>{_name}</Text>
+          <Text style={styles.itemName}>{_name}</Text>
           <Text style={styles.itemAddress}>{_address}</Text>
         </View>
         <Image style={styles.itemCheckedImg} source={icon} resizeMode="center" />
