@@ -1,29 +1,29 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { View, Text, Image, TouchableHighlight } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import NodeCard from '../../../../components/NodeCard';
 
-export default ({ icon, name, address,onRankPress,onPoolPress }) => {
+export default ({ icon, name, address,onRankPress,onPoolPress,onNodePress }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.nodeInfo}>
+      <TouchableOpacity style={styles.nodeInfo} onPress={onNodePress}>
         <NodeCard icon={icon} name={name} address={address} />
-      </View>
+      </TouchableOpacity>
       <View style={styles.options}>
-        <TouchableHighlight style={styles.optionContainer} onPress={onRankPress}>
+        <TouchableOpacity style={styles.optionContainer} onPress={onRankPress}>
           <View style={styles.optionItem}>
             <Image source={require('../images/rank.png')} />
             <Text>邀请排行榜</Text>
             <Image source={require('../images/arrow-right-black.png')} />
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.optionContainer} onPress={onPoolPress}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionContainer} onPress={onPoolPress}>
           <View style={styles.optionItem}>
             <Image source={require('../images/wolunchi.png')} />
             <Text>涡轮池</Text>
             <Image source={require('../images/arrow-right-black.png')} />
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     </View>
   );

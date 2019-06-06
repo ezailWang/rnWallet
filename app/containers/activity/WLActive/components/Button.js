@@ -1,12 +1,12 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { Text, TouchableHighlight } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
 export default ({ text, onPress, style }) => {
   return (
-    <TouchableHighlight style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
       <Text style={{ color: 'white' }}>{text}</Text>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 

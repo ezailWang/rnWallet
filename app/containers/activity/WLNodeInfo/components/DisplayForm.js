@@ -31,7 +31,7 @@ const styles = {
     // marginBottom: 10,
   },
   divider: {
-    height: 1,
+    height: 0.5,
     backgroundColor: '#959595',
     marginVertical: 15,
   },

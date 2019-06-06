@@ -1069,5 +1069,9 @@ export default class NetworkManager {
     return FetchUtils.requestGet(NetAddr.queryRewardList,params);
   }
 
+  static async queryTaskInfo(params) {
+
+    return FetchUtils.requestGet(NetAddr.queryTaskInfo,params);
+  }
 
 }
