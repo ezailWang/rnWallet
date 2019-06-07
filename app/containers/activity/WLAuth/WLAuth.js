@@ -13,6 +13,7 @@ import InputPasswordDialog from '../../../components/InputPasswordDialog';
 import { I18n } from '../../../config/language/i18n';
 import StaticLoading from '../../../components/StaticLoading';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
+import { async } from 'rxjs/internal/scheduler/async';
 
 
 const styles = {
@@ -219,7 +220,22 @@ class WLAuth extends BaseComponent {
     }
   }
 
-  didTapApproveBtn = ()=>{
+  didTapApproveBtn =async ()=>{
+
+    const {activityEthAddress} = this.props;
+    const {estimateGas} = this.state
+
+    this._showLoading()
+
+    let addressBalance = await NetworkManager.getEthBalance(activityEthAddress)
+
+    this._hideLoading()
+
+    if(addressBalance<estimateGas){
+
+      showToast('账户余额不足')
+      return
+    }
 
     this.setState({
       passwordModalVisible:true

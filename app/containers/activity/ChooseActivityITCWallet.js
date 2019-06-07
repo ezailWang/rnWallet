@@ -171,9 +171,12 @@ class ChooseActivityITCWallet extends BaseComponent {
     this._hideLoading();
 
     //warn 服务器返回错误，先注释
-    // if(result && Number(result.code) == 200){
+    if(result && Number(result.code) == 200){
       this.props.navigation.navigate('WLTask');
-    // }
+    }
+    else{
+      showToast('bind eth address error', 30);
+    }
   }
 
   // 自定义分割线

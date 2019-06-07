@@ -6,8 +6,9 @@ import IconTextItem from './components/IconTextItem';
 import PageScroller from './components/PageScroller';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
+import { connect } from 'react-redux';
 
-export default class WLTask extends BaseComponent {
+class WLTask extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,13 +28,19 @@ export default class WLTask extends BaseComponent {
     }
   }
 
+  _onBackPressed = ()=>{
+
+    let {navigation, selAvtivityContainerKey} = this.props
+    navigation.goBack(selAvtivityContainerKey)
+  }
+
   render() {
     const { activeIndex } = this.state;
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <NavHeader navigation={navigation} color="transparent" />
+        <NavHeader navigation={navigation} color="transparent" leftAction={this._onBackPressed} />
         <ImageBackground
           resizeMode="cover"
           source={require('./images/banner.png')}
@@ -134,6 +141,14 @@ export default class WLTask extends BaseComponent {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
+});
+export default connect(
+  mapStateToProps,
+)(WLTask);
 
 const styles = {
   container: {

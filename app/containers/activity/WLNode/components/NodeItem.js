@@ -5,7 +5,7 @@ import { View, Text , TouchableOpacity} from 'react-native';
 export default ({idx,no, address, count , onPress}) => {
   return (
     <TouchableOpacity onPress={()=>{onPress(idx)}} style={styles.container}>
-      <View>
+      <View style={styles.leftInfoView}>
         <Text style={styles.no}>{no}</Text>
         <Text style={styles.address}>{address}</Text>
       </View>
@@ -44,10 +44,15 @@ const styles = {
     fontSize: 14,
     color: '#727272',
   },
+  leftInfoView:{
+    flex:6
+  },
   count: {
+    flex:4,
     fontSize: 20,
     fontWeight: 'bold',
     color: '#00aeff',
+    textAlign:'right'
   },
   unit: {
     fontSize: 16,

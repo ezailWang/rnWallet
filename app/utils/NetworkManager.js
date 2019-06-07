@@ -810,6 +810,25 @@ export default class NetworkManager {
   }
 
   /**
+   * generalSendERC20TokenTrxData
+   * @param {*} contractAddress 
+   * @param {*} toAddress 
+   * @param {*} amout 
+   */
+  static generalSendERC20TokenTrxData(contractAddress,toAddress,amout){
+
+    const contract = new web3.eth.Contract(erc20Abi, contractAddress);
+    const BNAmout = new BigNumber(amout * Math.pow(10, 18));
+    const data = contract.methods.transfer(toAddress, BNAmout).encodeABI();
+    
+    return {
+        to: contractAddress,
+        value: '0x00',
+        data:data
+    }
+  }
+
+  /**
    * getContractOrNormalTransactionEstimateGas
    * @param {*} fromAddress 
    * @param {*} t 
@@ -1074,4 +1093,18 @@ export default class NetworkManager {
     return FetchUtils.requestGet(NetAddr.queryTaskInfo,params);
   }
 
+  static async bindActivityInviteAddress(params){
+
+    return FetchUtils.requestPost(NetAddr.bindActivityInviteAddress,params)
+  }
+
+  static async queryKeyAddressInfo(params){
+
+    return FetchUtils.requestGet(NetAddr.queryKeyAddressInfo,params)
+  }
+
+  static async queryAddressBindAddress(params){
+
+    return FetchUtils.requestGet(NetAddr.queryAddressBindAddress,params)
+  }
 }

@@ -182,6 +182,20 @@ function setActivityEthAddress(address){
   };
 }
 
+function setSelectActivityContainerKey(key){
+  return {
+    type : types.SELECT_AVTIVITY_CONTAINER_KEY,
+    key
+  }
+}
+
+function setKeyContractAddress(addressInfoDic){
+  return {
+    type : types.KEY_CONTRACT_ADDRESS,
+    addressInfoDic
+  }
+}
+
 export {
   generateMnemonic,
   setWalletTransferParams,
@@ -207,5 +221,7 @@ export {
   setCurrentWallet,
   setCreateWalletParams,
   setExchangeDepositStatus,
-  setActivityEthAddress
+  setActivityEthAddress,
+  setSelectActivityContainerKey,
+  setKeyContractAddress
 };

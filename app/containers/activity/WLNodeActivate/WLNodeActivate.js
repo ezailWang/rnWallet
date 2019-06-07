@@ -1,44 +1,17 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, TextInput, Image,StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Image,StatusBar } from 'react-native';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
-
-export default class WLNodeActivate extends BaseComponent {
-  render() {
-    const { navigation } = this.props;
-    return (
-      <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="激活" />
-        <View style={styles.editor}>
-          <View style={styles.img}>
-            <Image source={require('./images/levelUP15.png')} />
-            <View style={styles.imgDesc}>
-              <Text>普通节点</Text>
-              <Text>激活节点</Text>
-            </View>
-          </View>
-
-          <Text style={styles.title}>邀请人</Text>
-          <View style={styles.inputContainer}>
-            <TextInput style={styles.input} placeholder="0x开头的42位钱包地址" />
-            <Image source={require('./images/saomiao.png')} style={{ width: 20, height: 20 }} />
-          </View>
-          <View style={styles.desc}>
-            <Text style={styles.descItem}>邀请人信息，提交后不可修改</Text>
-            <Text style={styles.descItem}>
-              若无人邀请，可选择<Text style={styles.descItemWeight}>填写默认地址</Text>
-            </Text>
-          </View>
-          <TouchableHighlight style={[styles.button, { backgroundColor: '#46b6fe' }]}>
-            <Text style={{ color: 'white' }}>激活</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    );
-  }
-}
+import KeystoreUtils from '../../../utils/KeystoreUtils';
+import StaticLoading from '../../../components/StaticLoading';
+import { I18n } from '../../../config/language/i18n';
+import { defaultTokens, contractInfo} from '../../../utils/Constants';
+import { connect } from 'react-redux';
+import { showToast } from '../../../utils/Toast';
+import NetworkManager from '../../../utils/NetworkManager';
+import ActivityTrxComfirm from './ActivityTrxComfirm';
+import Layout from '../../../config/LayoutConstants';
 
 const styles = {
   container: {
@@ -63,8 +36,8 @@ const styles = {
     marginTop: 20,
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 15,
+    // fontWeight: 'bold',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -72,13 +45,14 @@ const styles = {
     alignItems: 'center',
   },
   input: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 15,
+    // fontWeight: 'bold',
     marginTop: 10,
     paddingVertical: 12,
+    width:Layout.WINDOW_WIDTH - 80
   },
   desc: {
-    padding: 15,
+    padding: 5,
     backgroundColor: '#f8fbff',
     marginBottom: 25,
     borderTopWidth: 1.5,
@@ -86,12 +60,12 @@ const styles = {
   },
   descItem: {
     color: '#999C9D',
-    fontSize: 15,
+    fontSize: 12,
     padding: 2,
   },
   descItemWeight: {
     color: '#4E9BF4',
-    fontSize: 15,
+    fontSize: 12,
     padding: 2,
   },
   button: {
@@ -104,3 +78,324 @@ const styles = {
     paddingVertical: 15,
   },
 };
+
+
+class WLNodeActivate extends BaseComponent {
+
+
+  constructor(){
+    super()
+
+    this.state = {
+      showActivityTrxView:false,
+      originalInviteAddress:'',
+      newInviteAddress:'',
+      defaultAddress:'',
+      isShowSLoading: false,
+      sLoadingContent: '',
+      totalGasUser:'',
+      detailGas:'',
+    }
+  }
+
+  changeInviteAddress = (text)=>{
+
+    this.setState({
+      newInviteAddress:text,
+      defaultAddress:text
+    })
+  }
+
+  didTapDefaultAddress = ()=>{
+
+    let {originalInviteAddress} = this.state
+    if(originalInviteAddress.length == 0){
+
+      let {rootAddress} = this.props
+      this.setState({
+        defaultAddress:rootAddress,
+        newInviteAddress:rootAddress
+      })
+    }
+  }
+
+  _initData = ()=>{
+
+    let { inviteAddress } = this.props.navigation.state.params;
+    this.setState({
+      originalInviteAddress:inviteAddress
+    })
+
+    if(inviteAddress.length != 0){
+      this.setState({
+        newInviteAddress:inviteAddress
+      })
+    }
+  }
+
+  didTapAvtivityBtn = async ()=>{
+
+    let {newInviteAddress, originalInviteAddress} = this.state
+    let {activityEthAddress} = this.props
+    if(NetworkManager.isValidAddress(newInviteAddress) == false){
+
+      showToast('邀请地址格式不正确.')
+      return
+    }
+
+    this._showLoading()
+
+    try{
+
+      //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
+      if(originalInviteAddress.length == 0){
+
+        let result = await NetworkManager.bindActivityInviteAddress({
+          inviter:newInviteAddress,
+          invitee:activityEthAddress
+        })
+  
+        if(result.code == 200){
+          this.setState({
+            originalInviteAddress:newInviteAddress
+          })
+          this.showPayView()
+        }
+        else{
+          this._hideLoading()
+          showToast('绑定地址无效.')
+        }
+      }
+      else{
+        this.showPayView()
+      }
+    }
+    catch(err){
+
+    }
+    
+  }
+
+  didTapCancelPayBtn = ()=>{
+
+    this.setState({
+      showActivityTrxView:false
+    })
+  }
+
+  showPayView = async ()=>{
+
+    let {activeAddress, activityEthAddress} = this.props  
+
+    let transferValue = 15
+
+    let trxData = NetworkManager.generalSendERC20TokenTrxData(defaultTokens[1].address,activeAddress,transferValue)
+      
+    NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
+     
+      let addressBalance = await NetworkManager.getEthBalance(activityEthAddress)
+
+      this._hideLoading()
+
+      if(addressBalance<res.gasUsed){
+
+        showToast('账户余额不足')
+        return
+      }
+      
+      let detailGas = `Gas(${res.gas})*Gas Price(${parseInt(res.gasPrice)/Math.pow(10,9)} gwei) `
+
+      this.setState({
+        trxData:res.trx,
+        estimateGas:res.gasUsed.toFixed(6),
+        showActivityTrxView:true,
+        inputAmount:transferValue,
+        payAddress:activityEthAddress,
+        totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
+        detailGas:detailGas
+      })
+    })
+  }
+
+
+  didTapSurePasswordBtn = (password)=>{
+
+    this.setState({
+      showActivityTrxView:false,
+    },async ()=>{
+
+      if (password === '' || password === undefined) {
+        showToast(I18n.t('toast.enter_password'));
+      } else {
+        this.timeIntervalCount = 0;
+        this.timeInterval = setInterval(() => {
+          this.timeIntervalCount = this.timeIntervalCount + 1;
+          this.changeLoading(this.timeIntervalCount, password);
+        }, 500);
+      }
+    })
+}
+
+changeLoading(num, password) {
+  let content = '';
+  if (num === 1) {
+    content = I18n.t('settings.verifying_password');
+  } else if (num === 2) {
+    content = I18n.t('settings.decrypting_keystore');
+  }
+  this.setState({
+    isShowSLoading: true,
+    sLoadingContent: content,
+  });
+  const n = 2;
+  if (num === n) {
+    clearInterval(this.timeInterval);
+    setTimeout(() => {
+      this.handleTrx(password);
+    }, 0);
+  }
+}
+
+async handleTrx(password) {
+  
+  let {activityEthAddress} = this.props
+
+  try {
+    var privateKey = await KeystoreUtils.getPrivateKey(password, activityEthAddress, 'eth');
+    console.log('privateKey'+privateKey)
+    if (privateKey == null) {
+      this.hideStaticLoading(); // 关闭Loading
+      showToast(I18n.t('modal.password_error'));
+    }
+    else{
+      console.log('开始发送交易'+privateKey+this.state.trxData)
+      NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
+        this.hideStaticLoading(); // 关闭Loading
+        console.log('txHash'+hash)
+        if(hash){
+          this.queryTXStatus(hash)
+        }
+      })
+    }
+  }
+  catch(err){
+    showToast(err);
+    this.hideStaticLoading(); // 关闭Loading
+  }
+}
+
+hideStaticLoading() {
+  this.setState({
+    isShowSLoading: false,
+    sLoadingContent: '',
+  });
+}
+
+queryTXStatus = (hash)=>{
+
+  this._showLoading()
+
+  let time = new Date().valueOf()
+  NetworkManager.listenETHTransaction(hash,time,(status)=>{
+
+    if(status == 1){
+      content = '授权成功'
+    }
+    else{
+      content = '交易正在确认中..'
+    }
+
+    showToast(content,30)
+
+    //5秒后返回node页面，并执行刷新
+    setTimeout(async () => {
+      
+      let nodeInfo = await NetworkManager.queryNodeInfo({
+        address:this.props.activityEthAddress
+      });
+  
+      this._hideLoading();
+      if(nodeInfo.data){
+        this.props.navigation.state.params.callback(nodeInfo.data);
+      }
+    
+      this.props.navigation.goBack();
+      
+    }, 5 * 1000);
+  })
+}
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
+  }
+
+  renderComponent = ()=>{
+    const { navigation } = this.props;
+    const {defaultAddress, originalInviteAddress, newInviteAddress, showActivityTrxView,payAddress,totalGasUsed,detailGas} = this.state
+
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
+        <NavHeader navigation={navigation} color="white" text="激活" />
+        <View style={styles.editor}>
+          <View style={styles.img}>
+            <Image source={require('./images/levelUP15.png')} />
+            <View style={styles.imgDesc}>
+              <Text>普通节点</Text>
+              <Text>激活节点</Text>
+            </View>
+          </View>
+          <Text style={styles.title}>邀请人</Text>
+          <View style={styles.inputContainer}>
+            <TextInput style={styles.input} onCh placeholder="0x开头的42位钱包地址" 
+              onChangeText={this.changeInviteAddress}
+              defaultValue={originalInviteAddress.length == 0? defaultAddress : originalInviteAddress}
+              editable={originalInviteAddress.length==0}
+            >
+            </TextInput>
+            <Image source={require('./images/saomiao.png')} style={{marginTop:5, width: 20, height: 20 }} />
+          </View>
+          <View style={styles.desc}>
+            <Text style={styles.descItem}>邀请人信息，提交后不可修改</Text>
+            <View style={{flexDirection:'row'}}>
+              <Text style={styles.descItem}>
+                若无人邀请，可选择
+              </Text>
+              <TouchableOpacity onPress={this.didTapDefaultAddress}>
+                <Text style={styles.descItemWeight}>填写默认地址</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity onPress={this.didTapAvtivityBtn} style={[styles.button, { backgroundColor: '#46b6fe' }]}>
+            <Text style={{ color: 'white' }}>激活</Text>
+          </TouchableOpacity>
+          <ActivityTrxComfirm
+            show={showActivityTrxView}
+            didTapSurePasswordBtn={this.didTapSurePasswordBtn}
+            amount={'15'}
+            inviteAddress={newInviteAddress}
+            fromAddress={payAddress}
+            totalGasUsed={totalGasUsed}
+            detailGas={detailGas}
+            onCancelClick={this.didTapCancelPayBtn}
+          />
+          <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
+        </View>
+      </View>
+    );
+  }
+}
+
+
+const mapStateToProps = state => ({
+  activityEthAddress : state.Core.activityEthAddress,
+  activeAddress:state.Core.activeAddress,
+  rootAddress:state.Core.rootAddress
+});
+export default connect(
+  mapStateToProps,
+)(WLNodeActivate);

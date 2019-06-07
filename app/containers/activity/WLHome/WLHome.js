@@ -17,17 +17,39 @@ import Chart from './components/Chart';
 import ChartLabel from './components/ChartLabel';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
-import Button from '../WLActive/components/Button';
+import { connect } from 'react-redux';
+import * as Actions from '../../../config/action/Actions';
+import NetworkManager from '../../../utils/NetworkManager';
+import { showToast } from '../../../utils/Toast';
+import { async } from 'rxjs/internal/scheduler/async';
 
-export default class WLHome extends BaseComponent {
+class WLHome extends BaseComponent {
 
   constructor(){
     super()
   }
 
-  didTapActivityButton = ()=>{
+  didTapActivityButton = async ()=>{
 
-    this.props.navigation.navigate('ChooseActivityETHWallet');
+    this._showLoading()
+    let result = await NetworkManager.queryKeyAddressInfo()
+    this._hideLoading()
+    if(result.code == 200){
+
+      this.props.setKeyContractAddress(result.data)
+      this.props.navigation.navigate('ChooseActivityETHWallet');
+    }else{
+
+      showToast('获取活动信息失败.')
+    }
+  }
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
   }
 
   renderComponent = () => {
@@ -62,8 +84,8 @@ export default class WLHome extends BaseComponent {
             <Tag text={`第${sequence}轮`} color="#46b6fe" />
             <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
             <DetailItem title="结束倒计时" text={timeLeft} />
-            <DetailItem title="涡轮池奖金" text={totalPoolReward} />
-            <DetailItem title="已发放奖励" text={paidReward} />
+            <DetailItem title="涡轮池奖金" text={totalPoolReward == '' ? '0' : totalPoolReward} />
+            <DetailItem title="已发放奖励" text={paidReward == '' ? '0' : paidReward} />
 
             <View style={styles.divider} />
 
@@ -105,6 +127,17 @@ export default class WLHome extends BaseComponent {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+});
+const mapDispatchToProps = dispatch => ({
+  setKeyContractAddress: params => dispatch(Actions.setKeyContractAddress(params)),
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WLHome);
 
 const styles = {
   container: {

@@ -68,21 +68,21 @@ const defaultTokens = [
     decimal: 18,
     address: '0x0000000000000000000000000000000000000000',
   },
-  {
-    address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940', // 主网
-    decimal: 18,
-    id: uuid.v4(),
-    name: 'IOT on Chain',
-    symbol: 'ITC',
-  },
+//   {
+//     address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940', // 主网
+//     decimal: 18,
+//     id: uuid.v4(),
+//     name: 'IOT on Chain',
+//     symbol: 'ITC',
+//   },
   // test net rinkeby ERC20Token
-  // {
-  //   address: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994', // 测试网
-  //   id: uuid.v4(),
-  //   symbol: 'ITC',
-  //   name: 'IoT Chain',
-  //   decimal: 18,
-  // },
+  {
+    address: '0x6e7d1b1bdE9A02b1F3ad2D5f81baD90eF68b7994', // 测试网
+    id: uuid.v4(),
+    symbol: 'ITC',
+    name: 'IoT Chain',
+    decimal: 18,
+  },
 ];
 
 const erc20Abi = [
@@ -644,7 +644,7 @@ const nodeBallotAbi = [
 //rinkeby网络
 const contractInfo = {
   nodeBallot:{
-    address:'0x22a54d8d18178f1ffea65315438c7fe0cb249aad'
+    address:'0x4bc707cda1d9bc61d85e566132e8822952f6f5dd'
   }
 }
 

@@ -147,8 +147,6 @@ class ChooseActivityETHWallet extends BaseComponent {
   async confirmBtn() {
     const { selectedWallet } = this.state;
 
-    // console.warn(JSON.stringify(selectedWallet,null,2))
-
     this._showLoading()
     try{            
       var result = await NetworkManager.queryActivityAddressInfo({
@@ -180,7 +178,7 @@ class ChooseActivityETHWallet extends BaseComponent {
         });
 
         this._hideLoading();
-        if(nodeInfo.data){
+        if(nodeInfo.data && nodeInfo.data.address){
           this.props.navigation.navigate('NodeSummary',{
             nodeData:nodeInfo.data
           })
@@ -267,6 +265,13 @@ class ChooseActivityETHWallet extends BaseComponent {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+  }
+
+  //不知道为什么，获取这层的navigation key ，从其他界面goback的时候，会返回这个key的上层页面
+  componentDidMount(){
+    super.componentDidMount()
+    let containerKey = this.props.navigation.state.key
+    this.props.setSelectActivityContainerKey(containerKey)
   }
 
   renderComponent = () => (
@@ -362,7 +367,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     setCreateWalletParams: params => dispatch(Actions.setCreateWalletParams(params)),
-    setActivityETHAddress: params => dispatch(Actions.setActivityEthAddress(params))
+    setActivityETHAddress: params => dispatch(Actions.setActivityEthAddress(params)),
+    setSelectActivityContainerKey: params => dispatch(Actions.setSelectActivityContainerKey(params)),
 });
 export default connect(
   mapStateToProps,

@@ -12,6 +12,7 @@ import MyAlertComponent from '../../../components/MyAlertComponent';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
 import StaticLoading from '../../../components/StaticLoading';
 import { I18n } from '../../../config/language/i18n';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const styles = {
   container: {
@@ -192,14 +193,23 @@ class WLVote extends BaseComponent {
     this._showLoading()
 
     //测试超级节点地址
-    address = '0x19cc9D7CdD78248c8a141D8968397754ce24797d'
+    // address = '0x19cc9D7CdD78248c8a141D8968397754ce24797d'
 
     let trxData = NetworkManager.generalVoteTrxData(contractInfo.nodeBallot.address,address,voteValue)
       
-    NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(res=>{
+    NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
      
+
+      let addressBalance = await NetworkManager.getEthBalance(activityEthAddress)
+
       this._hideLoading()
 
+      if(addressBalance<res.gasUsed){
+
+        showToast('账户余额不足')
+        return
+      }
+      
       let date = new Date();
       let year = date.getFullYear();
       let month = date.getMonth();
@@ -301,8 +311,6 @@ queryTXStatus = (hash)=>{
 
   let time = new Date().valueOf()
   NetworkManager.listenETHTransaction(hash,time,(status)=>{
-
-    this._hideLoading()
 
     if(status == 1){
       content = '授权成功'

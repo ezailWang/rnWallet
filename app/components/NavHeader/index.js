@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Layout from '../../config/LayoutConstants';
 
-export default ({ text, color, rightText, navigation ,rightAction}) => {
+export default ({ text, color, rightText, navigation ,rightAction, leftAction}) => {
   const backIcon =
     color === 'white'
       ? require('../../assets/common/common_back.png')
@@ -26,7 +26,10 @@ export default ({ text, color, rightText, navigation ,rightAction}) => {
         color === 'transparent' ? { position: 'absolute', backgroundColor: 'transparent' } : {},
       ]}
     >
-      <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.button} onPress={() => {
+        leftAction?leftAction():navigation.goBack()
+      }}
+      >
         <Image source={backIcon} style={{ width: 18, height: 18 }} />
       </TouchableOpacity>
       <Text style={{ color: 'black', fontSize: 16 }}>{text}</Text>

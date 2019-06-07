@@ -37,7 +37,10 @@ const NetAddr = {
   querySuperNodeList:`${activityHost}/api/v1/vipnodes`,
   queryNodeInfo:`${activityHost}/api/v1/node/info`,
   queryRewardList:`${activityHost}/api/v1/reward/list`,
-  queryTaskInfo:`${activityHost}/api/v1/task_active_info`
+  queryTaskInfo:`${activityHost}/api/v1/task_active_info`,
+  bindActivityInviteAddress:`${activityHost}/api/v1/inviter/save`,
+  queryKeyAddressInfo:`${activityHost}/api/v1/global_config`,
+  queryAddressBindAddress:`${activityHost}/api/v1/inviter/get`,
 };
 
 export default NetAddr;

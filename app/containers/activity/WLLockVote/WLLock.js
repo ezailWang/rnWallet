@@ -12,6 +12,7 @@ import MyAlertComponent from '../../../components/MyAlertComponent';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
 import StaticLoading from '../../../components/StaticLoading';
 import { I18n } from '../../../config/language/i18n';
+import { async } from 'rxjs/internal/scheduler/async';
 
 class WLLock extends BaseComponent {
 
@@ -133,10 +134,17 @@ class WLLock extends BaseComponent {
 
     let trxData = NetworkManager.generalSuperNodeLockTrxData(contractInfo.nodeBallot.address,voteValue)
       
-    NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(res=>{
+    NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
      
+      let addressBalance = await NetworkManager.getEthBalance(activityEthAddress)
+
       this._hideLoading()
 
+      if(addressBalance<res.gasUsed){
+
+        showToast('账户余额不足')
+        return
+      }
       let date = new Date();
       let year = date.getFullYear();
       let month = date.getMonth();
@@ -239,7 +247,7 @@ queryTXStatus = (hash)=>{
   NetworkManager.listenETHTransaction(hash,time,(status)=>{
 
     if(status == 1){
-      content = '授权成功'
+      content = '超级节点激活成功'
     }
     else{
       content = '交易正在确认中..'

@@ -10,8 +10,10 @@ import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
+import {connect} from 'react-redux'
+import { async } from 'rxjs/internal/scheduler/async';
 
-export default class NodeSummary extends BaseComponent {
+class NodeSummary extends BaseComponent {
   
   _initData = async () => {
 
@@ -21,6 +23,38 @@ export default class NodeSummary extends BaseComponent {
         ...nodeData
       })
 
+  }
+
+  didTapActivityBtn = async ()=>{ 
+
+    let {activityEthAddress} = this.props
+    this._showLoading()
+    let result = await NetworkManager.queryAddressBindAddress({
+      address:activityEthAddress
+    })
+    this._hideLoading()
+    if(result.code == 200){
+
+      //激活成功，回来刷新界面
+      this.props.navigation.navigate('WLNodeActivate',{
+        inviteAddress:result.data ? result.data:'',
+        callback:(nodeData)=>{
+          this.setState({
+            ...nodeData
+          })
+        }
+      })
+    }
+    else{
+      showToast('查询地址绑定信息失败，请重试')
+    }
+    
+  }
+
+  _onBackPressed = ()=>{
+
+    let {navigation, selAvtivityContainerKey} = this.props
+    navigation.goBack(selAvtivityContainerKey)
   }
   
   componentWillMount() {
@@ -73,7 +107,7 @@ export default class NodeSummary extends BaseComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="涡轮计划" />
+        <NavHeader navigation={navigation} color="white" text="涡轮计划" leftAction={this._onBackPressed}/>
         <ScrollView>
           <NodeInfo
             icon={<Image source={require('./images/super.png')} />}
@@ -194,7 +228,7 @@ export default class NodeSummary extends BaseComponent {
                   '激活节点可享受子节点的邀请收益',
                 ]}
               />
-              <Button text="激活" />
+              <Button onPress={this.didTapActivityBtn} text="激活" />
             </View>
             :null
           }
@@ -204,6 +238,14 @@ export default class NodeSummary extends BaseComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  activityEthAddress : state.Core.activityEthAddress,
+  selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
+});
+export default connect(
+  mapStateToProps,
+)(NodeSummary);
 
 const styles = {
   container: {

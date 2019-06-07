@@ -26,12 +26,15 @@ import {
   CREATE_WALLET_PARAM,
   EXCHANGE_DEPOSITED,
   ACTIVITY_ADDRESS,
+  SELECT_AVTIVITY_CONTAINER_KEY,
+  KEY_CONTRACT_ADDRESS
 } from '../action/ActionType';
 import StorageManage from '../../utils/StorageManage';
 import { StorageKey, Network } from '../GlobalConfig';
 
 const defaultState = {
-  network: Network.main,
+  network: Network.rinkeby,
+  // network: Network.main,
   walletPasswordPrompt: '',
   mnemonic: '',
   // tokens: defaultTokens,
@@ -208,11 +211,26 @@ function coreReducer(state = defaultState, action) {
         depositStatusList: newDepositStatus,
       };
     }
-    case ACTIVITY_ADDRESS:
+    case ACTIVITY_ADDRESS:{
       return {
         ...state,
         activityEthAddress: action.address,
       };
+    }
+    case SELECT_AVTIVITY_CONTAINER_KEY:{
+      return {
+        ...state,
+        selAvtivityContainerKey:action.key
+      }
+    }
+    case KEY_CONTRACT_ADDRESS:{
+      return {
+        ...state,
+        rootAddress:action.addressInfoDic.rootAddress,
+        activeAddress:action.addressInfoDic.activeAddress,
+        voteContractAddress:action.addressInfoDic.voteContractAddress
+      }
+    }
     default:
       return state;
   }
