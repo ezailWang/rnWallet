@@ -193,13 +193,10 @@ class WLVote extends BaseComponent {
     this._showLoading()
 
     //测试超级节点地址
-    // address = '0x19cc9D7CdD78248c8a141D8968397754ce24797d'
-
     let trxData = NetworkManager.generalVoteTrxData(contractInfo.nodeBallot.address,address,voteValue)
       
     NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
      
-
       let addressBalance = await NetworkManager.getEthBalance(activityEthAddress)
 
       this._hideLoading()
@@ -229,6 +226,9 @@ class WLVote extends BaseComponent {
         totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
         detailGas:detailGas
       })
+    }).catch(err=>{
+      this._hideLoading()
+      showToast('生成交易数据错误')
     })
   }
 
@@ -313,7 +313,7 @@ queryTXStatus = (hash)=>{
   NetworkManager.listenETHTransaction(hash,time,(status)=>{
 
     if(status == 1){
-      content = '授权成功'
+      content = '投票成功！'
     }
     else{
       content = '交易正在确认中..'

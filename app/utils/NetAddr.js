@@ -41,6 +41,7 @@ const NetAddr = {
   bindActivityInviteAddress:`${activityHost}/api/v1/inviter/save`,
   queryKeyAddressInfo:`${activityHost}/api/v1/global_config`,
   queryAddressBindAddress:`${activityHost}/api/v1/inviter/get`,
+  completeMappingTask:`${activityHost}/api/v1/mapping/complete`
 };
 
 export default NetAddr;

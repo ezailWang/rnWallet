@@ -61,6 +61,7 @@ import WLPages from './activity/WLPages/WLPages'; // 路由浏览列表
 import ChooseActivityETHWallet from './activity/ChooseActivityETHWallet'
 import ChooseActivityITCWallet from './activity/ChooseActivityITCWallet'
 import WebViewScreen from './activity/WebViewScreen'
+import ITCActivityMapping from './activity/ITCActivityMapping'
 
 export {
   HomeScreen,
@@ -125,4 +126,5 @@ export {
   WebViewScreen,
   NodeSummary,
   MappingServiceAgreement,
+  ITCActivityMapping
 };

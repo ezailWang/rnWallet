@@ -103,6 +103,7 @@ import {
   WebViewScreen,
   NodeSummary,
   MappingServiceAgreement,
+  ITCActivityMapping
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -362,6 +363,9 @@ const HomeRouteConfig = {
   MappingServiceAgreement: {
     screen: MappingServiceAgreement,
   },
+  ITCActivityMapping:{
+    screen:ITCActivityMapping
+  }
 };
 
 export { HomeRouteConfig, FirstLaunchRouteConfig, Loading };

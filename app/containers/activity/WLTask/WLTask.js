@@ -7,6 +7,8 @@ import PageScroller from './components/PageScroller';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 import { connect } from 'react-redux';
+import { showToast } from '../../../utils/Toast';
+import NetworkManager from '../../../utils/NetworkManager';
 
 class WLTask extends BaseComponent {
   constructor(props) {
@@ -16,7 +18,7 @@ class WLTask extends BaseComponent {
     };
   }
 
-  selectTask = ()=>{
+  selectTask = async ()=>{
 
     let {activeIndex} = this.state
 
@@ -26,12 +28,46 @@ class WLTask extends BaseComponent {
     else if(activeIndex == 0){
       this.props.navigation.navigate('WLLock')
     }
+    else{
+
+      this._showLoading()
+
+      let {activityEthAddress,activityItcAddress} = this.props
+      try {
+        const bindRes = await NetworkManager.bindConvertAddress({ 
+          itcAddress:activityItcAddress,
+          ethAddress:activityEthAddress 
+        });
+
+        this._hideLoading()
+
+        console.log('binRes:', bindRes);
+        if (bindRes && bindRes.code === 200) {
+          this.props.navigation.navigate('ITCActivityMapping')
+        }
+      } catch (e) {
+        this._hideLoading()
+        showToast('bindConvertAddress error',30)
+        console.log('bindConvertAddress error:', e);
+      }
+
+      
+    }
   }
 
   _onBackPressed = ()=>{
 
     let {navigation, selAvtivityContainerKey} = this.props
     navigation.goBack(selAvtivityContainerKey)
+  }
+
+
+  componentWillMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -145,6 +181,8 @@ class WLTask extends BaseComponent {
 
 const mapStateToProps = state => ({
   selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
+  activityEthAddress : state.Core.activityEthAddress,
+  activityItcAddress : state.Core.activityItcAddress
 });
 export default connect(
   mapStateToProps,

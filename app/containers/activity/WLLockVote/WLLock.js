@@ -61,20 +61,28 @@ class WLLock extends BaseComponent {
       }
       else{
   
-        let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+        try{
+          let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
 
-        console.log('合约授权额度为->'+allowance)
+          console.log('合约授权额度为->'+allowance)
+  
+          //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
+          if(allowance < voteValue){
+            
+            this.setState({
+              showApproveModalVisible:true
+            })
+          }
+          else{
+            this.showPayView()
+          }
+        }
+        catch(err){
 
-        //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
-        if(allowance < voteValue){
-          
-          this.setState({
-            showApproveModalVisible:true
-          })
+          showToast('生成交易错误')
         }
-        else{
-          this.showPayView()
-        }
+
+        
       }
     }
     catch(err){
@@ -130,7 +138,6 @@ class WLLock extends BaseComponent {
     this._showLoading()
 
     //测试超级节点地址
-    address = '0x19cc9D7CdD78248c8a141D8968397754ce24797d'
 
     let trxData = NetworkManager.generalSuperNodeLockTrxData(contractInfo.nodeBallot.address,voteValue)
       
@@ -163,6 +170,9 @@ class WLLock extends BaseComponent {
         totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
         detailGas:detailGas
       })
+    }).catch(err=>{
+      this._hideLoading()
+      showToast('生成交易数据错误')
     })
   }
 
@@ -324,7 +334,7 @@ queryTXStatus = (hash)=>{
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="投票" rightText="详细说明" rightAction={()=>{this.didTapDetailExplainBtn()}}/>
+        <NavHeader navigation={navigation} color="white" text="节点质押" rightText="详细说明" rightAction={()=>{this.didTapDetailExplainBtn()}}/>
         <View style={styles.editor}>
           <Text style={styles.title}>质押数量</Text>
           <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder="100,000 ITC起，1 ITC递增" placeholderTextColor="#e6e6e6"

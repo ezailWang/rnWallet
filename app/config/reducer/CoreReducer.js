@@ -27,7 +27,8 @@ import {
   EXCHANGE_DEPOSITED,
   ACTIVITY_ADDRESS,
   SELECT_AVTIVITY_CONTAINER_KEY,
-  KEY_CONTRACT_ADDRESS
+  KEY_CONTRACT_ADDRESS,
+  ACTIVITY_ITC_ADDRESS
 } from '../action/ActionType';
 import StorageManage from '../../utils/StorageManage';
 import { StorageKey, Network } from '../GlobalConfig';
@@ -230,6 +231,12 @@ function coreReducer(state = defaultState, action) {
         activeAddress:action.addressInfoDic.activeAddress,
         voteContractAddress:action.addressInfoDic.voteContractAddress
       }
+    }
+    case ACTIVITY_ITC_ADDRESS:{
+      return {
+        ...state,
+        activityItcAddress: action.address,
+      };
     }
     default:
       return state;

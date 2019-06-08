@@ -98,6 +98,12 @@ class WLNodeActivate extends BaseComponent {
     }
   }
 
+  didTapScanButton = ()=>{
+
+    this.props.navigation.navigate('ScanQRCode')
+  }
+  
+
   changeInviteAddress = (text)=>{
 
     this.setState({
@@ -299,7 +305,7 @@ queryTXStatus = (hash)=>{
   NetworkManager.listenETHTransaction(hash,time,(status)=>{
 
     if(status == 1){
-      content = '授权成功'
+      content = '激活成功'
     }
     else{
       content = '交易正在确认中..'
@@ -307,7 +313,7 @@ queryTXStatus = (hash)=>{
 
     showToast(content,30)
 
-    //5秒后返回node页面，并执行刷新
+    //5秒后返回节点页面，并执行刷新
     setTimeout(async () => {
       
       let nodeInfo = await NetworkManager.queryNodeInfo({

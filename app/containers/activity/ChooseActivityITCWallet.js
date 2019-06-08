@@ -172,6 +172,10 @@ class ChooseActivityITCWallet extends BaseComponent {
 
     //warn 服务器返回错误，先注释
     if(result && Number(result.code) == 200){
+
+      //设置活动的ITC地址
+      this.props.setActivityItcAddress(selectedWallet.address)
+
       this.props.navigation.navigate('WLTask');
     }
     else{
@@ -342,6 +346,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     setCreateWalletParams: params => dispatch(Actions.setCreateWalletParams(params)),
+    setActivityItcAddress: params => dispatch(Actions.setActivityItcAddress(params)),
 });
 export default connect(
   mapStateToProps,

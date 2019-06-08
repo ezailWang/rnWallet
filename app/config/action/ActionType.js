@@ -24,5 +24,6 @@ export const SET_CURRENT_WALLET = 'SET_CURRENT_WALLET'; // 当前正在使用的
 export const CREATE_WALLET_PARAM = 'CREATE_WALLET_PARAM'; // 创建钱包参数
 export const EXCHANGE_DEPOSITED = 'EXCHANGE_DEPOSITED'; // 兑换存币状态
 export const ACTIVITY_ADDRESS = 'ACTIVITY_ADDRESS'; //涡轮活动ETH地址地址
+export const ACTIVITY_ITC_ADDRESS = 'ACTIVITY_ITC_ADDRESS'; //涡轮活动ITC地址地址
 export const SELECT_AVTIVITY_CONTAINER_KEY = 'SELECT_AVTIVITY_CONTAINER_KEY'; //选择涡轮活动界面的导航key
 export const KEY_CONTRACT_ADDRESS = 'KEY_CONTRACT_ADDRESS'; //根节点地址，激活地址，投票合约地址等

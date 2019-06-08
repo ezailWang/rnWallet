@@ -69,9 +69,9 @@
 		B8EB4D85B9D04AAEA35849A9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD62F3CA24194DEBAAD0CD6E /* CoreGraphics.framework */; };
 		BB4F99BE48EA4F80A9DF14D5 /* libRNRandomBytes-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 945FBC16CEF44463895C787F /* libRNRandomBytes-tvOS.a */; };
 		C45528076AF34280BA74DE3D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 703B454F14CF44F287693EA8 /* CFNetwork.framework */; };
-		C944DDB421995C2A0085B8BB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944DDB321995C2A0085B8BB /* StoreKit.framework */; };
+		C91C344E22AB58CA00DAA861 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91C344D22AB58CA00DAA861 /* GameKit.framework */; };
+		C91C345022AB58CE00DAA861 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91C344F22AB58CE00DAA861 /* StoreKit.framework */; };
 		C9996D6F213E377A00112CD3 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		C9B54F2D21995D2400B182A0 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B54F2C21995D2400B182A0 /* GameKit.framework */; };
 		C9FE19E2213E3CD600369242 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9FE19E1213E3CD600369242 /* Entitlements.plist */; };
 		D70DE96B8CB443D790859E38 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8613548D0023455D86EB58BE /* SimpleLineIcons.ttf */; };
 		DB8B2AA63C3B4401960A050A /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E89EB009AAE4E8298A31DEE /* libBVLinearGradient.a */; };
@@ -604,8 +604,8 @@
 		BEFC0E56B22B4CFC91813F0A /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		C41C2A5B7D184E08AF2D9214 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		C6FBDDEC27B14AC4A642E78D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		C944DDB321995C2A0085B8BB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		C9B54F2C21995D2400B182A0 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		C91C344D22AB58CA00DAA861 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		C91C344F22AB58CE00DAA861 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C9FE19E1213E3CD600369242 /* Entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		CD62F3CA24194DEBAAD0CD6E /* CoreGraphics.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DE68BA09419E6D49F1540D3E /* libPods-rnWallet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rnWallet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -635,9 +635,9 @@
 			files = (
 				73EA7A5E22A64E9300A2501F /* libART.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
+				C91C344E22AB58CA00DAA861 /* GameKit.framework in Frameworks */,
 				C9996D6F213E377A00112CD3 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
-				C944DDB421995C2A0085B8BB /* StoreKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -648,6 +648,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				F3165C6D89444BA4A9BC2458 /* libRNFS.a in Frameworks */,
+				C91C345022AB58CE00DAA861 /* StoreKit.framework in Frameworks */,
 				DB8B2AA63C3B4401960A050A /* libBVLinearGradient.a in Frameworks */,
 				612FB2F5EC2D448D97DF9407 /* libRNRandomBytes.a in Frameworks */,
 				234687265D5C4C24AA0B1DA0 /* libRNVectorIcons.a in Frameworks */,
@@ -664,7 +665,6 @@
 				1DB70CD9738C4546973719F8 /* UserNotifications.framework in Frameworks */,
 				E7E11282614241CAA634EA51 /* CoreTelephony.framework in Frameworks */,
 				0AA827A1243943E4AFFFF5FE /* Security.framework in Frameworks */,
-				C9B54F2D21995D2400B182A0 /* GameKit.framework in Frameworks */,
 				C45528076AF34280BA74DE3D /* CFNetwork.framework in Frameworks */,
 				E1DFFB10842F43BAA2B31AFA /* CoreFoundation.framework in Frameworks */,
 				6FAAA0AC09614EFE95CEDCBB /* SystemConfiguration.framework in Frameworks */,
@@ -825,8 +825,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C9B54F2C21995D2400B182A0 /* GameKit.framework */,
-				C944DDB321995C2A0085B8BB /* StoreKit.framework */,
+				C91C344F22AB58CE00DAA861 /* StoreKit.framework */,
+				C91C344D22AB58CA00DAA861 /* GameKit.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				715C5ED85DBB4060A772A606 /* libz.tbd */,
 				62042A7B1C8648059ED6441B /* UserNotifications.framework */,
@@ -1231,8 +1231,8 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 6QY3A22MZ4;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 32G7Q95878;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.GameCenter.iOS = {
 								enabled = 1;
@@ -1261,6 +1261,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -2097,10 +2098,10 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 6QY3A22MZ4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2129,7 +2130,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wallet.itc.adhoc.activity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wallet.itc.adhoc;
 				PRODUCT_NAME = rnWallet;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2144,11 +2145,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Qute Network Technology (Shanghai) Co., Ltd. (32G7Q95878)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6QY3A22MZ4;
+				DEVELOPMENT_TEAM = 32G7Q95878;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2177,10 +2178,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wallet.itc.adhoc.activity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wallet.itc.adhoc;
 				PRODUCT_NAME = rnWallet;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = Profile_wallet_testflight;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -855,6 +855,8 @@ export default class NetworkManager {
     let estimateGas = await web3.eth.estimateGas(t);
     t.gas = web3.utils.toHex(estimateGas);
 
+    console.log('TransactionEstimateGas'+JSON.stringify(t,null,2))
+
     let estimateGasUsed = estimateGas * price / Math.pow(10,18)
     return Promise.resolve({
       trx:t,
@@ -1106,5 +1108,10 @@ export default class NetworkManager {
   static async queryAddressBindAddress(params){
 
     return FetchUtils.requestGet(NetAddr.queryAddressBindAddress,params)
+  }
+
+  static async completeMappingTask(params){
+
+    return FetchUtils.requestPost(NetAddr.completeMappingTask,params)
   }
 }

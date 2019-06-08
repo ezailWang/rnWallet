@@ -196,6 +196,15 @@ function setKeyContractAddress(addressInfoDic){
   }
 }
 
+function setActivityItcAddress(address){
+  return {
+    type: types.ACTIVITY_ITC_ADDRESS,
+    address,
+  };
+}
+
+
+
 export {
   generateMnemonic,
   setWalletTransferParams,
@@ -223,5 +232,6 @@ export {
   setExchangeDepositStatus,
   setActivityEthAddress,
   setSelectActivityContainerKey,
-  setKeyContractAddress
+  setKeyContractAddress,
+  setActivityItcAddress
 };

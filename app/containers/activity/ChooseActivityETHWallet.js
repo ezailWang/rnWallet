@@ -158,7 +158,6 @@ class ChooseActivityETHWallet extends BaseComponent {
       showToast('query avtivity info error', 30);
     }
 
-
     if(result && Number(result.code) == 200){
 
       this.props.setActivityETHAddress(selectedWallet.address)
@@ -173,6 +172,9 @@ class ChooseActivityETHWallet extends BaseComponent {
         this.props.navigation.navigate('ChooseActivityITCWallet');
       }
       else{
+        //设置活动的ITC地址
+        this.props.setActivityItcAddress(result.data.itc)
+
         let nodeInfo = await NetworkManager.queryNodeInfo({
           address:selectedWallet.address
         });
@@ -369,6 +371,7 @@ const mapDispatchToProps = dispatch => ({
     setCreateWalletParams: params => dispatch(Actions.setCreateWalletParams(params)),
     setActivityETHAddress: params => dispatch(Actions.setActivityEthAddress(params)),
     setSelectActivityContainerKey: params => dispatch(Actions.setSelectActivityContainerKey(params)),
+    setActivityItcAddress: params => dispatch(Actions.setActivityItcAddress(params)),
 });
 export default connect(
   mapStateToProps,
