@@ -226,7 +226,7 @@ class NodeTrxPending extends BaseComponent {
       qrCodeValue:txHash
     })
 
-    //开始查询交易
+      //开始查询交易
     let time = new Date().valueOf()
     NetworkManager.listenETHTransaction(txHash,time,async (status)=>{
 
@@ -257,14 +257,14 @@ class NodeTrxPending extends BaseComponent {
 
         this.setState({
           nodeData:nodeInfo.data,
-          tranStatus:status.status.toString(),
+          tranStatus:status.status ? "1" : "0",
         })
       }
       else{
         this._showAlert('任务激活失败，请返回任务界面.')
         // this.props.navigation.goBack();
         this.setState({
-          tranStatus:status.status.toString(),
+          tranStatus:status.status ? "1" : "0",
         })
       }
 

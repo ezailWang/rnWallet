@@ -257,14 +257,14 @@ class ActivityTrxPending extends BaseComponent {
 
         this.setState({
           nodeData:nodeInfo.data,
-          tranStatus:status.status.toString(),
+          tranStatus:status.status ? "1" : "0",
         })
       }
       else{
         this._showAlert('任务激活失败，请返回任务界面.')
         // this.props.navigation.goBack();
         this.setState({
-          tranStatus:status.status.toString(),
+          tranStatus:status.status ? "1" : "0",
         })
       }
 

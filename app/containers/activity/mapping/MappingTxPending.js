@@ -307,20 +307,20 @@ class MappingTxPending extends BaseComponent {
 
         this.setState({
           nodeData:nodeInfo.data,
-          tranStatus:status.toString(),
+          tranStatus:status.status ? "1" : "0",
         })
       }
       else{
         this._showAlert('任务激活失败，请返回任务界面.')
         // this.props.navigation.goBack();
         this.setState({
-          tranStatus:status.toString(),
+          tranStatus:status.status ? "1" : "0",
         })
       }
     }
     else{
       this.setState({
-        tranStatus:status.toString(),
+        tranStatus:status.status ? "1" : "0",
       })
       this._showAlert('任务激活失败，请返回任务界面.')
       // this.props.navigation.goBack();
@@ -384,11 +384,11 @@ class MappingTxPending extends BaseComponent {
     let {navigation} = this.props
 
     let statusIcon;
-    if (tranStatus === '0') {
+    if (tranStatus == '0') {
       statusIcon = require('../../../assets/transfer/trans_ok.png');
-    } else if (tranStatus === '2') {
+    } else if (tranStatus == '2') {
       statusIcon = require('../../../assets/transfer/trans_ing.png');
-    } else if (tranStatus === '1') {
+    } else if (tranStatus == '1') {
       statusIcon = require('../../../assets/transfer/trans_fail.png');
     }
 

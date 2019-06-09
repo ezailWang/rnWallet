@@ -269,7 +269,6 @@ class ChooseActivityETHWallet extends BaseComponent {
     super.componentWillUnmount()
   }
 
-  //不知道为什么，获取这层的navigation key ，从其他界面goback的时候，会返回这个key的上层页面
   componentDidMount(){
     super.componentDidMount()
     let containerKey = this.props.navigation.state.key
@@ -302,7 +301,7 @@ class ChooseActivityETHWallet extends BaseComponent {
           renderItem={this._renderItem}
           ListFooterComponent={this._renderFooterView}
           ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(d, index) => ({ length: 80, offset: (80 + 1) * index, index })}
+          getItemLayout={(d, index) => ({ length: 80, offset: 0 * index, index })}
         />
       </View>
 

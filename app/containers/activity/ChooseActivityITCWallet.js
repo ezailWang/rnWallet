@@ -277,7 +277,7 @@ class ChooseActivityITCWallet extends BaseComponent {
           renderItem={this._renderItem}
           ListFooterComponent={this._renderFooterView}
           ItemSeparatorComponent={this._renderItemSeparatorComponent}
-          getItemLayout={(d, index) => ({ length: 80, offset: (80 + 1) * index, index })}
+          getItemLayout={(d, index) => ({ length: 80, offset: 0  * index, index })}
         />
       </View>
 
