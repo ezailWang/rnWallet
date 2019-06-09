@@ -18,6 +18,7 @@ import { I18n } from '../../../config/language/i18n';
 import PropTypes from 'prop-types';
 import Layout from '../../../config/LayoutConstants';
 import { Colors } from '../../../config/GlobalConfig';
+import {connect} from 'react-redux'
 
 const { height } = Dimensions.get('window');
 
@@ -43,7 +44,7 @@ class EmptyComponent extends Component {
   }
 }
 
-export default class WLBenefit extends BaseComponent {
+class WLBenefit extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +59,7 @@ export default class WLBenefit extends BaseComponent {
       showNoData: false,
     };
 
-    this.address = '00001';
+    this.address = this.props.activityEthAddress;
     this.isLoadMoreing = false;
     this.offset = 0;
     this.pageSize = 10;
@@ -232,6 +233,16 @@ export default class WLBenefit extends BaseComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  activityEthAddress : state.Core.activityEthAddress,
+  selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
+});
+
+export default connect(
+  mapStateToProps,
+)(WLBenefit);
+
 
 const styles = {
   banner: {

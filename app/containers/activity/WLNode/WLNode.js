@@ -87,7 +87,7 @@ export default class WLNode extends BaseComponent {
         <View style={styles.nodeList}>
           <ScrollView>
             {nodeList.map(item => (
-              <NodeItem idx={item.idx} key={item.rank} no={item.rank} address={item.address} count={item.amount} onPress={this.selectNode}/>
+              <NodeItem idx={item.idx} key={item.vipNo} no={item.rank} address={item.address} count={item.amount} onPress={this.selectNode}/>
             ))}
             <View style={{'height':20}}></View>
           </ScrollView>
