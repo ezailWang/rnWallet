@@ -7,11 +7,12 @@ import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
+import {connect} from 'react-redux'
 
-export default class WLNodeActivate extends BaseComponent {
+class WLNodeInfo extends BaseComponent {
   constructor(props) {
     super(props);
-    this.address = '00031'
+    this.address = this.props.activityEthAddress
     this.state = {
       task: {}
     };
@@ -92,6 +93,14 @@ export default class WLNodeActivate extends BaseComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  activityEthAddress : state.Core.activityEthAddress,
+  selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
+});
+export default connect(
+  mapStateToProps,
+)(WLNodeInfo);
 
 const styles = {
   container: {
