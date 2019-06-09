@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import NodeCard from '../../../../components/NodeCard';
+import { I18n } from '../../../../config/language/i18n';
 
 export default ({ icon, name, address,onRankPress,onPoolPress,onNodePress }) => {
   return (
@@ -13,14 +14,14 @@ export default ({ icon, name, address,onRankPress,onPoolPress,onNodePress }) => 
         <TouchableOpacity style={styles.optionContainer} onPress={onRankPress}>
           <View style={styles.optionItem}>
             <Image source={require('../images/rank.png')} />
-            <Text>邀请排行榜</Text>
+            <Text>{I18n.t('activity.nodeSummary.rank')}</Text>
             <Image source={require('../images/arrow-right-black.png')} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionContainer} onPress={onPoolPress}>
           <View style={styles.optionItem}>
             <Image source={require('../images/wolunchi.png')} />
-            <Text>涡轮池</Text>
+            <Text>{I18n.t('activity.nodeSummary.pool')}</Text>
             <Image source={require('../images/arrow-right-black.png')} />
           </View>
         </TouchableOpacity>

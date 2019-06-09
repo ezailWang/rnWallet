@@ -12,6 +12,7 @@ import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
 import {connect} from 'react-redux'
 import { async } from 'rxjs/internal/scheduler/async';
+import { I18n } from '../../../config/language/i18n';
 
 class NodeSummary extends BaseComponent {
   
@@ -68,19 +69,19 @@ class NodeSummary extends BaseComponent {
   renderComponent = () => {
     const { navigation } = this.props;
     let { activeRound,address,bonusReward,children,inviteReward,totalReward,treeReward,type,vip,childNum } = this.state;
-    let nodeType = '普通节点';
+    let nodeType = I18n.t('activity.common.normalNode');
     if (vip){
-      nodeType = '超级节点'
+      nodeType = I18n.t('activity.common.superNode')
     } else{
       switch(type){
         case 'normal':
-          nodeType = '普通节点'
+          nodeType = I18n.t('activity.common.normalNode');
           break
         case 'benefit':
-          nodeType = '权益节点'
+          nodeType = I18n.t('activity.common.benefitNode');
           break
         case 'active':
-          nodeType = '激活节点'
+          nodeType = I18n.t('activity.common.activeNode');
           break
       }
     }
@@ -107,7 +108,7 @@ class NodeSummary extends BaseComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="涡轮计划" leftAction={this._onBackPressed}/>
+        <NavHeader navigation={navigation} color="white" text={I18n.t('activity.common.activityName')} leftAction={this._onBackPressed}/>
         <ScrollView>
           <NodeInfo
             icon={<Image source={require('./images/super.png')} />}
@@ -147,7 +148,7 @@ class NodeSummary extends BaseComponent {
             <View style={styles.extContainer}>
               <View style={styles.extHeader}>
                 <Image source={require('./images/ziJD.png')} />
-                <Text style={styles.headerText}>我的子节点</Text>
+                <Text style={styles.headerText}>{I18n.t('activity.nodeSummary.myChildren')}</Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.childNodeList}>
@@ -155,7 +156,7 @@ class NodeSummary extends BaseComponent {
                   <ChildNodeItem key={item.level} no={'L'+item.level} value={item.nodeNum} total={maxNodeNum} />
                 ))}
               </View>
-              <Button text="拓展子节点" onPress={() => {
+              <Button text={I18n.t('activity.nodeSummary.inviteOthers')} onPress={() => {
                 navigation.navigate("WLInvite")
               }}/>
             </View>
@@ -168,18 +169,18 @@ class NodeSummary extends BaseComponent {
             <View style={styles.extContainer}>
               <View style={styles.extHeader}>
                 <Image source={require('./images/backdate-l.png')} />
-                <Text style={styles.headerText}>升级成为权益节点</Text>
+                <Text style={styles.headerText}>{I18n.t('activity.nodeSummary.levelupBenefit')}</Text>
               </View>
               <View style={styles.divider} />
               <Image source={require('./images/up5L1.png')} />
               <View style={styles.activeLabel}>
-                <Text>激活节点</Text>
-                <Text>权益节点</Text>
+                <Text>{I18n.t('activity.common.activeNode')}</Text>
+                <Text>{I18n.t('activity.common.benefitNode')}</Text>
               </View>
               <DescView
                 descArr={[
-                  '激活节点的第一层5个节点充满后，激活节点成为权益节点',
-                  '权益节点可参与森林收益、溯源收益、邀请收益',
+                  I18n.t('activity.nodeSummary.howToBenefit'),
+                  I18n.t('activity.nodeSummary.whyBenefit'),
                 ]}
               />
               {
@@ -200,7 +201,7 @@ class NodeSummary extends BaseComponent {
               {
                 childNum>=5?<Image source={require("./images/zt5.png")} style={{ marginVertical: 15 }} />:null
               }
-              <Button text="拓展子节点" onPress={() => {
+              <Button text={I18n.t('activity.nodeSummary.inviteOthers')} onPress={() => {
                 navigation.navigate("WLInvite")
               }}/>
             </View>
@@ -213,22 +214,22 @@ class NodeSummary extends BaseComponent {
             <View style={styles.extContainer}>
               <View style={styles.extHeader}>
                 <Image source={require('./images/backdate-l.png')} />
-                <Text style={styles.headerText}>升级成为激活节点</Text>
+                <Text style={styles.headerText}>{I18n.t('activity.nodeSummary.levelupActive')}</Text>
               </View>
               <View style={styles.divider} />
               <Image source={require('./images/act_levelUP15.png')} />
               <View style={styles.activeLabel}>
-                <Text>普通节点</Text>
-                <Text>激活节点</Text>
+                <Text>{I18n.t('activity.common.normalNode')}</Text>
+                <Text>{I18n.t('activity.common.activeNode')}</Text>
               </View>
               <DescView
                 descArr={[
-                  '普通节点花费15ITC升级成为激活节点',
-                  '升级花费的ITC不会返还',
-                  '激活节点可享受子节点的邀请收益',
+                  I18n.t('activity.nodeSummary.howToActive'),
+                  I18n.t('activity.nodeSummary.activeWarning'),
+                  I18n.t('activity.nodeSummary.whyActive'),
                 ]}
               />
-              <Button onPress={this.didTapActivityBtn} text="激活" />
+              <Button onPress={this.didTapActivityBtn} text={I18n.t('activity.common.active')} />
             </View>
             :null
           }
