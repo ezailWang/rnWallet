@@ -192,7 +192,6 @@ class WLVote extends BaseComponent {
 
     this._showLoading()
 
-    //测试超级节点地址
     let trxData = NetworkManager.generalVoteTrxData(contractInfo.nodeBallot.address,address,voteValue)
       
     NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
@@ -285,10 +284,17 @@ async handleTrx(password) {
       console.log('开始发送交易'+privateKey+this.state.trxData)
       NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
         this.hideStaticLoading(); // 关闭Loading
-        console.log('txHash'+hash)
-        if(hash){
-          this.queryTXStatus(hash)
-        }
+       
+        let voteValue = parseFloat(this.state.value)
+
+        this.props.navigation.navigate('NodeTrxPending',{
+          amount:voteValue, 
+          fromAddress:activityEthAddress,
+          toAddress:contractInfo.nodeBallot.address,
+          gasPrice:this.state.estimateGas,
+          txHash:hash
+        })
+
       })
     }
   }
@@ -303,42 +309,6 @@ hideStaticLoading() {
     isShowSLoading: false,
     sLoadingContent: '',
   });
-}
-
-queryTXStatus = (hash)=>{
-
-  this._showLoading()
-
-  let time = new Date().valueOf()
-  NetworkManager.listenETHTransaction(hash,time,(status)=>{
-
-    if(status == 1){
-      content = '投票成功！'
-    }
-    else{
-      content = '交易正在确认中..'
-    }
-
-    showToast(content,30)
-
-    //5秒后查询服务器
-    setTimeout(async () => {
-      
-      let nodeInfo = await NetworkManager.queryNodeInfo({
-        address:this.props.activityEthAddress
-      });
-  
-      this._hideLoading();
-      if(nodeInfo.data){
-        this.props.navigation.navigate('NodeSummary',{
-          nodeData:nodeInfo.data
-        })
-      }
-      else{
-        this.props.navigation.goBack();
-      }
-    }, 5 * 1000);
-  })
 }
 
   componentWillMount() {

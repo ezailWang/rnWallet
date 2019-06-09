@@ -14,20 +14,19 @@ import {
   ImageBackground,
 } from 'react-native';
 import { connect } from 'react-redux';
-import * as Actions from '../../config/action/Actions';
-import { BlueButtonBig } from '../../components/Button';
-import { Colors, TransferGasLimit } from '../../config/GlobalConfig';
-import { WhiteBgHeader } from '../../components/NavigaionHeader';
-import { I18n } from '../../config/language/i18n';
-import Layout from '../../config/LayoutConstants';
-import BaseComponent from '../base/BaseComponent';
-import NetworkManager from '../../utils/NetworkManager';
-import { showToast } from '../../utils/Toast';
-import KeystoreUtils from '../../utils/KeystoreUtils';
-import { defaultTokens } from '../../utils/Constants';
-import MyAlertComponent from '../../components/MyAlertComponent';
-import { async } from 'rsvp';
-import StaticLoading from '../../components/StaticLoading';
+import * as Actions from '../../../config/action/Actions';
+import { BlueButtonBig } from '../../../components/Button';
+import { Colors, TransferGasLimit } from '../../../config/GlobalConfig';
+import { WhiteBgHeader } from '../../../components/NavigaionHeader';
+import { I18n } from '../../../config/language/i18n';
+import Layout from '../../../config/LayoutConstants';
+import BaseComponent from '../../base/BaseComponent';
+import NetworkManager from '../../../utils/NetworkManager';
+import { showToast } from '../../../utils/Toast';
+import KeystoreUtils from '../../../utils/KeystoreUtils';
+import { defaultTokens } from '../../../utils/Constants';
+import MyAlertComponent from '../../../components/MyAlertComponent';
+import StaticLoading from '../../../components/StaticLoading';
 
 const StatusBarHeight = StatusBar.currentHeight;
 const contentWidth = Layout.WINDOW_WIDTH * 0.9;
@@ -614,63 +613,21 @@ handleTrx = async (password) => {
     this.hideStaticLoading()
     showToast(I18n.t('modal.password_error'), 30);
   } else {
-    const {trxData} = this.state;
-    this.hideStaticLoading()
+    const {trxData, gasCost, destoryAddress, mappingValue} = this.state;
 
-    this._showLoading();
     NetworkManager.sendETHTrx(priKey,trxData,(hash)=>{
       
-      let time = new Date().valueOf()
-      NetworkManager.listenETHTransaction(hash,time,async status=>{
+      this.hideStaticLoading()
 
-        if(status == 1){
-          content = '映射任务已完成'
-        }
-        else{
-          content = '交易正在确认中..'
-        }
-    
-        showToast(content,30)
-    
+      const {activityEthAddress} = this.props
+      let value = parseFloat(mappingValue)
 
-        let {activityEthAddress, activityItcAddress} = this.props
-
-        //5秒后调用接口激活映射任务
-        setTimeout(async () => {
-          
-          let taskResult = await NetworkManager.completeMappingTask({
-            eth:activityEthAddress,
-            itc:activityItcAddress
-          });
-      
-          if(taskResult.code == 200){
-
-            let nodeInfo = await NetworkManager.queryNodeInfo({
-              address:this.props.activityEthAddress
-            });
-        
-            this._hideLoading();
-            if(nodeInfo.data){
-              this.props.navigation.navigate('NodeSummary',{
-                nodeData:nodeInfo.data
-              })
-            }
-            else{
-              setTimeout(() => {
-                this.props.navigation.goBack();  
-              }, 0.5 * 1000);
-            }
-          }
-          else{
-            this._hideLoading();
-            setTimeout(() => {
-              this.props.navigation.goBack();  
-            }, 0.5 * 1000);
-          }
-
-        }, 5 * 1000);
-        
-        
+      this.props.navigation.navigate('MappingTxPending',{
+        amount:value, 
+        fromAddress:activityEthAddress,
+        toAddress:destoryAddress,
+        gasPrice:gasCost,
+        txHash:hash
       })
     })
   }
@@ -728,7 +685,7 @@ handleTrx = async (password) => {
   renderComponent = () => {
     const {activityEthAddress, activityItcAddress} = this.props
     const {showActivityModalVisible, didMappingValue, gasCost, itcErc20Balance, mappingValue, isShowMappingDetail, suggestGasPrice, defaultInputAmount} = this.state;
-    const topImg = require('../../assets/mapping/mappingService.png');
+    const topImg = require('../../../assets/mapping/mappingService.png');
     return (
       <View
         style={styles.container}
@@ -804,14 +761,14 @@ handleTrx = async (password) => {
                 >
                   <Image
                     style={styles.promptIcon}
-                    source={require('../../assets/mapping/sighIcon.png')}
+                    source={require('../../../assets/mapping/sighIcon.png')}
                     resizeMode="contain"
                   />
                 </TouchableOpacity>
                 {this.state.isShowPrompt ? (
                   <Image
                     style={styles.triangleIcon}
-                    source={require('../../assets/common/up_triangle.png')}
+                    source={require('../../../assets/common/up_triangle.png')}
                     resizeMode="contain"
                   />
                 ) : null}
@@ -937,7 +894,7 @@ class ConfirmMappingModal extends PureComponent {
                     >
                       <Image
                         style={styles.mDetailCancelIcon}
-                        source={require('../../assets/common/cancel.png')}
+                        source={require('../../../assets/common/cancel.png')}
                         resizeMode="center"
                       />
                     </TouchableOpacity>
@@ -993,7 +950,7 @@ class ConfirmMappingModal extends PureComponent {
                     >
                       <Image
                         style={styles.mPwdBackIcon}
-                        source={require('../../assets/common/common_back.png')}
+                        source={require('../../../assets/common/common_back.png')}
                         resizeMode="center"
                       />
                     </TouchableOpacity>

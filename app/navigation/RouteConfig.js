@@ -103,7 +103,10 @@ import {
   WebViewScreen,
   NodeSummary,
   MappingServiceAgreement,
-  ITCActivityMapping
+  ITCActivityMapping,
+  MappingTxPending,
+  ActivityTrxPending,
+  NodeTrxPending
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -365,6 +368,15 @@ const HomeRouteConfig = {
   },
   ITCActivityMapping:{
     screen:ITCActivityMapping
+  },
+  MappingTxPending:{
+    screen:MappingTxPending
+  },
+  ActivityTrxPending:{
+    screen:ActivityTrxPending
+  },
+  NodeTrxPending:{
+    screen:NodeTrxPending
   }
 };
 

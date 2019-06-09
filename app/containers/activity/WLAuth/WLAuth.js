@@ -157,7 +157,7 @@ class WLAuth extends BaseComponent {
 
       this._hideLoading()
 
-      if(status == 1){
+      if(status){
         content = '授权成功'
       }
       else{

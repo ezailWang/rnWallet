@@ -49,13 +49,13 @@ class WLLock extends BaseComponent {
 
     try{
 
-      let voteValue = Number(this.state.value)
+      let nodeLockValue = Number(this.state.value)
 
-      if(voteValue<100000 || isNaN(voteValue)){
+      if(nodeLockValue<100000 || isNaN(nodeLockValue)){
   
         showToast('投票数量不少于100000个ITC',30)
       }
-      else if (voteValue > this.state.itcErc20Balance){
+      else if (nodeLockValue > this.state.itcErc20Balance){
   
         showToast('ITC余额不足',30)
       }
@@ -67,7 +67,7 @@ class WLLock extends BaseComponent {
           console.log('合约授权额度为->'+allowance)
   
           //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
-          if(allowance < voteValue){
+          if(allowance < nodeLockValue){
             
             this.setState({
               showApproveModalVisible:true
@@ -105,9 +105,9 @@ class WLLock extends BaseComponent {
       showApproveModalVisible:false
     })
     
-    let voteValue = parseFloat(this.state.value)
+    let nodeLockValue = parseFloat(this.state.value)
     this.props.navigation.navigate('WLAuth',{
-      voteValue,
+      voteValue:nodeLockValue,
       callback:async ()=>{
         console.log('一些刷新操作')
 
@@ -132,14 +132,12 @@ class WLLock extends BaseComponent {
 
   showPayView = async ()=>{
 
-    let voteValue = parseFloat(this.state.value)
+    let nodeLockValue = parseFloat(this.state.value)
     let {activityEthAddress} = this.props    
 
     this._showLoading()
 
-    //测试超级节点地址
-
-    let trxData = NetworkManager.generalSuperNodeLockTrxData(contractInfo.nodeBallot.address,voteValue)
+    let trxData = NetworkManager.generalSuperNodeLockTrxData(contractInfo.nodeBallot.address,nodeLockValue)
       
     NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
      
@@ -163,10 +161,10 @@ class WLLock extends BaseComponent {
         trxData:res.trx,
         estimateGas:res.gasUsed.toFixed(6),
         isShowVoteTrx:true,
-        inputAmount:voteValue,
+        inputAmount:nodeLockValue,
         payAddress:activityEthAddress,
         lockDate:year+':'+month+':'+day,
-        amount:voteValue,
+        amount:nodeLockValue,
         totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
         detailGas:detailGas
       })
@@ -230,9 +228,17 @@ async handleTrx(password) {
       NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
         this.hideStaticLoading(); // 关闭Loading
         console.log('txHash'+hash)
-        if(hash){
-          this.queryTXStatus(hash)
-        }
+        
+        let nodeLockValue = parseFloat(this.state.value)
+
+        this.props.navigation.navigate('NodeTrxPending',{
+          amount:nodeLockValue, 
+          fromAddress:activityEthAddress,
+          toAddress:contractInfo.nodeBallot.address,
+          gasPrice:this.state.estimateGas,
+          txHash:hash
+        })
+
       })
     }
   }
@@ -247,42 +253,6 @@ hideStaticLoading() {
     isShowSLoading: false,
     sLoadingContent: '',
   });
-}
-
-queryTXStatus = (hash)=>{
-
-  this._showLoading()
-
-  let time = new Date().valueOf()
-  NetworkManager.listenETHTransaction(hash,time,(status)=>{
-
-    if(status == 1){
-      content = '超级节点激活成功'
-    }
-    else{
-      content = '交易正在确认中..'
-    }
-
-    showToast(content,30)
-
-    //5秒后查询服务器
-    setTimeout(async () => {
-      
-      let nodeInfo = await NetworkManager.queryNodeInfo({
-        address:this.props.activityEthAddress
-      });
-  
-      this._hideLoading();
-      if(nodeInfo.data){
-        this.props.navigation.navigate('NodeSummary',{
-          nodeData:nodeInfo.data
-        })
-      }
-      else{
-        this.props.navigation.goBack();
-      }
-    }, 5 * 1000);
-  })
 }
 
   componentWillMount() {

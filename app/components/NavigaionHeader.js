@@ -184,6 +184,39 @@ class TransparentBgHeader extends PureComponent {
   }
 }
 
+// Header {透明背景 无返回按钮 白色title}
+class TransparentBgNoBackButtonHeader extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    text: PropTypes.string,
+    rightPress: PropTypes.func,
+    rightIcon: PropTypes.number,
+  };
+
+  render() {
+    const { navigation, text, rightPress, rightIcon } = this.props;
+    const height = Layout.NAVIGATION_HEIGHT();
+    let contentMarginTop = { marginTop: 24 };
+    if (Layout.DEVICE_IS_IPHONE_X()) {
+      contentMarginTop = { marginTop: 48 };
+    }
+    return (
+      <View style={[styles.transparentBgContainer, { height }]}>
+        
+        <View style={[styles.headerTitleBox, contentMarginTop]}>
+          <Text style={styles.whiteTitle} numberOfLines={1}>
+            {text}
+          </Text>
+        </View>
+
+        <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]} onPress={rightPress}>
+          <Image style={styles.icon} resizeMode="contain" source={rightIcon} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
+
 // Header {白色背景 蓝色返回按钮 黑色title}
 class WhiteBgHeader extends PureComponent {
   static propTypes = {
@@ -317,4 +350,5 @@ export {
   BlackBgHeader,
   TransparentBgHeader,
   WhiteBgNoBackHeader,
+  TransparentBgNoBackButtonHeader
 };
