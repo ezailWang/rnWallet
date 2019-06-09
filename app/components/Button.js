@@ -145,10 +145,6 @@ class BackButton extends Component {
     onPress: PropTypes.func.isRequired,
   };
 
-  static propTypes = {
-    onPress: PropTypes.func.isRequired,
-  };
-
   render() {
     const { onPress } = this.props;
     let backItemStyle = { marginTop: 0 };
@@ -269,7 +265,7 @@ class GreyButtonBig extends Component {
         onPress={onPress}
       >
         <LinearGradient
-          colors={['#a0a0a0', '#a0a0a0']}
+          colors={['#a0a0a0', '#a0a0a0', '#a0a0a0']}
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
           style={[styles.normalBtnGradient, { flex: 1 }]}

@@ -95,7 +95,12 @@
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
   //离线包
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"bundle/index.ios" withExtension:@"jsbundle"];
+//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"index.ios" withExtension:@"jsbundle"];
+//  jsCodeLocation = [[NSBundle mainBundle] pathForResource:@"index.ios.jsbundle" withExtension:nil];
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"index.ios.jsbundle" withExtension:nil];
+  NSString * bundlePath = [[NSBundle mainBundle] pathForResource:@"index.ios.jsbundle" ofType:nil];
+  
+  NSLog(@"%@-----\n%@",jsCodeLocation,bundlePath);
 #endif
   
   [FIRApp configure];

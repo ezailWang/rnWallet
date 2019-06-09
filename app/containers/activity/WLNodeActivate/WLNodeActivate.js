@@ -279,7 +279,23 @@ async handleTrx(password) {
         this.hideStaticLoading(); // 关闭Loading
         console.log('txHash'+hash)
         if(hash){
-          this.queryTXStatus(hash)
+
+          const {activeAddress, estimateGas} = this.props
+
+          let {key,params} = this.props.navigation.state
+
+          this.props.navigation.navigate('ActivityTrxPending',{
+            amount:15, 
+            fromAddress:activityEthAddress,
+            toAddress:activeAddress,
+            gasPrice:estimateGas,
+            txHash:hash,
+            goBackKey:key,
+            refreshCall:params.callback
+          })
+        }
+        else{
+          this._showAlert('发送激活交易失败，请检查网络')
         }
       })
     }
@@ -295,40 +311,6 @@ hideStaticLoading() {
     isShowSLoading: false,
     sLoadingContent: '',
   });
-}
-
-queryTXStatus = (hash)=>{
-
-  this._showLoading()
-
-  let time = new Date().valueOf()
-  NetworkManager.listenETHTransaction(hash,time,(status)=>{
-
-    if(status == 1){
-      content = '激活成功'
-    }
-    else{
-      content = '交易正在确认中..'
-    }
-
-    showToast(content,30)
-
-    //5秒后返回节点页面，并执行刷新
-    setTimeout(async () => {
-      
-      let nodeInfo = await NetworkManager.queryNodeInfo({
-        address:this.props.activityEthAddress
-      });
-  
-      this._hideLoading();
-      if(nodeInfo.data){
-        this.props.navigation.state.params.callback(nodeInfo.data);
-      }
-    
-      this.props.navigation.goBack();
-      
-    }, 5 * 1000);
-  })
 }
 
   componentWillMount() {

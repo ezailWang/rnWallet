@@ -168,7 +168,8 @@ export default class NetworkManager {
       let amount = await contract.methods.allowance(ownerAddress,approveAddress).call()
       const bigBalance = new BigNumber(amount);
       const ether = new BigNumber(Math.pow(10, 18));
-      return Promise.resolve(parseFloat(bigBalance.dividedBy(ether)).toFixed(4));
+      let allowance = parseFloat(bigBalance.dividedBy(ether)).toFixed(4)
+      return Promise.resolve(parseFloat(allowance))
     } catch (err) {
       DeviceEventEmitter.emit('netRequestErr', err);
       Analytics.recordErr('getAllowance', err);
@@ -1018,7 +1019,11 @@ export default class NetworkManager {
 
     if(tx){
       console.log('已查询到->'+tx)
-      call(1)
+      let blockDetail = await web3.eth.getBlock(tx.blockNumber)
+      call({
+        ...tx,
+        timestamp:blockDetail.timestamp
+      })
     }
     else{
       console.log('未查找到该交易凭证->'+hash)
@@ -1026,7 +1031,7 @@ export default class NetworkManager {
       let nowTime = new Date().valueOf()
 
       if(nowTime - date > 3 * 60 * 1000 ){
-        call(0)
+        call()
       }else{
         setTimeout(() => {
           this.listenETHTransaction(hash,date,call)

@@ -217,7 +217,7 @@ class NodeSummary extends BaseComponent {
                 <Text style={styles.headerText}>{I18n.t('activity.nodeSummary.levelupActive')}</Text>
               </View>
               <View style={styles.divider} />
-              <Image source={require('./images/levelUP15.png')} />
+              <Image source={require('./images/act_levelUP15.png')} />
               <View style={styles.activeLabel}>
                 <Text>{I18n.t('activity.common.normalNode')}</Text>
                 <Text>{I18n.t('activity.common.activeNode')}</Text>

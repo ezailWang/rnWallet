@@ -76,7 +76,7 @@ class WLHome extends BaseComponent {
         >
           <ImageBackground
             resizeMode="cover"
-            source={require('./images/banner.png')}
+            source={require('./images/home_banner.png')}
             style={styles.banner}
           >
             <Image source={require('./images/title.png')} style={{ width: '100%' }} />

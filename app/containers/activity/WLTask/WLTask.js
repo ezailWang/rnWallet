@@ -79,7 +79,7 @@ class WLTask extends BaseComponent {
         <NavHeader navigation={navigation} color="transparent" leftAction={this._onBackPressed} />
         <ImageBackground
           resizeMode="cover"
-          source={require('./images/banner.png')}
+          source={require('./images/task_banner.png')}
           style={styles.banner}
         >
           <View style={{ marginLeft: 30, marginTop: 40 }}>

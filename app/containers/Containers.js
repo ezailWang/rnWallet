@@ -61,7 +61,10 @@ import WLPages from './activity/WLPages/WLPages'; // 路由浏览列表
 import ChooseActivityETHWallet from './activity/ChooseActivityETHWallet'
 import ChooseActivityITCWallet from './activity/ChooseActivityITCWallet'
 import WebViewScreen from './activity/WebViewScreen'
-import ITCActivityMapping from './activity/ITCActivityMapping'
+import ITCActivityMapping from './activity/mapping/ITCActivityMapping'
+import MappingTxPending from  './activity/mapping/MappingTxPending'
+import ActivityTrxPending from './activity/WLNodeActivate/ActivityTrxPending'
+import NodeTrxPending from './activity/WLLockVote/NodeTrxPending'
 
 export {
   HomeScreen,
@@ -126,5 +129,8 @@ export {
   WebViewScreen,
   NodeSummary,
   MappingServiceAgreement,
-  ITCActivityMapping
+  ITCActivityMapping,
+  MappingTxPending,
+  ActivityTrxPending,
+  NodeTrxPending
 };
