@@ -22,6 +22,7 @@ import * as Actions from '../../../config/action/Actions';
 import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
 import { async } from 'rxjs/internal/scheduler/async';
+import { I18n } from '../../../config/language/i18n';
 
 class WLHome extends BaseComponent {
 
@@ -83,33 +84,33 @@ class WLHome extends BaseComponent {
           <View style={styles.infoContainer}>
             <Tag text={`第${sequence}轮`} color="#46b6fe" />
             <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
-            <DetailItem title="结束倒计时" text={timeLeft} />
-            <DetailItem title="涡轮池奖金" text={totalPoolReward == '' ? '0' : totalPoolReward} />
-            <DetailItem title="已发放奖励" text={paidReward == '' ? '0' : paidReward} />
+            <DetailItem title={I18n.t('activity.home.deadline')} text={timeLeft} />
+            <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '0' : totalPoolReward} />
+            <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '0' : paidReward} />
 
             <View style={styles.divider} />
 
             <View style={styles.chartContainer}>
               <ChartLabel
-                label="普通节点"
+                label={I18n.t('activity.common.normalNode')}
                 color="#7be1ff"
                 number={normalNum}
                 style={{ position: 'absolute', top: 0, left: 0 }}
               />
               <ChartLabel
-                label="激活节点"
+                label={I18n.t('activity.common.activeNode')}
                 color="#0597fb"
                 number={activeNum}
                 style={{ position: 'absolute', top: 0, right: 0 }}
               />
               <ChartLabel
-                label="权益节点"
+                label={I18n.t('activity.common.benefitNode')}
                 color="#ffa235"
                 number={benefitNum}
                 style={{ position: 'absolute', bottom: 0, right: 0 }}
               />
               <ChartLabel
-                label="超级节点"
+                label={I18n.t('activity.common.superNode')}
                 color="#fff100"
                 number={vipNum}
                 style={{ position: 'absolute', bottom: 0, left: 0 }}
@@ -118,9 +119,9 @@ class WLHome extends BaseComponent {
               <Chart chart_wh={chartWidth} series={series} sliceColor={sliceColor} doughnut />
             </View>
           </View>
-          <TextLink color="#00afc9" text="完整规则" style={{ marginVertical: 20 }} />
+          <TextLink color="#00afc9" text={I18n.t('activity.home.rule')} style={{ marginVertical: 20 }} />
           <TouchableOpacity onPress={this.didTapActivityButton} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
-            <Text style={{ color: 'white' }}>我的涡轮计划</Text>
+            <Text style={{ color: 'white' }}>{I18n.t('activity.home.myActivity')}</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>

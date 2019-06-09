@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import { View, Text, Image,TouchableOpacity } from 'react-native';
+import { I18n } from '../../../../config/language/i18n';
 
 export default ({ total, forest, cycle, invite, source, onPress }) => {
   return (
@@ -9,7 +10,7 @@ export default ({ total, forest, cycle, invite, source, onPress }) => {
         <TouchableOpacity onPress={onPress}>
           <View style={styles.header}>
             <View style={styles.total}>
-              <Text>总收益(ITC)</Text>
+              <Text>{I18n.t('activity.common.totalReward')}(ITC)</Text>
               <Text style={styles.totalText}>{total}</Text>
             </View>
             <Image source={require('../images/rightBlue.png')} style={{width:20,height:20}} />
@@ -17,12 +18,12 @@ export default ({ total, forest, cycle, invite, source, onPress }) => {
         </TouchableOpacity>
         <View style={styles.divider} />
         <View style={styles.detailInfo}>
-          <DetailInfo label="森林收益" value={forest} />
-          <DetailInfo label="参与轮数" value={cycle} />
+          <DetailInfo label={I18n.t('activity.common.poolReward')} value={forest} />
+          <DetailInfo label={I18n.t('activity.nodeSummary.joinRound')} value={cycle} />
         </View>
         <View style={styles.detailInfo}>
-          <DetailInfo label="邀请收益" value={invite} />
-          <DetailInfo label="溯源收益" value={source} />
+          <DetailInfo label={I18n.t('activity.common.inviteReward')} value={invite} />
+          <DetailInfo label={I18n.t('activity.common.treeReward')} value={source} />
         </View>
       </View>
     </View>

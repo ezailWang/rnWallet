@@ -103,19 +103,19 @@ export default class WLBenefit extends BaseComponent {
   }
 
   renderItem = item => {
-    let type = '收益';
+    let type = I18n.t('activity.common.benefit');
     switch(item.item.type){
       case 'active':
-        type = '邀请收益'
+        type = I18n.t('activity.common.inviteReward')
         break
       case 'tree':
-        type = '溯源收益'
+        type = I18n.t('activity.common.treeReward')
         break
       case 'bonus':
-        type = '森林收益'
+        type = I18n.t('activity.common.poolReward')
         break
       case 'vip':
-        type = '森林收益(超级节点)'
+        type = I18n.t('activity.common.poolReward')+'('+I18n.t('activity.common.superNode')+')'
         break
     }
     return (
@@ -197,14 +197,14 @@ export default class WLBenefit extends BaseComponent {
         >
           <View style={styles.benefitView}>
             <View style={styles.totalBenefit}>
-              <BenefitOverview title="总收益(ITC)" count={summary.totalReward} scale={5} />
+              <BenefitOverview title={I18n.t('activity.common.totalReward')+'(ITC)'} count={summary.totalReward} scale={5} />
             </View>
             <View style={styles.dividedBenefit}>
-              <BenefitOverview title="森林收益" subtitle="IoT Chain" count={summary.bonusReward} />
+              <BenefitOverview title={I18n.t('activity.common.poolReward')} subtitle="IoT Chain" count={summary.bonusReward} />
               <View style={styles.divider} />
-              <BenefitOverview title="邀请收益" subtitle="Erc 20" count={summary.inviteReward} />
+              <BenefitOverview title={I18n.t('activity.common.inviteReward')} subtitle="Erc 20" count={summary.inviteReward} />
               <View style={styles.divider} />
-              <BenefitOverview title="溯源收益" subtitle="Erc 20" count={summary.treeReward} />
+              <BenefitOverview title={I18n.t('activity.common.treeReward')} subtitle="Erc 20" count={summary.treeReward} />
             </View>
           </View>
         </ImageBackground>

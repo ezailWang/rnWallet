@@ -8,13 +8,17 @@ import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
 import {connect} from 'react-redux'
+import { I18n } from '../../../config/language/i18n';
 
 class WLNodeInfo extends BaseComponent {
   constructor(props) {
     super(props);
     this.address = this.props.activityEthAddress
     this.state = {
-      task: {}
+      task: {
+        totalAmount: 0,
+        myVote:0
+      }
     };
   }
 
@@ -39,31 +43,31 @@ class WLNodeInfo extends BaseComponent {
     let { task } = this.state;
     const taskInfos = [
       // { label: '节点编号', value: 'NO.1' },
-      { label: '总额度', value: task.totalAmount+' ITC' },
-      { label: '我的投票', value: task.myVote+' ITC' },
-      { label: '解锁日期', value: task.unlockTime },
-      { label: '转入记录', value: task.txHash, valueStyle: { color: '#50A6E5' } },
+      { label: I18n.t('activity.nodeinfo.totalAmount'), value: task.totalAmount+' ITC' },
+      { label: I18n.t('activity.nodeinfo.myVote'), value: task.myVote+' ITC' },
+      { label: I18n.t('activity.nodeinfo.unlockTime'), value: task.unlockTime },
+      { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' } },
     ];
     const activateInfos = [
-      { label: '邀请人', value: task.inviter },
-      { label: '激活时间', value: task.activeTime },
-      { label: '激活记录', value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
-      { label: '晋级时间', value: task.benefitTime },
+      { label: I18n.t('activity.nodeinfo.inviter'), value: task.inviter },
+      { label: I18n.t('activity.nodeinfo.activeTime'), value: task.activeTime },
+      { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
+      { label: I18n.t('activity.nodeinfo.benefitTime'), value: task.benefitTime },
     ];
 
-    let nodeType = '普通节点';
+    let nodeType = I18n.t('activity.common.normalNode');
     if (task.vip){
-      nodeType = '超级节点'
+      nodeType = I18n.t('activity.common.superNode')
     } else{
       switch(task.nodeType){
         case 'normal':
-          nodeType = '普通节点'
+          nodeType = I18n.t('activity.common.normalNode')
           break
         case 'benefit':
-          nodeType = '权益节点'
+          nodeType = I18n.t('activity.common.benefitNode')
           break
         case 'active':
-          nodeType = '激活节点'
+          nodeType = I18n.t('activity.common.activeNode')
           break
       }
     }
@@ -71,7 +75,7 @@ class WLNodeInfo extends BaseComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="节点信息" />
+        <NavHeader navigation={navigation} color="white" text={I18n.t('activity.nodeinfo.nodeinfo')} />
         <ScrollView>
           <View style={styles.node}>
             <NodeCard
@@ -81,10 +85,10 @@ class WLNodeInfo extends BaseComponent {
               showArrow={false}
             />
           </View>
-          <DisplayForm title="任务信息" items={taskInfos} />
+          <DisplayForm title={I18n.t('activity.nodeinfo.taskinfo')} items={taskInfos} />
           {
             !task.vip && task.actived?
-            <DisplayForm title="激活信息" items={activateInfos} />
+            <DisplayForm title={I18n.t('activity.nodeinfo.activeinfo')} items={activateInfos} />
             :null
           }
           
