@@ -216,7 +216,7 @@ class NodeSummary extends BaseComponent {
                 <Text style={styles.headerText}>升级成为激活节点</Text>
               </View>
               <View style={styles.divider} />
-              <Image source={require('./images/levelUP15.png')} />
+              <Image source={require('./images/act_levelUP15.png')} />
               <View style={styles.activeLabel}>
                 <Text>普通节点</Text>
                 <Text>激活节点</Text>
