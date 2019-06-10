@@ -84,9 +84,9 @@ class WLTask extends BaseComponent {
           style={styles.banner}
         >
           <View style={{ marginLeft: 30, marginTop: 40 }}>
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>加入涡轮计划</Text>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{I18n.t('activity.task.task_join')}</Text>
             <Text style={{ color: 'white', fontSize: 14, fontWeight: '500', marginTop: 10 }}>
-              从以下任务中选择一个完成，即可加入涡轮计划
+              {I18n.t('activity.task.explain_0')}
             </Text>
           </View>
         </ImageBackground>
@@ -129,11 +129,11 @@ class WLTask extends BaseComponent {
                   />
                 </View>
                 <View style={styles.taskDesc}>
-                  <IconTextItem text="质押10万ICT" />
-                  <IconTextItem text="锁定90天" />
-                  <IconTextItem text="成为涡轮权益节点" />
-                  <IconTextItem text="涡轮森林超级节点奖励" />
-                  <IconTextItem text="后期节点运营收益" />
+                  <IconTextItem text={I18n.t('activity.task.task_explain_0')} />
+                  <IconTextItem text={I18n.t('activity.task.lock_day')} />
+                  <IconTextItem text={I18n.t('activity.task.ben_node')} />
+                  <IconTextItem text={I18n.t('activity.task.super_node')}  />
+                  <IconTextItem text={I18n.t('activity.task.node_ben')}/>
                   <Image source={require('./images/logo.png')} style={styles.pageDecorator} />
                 </View>
               </View>
@@ -146,10 +146,10 @@ class WLTask extends BaseComponent {
                   />
                 </View>
                 <View style={styles.taskDesc}>
-                  <IconTextItem text="投票600个ITC" />
-                  <IconTextItem text="锁定90天" />
-                  <IconTextItem text="成为涡轮普通节点" />
-                  <IconTextItem text="后期共享节点运营收益" />
+                  <IconTextItem text={I18n.t('activity.task.vote_limit')} />
+                  <IconTextItem text={I18n.t('activity.task.lock_day')} />
+                  <IconTextItem text={I18n.t('activity.task.normal_node')} />
+                  <IconTextItem text={I18n.t('activity.task.node_ben_1')}  />
                   <Image source={require('./images/logo.png')} style={styles.pageDecorator} />
                 </View>
               </View>
@@ -162,9 +162,9 @@ class WLTask extends BaseComponent {
                   />
                 </View>
                 <View style={styles.taskDesc}>
-                  <IconTextItem text="映射600个ITC" />
-                  <IconTextItem text="无锁定期" />
-                  <IconTextItem text="成为涡轮普通节点" />
+                  <IconTextItem text={I18n.t('activity.task.mapping_0')}  />
+                  <IconTextItem text={I18n.t('activity.task.mapping_1')} />
+                  <IconTextItem text={I18n.t('activity.task.mapping_2')} />
                   <Image source={require('./images/logo.png')} style={styles.pageDecorator} />
                 </View>
               </View>

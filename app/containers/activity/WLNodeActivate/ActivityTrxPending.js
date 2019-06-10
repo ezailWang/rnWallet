@@ -173,7 +173,7 @@ class ActivityTrxPending extends BaseComponent {
       tranStatus: '2',
       qrCodeValue:'',
       nodeData:{},
-      nextBtnTitle:'交易上链中...'
+      nextBtnTitle:I18n.t('activity.nodeVote.pending')
     };
     this._setStatusBarStyleLight();
   }
@@ -185,7 +185,7 @@ class ActivityTrxPending extends BaseComponent {
 
       if(tranStatus == '2'){
 
-        this._showAlert('交易上链中，请等待1-3分钟..','提示')
+        this._showAlert(I18n.t('activity.nodeVote.pending_sub'))
       }
       else{
         
@@ -233,10 +233,10 @@ class ActivityTrxPending extends BaseComponent {
 
     let nextBtnTitle = ''
     if(status){
-      nextBtnTitle = '交易已确认，数据同步中...'
+      nextBtnTitle = I18n.t('activity.nodeVote.txSure')
     }
     else{
-      nextBtnTitle = '交易仍在上链中...'
+      nextBtnTitle = I18n.t('activity.nodeVote.notfound') 
     }
 
     this.setState({
@@ -262,7 +262,7 @@ class ActivityTrxPending extends BaseComponent {
         })
       }
       else{
-        this._showAlert('任务激活失败，请返回任务界面.')
+        this._showAlert(I18n.t('activity.nodeVote.failed'))
         // this.props.navigation.goBack();
         this.setState({
           tranStatus:status.status ? "1" : "0",
@@ -435,7 +435,7 @@ class ActivityTrxPending extends BaseComponent {
                       </GreyButtonMidele>
                     ):(
                       <BlueButtonMiddle  onPress={() => this.didTapHomeBtn()}
-                        text={'我的活动首页'}  
+                        text={I18n.t('activity.nodeVote.act_home') }  
                       >
                       </BlueButtonMiddle>
                     )
