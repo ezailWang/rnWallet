@@ -53,10 +53,10 @@ const styles = {
   },
   desc: {
     padding: 5,
-    backgroundColor: '#f8fbff',
+    backgroundColor: '#f7fcff',
     marginBottom: 25,
-    borderTopWidth: 1.5,
-    borderColor: '#9ab1c2',
+    borderTopWidth: 0.5,
+    borderColor: '#005ab2',
   },
   descItem: {
     color: '#999C9D',

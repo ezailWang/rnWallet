@@ -22,7 +22,6 @@ import { I18n } from '../../../config/language/i18n';
 import Layout from '../../../config/LayoutConstants';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
-import { showToast } from '../../../utils/Toast';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
 import { defaultTokens } from '../../../utils/Constants';
 import MyAlertComponent from '../../../components/MyAlertComponent';
@@ -555,7 +554,7 @@ class ITCActivityMapping extends BaseComponent {
         'eth'
       );
     } catch (err) {
-      showToast('check privateKey error', 30);
+      this._showAlert('check privateKey error')
       return null;
     }
   };
@@ -568,7 +567,7 @@ class ITCActivityMapping extends BaseComponent {
     },async ()=>{
 
       if (password === '' || password === undefined) {
-        showToast(I18n.t('toast.enter_password'));
+        this._showAlert(I18n.t('toast.enter_password'))
       } else {
         this.timeIntervalCount = 0;
         this.timeInterval = setInterval(() => {
@@ -611,7 +610,7 @@ handleTrx = async (password) => {
   const priKey = await this.getPriKey(password);
   if (priKey == null) {
     this.hideStaticLoading()
-    showToast(I18n.t('modal.password_error'), 30);
+    this._showAlert(I18n.t('toast.password_error'))
   } else {
     const {trxData, gasCost, destoryAddress, mappingValue} = this.state;
 
@@ -727,7 +726,7 @@ handleTrx = async (password) => {
           </View>
           <View style={styles.mapContainView}>
             <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
-            <Text style={styles.mappingShow}>{didMappingValue+'/600'}</Text>
+            <Text style={styles.mappingShow}>{didMappingValue+'/600 ITC'}</Text>
           </View>
           <View style={styles.mAmountInputView}>
             <TextInput
@@ -773,7 +772,7 @@ handleTrx = async (password) => {
                   />
                 ) : null}
               </View>
-              <Text style={styles.convertEthWalletItcBalance}>{itcErc20Balance}</Text>
+              <Text style={styles.convertEthWalletItcBalance}>{itcErc20Balance+' ITC'}</Text>
             </View>
             <Text style={styles.commonText}>{activityEthAddress}</Text>
             <Text style={styles.commonText}>{`Gas${I18n.t('mapping.cost')}:${gasCost} eth`}</Text>

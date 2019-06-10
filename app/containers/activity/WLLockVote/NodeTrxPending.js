@@ -18,7 +18,7 @@ import { showToast } from '../../../utils/Toast';
 import { I18n } from '../../../config/language/i18n';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
-import { GreyButtonBig, WhiteButtonBig} from '../../../components/Button';
+import { GreyButtonMidele, BlueButtonMiddle} from '../../../components/Button';
 import { connect } from 'react-redux';
 
 const contentWidth = Layout.WINDOW_WIDTH * 0.8;
@@ -173,6 +173,7 @@ class NodeTrxPending extends BaseComponent {
       tranStatus: '2',
       qrCodeValue:'',
       nodeData:{},
+      nextBtnTitle:'交易上链中...'
     };
     this._setStatusBarStyleLight();
   }
@@ -226,24 +227,24 @@ class NodeTrxPending extends BaseComponent {
       qrCodeValue:txHash
     })
 
-      //开始查询交易
+    //开始查询交易
     let time = new Date().valueOf()
     NetworkManager.listenETHTransaction(txHash,time,async (status)=>{
 
+    let nextBtnTitle = ''
     if(status){
-      content = '交易已确认，同步数据中!'
+      nextBtnTitle = '交易已确认，数据同步中...'
     }
     else{
-      content = '交易正在确认中..'
+      nextBtnTitle = '交易仍在上链中...'
     }
 
     this.setState({
       blockNumber:status.blockNumber,
       gasPrice:status.gasUsed,
       transactionTime:this.timestampToTime(status.timestamp.toString())+' +0800',
+      nextBtnTitle:nextBtnTitle
     })
-
-    showToast(content,30)
 
     //5秒后查询服务器
     setTimeout(async () => {
@@ -276,10 +277,18 @@ class NodeTrxPending extends BaseComponent {
 
     super._hideAlert()
 
-    if(parseInt(this.state.tranStatus ) != 2){
+    if(parseInt(this.state.tranStatus) == 1){
 
-      let {navigation, selAvtivityContainerKey} = this.props
-      navigation.goBack(selAvtivityContainerKey)
+      this.props.navigation.navigate('NodeSummary',{
+        nodeData:this.state.nodeData
+      })
+    }
+    else{
+      if(parseInt(this.state.tranStatus ) != 2){
+
+        let {navigation, selAvtivityContainerKey} = this.props
+        navigation.goBack(selAvtivityContainerKey)
+      }
     }
   }
 
@@ -321,7 +330,7 @@ class NodeTrxPending extends BaseComponent {
 
   renderComponent = () => {
 
-    let {qrCodeValue, tranStatus, amount, blockNumber, transactionType, toAddress, gasPrice, transactionHash, transactionTime} = this.state
+    let {nextBtnTitle, qrCodeValue, tranStatus, amount, blockNumber, transactionType, toAddress, gasPrice, transactionHash, transactionTime} = this.state
 
     let {navigation} = this.props
 
@@ -420,24 +429,24 @@ class NodeTrxPending extends BaseComponent {
                       </TouchableOpacity>
                     </View>
                   </View>
+                  <View style={{flexDirection:'row',marginTop:20,marginBottom:10,justifyContent:'center'}}>
+                  {
+                    tranStatus == '2' ? (
+                      <GreyButtonMidele onPress={() => this.didTapHomeBtn()}
+                        text={nextBtnTitle}
+                      >
+                      </GreyButtonMidele>
+                    ):(
+                      <BlueButtonMiddle  onPress={() => this.didTapHomeBtn()}
+                        text={'我的活动首页'}  
+                      >
+                      </BlueButtonMiddle>
+                    )
+                  }
+                  </View>
                 </View>
                 <Image style={styles.statusIcon} source={statusIcon} resizeMode="contain" />
               </View>
-              {
-                tranStatus == '2' ? (
-                  <GreyButtonBig onPress={() => this.didTapHomeBtn()}
-                    styles = {{marginBottom:20}}
-                    text={'交易上链中..'}  
-                  >
-                  </GreyButtonBig>
-                ):(
-                  <WhiteButtonBig  onPress={() => this.didTapHomeBtn()}
-                    styles = {{marginBottom:20}}
-                    text={'进入节点首页'}  
-                  >
-                  </WhiteButtonBig>
-                )
-              }
             </View>
           </View>
         </ScrollView>

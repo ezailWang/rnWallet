@@ -13,7 +13,7 @@ import { showToast } from '../../../utils/Toast';
 import {connect} from 'react-redux'
 import { async } from 'rxjs/internal/scheduler/async';
 import { I18n } from '../../../config/language/i18n';
-
+import { NavigationActions} from 'react-navigation'
 class NodeSummary extends BaseComponent {
   
   _initData = async () => {
@@ -23,7 +23,6 @@ class NodeSummary extends BaseComponent {
       this.setState({
         ...nodeData
       })
-
   }
 
   didTapActivityBtn = async ()=>{ 

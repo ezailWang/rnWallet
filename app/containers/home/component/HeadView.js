@@ -31,11 +31,11 @@ const styles = StyleSheet.create({
   },
   bottomAddAssetsContainer: {
     backgroundColor: 'white',
-    height: 60,
+    height: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 5,
   },
 });
 
@@ -131,7 +131,7 @@ export default class HeadView extends Component {
         >
           <ImageButton
             btnStyle={{ width: '100%', height: '100%' }}
-            imageStyle={{ width: '100%', height: '100%' }}
+            imageStyle={{ width: LayoutConstants.WINDOW_WIDTH, height: LayoutConstants.WINDOW_WIDTH * 0.25 }}
             onClick={onBanner}
             backgroundImageSource={bannerImage}
           />

@@ -18,7 +18,7 @@ import { showToast } from '../../../utils/Toast';
 import { I18n } from '../../../config/language/i18n';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
-import { GreyButtonBig, WhiteButtonBig} from '../../../components/Button';
+import { GreyButtonMidele, BlueButtonMiddle} from '../../../components/Button';
 import { connect } from 'react-redux';
 
 const contentWidth = Layout.WINDOW_WIDTH * 0.8;
@@ -207,7 +207,8 @@ class MappingTxPending extends BaseComponent {
       tranStatus: '2',
       qrCodeValue:'',
       nodeData:{},
-      isShowPrompt:false
+      isShowPrompt:false,
+      nextBtnTitle:'交易上链中...'
     };
     this._setStatusBarStyleLight();
   }
@@ -272,23 +273,21 @@ class MappingTxPending extends BaseComponent {
     NetworkManager.listenETHTransaction(txHash,time,async (status)=>{
 
     if(status){
-      content = '交易已确认，同步数据中!'
+      content = '交易已确认，数据同步中...'
     }
     else{
-      content = '交易正在确认中..'
+      content = '交易仍在上链中...'
     }
 
     this.setState({
       blockNumber:status.blockNumber,
       gasPrice:status.gasUsed,
       transactionTime:this.timestampToTime(status.timestamp.toString())+' +0800',
+      nextBtnTitle:content
     })
-
-    showToast(content,30)
 
     //5秒后查询服务器
     setTimeout(async () => {
-      
       
       //调用接口激活映射任务
     let taskResult = await NetworkManager.completeMappingTask({
@@ -379,7 +378,7 @@ class MappingTxPending extends BaseComponent {
 
   renderComponent = () => {
 
-    let {isShowPrompt, qrCodeValue, tranStatus, amount, blockNumber, transactionType, toAddress, gasPrice, transactionHash, transactionTime} = this.state
+    let {isShowPrompt, nextBtnTitle, qrCodeValue, tranStatus, amount, blockNumber, transactionType, toAddress, gasPrice, transactionHash, transactionTime} = this.state
 
     let {navigation} = this.props
 
@@ -506,24 +505,24 @@ class MappingTxPending extends BaseComponent {
                       </TouchableOpacity>
                     </View>
                   </View>
+                  <View style={{flexDirection:'row',marginTop:20,marginBottom:10,justifyContent:'center'}}>
+                  {
+                    tranStatus == '2' ? (
+                      <GreyButtonMidele onPress={() => this.didTapHomeBtn()}
+                        text={nextBtnTitle}
+                      >
+                      </GreyButtonMidele>
+                    ):(
+                      <BlueButtonMiddle  onPress={() => this.didTapHomeBtn()}
+                        text={'我的活动首页'}  
+                      >
+                      </BlueButtonMiddle>
+                    )
+                  }
+                  </View>
                 </View>
                 <Image style={styles.statusIcon} source={statusIcon} resizeMode="contain" />
               </View>
-              {
-                tranStatus == '2' ? (
-                  <GreyButtonBig onPress={() => this.didTapHomeBtn()}
-                    styles = {{marginBottom:20}}
-                    text={'进入节点首页'}  
-                  >
-                  </GreyButtonBig>
-                ):(
-                  <WhiteButtonBig  onPress={() => this.didTapHomeBtn()}
-                    styles = {{marginBottom:20}}
-                    text={'进入节点首页'}  
-                  >
-                  </WhiteButtonBig>
-                )
-              }
             </View>
           </View>
         </ScrollView>

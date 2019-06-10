@@ -335,15 +335,18 @@ const HomeRouteConfig = {
   },
   WLNodeActivate: {
     screen: WLNodeActivate,
+    navigationOptions: { gesturesEnabled: false },
   },
   WLVote: {
     screen: WLVote,
+    navigationOptions: { gesturesEnabled: false },
   },
   WLAuth: {
     screen: WLAuth,
   },
   WLLock: {
     screen: WLLock,
+    navigationOptions: { gesturesEnabled: false },
   },
   WLTask: {
     screen: WLTask,
@@ -355,28 +358,34 @@ const HomeRouteConfig = {
     screen:ChooseActivityITCWallet
   },
   ChooseActivityETHWallet:{
-    screen:ChooseActivityETHWallet
+    screen:ChooseActivityETHWallet,
   },
   WebViewScreen:{
     screen:WebViewScreen
   },
   NodeSummary: {
     screen: NodeSummary,
+    navigationOptions: { gesturesEnabled: false },
   },
   MappingServiceAgreement: {
     screen: MappingServiceAgreement,
+    navigationOptions: { gesturesEnabled: false },
   },
   ITCActivityMapping:{
-    screen:ITCActivityMapping
+    screen:ITCActivityMapping,
+    navigationOptions: { gesturesEnabled: false },
   },
   MappingTxPending:{
-    screen:MappingTxPending
+    screen:MappingTxPending,
+    navigationOptions: { gesturesEnabled: false },
   },
   ActivityTrxPending:{
-    screen:ActivityTrxPending
+    screen:ActivityTrxPending,
+    navigationOptions: { gesturesEnabled: false },
   },
   NodeTrxPending:{
-    screen:NodeTrxPending
+    screen:NodeTrxPending,
+    navigationOptions: { gesturesEnabled: false },
   }
 };
 

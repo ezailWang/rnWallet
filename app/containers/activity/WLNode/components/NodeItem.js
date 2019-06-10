@@ -7,7 +7,7 @@ export default ({idx,no, address, count , onPress}) => {
     <TouchableOpacity onPress={()=>{onPress(idx)}} style={styles.container}>
       <View style={styles.leftInfoView}>
         <Text style={styles.no}>{no}</Text>
-        <Text style={styles.address}>{address}</Text>
+        <Text style={styles.address}  ellipsizeMode="middle" numberOfLines={1}>{address}</Text>
       </View>
       <Text style={styles.count}>
         {' '}
