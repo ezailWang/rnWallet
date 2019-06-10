@@ -99,8 +99,13 @@ class WLNodeActivate extends BaseComponent {
   }
 
   didTapScanButton = ()=>{
-
-    this.props.navigation.navigate('ScanQRCode')
+    const _this = this;
+    this.props.navigation.navigate('ScanQRCode',{
+      callback(data) {
+        const address = data.toAddress;
+        _this.changeInviteAddress(address);
+      },
+    })
   }
   
 
