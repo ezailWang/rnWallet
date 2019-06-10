@@ -1,18 +1,21 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar,Clipboard } from 'react-native';
 import DescView from '../../../components/DescView';
 import TextLink from '../../../components/TextLink';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
+import { I18n } from '../../../config/language/i18n';
+import { showToast } from '../../../utils/Toast';
+import { connect } from 'react-redux';
 
-export default class WLInvite extends BaseComponent {
+class WLInvite extends BaseComponent {
   render() {
     const { navigation } = this.props;
     const descArr = [
-      '每邀请以为好友成为激活节点，获得5个ITC的邀请奖励',
-      '成为权益节点后，自己涡轮树中每激活一个节点，获得1个ITC',
-      '邀请好友最多的前5名，可获得额外奖励',
+      I18n.t('activity.invite.desc1'),
+      I18n.t('activity.invite.desc2'),
+      I18n.t('activity.invite.desc3'),
     ];
     return (
       <View style={styles.container}>
@@ -21,16 +24,32 @@ export default class WLInvite extends BaseComponent {
         <View style={styles.imgContainer}>
           <Image source={require('./images/img.png')} style={styles.banner} resizeMode='contain'/>
         </View>
-        <Text style={styles.title}>邀请好友，领取更多奖励</Text>
+        <Text style={styles.title}>{I18n.t('activity.invite.rewardMore')}</Text>
         <DescView descArr={descArr} />
-        <TouchableOpacity style={styles.button}>
-          <Text style={{ color: 'white' }}>复制邀请口令</Text>
+        <TouchableOpacity style={styles.button} onPress={() => {
+          let copyContent = I18n.t('activity.invite.inviteCode').replace("%s",this.props.activityEthAddress)
+          Clipboard.setString(copyContent);
+          showToast(I18n.t('toast.copied'));
+        }}>
+          <Text style={{ color: 'white' }}>{I18n.t('activity.invite.copyCode')}</Text>
         </TouchableOpacity>
-        <TextLink color="#01a1f1" text="我的二维码" />
+        <TextLink color="#01a1f1" text={I18n.t('activity.invite.myQrcode')} onPress={() => {
+          navigation.navigate("MyQrcode")
+        }}/>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  activityEthAddress : state.Core.activityEthAddress,
+  selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(WLInvite);
 
 const styles = {
   container: {

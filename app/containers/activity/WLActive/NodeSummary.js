@@ -138,7 +138,7 @@ class NodeSummary extends BaseComponent {
             <BenefitInfo 
               total={totalReward} 
               forest={type=='active'?'--':bonusReward} 
-              cycle={type=='active'?'--':I18n.t('activity.common.roundPrefix')+activeRound+I18n.t('activity.common.roundSuffix')} 
+              cycle={type=='active'?'--':I18n.t('activity.common.roundFormat').replace("%s",activeRound)} 
               invite={inviteReward} 
               source={treeReward}
               onPress={() => {

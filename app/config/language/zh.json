@@ -436,8 +436,7 @@
             "inviteReward":"邀请收益",
             "treeReward":"随机收益",
             "benefit":"收益",
-            "roundPrefix":"第",
-            "roundSuffix":"轮"
+            "roundFormat":"第%s轮"
         },
         "home":{
             "deadline": "结束倒计时",
@@ -485,6 +484,18 @@
         "task":{
             "mapping":"提前换币",
             "goto":"去完成"
+        },
+        "invite":{
+            "desc1":"每邀请以为好友成为激活节点，获得5个ITC的邀请奖励",
+            "desc2":"成为权益节点后，自己涡轮树中每激活一个节点，获得1个ITC",
+            "desc3":"邀请好友最多的前5名，可获得额外奖励",
+            "rewardMore":"邀请好友，领取更多奖励",
+            "copyCode":"复制邀请口令",
+            "myQrcode":"我的二维码",
+            "inviteCode":"【加入ITC涡轮计划，1000万 ITC等你赢！】https://iotchain.io/wallet 点击链接，选择浏览器打开，即可下载ITC钱包，加入涡轮计划赢TOKEN；欢迎复制我的激活邀请地址%s激活成为涡轮节点，邀请奖励、随机奖励天天领不停！"
+        },
+        "qrcode":{
+            "myqrcode":"我的二维码"
         }
     }
 }

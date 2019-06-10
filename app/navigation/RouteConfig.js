@@ -106,7 +106,8 @@ import {
   ITCActivityMapping,
   MappingTxPending,
   ActivityTrxPending,
-  NodeTrxPending
+  NodeTrxPending,
+  MyQrcode
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -377,6 +378,9 @@ const HomeRouteConfig = {
   },
   NodeTrxPending:{
     screen:NodeTrxPending
+  },
+  MyQrcode:{
+    screen:MyQrcode
   }
 };
 

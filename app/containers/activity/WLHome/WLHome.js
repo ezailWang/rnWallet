@@ -82,7 +82,7 @@ class WLHome extends BaseComponent {
             <Image source={require('./images/title.png')} style={{ width: '100%' }} />
           </ImageBackground>
           <View style={styles.infoContainer}>
-            <Tag text={`第${sequence}轮`} color="#46b6fe" />
+            <Tag text={I18n.t('activity.common.roundFormat').replace("%s",sequence)} color="#46b6fe" />
             <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
             <DetailItem title={I18n.t('activity.home.deadline')} text={timeLeft} />
             <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '0' : totalPoolReward} />
