@@ -1,12 +1,13 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Image, ScrollView,StatusBar } from 'react-native';
+import { View, Image, ScrollView,StatusBar,Linking} from 'react-native';
 import NodeCard from '../../../components/NodeCard';
 import DisplayForm from './components/DisplayForm';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
+import { Network } from '../../../config/GlobalConfig';
 import {connect} from 'react-redux'
 import { I18n } from '../../../config/language/i18n';
 
@@ -36,6 +37,14 @@ class WLNodeInfo extends BaseComponent {
       this._hideLoading();  
       showToast('query task info error', 30);
     }
+  }
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
   }
 
   renderComponent = () => {
@@ -69,12 +78,28 @@ class WLNodeInfo extends BaseComponent {
       if(mappingRecords && mappingRecords.length>0){
         taskInfos.push({ 
           label: I18n.t('activity.nodeinfo.mappingHash'), 
-          value: mappingRecords[0] 
+          value: mappingRecords[0],
+          valueStyle: { color: '#50A6E5' },
+          onPress: async () =>{
+            const resp = await NetworkManager.queryTransactionDetail({
+              txhash: mappingRecords[0]
+            });
+            let mappingDetail = resp.data
+            this.props.navigation.navigate('MappingRecordDetail', { mappingDetail });
+          }
         })
         taskInfos = taskInfos.concat(mappingRecords.slice(1).map(r => {
           return {
             label: '', 
-            value: r
+            value: r,
+            valueStyle: { color: '#50A6E5' },
+            onPress: async () =>{
+              const resp = await NetworkManager.queryTransactionDetail({
+                txhash: r
+              });
+              let mappingDetail = resp.data
+              this.props.navigation.navigate('MappingRecordDetail', { mappingDetail });
+            }
           }
         }))
       }
@@ -98,7 +123,23 @@ class WLNodeInfo extends BaseComponent {
           activateInfos = [
             { label: I18n.t('activity.nodeinfo.inviter'), value: task.inviter },
             { label: I18n.t('activity.nodeinfo.activeTime'), value: task.activeTime },
-            { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
+            { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' }, onPress: () => {
+              
+              let detailUrl;
+              if (this.props.network === Network.rinkeby) {
+                detailUrl = `https://rinkeby.etherscan.io/tx/${task.activeTxHash}`;
+              } else if (this.props.network === Network.main) {
+                detailUrl = `https://etherscan.io/tx/${task.activeTxHash}`;
+              }
+              Linking.canOpenURL(detailUrl)
+                .then(supported => {
+                  if (!supported) {
+                    return null;
+                  }
+                  return Linking.openURL(detailUrl);
+                })
+                .catch(err => console.log('An error occurred', detailUrl, ' err:', err));
+            } },
             { label: I18n.t('activity.nodeinfo.benefitTime'), value: task.benefitTime },
           ];
           break
@@ -108,40 +149,62 @@ class WLNodeInfo extends BaseComponent {
           activateInfos = [
             { label: I18n.t('activity.nodeinfo.inviter'), value: task.inviter },
             { label: I18n.t('activity.nodeinfo.activeTime'), value: task.activeTime },
-            { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
+            { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' }, onPress: () => {
+              
+              let detailUrl;
+              if (this.props.network === Network.rinkeby) {
+                detailUrl = `https://rinkeby.etherscan.io/tx/${task.activeTxHash}`;
+              } else if (this.props.network === Network.main) {
+                detailUrl = `https://etherscan.io/tx/${task.activeTxHash}`;
+              }
+              Linking.canOpenURL(detailUrl)
+                .then(supported => {
+                  if (!supported) {
+                    return null;
+                  }
+                  return Linking.openURL(detailUrl);
+                })
+                .catch(err => console.log('An error occurred', detailUrl, ' err:', err));
+            } },
           ];
           break
       }
     }
-
+    let isShowLoading = this.state.isShowLoading
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <NavHeader navigation={navigation} color="white" text={I18n.t('activity.nodeinfo.nodeinfo')} />
-        <ScrollView>
-          <View style={styles.node}>
-            <NodeCard
-              icon={nodeIcon}
-              name={nodeType}
-              address={task.address}
-              showArrow={false}
-            />
-          </View>
-          <DisplayForm title={I18n.t('activity.nodeinfo.taskinfo')} items={taskInfos} />
-          {
-            !task.vip && task.actived?
-            <DisplayForm title={I18n.t('activity.nodeinfo.activeinfo')} items={activateInfos} />
-            :null
-          }
-          
-        </ScrollView>
+        {
+          !isShowLoading?
+          <ScrollView>
+            <View style={styles.node}>
+              <NodeCard
+                icon={nodeIcon}
+                name={nodeType}
+                address={task.address}
+                showArrow={false}
+              />
+            </View>
+            <DisplayForm title={I18n.t('activity.nodeinfo.taskinfo')} items={taskInfos} />
+            {
+              !task.vip && task.actived?
+              <DisplayForm title={I18n.t('activity.nodeinfo.activeinfo')} items={activateInfos} />
+              :null
+            }
+          </ScrollView>
+          :null
+        }
+        
       </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  network : state.Core.network,
   activityEthAddress : state.Core.activityEthAddress,
+  activityItcAddress : state.Core.activityItcAddress,
   selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
 });
 export default connect(

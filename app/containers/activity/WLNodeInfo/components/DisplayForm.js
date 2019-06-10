@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 export default ({ title, items }) => {
   return (
@@ -10,7 +10,10 @@ export default ({ title, items }) => {
       {items.map(item => (
         <View key={item.label} style={styles.formItem}>
           <Text style={styles.label}>{item.label}</Text>
-          <Text style={[styles.value, item.valueStyle]} ellipsizeMode="middle" numberOfLines={1}>{item.value}</Text>
+          <TouchableOpacity onPress={item.onPress}>
+            <Text style={[styles.value, item.valueStyle]} ellipsizeMode="middle" numberOfLines={1}>{item.value}</Text>
+          </TouchableOpacity>
+          
         </View>
       ))}
     </View>
