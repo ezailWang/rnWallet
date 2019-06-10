@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.fontWhiteColor,
   },
   normalMiddleBtn: {
-    width: Layout.WINDOW_WIDTH * 0.4,
+    width: Layout.WINDOW_WIDTH * 0.7,
     height: 40,
     borderRadius: 5,
     justifyContent: 'center',
@@ -271,6 +271,39 @@ class GreyButtonBig extends Component {
           style={[styles.normalBtnGradient, { flex: 1 }]}
         >
           <Text style={[styles.GreyBtnText, styles.normalBtnTitle]} numberOfLines={1}>
+            {text}
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+}
+
+class GreyButtonMidele extends Component {
+  static propTypes = {
+    onPress: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired,
+    isDisabled: PropTypes.bool,
+    buttonStyle: PropTypes.object,
+  };
+
+  render() {
+    const { buttonStyle, isDisabled, onPress, text } = this.props;
+    return (
+      // <TouchableOpacity style={[styles.normalBtn, this.props.isDisabled ? styles.greyBtn : styles.blueBtn,this.props.buttonStyle]}
+      <TouchableOpacity
+        style={[styles.normalMiddleBtn, buttonStyle]}
+        activeOpacity={0.6}
+        disabled={isDisabled}
+        onPress={onPress}
+      >
+        <LinearGradient
+          colors={['#D2D2D2', '#D2D2D2', '#D2D2D2']}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.normalMiddleBtn, buttonStyle , { flex: 1 }]}
+        >
+          <Text style={[styles.middleBlueBtnTitle, styles.normalMiddleBtnTitle]} numberOfLines={1}>
             {text}
           </Text>
         </LinearGradient>
@@ -488,4 +521,5 @@ export {
   NextButton, // 设置页面功能按钮
   HeaderButton, // 导航栏按钮
   WhiteBorderButton, // 白色边框、透明背景、白色字体
+  GreyButtonMidele  
 };

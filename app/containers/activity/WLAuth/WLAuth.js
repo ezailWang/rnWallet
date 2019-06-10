@@ -89,7 +89,7 @@ class WLAuth extends BaseComponent {
     const {password} = this.state;
     this.closePasswordModal();
     if (password === '' || password === undefined) {
-      showToast(I18n.t('toast.enter_password'));
+      this._showAlert(I18n.t('toast.enter_password'))
     } else {
       this.timeIntervalCount = 0;
       this.timeInterval = setInterval(() => {
@@ -129,7 +129,7 @@ class WLAuth extends BaseComponent {
       console.log('privateKey'+privateKey)
       if (privateKey == null) {
         this.hideStaticLoading(); // 关闭Loading
-        showToast(I18n.t('modal.password_error'));
+        this._showAlert(I18n.t('modal.password_error'))
       }
       else{
         console.log('开始发送交易'+privateKey+this.state.trxData)
@@ -143,7 +143,7 @@ class WLAuth extends BaseComponent {
       }
     }
     catch(err){
-      showToast(err);
+      this._showAlert(err)
       this.hideStaticLoading(); // 关闭Loading
     }
   }
@@ -163,7 +163,6 @@ class WLAuth extends BaseComponent {
       else{
         content = '交易正在确认中..'
       }
-
 
       this.props.navigation.state.params.callback();
       this.props.navigation.goBack();
@@ -216,7 +215,7 @@ class WLAuth extends BaseComponent {
 
     } catch (e) {
       this._hideLoading();  
-      showToast('get transaction estimateGas info error', 30);
+      this._showAlert('get transaction estimateGas info error')
     }
   }
 
@@ -233,7 +232,7 @@ class WLAuth extends BaseComponent {
 
     if(addressBalance<estimateGas){
 
-      showToast('账户余额不足')
+      this._showAlert('账户余额不足')
       return
     }
 

@@ -298,7 +298,7 @@ export default class VoteTrxComfirm extends Component {
                       style={{ width: 15, height: 15 }}
                     />
                   </TouchableOpacity>
-                  <Text style={styles.titleView}>{I18n.t('exchange.exchange_details')}</Text>
+                  <Text style={styles.titleView}>详情</Text>
                 </View>
                 <View style={styles.costTextContainer}>
                   <Text style={styles.costText}>{amount+' ITC'}</Text>

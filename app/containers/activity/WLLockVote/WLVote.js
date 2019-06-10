@@ -12,7 +12,7 @@ import MyAlertComponent from '../../../components/MyAlertComponent';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
 import StaticLoading from '../../../components/StaticLoading';
 import { I18n } from '../../../config/language/i18n';
-import { async } from 'rxjs/internal/scheduler/async';
+import LayoutConstants from '../../../config/LayoutConstants';
 
 const styles = {
   container: {
@@ -32,16 +32,17 @@ const styles = {
     // marginBottom: 10,
   },
   input: {
-    fontSize: 20,
-    // fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: 'bold',
     marginTop: 10,
     paddingVertical: 12,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     borderColor: '#959595',
+    width:LayoutConstants.WINDOW_WIDTH - 40 -50
   },
   desc: {
     padding: 10,
-    backgroundColor: '#f8fbff',
+    backgroundColor: '#f7fcff',
     marginBottom: 25,
   },
   descItem: {
@@ -84,6 +85,12 @@ const styles = {
     alignSelf: 'center',
     paddingVertical: 15,
   },
+  itcUnit:{
+    textAlign:'right',
+    color:'#05b3eb',
+    marginRight:20,
+    width:40
+  }
 };
 
 class WLVote extends BaseComponent {
@@ -123,11 +130,11 @@ class WLVote extends BaseComponent {
 
     if(voteValue<600 || isNaN(voteValue)){
 
-      showToast('投票数量不少于600个ITC',30)
+      this._showAlert('投票数量不少于600个ITC')
     }
     else if (voteValue > this.state.itcErc20Balance){
 
-      showToast('ITC余额不足',30)
+      this._showAlert('ITC余额不足')
     }
     else{
 
@@ -202,7 +209,7 @@ class WLVote extends BaseComponent {
 
       if(addressBalance<res.gasUsed){
 
-        showToast('账户余额不足')
+        this._showAlert('手续费不足')
         return
       }
       
@@ -227,7 +234,7 @@ class WLVote extends BaseComponent {
       })
     }).catch(err=>{
       this._hideLoading()
-      showToast('生成交易数据错误')
+      this._showAlert('生成交易错误，请检查该地址是否已经参与过节点活动.')
     })
   }
 
@@ -238,7 +245,7 @@ class WLVote extends BaseComponent {
     },async ()=>{
 
       if (password === '' || password === undefined) {
-        showToast(I18n.t('toast.enter_password'));
+        this._showAlert(I18n.t('toast.enter_password'))
       } else {
         this.timeIntervalCount = 0;
         this.timeInterval = setInterval(() => {
@@ -278,7 +285,7 @@ async handleTrx(password) {
     console.log('privateKey'+privateKey)
     if (privateKey == null) {
       this.hideStaticLoading(); // 关闭Loading
-      showToast(I18n.t('modal.password_error'));
+      this._showAlert(I18n.t('modal.password_error'))
     }
     else{
       console.log('开始发送交易'+privateKey+this.state.trxData)
@@ -299,8 +306,8 @@ async handleTrx(password) {
     }
   }
   catch(err){
-    showToast(err);
     this.hideStaticLoading(); // 关闭Loading
+    this._showAlert(err)
   }
 }
 
@@ -359,18 +366,25 @@ hideStaticLoading() {
     let { nodeInfo } = this.props.navigation.state.params;
     let {rank,amount} = nodeInfo
 
+    let address = activityEthAddress.substr(0,12)+'...'+activityEthAddress.substr(activityEthAddress.length - 12 ,12)
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <NavHeader navigation={navigation} color="white" text="投票" rightText="详细说明" rightAction={()=>{this.didTapDetailExplainBtn()}}/>
         <View style={styles.editor}>
           <Text style={styles.title}>投票数量</Text>
-          <TextInput keyboardType={'number-pad'} style={styles.input} placeholder="600 ITC起，1 ITC递增" placeholderTextColor="#e6e6e6"
-            onChangeText={(text) => {
+          <View style={{flexDirection:'row'}}>
+            <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder="100,000 ITC起，1 ITC递增" placeholderTextColor="#e6e6e6"
+              onChangeText={(text) => {
                 this.state.value = text
-            }}
-          >
-          </TextInput>
+              }}
+            />
+            <Text style={[styles.input,styles.itcUnit]}>
+              ITC
+            </Text>
+          </View>
+          <View style={{height: 0.5,backgroundColor: '#e5e5e5'}} />
           <View style={styles.desc}>
             <View style={styles.descItem}>
               <Text style={styles.descItemTitle}>锁定期限</Text>
@@ -395,7 +409,7 @@ hideStaticLoading() {
           <View style={styles.payInfo}>
             <View style={{flex:6,marginRight:20}}>
               <Text style={styles.payInfoTitle}>{currentWallet.name}</Text>
-              <Text style={styles.payInfoSubTitle}>{currentWallet.address}</Text>
+              <Text style={styles.payInfoSubTitle}>{address}</Text>
             </View>
             <View style={{flex:4}}>
               <Text style={[styles.payInfoTitle,{alignSelf: 'flex-end'}]}>{itcErc20Balance + ' ITC'}</Text>
@@ -420,8 +434,8 @@ hideStaticLoading() {
           <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
           <MyAlertComponent
             visible={showApproveModalVisible}
-            title={'提示'}
-            contents={['投票数量超出授权额度，请先授权节点合约足够数量的投票额度']}
+            title={''}
+            contents={['本操作将由以太坊智能合约执行，请先完成合约授权']}
             leftBtnTxt={'取消'}
             rightBtnTxt={'去授权'}
             leftPress={this.didTapModalLeftPress}
