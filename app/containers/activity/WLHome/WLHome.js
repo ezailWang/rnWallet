@@ -81,7 +81,7 @@ class WLHome extends BaseComponent {
         <StatusBar barStyle="light-content" />
         <NavHeader navigation={navigation} color="transparent" />
         <ScrollView
-          scrollEnabled={false}
+          scrollEnabled={true}
         >
           <ImageBackground
             resizeMode="cover"
@@ -94,8 +94,8 @@ class WLHome extends BaseComponent {
             <Tag text={I18n.t('activity.common.roundFormat').replace("%s",sequence)} color="#46b6fe" />
             <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
             <DetailItem title={I18n.t('activity.home.deadline')} text={timeLeft} />
-            <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '0' : totalPoolReward} />
-            <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '0' : paidReward} />
+            <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '0' : totalPoolReward+' ITC'} />
+            <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '0' : paidReward+' ITC'} />
 
             <View style={styles.divider} />
 
