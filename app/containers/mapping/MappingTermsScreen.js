@@ -52,15 +52,15 @@ const styles = StyleSheet.create({
   },
   checkBox: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    width: Layout.WINDOW_WIDTH * 0.9 - 20,
+    // justifyContent: 'center',
+    width: Layout.WINDOW_WIDTH * 0.9,
     alignSelf: 'center',
     marginTop: 30,
   },
   checkBtn: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    width: 200,
+    // justifyContent: 'center',
+    // width: 200,
     alignSelf: 'center',
   },
   checkImage: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   checkText: {
-    width: 150,
+    // width: 150,
     color: Colors.fontBlueColor,
     fontSize: 14,
   },
@@ -359,19 +359,19 @@ export default class MappingTermsScreen extends BaseComponent {
                   }
                   resizeMode="center"
                 />
-                <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text>
+                <Text style={[styles.checkText, { color: 'black' }]}>
+                  {I18n.t('mapping.read_and_agreed')}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{ marginLeft: 10 }}
+                // style={{ marginLeft: 10 }}
                 onPress={() => {
                   const { _this } = this.props;
                   _this.props.navigation.navigate('MappingServiceAgreement');
                   StorageManage.save(StorageKey.MappingServiceAgreement, true);
                 }}
               >
-                <Text style={[styles.checkText, { textDecorationLine: 'underline' }]}>
-                  {I18n.t('mapping.service_agreement')}
-                </Text>
+                <Text style={styles.checkText}>{I18n.t('mapping.service_agreement')}</Text>
               </TouchableOpacity>
             </View>
             <BlueButtonBig

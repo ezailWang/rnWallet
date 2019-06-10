@@ -7,11 +7,12 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import BigNumber from 'bignumber.js';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
-import { Colors, FontSize } from '../../config/GlobalConfig';
+import { Colors, FontSize, Network } from '../../config/GlobalConfig';
 import { I18n } from '../../config/language/i18n';
 import Layout from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
@@ -341,6 +342,26 @@ class MappingRecordDetailScreen extends BaseComponent {
     }
   };
 
+  onTxHashClick = () => {
+    let detailUrl;
+    if (this.props.network === Network.rinkeby) {
+      detailUrl = `https://rinkeby.etherscan.io/tx/${this.state.ethTxHash}`;
+    } else if (this.props.network === Network.main) {
+      detailUrl = `https://etherscan.io/tx/${this.state.ethTxHash}`;
+    }
+
+    Linking.canOpenURL(detailUrl)
+      .then(supported => {
+        if (!supported) {
+          // todo 弹toast
+          return null;
+          // console.warn('Can\'t handle url: ' + detailUrl);
+        }
+        return Linking.openURL(detailUrl);
+      })
+      .catch(err => console.log('An error occurred', detailUrl, ' err:', err));
+  };
+
   renderComponent = () => {
     let headerMarginTop = { marginTop: 24 };
     if (Layout.DEVICE_IS_IPHONE_X()) {
@@ -429,12 +450,18 @@ class MappingRecordDetailScreen extends BaseComponent {
                     ) : null}
                   </View>
                 </View>
-                {/* <ItemView
-                  title={I18n.t('mapping.destroy_address')}
-                  content="0xf6C9e322b688A434833dE530E4c23CFA4e579a78"
-                /> */}
                 <ItemView title={I18n.t('transaction.miner_fee')} content={this.state.fee} />
-                <ItemView title="TxHash" content={this.state.ethTxHash} />
+                <Text style={styles.itemTitle}>TxHash</Text>
+                <TouchableOpacity activeOpacity={0.6} onPress={this.onTxHashClick}>
+                  <Text
+                    style={{ color: Colors.fontBlueColor, fontSize: 11 }}
+                    numberOfLines={1}
+                    ellipsizeMode="middle"
+                  >
+                    {this.state.ethTxHash}
+                  </Text>
+                </TouchableOpacity>
+                {/* <ItemView title="TxHash" content={this.state.ethTxHash} /> */}
                 <ItemView title={I18n.t('mapping.transaction_hour')} content={this.state.time} />
               </View>
               <Line type={3} />
@@ -539,6 +566,7 @@ class Line extends PureComponent {
 
 const mapStateToProps = state => ({
   contactList: state.Core.contactList,
+  network: state.Core.network,
 });
 const mapDispatchToProps = dispatch => ({
   setContactList: contacts => dispatch(Actions.setContactList(contacts)),

@@ -591,6 +591,16 @@ class ItcMappingServiceScreen extends BaseComponent {
             modalCancelBtn={this.modalCancelBtn}
             modalConfirmBtn={this.modalConfirmBtn}
           />
+          <View
+            style={{
+              backgroundColor: 'white',
+              position: 'absolute',
+              top: Layout.WINDOW_HEIGHT * 0.3,
+              left: 0,
+              right: 0,
+              height: Layout.WINDOW_HEIGHT * 0.7,
+            }}
+          />
           <ImageBackground style={styles.topImg} source={topImg} resizeMode="center">
             {/* <TouchableOpacity
               activeOpacity={0.6}
