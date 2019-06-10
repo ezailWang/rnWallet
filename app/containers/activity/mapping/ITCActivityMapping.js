@@ -491,7 +491,7 @@ class ITCActivityMapping extends BaseComponent {
 
     if(isNaN(value) || value < (600 - didMappingValue)){
 
-      this._showAlert('请映射至少'+(600-didMappingValue)+'个ITC')
+      this._showAlert(I18n.t('activity.mapping.limit')+(600-didMappingValue)+'ITC')
       return
     }
 
@@ -792,10 +792,10 @@ handleTrx = async (password) => {
           />
           <MyAlertComponent
             visible={showActivityModalVisible}
-            title={'提示'}
-            contents={['您的映射条件已达成，点击取消选择其他任务，点击确认选择激活该任务']}
-            leftBtnTxt={'选择其他任务'}
-            rightBtnTxt={'确认'}
+            title={''}
+            contents={[I18n.t('activity.mapping.condition')]}
+            leftBtnTxt={I18n.t('activity.mapping.other')}
+            rightBtnTxt={I18n.t('activity.mapping.sure')}
             leftPress={this.didTapModalLeftPress}
             rightPress={this.didTapModalRightPress}
           />

@@ -174,12 +174,10 @@ inviteAddress,
   detailGas
 }) => (
   <View style={styles.leftInfoView}>
-    {/* <View style={styles.infoTextViewFirst}>
-      <Text style={styles.infoTitle}>{amount+'ITC'}</Text>
-    </View> */}
-    <InfoContentView title={'内容'} deatilContent={'节点激活'} />
-    <InfoContentView title={'邀请地址'} deatilContent={inviteAddress} />
-    <InfoContentView title={'付款地址'} deatilContent={fromAddress} />
+    
+    <InfoContentView title={I18n.t('activity.nodeVote.content')} deatilContent={I18n.t('activity.nodeVote.node_activity')} />
+    <InfoContentView title={I18n.t('activity.nodeVote.invite')} deatilContent={inviteAddress} />
+    <InfoContentView title={I18n.t('activity.nodeVote.pay_address')} deatilContent={fromAddress} />
     <InfoContentView
       title={I18n.t('exchange.fees')}
       deatilContent={`${totalGasUsed}\n${detailGas}`}

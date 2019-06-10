@@ -52,17 +52,17 @@ class WLLock extends BaseComponent {
 
       if(nodeLockValue<100000 || isNaN(nodeLockValue)){
   
-        this._showAlert('投票数量不少于100000个ITC')
+        this._showAlert(I18n.t('activity.nodeVote.limit'))
       }
       else if (nodeLockValue > this.state.itcErc20Balance){
-        this._showAlert('ITC余额不足')
+        this._showAlert(I18n.t('activity.nodeVote.no_itc'))
       }
       else{
   
         try{
           let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
 
-          console.log('合约授权额度为->'+allowance)
+          // console.log('合约授权额度为->'+allowance)
   
           //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
           if(allowance < nodeLockValue){
@@ -76,12 +76,12 @@ class WLLock extends BaseComponent {
           }
         }
         catch(err){
-          this._showAlert('生成交易错误，请检查该地址是否已经参与过节点活动.')
+          this._showAlert(I18n.t('activity.nodeVote.trx_error'))
         } 
       }
     }
     catch(err){
-      this._showAlert('投票数量不少于100000个ITC')
+      this._showAlert(I18n.t('activity.nodeVote.limit'))
     }
 
     
@@ -142,7 +142,7 @@ class WLLock extends BaseComponent {
 
       if(addressBalance<res.gasUsed){
 
-        this._showAlert('手续费不足')
+        this._showAlert(I18n.t('activity.nodeVote.no_gas'))
         return
       }
       let date = new Date();
@@ -165,7 +165,7 @@ class WLLock extends BaseComponent {
       })
     }).catch(err=>{
       this._hideLoading()
-      this._showAlert('生成交易错误，请检查该地址是否已经参与过节点活动.')
+      this._showAlert(I18n.t('activity.nodeVote.trx_error'))
     })
   }
 
@@ -213,13 +213,13 @@ async handleTrx(password) {
 
   try {
     var privateKey = await KeystoreUtils.getPrivateKey(password, activityEthAddress, 'eth');
-    console.log('privateKey'+privateKey)
+    // console.log('privateKey'+privateKey)
     if (privateKey == null) {
       this.hideStaticLoading(); // 关闭Loading
       this._showAlert(I18n.t('modal.password_error'))
     }
     else{
-      console.log('开始发送交易'+privateKey+this.state.trxData)
+      // console.log('开始发送交易'+privateKey+this.state.trxData)
       NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
         this.hideStaticLoading(); // 关闭Loading
         console.log('txHash'+hash)
@@ -301,11 +301,11 @@ hideStaticLoading() {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="节点质押" rightText="详细说明" rightAction={()=>{this.didTapDetailExplainBtn()}}/>
+        <NavHeader navigation={navigation} color="white" text={I18n.t('activity.nodeVote.node_lock')} rightText={I18n.t('activity.nodeVote.detail')} rightAction={()=>{this.didTapDetailExplainBtn()}}/>
         <View style={styles.editor}>
-          <Text style={styles.title}>质押数量</Text>
+          <Text style={styles.title}>{I18n.t('activity.nodeVote.lock_amount')}</Text>
           <View style={{flexDirection:'row'}}>
-            <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder="100,000 ITC起，1 ITC递增" placeholderTextColor="#e6e6e6"
+            <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder={I18n.t('activity.nodeVote.place')} placeholderTextColor="#e6e6e6"
               onChangeText={(text) => {
                 this.state.value = text
               }}
@@ -317,15 +317,15 @@ hideStaticLoading() {
           <View style={{height: 0.5,backgroundColor: '#e5e5e5'}} />
           <View style={styles.desc}>
             <View style={styles.descItem}>
-              <Text style={styles.descItemTitle}>锁定期限</Text>
-              <Text style={styles.descItemValue}>90天</Text>
+              <Text style={styles.descItemTitle}>{I18n.t('activity.nodeVote.date')}</Text>
+              <Text style={styles.descItemValue}>{I18n.t('activity.nodeVote.lock_day')}</Text>
             </View>
             <View style={styles.descItem}>
-              <Text style={styles.descItemTitle}>对应身份</Text>
-              <Text style={styles.descItemValue}>涡轮超级节点</Text>
+              <Text style={styles.descItemTitle}>{I18n.t('activity.nodeVote.identify')} </Text>
+              <Text style={styles.descItemValue}>{I18n.t('activity.nodeVote.super_node')} </Text>
             </View>
           </View>
-          <Text style={styles.title}>支付地址</Text>
+          <Text style={styles.title}>{I18n.t('activity.nodeVote.pay_address')}</Text>
           <View style={styles.divider} />
           <View style={styles.payInfo}>
             <View style={{flex:6,marginRight:20}}>
@@ -334,18 +334,18 @@ hideStaticLoading() {
             </View>
             <View style={{flex:4}}>
               <Text style={[styles.payInfoTitle,{alignSelf: 'flex-end'}]}>{Number(itcErc20Balance) + ' ITC'}</Text>
-              <Text style={[styles.payInfoSubTitle, { alignSelf: 'flex-end' }]}>余额</Text>
+              <Text style={[styles.payInfoSubTitle, { alignSelf: 'flex-end' }]}>{I18n.t('activity.nodeVote.balance')}</Text>
             </View>
           </View>
           <TouchableOpacity onPress={this.didTapLockBtn} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
-            <Text style={{ color: 'white' }}>质押</Text>
+            <Text style={{ color: 'white' }}>{I18n.t('activity.nodeVote.lock_t')}</Text>
           </TouchableOpacity>
           <LockTrxComfirm
             show={isShowVoteTrx}
             didTapSurePasswordBtn={this.didTapSurePasswordBtn}
             amount={inputAmount}
             lockDate={lockDate}
-            lockDay={'90天'}
+            lockDay={I18n.t('activity.nodeVote.lock_day')}
             fromAddress={payAddress}
             totalGasUsed={totalGasUsed}
             detailGas={detailGas}
@@ -355,9 +355,9 @@ hideStaticLoading() {
           <MyAlertComponent
             visible={showApproveModalVisible}
             title={''}
-            contents={['本操作将由以太坊智能合约执行，请先完成合约授权']}
-            leftBtnTxt={'取消'}
-            rightBtnTxt={'去授权'}
+            contents={[I18n.t('activity.nodeVote.explain_0')]}
+            leftBtnTxt={I18n.t('activity.nodeVote.cancel')}
+            rightBtnTxt={I18n.t('activity.nodeVote.approve')}
             leftPress={this.didTapModalLeftPress}
             rightPress={this.didTapModalRightPress}
           />
