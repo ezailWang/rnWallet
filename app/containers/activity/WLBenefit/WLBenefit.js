@@ -6,6 +6,8 @@ import {
   ScrollView, 
   Dimensions, 
   StatusBar,
+  Image,
+  Text,
   FlatList,
   RefreshControl } from 'react-native';
 import BenefitOverview from './components/BenefitOverview';
@@ -37,7 +39,7 @@ class EmptyComponent extends Component {
           resizeMode="contain"
         />
         <Text style={styles.emptyListText}>
-          {I18n.t('transaction.no_transaction_history_found')}
+          {I18n.t('activity.benefit.noData')}
         </Text>
       </View>
     ) : null;
@@ -56,7 +58,6 @@ class WLBenefit extends BaseComponent {
         treeReward: 0
       },
       isRefreshing: false,
-      showNoData: false,
     };
 
     this.address = this.props.activityEthAddress;
@@ -198,20 +199,20 @@ class WLBenefit extends BaseComponent {
         >
           <View style={styles.benefitView}>
             <View style={styles.totalBenefit}>
-              <BenefitOverview title={I18n.t('activity.common.totalReward')+'(ITC)'} count={summary.totalReward} scale={5} />
+              <BenefitOverview title={I18n.t('activity.common.totalReward')+'(ITC)'} count={summary.totalReward===0?'--':summary.totalReward} scale={5} />
             </View>
             <View style={styles.dividedBenefit}>
-              <BenefitOverview title={I18n.t('activity.common.poolReward')} subtitle="IoT Chain" count={summary.bonusReward} />
+              <BenefitOverview title={I18n.t('activity.common.poolReward')} subtitle="IoT Chain" count={summary.bonusReward===0?'--':summary.bonusReward} />
               <View style={styles.divider} />
-              <BenefitOverview title={I18n.t('activity.common.inviteReward')} subtitle="Erc 20" count={summary.inviteReward} />
+              <BenefitOverview title={I18n.t('activity.common.inviteReward')} subtitle="Erc 20" count={summary.inviteReward===0?'--':summary.inviteReward} />
               <View style={styles.divider} />
-              <BenefitOverview title={I18n.t('activity.common.treeReward')} subtitle="Erc 20" count={summary.treeReward} />
+              <BenefitOverview title={I18n.t('activity.common.treeReward')} subtitle="Erc 20" count={summary.treeReward===0?'--':summary.treeReward} />
             </View>
           </View>
         </ImageBackground>
         <FlatList
           style={[styles.list]}
-          ListEmptyComponent={<EmptyComponent show={this.state.showNoData} />}
+          ListEmptyComponent={<EmptyComponent show={datas.length===0} />}
           data={datas}
           renderItem={this.renderItem}
           refreshControl={
@@ -269,6 +270,14 @@ const styles = {
   list: {
     height: height - 230,
     backgroundColor: 'white',
+  },
+  emptyListContainer: {
+    color: Colors.fontDarkGrayColor,
+    marginTop: 120,
+    width: Layout.WINDOW_WIDTH * 0.9,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   emptyListIcon: {
     width: 94,
