@@ -72,7 +72,7 @@ export default class WLNode extends BaseComponent {
     })
   }
 
-  render() {
+  renderComponent = () => {
     const { navigation } = this.props;
     const {nodeList} = this.state;
     

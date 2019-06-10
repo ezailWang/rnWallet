@@ -67,20 +67,25 @@ class NodeSummary extends BaseComponent {
 
   renderComponent = () => {
     const { navigation } = this.props;
-    let { activeRound,address,bonusReward,children,inviteReward,totalReward,treeReward,type,vip,childNum } = this.state;
+    let { activeRound,address,bonusReward,children,inviteReward,totalReward,treeReward,type,vip,childNum,totalSubNodeNum } = this.state;
     let nodeType = I18n.t('activity.common.normalNode');
+    let nodeIcon = (<Image source={require('./images/normal.png')} />)
     if (vip){
       nodeType = I18n.t('activity.common.superNode')
+      nodeIcon = (<Image source={require('./images/super.png')} />)
     } else{
       switch(type){
         case 'normal':
           nodeType = I18n.t('activity.common.normalNode');
+          nodeIcon = (<Image source={require('./images/normal.png')} />)
           break
         case 'benefit':
           nodeType = I18n.t('activity.common.benefitNode');
+          nodeIcon = (<Image source={require('./images/quanyi.png')} />)
           break
         case 'active':
           nodeType = I18n.t('activity.common.activeNode');
+          nodeIcon = (<Image source={require('./images/active.png')} />)
           break
       }
     }
@@ -110,7 +115,7 @@ class NodeSummary extends BaseComponent {
         <NavHeader navigation={navigation} color="white" text={I18n.t('activity.common.activityName')} leftAction={this._onBackPressed}/>
         <ScrollView>
           <NodeInfo
-            icon={<Image source={require('./images/super.png')} />}
+            icon={nodeIcon}
             name={nodeType}
             address={address}
             onNodePress={() => {
@@ -132,7 +137,7 @@ class NodeSummary extends BaseComponent {
             <BenefitInfo 
               total={totalReward} 
               forest={type=='active'?'--':bonusReward} 
-              cycle={type=='active'?'--':activeRound} 
+              cycle={type=='active'?'--':I18n.t('activity.common.roundPrefix')+activeRound+I18n.t('activity.common.roundSuffix')} 
               invite={inviteReward} 
               source={treeReward}
               onPress={() => {
@@ -150,11 +155,16 @@ class NodeSummary extends BaseComponent {
                 <Text style={styles.headerText}>{I18n.t('activity.nodeSummary.myChildren')}</Text>
               </View>
               <View style={styles.divider} />
-              <View style={styles.childNodeList}>
+              <View style={styles.childNodeSummary}>
+                <Text style={{color:'#9f9f9f',textAlign:'center'}}>子节点数量</Text>
+                <Text style={{color:'#4EAAED',fontSize:20,textAlign:'center'}}>{totalSubNodeNum}</Text>
+                <Image source={require("./images/zt5.png")} style={{ marginVertical: 15 }} />
+              </View>
+              {/* <View style={styles.childNodeList}>
                 {children.map(item => (
                   <ChildNodeItem key={item.level} no={'L'+item.level} value={item.nodeNum} total={maxNodeNum} />
                 ))}
-              </View>
+              </View> */}
               <Button text={I18n.t('activity.nodeSummary.inviteOthers')} onPress={() => {
                 navigation.navigate("WLInvite")
               }}/>
@@ -279,7 +289,10 @@ const styles = {
     width: '90%',
     marginBottom: 10,
   },
-
+  childNodeSummary: {
+    alignContent: 'center' ,
+    marginBottom: 30
+  },
   activeLabel: {
     flexDirection: 'row',
     justifyContent: 'space-between',

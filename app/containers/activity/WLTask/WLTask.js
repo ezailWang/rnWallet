@@ -9,6 +9,7 @@ import BaseComponent from '../../base/BaseComponent';
 import { connect } from 'react-redux';
 import { showToast } from '../../../utils/Toast';
 import NetworkManager from '../../../utils/NetworkManager';
+import { I18n } from '../../../config/language/i18n';
 
 class WLTask extends BaseComponent {
   constructor(props) {
@@ -70,7 +71,7 @@ class WLTask extends BaseComponent {
     this._isMounted = false;
   }
 
-  render() {
+  renderComponent = () => {
     const { activeIndex } = this.state;
     const { navigation } = this.props;
     return (
@@ -93,7 +94,7 @@ class WLTask extends BaseComponent {
         <View style={styles.infoContainer}>
           <View style={styles.groupButton}>
             <GroupButton
-              buttons={['超级节点', '伙伴节点', '提前换币']}
+              buttons={[I18n.t('activity.common.superNode'), I18n.t('activity.common.partnerNode'), I18n.t('activity.task.mapping')]}
               activeIndex={activeIndex}
               onPress={index => {
                 this.setState({ activeIndex: index });
@@ -171,7 +172,7 @@ class WLTask extends BaseComponent {
           </View>
         </View>
         <TouchableOpacity onPress={this.selectTask} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
-          <Text style={{ color: 'white' }}>去完成</Text>
+          <Text style={{ color: 'white' }}>{I18n.t('activity.task.goto')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -256,7 +257,7 @@ const styles = {
   pageIndicator: {
     position: 'absolute',
     top: 15,
-    left: 10,
+    left: 15,
   },
   button: {
     width: 300,
@@ -264,6 +265,6 @@ const styles = {
     alignItems: 'center',
     alignSelf: 'center',
     paddingVertical: 12,
-    marginBottom: 5,
+    marginBottom: 20,
   },
 };

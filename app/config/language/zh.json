@@ -429,12 +429,15 @@
             "activeNode":"激活节点",
             "benefitNode":"权益节点",
             "superNode":"超级节点",
+            "partnerNode":"伙伴节点",
             "active":"激活",
             "totalReward":"总收益",
             "poolReward":"森林收益",
             "inviteReward":"邀请收益",
-            "treeReward":"溯源收益",
-            "benefit":"收益"
+            "treeReward":"随机收益",
+            "benefit":"收益",
+            "roundPrefix":"第",
+            "roundSuffix":"轮"
         },
         "home":{
             "deadline": "结束倒计时",
@@ -445,17 +448,18 @@
         },
         "nodeSummary":{
             "myChildren":"我的子节点",
-            "inviteOthers":"拓展子节点",
+            "inviteOthers":"扩充子节点",
             "levelupBenefit":"升级成为权益节点",
             "howToActive":"普通节点花费15ITC升级成为激活节点",
             "activeWarning":"升级花费的ITC不会返还",
             "whyActive":"激活节点可享受子节点的邀请收益",
             "howToBenefit":"激活节点的第一层5个节点充满后，激活节点成为权益节点",
-            "whyBenefit":"权益节点可参与森林收益、溯源收益、邀请收益",
+            "whyBenefit":"权益节点可参与森林收益、随机收益、邀请收益",
             "levelupActive":"升级成为激活节点",
             "joinRound":"参与轮数",
             "rank":"邀请排行榜",
-            "pool":"涡轮池"
+            "pool":"涡轮池",
+            "totalSubNodeNum":"子节点数量"
         },
         "nodeinfo":{
             "totalAmount":"总额度",
@@ -468,10 +472,19 @@
             "benefitTime":"晋级时间",
             "nodeinfo":"节点信息",
             "taskinfo":"任务信息",
-            "activeinfo":"激活信息"
+            "activeinfo":"激活信息",
+            "nodeNo": "节点编号",
+            "partnerVote": "伙伴投票",
+            "mappingAmount": "映射数量",
+            "mappingTime": "映射时间",
+            "mappingHash": "映射记录"
         },
         "benefit":{
-            
+            "noData": "暂无记录"
+        },
+        "task":{
+            "mapping":"提前换币",
+            "goto":"去完成"
         }
     }
 }

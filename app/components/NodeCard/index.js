@@ -9,7 +9,7 @@ export default ({ icon, name, address, showArrow = true }) => {
         {icon}
         <View style={styles.infoDetail}>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.address}>{address}</Text>
+          <Text style={styles.address} ellipsizeMode="middle" numberOfLines={1} >{address}</Text>
         </View>
       </View>
       {showArrow && <Image source={require('./images/arrow-right-white.png')} />}

@@ -28,7 +28,7 @@ const styles = {
     alignSelf: 'center',
     justifyContent: 'center',
     marginTop: 10,
-    backgroundColor: '#F9FBFF',
+    backgroundColor: '#f7fcff',
     paddingHorizontal: 20,
     paddingVertical: 10,
     // paddingTop: 20,
@@ -39,11 +39,11 @@ const styles = {
     marginVertical: 10,
   },
   dot: {
-    width: 10,
-    height: 10,
+    width: 6,
+    height: 6,
     borderRadius: 5,
     backgroundColor: '#04b2fb',
     marginRight: 10,
-    marginTop: 3,
+    marginTop: 5,
   },
 };
