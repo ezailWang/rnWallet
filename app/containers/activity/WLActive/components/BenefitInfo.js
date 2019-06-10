@@ -57,7 +57,7 @@ const styles = {
     alignSelf: 'center',
   },
   totalText: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#4EAAED',
     fontWeight: 'bold',
   },
@@ -66,7 +66,7 @@ const styles = {
     backgroundColor: '#e4e4e4',
     width: '90%',
     alignSelf: 'center',
-    marginVertical: 15,
+    marginVertical: 10,
   },
   detailInfo: {
     width: '90%',

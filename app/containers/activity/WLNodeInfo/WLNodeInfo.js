@@ -41,33 +41,75 @@ class WLNodeInfo extends BaseComponent {
   renderComponent = () => {
     const { navigation } = this.props;
     let { task } = this.state;
-    const taskInfos = [
-      // { label: '节点编号', value: 'NO.1' },
-      { label: I18n.t('activity.nodeinfo.totalAmount'), value: task.totalAmount+' ITC' },
-      { label: I18n.t('activity.nodeinfo.myVote'), value: task.myVote+' ITC' },
-      { label: I18n.t('activity.nodeinfo.unlockTime'), value: task.unlockTime },
-      { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' } },
-    ];
-    const activateInfos = [
-      { label: I18n.t('activity.nodeinfo.inviter'), value: task.inviter },
-      { label: I18n.t('activity.nodeinfo.activeTime'), value: task.activeTime },
-      { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
-      { label: I18n.t('activity.nodeinfo.benefitTime'), value: task.benefitTime },
-    ];
+    let taskInfos = [];
 
+    if(task.vip){
+      taskInfos = [
+        { label: I18n.t('activity.nodeinfo.nodeNo'), value: 'NO.'+task.vipNo },
+        { label: I18n.t('activity.nodeinfo.totalAmount'), value: task.totalAmount+' ITC' },
+        { label: I18n.t('activity.nodeinfo.myVote'), value: task.myVote+' ITC' },
+        { label: I18n.t('activity.nodeinfo.partnerVote'), value: task.partnerVote+' ITC' },
+        { label: I18n.t('activity.nodeinfo.unlockTime'), value: task.unlockTime },
+        { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' } },
+      ];
+    }else if(task.taskType==='vote'){
+      taskInfos = [
+        { label: I18n.t('activity.nodeinfo.nodeNo'), value: 'NO.'+task.vipNo },
+        { label: I18n.t('activity.nodeinfo.totalAmount'), value: task.totalAmount+' ITC' },
+        { label: I18n.t('activity.nodeinfo.myVote'), value: task.myVote+' ITC' },
+        { label: I18n.t('activity.nodeinfo.unlockTime'), value: task.unlockTime },
+        { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' } },
+      ];
+    }else if(task.taskType==='mapping'){
+      taskInfos = [
+        { label: I18n.t('activity.nodeinfo.mappingAmount'), value: task.mappingAmount+' ITC' },
+        { label: I18n.t('activity.nodeinfo.mappingTime'), value: task.mappingTime },
+      ];
+      const mappingRecords = task.mappingRecords
+      if(mappingRecords && mappingRecords.length>0){
+        taskInfos.push({ 
+          label: I18n.t('activity.nodeinfo.mappingHash'), 
+          value: mappingRecords[0] 
+        })
+        taskInfos = taskInfos.concat(mappingRecords.slice(1).map(r => {
+          return {
+            label: '', 
+            value: r
+          }
+        }))
+      }
+    }
+
+    let activateInfos = [];
     let nodeType = I18n.t('activity.common.normalNode');
+    let nodeIcon = (<Image source={require('./images/normal.png')} style={styles.icon} resizeMode='contain' />)
     if (task.vip){
       nodeType = I18n.t('activity.common.superNode')
+      nodeIcon = (<Image source={require('./images/super.png')} style={styles.icon} resizeMode='contain' />)
     } else{
       switch(task.nodeType){
         case 'normal':
           nodeType = I18n.t('activity.common.normalNode')
+          nodeIcon = (<Image source={require('./images/normal.png')} style={styles.icon} resizeMode='contain' />)
           break
         case 'benefit':
           nodeType = I18n.t('activity.common.benefitNode')
+          nodeIcon = (<Image source={require('./images/quanyi.png')} style={styles.icon} resizeMode='contain' />)
+          activateInfos = [
+            { label: I18n.t('activity.nodeinfo.inviter'), value: task.inviter },
+            { label: I18n.t('activity.nodeinfo.activeTime'), value: task.activeTime },
+            { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
+            { label: I18n.t('activity.nodeinfo.benefitTime'), value: task.benefitTime },
+          ];
           break
         case 'active':
           nodeType = I18n.t('activity.common.activeNode')
+          nodeIcon = (<Image source={require('./images/active.png')} style={styles.icon} resizeMode='contain' />)
+          activateInfos = [
+            { label: I18n.t('activity.nodeinfo.inviter'), value: task.inviter },
+            { label: I18n.t('activity.nodeinfo.activeTime'), value: task.activeTime },
+            { label: I18n.t('activity.nodeinfo.activeTxHash'), value: task.activeTxHash, valueStyle: { color: '#50A6E5' } },
+          ];
           break
       }
     }
@@ -79,7 +121,7 @@ class WLNodeInfo extends BaseComponent {
         <ScrollView>
           <View style={styles.node}>
             <NodeCard
-              icon={<Image source={require('./images/quanyi.png')} style={styles.icon} resizeMode='contain'/>}
+              icon={nodeIcon}
               name={nodeType}
               address={task.address}
               showArrow={false}

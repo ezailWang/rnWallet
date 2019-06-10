@@ -70,18 +70,23 @@ class NodeSummary extends BaseComponent {
     const { navigation } = this.props;
     let { activeRound,address,bonusReward,children,inviteReward,totalReward,treeReward,type,vip,childNum } = this.state;
     let nodeType = I18n.t('activity.common.normalNode');
+    let nodeIcon = (<Image source={require('./images/normal.png')} />)
     if (vip){
       nodeType = I18n.t('activity.common.superNode')
+      nodeIcon = (<Image source={require('./images/super.png')} />)
     } else{
       switch(type){
         case 'normal':
           nodeType = I18n.t('activity.common.normalNode');
+          nodeIcon = (<Image source={require('./images/normal.png')} />)
           break
         case 'benefit':
           nodeType = I18n.t('activity.common.benefitNode');
+          nodeIcon = (<Image source={require('./images/quanyi.png')} />)
           break
         case 'active':
           nodeType = I18n.t('activity.common.activeNode');
+          nodeIcon = (<Image source={require('./images/active.png')} />)
           break
       }
     }
@@ -111,7 +116,7 @@ class NodeSummary extends BaseComponent {
         <NavHeader navigation={navigation} color="white" text={I18n.t('activity.common.activityName')} leftAction={this._onBackPressed}/>
         <ScrollView>
           <NodeInfo
-            icon={<Image source={require('./images/super.png')} />}
+            icon={nodeIcon}
             name={nodeType}
             address={address}
             onNodePress={() => {

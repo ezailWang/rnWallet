@@ -170,7 +170,7 @@ const styles = {
   divider: {
     width: '100%',
     height: 0.5,
-    backgroundColor: '#bdbdbd',
+    backgroundColor: '#959595',
     marginVertical: 15,
   },
 
