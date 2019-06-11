@@ -28,6 +28,12 @@ class WLHome extends BaseComponent {
 
   constructor(){
     super()
+
+    this.state = {
+      finish:false,
+      timeLeft:0,
+      trueTimeLeft:0
+    }
   }
 
   didTapActivityButton = async ()=>{
@@ -60,6 +66,56 @@ class WLHome extends BaseComponent {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+
+    this.setState({
+      finish:true
+    })
+  }
+
+
+  toHHmmss =  (data)=>{
+    var s;
+    var hours = parseInt(data/(1000 * 60 * 60))
+    var minutes = parseInt((data / (1000 * 60)) % 60)
+    var seconds = parseInt((data/1000)%60)
+    s = (hours < 10 ? ('0' + hours) : hours) + ':' + (minutes < 10 ? ('0' + minutes) : minutes) + ':' + (seconds < 10 ? ('0' + seconds) : seconds);
+    return s;
+  }
+
+  _initData = ()=>{
+
+    //数据
+    let { info } = this.props.navigation.state.params;
+    let {timeLeft} = info
+
+    let countdown = ()=>{
+
+      if(this.state.finish){
+        return
+      }
+      
+      let left = this.state.timeLeft == 0 ? timeLeft : this.state.timeLeft
+      let leftFormat = this.toHHmmss(left)
+
+      //一秒
+      left = left - 1000
+
+      console.log('开始倒计时')
+
+      this.setState({
+        trueTimeLeft:leftFormat,
+        timeLeft:left
+      })
+      
+      setTimeout(() => {
+        countdown()
+      }, 1 * 1000);
+    }
+
+    //0.5秒后开始倒计时
+    // setTimeout(() => {
+      countdown()
+    // }, 0.5 * 1000);
   }
 
   renderComponent = () => {
@@ -68,11 +124,15 @@ class WLHome extends BaseComponent {
 
     //数据
     let { info } = this.props.navigation.state.params;
-    let {activeNum, benefitNum, bonusReward, normalNum, paidReward, poolReward, poolRewardTarget, sequence, timeLeft, totalPoolReward, vipNum} = info
+    let {activeNum, benefitNum, bonusReward, normalNum, paidReward, poolReward, poolRewardTarget, sequence, totalPoolReward, vipNum} = info
+
+    let {trueTimeLeft} = this.state
 
     // let series = [1, 2, 3, 4];
     let series = [activeNum, benefitNum, vipNum,normalNum];
     const sliceColor = ['#0597fb', '#ffa235', '#fff100', '#7be1ff'];
+
+    const titleImage = this.props.myLanguage === 'zh' ? require('./images/title.png') : require('./images/title_en.png')
 
     const { navigation } = this.props;
     const chartWidth = 100;
@@ -88,12 +148,12 @@ class WLHome extends BaseComponent {
             source={require('./images/home_banner.png')}
             style={styles.banner}
           >
-            <Image source={require('./images/title.png')} style={{ width: '100%' }} />
+            <Image source={titleImage} style={{ width: '100%' }} />
           </ImageBackground>
           <View style={styles.infoContainer}>
             <Tag text={I18n.t('activity.common.roundFormat').replace("%s",sequence)} color="#46b6fe" />
             <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
-            <DetailItem title={I18n.t('activity.home.deadline')} text={timeLeft} />
+            <DetailItem title={I18n.t('activity.home.deadline')} text={trueTimeLeft} />
             <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '0' : totalPoolReward+' ITC'} />
             <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '0' : paidReward+' ITC'} />
 
@@ -140,6 +200,7 @@ class WLHome extends BaseComponent {
 
 
 const mapStateToProps = state => ({
+  myLanguage: state.Core.myLanguage,
 });
 const mapDispatchToProps = dispatch => ({
   setKeyContractAddress: params => dispatch(Actions.setKeyContractAddress(params)),

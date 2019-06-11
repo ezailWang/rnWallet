@@ -592,9 +592,9 @@
         },
         "wallet": {
             "title": "Turbo competition",
-            "eth": "Choose the ETH address to participate in the event",
+            "eth": "Choose ETH address to participate",
             "next": "Next",
-            "itc": "Select the ITC mainnet wallet address to receive the reward"
+            "itc": "Choose one ITC mainnet address to receive the reward"
         },
         "web": {
             "explain_0": "Voting instructions",
@@ -609,6 +609,10 @@
             "address":"Node address",
             "time":"Upgrade date",
             "benfit":"Expected income"
+        },
+        "extra":{
+            "explain_0":"Awards",
+            "explain_1":"Reward Progress"
         }
     }
 }
