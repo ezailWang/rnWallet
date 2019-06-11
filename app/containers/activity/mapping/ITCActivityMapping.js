@@ -431,6 +431,10 @@ class ITCActivityMapping extends BaseComponent {
     // this.inputText = React.createRef();
   }
 
+  _onBackPressed = ()=>{
+    console.log('重写安卓返回事件')
+  }
+
   componentWillMount() {
     this._isMounted = true;
   }

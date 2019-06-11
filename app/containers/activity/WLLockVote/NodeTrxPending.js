@@ -291,6 +291,9 @@ class NodeTrxPending extends BaseComponent {
       }
     }
   }
+  _onBackPressed = ()=>{
+    console.log('重写安卓返回事件')
+  }
 
   componentWillMount() {
     this._isMounted = true;

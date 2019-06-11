@@ -43,6 +43,10 @@ class WLLock extends BaseComponent {
       webType:3
     })
   }
+  
+  _onBackPressed = ()=>{
+    console.log('重写安卓返回事件')
+  }
 
   didTapLockBtn = async ()=>{
 

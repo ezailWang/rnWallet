@@ -272,6 +272,10 @@ class ActivityTrxPending extends BaseComponent {
     }, 5 * 1000);
     })
   }
+  
+  _onBackPressed = ()=>{
+    console.log('重写安卓返回事件')
+  }
 
   _hideAlert = ()=>{
 
