@@ -31,7 +31,7 @@ class WebViewScreen extends BaseComponent {
   render(){
 
     let { webType } = this.props.navigation.state.params;
-    switch(parseInt(webType)){
+    switch(webType){
         case 0:{
             var title = I18n.t('activity.web.explain_0')
             var link = 'https://wallet.iotchain.io/VotePolicy.html'

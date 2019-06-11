@@ -40,7 +40,7 @@ class WLLock extends BaseComponent {
   didTapDetailExplainBtn = ()=>{
 
     this.props.navigation.navigate('WebViewScreen',{
-      webType:'3'
+      webType:3
     })
   }
 
@@ -125,6 +125,20 @@ class WLLock extends BaseComponent {
     })
   }
 
+  // 时间戳换时间格式
+  timestampToDayTime = (timestamp)=>{
+    let date;
+    if (timestamp.length === 10) {
+      date = new Date(parseInt(timestamp, 10) * 1000);
+    } else if (timestamp.length === 13) {
+      date = new Date(parseInt(timestamp, 10));
+    }
+    const Y = `${date.getFullYear()}-`;
+    const M = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-`;
+    const D = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+    return `${Y + M + D}`;
+  }
+
   showPayView = async ()=>{
 
     let nodeLockValue = parseFloat(this.state.value)
@@ -145,10 +159,9 @@ class WLLock extends BaseComponent {
         this._showAlert(I18n.t('activity.nodeVote.no_gas'))
         return
       }
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth();
-      let day = date.getDate();
+      
+      let noewDate = new Date().valueOf();
+      let lockDate = this.timestampToDayTime(noewDate.toString())
       
       let detailGas = `Gas(${res.gas})*Gas Price(${parseInt(res.gasPrice)/Math.pow(10,9)} gwei) `
 
@@ -158,7 +171,7 @@ class WLLock extends BaseComponent {
         isShowVoteTrx:true,
         inputAmount:nodeLockValue,
         payAddress:activityEthAddress,
-        lockDate:year+':'+month+':'+day,
+        lockDate:lockDate,
         amount:nodeLockValue,
         totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
         detailGas:detailGas

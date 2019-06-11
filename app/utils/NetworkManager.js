@@ -1124,4 +1124,9 @@ export default class NetworkManager {
 
     return FetchUtils.requestGet(NetAddr.queryTransactionDetail,params)
   }
+
+  static async querylastWinner(){
+
+    return FetchUtils.requestGet(NetAddr.querylastWinner)
+  }
 }

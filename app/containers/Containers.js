@@ -66,6 +66,7 @@ import MappingTxPending from  './activity/mapping/MappingTxPending'
 import ActivityTrxPending from './activity/WLNodeActivate/ActivityTrxPending'
 import NodeTrxPending from './activity/WLLockVote/NodeTrxPending'
 import MyQrcode from './activity/Qrcode/MyQrcode';
+import ActivityPool from './activity/WLActive/ActivityPool'
 
 export {
   HomeScreen,
@@ -134,5 +135,6 @@ export {
   MappingTxPending,
   ActivityTrxPending,
   NodeTrxPending,
-  MyQrcode
+  MyQrcode,
+  ActivityPool
 };

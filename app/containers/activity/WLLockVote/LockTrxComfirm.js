@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   titleView: {
     color: Colors.fontBlackColor,
     // marginLeft:0,
-    width: LayoutConstants.WINDOW_WIDTH - (30 + 25) * 2,
+    width: LayoutConstants.WINDOW_WIDTH - (30 + 15) * 2,
     fontSize: 17,
     textAlign: 'center',
   },

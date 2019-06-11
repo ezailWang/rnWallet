@@ -12,6 +12,7 @@ import { showToast } from '../../../utils/Toast';
 import NetworkManager from '../../../utils/NetworkManager';
 import ActivityTrxComfirm from './ActivityTrxComfirm';
 import Layout from '../../../config/LayoutConstants';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const styles = {
   container: {
@@ -154,38 +155,7 @@ class WLNodeActivate extends BaseComponent {
       return
     }
 
-    this._showLoading()
-
-    try{
-
-      //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
-      if(originalInviteAddress.length == 0){
-
-        let result = await NetworkManager.bindActivityInviteAddress({
-          inviter:newInviteAddress,
-          invitee:activityEthAddress
-        })
-  
-        if(result.code == 200){
-          this.setState({
-            originalInviteAddress:newInviteAddress
-          })
-          this.showPayView()
-        }
-        else{
-          this._hideLoading()
-          
-          showToast(I18n.t('activity.nodeVote.invite_invalid'))
-        }
-      }
-      else{
-        this.showPayView()
-      }
-    }
-    catch(err){
-
-    }
-    
+    this.showPayView()
   }
 
   didTapCancelPayBtn = ()=>{
@@ -270,6 +240,7 @@ changeLoading(num, password) {
 
 async handleTrx(password) {
   
+  let {newInviteAddress, originalInviteAddress} = this.state
   let {activityEthAddress} = this.props
 
   try {
@@ -281,10 +252,23 @@ async handleTrx(password) {
     }
     else{
       // console.log('开始发送交易'+privateKey+this.state.trxData)
-      NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
+      NetworkManager.sendETHTrx(privateKey,this.state.trxData,async hash=>{
         this.hideStaticLoading(); // 关闭Loading
         console.log('txHash'+hash)
         if(hash){
+
+          try{
+            //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
+            if(originalInviteAddress.length == 0){
+              await NetworkManager.bindActivityInviteAddress({
+                inviter:newInviteAddress,
+                invitee:activityEthAddress
+              })
+            }
+          }
+          catch(err){
+
+          }
 
           const {activeAddress, estimateGas} = this.props
 

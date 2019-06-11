@@ -772,7 +772,7 @@ handleTrx = async (password) => {
                   />
                 ) : null}
               </View>
-              <Text style={styles.convertEthWalletItcBalance}>{itcErc20Balance+' ITC'}</Text>
+              <Text style={styles.convertEthWalletItcBalance}>{I18n.t('transaction.balance') + ': ' + itcErc20Balance+' ITC'}</Text>
             </View>
             <Text style={styles.commonText}>{activityEthAddress}</Text>
             <Text style={styles.commonText}>{`Gas${I18n.t('mapping.cost')}:${gasCost} eth`}</Text>

@@ -602,6 +602,14 @@
             "explain_1":"邀请排行榜",
             "explain_2":"涡轮池",
             "explain_3":"超级节点"
+        },
+        "power":{
+            "title":"涡轮池",
+            "unit":"当前奖池（ITC）",
+            "node":"最新权益节点",
+            "address":"节点地址",
+            "time":"晋级时间",
+            "benfit":"预计收益"
         }
     }
 }

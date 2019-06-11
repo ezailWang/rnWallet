@@ -107,7 +107,8 @@ import {
   MappingTxPending,
   ActivityTrxPending,
   NodeTrxPending,
-  MyQrcode
+  MyQrcode,
+  ActivityPool
 } from '../containers/Containers';
 // 首次启动导航栈
 const FirstLaunchRouteConfig = {
@@ -390,6 +391,9 @@ const HomeRouteConfig = {
   },
   MyQrcode:{
     screen:MyQrcode,
+  },
+  ActivityPool:{
+    screen:ActivityPool
   }
 };
 

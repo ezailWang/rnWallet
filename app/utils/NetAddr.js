@@ -42,7 +42,8 @@ const NetAddr = {
   queryKeyAddressInfo:`${activityHost}/api/v1/global_config`,
   queryAddressBindAddress:`${activityHost}/api/v1/inviter/get`,
   completeMappingTask:`${activityHost}/api/v1/mapping/complete`,
-  queryTransactionDetail: `${host}convert/detail`
+  queryTransactionDetail:`${host}convert/detail`,
+  querylastWinner:`${activityHost}/api/v1/last_winner`,
 };
 
 export default NetAddr;
