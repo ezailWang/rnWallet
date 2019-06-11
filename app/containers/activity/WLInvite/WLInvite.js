@@ -10,6 +10,18 @@ import { showToast } from '../../../utils/Toast';
 import { connect } from 'react-redux';
 
 class WLInvite extends BaseComponent {
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
+
+    this.setState({
+      finish:true
+    })
+  }
   render() {
     const { navigation } = this.props;
     const descArr = [
