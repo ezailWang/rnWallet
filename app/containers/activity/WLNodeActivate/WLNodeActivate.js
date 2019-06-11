@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Image,StatusBar } from 'react-native';
 import NavHeader from '../../../components/NavHeader';
+import ImageButton from '../../../components/ImageButton';
 import BaseComponent from '../../base/BaseComponent';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
 import StaticLoading from '../../../components/StaticLoading';
@@ -340,7 +341,15 @@ hideStaticLoading() {
               editable={originalInviteAddress.length==0}
             >
             </TextInput>
-            <Image source={require('./images/saomiao.png')} style={{marginTop:5, width: 20, height: 20 }} />
+            <ImageButton
+              btnStyle={{
+                marginTop:5, width: 20, height: 20
+              }}
+              imageStyle={{ width: 20, height: 20}}
+              onClick={this.didTapScanButton}
+              backgroundImageSource={require('./images/saomiao.png')}
+            />
+            {/* <Image source={require('./images/saomiao.png')} style={{marginTop:5, width: 20, height: 20 }} /> */}
           </View>
           <View style={styles.desc}>
             <Text style={styles.descItem}>{I18n.t('activity.nodeVote.explain_3')}</Text>

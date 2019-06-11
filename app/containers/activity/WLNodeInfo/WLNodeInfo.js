@@ -81,9 +81,11 @@ class WLNodeInfo extends BaseComponent {
           value: mappingRecords[0],
           valueStyle: { color: '#50A6E5' },
           onPress: async () =>{
+            this._showLoading()
             const resp = await NetworkManager.queryTransactionDetail({
               txhash: mappingRecords[0]
             });
+            this._hideLoading()
             let mappingDetail = resp.data
             this.props.navigation.navigate('MappingRecordDetail', { mappingDetail });
           }
@@ -94,9 +96,11 @@ class WLNodeInfo extends BaseComponent {
             value: r,
             valueStyle: { color: '#50A6E5' },
             onPress: async () =>{
+              this._showLoading()
               const resp = await NetworkManager.queryTransactionDetail({
                 txhash: r
               });
+              this._hideLoading()
               let mappingDetail = resp.data
               this.props.navigation.navigate('MappingRecordDetail', { mappingDetail });
             }

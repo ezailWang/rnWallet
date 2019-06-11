@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Animated, Easing } from 'react-native';
-import Camera from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import { connect } from 'react-redux';
 import BaseComponent from '../base/BaseComponent';
 import { BlackBgHeader } from '../../components/NavigaionHeader';
@@ -149,10 +149,12 @@ class ScanQRCodeScreen extends BaseComponent {
     <View style={styles.container}>
       <BlackBgHeader navigation={this.props.navigation} text={I18n.t('settings.scan_qrcode')} />
 
-      <Camera
+      <RNCamera
         style={styles.contentContainer}
+        type={RNCamera.Constants.Type.back}
+        barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
         onBarCodeRead={e => this._onBarCodeRead(e)}
-        aspect={Camera.constants.Aspect.fill}
+        // aspect={RNCamera.constants.Aspect.fill}
       >
         <View style={styles.scanBox}>
           <View style={styles.tranView} />
@@ -165,7 +167,7 @@ class ScanQRCodeScreen extends BaseComponent {
             <Text style={styles.text}>{I18n.t('settings.scan_qrcode_prompt')}</Text>
           </View>
         </View>
-      </Camera>
+      </RNCamera>
     </View>
   );
 }
