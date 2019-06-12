@@ -255,8 +255,7 @@ class ChooseActivityITCWallet extends BaseComponent {
     <View style={styles.container}>
       <WhiteBgHeader
         navigation={this.props.navigation}
-        text={'涡轮计划'}
-        // text={I18n.t('mapping.binding_replace_address')}
+        text={I18n.t('activity.wallet.title')}
       />
       <View style={styles.contentBox}>
         <LinearGradient
@@ -266,7 +265,7 @@ class ChooseActivityITCWallet extends BaseComponent {
           end={{ x: 1, y: 1 }}
         >
           <Text style={styles.contentDescText}>
-            选择接收奖励的ITC主网钱包地址
+            {I18n.t('activity.wallet.itc')}
           </Text>
         </LinearGradient>
         <FlatList
@@ -286,7 +285,7 @@ class ChooseActivityITCWallet extends BaseComponent {
           isDisabled={this.state.isDisabled}
           onPress={() => this.confirmBtn()}
         //   text={I18n.t('transaction.determine')}
-        text={'下一步'}
+        text={I18n.t('activity.wallet.next')}
         />
       </View>
     </View>
@@ -303,7 +302,7 @@ class Footer extends PureComponent {
           <TouchableOpacity activeOpacity={0.6} style={styles.footerTouch} onPress={onFooterItem}>
             <Image style={styles.footerImg} source={img} resizeMode="center" />
           </TouchableOpacity>
-          <Text style={styles.footerTxt}>创建ITC钱包</Text>
+          <Text style={styles.footerTxt}>{I18n.t('modal.create_import_itc_wallet_first')}</Text>
           {/* <Text style={styles.footerTxt}>{I18n.t('mapping.import_erc_wallet')}</Text> */}
         </View>
       );

@@ -227,7 +227,7 @@ class MappingTxPending extends BaseComponent {
 
       if(tranStatus == '2'){
 
-        this._showAlert('交易上链中，请等待1-3分钟..','提示')
+        this._showAlert(I18n.t('activity.mapping.pending'))
       }
       else{
         this.props.navigation.navigate('NodeSummary',{
@@ -273,10 +273,10 @@ class MappingTxPending extends BaseComponent {
     NetworkManager.listenETHTransaction(txHash,time,async (status)=>{
 
     if(status){
-      content = '交易已确认，数据同步中...'
+      content = I18n.t('activity.mapping.txSure')
     }
     else{
-      content = '交易仍在上链中...'
+      content = I18n.t('activity.mapping.notfound')
     }
 
     this.setState({
@@ -310,7 +310,7 @@ class MappingTxPending extends BaseComponent {
         })
       }
       else{
-        this._showAlert('任务激活失败，请返回任务界面.')
+        this._showAlert(I18n.t('activity.mapping.task_fail'))
         // this.props.navigation.goBack();
         this.setState({
           tranStatus:status.status ? "1" : "0",
@@ -321,8 +321,7 @@ class MappingTxPending extends BaseComponent {
       this.setState({
         tranStatus:status.status ? "1" : "0",
       })
-      this._showAlert('任务激活失败，请返回任务界面.')
-      // this.props.navigation.goBack();
+      this._showAlert(I18n.t('activity.mapping.task_fail'))
     }
 
     }, 5 * 1000);
@@ -382,13 +381,17 @@ class MappingTxPending extends BaseComponent {
 
     let {navigation} = this.props
 
+    tranStatus = parseInt(tranStatus)
+
     let statusIcon;
-    if (tranStatus == '0') {
+    if (tranStatus == 1) {
       statusIcon = require('../../../assets/transfer/trans_ok.png');
-    } else if (tranStatus == '2') {
-      statusIcon = require('../../../assets/transfer/trans_ing.png');
-    } else if (tranStatus == '1') {
+    }  
+    else if (tranStatus == 0) {
       statusIcon = require('../../../assets/transfer/trans_fail.png');
+    }
+    else {
+      statusIcon = require('../../../assets/transfer/trans_ing.png');
     }
 
     return (
@@ -514,7 +517,7 @@ class MappingTxPending extends BaseComponent {
                       </GreyButtonMidele>
                     ):(
                       <BlueButtonMiddle  onPress={() => this.didTapHomeBtn()}
-                        text={'我的活动首页'}  
+                        text={I18n.t('activity.mapping.act_home')}  
                       >
                       </BlueButtonMiddle>
                     )

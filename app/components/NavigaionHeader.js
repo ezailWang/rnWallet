@@ -209,9 +209,9 @@ class TransparentBgNoBackButtonHeader extends PureComponent {
           </Text>
         </View>
 
-        <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]} onPress={rightPress}>
+        {/* <TouchableOpacity style={[styles.headerButtonBox, contentMarginTop]} onPress={rightPress}>
           <Image style={styles.icon} resizeMode="contain" source={rightIcon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }

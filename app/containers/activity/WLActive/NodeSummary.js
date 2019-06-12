@@ -123,13 +123,11 @@ class NodeSummary extends BaseComponent {
             }}
             onRankPress={() => {
               this.props.navigation.navigate('WebViewScreen',{
-                webType:'1'
+                webType:1
               })
             }}
             onPoolPress={() => {
-              navigation.navigate('WebViewScreen',{
-                webType:'2'
-              })
+              navigation.navigate('ActivityPool')
             }}
           />
           {

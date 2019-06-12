@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   titleView: {
     color: Colors.fontBlackColor,
     // marginLeft:0,
-    width: LayoutConstants.WINDOW_WIDTH - (30 + 25) * 2,
+    width: LayoutConstants.WINDOW_WIDTH - (30 + 15) * 2,
     fontSize: 17,
     textAlign: 'center',
   },
@@ -180,10 +180,10 @@ const InfoTextView = ({
     {/* <View style={styles.infoTextViewFirst}>
       <Text style={styles.infoTitle}>{amount+'ITC'}</Text>
     </View> */}
-    <InfoContentView title={'支付信息'} deatilContent={'超级节点'} />
-    <InfoContentView title={'锁定日期'} deatilContent={lockDay} />
-    <InfoContentView title={'锁定期限'} deatilContent={lockDate} />
-    <InfoContentView title={'发起地址'} deatilContent={fromAddress} />
+    <InfoContentView title={I18n.t('activity.nodeVote.pay')} deatilContent={I18n.t('activity.nodeVote.super')} />
+    <InfoContentView title={I18n.t('activity.nodeVote.lock')} deatilContent={lockDay} />
+    <InfoContentView title={I18n.t('activity.nodeVote.date')} deatilContent={lockDate} />
+    <InfoContentView title={I18n.t('activity.nodeVote.start')} deatilContent={fromAddress} />
     <InfoContentView
       title={I18n.t('exchange.fees')}
       deatilContent={`${totalGasUsed}\n${detailGas}`}
@@ -297,7 +297,7 @@ export default class LockTrxComfirm extends Component {
                       style={{ width: 15, height: 15 }}
                     />
                   </TouchableOpacity>
-                  <Text style={styles.titleView}>详情</Text>
+                  <Text style={styles.titleView}>{I18n.t('activity.nodeVote.detail')}</Text>
                 </View>
                 <View style={styles.costTextContainer}>
                   <Text style={styles.costText}>{amount+' ITC'}</Text>

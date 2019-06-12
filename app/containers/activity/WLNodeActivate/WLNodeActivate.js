@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Image,StatusBar } from 'react-native';
 import NavHeader from '../../../components/NavHeader';
+import ImageButton from '../../../components/ImageButton';
 import BaseComponent from '../../base/BaseComponent';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
 import StaticLoading from '../../../components/StaticLoading';
@@ -12,6 +13,7 @@ import { showToast } from '../../../utils/Toast';
 import NetworkManager from '../../../utils/NetworkManager';
 import ActivityTrxComfirm from './ActivityTrxComfirm';
 import Layout from '../../../config/LayoutConstants';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const styles = {
   container: {
@@ -150,41 +152,11 @@ class WLNodeActivate extends BaseComponent {
     let {activityEthAddress} = this.props
     if(NetworkManager.isValidAddress(newInviteAddress) == false){
 
-      showToast('邀请地址格式不正确.')
+      showToast(I18n.t('activity.nodeVote.format_err'))
       return
     }
 
-    this._showLoading()
-
-    try{
-
-      //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
-      if(originalInviteAddress.length == 0){
-
-        let result = await NetworkManager.bindActivityInviteAddress({
-          inviter:newInviteAddress,
-          invitee:activityEthAddress
-        })
-  
-        if(result.code == 200){
-          this.setState({
-            originalInviteAddress:newInviteAddress
-          })
-          this.showPayView()
-        }
-        else{
-          this._hideLoading()
-          showToast('绑定地址无效.')
-        }
-      }
-      else{
-        this.showPayView()
-      }
-    }
-    catch(err){
-
-    }
-    
+    this.showPayView()
   }
 
   didTapCancelPayBtn = ()=>{
@@ -210,7 +182,7 @@ class WLNodeActivate extends BaseComponent {
 
       if(addressBalance<res.gasUsed){
 
-        showToast('账户余额不足')
+        showToast(I18n.t('activity.nodeVote.no_gas'))
         return
       }
       
@@ -247,6 +219,10 @@ class WLNodeActivate extends BaseComponent {
     })
 }
 
+_onBackPressed = ()=>{
+  console.log('重写安卓返回事件')
+}
+
 changeLoading(num, password) {
   let content = '';
   if (num === 1) {
@@ -269,6 +245,7 @@ changeLoading(num, password) {
 
 async handleTrx(password) {
   
+  let {newInviteAddress, originalInviteAddress} = this.state
   let {activityEthAddress} = this.props
 
   try {
@@ -279,11 +256,24 @@ async handleTrx(password) {
       showToast(I18n.t('modal.password_error'));
     }
     else{
-      console.log('开始发送交易'+privateKey+this.state.trxData)
-      NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
+      // console.log('开始发送交易'+privateKey+this.state.trxData)
+      NetworkManager.sendETHTrx(privateKey,this.state.trxData,async hash=>{
         this.hideStaticLoading(); // 关闭Loading
         console.log('txHash'+hash)
         if(hash){
+
+          try{
+            //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
+            if(originalInviteAddress.length == 0){
+              await NetworkManager.bindActivityInviteAddress({
+                inviter:newInviteAddress,
+                invitee:activityEthAddress
+              })
+            }
+          }
+          catch(err){
+
+          }
 
           const {activeAddress, estimateGas} = this.props
 
@@ -300,7 +290,8 @@ async handleTrx(password) {
           })
         }
         else{
-          this._showAlert('发送激活交易失败，请检查网络')
+          
+          this._showAlert(I18n.t('activity.nodeVote.act_failed'))
         }
       })
     }
@@ -333,38 +324,46 @@ hideStaticLoading() {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="激活" />
+        <NavHeader navigation={navigation} color="white" text={I18n.t('activity.nodeVote.act_title')} />
         <View style={styles.editor}>
           <View style={styles.img}>
             <Image source={require('./images/levelUP15.png')} />
             <View style={styles.imgDesc}>
-              <Text>普通节点</Text>
-              <Text>激活节点</Text>
+              <Text>{I18n.t('activity.nodeVote.normal_node')}</Text>
+              <Text>{I18n.t('activity.nodeVote.act_node')}</Text>
             </View>
           </View>
-          <Text style={styles.title}>邀请人</Text>
+          <Text style={styles.title}>{I18n.t('activity.nodeVote.invite_address')}</Text>
           <View style={styles.inputContainer}>
-            <TextInput style={styles.input} onCh placeholder="0x开头的42位钱包地址" 
+            <TextInput style={styles.input} onCh placeholder={I18n.t('activity.nodeVote.explain_2')}
               onChangeText={this.changeInviteAddress}
               defaultValue={originalInviteAddress.length == 0? defaultAddress : originalInviteAddress}
               editable={originalInviteAddress.length==0}
             >
             </TextInput>
-            <Image source={require('./images/saomiao.png')} style={{marginTop:5, width: 20, height: 20 }} />
+            <ImageButton
+              btnStyle={{
+                marginTop:5, width: 20, height: 20
+              }}
+              imageStyle={{ width: 20, height: 20}}
+              onClick={this.didTapScanButton}
+              backgroundImageSource={require('./images/saomiao.png')}
+            />
+            {/* <Image source={require('./images/saomiao.png')} style={{marginTop:5, width: 20, height: 20 }} /> */}
           </View>
           <View style={styles.desc}>
-            <Text style={styles.descItem}>邀请人信息，提交后不可修改</Text>
+            <Text style={styles.descItem}>{I18n.t('activity.nodeVote.explain_3')}</Text>
             <View style={{flexDirection:'row'}}>
               <Text style={styles.descItem}>
-                若无人邀请，可选择
+                {I18n.t('activity.nodeVote.explain_4')}
               </Text>
               <TouchableOpacity onPress={this.didTapDefaultAddress}>
-                <Text style={styles.descItemWeight}>填写默认地址</Text>
+                <Text style={styles.descItemWeight}>{I18n.t('activity.nodeVote.explain_5')}</Text>
               </TouchableOpacity>
             </View>
           </View>
           <TouchableOpacity onPress={this.didTapAvtivityBtn} style={[styles.button, { backgroundColor: '#46b6fe' }]}>
-            <Text style={{ color: 'white' }}>激活</Text>
+            <Text style={{ color: 'white' }}>{I18n.t('activity.nodeVote.act_title')}</Text>
           </TouchableOpacity>
           <ActivityTrxComfirm
             show={showActivityTrxView}

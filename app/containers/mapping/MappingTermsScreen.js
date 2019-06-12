@@ -261,6 +261,10 @@ export default class MappingTermsScreen extends BaseComponent {
     }
   };
 
+  _onBackPressed = ()=>{
+    console.log('重写安卓按钮返回事件')
+  }
+
   startBtn = () => {
     const { itcWalletList } = store.getState().Core;
     if (!itcWalletList || itcWalletList.length <= 0) {

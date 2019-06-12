@@ -1119,4 +1119,14 @@ export default class NetworkManager {
 
     return FetchUtils.requestPost(NetAddr.completeMappingTask,params)
   }
+
+  static async queryTransactionDetail(params){
+
+    return FetchUtils.requestGet(NetAddr.queryTransactionDetail,params)
+  }
+
+  static async querylastWinner(){
+
+    return FetchUtils.requestGet(NetAddr.querylastWinner)
+  }
 }

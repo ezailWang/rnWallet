@@ -431,6 +431,10 @@ class ITCActivityMapping extends BaseComponent {
     // this.inputText = React.createRef();
   }
 
+  _onBackPressed = ()=>{
+    console.log('重写安卓返回事件')
+  }
+
   componentWillMount() {
     this._isMounted = true;
   }
@@ -491,7 +495,7 @@ class ITCActivityMapping extends BaseComponent {
 
     if(isNaN(value) || value < (600 - didMappingValue)){
 
-      this._showAlert('请映射至少'+(600-didMappingValue)+'个ITC')
+      this._showAlert(I18n.t('activity.mapping.limit')+(600-didMappingValue)+'ITC')
       return
     }
 
@@ -772,7 +776,7 @@ handleTrx = async (password) => {
                   />
                 ) : null}
               </View>
-              <Text style={styles.convertEthWalletItcBalance}>{itcErc20Balance+' ITC'}</Text>
+              <Text style={styles.convertEthWalletItcBalance}>{I18n.t('transaction.balance') + ': ' + itcErc20Balance+' ITC'}</Text>
             </View>
             <Text style={styles.commonText}>{activityEthAddress}</Text>
             <Text style={styles.commonText}>{`Gas${I18n.t('mapping.cost')}:${gasCost} eth`}</Text>
@@ -792,10 +796,10 @@ handleTrx = async (password) => {
           />
           <MyAlertComponent
             visible={showActivityModalVisible}
-            title={'提示'}
-            contents={['您的映射条件已达成，点击取消选择其他任务，点击确认选择激活该任务']}
-            leftBtnTxt={'选择其他任务'}
-            rightBtnTxt={'确认'}
+            title={''}
+            contents={[I18n.t('activity.mapping.condition')]}
+            leftBtnTxt={I18n.t('activity.mapping.other')}
+            rightBtnTxt={I18n.t('activity.mapping.sure')}
             leftPress={this.didTapModalLeftPress}
             rightPress={this.didTapModalRightPress}
           />

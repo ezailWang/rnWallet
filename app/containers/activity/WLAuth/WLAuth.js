@@ -132,7 +132,7 @@ class WLAuth extends BaseComponent {
         this._showAlert(I18n.t('modal.password_error'))
       }
       else{
-        console.log('开始发送交易'+privateKey+this.state.trxData)
+        // console.log('开始发送交易'+privateKey+this.state.trxData)
         NetworkManager.sendETHTrx(privateKey,this.state.trxData,hash=>{
           this.hideStaticLoading(); // 关闭Loading
           // console.warn(hash)
@@ -158,10 +158,10 @@ class WLAuth extends BaseComponent {
       this._hideLoading()
 
       if(status){
-        content = '授权成功'
+        content = I18n.t('activity.auth.success')
       }
       else{
-        content = '交易正在确认中..'
+        content = I18n.t('activity.auth.notfound')
       }
 
       this.props.navigation.state.params.callback();
@@ -232,7 +232,7 @@ class WLAuth extends BaseComponent {
 
     if(addressBalance<estimateGas){
 
-      this._showAlert('账户余额不足')
+      this._showAlert(I18n.t('activity.auth.no_gas'))
       return
     }
 
@@ -254,17 +254,17 @@ class WLAuth extends BaseComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="合约授权" />
+        <NavHeader navigation={navigation} color="white" text={I18n.t('activity.auth.approve')} />
         <View style={styles.transfer}>
           <AddressItem
             icon={<Image source={require('./images/qianbaodizhi.png')} />}
-            title="钱包地址"
+            title={I18n.t('activity.auth.address')}
             address={activityEthAddress}
           />
           <Image source={require('./images/bangding.png')} style={styles.arrow} />
           <AddressItem
             icon={<Image source={require('./images/heyue.png')} />}
-            title="合约地址"
+            title={I18n.t('activity.auth.contract')}
             address={contractInfo.nodeBallot.address}
           />
         </View>
@@ -272,37 +272,37 @@ class WLAuth extends BaseComponent {
           <DescItem
             text={
               <Text style={styles.text}>
-                本活动所涉及的数字资产操作均经由以太坊智能合约执行，参与前需要先完成合约授权
+                {I18n.t('activity.auth.explain')}
               </Text>
             }
           />
           <DescItem
             text={
               <Text style={styles.text}>
-                授权后，合约将获得在用户发起交易时扣除账户内对应的ITC数量的权利
+                {I18n.t('activity.auth.explain_1')}
               </Text>
             }
           />
           <DescItem
             text={
               <Text style={styles.text}>
-                本次授权额度为<Text style={styles.numberText}>{voteValue+' ITC'}</Text>
-                ，超出额度后需再次授权
+                {I18n.t('activity.auth.allwance')}<Text style={styles.numberText}>{voteValue+' ITC'}</Text>
+                {I18n.t('activity.auth.allwance_sub')}
               </Text>
             }
           />
           <DescItem
             text={
               <Text style={styles.text}>
-                本次授权操作将消耗手续费(即矿工费<Text style={styles.numberText}>{estimateGas+' ETH'}</Text>
-                )，请确保账户内有足够余额
+                {I18n.t('activity.auth.gas')}<Text style={styles.numberText}>{estimateGas+' ETH'}</Text>
+                {I18n.t('activity.auth.gas_sub')}
               </Text>
             }
           />
         </View>
 
         <TouchableOpacity onPress={this.didTapApproveBtn} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
-          <Text style={{ color: 'white' }}>确认授权</Text>
+          <Text style={{ color: 'white' }}>{I18n.t('activity.auth.makesure')}</Text>
         </TouchableOpacity>
         <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
         <InputPasswordDialog

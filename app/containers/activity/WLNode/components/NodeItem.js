@@ -37,6 +37,7 @@ const styles = {
   },
   no: {
     fontSize: 20,
+    color: '#000000',
     fontWeight: 'bold',
     marginBottom: 5,
   },

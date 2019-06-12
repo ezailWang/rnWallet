@@ -325,7 +325,7 @@
 
         "not_modified_wallet_name":"You did not change the wallet name.",
         "copied_keystore":"Keystore copied",
-        "copied":"Copied",
+        "copied":"Paste the code to your friends now.",
 
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
         "email_format_incorrect":"Incorrect email format",
@@ -421,80 +421,198 @@
         "range":"Range",
         "balance":"Balance"
     },
-    "activity":{
-        "common":{
-            "activityName":"涡轮计划",
-            "normalNode":"普通节点",
-            "activeNode":"激活节点",
-            "benefitNode":"权益节点",
-            "superNode":"超级节点",
-            "partnerNode":"伙伴节点",
-            "active":"激活",
-            "totalReward":"总收益",
-            "poolReward":"森林收益",
-            "inviteReward":"邀请收益",
-            "treeReward":"随机收益",
-            "benefit":"收益",
-            "roundFormat":"第%s轮"
+    "activity": {
+        "common": {
+            "activityName": "Turbo Competition",
+            "normalNode": "Normal node",
+            "activeNode": "Active node",
+            "benefitNode": "Equity node",
+            "superNode": "Super node",
+            "partnerNode": "Node partner",
+            "active": "Get activated",
+            "totalReward": "Total incentives",
+            "poolReward": "Turbo forest incentives",
+            "inviteReward": "Invitation incentives",
+            "treeReward": "Random incentives",
+            "benefit": "Incentives",
+            "roundFormat": "Round %s"
         },
-        "home":{
-            "deadline": "结束倒计时",
-            "poolReward": "涡轮池奖金",
-            "paidReward": "已发放奖励",
-            "rule":"完整规则",
-            "myActivity":"我的涡轮计划"
+        "home": {
+            "deadline": "Countdown",
+            "poolReward": "Turbo pool incentives",
+            "paidReward": "Distributed incentives",
+            "rule": "Full version of the rule",
+            "myActivity": "My turbo competition",
+            "failed": "Failed to acquire the information."
         },
-        "nodeSummary":{
-            "myChildren":"我的子节点",
-            "inviteOthers":"扩充子节点",
-            "levelupBenefit":"升级成为权益节点",
-            "howToActive":"普通节点花费15ITC升级成为激活节点",
-            "activeWarning":"升级花费的ITC不会返还",
-            "whyActive":"激活节点可享受子节点的邀请收益",
-            "howToBenefit":"激活节点的第一层5个节点充满后，激活节点成为权益节点",
-            "whyBenefit":"权益节点可参与森林收益、随机收益、邀请收益",
-            "levelupActive":"升级成为激活节点",
-            "joinRound":"参与轮数",
-            "rank":"邀请排行榜",
-            "pool":"涡轮池",
-            "totalSubNodeNum":"子节点数量"
+        "nodeSummary": {
+            "myChildren": "My subordinate nodes",
+            "inviteOthers": "Expand the subordinate nodes",
+            "levelupBenefit": "Upgrade to equity node",
+            "howToActive": "Normal node costs 15 ITC to upgrade to an active node",
+            "activeWarning": "ITC paid before upgrade will not be refunded",
+            "whyActive": "Active node will win the invitation rewards of the subordinate nodes",
+            "howToBenefit": "An active node will become an equity node when it directly owns 5 subordinate nodes.",
+            "whyBenefit": "Equity nodes can participate in and have a chance to win the forest incentive, random incentive, and the invitation incentive.",
+            "levelupActive": "Upgrade to equity node",
+            "joinRound": "Participation round",
+            "rank": "Invitation Ranking",
+            "pool": "Turbo pool",
+            "totalSubNodeNum": "Number of subordinate nodes"
         },
-        "nodeinfo":{
-            "totalAmount":"总额度",
-            "myVote":"我的投票",
-            "unlockTime":"解锁日期",
-            "txHash":"转入记录",
-            "inviter":"邀请人",
-            "activeTime":"激活时间",
-            "activeTxHash":"激活记录",
-            "benefitTime":"晋级时间",
-            "nodeinfo":"节点信息",
-            "taskinfo":"任务信息",
-            "activeinfo":"激活信息",
-            "nodeNo": "节点编号",
-            "partnerVote": "伙伴投票",
-            "mappingAmount": "映射数量",
-            "mappingTime": "映射时间",
-            "mappingHash": "映射记录"
+        "nodeinfo": {
+            "totalAmount": "Total amount",
+            "myVote": "My vote",
+            "unlockTime": "Unlock date",
+            "txHash": "Transfer history",
+            "inviter": "Inviter",
+            "activeTime": "Activation date",
+            "activeTxHash": "Activation history",
+            "benefitTime": "Upgrade date",
+            "nodeinfo": "Node information",
+            "taskinfo": "Task information",
+            "activeinfo": "Activation information",
+            "nodeNo": "Node number",
+            "partnerVote": "Partners votes",
+            "mappingAmount": "Token swap amount",
+            "mappingTime": "Token swap date",
+            "mappingHash": "Token swap history"
         },
-        "benefit":{
-            "noData": "暂无记录"
+        "benefit": {
+            "noData": "No records found"
         },
-        "task":{
-            "mapping":"提前换币",
-            "goto":"去完成"
+        "task": {
+            "mapping": "Swap in advance",
+            "goto": "Go to finish it",
+            "task_join": "Join the Turbo competition",
+            "explain_0": "Join the Turbo competition by finishing one of the following tasks",
+            "task_explain_0": "Stake 100,000 ITC",
+            "lock_day": "Lock up for 90 days",
+            "ben_node": "Become a turbo equity node",
+            "super_node": "Turbo forest super node incentives",
+            "node_ben": "Node operating income in later stages",
+            "vote_limit": "Vote for 600 ITC",
+            "normal_node": "Become a turbo normal node",
+            "node_ben_1": "Share the node operating income in later stages",
+            "mapping_0": "Swap 600 ITC ",
+            "mapping_1": "The mainnet ITC will be distributed one month later",
+            "mapping_2": "Become a turbo normal node"
         },
-        "invite":{
-            "desc1":"每邀请以为好友成为激活节点，获得5个ITC的邀请奖励",
-            "desc2":"成为权益节点后，自己涡轮树中每激活一个节点，获得1个ITC",
-            "desc3":"邀请好友最多的前5名，可获得额外奖励",
-            "rewardMore":"邀请好友，领取更多奖励",
-            "copyCode":"复制邀请口令",
-            "myQrcode":"我的二维码",
-            "inviteCode":"【加入ITC涡轮计划，1000万 ITC等你赢！】https://iotchain.io/wallet 点击链接，选择浏览器打开，即可下载ITC钱包，加入涡轮计划赢TOKEN；欢迎复制我的激活邀请地址%s激活成为涡轮节点，邀请奖励、随机奖励天天领不停！"
+        "invite": {
+            "desc1": "Each time when a friend is invited to become an active node, you will get 5 ITC invitation rewards. There is no limit on the number of invitees.",
+            "desc2": "After becoming an equity node, each time when a node is activated in your own turbo tree, you will win one ITC reward randomly.",
+            "desc3": "According to the number of invitees, the top 5 equity nodes can participate in the distribution of the turbo pool incentive when the turbo ends.",
+            "rewardMore": "Invite friends to get more rewards",
+            "copyCode": "Copy the invitation password",
+            "myQrcode": "My QR code",
+            "inviteCode": "[Join ITC Turbo to win 10 million ITC!] https://iotchain.io/wallet Click on the link, select the browser to open, you can download the ITC wallet and join the turbo competition to win TOKEN; Welcome to copy my activation invitation address%s. Get activated to become Turbo nodes, win the invitation rewards and random rewards everyday! "
         },
-        "qrcode":{
-            "myqrcode":"我的二维码"
+        "qrcode": {
+            "myqrcode": "My QR code"
+        },
+        "mapping": {
+            "limit": "Minimum number of swaps",
+            "condition": "You have applied to swap more than 600 ITC",
+            "other": "Choose other tasks",
+            "sure": "Join the Turbo competition",
+            "pending": "Please wait for 1-3 minutes for the transaction to complete...",
+            "txSure": "The transaction has been confirmed and the data is being synchronized....",
+            "notfound": "Transaction is pending...",
+            "task_fail": "Task activation failed, please return to the task page.",
+            "act_home": "My competition page"
+        },
+        "auth": {
+            "success": "Successfully authorized",
+            "notfound": "Transaction is pending...",
+            "no_gas": "Insufficient funds for gas",
+            "approve": "Contract authorization",
+            "address": "Wallet address",
+            "contract": "Contract address",
+            "explain": "The digital asset operations involved in this competition are executed through the Ethereum Smart Contract, which requires contract authorization before participation. ",
+            "explain_1": "After authorization, the contract will get the right to deduct the corresponding number of ITC in the account when you initiate the transaction.",
+            "allwance": "The authorization amount is",
+            "allwance_sub": "，After the amount is exceeded, it needs to be authorized again.",
+            "gas": "This authorization will consume the handling fee (ie gas fee ",
+            "gas_sub": ")，please make sure that there is enough balance in the account.",
+            "makesure": "Confirm authorization"
+        },
+        "nodeVote": {
+            "pay": "Title",
+            "super": "Super node",
+            "lock": "Lock up date",
+            "date": "Lock-up period",
+            "start": "Pay by",
+            "detail": "Details",
+            "pending": "Transaction is pending...",
+            "pending_sub": "Please wait for 1-3 minutes for the transaction to complete..",
+            "txSure": "The transaction has been confirmed and the data is being synchronized...",
+            "notfound": "Transaction is pending...",
+            "failed": "Transaction status verification failed, please try the task again ",
+            "act_home": "My competition page ",
+            "id": "Node number",
+            "from": "Pay by",
+            "limit": "Stake amount should not less than 100000ITC",
+            "no_itc": "Insufficient balance",
+            "trx_error": "There are unfinished transactions remaining, please try again later",
+            "no_gas": "Insufficient funds for gas",
+            "lock_amount": "Stake amount",
+            "node_lock": "Node stake",
+            "format_err": "Incorrect invitation address format",
+            "place": "From 100,000 ITC, increase by 1 ITC",
+            "lock_day": "90 days",
+            "identify": "Corresponding identity",
+            "super_node": "Turbo super node",
+            "pay_address": "Payment address",
+            "balance": "Balance",
+            "lock_t": "Stake",
+            "explain_0": "This operation will be performed by the Ethereum Smart Contract, please complete the contract authorization first. ",
+            "cancel": "Cancel",
+            "approve": "Authorize ",
+            "limit_1": "The number of votes is not less than 600 ITC ",
+            "ballot": "Vote",
+            "explain_1": "Detailed description",
+            "vote_amount": "Vote amount",
+            "vote_limit": "From 600 ITC, increase by 1 ITC",
+            "lock_limit": "Lock-up period",
+            "node_id": "Node number",
+            "lock_total": "Total amount",
+            "content": "Content",
+            "invite": "Invitation address",
+            "node_activity": "Node activation",
+            "invite_invalid": "Invalid binding address.",
+            "act_failed": "Failed to send activation transaction, please check the network",
+            "act_title": "Activate",
+            "normal_node": "Normal node",
+            "act_node": "Active node",
+            "invite_address": "Inviter",
+            "explain_2": "42-bit wallet address starting with 0X",
+            "explain_3": "Inviter's information cannot be changed once submitted",
+            "explain_4": "If there is no inviter, you can choose",
+            "explain_5": "the default address"
+        },
+        "wallet": {
+            "title": "Turbo competition",
+            "eth": "Choose ETH address to participate",
+            "next": "Next",
+            "itc": "Choose one ITC mainnet address to receive the reward"
+        },
+        "web": {
+            "explain_0": "Voting instructions",
+            "explain_1": "Invitation Ranking",
+            "explain_2": "Turbo pool",
+            "explain_3": "Super node"
+        },
+        "power":{
+            "title":"Turbo pool",
+            "unit":"Current incentive pool(ITC)",
+            "node":"The latest equity node",
+            "address":"Node address",
+            "time":"Upgrade date",
+            "benfit":"Expected income"
+        },
+        "extra":{
+            "explain_0":"Awards",
+            "explain_1":"Reward Progress"
         }
     }
 }

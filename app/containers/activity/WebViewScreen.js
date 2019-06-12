@@ -4,6 +4,7 @@ import { Colors } from '../../config/GlobalConfig';
 import { WhiteBgHeader } from '../../components/NavigaionHeader';
 import LayoutConstants from '../../config/LayoutConstants';
 import BaseComponent from '../base/BaseComponent';
+import { I18n } from '../../config/language/i18n';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,24 +31,24 @@ class WebViewScreen extends BaseComponent {
   render(){
 
     let { webType } = this.props.navigation.state.params;
-    switch(parseInt(webType)){
+    switch(webType){
         case 0:{
-            var title = '投票说明'
+            var title = I18n.t('activity.web.explain_0')
             var link = 'https://wallet.iotchain.io/VotePolicy.html'
             break
         }
         case 1:{
-            var title = '邀请排行榜'
+            var title = I18n.t('activity.web.explain_1')
             var link = 'https://wallet.iotchain.io/InviteRank.html'
             break
         }
         case 2:{
-          var title = '涡轮池'
+          var title = I18n.t('activity.web.explain_2')
           var link = 'https://wallet.iotchain.io/InviteRank.html'
           break
         }
         case 3:{
-          var title = '超级节点'
+          var title = I18n.t('activity.web.explain_3')
           var link = 'https://wallet.iotchain.io/SuperNodePolicy.html'
           break
         }

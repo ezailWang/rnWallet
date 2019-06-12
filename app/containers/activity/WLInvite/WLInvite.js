@@ -10,6 +10,18 @@ import { showToast } from '../../../utils/Toast';
 import { connect } from 'react-redux';
 
 class WLInvite extends BaseComponent {
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._isMounted=true
+  }
+  componentWillUnmount(){
+    super.componentWillUnmount()
+
+    this.setState({
+      finish:true
+    })
+  }
   render() {
     const { navigation } = this.props;
     const descArr = [
@@ -29,7 +41,7 @@ class WLInvite extends BaseComponent {
         <TouchableOpacity style={styles.button} onPress={() => {
           let copyContent = I18n.t('activity.invite.inviteCode').replace("%s",this.props.activityEthAddress)
           Clipboard.setString(copyContent);
-          showToast(I18n.t('toast.copied'));
+          this._showAlert(I18n.t('toast.copied'))
         }}>
           <Text style={{ color: 'white' }}>{I18n.t('activity.invite.copyCode')}</Text>
         </TouchableOpacity>

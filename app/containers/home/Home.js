@@ -458,6 +458,9 @@ class HomeScreen extends BaseComponent {
       this.props.wallet.type === 'eth'
         ? require('../../assets/home/hp_bg_eth.png')
         : require('../../assets/home/hp_bg.png');
+
+    const bannerImage = I18n.locale === 'zh' ? require('../../assets/home/banner.png') : require('../../assets/home/banner_en.png')
+
     return (
       <View style={styles.container}>
         <StatusBarComponent barStyle={this.state.statusbarStyle} />
@@ -601,7 +604,7 @@ class HomeScreen extends BaseComponent {
               QRCodeIcon={require('../../assets/home/hp_qrc.png')}
               isHaveAddTokenBtn={this.props.wallet.type === 'eth'}
               addAssetsIcon={require('../../assets/home/plus_icon.png')}
-              bannerImage={require('../../assets/home/banner.png')}
+              bannerImage={bannerImage}
             />
           }
         />
