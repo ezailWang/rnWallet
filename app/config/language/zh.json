@@ -615,7 +615,8 @@
         },
         "extra":{
             "explain_0":"本轮奖励",
-            "explain_1":"奖励触发进度"
+            "explain_1":"奖励触发进度",
+            "invite_friend":"邀请好友"
         }
     }
 }

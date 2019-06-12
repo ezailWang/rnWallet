@@ -18,12 +18,9 @@ class WLInvite extends BaseComponent {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
-
-    this.setState({
-      finish:true
-    })
   }
-  render() {
+  
+  renderComponent = ()=>{
     const { navigation } = this.props;
     const descArr = [
       I18n.t('activity.invite.desc1'),
@@ -33,7 +30,7 @@ class WLInvite extends BaseComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text="邀请好友" />
+        <NavHeader navigation={navigation} color="white" text={I18n.t("activity.extra.invite_friend")} />
         <ScrollView
           style={styles.scrollView}
           showsHorizontalScrollIndicator={false}
@@ -47,6 +44,7 @@ class WLInvite extends BaseComponent {
         <TouchableOpacity style={styles.button} onPress={() => {
           let copyContent = I18n.t('activity.invite.inviteCode').replace("%s",this.props.activityEthAddress)
           Clipboard.setString(copyContent);
+          // showToast(I18n.t('toast.copied'))
           this._showAlert(I18n.t('toast.copied'))
         }}>
           <Text style={{ color: 'white' }}>{I18n.t('activity.invite.copyCode')}</Text>

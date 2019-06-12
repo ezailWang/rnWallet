@@ -120,7 +120,7 @@ class WLVote extends BaseComponent {
   didTapDetailExplainBtn = ()=>{
 
     this.props.navigation.navigate('WebViewScreen',{
-      webType:1
+      webType:0
     })
   }
 

@@ -150,11 +150,16 @@ class WLNodeActivate extends BaseComponent {
 
     let {newInviteAddress, originalInviteAddress} = this.state
     let {activityEthAddress} = this.props
+
+    this._showLoading()
+
     if(NetworkManager.isValidAddress(newInviteAddress) == false){
 
       showToast(I18n.t('activity.nodeVote.format_err'))
       return
     }
+
+    this._hideLoading()
 
     this.showPayView()
   }
@@ -201,22 +206,65 @@ class WLNodeActivate extends BaseComponent {
   }
 
 
-  didTapSurePasswordBtn = (password)=>{
+didTapSurePasswordBtn = (password)=>{
+
+    let {newInviteAddress, originalInviteAddress} = this.state
+    let {activityEthAddress} = this.props
+
 
     this.setState({
       showActivityTrxView:false,
     },async ()=>{
 
-      if (password === '' || password === undefined) {
-        showToast(I18n.t('toast.enter_password'));
-      } else {
-        this.timeIntervalCount = 0;
-        this.timeInterval = setInterval(() => {
-          this.timeIntervalCount = this.timeIntervalCount + 1;
-          this.changeLoading(this.timeIntervalCount, password);
-        }, 500);
+      try{
+
+        //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
+        if(originalInviteAddress.length == 0){
+
+          // this._showLoading()
+
+          let result = await NetworkManager.bindActivityInviteAddress({
+            inviter:newInviteAddress,
+            invitee:activityEthAddress
+          })
+
+          // this._hideLoading()
+
+          if(result.code == 200){
+            //更新状态
+            this.setState({
+              originalInviteAddress:newInviteAddress
+            },()=>{
+              this.showParesePrivateView(password)    
+            })
+          }
+          else{
+            this._showAlert(I18n.t('activity.nodeVote.act_failed'))
+          }
+        }
+        else{
+          this.showParesePrivateView(password)
+        }
+      }
+      catch(err){
+
+        this._hideLoading()
       }
     })
+}
+
+showParesePrivateView = (password)=>{
+
+
+    if (password === '' || password === undefined) {
+      showToast(I18n.t('toast.enter_password'));
+    } else {
+      this.timeIntervalCount = 0;
+      this.timeInterval = setInterval(() => {
+        this.timeIntervalCount = this.timeIntervalCount + 1;
+        this.changeLoading(this.timeIntervalCount, password);
+      }, 500);
+    }
 }
 
 _onBackPressed = ()=>{
@@ -246,7 +294,6 @@ changeLoading(num, password) {
 
 async handleTrx(password) {
   
-  let {newInviteAddress, originalInviteAddress} = this.state
   let {activityEthAddress} = this.props
 
   try {
@@ -258,23 +305,10 @@ async handleTrx(password) {
     }
     else{
       // console.log('开始发送交易'+privateKey+this.state.trxData)
-      NetworkManager.sendETHTrx(privateKey,this.state.trxData,async hash=>{
+      NetworkManager.sendETHTrx(privateKey,this.state.trxData, hash=>{
         this.hideStaticLoading(); // 关闭Loading
         console.log('txHash'+hash)
         if(hash){
-
-          try{
-            //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
-            if(originalInviteAddress.length == 0){
-              await NetworkManager.bindActivityInviteAddress({
-                inviter:newInviteAddress,
-                invitee:activityEthAddress
-              })
-            }
-          }
-          catch(err){
-
-          }
 
           const {activeAddress, estimateGas} = this.props
 

@@ -95,7 +95,7 @@ class WLHome extends BaseComponent {
       //一秒
       left = left - 1000
 
-      console.log('开始倒计时')
+      // console.log('开始倒计时')
 
       this.setState({
         trueTimeLeft:leftFormat,
@@ -131,9 +131,6 @@ class WLHome extends BaseComponent {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <NavHeader navigation={navigation} color="transparent" />
-        <ScrollView
-          scrollEnabled={true}
-        >
           <ImageBackground
             resizeMode="cover"
             source={require('./images/home_banner.png')}
@@ -141,6 +138,10 @@ class WLHome extends BaseComponent {
           >
             <Image source={titleImage} style={{ width: '100%' }} />
           </ImageBackground>
+          <ScrollView
+            scrollEnabled={true}
+            style={{marginTop:185,position:'absolute'}}
+          >
           <View style={styles.infoContainer}>
             <Tag text={I18n.t('activity.common.roundFormat').replace("%s",sequence)} color="#46b6fe" />
             <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
@@ -224,7 +225,7 @@ const styles = {
     shadowRadius: 3,
     shadowOpacity: 0.5,
     alignItems: 'center',
-    marginTop: -35,
+    marginTop: 0,
     padding: 20,
   },
 

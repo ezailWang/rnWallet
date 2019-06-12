@@ -58,6 +58,6 @@ const styles = {
     // backgroundColor: 'transparent',
   },
   button: {
-    width: 60,
+    width: 100,
   },
 };

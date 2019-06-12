@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'white',
     textAlign: 'center',
-    marginTop:20
+    marginTop:20,
+    height:40,
   },
   unitTxt: {
     fontSize: 14,
@@ -181,9 +182,6 @@ const BaseScript =`
             }
           }
         }
-
-       
-
         setTimeout(changeHeight, 300);
     } ())
 `
@@ -290,12 +288,6 @@ class MappingRecordDetailScreen extends BaseComponent {
 
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={styles.scrollView}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-        >
           <ImageBackground style={styles.headerBox} source={headerBg}>
             <View style={styles.headerTitleBox}>
               <TouchableOpacity
@@ -320,6 +312,12 @@ class MappingRecordDetailScreen extends BaseComponent {
               <View style={styles.whiteView} />
             </View>
           </ImageBackground>
+          <ScrollView
+            style={styles.scrollView}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+          >
           <View style={[styles.contentBox]}>
             <View style={[styles.infoView]}>
               <View style={[styles.infoContent]}>
@@ -348,8 +346,8 @@ class MappingRecordDetailScreen extends BaseComponent {
             onNavigationStateChange={(state)=>{
                 console.log('stateChanged'+JSON.stringify(state,null,2))
             }}
-        />
-        </ScrollView>
+            />
+            </ScrollView>
       </View>
     );
   };
