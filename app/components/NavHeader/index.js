@@ -34,7 +34,7 @@ export default ({ text, color, rightText, navigation ,rightAction, leftAction}) 
       </TouchableOpacity>
       <Text style={{ color: 'black', fontSize: 16 }}>{text}</Text>
       <TouchableOpacity style={styles.button} onPress={rightAction}>
-        <Text style={{ color: '#05b3eb' }}>{rightText}</Text>
+        <Text style={{ color: '#05b3eb',textAlign:'right' }}>{rightText}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -58,6 +58,7 @@ const styles = {
     // backgroundColor: 'transparent',
   },
   button: {
-    width: 100,
+    width: 80,
+    textAlign:"right"
   },
 };

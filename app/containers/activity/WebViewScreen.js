@@ -34,22 +34,22 @@ class WebViewScreen extends BaseComponent {
     switch(webType){
         case 0:{
             var title = I18n.t('activity.web.explain_0')
-            var link = 'https://wallet.iotchain.io/VotePolicy.html'
+            var link = I18n.locale === 'zh' ? 'https://wallet.iotchain.io/VotePolicy.html' : 'https://wallet.iotchain.io/VotePolicy_en.html'
             break
         }
         case 1:{
             var title = I18n.t('activity.web.explain_1')
-            var link = 'https://wallet.iotchain.io/InviteRank.html'
+            var link = I18n.locale === 'zh' ?'https://wallet.iotchain.io/InviteRank.html' :'https://wallet.iotchain.io/InviteRank_en.html'  
             break
         }
         case 2:{
           var title = I18n.t('activity.web.explain_2')
-          var link = 'https://wallet.iotchain.io/InviteRank.html'
+          var link = I18n.locale === 'zh' ? 'https://wallet.iotchain.io/InviteRank.html':'https://wallet.iotchain.io/InviteRank_en.html'
           break
         }
         case 3:{
           var title = I18n.t('activity.web.explain_3')
-          var link = 'https://wallet.iotchain.io/SuperNodePolicy.html'
+          var link = I18n.locale === 'zh' ? 'https://wallet.iotchain.io/SuperNodePolicy.html':'https://wallet.iotchain.io/SuperNodePolicy_en.html'
           break
         }
         default:
