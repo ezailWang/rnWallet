@@ -55,6 +55,7 @@ class NodeSummary extends BaseComponent {
 
     let {navigation, selAvtivityContainerKey} = this.props
     navigation.goBack(selAvtivityContainerKey)
+    return true
   }
   
   componentWillMount() {

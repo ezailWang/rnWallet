@@ -61,6 +61,8 @@ class WLTask extends BaseComponent {
 
     let {navigation, selAvtivityContainerKey} = this.props
     navigation.goBack(selAvtivityContainerKey)
+
+    return true
   }
 
 
