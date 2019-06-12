@@ -157,6 +157,8 @@ const styles = StyleSheet.create({
   }
 });
 
+// let animationTimer = 0
+
 class NodeTrxPending extends BaseComponent {
   constructor(props) {
     super(props);
@@ -271,6 +273,22 @@ class NodeTrxPending extends BaseComponent {
 
     }, 5 * 1000);
     })
+
+
+    // animationTimer = setInterval(() => {
+      
+    //   if(this.state.tranStatus == "1" || this.state.tranStatus == "0"){
+        
+    //     clearInterval(animationTimer)
+    //   }
+    //   else{
+        
+    //     let newState = ((parseInt(this.state.tranStatus) - 2 + 1)%3) + 2 .toString() 
+    //     this.setState({
+    //       tranStatus: newState
+    //     }) 
+    //   }
+    // }, 500);
   }
 
   _hideAlert = ()=>{
@@ -346,9 +364,15 @@ class NodeTrxPending extends BaseComponent {
     else if (tranStatus == 0) {
       statusIcon = require('../../../assets/transfer/trans_fail.png');
     }
-    else {
-      statusIcon = require('../../../assets/transfer/trans_ing.png');
+    else if (tranStatus == 2) {
+      statusIcon = require('../../../assets/transfer/trx_penging_2.png');
     }
+    // else if (tranStatus == 3) {
+    //   statusIcon = require('../../../assets/transfer/trx_penging_1.png');
+    // }
+    // else if (tranStatus == 4) {
+    //   statusIcon = require('../../../assets/transfer/trx_penging_2.png');
+    // }
 
     return (
         <ImageBackground
@@ -432,7 +456,7 @@ class NodeTrxPending extends BaseComponent {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  <View style={{flexDirection:'row',marginTop:20,marginBottom:10,justifyContent:'center'}}>
+                  <View style={{flexDirection:'row',marginTop:20,marginBottom:-20,justifyContent:'center'}}>
                   {
                     tranStatus == '2' ? (
                       <GreyButtonMidele onPress={() => this.didTapHomeBtn()}

@@ -318,7 +318,7 @@ hideStaticLoading() {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <NavHeader navigation={navigation} color="white" text={I18n.t('activity.nodeVote.node_lock')} rightText={I18n.t('activity.nodeVote.detail')} rightAction={()=>{this.didTapDetailExplainBtn()}}/>
+        <NavHeader navigation={navigation} color="white" text={I18n.t('activity.nodeVote.node_lock')} rightText={I18n.t('activity.nodeVote.explain_1')} rightAction={()=>{this.didTapDetailExplainBtn()}}/>
         <View style={styles.editor}>
           <Text style={styles.title}>{I18n.t('activity.nodeVote.lock_amount')}</Text>
           <View style={{flexDirection:'row'}}>

@@ -8,6 +8,7 @@ import LayoutConstants from '../../../config/LayoutConstants';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
+import { I18n } from '../../../config/language/i18n';
 
 const { height } = Dimensions.get('window');
 export default class WLNode extends BaseComponent {
@@ -81,8 +82,8 @@ export default class WLNode extends BaseComponent {
         <StatusBar barStyle="light-content" />
         <NavHeader navigation={navigation} color="transparent" />
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>选择节点</Text>
-          <Text style={styles.headerSubTitle}>选择一个节点，使用ITC进行投票</Text>
+          <Text style={styles.headerTitle}>{I18n.t('activity.nodeVote.choose_node')}</Text>
+          <Text style={styles.headerSubTitle}>{I18n.t('activity.nodeVote.choose_detail')}</Text>
         </View>
         <View style={styles.nodeList}>
           <ScrollView>

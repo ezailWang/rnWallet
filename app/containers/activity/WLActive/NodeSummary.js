@@ -133,11 +133,11 @@ class NodeSummary extends BaseComponent {
           {
             type=='benefit' || type=='active'?
             <BenefitInfo 
-              total={totalReward} 
+              total={totalReward == 0 ? '--' : totalReward} 
               forest={type=='active'?'--':bonusReward} 
               cycle={type=='active'?'--':I18n.t('activity.common.roundFormat').replace("%s",activeRound)} 
-              invite={inviteReward} 
-              source={treeReward}
+              invite={inviteReward == 0 ? '--' : inviteReward} 
+              source={treeReward == 0 ? '--' : treeReward}
               onPress={() => {
                 navigation.navigate("WLBenefit")
               }} />
@@ -154,7 +154,7 @@ class NodeSummary extends BaseComponent {
               </View>
               <View style={styles.divider} />
               <View style={styles.childNodeSummary}>
-                <Text style={{color:'#9f9f9f',textAlign:'center'}}>子节点数量</Text>
+                <Text style={{color:'#9f9f9f',textAlign:'center'}}>{I18n.t('activity.nodeSummary.totalSubNodeNum')}</Text>
                 <Text style={{color:'#4EAAED',fontSize:20,textAlign:'center'}}>{totalSubNodeNum}</Text>
                 <Image source={require("./images/zt5.png")} style={{ marginVertical: 15 }} />
               </View>

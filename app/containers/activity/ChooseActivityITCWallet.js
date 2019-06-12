@@ -302,8 +302,7 @@ class Footer extends PureComponent {
           <TouchableOpacity activeOpacity={0.6} style={styles.footerTouch} onPress={onFooterItem}>
             <Image style={styles.footerImg} source={img} resizeMode="center" />
           </TouchableOpacity>
-          <Text style={styles.footerTxt}>{I18n.t('modal.create_import_itc_wallet_first')}</Text>
-          {/* <Text style={styles.footerTxt}>{I18n.t('mapping.import_erc_wallet')}</Text> */}
+          <Text style={styles.footerTxt}>{I18n.t('activity.wallet.import_itc')}</Text>
         </View>
       );
     }

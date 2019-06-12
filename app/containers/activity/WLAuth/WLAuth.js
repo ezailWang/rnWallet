@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image,StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image,StatusBar, ScrollView} from 'react-native';
 import AddressItem from './components/AddressItem';
 import DescItem from './components/DescItem';
 import NavHeader from '../../../components/NavHeader';
@@ -44,7 +44,7 @@ const styles = {
     fontWeight: '600',
   },
   button: {
-    position: 'absolute',
+    // position: 'absolute',
     bottom: 20,
     width: '90%',
     borderRadius: 5,
@@ -268,6 +268,11 @@ class WLAuth extends BaseComponent {
             address={contractInfo.nodeBallot.address}
           />
         </View>
+        <ScrollView 
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          flex={1}
+        >
         <View style={styles.desc}>
           <DescItem
             text={
@@ -301,7 +306,7 @@ class WLAuth extends BaseComponent {
           />
         </View>
 
-        <TouchableOpacity onPress={this.didTapApproveBtn} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
+        <TouchableOpacity onPress={this.didTapApproveBtn} style={[styles.button,{ backgroundColor: '#01a1f1' }]}>
           <Text style={{ color: 'white' }}>{I18n.t('activity.auth.makesure')}</Text>
         </TouchableOpacity>
         <StaticLoading visible={this.state.isShowSLoading} content={this.state.sLoadingContent} />
@@ -316,6 +321,7 @@ class WLAuth extends BaseComponent {
           rightBtnDisabled={this.state.pwdRightBtnDisabled}
           onChangeText={this.pwdOnChangeText}
         />
+        </ScrollView>
       </View>
     );
   }

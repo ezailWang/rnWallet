@@ -40,15 +40,14 @@ class WLHome extends BaseComponent {
 
   didTapActivityButton = async ()=>{
 
-
-    // this.props.navigation.navigate('NodeTrxPending',{
-    //   amount:10000, 
-    //   fromAddress:'0x123123213123',
-    //   toAddress:'0x45611134235',
-    //   gasPrice:'0.11435123',
-    //   txHash:'0xee42da7874a38d0ebf57a6e2642981aacb0af841084fc412b2df3b5ed4d8cca4'
-    // })
-    // return 
+    this.props.navigation.navigate('NodeTrxPending',{
+      amount:10000, 
+      fromAddress:'0x123123213123',
+      toAddress:'0x45611134235',
+      gasPrice:'0.11435123',
+      txHash:'0xee42da7874a38d0ebf57a6e2642981aacb0af841084fc412b2df3b5ed4d8cca4'
+    })
+    return 
 
     this._showLoading()
     let result = await NetworkManager.queryKeyAddressInfo()

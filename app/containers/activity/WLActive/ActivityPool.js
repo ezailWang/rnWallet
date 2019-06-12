@@ -370,12 +370,8 @@ class ItemView extends PureComponent {
 class TitleView extends PureComponent {
   render() {
     const { isCompleted, content } = this.props;
-    const titleIcon = isCompleted
-      ? require('../../../assets/mapping/doneIcon.png')
-      : require('../../../assets/mapping/ingIcon.png');
     return (
       <View style={styles.titleView}>
-        <Image style={styles.titleIcon} resizeMode="center" source={titleIcon} />
         <Text style={styles.titleTxt}>{content}</Text>
       </View>
     );

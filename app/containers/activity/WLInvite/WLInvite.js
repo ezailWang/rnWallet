@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StatusBar,Clipboard } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar,Clipboard,ScrollView } from 'react-native';
 import DescView from '../../../components/DescView';
 import TextLink from '../../../components/TextLink';
 import NavHeader from '../../../components/NavHeader';
@@ -8,6 +8,7 @@ import BaseComponent from '../../base/BaseComponent';
 import { I18n } from '../../../config/language/i18n';
 import { showToast } from '../../../utils/Toast';
 import { connect } from 'react-redux';
+import LayoutConstants from '../../../config/LayoutConstants';
 
 class WLInvite extends BaseComponent {
 
@@ -33,6 +34,11 @@ class WLInvite extends BaseComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <NavHeader navigation={navigation} color="white" text="邀请好友" />
+        <ScrollView
+          style={styles.scrollView}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
         <View style={styles.imgContainer}>
           <Image source={require('./images/img.png')} style={styles.banner} resizeMode='contain'/>
         </View>
@@ -45,9 +51,10 @@ class WLInvite extends BaseComponent {
         }}>
           <Text style={{ color: 'white' }}>{I18n.t('activity.invite.copyCode')}</Text>
         </TouchableOpacity>
-        <TextLink color="#01a1f1" text={I18n.t('activity.invite.myQrcode')} onPress={() => {
+        <TextLink style={{marginBottom:20}} color="#01a1f1" text={I18n.t('activity.invite.myQrcode')} onPress={() => {
           navigation.navigate("MyQrcode")
         }}/>
+        </ScrollView>
       </View>
     );
   }
@@ -83,6 +90,10 @@ const styles = {
     color: '#4792F6',
     marginVertical: 30,
     alignSelf: 'center',
+  },
+  scrollView:{
+    flex:1,
+    width:LayoutConstants.WINDOW_WIDTH
   },
   button: {
     width: 250,

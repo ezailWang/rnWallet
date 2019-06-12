@@ -508,7 +508,7 @@ class MappingTxPending extends BaseComponent {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  <View style={{flexDirection:'row',marginTop:20,marginBottom:10,justifyContent:'center'}}>
+                  <View style={{flexDirection:'row',marginTop:20,marginBottom:-20,justifyContent:'center'}}>
                   {
                     tranStatus == '2' ? (
                       <GreyButtonMidele onPress={() => this.didTapHomeBtn()}

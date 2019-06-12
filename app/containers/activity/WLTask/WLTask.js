@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { showToast } from '../../../utils/Toast';
 import NetworkManager from '../../../utils/NetworkManager';
 import { I18n } from '../../../config/language/i18n';
+import LayoutConstants from '../../../config/LayoutConstants';
 
 class WLTask extends BaseComponent {
   constructor(props) {
@@ -236,16 +237,18 @@ const styles = {
     shadowRadius: 8,
     shadowOpacity: 0.5,
     flex: 1,
+      // width:LayoutConstants.WINDOW_WIDTH,
+      // height:LayoutConstants.WINDOW_WIDTH*1.32
   },
   taskHeader: {
     padding: 15,
     // height: 216,
-    flex: 6,
+    flex: 5,
     justifyContent: 'center',
   },
   taskDesc: {
     width: '100%',
-    flex: 4,
+    flex: 5,
     // height: 144,
     justifyContent: 'center',
     paddingVertical: 10,

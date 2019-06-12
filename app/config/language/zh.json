@@ -588,13 +588,16 @@
             "explain_2": "0x开头的42位钱包地址",
             "explain_3": "邀请人信息，提交后不可修改",
             "explain_4": "若无人邀请，可选择",
-            "explain_5": "填写默认地址"
+            "explain_5": "填写默认地址",
+            "choose_node":"选择节点",
+            "choose_detail":"选择一个节点，使用ITC进行投票"
         },
         "wallet": {
             "title": "涡轮计划",
             "eth": "选择参与活动的ETH地址",
             "next": "下一步",
-            "itc": "选择接收奖励的ITC主网钱包地址"
+            "itc": "选择接收奖励的ITC主网钱包地址",
+            "import_itc":"导入一个ITC钱包"
         },
         "web": {
             "explain_0": "投票说明",
