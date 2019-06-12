@@ -220,7 +220,8 @@ class WLNodeActivate extends BaseComponent {
 }
 
 _onBackPressed = ()=>{
-  console.log('重写安卓返回事件')
+  this.props.navigation.goBack();
+  return true
 }
 
 changeLoading(num, password) {

@@ -505,7 +505,7 @@
             "rewardMore": "Invite friends to get more rewards",
             "copyCode": "Copy the invitation password",
             "myQrcode": "My QR code",
-            "inviteCode": "[Join ITC Turbo to win 10 million ITC!] https://iotchain.io/wallet Click on the link, select the browser to open, you can download the ITC wallet and join the turbo competition to win TOKEN; Welcome to copy my activation invitation address%s. Get activated to become Turbo nodes, win the invitation rewards and random rewards everyday! "
+            "inviteCode": "[Join ITC Turbo to win 10 million ITC!] https://iotchain.io/wallet Click on the link, download the ITC wallet and join the turbo competition! My activation invitation address[%s]. Get activated to become Turbo nodes, win the invitation rewards and random rewards everyday!"
         },
         "qrcode": {
             "myqrcode": "My QR code"
