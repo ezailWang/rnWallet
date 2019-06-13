@@ -345,7 +345,8 @@ class NodeTrxPending extends BaseComponent {
       .catch(err => console.log('An error occurred', detailUrl, ' err:', err));
   };
 
-  copyUrl() {
+  copyUrl = ()=>{
+
     Clipboard.setString(this.state.transactionHash);
     showToast(I18n.t('toast.copied'));
   }

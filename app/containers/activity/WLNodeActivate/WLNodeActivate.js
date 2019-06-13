@@ -221,26 +221,30 @@ didTapSurePasswordBtn = (password)=>{
         //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
         if(originalInviteAddress.length == 0){
 
-          // this._showLoading()
+          this._showLoading()
 
-          let result = await NetworkManager.bindActivityInviteAddress({
-            inviter:newInviteAddress,
-            invitee:activityEthAddress
-          })
-
-          // this._hideLoading()
-
-          if(result.code == 200){
-            //更新状态
-            this.setState({
-              originalInviteAddress:newInviteAddress
-            },()=>{
-              this.showParesePrivateView(password)    
+          setTimeout(async () => {
+          
+            let result = await NetworkManager.bindActivityInviteAddress({
+              inviter:newInviteAddress,
+              invitee:activityEthAddress
             })
-          }
-          else{
-            this._showAlert(I18n.t('activity.nodeVote.act_failed'))
-          }
+  
+            this._hideLoading()
+  
+            if(result.code == 200){
+              //更新状态
+              this.setState({
+                originalInviteAddress:newInviteAddress
+              },()=>{
+                this.showParesePrivateView(password)    
+              })
+            }
+            else{
+              this._showAlert(I18n.t('activity.nodeVote.act_failed'))
+            }
+
+          }, 2 * 100);
         }
         else{
           this.showParesePrivateView(password)
