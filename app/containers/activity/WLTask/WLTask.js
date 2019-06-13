@@ -22,6 +22,10 @@ class WLTask extends BaseComponent {
 
   selectTask = async ()=>{
 
+    this._showAlert('活动尚未开始')
+
+    return;
+
     let {activeIndex} = this.state
 
     if(activeIndex == 1){
