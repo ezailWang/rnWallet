@@ -58,6 +58,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   checkBtn: {
+    width: 30,
+    height: 30,
     flexDirection: 'row',
     // justifyContent: 'center',
     // width: 200,
@@ -359,18 +361,19 @@ export default class MappingTermsScreen extends BaseComponent {
                   }
                   resizeMode="center"
                 />
-                <Text style={[styles.checkText, { color: 'black' }]}>
+                {/* <Text style={[styles.checkText, { color: 'black' }]}>
                   {I18n.t('mapping.read_and_agreed')}
-                </Text>
+                </Text> */}
               </TouchableOpacity>
               <TouchableOpacity
-                // style={{ marginLeft: 10 }}
+                style={{ flexDirection: 'row' }}
                 onPress={() => {
                   const { _this } = this.props;
                   _this.props.navigation.navigate('MappingServiceAgreement');
                   StorageManage.save(StorageKey.MappingServiceAgreement, true);
                 }}
               >
+                {/* <Text style={styles.checkText}>{I18n.t('mapping.read_and_agreed')}</Text> */}
                 <Text style={styles.checkText}>{I18n.t('mapping.service_agreement')}</Text>
               </TouchableOpacity>
             </View>

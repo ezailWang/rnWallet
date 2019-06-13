@@ -31,7 +31,7 @@ const contentWidth = Layout.WINDOW_WIDTH * 0.9;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: 'white',
   },
   keyboardAwareScrollView: {
     flex: 1,
@@ -392,7 +392,7 @@ class ItcMappingServiceScreen extends BaseComponent {
       isDisabled: true,
       convertItcWallet: {},
       suggestGasPrice: 0,
-      defaultInputAmount: '',
+      // defaultInputAmount: '',
 
       isShowMappingDetail: false,
     };
@@ -471,12 +471,9 @@ class ItcMappingServiceScreen extends BaseComponent {
 
   onAmountChangeText = text => {
     this.inputAmount = text;
-    if (this.inputAmount !== '') {
-      this.setState({
-        isDisabled: false,
-        defaultInputAmount: text,
-      });
-    }
+    this.setState({
+      isDisabled: this.inputAmount === '',
+    });
   };
 
   modalCancelBtn = () => {
@@ -503,7 +500,6 @@ class ItcMappingServiceScreen extends BaseComponent {
       {
         isDisabled: true,
         isShowMappingDetail: false,
-        defaultInputAmount: '',
       },
       async () => {
         const priKey = await this.getPriKey(password);
@@ -591,16 +587,6 @@ class ItcMappingServiceScreen extends BaseComponent {
             modalCancelBtn={this.modalCancelBtn}
             modalConfirmBtn={this.modalConfirmBtn}
           />
-          <View
-            style={{
-              backgroundColor: 'white',
-              position: 'absolute',
-              top: Layout.WINDOW_HEIGHT * 0.3,
-              left: 0,
-              right: 0,
-              height: Layout.WINDOW_HEIGHT * 0.7,
-            }}
-          />
           <ImageBackground style={styles.topImg} source={topImg} resizeMode="center">
             {/* <TouchableOpacity
               activeOpacity={0.6}
@@ -640,7 +626,7 @@ class ItcMappingServiceScreen extends BaseComponent {
               }}
               placeholderTextColor={Colors.fontGrayColor_a0}
               placeholder=""
-              value={this.state.defaultInputAmount}
+              // value={this.state.defaultInputAmount}
               underlineColorAndroid="transparent"
               selectionColor="#00bfff"
               multiline={false}
