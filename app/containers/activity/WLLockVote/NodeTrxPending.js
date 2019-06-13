@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   }
 });
 
-// let animationTimer = 0
+let animationTimer = 0
 
 class NodeTrxPending extends BaseComponent {
   constructor(props) {
@@ -248,6 +248,8 @@ class NodeTrxPending extends BaseComponent {
       nextBtnTitle:nextBtnTitle
     })
 
+
+
     //5秒后查询服务器
     setTimeout(async () => {
       
@@ -271,24 +273,34 @@ class NodeTrxPending extends BaseComponent {
         })
       }
 
-    }, 5 * 1000);
+    }, 10 * 1000);
     })
 
 
-    // animationTimer = setInterval(() => {
+    this.iconStatus = 0 
+
+    animationTimer = setInterval(() => {
       
-    //   if(this.state.tranStatus == "1" || this.state.tranStatus == "0"){
+      if(this.state.tranStatus == "1" || this.state.tranStatus == "0"){
         
-    //     clearInterval(animationTimer)
-    //   }
-    //   else{
-        
-    //     let newState = ((parseInt(this.state.tranStatus) - 2 + 1)%3) + 2 .toString() 
-    //     this.setState({
-    //       tranStatus: newState
-    //     }) 
-    //   }
-    // }, 500);
+        clearInterval(animationTimer)
+      }
+      else{
+
+        this.iconStatus  = (this.iconStatus + 1)%4
+
+        console.log(this.iconStatus)
+
+        let arr = ["2","3","4","5"]
+
+        requestAnimationFrame(()=>{
+          this.setState({
+            tranStatus: arr[this.iconStatus]
+          })
+        });
+
+      }
+    }, 500);
   }
 
   _hideAlert = ()=>{
@@ -367,14 +379,17 @@ class NodeTrxPending extends BaseComponent {
       statusIcon = require('../../../assets/transfer/trans_fail.png');
     }
     else if (tranStatus == 2) {
+      statusIcon = require('../../../assets/transfer/trx_penging_0.png');
+    }
+    else if (tranStatus == 3) {
+      statusIcon = require('../../../assets/transfer/trx_penging_1.png');
+    }
+    else if (tranStatus == 4) {
       statusIcon = require('../../../assets/transfer/trx_penging_2.png');
     }
-    // else if (tranStatus == 3) {
-    //   statusIcon = require('../../../assets/transfer/trx_penging_1.png');
-    // }
-    // else if (tranStatus == 4) {
-    //   statusIcon = require('../../../assets/transfer/trx_penging_2.png');
-    // }
+    else if (tranStatus == 5) {
+      statusIcon = require('../../../assets/transfer/trx_penging_3.png');
+    }
 
     return (
         <ImageBackground
@@ -412,7 +427,6 @@ class NodeTrxPending extends BaseComponent {
                     </Text>
                   </View>
                   <Text style={[styles.fontBlack, styles.marginTop2]}>{gasPrice}</Text>
-
                   <View style={styles.bottomBox}>
                     <View style={styles.infoLeftBox}>
                       <Text style={[styles.fontGray]}>
@@ -460,21 +474,21 @@ class NodeTrxPending extends BaseComponent {
                   </View>
                   <View style={{flexDirection:'row',marginTop:20,marginBottom:-20,justifyContent:'center'}}>
                   {
-                    tranStatus == '2' ? (
-                      <GreyButtonMidele onPress={() => this.didTapHomeBtn()}
-                        text={nextBtnTitle}
-                      >
-                      </GreyButtonMidele>
-                    ):(
+                    tranStatus == 1 ? (
                       <BlueButtonMiddle  onPress={() => this.didTapHomeBtn()}
                         text={I18n.t('activity.nodeVote.act_home')}  
                       >
                       </BlueButtonMiddle>
+                    ):(
+                      <GreyButtonMidele onPress={() => this.didTapHomeBtn()}
+                        text={nextBtnTitle}
+                      >
+                      </GreyButtonMidele>
                     )
                   }
                   </View>
                 </View>
-                <Image style={styles.statusIcon} source={statusIcon} resizeMode="contain" />
+                <Image ref="trxStatuIcon" style={styles.statusIcon} source={statusIcon} resizeMode="contain" />
               </View>
             </View>
           </View>
