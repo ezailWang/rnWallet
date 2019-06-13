@@ -5,7 +5,7 @@ const swftHost = 'https://transfer.swft.pro/';
 // const swftHost = 'https://test.swftcoin.com/';
 // const itcHost = 'http://192.168.50.83:7777/'
 
-const activityHost = "http://47.75.16.97:9998/"
+const activityHost = "https://activity.iotchain.io"
 // const activityHost = "http://192.168.1.4:9998/"
 
 const NetAddr = {

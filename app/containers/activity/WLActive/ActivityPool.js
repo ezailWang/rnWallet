@@ -286,6 +286,8 @@ class MappingRecordDetailScreen extends BaseComponent {
 
     let {address,benefitTime,estimateReward,poolReward} = this.state
 
+    let desUrl = I18n.locale == 'zh' ? "https://wallet.iotchain.io/PlanPoolDetail.html" : "https://wallet.iotchain.io/PlanPoolDetail_en.html"
+
     return (
       <View style={styles.container}>
           <ImageBackground style={styles.headerBox} source={headerBg}>
@@ -332,7 +334,7 @@ class MappingRecordDetailScreen extends BaseComponent {
           </View>
           <WebView
             injectedJavaScript={BaseScript}
-            source={{uri:"https://wallet.iotchain.io/PlanPoolDetail.html"}}
+            source={{uri:desUrl}}
             style={{width:Layout.WINDOW_WIDTH,height: this.state.height}}
             bounces={false}
             scrollEnabled={false}
