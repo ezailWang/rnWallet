@@ -644,7 +644,7 @@ const nodeBallotAbi = [
 //rinkeby网络
 const contractInfo = {
   nodeBallot:{
-    address:'0x91739F0FaF9738f77dDc39D6DdaDE9Ca7A48bC41'
+    address:'0x2f1e071c782706e330aeb051c35853fd5a874056',
   }
 }
 
