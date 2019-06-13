@@ -162,6 +162,7 @@ export default class MappingGuideScreen extends BaseComponent {
   }
 
   startBtn() {
+
     this.props.navigation.navigate('BindWalletAddress');
   }
 

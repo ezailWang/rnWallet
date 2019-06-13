@@ -445,6 +445,7 @@ class ItcMappingServiceScreen extends BaseComponent {
   };
 
   confirmBtn = () => {
+
     this.INPUT.blur();
     const { convertEthWallet, gasCost } = this.state;
     if (convertEthWallet.itcBalance < parseFloat(this.inputAmount)) {

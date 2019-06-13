@@ -269,6 +269,12 @@ export default class MappingTermsScreen extends BaseComponent {
   }
 
   startBtn = () => {
+
+
+    this._showAlert("映射未开始")
+    return;
+
+    
     const { itcWalletList } = store.getState().Core;
     if (!itcWalletList || itcWalletList.length <= 0) {
       this.setState({
@@ -297,6 +303,18 @@ export default class MappingTermsScreen extends BaseComponent {
       _this.props.navigation.navigate(toPage);
     });
   };
+
+
+  componentWillMount(){
+    super.componentWillMount()
+
+    this._isMounted = true
+  }
+
+  componentWillUnmount(){
+    super.componentWillUnmount()
+
+  }
 
   renderComponent = () => (
     /* const checkIcon = this.state.isAgree
