@@ -325,7 +325,7 @@
 
         "not_modified_wallet_name":"You did not change the wallet name.",
         "copied_keystore":"Keystore copied",
-        "copied":"Paste the code to your friends now.",
+        "copied":"Paste the content to your friends now.",
 
         "enter_valid_transfer_address":"Please enter a valid transfer address.",
         "email_format_incorrect":"Incorrect email format",

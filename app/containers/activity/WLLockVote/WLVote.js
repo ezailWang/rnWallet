@@ -130,6 +130,9 @@ class WLVote extends BaseComponent {
   }
 
   didTapVoteBtn = async ()=>{
+    
+    this._showAlert('活动尚未开始')
+    return;
 
     let voteValue = Number(this.state.value)
 

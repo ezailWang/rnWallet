@@ -23,6 +23,7 @@ import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
 import { async } from 'rxjs/internal/scheduler/async';
 import { I18n } from '../../../config/language/i18n';
+import LayoutConstants from '../../../config/LayoutConstants';
 
 
 let countdownTimer
@@ -140,7 +141,7 @@ class WLHome extends BaseComponent {
           </ImageBackground>
           <ScrollView
             scrollEnabled={true}
-            style={{marginTop:185,position:'absolute'}}
+            style={{marginTop:185,position:'absolute',height:LayoutConstants.WINDOW_HEIGHT - 185}}
           >
           <View style={styles.infoContainer}>
             <Tag text={I18n.t('activity.common.roundFormat').replace("%s",sequence)} color="#46b6fe" />

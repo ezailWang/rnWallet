@@ -465,7 +465,7 @@ class ITCActivityMapping extends BaseComponent {
     this._hideLoading();
 
     //测试网络
-    didMappingValue = didMappingValue - 88888
+    // didMappingValue = didMappingValue - 888888
 
     this.setState({
       gasCost:gasUsed,
@@ -487,6 +487,10 @@ class ITCActivityMapping extends BaseComponent {
   };
 
   confirmBtn = async () => {
+
+    this._showAlert('活动尚未开始')
+    return;
+
     this.INPUT.blur();
 
     const {activityEthAddress, activityItcAddress} = this.props

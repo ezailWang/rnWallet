@@ -191,6 +191,8 @@ const styles = StyleSheet.create({
   },
 });
 
+let animationTimer = 0
+
 class MappingTxPending extends BaseComponent {
   constructor(props) {
     super(props);
@@ -208,7 +210,7 @@ class MappingTxPending extends BaseComponent {
       qrCodeValue:'',
       nodeData:{},
       isShowPrompt:false,
-      nextBtnTitle:'交易上链中...'
+      nextBtnTitle:I18n.t('activity.nodeVote.pending')
     };
     this._setStatusBarStyleLight();
   }
@@ -326,6 +328,31 @@ class MappingTxPending extends BaseComponent {
 
     }, 5 * 1000);
     })
+
+    this.iconStatus = 0 
+
+    animationTimer = setInterval(() => {
+      
+      if(this.state.tranStatus == "1" || this.state.tranStatus == "0"){
+        
+        clearInterval(animationTimer)
+      }
+      else{
+
+        this.iconStatus  = (this.iconStatus + 1)%4
+
+        console.log(this.iconStatus)
+
+        let arr = ["2","3","4","5"]
+
+        requestAnimationFrame(()=>{
+          this.setState({
+            tranStatus: arr[this.iconStatus]
+          })
+        });
+
+      }
+    }, 500);
   }
 
   _hideAlert = ()=>{
@@ -383,6 +410,7 @@ class MappingTxPending extends BaseComponent {
 
     tranStatus = parseInt(tranStatus)
 
+    
     let statusIcon;
     if (tranStatus == 1) {
       statusIcon = require('../../../assets/transfer/trans_ok.png');
@@ -390,8 +418,17 @@ class MappingTxPending extends BaseComponent {
     else if (tranStatus == 0) {
       statusIcon = require('../../../assets/transfer/trans_fail.png');
     }
-    else {
-      statusIcon = require('../../../assets/transfer/trans_ing.png');
+    else if (tranStatus == 2) {
+      statusIcon = require('../../../assets/transfer/trx_penging_0.png');
+    }
+    else if (tranStatus == 3) {
+      statusIcon = require('../../../assets/transfer/trx_penging_1.png');
+    }
+    else if (tranStatus == 4) {
+      statusIcon = require('../../../assets/transfer/trx_penging_2.png');
+    }
+    else if (tranStatus == 5) {
+      statusIcon = require('../../../assets/transfer/trx_penging_3.png');
     }
 
     return (
@@ -510,16 +547,16 @@ class MappingTxPending extends BaseComponent {
                   </View>
                   <View style={{flexDirection:'row',marginTop:20,marginBottom:-20,justifyContent:'center'}}>
                   {
-                    tranStatus == '2' ? (
+                    tranStatus == 1 ? (
+                      <BlueButtonMiddle  onPress={() => this.didTapHomeBtn()}
+                        text={I18n.t('activity.nodeVote.act_home')}  
+                      >
+                      </BlueButtonMiddle>
+                    ):(
                       <GreyButtonMidele onPress={() => this.didTapHomeBtn()}
                         text={nextBtnTitle}
                       >
                       </GreyButtonMidele>
-                    ):(
-                      <BlueButtonMiddle  onPress={() => this.didTapHomeBtn()}
-                        text={I18n.t('activity.mapping.act_home')}  
-                      >
-                      </BlueButtonMiddle>
                     )
                   }
                   </View>

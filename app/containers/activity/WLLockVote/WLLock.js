@@ -51,6 +51,10 @@ class WLLock extends BaseComponent {
 
   didTapLockBtn = async ()=>{
 
+
+    this._showAlert('活动尚未开始')
+    return;
+
     try{
 
       let nodeLockValue = Number(this.state.value)

@@ -597,7 +597,7 @@
             "eth": "选择参与活动的ETH地址",
             "next": "下一步",
             "itc": "选择接收奖励的ITC主网钱包地址",
-            "import_itc":"导入一个ITC钱包"
+            "import_itc":"导入ITC钱包"
         },
         "web": {
             "explain_0": "投票说明",
