@@ -59,7 +59,23 @@ class WLNodeInfo extends BaseComponent {
         { label: I18n.t('activity.nodeinfo.myVote'), value: task.myVote+' ITC' },
         { label: I18n.t('activity.nodeinfo.partnerVote'), value: task.partnerVote+' ITC' },
         { label: I18n.t('activity.nodeinfo.unlockTime'), value: task.unlockTime },
-        { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' } },
+        { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' },onPress: () => {
+              
+          let detailUrl;
+          if (this.props.network === Network.rinkeby) {
+            detailUrl = `https://rinkeby.etherscan.io/tx/${task.txHash}`;
+          } else if (this.props.network === Network.main) {
+            detailUrl = `https://etherscan.io/tx/${task.txHash}`;
+          }
+          Linking.canOpenURL(detailUrl)
+            .then(supported => {
+              if (!supported) {
+                return null;
+              }
+              return Linking.openURL(detailUrl);
+            })
+            .catch(err => console.log('An error occurred', detailUrl, ' err:', err));
+        } },
       ];
     }else if(task.taskType==='vote'){
       taskInfos = [
@@ -67,7 +83,23 @@ class WLNodeInfo extends BaseComponent {
         { label: I18n.t('activity.nodeinfo.totalAmount'), value: task.totalAmount+' ITC' },
         { label: I18n.t('activity.nodeinfo.myVote'), value: task.myVote+' ITC' },
         { label: I18n.t('activity.nodeinfo.unlockTime'), value: task.unlockTime },
-        { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' } },
+        { label: I18n.t('activity.nodeinfo.txHash'), value: task.txHash, valueStyle: { color: '#50A6E5' },onPress: () => {
+              
+          let detailUrl;
+          if (this.props.network === Network.rinkeby) {
+            detailUrl = `https://rinkeby.etherscan.io/tx/${task.txHash}`;
+          } else if (this.props.network === Network.main) {
+            detailUrl = `https://etherscan.io/tx/${task.txHash}`;
+          }
+          Linking.canOpenURL(detailUrl)
+            .then(supported => {
+              if (!supported) {
+                return null;
+              }
+              return Linking.openURL(detailUrl);
+            })
+            .catch(err => console.log('An error occurred', detailUrl, ' err:', err));
+        } },
       ];
     }else if(task.taskType==='mapping'){
       taskInfos = [

@@ -155,11 +155,10 @@ class WLNodeActivate extends BaseComponent {
 
     if(NetworkManager.isValidAddress(newInviteAddress) == false){
 
+      this._hideLoading()
       showToast(I18n.t('activity.nodeVote.format_err'))
       return
     }
-
-    this._hideLoading()
 
     this.showPayView()
   }
@@ -177,32 +176,41 @@ class WLNodeActivate extends BaseComponent {
 
     let transferValue = 15
 
-    let trxData = NetworkManager.generalSendERC20TokenTrxData(defaultTokens[1].address,activeAddress,transferValue)
+    try{
+      let trxData = NetworkManager.generalSendERC20TokenTrxData(defaultTokens[1].address,activeAddress,transferValue)
       
-    NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
-     
-      let addressBalance = await NetworkManager.getEthBalance(activityEthAddress)
-
-      this._hideLoading()
-
-      if(addressBalance<res.gasUsed){
-
-        showToast(I18n.t('activity.nodeVote.no_gas'))
-        return
-      }
-      
-      let detailGas = `Gas(${res.gas})*Gas Price(${parseInt(res.gasPrice)/Math.pow(10,9)} gwei) `
-
-      this.setState({
-        trxData:res.trx,
-        estimateGas:res.gasUsed.toFixed(6),
-        showActivityTrxView:true,
-        inputAmount:transferValue,
-        payAddress:activityEthAddress,
-        totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
-        detailGas:detailGas
+      NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
+       
+        let addressBalance = await NetworkManager.getEthBalance(activityEthAddress)
+  
+        this._hideLoading()
+  
+        if(addressBalance<res.gasUsed){
+  
+          showToast(I18n.t('activity.nodeVote.no_gas'))
+          return
+        }
+        
+        let detailGas = `Gas(${res.gas})*Gas Price(${parseInt(res.gasPrice)/Math.pow(10,9)} gwei) `
+  
+        this.setState({
+          trxData:res.trx,
+          estimateGas:res.gasUsed.toFixed(6),
+          showActivityTrxView:true,
+          inputAmount:transferValue,
+          payAddress:activityEthAddress,
+          totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
+          detailGas:detailGas
+        })
       })
-    })
+    }
+    catch(err){
+      showToast(err.toString())
+      this._hideLoading()
+    }
+
+   
+  
   }
 
 

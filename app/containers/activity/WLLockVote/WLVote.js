@@ -218,7 +218,14 @@ class WLVote extends BaseComponent {
 
     this._showLoading()
 
-    let trxData = NetworkManager.generalVoteTrxData(contractInfo.nodeBallot.address,address,voteValue)
+    try{
+      var trxData = NetworkManager.generalVoteTrxData(contractInfo.nodeBallot.address,address,voteValue)
+    }
+    catch(err){
+      this._hideLoading()
+      showToast(err.toString())
+      return
+    }
       
     NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
      
