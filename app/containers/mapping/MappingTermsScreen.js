@@ -269,11 +269,6 @@ export default class MappingTermsScreen extends BaseComponent {
   }
 
   startBtn = () => {
-
-
-    this._showAlert("映射未开始")
-    return;
-
     
     const { itcWalletList } = store.getState().Core;
     if (!itcWalletList || itcWalletList.length <= 0) {

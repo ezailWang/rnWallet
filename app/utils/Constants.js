@@ -68,21 +68,21 @@ const defaultTokens = [
     decimal: 18,
     address: '0x0000000000000000000000000000000000000000',
   },
-//   {
-//     address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940', // 主网
-//     decimal: 18,
-//     id: uuid.v4(),
-//     name: 'IOT on Chain',
-//     symbol: 'ITC',
-//   },
-  // test net rinkeby ERC20Token
   {
-    address: '0x4a706a43139f011ca65781feb508f74222976176', // 测试网
-    id: uuid.v4(),
-    symbol: 'ITC',
-    name: 'IoT Chain',
+    address: '0x5e6b6d9abad9093fdc861ea1600eba1b355cd940', // 主网
     decimal: 18,
+    id: uuid.v4(),
+    name: 'IOT on Chain',
+    symbol: 'ITC',
   },
+  // test net rinkeby ERC20Token
+//   {
+//     address: '0x4a706a43139f011ca65781feb508f74222976176', // 测试网
+//     id: uuid.v4(),
+//     symbol: 'ITC',
+//     name: 'IoT Chain',
+//     decimal: 18,
+//   },
 ];
 
 const erc20Abi = [

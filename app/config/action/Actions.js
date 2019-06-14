@@ -203,6 +203,12 @@ function setActivityItcAddress(address){
   };
 }
 
+function setActivityStatus(status){
+  return {
+    type: types.ACTIVITY_RUNING_STATUS,
+    status,
+  };
+}
 
 
 export {
@@ -233,5 +239,6 @@ export {
   setActivityEthAddress,
   setSelectActivityContainerKey,
   setKeyContractAddress,
-  setActivityItcAddress
+  setActivityItcAddress,
+  setActivityStatus
 };

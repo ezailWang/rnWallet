@@ -198,11 +198,11 @@ class WLAuth extends BaseComponent {
     this._showLoading()
 
     try {
-      const {activityEthAddress} = this.props;
+      const {activityEthAddress, voteContractAddress} = this.props;
       
       const {voteValue} = this.props.navigation.state.params
 
-      let trxData = NetworkManager.generalApproveTrxData(defaultTokens[1].address,contractInfo.nodeBallot.address,voteValue)
+      let trxData = NetworkManager.generalApproveTrxData(defaultTokens[1].address,voteContractAddress,voteValue)
       
       NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(res=>{
         this.setState({
@@ -211,6 +211,9 @@ class WLAuth extends BaseComponent {
         })
 
         this._hideLoading()
+      }).catch(err=>{
+        this._hideLoading();  
+        this._showAlert(err.toString())
       })
 
     } catch (e) {
@@ -247,7 +250,7 @@ class WLAuth extends BaseComponent {
 
   renderComponent = () => {
     
-    const { navigation, activityEthAddress} = this.props;
+    const { navigation, activityEthAddress, voteContractAddress} = this.props;
     const {estimateGas, resultContent, showResultModalVisible} = this.state
     const {voteValue} = this.props.navigation.state.params
   
@@ -265,7 +268,7 @@ class WLAuth extends BaseComponent {
           <AddressItem
             icon={<Image source={require('./images/heyue.png')} />}
             title={I18n.t('activity.auth.contract')}
-            address={contractInfo.nodeBallot.address}
+            address={voteContractAddress}
           />
         </View>
         <ScrollView 
@@ -328,7 +331,8 @@ class WLAuth extends BaseComponent {
 }
 
 const mapStateToProps = state => ({
-  activityEthAddress : state.Core.activityEthAddress
+  activityEthAddress : state.Core.activityEthAddress,
+  voteContractAddress : state.Core.voteContractAddress
 });
 export default connect(
   mapStateToProps,

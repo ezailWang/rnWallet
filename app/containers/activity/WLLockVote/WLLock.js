@@ -46,14 +46,21 @@ class WLLock extends BaseComponent {
   
   _onBackPressed = ()=>{
     console.log('重写安卓返回事件')
-    return true;
+    if(this.state.isShowVoteTrx){
+      return true;
+    }
+    else{
+      return super._onBackPressed()
+    }
   }
 
   didTapLockBtn = async ()=>{
 
+    if(this.props.gameStart ==  false){
 
-    this._showAlert('活动尚未开始')
-    return;
+      this._showAlert('活动未开始')
+      return;
+    }
 
     try{
 
@@ -69,7 +76,7 @@ class WLLock extends BaseComponent {
       else{
   
         try{
-          let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+          let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,this.props.voteContractAddress)
 
           // console.log('合约授权额度为->'+allowance)
   
@@ -116,13 +123,14 @@ class WLLock extends BaseComponent {
         console.log('一些刷新操作')
 
         this._showLoading()
-        let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+        let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,this.props.voteContractAddress)
         //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
         this.setState({
           allowance:allowance
         })
         this._hideLoading()
 
+        this._showAlert("合约授权完成，请继续点击质押成为超级节点。")
       }
     })
   }
@@ -151,11 +159,11 @@ class WLLock extends BaseComponent {
   showPayView = async ()=>{
 
     let nodeLockValue = parseFloat(this.state.value)
-    let {activityEthAddress} = this.props    
+    let {activityEthAddress, voteContractAddress} = this.props    
 
     this._showLoading()
 
-    let trxData = NetworkManager.generalSuperNodeLockTrxData(contractInfo.nodeBallot.address,nodeLockValue)
+    let trxData = NetworkManager.generalSuperNodeLockTrxData(voteContractAddress,nodeLockValue)
       
     NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData).then(async res=>{
      
@@ -231,7 +239,7 @@ changeLoading(num, password) {
 
 async handleTrx(password) {
   
-  let {activityEthAddress} = this.props
+  let {activityEthAddress, voteContractAddress} = this.props
 
   try {
     var privateKey = await KeystoreUtils.getPrivateKey(password, activityEthAddress, 'eth');
@@ -251,7 +259,7 @@ async handleTrx(password) {
         this.props.navigation.navigate('NodeTrxPending',{
           amount:nodeLockValue, 
           fromAddress:activityEthAddress,
-          toAddress:contractInfo.nodeBallot.address,
+          toAddress:voteContractAddress,
           gasPrice:this.state.estimateGas,
           txHash:hash
         })
@@ -281,7 +289,7 @@ hideStaticLoading() {
   }
 
   componentDidMount(){
-    let {activityEthAddress, ethWalletList} = this.props
+    let {activityEthAddress, ethWalletList, voteContractAddress} = this.props
 
     ethWalletList.map((wallet,id)=>{
       if(wallet.address == activityEthAddress){
@@ -291,13 +299,16 @@ hideStaticLoading() {
       }
     })
 
-    NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address).then(allowance=>{
+
+    this._showLoading()
+
+    NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,voteContractAddress).then(allowance=>{
       this.setState({
         allowance:allowance
       })
+    }).catch(err=>{
+      this._hideLoading() 
     })
-
-    // console.warn(this.state.currentWallet)
 
     //获取余额
     NetworkManager.getEthERC20Balance(
@@ -305,11 +316,17 @@ hideStaticLoading() {
       defaultTokens[1].address,
       defaultTokens[1].decimal
     ).then(balance=>{
+      
       this.setState({
         itcErc20Balance:balance
+      },()=>{
+        this._hideLoading()
       })
+
     }).catch(err=>{
 
+      this._hideLoading()
+      this._showAlert(I18n.t("toast.net_request_err"))
     })
   }
 
@@ -392,7 +409,9 @@ hideStaticLoading() {
 
 const mapStateToProps = state => ({
   ethWalletList: state.Core.ethWalletList,
-  activityEthAddress : state.Core.activityEthAddress
+  activityEthAddress : state.Core.activityEthAddress,
+  voteContractAddress : state.Core.voteContractAddress,
+  gameStart:state.Core.gameStart
 });
 export default connect(
   mapStateToProps,

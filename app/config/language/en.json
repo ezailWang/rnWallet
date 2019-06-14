@@ -539,8 +539,8 @@
         "nodeVote": {
             "pay": "Title",
             "super": "Super node",
-            "lock": "Lock up date",
-            "date": "Lock-up period",
+            "lock": "Lock-up period",
+            "date": "Lock up date",
             "start": "Pay by",
             "detail": " Description ",
             "pending": "Transaction is pending...",

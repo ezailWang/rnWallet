@@ -77,6 +77,7 @@ const styles = {
   payInfoSubTitle: {
     fontSize: 12,
     color: '#acafb0',
+    line:1
   },
   button: {
     width: '100%',
@@ -124,15 +125,23 @@ class WLVote extends BaseComponent {
     })
   }
 
+  
   _onBackPressed = ()=>{
     console.log('重写安卓返回事件')
-    return true
+    if(this.state.isShowVoteTrx){
+      return true;
+    }
+    else{
+      return super._onBackPressed()
+    }
   }
 
   didTapVoteBtn = async ()=>{
     
-    this._showAlert('活动尚未开始')
-    return;
+    if(this.props.gameStart ==  false){
+      this._showAlert('活动未开始')
+      return;
+    }
 
     let voteValue = Number(this.state.value)
 
@@ -146,7 +155,7 @@ class WLVote extends BaseComponent {
     }
     else{
 
-      let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+      let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,this.props.voteContractAddress)
       //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
       if(allowance < voteValue){
   
@@ -180,13 +189,14 @@ class WLVote extends BaseComponent {
         console.log('一些刷新操作')
 
         this._showLoading()
-        let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address)
+        let allowance = await NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,this.props.voteContractAddress)
         //判断授权额度，如果不够则跳转至合约授权界面，否则弹出界面
         this.setState({
           allowance:allowance
         })
         this._hideLoading()
 
+        this._showAlert("合约授权完成，请继续点击投票成为节点伙伴。")
       }
     })
   }
@@ -217,12 +227,12 @@ class WLVote extends BaseComponent {
     let { nodeInfo } = this.props.navigation.state.params;
     let address = nodeInfo.address
     let voteValue = parseFloat(this.state.value)
-    let {activityEthAddress} = this.props    
+    let {activityEthAddress, voteContractAddress} = this.props    
 
     this._showLoading()
 
     try{
-      var trxData = NetworkManager.generalVoteTrxData(contractInfo.nodeBallot.address,address,voteValue)
+      var trxData = NetworkManager.generalVoteTrxData(voteContractAddress,address,voteValue)
     }
     catch(err){
       this._hideLoading()
@@ -305,7 +315,7 @@ changeLoading(num, password) {
 
 async handleTrx(password) {
   
-  let {activityEthAddress} = this.props
+  let {activityEthAddress, voteContractAddress} = this.props
 
   try {
     var privateKey = await KeystoreUtils.getPrivateKey(password, activityEthAddress, 'eth');
@@ -324,7 +334,7 @@ async handleTrx(password) {
         this.props.navigation.navigate('NodeTrxPending',{
           amount:voteValue, 
           fromAddress:activityEthAddress,
-          toAddress:contractInfo.nodeBallot.address,
+          toAddress:voteContractAddress,
           gasPrice:this.state.estimateGas,
           txHash:hash
         })
@@ -354,7 +364,7 @@ hideStaticLoading() {
   }
 
   componentDidMount(){
-    let {activityEthAddress, ethWalletList} = this.props
+    let {activityEthAddress, ethWalletList, voteContractAddress} = this.props
 
     ethWalletList.map((wallet,id)=>{
       if(wallet.address == activityEthAddress){
@@ -364,7 +374,7 @@ hideStaticLoading() {
       }
     })
 
-    NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,contractInfo.nodeBallot.address).then(allowance=>{
+    NetworkManager.getAllowance(defaultTokens[1].address,this.props.activityEthAddress,voteContractAddress).then(allowance=>{
       this.setState({
         allowance:allowance
       })
@@ -372,15 +382,20 @@ hideStaticLoading() {
 
     // console.warn(this.state.currentWallet)
 
+    this._showLoading()
     //获取余额
     NetworkManager.getEthERC20Balance(
       activityEthAddress,
       defaultTokens[1].address,
       defaultTokens[1].decimal
     ).then(balance=>{
+
       this.setState({
         itcErc20Balance:balance
+      },()=>{
+        this._hideLoading()
       })
+
     }).catch(err=>{
 
     })
@@ -393,7 +408,7 @@ hideStaticLoading() {
     let { nodeInfo } = this.props.navigation.state.params;
     let {rank,amount} = nodeInfo
 
-    let address = activityEthAddress.substr(0,12)+'...'+activityEthAddress.substr(activityEthAddress.length - 12 ,12)
+    // let address = activityEthAddress.substr(0,12)+'...'+activityEthAddress.substr(activityEthAddress.length - 12 ,12)
 
     return (
       <View style={styles.container}>
@@ -436,7 +451,7 @@ hideStaticLoading() {
           <View style={styles.payInfo}>
             <View style={{flex:6,marginRight:20}}>
               <Text style={styles.payInfoTitle}>{currentWallet.name}</Text>
-              <Text style={styles.payInfoSubTitle}>{address}</Text>
+              <Text style={styles.payInfoSubTitle} ellipsizeMode="middle" numberOfLines={1}>{activityEthAddress}</Text>
             </View>
             <View style={{flex:4}}>
               <Text style={[styles.payInfoTitle,{alignSelf: 'flex-end'}]}>{itcErc20Balance + ' ITC'}</Text>
@@ -476,7 +491,9 @@ hideStaticLoading() {
 
 const mapStateToProps = state => ({
   ethWalletList: state.Core.ethWalletList,
-  activityEthAddress : state.Core.activityEthAddress
+  activityEthAddress : state.Core.activityEthAddress,
+  voteContractAddress : state.Core.voteContractAddress,
+  gameStart:state.Core.gameStart
 });
 export default connect(
   mapStateToProps,

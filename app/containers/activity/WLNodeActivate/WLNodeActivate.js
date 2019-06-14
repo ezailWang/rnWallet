@@ -202,11 +202,14 @@ class WLNodeActivate extends BaseComponent {
           totalGasUsed:res.gasUsed.toFixed(6)+' ETH',
           detailGas:detailGas
         })
+      }).catch(err=>{
+        this._hideLoading()
+        showToast(err.toString())
       })
     }
     catch(err){
-      showToast(err.toString())
       this._hideLoading()
+      showToast(err.toString())
     }
 
    
@@ -279,9 +282,15 @@ showParesePrivateView = (password)=>{
     }
 }
 
+
 _onBackPressed = ()=>{
-  this.props.navigation.goBack();
-  return true
+  console.log('重写安卓返回事件')
+  if(this.state.showActivityTrxView){
+    return true;
+  }
+  else{
+    return super._onBackPressed()
+  }
 }
 
 changeLoading(num, password) {
@@ -311,14 +320,15 @@ async handleTrx(password) {
   try {
     var privateKey = await KeystoreUtils.getPrivateKey(password, activityEthAddress, 'eth');
     console.log('privateKey'+privateKey)
+    this.hideStaticLoading(); // 关闭Loading
+
     if (privateKey == null) {
-      this.hideStaticLoading(); // 关闭Loading
       showToast(I18n.t('modal.password_error'));
     }
     else{
       // console.log('开始发送交易'+privateKey+this.state.trxData)
       NetworkManager.sendETHTrx(privateKey,this.state.trxData, hash=>{
-        this.hideStaticLoading(); // 关闭Loading
+        
         console.log('txHash'+hash)
         if(hash){
 
@@ -345,7 +355,6 @@ async handleTrx(password) {
   }
   catch(err){
     showToast(err);
-    this.hideStaticLoading(); // 关闭Loading
   }
 }
 

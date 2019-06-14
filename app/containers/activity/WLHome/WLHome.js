@@ -86,7 +86,12 @@ class WLHome extends BaseComponent {
 
     //数据
     let { info } = this.props.navigation.state.params;
-    let {timeLeft} = info
+    let {timeLeft, gameOver, gameStart} = info
+
+    this.props.setActivityStatus({
+      gameOver,
+      gameStart
+    })
 
     let countdown = ()=>{
       
@@ -118,9 +123,10 @@ class WLHome extends BaseComponent {
     let { info } = this.props.navigation.state.params;
     let {activeNum, benefitNum, bonusReward, normalNum, paidReward, poolReward, poolRewardTarget, sequence, totalPoolReward, vipNum} = info
 
+    let {gameOver} = this.props
+
     let {trueTimeLeft} = this.state
 
-    // let series = [1, 2, 3, 4];
     let series = [activeNum, benefitNum, vipNum,normalNum];
     const sliceColor = ['#0597fb', '#ffa235', '#fff100', '#7be1ff'];
 
@@ -128,6 +134,13 @@ class WLHome extends BaseComponent {
 
     const { navigation } = this.props;
     const chartWidth = 100;
+
+    let roundTitle = gameOver ? '已发放' : I18n.t('activity.common.roundFormat').replace("%s",sequence)
+
+    let leftTimeString = gameOver ?'已结束': trueTimeLeft
+
+    let paidRewardValue = Number(parseFloat(paidReward).toFixed(2))
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -144,12 +157,18 @@ class WLHome extends BaseComponent {
             style={{marginTop:185,position:'absolute',height:LayoutConstants.WINDOW_HEIGHT - 185}}
           >
           <View style={styles.infoContainer}>
-            <Tag text={I18n.t('activity.common.roundFormat').replace("%s",sequence)} color="#46b6fe" />
-            <Bonus bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
-            <DetailItem title={I18n.t('activity.home.deadline')} text={trueTimeLeft} />
-            <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '0' : totalPoolReward+' ITC'} />
-            <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '0' : paidReward+' ITC'} />
-
+            <Tag text={roundTitle} color="#46b6fe" />
+            {
+              gameOver?
+              <Bonus gameOver={gameOver} bonus={isNaN(paidRewardValue) ? '--' : paidRewardValue} total={100} current={100} color="#46b6fe" style={{ marginVertical: 10 }} />:
+              <Bonus gameOver={gameOver} bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
+            }
+            <DetailItem title={I18n.t('activity.home.deadline')} text={leftTimeString} />
+            <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '--' : totalPoolReward+' ITC'} />
+            {
+              gameOver?null:
+              <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '--' : (isNaN(paidRewardValue) ? '--' : paidRewardValue) +' ITC'} />
+            }
             <View style={styles.divider} />
 
             <View style={styles.chartContainer}>
@@ -185,6 +204,7 @@ class WLHome extends BaseComponent {
           <TouchableOpacity onPress={this.didTapActivityButton} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
             <Text style={{ color: 'white' }}>{I18n.t('activity.home.myActivity')}</Text>
           </TouchableOpacity>
+          
         </ScrollView>
       </View>
     );
@@ -194,9 +214,12 @@ class WLHome extends BaseComponent {
 
 const mapStateToProps = state => ({
   myLanguage: state.Core.myLanguage,
+  gameOver:state.Core.gameOver,
+  gameStart:state.Core.gameStart
 });
 const mapDispatchToProps = dispatch => ({
   setKeyContractAddress: params => dispatch(Actions.setKeyContractAddress(params)),
+  setActivityStatus:params=>dispatch(Actions.setActivityStatus(params)),
 });
 export default connect(
   mapStateToProps,

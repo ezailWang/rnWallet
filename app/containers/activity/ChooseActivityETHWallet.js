@@ -168,8 +168,15 @@ class ChooseActivityETHWallet extends BaseComponent {
       //3，用户如果完成了某个活动，则进入活动界面
       if(result.data == null || result.data.itc.length == 0){
 
-        this._hideLoading();
-        this.props.navigation.navigate('ChooseActivityITCWallet');
+        if(this.props.gameOver){
+          this._hideLoading();
+          
+          this._showAlert("活动已结束")
+        }
+        else{
+          this._hideLoading();
+          this.props.navigation.navigate('ChooseActivityITCWallet');
+        }
       }
       else{
         //设置活动的ITC地址
@@ -364,6 +371,7 @@ class Item extends PureComponent {
 
 const mapStateToProps = state => ({
   ethWalletList: state.Core.ethWalletList,
+  gameOver:state.Core.gameOver
 });
 const mapDispatchToProps = dispatch => ({
     setCreateWalletParams: params => dispatch(Actions.setCreateWalletParams(params)),

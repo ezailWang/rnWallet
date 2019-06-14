@@ -28,7 +28,8 @@ import {
   ACTIVITY_ADDRESS,
   SELECT_AVTIVITY_CONTAINER_KEY,
   KEY_CONTRACT_ADDRESS,
-  ACTIVITY_ITC_ADDRESS
+  ACTIVITY_ITC_ADDRESS,
+  ACTIVITY_RUNING_STATUS
 } from '../action/ActionType';
 import StorageManage from '../../utils/StorageManage';
 import { StorageKey, Network } from '../GlobalConfig';
@@ -237,6 +238,13 @@ function coreReducer(state = defaultState, action) {
         ...state,
         activityItcAddress: action.address,
       };
+    }
+    case ACTIVITY_RUNING_STATUS:{
+      return {
+        ...state,
+        gameOver: action.status.gameOver,
+        gameStart: action.status.gameStart,
+      }
     }
     default:
       return state;

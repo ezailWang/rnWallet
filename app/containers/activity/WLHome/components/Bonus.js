@@ -3,16 +3,16 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { I18n } from '../../../../config/language/i18n';
 
-export default ({ bonus,total, current, color, style }) => {
+export default ({ gameOver, bonus,total, current, color, style }) => {
   const rate = (current * 100) / total;
   return (
     <View style={[styles.container, { ...style }]}>
       <Text style={[styles.title]}>
-      {I18n.t('activity.extra.explain_0')} <Text style={{ color, fontSize: 28, fontWeight: '600' }}>{bonus}</Text> ITC
+      {gameOver?"":I18n.t('activity.extra.explain_0')} <Text style={{ color, fontSize: 28, fontWeight: '600' }}>{bonus}</Text> ITC
       </Text>
       <View style={styles.progressContainer}>
         <View style={styles.progress}>
-          <View style={[styles.innerProgress, { backgroundColor: color, width: `${rate}%` }]} />
+          <View style={[styles.innerProgress, { backgroundColor: color, borderBottomRightRadius:total == current ? 4 : 0 ,borderTopRightRadius:total == current ? 4 : 0, width: `${rate}%` }]} />
         </View>
         <View style={styles.triangleContainer}>
           <View style={[styles.triangle, { borderBottomColor: color, marginLeft: `${rate}%` }]} />
@@ -20,9 +20,12 @@ export default ({ bonus,total, current, color, style }) => {
       </View>
       {/* <Progress progress={50} backgroundStyle={{backgroundColor: '#cccccc', borderRadius: 2}}
       fillStyle={{backgroundColor : 'yellow'}}/> */}
-      <Text style={styles.desc}>
-        {I18n.t('activity.extra.explain_1')}: {current}/{total} ITC
-      </Text>
+      {
+        gameOver ? null : 
+        <Text style={styles.desc}>
+          {I18n.t('activity.extra.explain_1')}: {current}/{total} ITC
+        </Text>
+      }
     </View>
   );
 };

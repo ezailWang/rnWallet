@@ -431,9 +431,15 @@ class ITCActivityMapping extends BaseComponent {
     // this.inputText = React.createRef();
   }
 
+  
   _onBackPressed = ()=>{
     console.log('重写安卓返回事件')
-    return true;
+    if(this.state.isShowMappingDetail){
+      return true;
+    }
+    else{
+      return super._onBackPressed()
+    }
   }
 
   componentWillMount() {
@@ -488,11 +494,14 @@ class ITCActivityMapping extends BaseComponent {
 
   confirmBtn = async () => {
 
-    this._showAlert('活动尚未开始')
-    return;
-
     this.INPUT.blur();
 
+    if(this.props.gameStart ==  false){
+
+      this._showAlert('活动未开始')
+      return;
+    }
+    
     const {activityEthAddress, activityItcAddress} = this.props
     const {gasCost, mappingValue, ethBalance, itcErc20Balance, destoryAddress, didMappingValue} = this.state;
 
@@ -997,7 +1006,8 @@ class ConfirmMappingModal extends PureComponent {
 
 const mapStateToProps = state => ({
   activityEthAddress : state.Core.activityEthAddress,
-  activityItcAddress : state.Core.activityItcAddress
+  activityItcAddress : state.Core.activityItcAddress,
+  gameStart:state.Core.gameStart
 });
 const mapDispatchToProps = dispatch => ({
 

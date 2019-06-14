@@ -164,9 +164,13 @@ class NodeSummary extends BaseComponent {
                   <ChildNodeItem key={item.level} no={'L'+item.level} value={item.nodeNum} total={maxNodeNum} />
                 ))}
               </View> */}
-              <Button text={I18n.t('activity.nodeSummary.inviteOthers')} onPress={() => {
-                navigation.navigate("WLInvite")
-              }}/>
+              {
+                this.props.gameOver 
+                ?<Button styles={{backgroundColor:'#D2D2D2'}}  text={'活动已结束'} />
+                :<Button text={I18n.t('activity.nodeSummary.inviteOthers')} onPress={() => {
+                  navigation.navigate("WLInvite")
+                }}/>
+              }
             </View>
             :null
           }
@@ -209,9 +213,13 @@ class NodeSummary extends BaseComponent {
               {
                 childNum>=5?<Image source={require("./images/zt5.png")} style={{ marginVertical: 15 }} />:null
               }
-              <Button text={I18n.t('activity.nodeSummary.inviteOthers')} onPress={() => {
-                navigation.navigate("WLInvite")
-              }}/>
+              {
+                this.props.gameOver 
+                ?<Button styles={{backgroundColor:'#D2D2D2'}}  text={'活动已结束'} />
+                :<Button text={I18n.t('activity.nodeSummary.inviteOthers')} onPress={() => {
+                  navigation.navigate("WLInvite")
+                 }}/>
+              }
             </View>
             :null
           }
@@ -237,7 +245,11 @@ class NodeSummary extends BaseComponent {
                   I18n.t('activity.nodeSummary.whyActive'),
                 ]}
               />
-              <Button onPress={this.didTapActivityBtn} text={I18n.t('activity.common.active')} />
+              {
+                this.props.gameOver 
+                ?<Button styles={{backgroundColor:'#D2D2D2'}}  text={'活动已结束'} />
+                :<Button onPress={this.didTapActivityBtn}  text={I18n.t('activity.common.active')} />
+              }
             </View>
             :null
           }
@@ -251,6 +263,7 @@ class NodeSummary extends BaseComponent {
 const mapStateToProps = state => ({
   activityEthAddress : state.Core.activityEthAddress,
   selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
+  gameOver:state.Core.gameOver
 });
 export default connect(
   mapStateToProps,

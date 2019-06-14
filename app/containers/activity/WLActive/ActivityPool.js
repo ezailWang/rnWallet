@@ -318,7 +318,7 @@ class MappingRecordDetailScreen extends BaseComponent {
             style={styles.scrollView}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            // bounces={false}  
+            bounces={false}  
           >
           <View style={[styles.contentBox]}>
             <View style={[styles.infoView]}>
