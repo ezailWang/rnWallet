@@ -3,6 +3,7 @@ import path from 'path-browserify';
 import keythereum from 'keythereum';
 import fastCrypto from 'react-native-fast-crypto';
 import createKeccakHash from 'keccak/js';
+import { setSelectActivityContainerKey } from '../config/action/Actions';
 
 function keccak256(buffer) {
   return createKeccakHash('keccak256')
@@ -13,6 +14,7 @@ const rootPath = RNFS.DocumentDirectoryPath;
 export default class KeystoreUtils {
   static async exportToFile(keyObject, walletType, dirName) {
     try {
+      
       dirName = dirName || 'keystore';
       const outfile = this.generateKeystoreFilename(walletType + keyObject.address);
       const json = JSON.stringify(keyObject);

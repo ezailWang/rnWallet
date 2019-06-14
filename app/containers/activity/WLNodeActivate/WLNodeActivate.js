@@ -211,9 +211,6 @@ class WLNodeActivate extends BaseComponent {
       this._hideLoading()
       showToast(err.toString())
     }
-
-   
-  
   }
 
 
@@ -247,9 +244,9 @@ didTapSurePasswordBtn = (password)=>{
               //更新状态
               this.setState({
                 originalInviteAddress:newInviteAddress
-              },()=>{
-                this.showParesePrivateView(password)    
               })
+              
+              this.showParesePrivateView(password)    
             }
             else{
               this._showAlert(I18n.t('activity.nodeVote.act_failed'))
@@ -371,6 +368,7 @@ hideStaticLoading() {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
   renderComponent = ()=>{

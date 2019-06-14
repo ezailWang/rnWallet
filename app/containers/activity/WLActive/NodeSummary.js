@@ -64,6 +64,7 @@ class NodeSummary extends BaseComponent {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
   renderComponent = () => {

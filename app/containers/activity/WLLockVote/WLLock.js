@@ -286,6 +286,7 @@ hideStaticLoading() {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
   componentDidMount(){
@@ -319,9 +320,9 @@ hideStaticLoading() {
       
       this.setState({
         itcErc20Balance:balance
-      },()=>{
-        this._hideLoading()
       })
+
+      this._hideLoading()
 
     }).catch(err=>{
 

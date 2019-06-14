@@ -150,6 +150,7 @@ class ChooseActivityITCWallet extends BaseComponent {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
   async confirmBtn() {

@@ -170,7 +170,7 @@ class ChooseActivityETHWallet extends BaseComponent {
 
         if(this.props.gameOver){
           this._hideLoading();
-          
+
           this._showAlert("活动已结束")
         }
         else{
@@ -274,6 +274,7 @@ class ChooseActivityETHWallet extends BaseComponent {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
   componentDidMount(){

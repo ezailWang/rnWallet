@@ -199,14 +199,6 @@ class MappingRecordDetailScreen extends BaseComponent {
     this._setStatusBarStyleLight();
   }
 
-  componentWillMount() {
-    this._isMounted = true;
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   goBackBtn = () => {
     this.props.navigation.goBack();
   };
@@ -255,9 +247,9 @@ class MappingRecordDetailScreen extends BaseComponent {
                 benefitTime,
                 estimateReward,
                 poolReward
-            },()=>{
-                this._hideLoading()
             })
+            this._hideLoading()
+
         }
     }
     catch(err){
@@ -274,6 +266,7 @@ class MappingRecordDetailScreen extends BaseComponent {
 
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
 

@@ -457,16 +457,23 @@ class ITCActivityMapping extends BaseComponent {
 
     this._showLoading();
 
-    let trxData = await NetworkManager.generalSendERC20TokenTrxData(defaultTokens[1].address,activityItcAddress,1)
-    let estimateGas = await NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData)
-    let {gasUsed, gasPrice} = estimateGas
+    try{
+      var trxData = await NetworkManager.generalSendERC20TokenTrxData(defaultTokens[1].address,activityItcAddress,1)
+      var estimateGas = await NetworkManager.getTransactionEstimateGas(activityEthAddress,trxData)
+      var {gasUsed, gasPrice} = estimateGas
+  
+      var ethBalance = await NetworkManager.getEthBalance(activityEthAddress)
+  
+      var itcErc20Balance = await NetworkManager.getEthERC20Balance(activityEthAddress,defaultTokens[1].address,defaultTokens[1].decimal)
+  
+      var didMappingValue = await NetworkManager.getEthERC20Balance(destoryAddress,defaultTokens[1].address,defaultTokens[1].decimal)
+      
+    }
+    catch(err){
 
+      console.log('查询错误')
+    }
 
-    let ethBalance = await NetworkManager.getEthBalance(activityEthAddress)
-
-    let itcErc20Balance = await NetworkManager.getEthERC20Balance(activityEthAddress,defaultTokens[1].address,defaultTokens[1].decimal)
-
-    let didMappingValue = await NetworkManager.getEthERC20Balance(destoryAddress,defaultTokens[1].address,defaultTokens[1].decimal)
     
     this._hideLoading();
 
@@ -656,9 +663,10 @@ handleTrx = async (password) => {
     this.setState({
       showActivityModalVisible:false
     },()=>{
-      this.props.navigation.goBack();
+      
     })
 
+    this.props.navigation.goBack();
   }
 
   didTapModalRightPress = ()=>{

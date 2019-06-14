@@ -9,6 +9,7 @@ import {
   Linking,
   ImageBackground,
   ScrollView,
+  Platform
 } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import Layout from '../../../config/LayoutConstants';
@@ -276,11 +277,14 @@ class NodeTrxPending extends BaseComponent {
     }, 10 * 1000);
     })
 
+    if(Platform.OS == 'android'){
+      return
+    }
 
     this.iconStatus = 0 
 
     animationTimer = setInterval(() => {
-      
+
       if(this.state.tranStatus == "1" || this.state.tranStatus == "0"){
         
         clearInterval(animationTimer)
@@ -379,7 +383,13 @@ class NodeTrxPending extends BaseComponent {
       statusIcon = require('../../../assets/transfer/trans_fail.png');
     }
     else if (tranStatus == 2) {
-      statusIcon = require('../../../assets/transfer/trx_penging_0.png');
+
+      if(Platform.OS == 'android'){
+        statusIcon = require('../../../assets/transfer/trx_penging_2.png');
+      }
+      else{
+        statusIcon = require('../../../assets/transfer/trx_penging_0.png');
+      }
     }
     else if (tranStatus == 3) {
       statusIcon = require('../../../assets/transfer/trx_penging_1.png');

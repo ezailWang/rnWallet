@@ -45,6 +45,7 @@ class WLNodeInfo extends BaseComponent {
   }
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
   renderComponent = () => {

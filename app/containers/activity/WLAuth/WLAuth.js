@@ -185,6 +185,7 @@ class WLAuth extends BaseComponent {
 
   componentWillUnmount(){
     super.componentWillUnmount()
+    this._isMounted=false
   }
 
   componentWillMount(){
