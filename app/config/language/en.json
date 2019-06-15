@@ -513,8 +513,8 @@
         "mapping": {
             "limit": "Minimum number of swaps",
             "condition": "You have applied to swap more than %s ITC",
-            "other": "Choose other tasks",
-            "sure": "Join the Turbo competition",
+            "other": "Other tasks",
+            "sure": "Join Turbo",
             "pending": "Wait for the transaction to complete...",
             "txSure": " Data is being synchronized...",
             "notfound": "Transaction is pending...",
@@ -616,7 +616,9 @@
         "extra":{
             "explain_0":"Awards",
             "explain_1":"Reward Progress",
-            "invite_friend":"Invite Friends"
+            "invite_friend":"Invite Friends",
+            "approve_alert":"Contract authorization is completed. Click stake to become a super node.",
+            "approve_vote":"Contract authorization is completed. Click vote to become a normal node."
         }
     }
 }

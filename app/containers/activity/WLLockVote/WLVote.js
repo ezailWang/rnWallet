@@ -196,7 +196,7 @@ class WLVote extends BaseComponent {
         })
         this._hideLoading()
 
-        this._showAlert("合约授权完成，请继续点击投票成为节点伙伴。")
+        this._showAlert(I18n.t("activity.extra.approve_vote"))
       }
     })
   }

@@ -616,7 +616,9 @@
         "extra":{
             "explain_0":"本轮奖励",
             "explain_1":"奖励触发进度",
-            "invite_friend":"邀请好友"
+            "invite_friend":"邀请好友",
+            "approve_alert":"合约授权完成，请继续点击质押成为超级节点。",
+            "approve_vote":"合约授权完成，请继续点击投票成为节点伙伴。"
         }
     }
 }
