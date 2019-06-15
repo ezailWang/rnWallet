@@ -66,9 +66,9 @@ class WLLock extends BaseComponent {
 
       let nodeLockValue = Number(this.state.value)
 
-      if(nodeLockValue<100000 || isNaN(nodeLockValue)){
+      if(nodeLockValue<this.props.vipLimit || isNaN(nodeLockValue)){
   
-        this._showAlert(I18n.t('activity.nodeVote.limit'))
+        this._showAlert(I18n.t('activity.nodeVote.limit').replace("%s",this.props.vipLimit))
       }
       else if (nodeLockValue > this.state.itcErc20Balance){
         this._showAlert(I18n.t('activity.nodeVote.no_itc'))
@@ -97,7 +97,7 @@ class WLLock extends BaseComponent {
       }
     }
     catch(err){
-      this._showAlert(I18n.t('activity.nodeVote.limit'))
+      this._showAlert(I18n.t('activity.nodeVote.limit').replace("%s",this.props.vipLimit))
     }
 
     
@@ -345,7 +345,7 @@ hideStaticLoading() {
         <View style={styles.editor}>
           <Text style={styles.title}>{I18n.t('activity.nodeVote.lock_amount')}</Text>
           <View style={{flexDirection:'row'}}>
-            <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder={I18n.t('activity.nodeVote.place')} placeholderTextColor="#e6e6e6"
+            <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder={I18n.t('activity.nodeVote.place').replace("%s",this.props.vipLimit)} placeholderTextColor="#e6e6e6"
               onChangeText={(text) => {
                 this.state.value = text
               }}
@@ -412,7 +412,8 @@ const mapStateToProps = state => ({
   ethWalletList: state.Core.ethWalletList,
   activityEthAddress : state.Core.activityEthAddress,
   voteContractAddress : state.Core.voteContractAddress,
-  gameStart:state.Core.gameStart
+  gameStart:state.Core.gameStart,
+  vipLimit:state.Core.vipLimit,
 });
 export default connect(
   mapStateToProps,

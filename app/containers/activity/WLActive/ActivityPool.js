@@ -249,7 +249,6 @@ class MappingRecordDetailScreen extends BaseComponent {
                 poolReward
             })
             this._hideLoading()
-
         }
     }
     catch(err){

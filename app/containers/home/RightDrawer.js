@@ -251,7 +251,7 @@ class RightDrawer extends BaseComponent {
             text={I18n.t('settings.itc_wallet')}
           />
           {itcWalletsView}
-          {itcWalletList.length >= 10 ? null : (
+          {itcWalletList.length >= 100 ? null : (
             <AddButton
               text={I18n.t('settings.create_itc_wallet')}
               addOnPress={() => this.createEthOrItcWallet('itc')}
@@ -263,7 +263,7 @@ class RightDrawer extends BaseComponent {
             text={I18n.t('settings.eth_wallet')}
           />
           {ethWalletsView}
-          {ethWalletList.length >= 10 ? null : (
+          {ethWalletList.length >= 100 ? null : (
             <AddButton
               text={I18n.t('settings.create_eth_wallet')}
               addOnPress={() => this.createEthOrItcWallet('eth')}

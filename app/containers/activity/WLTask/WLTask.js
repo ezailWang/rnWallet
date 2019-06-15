@@ -132,7 +132,7 @@ class WLTask extends BaseComponent {
                   />
                 </View>
                 <View style={styles.taskDesc}>
-                  <IconTextItem text={I18n.t('activity.task.task_explain_0')} />
+                  <IconTextItem text={I18n.t('activity.task.task_explain_0').replace("%s",this.props.vipLimit)} />
                   <IconTextItem text={I18n.t('activity.task.lock_day')} />
                   <IconTextItem text={I18n.t('activity.task.ben_node')} />
                   <IconTextItem text={I18n.t('activity.task.super_node')}  />
@@ -149,7 +149,7 @@ class WLTask extends BaseComponent {
                   />
                 </View>
                 <View style={styles.taskDesc}>
-                  <IconTextItem text={I18n.t('activity.task.vote_limit')} />
+                  <IconTextItem text={I18n.t('activity.task.vote_limit').replace("%s",this.props.voteLimit)} />
                   <IconTextItem text={I18n.t('activity.task.lock_day')} />
                   <IconTextItem text={I18n.t('activity.task.normal_node')} />
                   <IconTextItem text={I18n.t('activity.task.node_ben_1')}  />
@@ -165,7 +165,7 @@ class WLTask extends BaseComponent {
                   />
                 </View>
                 <View style={styles.taskDesc}>
-                  <IconTextItem text={I18n.t('activity.task.mapping_0')}  />
+                  <IconTextItem text={I18n.t('activity.task.mapping_0').replace("%s",this.props.mappingLimit)}  />
                   <IconTextItem text={I18n.t('activity.task.mapping_1')} />
                   <IconTextItem text={I18n.t('activity.task.mapping_2')} />
                   <Image source={require('./images/logo.png')} style={styles.pageDecorator} />
@@ -186,7 +186,10 @@ class WLTask extends BaseComponent {
 const mapStateToProps = state => ({
   selAvtivityContainerKey: state.Core.selAvtivityContainerKey,
   activityEthAddress : state.Core.activityEthAddress,
-  activityItcAddress : state.Core.activityItcAddress
+  activityItcAddress : state.Core.activityItcAddress,
+  voteLimit:state.Core.voteLimit,
+  mappingLimit:state.Core.mappingLimit,
+  vipLimit:state.Core.vipLimit,
 });
 export default connect(
   mapStateToProps,

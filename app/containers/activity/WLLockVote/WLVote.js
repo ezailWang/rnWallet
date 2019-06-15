@@ -145,9 +145,9 @@ class WLVote extends BaseComponent {
 
     let voteValue = Number(this.state.value)
 
-    if(voteValue<600 || isNaN(voteValue)){
+    if(voteValue<this.props.voteLimit || isNaN(voteValue)){
 
-      this._showAlert(I18n.t('activity.nodeVote.limit_1'))
+      this._showAlert(I18n.t('activity.nodeVote.limit_1').replace("%s",this.props.voteLimit))
     }
     else if (voteValue > this.state.itcErc20Balance){
 
@@ -418,7 +418,7 @@ hideStaticLoading() {
         <View style={styles.editor}>
           <Text style={styles.title}>{I18n.t('activity.nodeVote.vote_amount')}</Text>
           <View style={{flexDirection:'row'}}>
-            <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder={I18n.t('activity.nodeVote.vote_limit')} placeholderTextColor="#e6e6e6"
+            <TextInput keyboardType={'number-pad'}  style={styles.input} placeholder={I18n.t('activity.nodeVote.vote_limit').replace("%s",this.props.voteLimit)} placeholderTextColor="#e6e6e6"
               onChangeText={(text) => {
                 this.state.value = text
               }}
@@ -494,7 +494,8 @@ const mapStateToProps = state => ({
   ethWalletList: state.Core.ethWalletList,
   activityEthAddress : state.Core.activityEthAddress,
   voteContractAddress : state.Core.voteContractAddress,
-  gameStart:state.Core.gameStart
+  gameStart:state.Core.gameStart,
+  voteLimit:state.Core.voteLimit,
 });
 export default connect(
   mapStateToProps,

@@ -230,7 +230,10 @@ function coreReducer(state = defaultState, action) {
         ...state,
         rootAddress:action.addressInfoDic.rootAddress,
         activeAddress:action.addressInfoDic.activeAddress,
-        voteContractAddress:action.addressInfoDic.voteContractAddress
+        voteContractAddress:action.addressInfoDic.voteContractAddress,
+        vipLimit:action.addressInfoDic.vipLimit,
+        voteLimit:action.addressInfoDic.voteLimit,
+        mappingLimit:action.addressInfoDic.mappingLimit
       }
     }
     case ACTIVITY_ITC_ADDRESS:{

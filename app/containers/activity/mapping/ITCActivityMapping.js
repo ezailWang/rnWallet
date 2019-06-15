@@ -420,9 +420,6 @@ class ITCActivityMapping extends BaseComponent {
       sLoadingContent: '',
     };
 
-    this.inputAmount = '';
-    this.ethAmount = '0.008';
-    this.gasAmount = '600';
 
     this.stepItem1Ref = React.createRef();
     this.stepItem2Ref = React.createRef();
@@ -478,7 +475,7 @@ class ITCActivityMapping extends BaseComponent {
     this._hideLoading();
 
     //测试网络
-    // didMappingValue = didMappingValue - 888888
+    didMappingValue = didMappingValue - 888888
 
     this.setState({
       gasCost:gasUsed,
@@ -489,7 +486,7 @@ class ITCActivityMapping extends BaseComponent {
       didMappingValue
     })
 
-    if(didMappingValue>=600){
+    if(didMappingValue>=this.props.mappingLimit){
       setTimeout(() => {
         
         this.setState({
@@ -514,9 +511,9 @@ class ITCActivityMapping extends BaseComponent {
 
     let value = parseFloat(mappingValue)
 
-    if(isNaN(value) || value < (600 - didMappingValue)){
+    if(isNaN(value) || value < (this.props.mappingLimit - didMappingValue)){
 
-      this._showAlert(I18n.t('activity.mapping.limit')+(600-didMappingValue)+'ITC')
+      this._showAlert(I18n.t('activity.mapping.limit')+(this.props.mappingLimit-didMappingValue)+'ITC')
       return
     }
 
@@ -752,7 +749,7 @@ handleTrx = async (password) => {
           </View>
           <View style={styles.mapContainView}>
             <Text style={styles.mAmountTitle}>{I18n.t('mapping.map_amount')}</Text>
-            <Text style={styles.mappingShow}>{didMappingValue+'/600 ITC'}</Text>
+            <Text style={styles.mappingShow}>{didMappingValue+'/'+this.props.mappingLimit+'ITC'}</Text>
           </View>
           <View style={styles.mAmountInputView}>
             <TextInput
@@ -819,7 +816,7 @@ handleTrx = async (password) => {
           <MyAlertComponent
             visible={showActivityModalVisible}
             title={''}
-            contents={[I18n.t('activity.mapping.condition')]}
+            contents={[I18n.t('activity.mapping.condition').replace("%s",this.props.mappingLimit)]}
             leftBtnTxt={I18n.t('activity.mapping.other')}
             rightBtnTxt={I18n.t('activity.mapping.sure')}
             leftPress={this.didTapModalLeftPress}
@@ -1015,7 +1012,8 @@ class ConfirmMappingModal extends PureComponent {
 const mapStateToProps = state => ({
   activityEthAddress : state.Core.activityEthAddress,
   activityItcAddress : state.Core.activityItcAddress,
-  gameStart:state.Core.gameStart
+  gameStart:state.Core.gameStart,
+  mappingLimit:state.Core.mappingLimit
 });
 const mapDispatchToProps = dispatch => ({
 
