@@ -243,7 +243,7 @@ class RightDrawer extends BaseComponent {
         <StatusBarComponent barStyle={this._barStyle} />
 
         <ScrollView
-          style={{ paddingTop: 50, paddingBottom: 20 }}
+          style={{ paddingTop: 50 ,height:LayoutConstants.WINDOW_HEIGHT - 70}}
           showsVerticalScrollIndicator={false}
         >
           <ItemHeader
