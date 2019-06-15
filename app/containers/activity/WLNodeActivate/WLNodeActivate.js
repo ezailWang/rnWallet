@@ -286,7 +286,8 @@ _onBackPressed = ()=>{
     return true;
   }
   else{
-    return super._onBackPressed()
+    this.props.navigation.goBack();
+    return true;
   }
 }
 

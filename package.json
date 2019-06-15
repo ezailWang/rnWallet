@@ -10,7 +10,7 @@
     "postinstall": "./postinstall.sh",
     "bundle-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.ios.jsbundle --assets-dest ./ios/bundle",
     "bundle-android": "react-native bundle --platform android --dev false --entry-file index.js  --bundle-output android/app/src/main/assets/index.android.bundle  --assets-dest android/app/src/main/res/",
-    "build-android": "cd android && ./gradlew assembleRelease"
+    "build-android": "react-native bundle --platform android --dev false --entry-file index.js  --bundle-output android/app/src/main/assets/index.android.bundle  --assets-dest android/app/src/main/res/ && cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "assert": "^1.4.1",
