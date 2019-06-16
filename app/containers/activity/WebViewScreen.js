@@ -52,6 +52,11 @@ class WebViewScreen extends BaseComponent {
           var link = I18n.locale === 'zh' ? 'https://wallet.iotchain.io/SuperNodePolicy.html':'https://wallet.iotchain.io/SuperNodePolicy_en.html'
           break
         }
+        case 4:{
+          var title = I18n.t('activity.web.explain_4')
+          var link = I18n.locale === 'zh' ? 'https://wallet.iotchain.io/ActivityTotalRule.html':'https://wallet.iotchain.io/ActivityTotalRule_en.html'
+          break
+        }
         default:
             break
     }

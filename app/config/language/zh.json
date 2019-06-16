@@ -581,7 +581,7 @@
             "invite": "邀请地址",
             "node_activity": "节点激活",
             "invite_invalid": "绑定地址无效.",
-            "act_failed": "发送激活交易失败，请检查网络",
+            "act_failed": "无效的邀请地址",
             "act_title": "激活",
             "normal_node": "普通节点",
             "act_node": "激活节点",
@@ -604,7 +604,8 @@
             "explain_0": "投票说明",
             "explain_1": "邀请排行榜",
             "explain_2": "涡轮池",
-            "explain_3": "超级节点"
+            "explain_3": "超级节点",
+            "explain_4": "完整活动规则"
         },
         "power":{
             "title":"涡轮池",

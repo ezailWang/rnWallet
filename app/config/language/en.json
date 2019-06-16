@@ -581,7 +581,7 @@
             "invite": "Invitation address",
             "node_activity": "Node activation",
             "invite_invalid": "Invalid binding address.",
-            "act_failed": "Failed to send activation transaction, please check the network",
+            "act_failed": "Invalid invitation address.",
             "act_title": "Activate",
             "normal_node": "Normal node",
             "act_node": "Active node",
@@ -604,7 +604,8 @@
             "explain_0": "Instructions",
             "explain_1": " Ranking",
             "explain_2": "Turbo pool",
-            "explain_3": "Super node"
+            "explain_3": "Super node",
+            "explain_4": "Complete Activity Rules"
         },
         "power":{
             "title":"Turbo pool",

@@ -146,6 +146,12 @@ class WLHome extends BaseComponent {
     },1*1000)
   }
 
+  didTapRuleButton = ()=>{
+    this.props.navigation.navigate('WebViewScreen',{
+      webType:4
+    })
+  }
+
   renderComponent = () => {
 
     console.log(this.props)
@@ -242,7 +248,7 @@ class WLHome extends BaseComponent {
               <Chart chart_wh={chartWidth} series={series} sliceColor={sliceColor} doughnut />
             </View>
           </View>
-          <TextLink color="#00afc9" text={I18n.t('activity.home.rule')} style={{ marginVertical: 20 }} />
+          <TextLink onPress={this.didTapRuleButton} color="#00afc9" text={I18n.t('activity.home.rule')} style={{ marginVertical: 20 }} />
           <TouchableOpacity onPress={this.didTapActivityButton} style={[styles.button, { backgroundColor: '#01a1f1' }]}>
             <Text style={{ color: 'white' }}>{I18n.t('activity.home.myActivity')}</Text>
           </TouchableOpacity>

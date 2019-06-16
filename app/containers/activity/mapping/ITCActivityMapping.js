@@ -514,7 +514,7 @@ class ITCActivityMapping extends BaseComponent {
 
     if(isNaN(value) || value < (this.props.mappingLimit - didMappingValue)){
 
-      this._showAlert(I18n.t('activity.mapping.limit')+(this.props.mappingLimit-didMappingValue)+'ITC')
+      this._showAlert(I18n.t('activity.mapping.limit')+' '+(this.props.mappingLimit-didMappingValue)+' ITC')
       return
     }
 

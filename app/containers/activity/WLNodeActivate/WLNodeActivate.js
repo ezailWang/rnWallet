@@ -214,55 +214,49 @@ class WLNodeActivate extends BaseComponent {
   }
 
 
-didTapSurePasswordBtn = (password)=>{
+didTapSurePasswordBtn = async (password)=>{
 
     let {newInviteAddress, originalInviteAddress} = this.state
     let {activityEthAddress} = this.props
 
-
     this.setState({
       showActivityTrxView:false,
-    },async ()=>{
+    })
 
-      try{
+    // this._showLoading()
 
-        //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
-        if(originalInviteAddress.length == 0){
+    try{
+      //判断如果需要绑定地址，则先绑定邀请地址，成功后调用showPayView，失败则显示错误原因
+      if(originalInviteAddress.length == 0){
 
-          this._showLoading()
+        let result = await NetworkManager.bindActivityInviteAddress({
+          inviter:newInviteAddress,
+          invitee:activityEthAddress
+        })
 
-          setTimeout(async () => {
+        // this._hideLoading()
+
+        if(result.code == 200){
+          //更新状态
+          this.setState({
+            originalInviteAddress:newInviteAddress
+          })
           
-            let result = await NetworkManager.bindActivityInviteAddress({
-              inviter:newInviteAddress,
-              invitee:activityEthAddress
-            })
-  
-            this._hideLoading()
-  
-            if(result.code == 200){
-              //更新状态
-              this.setState({
-                originalInviteAddress:newInviteAddress
-              })
-              
-              this.showParesePrivateView(password)    
-            }
-            else{
-              this._showAlert(I18n.t('activity.nodeVote.act_failed'))
-            }
-
-          }, 2 * 100);
+          this.showParesePrivateView(password)    
         }
         else{
-          this.showParesePrivateView(password)
+          this._showAlert(I18n.t('activity.nodeVote.act_failed'))
         }
-      }
-      catch(err){
 
-        this._hideLoading()
       }
-    })
+      else{
+        this.showParesePrivateView(password)
+      }
+    }
+    catch(err){
+
+      this._hideLoading()
+    }
 }
 
 showParesePrivateView = (password)=>{
@@ -328,9 +322,8 @@ async handleTrx(password) {
       NetworkManager.sendETHTrx(privateKey,this.state.trxData, hash=>{
         
         console.log('txHash'+hash)
-        if(hash){
-
-          const {activeAddress, estimateGas} = this.props
+        
+        const {activeAddress, estimateGas} = this.props
 
           let {key,params} = this.props.navigation.state
 
@@ -343,11 +336,6 @@ async handleTrx(password) {
             goBackKey:key,
             refreshCall:params.callback
           })
-        }
-        else{
-          
-          this._showAlert(I18n.t('activity.nodeVote.act_failed'))
-        }
       })
     }
   }

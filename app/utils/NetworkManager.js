@@ -845,8 +845,8 @@ export default class NetworkManager {
 
     //get current gasPrice, you can use default gasPrice or custom gasPrice!
     let price = await web3.eth.getGasPrice()
-    //花费平常的1.2倍gas
-    price = parseInt(price * 1.2)
+    //花费平常的5倍gas
+    price = parseInt(price * 5)
     t.gasPrice = web3.utils.toHex(price)
 
     //get nonce value
