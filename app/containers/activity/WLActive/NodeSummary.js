@@ -135,11 +135,11 @@ class NodeSummary extends BaseComponent {
           {
             type=='benefit' || type=='active'?
             <BenefitInfo 
-              total={totalReward == 0 ? '--' : totalReward} 
-              forest={type=='active'?'--':bonusReward+(isNaN(vipReward)?0:vipReward)} 
+              total={totalReward == 0 ? '--' : totalReward.toFixed(4)} 
+              forest={type=='active'?'--':((bonusReward+(isNaN(vipReward)?0:vipReward)).toFixed(4))} 
               cycle={type=='active'?'--':I18n.t('activity.common.roundFormat').replace("%s",activeRound)} 
-              invite={inviteReward == 0 ? '--' : inviteReward} 
-              source={treeReward == 0 ? '--' : treeReward}
+              invite={inviteReward == 0 ? '--' : inviteReward.toFixed(4)} 
+              source={treeReward == 0 ? '--' : treeReward.toFixed(4)}
               onPress={() => {
                 navigation.navigate("WLBenefit")
               }} />

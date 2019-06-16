@@ -479,7 +479,8 @@
             "mappingHash": "映射记录"
         },
         "benefit": {
-            "noData": "暂无记录"
+            "noData": "暂无记录",
+            "poolReward": "森林收益"
         },
         "task": {
             "mapping": "提前换币",

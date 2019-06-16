@@ -160,14 +160,14 @@ class WLHome extends BaseComponent {
             <Tag text={roundTitle} color="#46b6fe" />
             {
               gameOver?
-              <Bonus gameOver={gameOver} bonus={isNaN(paidRewardValue) ? '--' : paidRewardValue} total={100} current={100} color="#46b6fe" style={{ marginVertical: 10 }} />:
+              <Bonus gameOver={gameOver} bonus={isNaN(paidRewardValue) ? '--' : paidRewardValue.toFixed(4)} total={100} current={100} color="#46b6fe" style={{ marginVertical: 10 }} />:
               <Bonus gameOver={gameOver} bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
             }
             <DetailItem title={I18n.t('activity.home.deadline')} text={leftTimeString} />
-            <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '--' : totalPoolReward+' ITC'} />
+            <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '--' : totalPoolReward.toFixed(4)+' ITC'} />
             {
               gameOver?null:
-              <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '--' : (isNaN(paidRewardValue) ? '--' : paidRewardValue) +' ITC'} />
+              <DetailItem title={I18n.t('activity.home.paidReward')} text={paidReward == '' ? '--' : (isNaN(paidRewardValue) ? '--' : paidRewardValue.toFixed(4)) +' ITC'} />
             }
             <View style={styles.divider} />
 
