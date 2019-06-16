@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
+  RefreshControl,
 } from 'react-native';
 import Tag from './components/Tag';
 import Bonus from './components/Bonus';
@@ -21,10 +22,9 @@ import { connect } from 'react-redux';
 import * as Actions from '../../../config/action/Actions';
 import NetworkManager from '../../../utils/NetworkManager';
 import { showToast } from '../../../utils/Toast';
-import { async } from 'rxjs/internal/scheduler/async';
 import { I18n } from '../../../config/language/i18n';
 import LayoutConstants from '../../../config/LayoutConstants';
-
+import { Colors } from '../../../config/GlobalConfig';
 
 let countdownTimer
 
@@ -35,9 +35,40 @@ class WLHome extends BaseComponent {
 
     this.state = {
       timeLeft:0,
-      trueTimeLeft:0
+      trueTimeLeft:0,
+      isRefreshing:false,
     }
   }
+
+  onRefresh = async () => {
+    this.setState({
+      isRefreshing: true,
+    });
+
+    try {
+      var result = await NetworkManager.queryActivityInfo();
+      // console.warn(result)
+    } catch (e) {
+      showToast('query avtivity info error', 30);
+    }
+
+    if(result.code == 200){
+      this.props.navigation.state.params.info = result.data
+
+      let {timeLeft, gameOver, gameStart} = result.data
+
+      this.props.setActivityStatus({
+        gameOver,
+        gameStart,
+        timeLeft:timeLeft
+      })
+    }
+
+    this.setState({
+      isRefreshing: false,
+    });
+  };
+
 
   didTapActivityButton = async ()=>{
 
@@ -141,10 +172,12 @@ class WLHome extends BaseComponent {
 
     let paidRewardValue = Number(parseFloat(paidReward).toFixed(2))
 
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <NavHeader navigation={navigation} color="transparent" />
+        
           <ImageBackground
             resizeMode="cover"
             source={require('./images/home_banner.png')}
@@ -153,8 +186,17 @@ class WLHome extends BaseComponent {
             <Image source={titleImage} style={{ width: '100%' }} />
           </ImageBackground>
           <ScrollView
+            
+            refreshControl={
+              <RefreshControl
+                onRefresh={this.onRefresh}
+                refreshing={this.state.isRefreshing}
+                colors={[Colors.themeColor]}
+                tintColor={Colors.whiteBackgroundColor}
+              />
+            }
             scrollEnabled={true}
-            style={{marginTop:185,position:'absolute',height:LayoutConstants.WINDOW_HEIGHT - 185}}
+            style={{position:'absolute',height:LayoutConstants.WINDOW_HEIGHT }}
           >
           <View style={styles.infoContainer}>
             <Tag text={roundTitle} color="#46b6fe" />
@@ -239,6 +281,7 @@ const styles = {
   },
 
   infoContainer: {
+    marginTop:185,
     backgroundColor: 'white',
     borderRadius: 5,
     width: '90%',
@@ -249,7 +292,7 @@ const styles = {
     shadowRadius: 3,
     shadowOpacity: 0.5,
     alignItems: 'center',
-    marginTop: 0,
+    // marginTop: 0,
     padding: 20,
   },
 
