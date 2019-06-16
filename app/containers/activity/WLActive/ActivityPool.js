@@ -237,7 +237,7 @@ class MappingRecordDetailScreen extends BaseComponent {
 
     try{
         let res = await NetworkManager.querylastWinner()
-        
+        this._hideLoading()
         if(res.code == 200 && res.data.address){
 
             let {address, benefitTime, estimateReward, poolReward} = res.data
@@ -248,7 +248,6 @@ class MappingRecordDetailScreen extends BaseComponent {
                 estimateReward,
                 poolReward
             })
-            this._hideLoading()
         }
     }
     catch(err){
