@@ -503,7 +503,7 @@ class ITCActivityMapping extends BaseComponent {
 
     if(this.props.gameStart ==  false){
 
-      this._showAlert('活动未开始')
+      this._showAlert(I18n.t('activity.extra.alert_0'))
       return;
     }
     

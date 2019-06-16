@@ -400,8 +400,8 @@ class BindWalletAddressScreen extends BaseComponent {
   };
 
   _onBackPressed = () => {
-    this.props.navigation.navigate('Home');
-    return true;
+    // this.props.navigation.navigate('Home');
+    // return true;
   };
 
   backPressed() {

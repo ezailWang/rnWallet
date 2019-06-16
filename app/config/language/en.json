@@ -610,7 +610,7 @@
         "power":{
             "title":"Turbo pool",
             "unit":"Current incentive pool(ITC)",
-            "node":"The latest equity node",
+            "node":"The winning equity node",
             "address":"Node address",
             "time":"Upgrade date",
             "benfit":"Expected income"
@@ -620,7 +620,8 @@
             "explain_1":"Reward Progress",
             "invite_friend":"Invite Friends",
             "approve_alert":"Contract authorization is completed. Click stake to become a super node.",
-            "approve_vote":"Contract authorization is completed. Click vote to become a normal node."
+            "approve_vote":"Contract authorization is completed. Click vote to become a normal node.",
+            "alert_0":"Activities not started"
         }
     }
 }
