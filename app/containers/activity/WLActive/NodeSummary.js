@@ -69,7 +69,7 @@ class NodeSummary extends BaseComponent {
 
   renderComponent = () => {
     const { navigation } = this.props;
-    let { activeRound,address,bonusReward,children,inviteReward,totalReward,treeReward,type,vip,childNum,totalSubNodeNum } = this.state;
+    let { activeRound,address,bonusReward,children,inviteReward,totalReward,treeReward,vipReward,type,vip,childNum,totalSubNodeNum } = this.state;
     let nodeType = I18n.t('activity.common.normalNode');
     let nodeIcon = (<Image source={require('./images/normal.png')} />)
     if (vip){
@@ -136,7 +136,7 @@ class NodeSummary extends BaseComponent {
             type=='benefit' || type=='active'?
             <BenefitInfo 
               total={totalReward == 0 ? '--' : totalReward} 
-              forest={type=='active'?'--':bonusReward} 
+              forest={type=='active'?'--':bonusReward+(isNaN(vipReward)?0:vipReward)} 
               cycle={type=='active'?'--':I18n.t('activity.common.roundFormat').replace("%s",activeRound)} 
               invite={inviteReward == 0 ? '--' : inviteReward} 
               source={treeReward == 0 ? '--' : treeReward}

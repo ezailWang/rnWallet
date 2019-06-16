@@ -4,7 +4,8 @@ import { View, Text } from 'react-native';
 import { I18n } from '../../../../config/language/i18n';
 
 export default ({ gameOver, bonus,total, current, color, style }) => {
-  const rate = (current * 100) / total;
+  let rate = (current * 100) / total;
+  rate = rate>100?100:rate;
   return (
     <View style={[styles.container, { ...style }]}>
       <Text style={[styles.title]}>

@@ -199,14 +199,14 @@ class WLBenefit extends BaseComponent {
         >
           <View style={styles.benefitView}>
             <View style={styles.totalBenefit}>
-              <BenefitOverview title={I18n.t('activity.common.totalReward')+'(ITC)'} count={summary.totalReward===0?'--':summary.totalReward} scale={5} />
+              <BenefitOverview title={I18n.t('activity.common.totalReward')+'(ITC)'} count={summary.totalReward===0?'--':summary.totalReward.toFixed(2)} scale={5} />
             </View>
             <View style={styles.dividedBenefit}>
-              <BenefitOverview title={I18n.t('activity.common.poolReward')} subtitle="IoT Chain" count={summary.bonusReward===0?'--':summary.bonusReward} />
+              <BenefitOverview title={I18n.t('activity.common.poolReward')} subtitle="IoT Chain" count={summary.bonusReward===0 && summary.vipReward===0?'--':(summary.bonusReward+(isNaN(summary.vipReward)?0:summary.vipReward)).toFixed(2)} />
               <View style={styles.divider} />
-              <BenefitOverview title={I18n.t('activity.common.inviteReward')} subtitle="Erc 20" count={summary.inviteReward===0?'--':summary.inviteReward} />
+              <BenefitOverview title={I18n.t('activity.common.inviteReward')} subtitle="Erc 20" count={summary.inviteReward===0?'--':summary.inviteReward.toFixed(2)} />
               <View style={styles.divider} />
-              <BenefitOverview title={I18n.t('activity.common.treeReward')} subtitle="Erc 20" count={summary.treeReward===0?'--':summary.treeReward} />
+              <BenefitOverview title={I18n.t('activity.common.treeReward')} subtitle="Erc 20" count={summary.treeReward===0?'--':summary.treeReward.toFixed(2)} />
             </View>
           </View>
         </ImageBackground>
