@@ -66,6 +66,11 @@ class WebViewScreen extends BaseComponent {
             <WebView
                 source={{uri:link}}
                 style={styles.webviewBox}
+                startInLoadingState
+                bounces={false}
+                scrollEnabled
+                automaticallyAdjustContentInsets
+                domStorageEnabled
             />
           </View>
         </View>
