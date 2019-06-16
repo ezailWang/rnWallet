@@ -158,7 +158,7 @@ class WalletListScreen extends BaseComponent {
           <ItemHeader
             title={I18n.t('settings.itc_wallet')}
             icon={require('../../assets/set/itc_icon.png')}
-            isShowButton={!(this.state.itcWallets.length >= 10)}
+            isShowButton={!(this.state.itcWallets.length >= 100)}
             btnText={I18n.t('settings.create_itc_wallet')}
             onItemHeaderPressed={() => this.createEthOrItcWallet('itc')}
           />
@@ -166,7 +166,7 @@ class WalletListScreen extends BaseComponent {
           <ItemHeader
             title={I18n.t('settings.eth_wallet')}
             icon={require('../../assets/set/eth_icon.png')}
-            isShowButton={!(this.state.ethWallets.length >= 10)}
+            isShowButton={!(this.state.ethWallets.length >= 100)}
             btnText={I18n.t('settings.create_eth_wallet')}
             onItemHeaderPressed={() => this.createEthOrItcWallet('eth')}
           />

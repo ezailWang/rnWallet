@@ -243,8 +243,8 @@ class RightDrawer extends BaseComponent {
         <StatusBarComponent barStyle={this._barStyle} />
 
         <ScrollView
-          style={{ paddingTop: 50 ,height:LayoutConstants.WINDOW_HEIGHT - 70}}
-          showsVerticalScrollIndicator={false}
+          style={{height:LayoutConstants.WINDOW_HEIGHT - 20}}
+          // showsVerticalScrollIndicator={false}
         >
           <ItemHeader
             icon={require('../../assets/set/itc_icon.png')}
@@ -264,10 +264,13 @@ class RightDrawer extends BaseComponent {
           />
           {ethWalletsView}
           {ethWalletList.length >= 100 ? null : (
-            <AddButton
-              text={I18n.t('settings.create_eth_wallet')}
-              addOnPress={() => this.createEthOrItcWallet('eth')}
-            />
+            <View>
+              <AddButton
+                text={I18n.t('settings.create_eth_wallet')}
+                addOnPress={() => this.createEthOrItcWallet('eth')}
+              />
+              <View style={{height:20}}></View>
+            </View>
           )}
         </ScrollView>
         {Platform.OS === 'ios' && this.state.showBlur && (

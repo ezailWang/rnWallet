@@ -633,7 +633,7 @@ handleTrx = async (password) => {
   const priKey = await this.getPriKey(password);
   if (priKey == null) {
     this.hideStaticLoading()
-    this._showAlert(I18n.t('toast.password_error'))
+    this._showAlert(I18n.t('modal.password_error'))
   } else {
     const {trxData, gasCost, destoryAddress, mappingValue} = this.state;
 
