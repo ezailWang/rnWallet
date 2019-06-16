@@ -479,7 +479,8 @@
             "mappingHash": "History"
         },
         "benefit": {
-            "noData": "No records found"
+            "noData": "No records found",
+            "poolReward":"Forest "
         },
         "task": {
             "mapping": "Swap in advance",

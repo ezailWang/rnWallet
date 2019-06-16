@@ -66,6 +66,7 @@ class WLBenefit extends BaseComponent {
     this.pageSize = 10;
     this.isLoadMoreing = false;
     this.isHaveMoreData = true;
+    this.hasInit = false;
     this.flatListRef = React.createRef();
     this.onRefresh = this.onRefresh.bind(this);
   }
@@ -89,6 +90,7 @@ class WLBenefit extends BaseComponent {
       this._hideLoading();  
       showToast('query reward info error', 30);
     }
+    this.hasInit = true
   }
 
   getSummary = async () => {
@@ -129,7 +131,7 @@ class WLBenefit extends BaseComponent {
     if(this._isMounted){
       var result = await NetworkManager.queryRewardList({
         address: this.address,
-        offset: this.offset,
+        offset: cleanDatas?0:this.offset,
         size: this.pageSize
       });
       if(!result.data || result.data.length<this.pageSize){
@@ -137,13 +139,12 @@ class WLBenefit extends BaseComponent {
       }else{
         this.isHaveMoreData = true
       }
+      this.offset = this.offset + this.pageSize
       if(cleanDatas){
-        this.offset = 0
         this.setState({
           datas: result.data
         })
       }else{
-        this.offset = this.offset + this.pageSize
         const newDatas = this.state.datas.concat(result.data);
         this.setState({
           datas: newDatas
@@ -171,6 +172,7 @@ class WLBenefit extends BaseComponent {
 
   _onLoadMore = async () => {
     if(
+      this.hasInit &&
       this.isHaveMoreData &&
       !this.isLoadMoreing &&
       !this.state.isRefreshing
@@ -202,11 +204,11 @@ class WLBenefit extends BaseComponent {
               <BenefitOverview title={I18n.t('activity.common.totalReward')+'(ITC)'} count={summary.totalReward===0?'--':summary.totalReward.toFixed(2)} scale={5} />
             </View>
             <View style={styles.dividedBenefit}>
-              <BenefitOverview title={I18n.t('activity.common.poolReward')} subtitle="IoT Chain" count={summary.bonusReward===0 && summary.vipReward===0?'--':(summary.bonusReward+(isNaN(summary.vipReward)?0:summary.vipReward)).toFixed(2)} />
+              <BenefitOverview title={I18n.t('activity.benefit.poolReward')} count={summary.bonusReward===0 && summary.vipReward===0?'--':(summary.bonusReward+(isNaN(summary.vipReward)?0:summary.vipReward)).toFixed(2)} />
               <View style={styles.divider} />
-              <BenefitOverview title={I18n.t('activity.common.inviteReward')} subtitle="Erc 20" count={summary.inviteReward===0?'--':summary.inviteReward.toFixed(2)} />
+              <BenefitOverview title={I18n.t('activity.common.inviteReward')} count={summary.inviteReward===0?'--':summary.inviteReward.toFixed(2)} />
               <View style={styles.divider} />
-              <BenefitOverview title={I18n.t('activity.common.treeReward')} subtitle="Erc 20" count={summary.treeReward===0?'--':summary.treeReward.toFixed(2)} />
+              <BenefitOverview title={I18n.t('activity.common.treeReward')} count={summary.treeReward===0?'--':summary.treeReward.toFixed(2)} />
             </View>
           </View>
         </ImageBackground>
