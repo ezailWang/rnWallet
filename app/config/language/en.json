@@ -442,7 +442,7 @@
             "poolReward": "Turbo pool incentives",
             "paidReward": "Distributed incentives",
             "rule": "Full version of the rule",
-            "myActivity": "My turbo competition",
+            "myActivity": "My turbo project",
             "failed": "Failed to acquire the information."
         },
         "nodeSummary": {
@@ -485,8 +485,8 @@
         "task": {
             "mapping": "Swap in advance",
             "goto": "Go to finish it",
-            "task_join": "Join the Turbo competition",
-            "explain_0": "Join the Turbo competition by finishing one of the following tasks",
+            "task_join": "Join the Turbo project",
+            "explain_0": "Join the Turbo project by finishing one of the following tasks",
             "task_explain_0": "Stake %s ITC",
             "lock_day": "Lock up for 90 days",
             "ben_node": "Become a turbo super node",
@@ -506,7 +506,7 @@
             "rewardMore": "Invite friends to get more rewards",
             "copyCode": "Copy the invitation password",
             "myQrcode": "My QR code",
-            "inviteCode": "[Join ITC Turbo Competition to win 10 million ITC!] https://iotchain.io/wallet Click and download the ITC wallet to join the turbo competition! Insert my invitation address [%s]."
+            "inviteCode": "[Join ITC Turbo Competition to win 10 million ITC!] https://iotchain.io/wallet Click and download the ITC wallet to join the turbo project! Insert my invitation address [%s]."
         },
         "qrcode": {
             "myqrcode": "My QR code"
@@ -520,7 +520,7 @@
             "txSure": " Data is being synchronized...",
             "notfound": "Transaction is pending...",
             "task_fail": "Task activation failed, please return to the task page.",
-            "act_home": "My competition "
+            "act_home": "My project "
         },
         "auth": {
             "success": "Successfully authorized",
@@ -529,7 +529,7 @@
             "approve": "Contract authorization",
             "address": "Wallet address",
             "contract": "Contract address",
-            "explain": "The digital asset operations involved in this competition are executed through the Ethereum Smart Contract, which requires contract authorization before participation. ",
+            "explain": "The digital asset operations involved in this project are executed through the Ethereum Smart Contract, which requires contract authorization before participation. ",
             "explain_1": "After authorization, the contract will get the right to deduct the corresponding number of ITC in the account when you initiate the transaction.",
             "allwance": "The authorization amount is ",
             "allwance_sub": "，After the amount is exceeded, it needs to be authorized again.",
@@ -549,7 +549,7 @@
             "txSure": "Data is being synchronized...",
             "notfound": "Transaction is pending...",
             "failed": "Transaction status verification failed, please try the task again ",
-            "act_home": "My competition ",
+            "act_home": "My project ",
             "id": "Node number",
             "from": "Pay by",
             "limit": "Stake amount should not less than %sITC",
@@ -594,7 +594,7 @@
             "choose_detail":"Select a node and vote with ITC"
         },
         "wallet": {
-            "title": "Turbo competition",
+            "title": "Turbo project",
             "eth": "Choose ETH address to participate",
             "next": "Next",
             "itc": "Choose ITC mainnet address to receive the reward",

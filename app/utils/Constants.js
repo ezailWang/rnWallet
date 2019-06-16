@@ -77,7 +77,8 @@ const defaultTokens = [
 //   },
   // test net rinkeby ERC20Token
   {
-    address: '0x4a706a43139f011ca65781feb508f74222976176', // 测试网
+	address:'0x8aceedabf5adc91df8cd5b25064a36b1f64338b8',
+    // address: '0x4a706a43139f011ca65781feb508f74222976176', // 测试网
     id: uuid.v4(),
     symbol: 'ITC',
     name: 'IoT Chain',
