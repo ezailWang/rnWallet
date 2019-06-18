@@ -662,13 +662,16 @@ class ExchangeScreen extends BaseComponent {
           selectCategory="walletSelect"
           onEmptyCreatWallet={() => {
             // 创建eth钱包
-            this.modalWalletListDeposit.closeFlatModal();
+            this.modalWalletListReceive.closeFlatModal();
             const params = {
               walletType: 'eth',
               from: 1,
             };
             store.dispatch(setCreateWalletParams(params));
-            this.props.navigation.navigate('CreateWallet');
+            setTimeout(() => {
+              this.props.navigation.navigate('CreateWallet');  
+            }, 200);
+            
           }}
           onSelect={item => {
             if (item.item.address !== this.state.currentReceiveWallet.address) {

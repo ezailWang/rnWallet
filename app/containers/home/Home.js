@@ -10,6 +10,7 @@ import {
   Text,
   TouchableOpacity,
   findNodeHandle,
+  InteractionManager
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -288,22 +289,36 @@ class HomeScreen extends BaseComponent {
         Analytics.setUserProperty('buildVersion', DeviceInfo.getBrand());
       } else {
         this.props.setIsNewWallet(false);
-        this._showLoading();
+        // this._showLoading();
       }
       this.setState({
         monetaryUnitSymbol: this.props.monetaryUnit.symbol,
       });
+
+      console.log('开始加载'+StorageKey.HiddenAssets)
+
       const hiddenAssets = await StorageManage.load(StorageKey.HiddenAssets);
       if (hiddenAssets) {
         this.setState({
           isTotalAssetsHidden: hiddenAssets,
         });
       }
-      await NetworkManager.loadTokenList();
 
-      this._hideLoading();
-      this.userInfoUpdate();
-      this.getAllTokens(1);
+      console.log('结束加载'+hiddenAssets)
+
+      InteractionManager.runAfterInteractions(async () => {
+
+        console.log('开始加载tokenlist')
+        // ...耗时较长的同步的任务...
+        await NetworkManager.loadTokenList();
+
+        console.log('tokenlist加载完毕')
+
+        // this._hideLoading();
+        this.userInfoUpdate();
+        this.getAllTokens(1);
+    });
+
     } catch (err) {
       console.log('home initData err:', err);
       Analytics.recordErr('homeInitDataErr', err);

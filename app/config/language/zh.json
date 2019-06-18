@@ -246,6 +246,7 @@
         "import_wallet_already":"您已经导入该钱包"
     },
     "mapping":{
+        "mapping_alert":"主网代币将会在一个月后发放",
         "ratio":"映射比例",
         "binding_error":"绑定发送未知错误",
         "successful":"映射成功",

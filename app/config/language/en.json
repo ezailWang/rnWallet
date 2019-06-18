@@ -244,6 +244,7 @@
         "import_wallet_already":"You have imported the wallet"
     },
     "mapping":{
+        "mapping_alert":"The mainnet ITC will be distributed one month later",
         "ratio":"Token swap ratio",
         "binding_error":"Unknown error occurred in binding",
         "successful":"Successful swapped",
@@ -605,7 +606,7 @@
             "explain_1": " Ranking",
             "explain_2": "Turbo pool",
             "explain_3": "Super node",
-            "explain_4": "Complete Activity Rules"
+            "explain_4": "Activity Rules"
         },
         "power":{
             "title":"Turbo pool",

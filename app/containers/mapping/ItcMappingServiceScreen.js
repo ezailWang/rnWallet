@@ -13,6 +13,7 @@ import {
   KeyboardAvoidingView,
   ImageBackground,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import * as Actions from '../../config/action/Actions';
 import { BlueButtonBig } from '../../components/Button';
@@ -380,6 +381,24 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 0,
   },
+  contentDescBox: {
+    width: Layout.WINDOW_WIDTH * 0.9,
+    height: 50,
+    marginLeft:Layout.WINDOW_WIDTH  * 0.05,
+    borderRadius: 5,
+    backgroundColor: Colors.bg_blue,
+    justifyContent: 'center',
+    marginTop: 20,
+    // marginBottom: 20,
+  },
+  contentDescText: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '500',
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignSelf: 'center',
+  },
 });
 
 class ItcMappingServiceScreen extends BaseComponent {
@@ -569,7 +588,7 @@ class ItcMappingServiceScreen extends BaseComponent {
           rightPress={this.mappingRecord}
           rightText={I18n.t('mapping.mapping_record')}
         />
-
+        
         <KeyboardAvoidingView
           style={styles.keyboardAwareScrollView}
           keyboardShouldPersistTaps="handled"
@@ -588,6 +607,16 @@ class ItcMappingServiceScreen extends BaseComponent {
             modalCancelBtn={this.modalCancelBtn}
             modalConfirmBtn={this.modalConfirmBtn}
           />
+          <LinearGradient
+            style={styles.contentDescBox}
+            colors={['#3fc1ff', '#66ceff']}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 1 }}
+          >
+            <Text style={styles.contentDescText}>
+              {I18n.t('mapping.mapping_alert')}
+            </Text>
+          </LinearGradient>
           <ImageBackground style={styles.topImg} source={topImg} resizeMode="center">
             {/* <TouchableOpacity
               activeOpacity={0.6}

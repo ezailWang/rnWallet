@@ -5,7 +5,7 @@ import AddressItem from './components/AddressItem';
 import DescItem from './components/DescItem';
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
-import { contractInfo, defaultTokens} from '../../../utils/Constants';
+import { defaultTokens} from '../../../utils/Constants';
 import { connect } from 'react-redux';
 import NetworkManager from '../../../utils/NetworkManager'
 import { showToast } from '../../../utils/Toast';

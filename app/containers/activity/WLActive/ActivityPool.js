@@ -190,8 +190,8 @@ class MappingRecordDetailScreen extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-        address:'0x',
-        benefitTime:'0',
+        address:'--',
+        benefitTime:'--',
         estimateReward:0,
         poolReward:0,
         height:601

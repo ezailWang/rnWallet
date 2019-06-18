@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, TextInput,StatusBar } from 'react-native'
 import NavHeader from '../../../components/NavHeader';
 import BaseComponent from '../../base/BaseComponent';
 import NetworkManager from '../../../utils/NetworkManager';
-import { defaultTokens, contractInfo} from '../../../utils/Constants';
+import { defaultTokens} from '../../../utils/Constants';
 import { connect } from 'react-redux';
 import LockTrxComfirm from './LockTrxComfirm'
 import MyAlertComponent from '../../../components/MyAlertComponent';

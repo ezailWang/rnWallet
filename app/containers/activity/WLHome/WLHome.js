@@ -140,8 +140,9 @@ class WLHome extends BaseComponent {
       })
     }
 
-    countdownTimer = setInterval(()=>{
+    countdown()
 
+    countdownTimer = setInterval(()=>{
       countdown()
     },1*1000)
   }
@@ -160,7 +161,7 @@ class WLHome extends BaseComponent {
     let { info } = this.props.navigation.state.params;
     let {activeNum, benefitNum, bonusReward, normalNum, paidReward, poolReward, poolRewardTarget, sequence, totalPoolReward, vipNum} = info
 
-    let {gameOver} = this.props
+    let {gameOver, gameStart} = this.props
 
     let {trueTimeLeft} = this.state
 
@@ -211,7 +212,7 @@ class WLHome extends BaseComponent {
               <Bonus gameOver={gameOver} bonus={isNaN(paidRewardValue) ? '--' : paidRewardValue.toFixed(4)} total={100} current={100} color="#46b6fe" style={{ marginVertical: 10 }} />:
               <Bonus gameOver={gameOver} bonus={bonusReward} total={poolRewardTarget} current={poolReward} color="#46b6fe" style={{ marginVertical: 10 }} />
             }
-            <DetailItem title={I18n.t('activity.home.deadline')} text={leftTimeString} />
+            <DetailItem title={I18n.t('activity.home.deadline')} text={gameStart?leftTimeString:'--'} />
             <DetailItem title={I18n.t('activity.home.poolReward')} text={totalPoolReward == '' ? '--' : totalPoolReward.toFixed(4)+' ITC'} />
             {
               gameOver?null:

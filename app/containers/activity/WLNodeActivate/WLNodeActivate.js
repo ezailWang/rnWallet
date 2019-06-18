@@ -7,7 +7,7 @@ import BaseComponent from '../../base/BaseComponent';
 import KeystoreUtils from '../../../utils/KeystoreUtils';
 import StaticLoading from '../../../components/StaticLoading';
 import { I18n } from '../../../config/language/i18n';
-import { defaultTokens, contractInfo} from '../../../utils/Constants';
+import { defaultTokens} from '../../../utils/Constants';
 import { connect } from 'react-redux';
 import { showToast } from '../../../utils/Toast';
 import NetworkManager from '../../../utils/NetworkManager';

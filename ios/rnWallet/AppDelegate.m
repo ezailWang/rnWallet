@@ -95,12 +95,9 @@
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
   //离线包
-//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"index.ios" withExtension:@"jsbundle"];
-//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"index.ios.jsbundle" withExtension:nil];
-  
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"index.ios.jsbundle" withExtension:nil];
 #endif
+  
   
   [FIRApp configure];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
