@@ -476,7 +476,7 @@ class ITCActivityMapping extends BaseComponent {
     this._hideLoading();
 
     //测试网络
-    didMappingValue = didMappingValue - 888888
+    // didMappingValue = didMappingValue - 888888
 
     this.setState({
       gasCost:gasUsed,

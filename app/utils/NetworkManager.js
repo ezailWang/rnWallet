@@ -842,19 +842,26 @@ export default class NetworkManager {
   static async getTransactionEstimateGas(fromAddress,t){
 
     web3 = this.getWeb3Instance();
-
-    //get current gasPrice, you can use default gasPrice or custom gasPrice!
-    let price = await web3.eth.getGasPrice()
-    //花费平常的5倍gas
-    price = parseInt(price * 5)
-    t.gasPrice = web3.utils.toHex(price)
-
+   
     //get nonce value
     let nonce = await web3.eth.getTransactionCount(fromAddress)
     t.nonce = web3.utils.toHex(nonce);
     t.from = fromAddress;
-    let estimateGas = await web3.eth.estimateGas(t);
+    try{
+      var estimateGas = await web3.eth.estimateGas(t);
+    }
+    catch(err){
+      console.log('gas errors'+err)
+      estimateGas = '600000'
+    }
+    
     t.gas = web3.utils.toHex(estimateGas);
+
+     //get current gasPrice, you can use default gasPrice or custom gasPrice!
+    let price = await web3.eth.getGasPrice()
+    //花费平常的5倍gas
+    price = parseInt(price * 5)
+    t.gasPrice = web3.utils.toHex(price)
 
     console.log('TransactionEstimateGas'+JSON.stringify(t,null,2))
 
@@ -1028,15 +1035,16 @@ export default class NetworkManager {
     else{
       console.log('未查找到该交易凭证->'+hash)
 
-      let nowTime = new Date().valueOf()
+      //去掉超时验证
+      // let nowTime = new Date().valueOf()
 
-      if(nowTime - date > 3 * 60 * 1000 ){
-        call()
-      }else{
+      // if(nowTime - date > 10 * 60 * 1000 ){
+      //   call()
+      // }else{
         setTimeout(() => {
           this.listenETHTransaction(hash,date,call)
         }, 5 * 1000);
-      }
+      // }
     }
   }
 

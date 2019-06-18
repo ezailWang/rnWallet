@@ -47,10 +47,12 @@ export default class WLNode extends BaseComponent {
 
       result.data.map((value,idx)=>{
 
+        let add = value.address
+
         nodeArr.push({
           ...value,
           idx:idx,
-          rank:'No.'+value.vipNo,
+          rank:'SN'+add.substr(0,6),
           amount:value.pledge+value.voteAmount
         })
       })
