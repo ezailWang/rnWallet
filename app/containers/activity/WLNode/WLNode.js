@@ -52,7 +52,7 @@ export default class WLNode extends BaseComponent {
         nodeArr.push({
           ...value,
           idx:idx,
-          rank:'SN'+add.substr(0,6),
+          rank:'SN'+add.substr(0,6).toUpperCase(),
           amount:value.pledge+value.voteAmount
         })
       })
