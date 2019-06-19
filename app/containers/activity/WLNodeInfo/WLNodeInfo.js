@@ -80,7 +80,7 @@ class WLNodeInfo extends BaseComponent {
       ];
     }else if(task.taskType==='vote'){
       taskInfos = [
-        { label: I18n.t('activity.nodeinfo.nodeNo'), value: 'NO.'+task.vipNo },
+        { label: I18n.t('activity.nodeinfo.nodeNo'), value: 'SN'+task.address.substr(0,6).toUpperCase() },
         { label: I18n.t('activity.nodeinfo.totalAmount'), value: task.totalAmount+' ITC' },
         { label: I18n.t('activity.nodeinfo.myVote'), value: task.myVote+' ITC' },
         { label: I18n.t('activity.nodeinfo.unlockTime'), value: task.unlockTime },
